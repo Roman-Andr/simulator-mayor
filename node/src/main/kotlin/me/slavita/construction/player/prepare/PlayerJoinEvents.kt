@@ -15,18 +15,21 @@ class PlayerJoinEvents : Listener {
         preparePlayer(event.player)
     }
 
-    @EventHandler
-    fun onLoginJoin(event : PlayerLoginEvent) {
+    /*@EventHandler
+    fun onLogin(event : PlayerLoginEvent) {
         preparePlayer(event.player)
     }
 
     @EventHandler
     fun onPlayerSpawn(event : PlayerSpawnLocationEvent) {
         preparePlayer(event.player)
-    }
+    }*/
 
     private fun preparePlayer(player : Player) {
         player.teleport(app.getSpawn())
-        MultiChatUtil.sendPlayerChats(player)
+        app.buildings.forEach {
+            if (it.owner == player.uniqueId) it.show(player)
+            else it.hide(player)
+        }
     }
 }

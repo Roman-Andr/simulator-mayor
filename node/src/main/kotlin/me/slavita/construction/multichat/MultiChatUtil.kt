@@ -6,7 +6,7 @@ import org.bukkit.entity.Player
 
 
 object MultiChatUtil {
-    private val chatList = mutableListOf<ModChat>()
+    private val chatList = arrayListOf<ModChat>()
 
     fun createChats() =
         ChatType.values().forEach {
