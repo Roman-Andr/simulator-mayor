@@ -1,5 +1,5 @@
-name: Tower
-main: me.reidj.tower.App
+name: Construction
+main: me.slavita.construction.App
 version: 1.0.0
 depend:
   - CoreAPI
