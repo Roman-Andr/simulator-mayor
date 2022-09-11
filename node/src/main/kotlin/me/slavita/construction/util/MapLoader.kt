@@ -1,4 +1,4 @@
-package me.slavita.util
+package me.slavita.construction.util
 
 import clepto.cristalix.Cristalix
 import clepto.cristalix.WorldMeta

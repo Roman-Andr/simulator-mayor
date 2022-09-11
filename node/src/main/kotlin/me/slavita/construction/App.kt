@@ -1,4 +1,4 @@
-package me.slavita
+package me.slavita.construction
 
 import clepto.cristalix.WorldMeta
 import dev.implario.bukkit.platform.Platforms
@@ -6,7 +6,7 @@ import dev.implario.platform.impl.darkpaper.PlatformDarkPaper
 import me.func.mod.Anime
 import me.func.mod.Kit
 import me.func.mod.conversation.ModLoader
-import me.slavita.util.MapLoader
+import me.slavita.construction.util.MapLoader
 import org.bukkit.plugin.java.JavaPlugin
 import ru.cristalix.core.CoreApi
 import ru.cristalix.core.realm.IRealmService
