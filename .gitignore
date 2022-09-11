@@ -2,4 +2,3 @@
 out/
 build/
 .gradle/
-gradle.properties
