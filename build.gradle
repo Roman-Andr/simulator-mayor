@@ -1,0 +1,20 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.6.21' apply false
+}
+
+allprojects {
+    apply plugin: 'java-library'
+    group 'me.slavita'
+    version '1.0-SNAPSHOT'
+    repositories {
+        maven {
+            url 'https://repo.c7x.ru/repository/maven-public/'
+            credentials {
+                username = System.getenv("CRI_REPO_LOGIN") ?: System.getenv("CRISTALIX_REPO_USERNAME") ?: project.properties["CRI_REPO_LOGIN"] as String
+                password = System.getenv("CRI_REPO_PASSWORD") ?: System.getenv("CRISTALIX_REPO_PASSWORD") ?: project.properties["CRI_REPO_PASSWORD"] as String
+            }
+        }
+        mavenCentral()
+    }
+}
+

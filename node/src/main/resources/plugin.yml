@@ -1,0 +1,5 @@
+name: Tower
+main: me.reidj.tower.App
+version: 1.0.0
+depend:
+  - CoreAPI

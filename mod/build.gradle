@@ -1,0 +1,31 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm'
+    id 'dev.implario.bundler' version '4.0.1'
+}
+
+dependencies {
+    compileOnly 'ru.cristalix:client-api:foranelfer-SNAPSHOT'
+    implementation 'ru.cristalix:uiengine:foranelfer-SNAPSHOT'
+    implementation 'ru.cristalix:client-sdk:foranelfer-SNAPSHOT'
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
+
+bundle {
+    modName 'construction'
+    mainClass 'App'
+    author 'Slavita'
+    keep('class ru.cristalix.data.** { *; }')
+    keep('class ru.cristalix.** { *; }')
+}
+
+jar {
+    duplicatesStrategy DuplicatesStrategy.EXCLUDE
+    from {
+        configurations.runtimeClasspath.collect { it.directory ? it : zipTree(it) }
+    }
+}
