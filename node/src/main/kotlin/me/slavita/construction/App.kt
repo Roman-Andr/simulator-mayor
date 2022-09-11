@@ -1,11 +1,17 @@
 package me.slavita.construction
 
-import clepto.cristalix.WorldMeta
+import clepto.bukkit.B
+import clepto.bukkit.B.plugin
 import dev.implario.bukkit.platform.Platforms
+import dev.implario.bukkit.world.Label
+import dev.implario.games5e.sdk.cristalix.WorldMeta
 import dev.implario.platform.impl.darkpaper.PlatformDarkPaper
 import me.func.mod.Anime
 import me.func.mod.Kit
 import me.func.mod.conversation.ModLoader
+import me.func.unit.Building
+import me.slavita.construction.multichat.MultiChatUtil
+import me.slavita.construction.player.prepare.PlayerJoinEvents
 import me.slavita.construction.util.MapLoader
 import org.bukkit.plugin.java.JavaPlugin
 import ru.cristalix.core.CoreApi
@@ -20,10 +26,12 @@ lateinit var app: App
 
 class App : JavaPlugin() {
 
-    private lateinit var worldMeta: WorldMeta
+    lateinit var map : WorldMeta
+    var list = mutableListOf<Building>()
 
     override fun onEnable() {
         app = this
+        plugin = app
 
         Platforms.set(PlatformDarkPaper())
 
@@ -32,21 +40,26 @@ class App : JavaPlugin() {
             registerService(IScoreboardService::class.java, ScoreboardService())
         }
 
+        B.events(PlayerJoinEvents())
+
         Anime.include(Kit.STANDARD, Kit.EXPERIMENTAL, Kit.DIALOG, Kit.MULTI_CHAT, Kit.LOOTBOX);
+        MultiChatUtil.createChats()
 
         ModLoader.loadAll("mods")
 
         IRealmService.get().currentRealmInfo.run {
-            readableName = "Что"
-            groupName = "Не"
+            readableName = "Тест"
+            groupName = "CRN"
             status = RealmStatus.WAITING_FOR_PLAYERS
             isLobbyServer = true
         }
 
-        worldMeta = MapLoader().load("test")!!
+        map = MapLoader.load("construction", "test")!!
     }
 
     override fun onDisable() {
         println("Disable plugin Construction")
     }
+
+    fun getSpawn(): Label = map.getLabel("spawn")
 }

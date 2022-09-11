@@ -1,14 +1,11 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.6.21' apply false
-    id 'org.hidetake.ssh' version '2.10.1'
 }
-
-apply plugin: 'org.hidetake.ssh'
 
 allprojects {
     apply plugin: 'java-library'
     group 'me.slavita'
-    version '1.0-SNAPSHOT'
+    version '1.0'
     repositories {
         maven {
             url 'https://repo.c7x.ru/repository/maven-public/'
