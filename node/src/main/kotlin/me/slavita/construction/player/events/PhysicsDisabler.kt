@@ -4,8 +4,6 @@ import clepto.bukkit.B
 import com.destroystokyo.paper.event.player.PlayerAdvancementCriterionGrantEvent
 import dev.xdark.feder.EmptyChunkBiome
 import dev.xdark.feder.FixedChunkLight
-import me.slavita.construction.App
-import me.slavita.construction.app
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.FallingBlock
 import org.bukkit.event.EventHandler
@@ -17,7 +15,6 @@ import org.bukkit.event.inventory.CraftItemEvent
 import org.bukkit.event.player.*
 import org.bukkit.event.world.ChunkLoadEvent
 import org.spigotmc.event.entity.EntityDismountEvent
-
 
 class PhysicsDisabler : Listener {
     @EventHandler

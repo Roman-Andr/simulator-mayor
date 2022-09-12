@@ -7,10 +7,13 @@ import dev.implario.games5e.sdk.cristalix.WorldMeta
 import dev.implario.platform.impl.darkpaper.PlatformDarkPaper
 import me.func.mod.Anime
 import me.func.mod.Kit
+import me.func.mod.MultiChat
 import me.func.mod.conversation.ModLoader
 import me.func.mod.util.command
 import me.func.mod.util.listener
+import me.func.protocol.ModChat
 import me.func.protocol.dialog.Action.Companion.command
+import me.slavita.construction.multichat.MultiChatUtil
 import me.slavita.construction.player.events.PhysicsDisabler
 import me.slavita.construction.player.events.PlayerJoinEvents
 import me.slavita.construction.util.MapLoader
@@ -19,6 +22,8 @@ import me.slavita.construction.world.Structure
 import me.slavita.construction.world.StructureType
 import org.bukkit.plugin.java.JavaPlugin
 import ru.cristalix.core.CoreApi
+import ru.cristalix.core.party.IPartyService
+import ru.cristalix.core.party.PartyService
 import ru.cristalix.core.realm.IRealmService
 import ru.cristalix.core.realm.RealmStatus
 import ru.cristalix.core.scoreboard.IScoreboardService
@@ -51,6 +56,8 @@ class App : JavaPlugin() {
         listener(PhysicsDisabler())
 
         Anime.include(Kit.STANDARD, Kit.EXPERIMENTAL, Kit.DIALOG, Kit.MULTI_CHAT, Kit.LOOTBOX)
+
+        MultiChatUtil.createChats()
 
         ModLoader.loadAll("mods")
 

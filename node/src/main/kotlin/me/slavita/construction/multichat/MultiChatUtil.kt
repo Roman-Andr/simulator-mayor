@@ -1,22 +1,23 @@
 package me.slavita.construction.multichat
 
 import me.func.mod.MultiChat
+import me.func.mod.util.after
 import me.func.protocol.ModChat
 import org.bukkit.entity.Player
+import java.util.*
 
 
 object MultiChatUtil {
     private val chatList = arrayListOf<ModChat>()
 
-    fun createChats() =
-        ChatType.values().forEach {
-            ModChat(it.uuid, it.title, it.symbol).apply {
+    fun createChats() = ChatType.values().forEach {
+            ModChat(UUID.randomUUID(), it.title, it.symbol).apply {
                 MultiChat.createKey(it.key, this)
                 chatList.add(this)
             }
         }
 
-    fun sendPlayerChats(player : Player) = MultiChat.sendChats(player, *chatList.toTypedArray());
+    fun sendPlayerChats(player : Player) = after(1) { MultiChat.sendChats(player, *chatList.toTypedArray()) }
 
     fun removePlayerChats(player : Player) = MultiChat.removeChats(player, *chatList.toTypedArray())
 
