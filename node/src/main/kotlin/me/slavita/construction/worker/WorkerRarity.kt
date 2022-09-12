@@ -1,6 +1,6 @@
-package me.slavita.construction.game.worker
+package me.slavita.construction.worker
 
-enum class WorkerRarityType(
+enum class WorkerRarity(
     val title: String,
     val description: String,
     val value: Double

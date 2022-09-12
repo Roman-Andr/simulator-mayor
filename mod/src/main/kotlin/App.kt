@@ -12,9 +12,10 @@ class App : KotlinMod() {
     var gameActive = false
 
     override fun onEnable() {
+        mod = this
         UIEngine.initialize(this)
 
-        mod = this
+        StructureBuilding()
 
         registerHandler<PlayerListRender> { isCancelled = gameActive }
     }

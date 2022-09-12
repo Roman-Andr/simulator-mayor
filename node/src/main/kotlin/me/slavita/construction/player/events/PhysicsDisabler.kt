@@ -1,4 +1,4 @@
-package me.slavita.construction.game.player.events
+package me.slavita.construction.player.events
 
 import clepto.bukkit.B
 import com.destroystokyo.paper.event.player.PlayerAdvancementCriterionGrantEvent
@@ -81,7 +81,7 @@ class PhysicsDisabler : Listener {
 
     @EventHandler
     fun disable(event: BlockBreakEvent) {
-        if (event.getPlayer().world == app.map.world) event.isCancelled = true
+        event.isCancelled = true
     }
 
     @EventHandler

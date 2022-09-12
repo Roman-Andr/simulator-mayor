@@ -1,4 +1,4 @@
-package me.slavita.construction.game.player
+package me.slavita.construction.player
 
 data class Statistics(
     var money: Double,

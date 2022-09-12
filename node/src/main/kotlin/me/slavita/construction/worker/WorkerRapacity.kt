@@ -1,6 +1,6 @@
-package me.slavita.construction.game.worker
+package me.slavita.construction.worker
 
-enum class RapacityType(
+enum class WorkerRapacity(
     val title: String,
     val value: Double
 ) {

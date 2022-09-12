@@ -1,4 +1,4 @@
-package me.slavita.construction.game.player
+package me.slavita.construction.player
 
 import clepto.bukkit.event.PlayerWrapper
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer

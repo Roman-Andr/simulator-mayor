@@ -1,4 +1,4 @@
-package me.slavita.construction.game.player.events
+package me.slavita.construction.player.events
 
 import me.slavita.construction.app
 import me.slavita.construction.multichat.MultiChatUtil
@@ -18,6 +18,7 @@ class PlayerJoinEvents : Listener {
     }
 
     private fun preparePlayer(player: Player) {
-        player.teleport(app.getSpawn())
+        player.teleport(app.mainWorld.getSpawn())
+        app.mainWorld.showAll(player)
     }
 }
