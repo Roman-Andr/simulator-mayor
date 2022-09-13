@@ -4,6 +4,7 @@ import clepto.bukkit.B
 import com.destroystokyo.paper.event.player.PlayerAdvancementCriterionGrantEvent
 import dev.xdark.feder.EmptyChunkBiome
 import dev.xdark.feder.FixedChunkLight
+import me.func.mod.util.after
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.FallingBlock
 import org.bukkit.event.EventHandler
@@ -18,116 +19,115 @@ import org.spigotmc.event.entity.EntityDismountEvent
 
 class PhysicsDisabler : Listener {
     @EventHandler
-    fun disable(event: ChunkLoadEvent) {
-        val chunk = event.chunk
+    fun ChunkLoadEvent.handle() {
         chunk.biome = EmptyChunkBiome.INSTANCE
         chunk.emittedLight = FixedChunkLight((-1).toByte())
     }
 
     @EventHandler
-    fun disable(event: CraftItemEvent) {
-        event.isCancelled = true
+    fun CraftItemEvent.handle() {
+        isCancelled = true
     }
 
     @EventHandler
-    fun disable(event: PlayerInteractEntityEvent) {
-        event.isCancelled = true
+    fun PlayerInteractEntityEvent.handle() {
+        isCancelled = true
     }
 
     @EventHandler
-    fun disable(event: PlayerInteractEvent) {
-        if (event.action == Action.RIGHT_CLICK_BLOCK) event.isCancelled = true
+    fun PlayerInteractEvent.handle() {
+        if (action == Action.RIGHT_CLICK_BLOCK) isCancelled = true
     }
 
     @EventHandler
-    fun disable(event: EntityDismountEvent) {
-        if (event.dismounted.type === EntityType.BAT) B.postpone(1) {
-            event.dismounted.remove()
+    fun EntityDismountEvent.handle() {
+        if (dismounted.type === EntityType.BAT) after(1) {
+            dismounted.remove()
         }
     }
 
     @EventHandler
-    fun disable(event: EntityChangeBlockEvent) {
-        if (event.entity is FallingBlock) event.isCancelled = true
+    fun EntityChangeBlockEvent.handle() {
+        if (entity is FallingBlock) isCancelled = true
     }
 
     @EventHandler
-    fun disable(event: EntityDamageEvent) {
-        event.isCancelled = true
+    fun EntityDamageEvent.handle() {
+        isCancelled = true
     }
 
     @EventHandler
-    fun disable(event: FoodLevelChangeEvent) {
-        event.foodLevel = 20
+    fun FoodLevelChangeEvent.handle() {
+        foodLevel = 20
     }
 
     @EventHandler
-    fun disable(event: BlockFadeEvent) {
-        event.isCancelled = true
+    fun BlockFadeEvent.handle() {
+        isCancelled = true
     }
 
     @EventHandler
-    fun disable(event: BlockPhysicsEvent) {
-        event.isCancelled = true
+    fun BlockPhysicsEvent.handle() {
+        isCancelled = true
     }
 
     @EventHandler
-    fun disable(event: BlockSpreadEvent) {
-        event.isCancelled = true
+    fun BlockSpreadEvent.handle() {
+        isCancelled = true
     }
 
     @EventHandler
-    fun disable(event: BlockBreakEvent) {
-        event.isCancelled = true
+    fun BlockBreakEvent.handle() {
+        isCancelled = true
     }
 
     @EventHandler
-    fun disable(event: BlockGrowEvent) {
-        event.isCancelled = true
+    fun BlockGrowEvent.handle() {
+        isCancelled = true
     }
 
     @EventHandler
-    fun disable(event: BlockFromToEvent) {
-        event.isCancelled = true
+    fun BlockFromToEvent.handle() {
+        isCancelled = true
     }
 
     @EventHandler
-    fun disable(event: PlayerDropItemEvent) {
-        event.isCancelled = true
+    fun PlayerDropItemEvent.handle() {
+        isCancelled = true
     }
 
     @EventHandler
-    fun disable(event: HangingBreakByEntityEvent) {
-        event.isCancelled = true
+    fun HangingBreakByEntityEvent.handle() {
+        isCancelled = true
     }
 
     @EventHandler
-    fun disable(event: BlockBurnEvent) {
-        event.isCancelled = true
+    fun BlockBurnEvent.handle() {
+        isCancelled = true
     }
 
     @EventHandler
-    fun disable(event: EntityExplodeEvent) {
-        event.isCancelled = true
+    fun EntityExplodeEvent.handle() {
+        isCancelled = true
     }
 
     @EventHandler
-    fun disable(event: PlayerArmorStandManipulateEvent) {
-        event.isCancelled = true
+    fun PlayerArmorStandManipulateEvent.handle() {
+        isCancelled = true
     }
 
     @EventHandler
-    fun disable(event: CreatureSpawnEvent) {
-        event.isCancelled = event.spawnReason == CreatureSpawnEvent.SpawnReason.NATURAL
+    fun CreatureSpawnEvent.handle() {
+        isCancelled = spawnReason == CreatureSpawnEvent.SpawnReason.NATURAL
     }
 
     @EventHandler
-    fun disable(event: PlayerAdvancementCriterionGrantEvent) {
-        event.isCancelled = true
+    fun PlayerAdvancementCriterionGrantEvent.handle() {
+        isCancelled = true
     }
 
     @EventHandler
-    fun disable(event: PlayerSwapHandItemsEvent) {
-        event.isCancelled = true
+    fun PlayerSwapHandItemsEvent.handle() {
+        isCancelled = true
     }
 }

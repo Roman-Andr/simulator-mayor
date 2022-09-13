@@ -17,7 +17,7 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
 
 bundle {
     modName 'construction'
-    mainClass 'App'
+    mainClass 'me.slavita.construction.mod.App'
     author 'Slavita'
     keep('class ru.cristalix.data.** { *; }')
     keep('class ru.cristalix.** { *; }')

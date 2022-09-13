@@ -1,7 +1,11 @@
+package me.slavita.construction.mod
+
 import dev.xdark.clientapi.event.render.PlayerListRender
+import dev.xdark.clientapi.event.render.RenderPass
+import me.slavita.construction.mod.util.Renderer
 import ru.cristalix.clientapi.KotlinMod
 import ru.cristalix.uiengine.UIEngine
-import ru.cristalix.uiengine.utility.V3
+import ru.cristalix.uiengine.utility.*
 
 lateinit var mod: App
 
@@ -14,9 +18,12 @@ class App : KotlinMod() {
     override fun onEnable() {
         mod = this
         UIEngine.initialize(this)
+        UIEngine.overlayContext.addChild(Scoreboard.score)
 
         StructureBuilding()
 
-        registerHandler<PlayerListRender> { isCancelled = gameActive }
+        registerHandler<RenderPass> {
+            Renderer.renderBlock(clientApi, 0, 0, 0)
+        }
     }
 }

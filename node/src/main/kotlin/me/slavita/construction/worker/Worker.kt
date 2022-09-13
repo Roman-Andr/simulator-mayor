@@ -3,9 +3,9 @@ package me.slavita.construction.worker
 import me.slavita.construction.player.User
 
 class Worker(
-    val owner: User,
+    val name: String,
     val rarity: WorkerRarity,
-    val skill: Double,
-    val reliability: Double,
+    val skill: Int,
+    val reliability: Int,
     val rapacity: WorkerRapacity
 )
