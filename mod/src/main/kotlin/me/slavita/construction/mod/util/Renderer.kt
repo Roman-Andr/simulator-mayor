@@ -5,7 +5,7 @@ import dev.xdark.clientapi.opengl.GlStateManager
 import dev.xdark.clientapi.render.DefaultVertexFormats
 
 object Renderer {
-    fun renderBlock(api: ClientApi, blockX: Int, blockY: Int, blockZ: Int) {
+    fun renderBlockFrame(api: ClientApi, blockX: Int, blockY: Int, blockZ: Int) {
         val tessellator = api.tessellator()
         val bufferbuilder = tessellator.bufferBuilder
         GlStateManager.disableTexture2D()
@@ -26,10 +26,10 @@ object Renderer {
         }
         for (j1 in 0..1) {
             for (l1 in 0..1) {
-                bufferbuilder.pos(tx + j1.toDouble(), ty, tz + l1.toDouble()).color(255, 0, 0, 0).endVertex()
-                bufferbuilder.pos(tx + j1.toDouble(), ty, tz + l1.toDouble()).color(255, 0, 0, alpha).endVertex()
-                bufferbuilder.pos(tx + j1.toDouble(), ty + 1, tz + l1.toDouble()).color(255, 0, 0, alpha).endVertex()
-                bufferbuilder.pos(tx + j1.toDouble(), ty + 1, tz + l1.toDouble()).color(255, 0, 0, 0).endVertex()
+                bufferbuilder.pos(tx + j1.toDouble(), ty, tz + l1.toDouble()).color(0, 255, 0, 0).endVertex()
+                bufferbuilder.pos(tx + j1.toDouble(), ty, tz + l1.toDouble()).color(0, 255, 0, alpha).endVertex()
+                bufferbuilder.pos(tx + j1.toDouble(), ty + 1, tz + l1.toDouble()).color(0, 255, 0, alpha).endVertex()
+                bufferbuilder.pos(tx + j1.toDouble(), ty + 1, tz + l1.toDouble()).color(0, 255, 0, 0).endVertex()
             }
         }
         tessellator.draw()

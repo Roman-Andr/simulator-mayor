@@ -11,6 +11,7 @@ import me.func.mod.conversation.ModLoader
 import me.func.mod.data.LootDrop
 import me.func.mod.menu.ReactiveButton
 import me.func.mod.menu.selection.Selection
+import me.func.mod.util.after
 import me.func.mod.util.command
 import me.func.mod.util.listener
 import me.func.protocol.GlowColor
@@ -25,9 +26,11 @@ import me.slavita.construction.worker.WorkerGenerator
 import me.slavita.construction.worker.WorkerRarity
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.Structure
-import me.slavita.construction.world.StructureType
+import me.slavita.construction.world.Structures
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
+import org.bukkit.scheduler.BukkitRunnable
 import ru.cristalix.core.CoreApi
 import ru.cristalix.core.realm.IRealmService
 import ru.cristalix.core.realm.RealmStatus
@@ -79,11 +82,16 @@ class App : JavaPlugin() {
         structureMap = MapLoader.load("construction", "structures")!!
         mainWorld = GameWorld(MapLoader.load("construction", "test")!!)
 
-        mainWorld.addStructure(Structure(slavita, StructureType.SMALL_HOUSE, mainWorld.map.getLabels("default", "1")[0]))
+        val structure = Structure(mainWorld, slavita, Structures.SMALL_HOUSE, mainWorld.map.getLabels("default", "1")[0])
+        mainWorld.addStructure(structure)
 
-        command("spawn") { player, _ ->
-            mainWorld.addStructure(Structure(player.uniqueId, StructureType.BIG_HOUSE, mainWorld.map.getLabels("default", "2")[0]))
-            mainWorld.showAll(player)
+        command("next") { player, args ->
+            val count = args[0].toInt()
+            for (i in 1..count) {
+                after(i * 2L) {
+                    structure.placeNextBlock()
+                }
+            }
         }
 
         command("lootbox") { player, _ ->

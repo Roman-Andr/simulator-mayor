@@ -21,9 +21,5 @@ class App : KotlinMod() {
         UIEngine.overlayContext.addChild(Scoreboard.score)
 
         StructureBuilding()
-
-        registerHandler<RenderPass> {
-            Renderer.renderBlock(clientApi, 0, 0, 0)
-        }
     }
 }
