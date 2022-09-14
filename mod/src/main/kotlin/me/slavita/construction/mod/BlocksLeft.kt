@@ -18,21 +18,22 @@ object BlocksLeft {
     private val blocksToHide: RectangleElement = rectangle {
         align = Relative.TOP_LEFT
         origin = Relative.BOTTOM_RIGHT
-        offset.x = 70.0
-        offset.y = 30.0
+        offset.x = 80.0
+        offset.y = 35.0
         enabled = false
         size.y = 24.0
         addChild(item {
             align = Relative.TOP_RIGHT
             origin = Relative.TOP_RIGHT
-            scale.x = 1.5
-            scale.y = 1.5
+            offset.x = 30.0
+            scale.x = 2.0
+            scale.y = 2.0
         })
         addChild(text {
             content = "???"
-            offset.x = -27.0
-            scale.x = 2.0
-            scale.y = 2.0
+            offset.x = -20.0
+            scale.x = 2.5
+            scale.y = 2.5
             align = Relative.RIGHT
             origin = Relative.RIGHT
             shadow = true
@@ -41,6 +42,8 @@ object BlocksLeft {
             content = "Осталось\nпоставить блоков"
             align = Relative.BOTTOM
             origin = Relative.TOP
+            offset.x = -12.0
+            offset.y = 12.0
             shadow = true
         })
     }
