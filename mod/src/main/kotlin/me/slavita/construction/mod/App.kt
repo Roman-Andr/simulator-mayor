@@ -20,6 +20,6 @@ class App : KotlinMod() {
         UIEngine.initialize(this)
         UIEngine.overlayContext.addChild(Scoreboard.score)
 
-        StructureBuilding()
+        BlocksLeft
     }
 }

@@ -76,13 +76,13 @@ class App : JavaPlugin() {
         Anime.include(Kit.STANDARD, Kit.EXPERIMENTAL, Kit.DIALOG, Kit.MULTI_CHAT, Kit.LOOTBOX)
         MultiChatUtil.createChats()
 
-        //ModLoader.loadAll("mods")
+        ModLoader.loadAll("mods")
         ModLoader.onJoining("mod-bundle-1.0.jar")
 
         structureMap = MapLoader.load("construction", "structures")!!
         mainWorld = GameWorld(MapLoader.load("construction", "test")!!)
 
-        val structure = Structure(mainWorld, slavita, Structures.SMALL_HOUSE, mainWorld.map.getLabels("default", "1")[0])
+        val structure = Structure(mainWorld, romanAndr, Structures.SMALL_HOUSE, mainWorld.map.getLabels("default", "1")[0])
         mainWorld.addStructure(structure)
 
         command("next") { player, args ->

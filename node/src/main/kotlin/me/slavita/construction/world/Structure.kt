@@ -49,8 +49,8 @@ class Structure(val world: GameWorld, val owner : UUID, structureType: Structure
             .integer(nextBlockLocation.y.toInt())
             .integer(nextBlockLocation.z.toInt())
             .integer(nextBlock.type.id)
-            .byte(nextBlock.data)
             .integer(volume - (blocksPlaced + blocksSkipped))
+            .byte(nextBlock.data)
             .send("structure:next", Bukkit.getPlayer(owner))
     }
 
