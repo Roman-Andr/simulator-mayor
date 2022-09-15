@@ -6,6 +6,7 @@ import me.slavita.construction.multichat.MultiChatUtil
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
 
 class PlayerJoinEvents : Listener {
@@ -14,6 +15,11 @@ class PlayerJoinEvents : Listener {
         MultiChatUtil.sendPlayerChats(player)
         app.addUser(player)
         preparePlayer(player)
+    }
+
+    @EventHandler
+    fun PlayerInteractEvent.handle() {
+        println(action)
     }
 
     private fun preparePlayer(player: Player) {

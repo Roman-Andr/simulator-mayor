@@ -2,13 +2,19 @@ package me.slavita.construction.world
 
 import dev.implario.bukkit.world.V3
 import me.func.mod.conversation.ModTransfer
+import me.func.mod.util.listener
 import me.func.unit.Building
 import me.slavita.construction.app
+import me.slavita.construction.multichat.MultiChatUtil
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
+import org.bukkit.event.EventHandler
+import org.bukkit.event.Listener
+import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.event.player.PlayerJoinEvent
 import java.util.UUID
 
 class Structure(val world: GameWorld, val owner : UUID, structureType: Structures, val buildingLocation: Location) {
@@ -18,22 +24,33 @@ class Structure(val world: GameWorld, val owner : UUID, structureType: Structure
     var buildingCompleted = false
     var blocksPlaced = 0
     var blocksSkipped = 0
+    var blocksLeft = 0
+
+    init {
+        building.box!!.forEachBukkit {
+            if (it.block.type != Material.AIR) blocksLeft++
+        }
+    }
 
     fun show(player: Player) {
         if (building.allocation == null) building.allocate(buildingLocation)
         building.show(player)
     }
 
+    fun startBuilding() {
+        updateNextBlock()
+        sendNextBlock()
+    }
+
     fun tryPlaceBlock(location: Location) {
         updateNextBlock()
         if (buildingCompleted) return
 
-        val block = nextBlock
         if (location.blockX == nextBlockLocation.x.toInt() ||
             location.blockY == nextBlockLocation.y.toInt() ||
             location.blockZ == nextBlockLocation.z.toInt()) return
 
-        world.placeBlock(Bukkit.getPlayer(owner), block, nextBlockLocation)
+        placeNextBlock()
     }
 
     fun placeNextBlock() {
@@ -41,20 +58,27 @@ class Structure(val world: GameWorld, val owner : UUID, structureType: Structure
         if (buildingCompleted) return
 
         world.placeBlock(Bukkit.getPlayer(owner), nextBlock, nextBlockLocation)
+        blocksPlaced++
+        blocksLeft--
 
-        val dimensions = building.box!!.dimensions
-        val volume = (dimensions.x * dimensions.y * dimensions.z).toInt()
+        updateNextBlock()
+        sendNextBlock()
+    }
+
+    private fun sendNextBlock() {
         ModTransfer()
             .integer(nextBlockLocation.x.toInt())
             .integer(nextBlockLocation.y.toInt())
             .integer(nextBlockLocation.z.toInt())
             .integer(nextBlock.type.id)
-            .integer(volume - (blocksPlaced + blocksSkipped))
+            .integer(blocksLeft)
             .byte(nextBlock.data)
             .send("structure:next", Bukkit.getPlayer(owner))
     }
 
     private fun updateNextBlock() {
+        if (buildingCompleted) return
+
         while (true) {
             val dimensions = building.box!!.dimensions
             val dimensionsXZ = (dimensions.x * dimensions.z).toInt()
@@ -65,6 +89,7 @@ class Structure(val world: GameWorld, val owner : UUID, structureType: Structure
 
             if (y > dimensions.y) {
                 buildingCompleted = true
+                ModTransfer().send("structure:completed", Bukkit.getPlayer(owner))
                 break
             }
             val x = blocksLeft / dimensions.z.toInt()
@@ -73,10 +98,9 @@ class Structure(val world: GameWorld, val owner : UUID, structureType: Structure
             nextBlock = app.structureMap.world.getBlockAt(toLocalLocation(x, y, z))
             nextBlockLocation = V3.of(buildingLocation.x + x, buildingLocation.y + y, buildingLocation.z + z)
 
-            if (nextBlock.type != Material.AIR) {
-                blocksPlaced++
-                break
-            } else blocksSkipped++
+            if (nextBlock.type != Material.AIR) break
+
+            blocksSkipped++
         }
     }
 

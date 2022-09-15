@@ -70,8 +70,7 @@ class App : JavaPlugin() {
             isLobbyServer = true
         }
 
-        listener(PlayerJoinEvents())
-        listener(PhysicsDisabler())
+        listener(PlayerJoinEvents(), PhysicsDisabler())
 
         Anime.include(Kit.STANDARD, Kit.EXPERIMENTAL, Kit.DIALOG, Kit.MULTI_CHAT, Kit.LOOTBOX)
         MultiChatUtil.createChats()
@@ -81,18 +80,6 @@ class App : JavaPlugin() {
 
         structureMap = MapLoader.load("construction", "structures")!!
         mainWorld = GameWorld(MapLoader.load("construction", "test")!!)
-
-        val structure = Structure(mainWorld, romanAndr, Structures.SMALL_HOUSE, mainWorld.map.getLabels("default", "1")[0])
-        mainWorld.addStructure(structure)
-
-        command("next") { player, args ->
-            val count = args[0].toInt()
-            for (i in 1..count) {
-                after(i * 2L) {
-                    structure.placeNextBlock()
-                }
-            }
-        }
 
         command("lootbox") { player, _ ->
             val user = app.getUser(player)
