@@ -12,6 +12,7 @@ object WorkerGenerator {
         return Worker(
             names.shuffled()[0],
             rarity,
+            false,
             when(rarity) {
                 WorkerRarity.COMMON -> Random.nextInt(1, 10)
                 WorkerRarity.RARE -> Random.nextInt(10, 100)

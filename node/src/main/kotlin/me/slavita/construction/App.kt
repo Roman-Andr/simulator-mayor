@@ -27,10 +27,8 @@ import me.slavita.construction.worker.WorkerRarity
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.Structure
 import me.slavita.construction.world.Structures
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
-import org.bukkit.scheduler.BukkitRunnable
 import ru.cristalix.core.CoreApi
 import ru.cristalix.core.realm.IRealmService
 import ru.cristalix.core.realm.RealmStatus
@@ -72,7 +70,7 @@ class App : JavaPlugin() {
 
         listener(PlayerJoinEvents(), PhysicsDisabler())
 
-        Anime.include(Kit.STANDARD, Kit.EXPERIMENTAL, Kit.DIALOG, Kit.MULTI_CHAT, Kit.LOOTBOX)
+        Anime.include(Kit.STANDARD, Kit.EXPERIMENTAL, Kit.DIALOG, Kit.MULTI_CHAT, Kit.LOOTBOX, Kit.NPC)
         MultiChatUtil.createChats()
 
         ModLoader.loadAll("mods")
@@ -97,22 +95,53 @@ class App : JavaPlugin() {
                         if (canBuy) {
                             val worker = WorkerGenerator.generate(it)
                             Anime.openLootBox(clickedPlayer, LootDrop(iconItem, worker.name, it.dropRare))
-                            Glow.animate(player, 5.0, GlowColor.GREEN)
+                            Glow.animate(player, 2.0, GlowColor.GREEN)
                             user.workers.add(worker)
                         }
                         else {
-                            Glow.animate(player, 3.0, GlowColor.RED)
+                            Glow.animate(player, 2.0, GlowColor.RED)
                         }
                     }
                 )
             }
             val menu = Selection(
-                title = "Строители",
+                title = "Покупка строителей",
                 money = "Ваш баланс ${user.stats.money}",
                 rows = 3,
                 columns = 3,
                 storage = storage
             )
+            Anime.close(player)
+            menu.open(player)
+        }
+
+        command("team") { player, _ ->
+            val user = app.getUser(player)
+            val storage = mutableListOf<ReactiveButton>()
+            val menu = Selection(
+                title = "Ваши строители",
+                money = "Ваш баланс ${user.stats.money}",
+                rows = 4,
+                columns = 5,
+                storage = storage
+            )
+            user.workers.filter { it.active }.sortedBy { it.rarity.price }.reversed()
+                .plus(user.workers.filter { !it.active }.sortedBy { it.rarity.price }.reversed().asIterable()).forEach {
+                val iconItem = ItemIcons.get(it.rarity.iconKey, it.rarity.iconValue, it.rarity.iconMaterial)
+                storage.add(ReactiveButton()
+                    .item(iconItem)
+                    .title(it.name)
+                    //.description(it)
+                    .hint(if (it.active) "Активный" else "Не выбран")
+                    .special(it.active)
+                    .onClick { _, _, _ ->
+                        it.active = !it.active
+                        Anime.close(player)
+                        player.performCommand("team")
+                    }
+                )
+            }
+            Anime.close(player)
             menu.open(player)
         }
     }
