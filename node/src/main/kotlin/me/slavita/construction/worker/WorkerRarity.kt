@@ -1,6 +1,6 @@
 package me.slavita.construction.worker
 
-import me.func.protocol.DropRare
+import me.func.protocol.data.rare.DropRare
 import org.bukkit.Material
 
 enum class WorkerRarity(

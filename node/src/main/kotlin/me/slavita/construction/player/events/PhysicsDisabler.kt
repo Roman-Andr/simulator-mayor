@@ -1,6 +1,5 @@
 package me.slavita.construction.player.events
 
-import clepto.bukkit.B
 import com.destroystokyo.paper.event.player.PlayerAdvancementCriterionGrantEvent
 import dev.xdark.feder.EmptyChunkBiome
 import dev.xdark.feder.FixedChunkLight

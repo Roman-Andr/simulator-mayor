@@ -68,6 +68,7 @@ class StructureBuilding {
 
         mod.registerChannel("structure:completed") {
             nextBlock.enabled = false
+            currentBlockLocation = null
         }
 
         mod.registerHandler<RenderPass> {

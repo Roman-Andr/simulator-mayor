@@ -1,6 +1,5 @@
 package me.slavita.construction.player.events
 
-import me.func.mod.conversation.ModLoader
 import me.slavita.construction.app
 import me.slavita.construction.multichat.MultiChatUtil
 import org.bukkit.entity.Player
@@ -20,6 +19,8 @@ class PlayerJoinEvents : Listener {
     @EventHandler
     fun PlayerInteractEvent.handle() {
         println(action)
+        println(blockFace)
+        println(blockClicked)
     }
 
     private fun preparePlayer(player: Player) {

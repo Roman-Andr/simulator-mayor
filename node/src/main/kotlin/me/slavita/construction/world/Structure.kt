@@ -2,20 +2,14 @@ package me.slavita.construction.world
 
 import dev.implario.bukkit.world.V3
 import me.func.mod.conversation.ModTransfer
-import me.func.mod.util.listener
 import me.func.unit.Building
 import me.slavita.construction.app
-import me.slavita.construction.multichat.MultiChatUtil
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
-import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
-import org.bukkit.event.player.PlayerInteractEvent
-import org.bukkit.event.player.PlayerJoinEvent
-import java.util.UUID
+import java.util.*
 
 class Structure(val world: GameWorld, val owner : UUID, structureType: Structures, val buildingLocation: Location) {
     private val building = Building(owner, "structure", structureType.id, app.structureMap)

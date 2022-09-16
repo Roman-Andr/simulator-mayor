@@ -10,7 +10,6 @@ import me.slavita.construction.util.NmsConverter
 import net.minecraft.server.v1_12_R1.BlockPosition
 import net.minecraft.server.v1_12_R1.PacketPlayOutBlockChange
 import net.minecraft.server.v1_12_R1.World
-import org.bukkit.Location
 import org.bukkit.block.Block
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer

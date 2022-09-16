@@ -5,16 +5,15 @@ import dev.implario.bukkit.platform.Platforms
 import dev.implario.games5e.sdk.cristalix.WorldMeta
 import dev.implario.platform.impl.darkpaper.PlatformDarkPaper
 import me.func.mod.Anime
-import me.func.mod.Glow
 import me.func.mod.Kit
 import me.func.mod.conversation.ModLoader
-import me.func.mod.data.LootDrop
-import me.func.mod.menu.ReactiveButton
-import me.func.mod.menu.selection.Selection
-import me.func.mod.util.after
+import me.func.mod.conversation.data.LootDrop
+import me.func.mod.reactive.ReactiveButton
+import me.func.mod.ui.Glow
+import me.func.mod.ui.menu.selection.Selection
 import me.func.mod.util.command
 import me.func.mod.util.listener
-import me.func.protocol.GlowColor
+import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.multichat.MultiChatUtil
 import me.slavita.construction.player.Statistics
 import me.slavita.construction.player.User
@@ -25,8 +24,6 @@ import me.slavita.construction.util.MapLoader
 import me.slavita.construction.worker.WorkerGenerator
 import me.slavita.construction.worker.WorkerRarity
 import me.slavita.construction.world.GameWorld
-import me.slavita.construction.world.Structure
-import me.slavita.construction.world.Structures
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import ru.cristalix.core.CoreApi
@@ -48,9 +45,6 @@ class App : JavaPlugin() {
     override fun onEnable() {
         app = this
         plugin = app
-
-        val slavita = UUID.fromString("ba821208-6b64-11e9-8374-1cb72caa35fd")
-        val romanAndr = UUID.fromString("e2543a0a-5799-11e9-8374-1cb72caa35fd")
 
         Platforms.set(PlatformDarkPaper())
 
