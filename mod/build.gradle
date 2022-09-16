@@ -4,9 +4,9 @@ plugins {
 }
 
 dependencies {
-    compileOnly 'ru.cristalix:client-api:foranelfer-SNAPSHOT'
-    implementation 'ru.cristalix:uiengine:foranelfer-SNAPSHOT'
-    implementation 'ru.cristalix:client-sdk:foranelfer-SNAPSHOT'
+    compileOnly("ru.cristalix:client-api:10.2-SNAPSHOT")
+    implementation("ru.cristalix:client-sdk:10.2-SNAPSHOT")
+    implementation("ru.cristalix:uiengine:10.2-SNAPSHOT")
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
