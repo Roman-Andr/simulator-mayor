@@ -4,7 +4,7 @@ enum class WorkerRapacity(
     val title: String,
     val value: Double
 ) {
-    LOW("Низкая", 1.0),
-    MEDIUM("Средняя", 1.0),
-    HIGH("Высокая", 1.0)
+    LOW("§aНизкая", 1.0),
+    MEDIUM("§eСредняя", 1.0),
+    HIGH("§4Высокая", 1.0)
 }

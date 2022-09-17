@@ -2,6 +2,7 @@ package me.slavita.construction.world
 
 import dev.implario.bukkit.world.V3
 import me.func.mod.conversation.ModTransfer
+import me.func.mod.util.after
 import me.func.unit.Building
 import me.slavita.construction.app
 import me.slavita.construction.util.RegisterConnectionUtil.registerChannel
@@ -35,11 +36,15 @@ class Structure(val world: GameWorld, val owner : UUID, structureType: Structure
         registerChannel(player) { packet ->
             if (packet !is PacketPlayInUseItem) return@registerChannel
             if (packet.c != EnumHand.MAIN_HAND) return@registerChannel
-            placeCorrectBlock(packet.a)
-
-            val location = Location(world.map.world, packet.a.x.toDouble(), packet.a.y.toDouble(), packet.a.z.toDouble()).block.getRelative(BlockFace.valueOf(packet.b.name)).location
-            if (tryPlaceBlock(player.inventory.itemInMainHand, location)) {
-                placeCorrectBlock(BlockPosition(location.x, location.y, location.z))
+            after(1) {
+                placeCorrectBlock(packet.a)
+                val location = Location(
+                    world.map.world,
+                    packet.a.x.toDouble(),
+                    packet.a.y.toDouble(),
+                    packet.a.z.toDouble()
+                ).block.getRelative(BlockFace.valueOf(packet.b.name)).location
+                tryPlaceBlock(player.inventory.itemInMainHand, location)
             }
         }
     }
@@ -61,9 +66,9 @@ class Structure(val world: GameWorld, val owner : UUID, structureType: Structure
 
         if (item.getType() != nextBlock.type) return false
         if (item.getData().data != nextBlock.data) return false
-        if (location.blockX == nextBlockLocation.x.toInt() ||
-            location.blockY == nextBlockLocation.y.toInt() ||
-            location.blockZ == nextBlockLocation.z.toInt()) return false
+        if (location.blockX != nextBlockLocation.x.toInt() ||
+            location.blockY != nextBlockLocation.y.toInt() ||
+            location.blockZ != nextBlockLocation.z.toInt()) return false
 
         placeNextBlock()
         return true
@@ -82,13 +87,16 @@ class Structure(val world: GameWorld, val owner : UUID, structureType: Structure
     }
 
     private fun placeCorrectBlock(blockPosition: BlockPosition) {
-        val block = Location(world.map.world,
-            buildingLocation.x - blockPosition.x + building.box!!.min.x,
-            buildingLocation.y - blockPosition.y + building.box!!.min.y,
-            buildingLocation.z - blockPosition.z + building.box!!.min.z
+        val block = Location(
+            app.structureMap.world,
+            blockPosition.x - buildingLocation.x + building.box!!.min.x,
+            blockPosition.y - buildingLocation.y + building.box!!.min.y,
+            blockPosition.z - buildingLocation.z + building.box!!.min.z
         ).block
-        val location = Location(world.map.world, blockPosition.x.toDouble(), blockPosition.y.toDouble(), blockPosition.z.toDouble())
-        Bukkit.getPlayer(owner).sendBlockChange(location, block.type, block.data)
+        val location = V3.of(blockPosition.x.toDouble(), blockPosition.y.toDouble(), blockPosition.z.toDouble())
+        world.placeBlock(Bukkit.getPlayer(owner), block, location)
+        println(block)
+        println(location)
     }
 
     private fun sendNextBlock() {

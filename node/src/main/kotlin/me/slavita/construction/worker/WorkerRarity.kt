@@ -13,8 +13,8 @@ enum class WorkerRarity(
     val iconValue: String,
     val iconMaterial: Material = Material.CLAY_BALL,
 ) {
-    COMMON("Обычный", DropRare.COMMON, "Обыкновенный строитель", 100, 1.0, "other", "f", Material.TOTEM),
-    RARE("Редкий", DropRare.RARE, "Неплохой строитель", 10000, 1.0, "other", "2", Material.TOTEM),
-    EPIC("Эпический", DropRare.EPIC, "Отличный строитель", 1000000, 1.0, "other", "5", Material.TOTEM),
-    LEGENDARY("Легендарный", DropRare.LEGENDARY, "Превосходный строитель", 100000000, 1.0, "other", "6", Material.TOTEM)
+    COMMON("§7Обычный", DropRare.COMMON, "Обыкновенный строитель", 100, 1.0, "other", "f", Material.TOTEM),
+    RARE("§2Редкий", DropRare.RARE, "Неплохой строитель", 10000, 1.0, "other", "2", Material.TOTEM),
+    EPIC("§5Эпический", DropRare.EPIC, "Отличный строитель", 1000000, 1.0, "other", "5", Material.TOTEM),
+    LEGENDARY("§6Легендарный", DropRare.LEGENDARY, "Превосходный строитель", 100000000, 1.0, "other", "6", Material.TOTEM)
 }

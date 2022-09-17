@@ -125,7 +125,11 @@ class App : JavaPlugin() {
                 storage.add(ReactiveButton()
                     .item(iconItem)
                     .title(it.name)
-                    //.description(it)
+                    .hover("§aИмя: ${it.name}\n" +
+                            "§eРедкость: ${it.rarity.title}\n" +
+                            "§bУровень: ${it.skill}\n" +
+                            "§3Надёжность: ${it.reliability}\n" +
+                            "§cЖадность: ${it.rapacity.title}")
                     .hint(if (it.active) "Активный" else "Не выбран")
                     .special(it.active)
                     .onClick { _, _, _ ->
