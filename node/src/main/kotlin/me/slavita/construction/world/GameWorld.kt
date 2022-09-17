@@ -10,6 +10,7 @@ import me.slavita.construction.util.NmsConverter
 import net.minecraft.server.v1_12_R1.BlockPosition
 import net.minecraft.server.v1_12_R1.PacketPlayOutBlockChange
 import net.minecraft.server.v1_12_R1.World
+import org.bukkit.Location
 import org.bukkit.block.Block
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer
@@ -39,11 +40,7 @@ class GameWorld(val map: WorldMeta) {
     }
 
     fun placeBlock(player: Player, block: Block, location: V3) {
-        val nmsWorld: World = (map.world as CraftWorld).handle
-        val packet = PacketPlayOutBlockChange(nmsWorld, BlockPosition(location.x, location.y, location.z))
-        val data = NmsConverter.getNmsCopy(block).fromLegacyData(block.data.toInt())
-        packet.block = data
-        (player as CraftPlayer).handle.playerConnection.sendPacket(packet)
+        player.sendBlockChange(Location(map.world, location.x, location.y, location.z), block.type, block.data)
     }
 
     fun showAll(player: Player) {

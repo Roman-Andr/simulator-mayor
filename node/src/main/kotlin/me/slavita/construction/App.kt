@@ -54,7 +54,7 @@ class App : JavaPlugin() {
         }
 
         IRealmService.get().currentRealmInfo.apply {
-            IScoreboardService.get().serverStatusBoard.displayName = "§fТест #§b" + this.realmId.id;
+            IScoreboardService.get().serverStatusBoard.displayName = "§fТест #§b" + this.realmId.id
         }.run {
             readableName = "Тест"
             groupName = "CRN"

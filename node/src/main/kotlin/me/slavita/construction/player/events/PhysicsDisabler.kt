@@ -34,11 +34,6 @@ class PhysicsDisabler : Listener {
     }
 
     @EventHandler
-    fun PlayerInteractEvent.handle() {
-        if (action == Action.RIGHT_CLICK_BLOCK) isCancelled = true
-    }
-
-    @EventHandler
     fun EntityDismountEvent.handle() {
         if (dismounted.type === EntityType.BAT) after(1) {
             dismounted.remove()
