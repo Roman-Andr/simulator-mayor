@@ -95,8 +95,6 @@ class Structure(val world: GameWorld, val owner : UUID, structureType: Structure
         ).block
         val location = V3.of(blockPosition.x.toDouble(), blockPosition.y.toDouble(), blockPosition.z.toDouble())
         world.placeBlock(Bukkit.getPlayer(owner), block, location)
-        println(block)
-        println(location)
     }
 
     private fun sendNextBlock() {

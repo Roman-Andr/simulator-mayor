@@ -7,13 +7,7 @@ import dev.implario.platform.impl.darkpaper.PlatformDarkPaper
 import me.func.mod.Anime
 import me.func.mod.Kit
 import me.func.mod.conversation.ModLoader
-import me.func.mod.conversation.data.LootDrop
-import me.func.mod.reactive.ReactiveButton
-import me.func.mod.ui.Glow
-import me.func.mod.ui.menu.selection.Selection
-import me.func.mod.util.command
 import me.func.mod.util.listener
-import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.command.UserCommands
 import me.slavita.construction.multichat.MultiChatUtil
 import me.slavita.construction.npc.NpcManager
@@ -21,14 +15,12 @@ import me.slavita.construction.player.Statistics
 import me.slavita.construction.player.User
 import me.slavita.construction.player.events.PhysicsDisabler
 import me.slavita.construction.player.events.PlayerJoinEvents
-import me.slavita.construction.ui.ItemIcons
 import me.slavita.construction.util.MapLoader
-import me.slavita.construction.worker.WorkerGenerator
-import me.slavita.construction.worker.WorkerRarity
 import me.slavita.construction.world.GameWorld
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import ru.cristalix.core.CoreApi
+import ru.cristalix.core.datasync.EntityDataParameters
 import ru.cristalix.core.realm.IRealmService
 import ru.cristalix.core.realm.RealmStatus
 import ru.cristalix.core.scoreboard.IScoreboardService
@@ -48,6 +40,7 @@ class App : JavaPlugin() {
         app = this
         plugin = app
 
+        EntityDataParameters.register()
         Platforms.set(PlatformDarkPaper())
 
         CoreApi.get().run {
