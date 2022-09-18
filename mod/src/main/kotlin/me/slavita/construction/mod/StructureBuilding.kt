@@ -59,8 +59,11 @@ class StructureBuilding {
             val typeId = readInt()
             val amount = readInt()
             val data = readByte()
+
             nextBlock.enabled = true
-            (nextBlock.children[0] as ItemElement).stack = ItemStack.of(Item.of(typeId), 1, data.toInt())
+
+            val item = Item.of(typeId)
+            (nextBlock.children[0] as ItemElement).stack = if (item != null) ItemStack.of(item, 1, data.toInt()) else null
             (nextBlock.children[1] as TextElement).content = "$amount"
 
             currentBlockLocation = V3(x.toDouble(), y.toDouble(), z.toDouble())

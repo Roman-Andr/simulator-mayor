@@ -20,6 +20,5 @@ class PlayerJoinEvents : Listener {
         after (2) {
             Anime.hideIndicator(player, Indicators.HEALTH, Indicators.EXP, Indicators.HUNGER)
         }
-        app.mainWorld.showAll(player)
     }
 }

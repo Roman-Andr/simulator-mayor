@@ -1,14 +1,17 @@
 package me.slavita.construction.world
 
 import dev.implario.bukkit.world.V3
+import me.func.mod.Anime
 import me.func.mod.conversation.ModTransfer
-import me.func.mod.util.after
+import me.func.mod.ui.Glow
+import me.func.protocol.data.color.GlowColor
 import me.func.unit.Building
 import me.slavita.construction.app
-import me.slavita.construction.util.RegisterConnectionUtil.registerChannel
+import me.slavita.construction.util.RegisterConnectionUtil.registerChannelRead
 import net.minecraft.server.v1_12_R1.BlockPosition
 import net.minecraft.server.v1_12_R1.EnumHand
 import net.minecraft.server.v1_12_R1.PacketPlayInUseItem
+import net.minecraft.server.v1_12_R1.PacketPlayOutBlockChange
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
@@ -33,20 +36,28 @@ class Structure(val world: GameWorld, val owner : UUID, structureType: Structure
         }
 
         val player = Bukkit.getPlayer(owner)
-        registerChannel(player) { packet ->
-            if (packet !is PacketPlayInUseItem) return@registerChannel
-            if (packet.c != EnumHand.MAIN_HAND) return@registerChannel
-            after(1) {
-                placeCorrectBlock(packet.a)
-                val location = Location(
-                    world.map.world,
-                    packet.a.x.toDouble(),
-                    packet.a.y.toDouble(),
-                    packet.a.z.toDouble()
-                ).block.getRelative(BlockFace.valueOf(packet.b.name)).location
-                tryPlaceBlock(player.inventory.itemInMainHand, location)
-            }
-        }
+        registerChannelRead(player, { packet ->
+            if (packet !is PacketPlayInUseItem) return@registerChannelRead
+            if (packet.c != EnumHand.MAIN_HAND) return@registerChannelRead
+
+            val location = Location(
+                world.map.world,
+                packet.a.x.toDouble(),
+                packet.a.y.toDouble(),
+                packet.a.z.toDouble()
+            ).block.getRelative(BlockFace.valueOf(packet.b.name)).location
+            println(packet.a)
+            println(location)
+            tryPlaceBlock(player.inventory.itemInMainHand, location)
+        }, { packet ->
+            if (packet !is PacketPlayOutBlockChange) return@registerChannelRead true
+            if (packet.a.x < buildingLocation.x || packet.a.x > buildingLocation.x + building.box!!.dimensions.x) return@registerChannelRead true
+            if (packet.a.y < buildingLocation.y || packet.a.y > buildingLocation.y + building.box!!.dimensions.y) return@registerChannelRead true
+            if (packet.a.z < buildingLocation.z || packet.a.z > buildingLocation.z + building.box!!.dimensions.z) return@registerChannelRead true
+            if (packet.block.material != net.minecraft.server.v1_12_R1.Material.AIR) return@registerChannelRead true
+
+            return@registerChannelRead false
+        })
     }
 
     fun show(player: Player) {
@@ -86,18 +97,8 @@ class Structure(val world: GameWorld, val owner : UUID, structureType: Structure
         sendNextBlock()
     }
 
-    private fun placeCorrectBlock(blockPosition: BlockPosition) {
-        val block = Location(
-            app.structureMap.world,
-            blockPosition.x - buildingLocation.x + building.box!!.min.x,
-            blockPosition.y - buildingLocation.y + building.box!!.min.y,
-            blockPosition.z - buildingLocation.z + building.box!!.min.z
-        ).block
-        val location = V3.of(blockPosition.x.toDouble(), blockPosition.y.toDouble(), blockPosition.z.toDouble())
-        world.placeBlock(Bukkit.getPlayer(owner), block, location)
-    }
-
     private fun sendNextBlock() {
+        if (buildingCompleted) return
         ModTransfer()
             .integer(nextBlockLocation.x.toInt())
             .integer(nextBlockLocation.y.toInt())
@@ -121,6 +122,8 @@ class Structure(val world: GameWorld, val owner : UUID, structureType: Structure
 
             if (y > dimensions.y) {
                 buildingCompleted = true
+                Anime.bigTitle(Bukkit.getPlayer(owner), "§eПостройка завершена!")
+                Glow.animate(Bukkit.getPlayer(owner), 1.0, GlowColor.GREEN)
                 ModTransfer().send("structure:completed", Bukkit.getPlayer(owner))
                 break
             }
