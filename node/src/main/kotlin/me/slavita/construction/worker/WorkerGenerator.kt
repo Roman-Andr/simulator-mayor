@@ -13,12 +13,7 @@ object WorkerGenerator {
             names.shuffled()[0],
             rarity,
             false,
-            when(rarity) {
-                WorkerRarity.COMMON -> Random.nextInt(1, 10)
-                WorkerRarity.RARE -> Random.nextInt(10, 100)
-                WorkerRarity.EPIC -> Random.nextInt(100, 1000)
-                WorkerRarity.LEGENDARY -> Random.nextInt(1000, 10000)
-            },
+            1,
             when(rapacity) {
                 WorkerRapacity.LOW -> Random.nextInt(10, 50)
                 WorkerRapacity.MEDIUM -> Random.nextInt(50, 80)

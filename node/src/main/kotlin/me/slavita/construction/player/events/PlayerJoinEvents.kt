@@ -1,7 +1,11 @@
 package me.slavita.construction.player.events
 
+import me.func.mod.Anime
+import me.func.mod.util.after
+import me.func.protocol.ui.indicator.Indicators
 import me.slavita.construction.app
 import me.slavita.construction.multichat.MultiChatUtil
+import org.bukkit.GameMode
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
@@ -16,11 +20,11 @@ class PlayerJoinEvents : Listener {
     fun PlayerJoinEvent.handle() {
         MultiChatUtil.sendPlayerChats(player)
         app.addUser(player)
-        preparePlayer(player)
-    }
-
-    private fun preparePlayer(player: Player) {
         player.teleport(app.mainWorld.getSpawn())
+        player.gameMode = GameMode.ADVENTURE
+        after (2) {
+            Anime.hideIndicator(player, Indicators.HEALTH, Indicators.EXP, Indicators.HUNGER)
+        }
         app.mainWorld.showAll(player)
     }
 }

@@ -23,7 +23,7 @@ class GameWorld(val map: WorldMeta) {
     private val playerStructures = hashMapOf<UUID, ArrayList<UUID>>()
 
     init {
-        command("spawn") { player, args ->
+        command("spawn") { player, _ ->
             val structure = Structure(this, player.uniqueId, Structures.SMALL_HOUSE, map.getLabels("default", "1")[0])
             addStructure(structure)
             structure.startBuilding()
@@ -61,4 +61,6 @@ class GameWorld(val map: WorldMeta) {
     }
 
     fun getSpawn(): Label = map.getLabel("spawn")
+
+    fun getNpcLabels(): List<Label> = map.getLabels("npc")
 }
