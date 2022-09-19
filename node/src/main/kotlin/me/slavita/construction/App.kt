@@ -73,7 +73,7 @@ class App : JavaPlugin() {
     }
 
     fun addUser(player: Player) {
-        users[player.uniqueId] = User(player, Statistics(1000000000.0, 0, 0.0, .0, 0, 0))
+        users[player.uniqueId] = User(player, Statistics())
     }
 
     fun getUser(uuid: UUID) : User {

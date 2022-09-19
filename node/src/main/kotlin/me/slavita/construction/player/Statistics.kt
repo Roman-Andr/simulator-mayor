@@ -8,4 +8,6 @@ data class Statistics(
 
     var totalProjects: Int,
     var maxProjects: Int,
-)
+) {
+    constructor() : this(.0, 1, .0, .0, 0, 0)
+}

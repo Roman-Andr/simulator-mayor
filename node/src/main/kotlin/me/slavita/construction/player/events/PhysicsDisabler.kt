@@ -24,6 +24,11 @@ class PhysicsDisabler : Listener {
     }
 
     @EventHandler
+    fun BlockPlaceEvent.handle() {
+        isCancelled = true
+    }
+
+    @EventHandler
     fun CraftItemEvent.handle() {
         isCancelled = true
     }
