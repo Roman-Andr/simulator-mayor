@@ -1,6 +1,7 @@
 package me.slavita.construction.world
 
-enum class Structures(val id: String) {
-    SMALL_HOUSE("1"),
-    BIG_HOUSE("2"),
+object Structures {
+    val structureGroups = arrayListOf(
+        StructureGroup("Малейнький дом", "1", 1),
+    )
 }

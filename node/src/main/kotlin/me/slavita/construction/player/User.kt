@@ -11,7 +11,6 @@ class User(
     var stats: Statistics
 ) : PlayerWrapper {
     var workers = mutableListOf<Worker>()
-    var currentStructure: Structure? = null
 
     override fun getPlayer(): CraftPlayer {
         return player as CraftPlayer

@@ -1,57 +1,46 @@
 package me.slavita.construction.world
 
 import dev.implario.bukkit.world.Label
-import dev.implario.bukkit.world.V3
 import dev.implario.games5e.sdk.cristalix.WorldMeta
-import me.func.MetaWorld
 import me.func.mod.util.after
 import me.func.mod.util.command
 import org.bukkit.Location
-import org.bukkit.block.Block
 import org.bukkit.entity.Player
 import java.util.*
 
 
 class GameWorld(val map: WorldMeta) {
-    private val structures = hashMapOf<UUID, Structure>()
-    private val playerStructures = hashMapOf<UUID, ArrayList<UUID>>()
+    private val structures = hashMapOf<StructureProperties, Structure>()
+    private val clientStructures = hashMapOf<UUID, ArrayList<ClientStructure>>()
+    val testStructure = Structures.structureGroups[0].structures[0]
 
     init {
-        command("spawn") { player, _ ->
-            val structure = Structure(this, player.uniqueId, Structures.SMALL_HOUSE, map.getLabels("default", "1")[0])
-            addStructure(structure)
-            structure.startBuilding()
+        structures[testStructure] = Structure(testStructure)
+
+        command("start") { player, _ ->
+            if (clientStructures[player.uniqueId] == null) clientStructures[player.uniqueId] = arrayListOf()
+
+            val clientStructure = ClientStructure(this, structures[testStructure]!!, player, map.getLabels("default", "1")[0])
+            clientStructures[player.uniqueId]!!.add(clientStructure)
+            clientStructure.startBuilding()
         }
 
         command("next") { player, args ->
             val count = args[0].toInt()
             for (i in 1..count) {
                 after(i * 2L) {
-                    structures[playerStructures[player.uniqueId]!![0]]!!.placeNextBlock()
+                    clientStructures[player.uniqueId]!![0].placeCurrentBlock()
                 }
             }
         }
     }
 
-    fun placeBlock(player: Player, block: Block, location: V3) {
-        player.sendBlockChange(Location(map.world, location.x, location.y, location.z), block.type, block.data)
-    }
-
-    fun showAll(player: Player) {
-        MetaWorld.registerModifiers()
-        structures.forEach {
-            if (it.value.owner == player.uniqueId) {
-                it.value.show(player)
-            }
-        }
-    }
-
-    fun addStructure(structure: Structure): UUID {
-        val uuid = UUID.randomUUID()
-        structures[uuid] = structure
-        if (playerStructures[structure.owner] == null) playerStructures[structure.owner] = arrayListOf()
-        playerStructures[structure.owner]!!.add(uuid)
-        return uuid
+    fun placeFakeBlock(player: Player, block: BlockProperties) {
+        player.sendBlockChange(
+            Location(map.world, block.position.x.toDouble(), block.position.y.toDouble(), block.position.z.toDouble()),
+            block.type,
+            block.data
+        )
     }
 
     fun getSpawn(): Label = map.getLabel("spawn")
