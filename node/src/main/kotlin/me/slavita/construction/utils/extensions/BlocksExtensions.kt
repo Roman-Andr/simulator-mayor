@@ -12,4 +12,10 @@ object BlocksExtensions {
     fun BlockPosition.toLocation(world: World): Location {
         return Location(world, this.x.toDouble(), this.y.toDouble(), this.z.toDouble())
     }
+
+    operator fun BlockPosition.minus(additionalPosition: Location): BlockPosition {
+        return BlockPosition(this.x - additionalPosition.x,
+            this.y - additionalPosition.y,
+            this.z - additionalPosition.z)
+    }
 }

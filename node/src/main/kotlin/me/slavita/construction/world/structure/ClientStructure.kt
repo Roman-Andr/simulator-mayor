@@ -7,6 +7,8 @@ import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.connection.ConnectionUtil.registerReader
 import me.slavita.construction.connection.ConnectionUtil.registerWriter
 import me.slavita.construction.ui.ItemIcons
+import me.slavita.construction.utils.extensions.BlocksExtensions.add
+import me.slavita.construction.utils.extensions.BlocksExtensions.minus
 import me.slavita.construction.utils.extensions.BlocksExtensions.toLocation
 import me.slavita.construction.world.BlockProperties
 import me.slavita.construction.world.GameWorld
@@ -30,25 +32,25 @@ class ClientStructure(val world: GameWorld, val structure: Structure, val owner:
             if (packet !is PacketPlayInUseItem) return@registerReader
             if (packet.c != EnumHand.MAIN_HAND) return@registerReader
 
-            MinecraftServer.SERVER.postToMainThread {
-                val clickedBlock = packet.a.toLocation(world.map.world)
-                    .block.getRelative(BlockFace.valueOf(packet.b.name)).location.subtract(allocation)
+            val clickedBlock = packet.a.toLocation(world.map.world)
+                .block.getRelative(BlockFace.valueOf(packet.b.name)).location.subtract(allocation)
 
-                if (clickedBlock.blockX != currentBlock!!.position.x ||
-                    clickedBlock.blockY != currentBlock!!.position.y ||
-                    clickedBlock.blockZ != currentBlock!!.position.z ||
-                    owner.inventory.itemInMainHand.getType() != currentBlock!!.type) return@postToMainThread
+            if (clickedBlock.blockX != currentBlock!!.position.x ||
+                clickedBlock.blockY != currentBlock!!.position.y ||
+                clickedBlock.blockZ != currentBlock!!.position.z) return@registerReader
 
-                placeCurrentBlock()
+            if (owner.inventory.itemInMainHand.getType() != currentBlock!!.type) {
+                Anime.killboardMessage(owner, "§cНеверный блок")
+                return@registerReader
             }
+            owner.inventory.itemInMainHand.setAmount(owner.inventory.itemInMainHand.getAmount() - 1)
+            placeCurrentBlock()
         }
 
         registerWriter(owner.uniqueId) { packet ->
-            if (packet !is PacketPlayOutBlockChange) return@registerWriter false
-            if (packet.block.material != Material.AIR) return@registerWriter false
-            if (structure.contains(BlockPosition(packet.a.x - allocation.x, packet.a.y - allocation.y, packet.a.z - allocation.z))) return@registerWriter false
-
-            return@registerWriter true
+            return@registerWriter !(packet !is PacketPlayOutBlockChange
+                    || packet.block.material != Material.AIR
+                    || !structure.contains((packet.a - allocation).add(structure.properties.box.min)))
         }
     }
 

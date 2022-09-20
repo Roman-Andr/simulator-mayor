@@ -17,4 +17,8 @@ object LoggerUtils {
     fun Player.fine(text: String) {
         MultiChatUtil.sendPlayerMessage(this, ChatType.SYSTEM, Formatting.fine(text))
     }
+
+    fun Player.fine(text: Int) {
+        MultiChatUtil.sendPlayerMessage(this, ChatType.SYSTEM, Formatting.fine(text.toString()))
+    }
 }

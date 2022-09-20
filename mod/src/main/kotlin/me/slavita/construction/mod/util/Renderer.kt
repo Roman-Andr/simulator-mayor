@@ -3,7 +3,6 @@ package me.slavita.construction.mod.util
 import dev.xdark.clientapi.ClientApi
 import dev.xdark.clientapi.opengl.GlStateManager
 import dev.xdark.clientapi.render.DefaultVertexFormats
-import ru.cristalix.clientapi.JavaMod
 import ru.cristalix.clientapi.JavaMod.clientApi
 import ru.cristalix.uiengine.utility.V3
 

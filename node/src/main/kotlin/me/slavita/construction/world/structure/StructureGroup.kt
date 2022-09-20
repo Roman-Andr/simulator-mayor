@@ -7,7 +7,7 @@ import org.bukkit.Location
 
 class StructureGroup(val name: String, val labelId: String, val count: Int) {
     val structures = arrayListOf<StructureProperties>()
-    val dimensions = V3.of(25.0, 50.0, 25.0)
+    private val dimensions: V3 = V3.of(25.0, 50.0, 25.0)
 
     init {
         val label = app.structureMap.getLabels("group", labelId)[0]
