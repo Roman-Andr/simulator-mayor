@@ -1,10 +1,10 @@
-package me.slavita.construction.world
+package me.slavita.construction.world.structure
 
-import dev.implario.bukkit.world.V3
 import me.slavita.construction.app
+import me.slavita.construction.world.BlockProperties
 import net.minecraft.server.v1_12_R1.BlockPosition
-import net.minecraft.server.v1_12_R1.Material
 import org.bukkit.Location
+import org.bukkit.Material
 
 class Structure(val properties: StructureProperties) {
     private val blocks = hashMapOf<BlockPosition, BlockProperties>()

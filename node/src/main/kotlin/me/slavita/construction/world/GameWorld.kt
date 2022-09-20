@@ -4,6 +4,7 @@ import dev.implario.bukkit.world.Label
 import dev.implario.games5e.sdk.cristalix.WorldMeta
 import me.func.mod.util.after
 import me.func.mod.util.command
+import me.slavita.construction.world.structure.*
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import java.util.*
@@ -28,7 +29,7 @@ class GameWorld(val map: WorldMeta) {
         command("next") { player, args ->
             val count = args[0].toInt()
             for (i in 1..count) {
-                after(i * 2L) {
+                after((i - 1) * 2L) {
                     clientStructures[player.uniqueId]!![0].placeCurrentBlock()
                 }
             }

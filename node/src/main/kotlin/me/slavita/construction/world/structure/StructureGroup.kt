@@ -1,7 +1,8 @@
-package me.slavita.construction.world
+package me.slavita.construction.world.structure
 
 import dev.implario.bukkit.world.V3
 import me.slavita.construction.app
+import me.slavita.construction.world.Box
 import org.bukkit.Location
 
 class StructureGroup(val name: String, val labelId: String, val count: Int) {

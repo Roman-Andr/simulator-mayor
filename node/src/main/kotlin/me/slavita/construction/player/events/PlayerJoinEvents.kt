@@ -18,7 +18,6 @@ class PlayerJoinEvents : Listener {
         MultiChatUtil.sendPlayerChats(player)
         app.addUser(player)
         player.teleport(app.mainWorld.getSpawn())
-        player.gameMode = GameMode.ADVENTURE
         createChannel(player)
         after (2) {
             Anime.hideIndicator(player, Indicators.HEALTH, Indicators.EXP, Indicators.HUNGER)

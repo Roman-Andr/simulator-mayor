@@ -8,6 +8,7 @@ import me.func.mod.Anime
 import me.func.mod.Kit
 import me.func.mod.conversation.ModLoader
 import me.func.mod.util.listener
+import me.slavita.construction.command.AdminCommands
 import me.slavita.construction.command.UserCommands
 import me.slavita.construction.multichat.MultiChatUtil
 import me.slavita.construction.npc.NpcManager
@@ -15,12 +16,17 @@ import me.slavita.construction.player.Statistics
 import me.slavita.construction.player.User
 import me.slavita.construction.player.events.PhysicsDisabler
 import me.slavita.construction.player.events.PlayerJoinEvents
-import me.slavita.construction.util.MapLoader
+import me.slavita.construction.utils.MapLoader
 import me.slavita.construction.world.GameWorld
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
+import ru.cristalix.core.BukkitPlatform
 import ru.cristalix.core.CoreApi
 import ru.cristalix.core.datasync.EntityDataParameters
+import ru.cristalix.core.network.ISocketClient
+import ru.cristalix.core.party.IPartyService
+import ru.cristalix.core.party.PartyService
 import ru.cristalix.core.realm.IRealmService
 import ru.cristalix.core.realm.RealmStatus
 import ru.cristalix.core.scoreboard.IScoreboardService
@@ -40,13 +46,14 @@ class App : JavaPlugin() {
         app = this
         plugin = app
 
-        EntityDataParameters.register()
-        Platforms.set(PlatformDarkPaper())
-
         CoreApi.get().run {
-            registerService(ITransferService::class.java, TransferService(socketClient))
+            registerService(ITransferService::class.java, TransferService(ISocketClient.get()))
+            registerService(IPartyService::class.java, PartyService(ISocketClient.get()))
             registerService(IScoreboardService::class.java, ScoreboardService())
         }
+
+        EntityDataParameters.register()
+        Platforms.set(PlatformDarkPaper())
 
         IRealmService.get().currentRealmInfo.apply {
             IScoreboardService.get().serverStatusBoard.displayName = "§fТест #§b" + this.realmId.id
@@ -70,6 +77,7 @@ class App : JavaPlugin() {
 
         NpcManager
         UserCommands
+        AdminCommands
     }
 
     fun addUser(player: Player) {

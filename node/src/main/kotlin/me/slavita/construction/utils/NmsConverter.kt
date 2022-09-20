@@ -1,4 +1,4 @@
-package me.slavita.construction.util
+package me.slavita.construction.utils
 
 import org.bukkit.block.Block
 import org.bukkit.craftbukkit.v1_12_R1.block.CraftBlock

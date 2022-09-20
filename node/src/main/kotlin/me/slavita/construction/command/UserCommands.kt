@@ -11,6 +11,7 @@ import me.slavita.construction.app
 import me.slavita.construction.ui.ItemIcons
 import me.slavita.construction.worker.WorkerGenerator
 import me.slavita.construction.worker.WorkerRarity
+import java.util.*
 
 object UserCommands {
     init {
@@ -31,16 +32,18 @@ object UserCommands {
                         if (canBuy) {
                             val worker = WorkerGenerator.generate(it)
                             Anime.openLootBox(clickedPlayer, LootDrop(iconItem, worker.name, it.dropRare))
-                            Glow.animate(player, 2.0, GlowColor.GREEN)
+                            Glow.animate(player, 1.0, GlowColor.GREEN)
                             user.workers.add(worker)
                         }
                         else {
-                            Glow.animate(player, 2.0, GlowColor.RED)
+                            Anime.close(player)
+                            Glow.animate(player, 1.0, GlowColor.RED)
                         }
                     }
                 )
             }
             val menu = Selection(
+                UUID.randomUUID(),
                 title = "Покупка строителей",
                 money = "Ваш баланс ${user.stats.money}",
                 rows = 3,
@@ -55,6 +58,7 @@ object UserCommands {
             val user = app.getUser(player)
             val storage = mutableListOf<ReactiveButton>()
             val menu = Selection(
+                UUID.randomUUID(),
                 title = "Ваши строители",
                 money = "Ваш баланс ${user.stats.money}",
                 rows = 4,

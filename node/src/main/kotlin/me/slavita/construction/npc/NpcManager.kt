@@ -19,7 +19,10 @@ object NpcManager {
             Npc.npc {
                 labels.find { it.tag.equals(type.labelTag)}?.let { location(it) }
                 name = type.title
-                skin(UUID.fromString(type.skin))
+                when(type.skinType) {
+                    SkinType.UUID -> skin(UUID.fromString(type.skin))
+                    SkinType.URL -> skin(type.skin)
+                }
                 behaviour = NpcBehaviour.STARE_AND_LOOK_AROUND
                 onClick {
                     it.player.performCommand(type.command)

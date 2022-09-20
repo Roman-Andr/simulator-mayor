@@ -1,4 +1,4 @@
-package me.slavita.construction.util
+package me.slavita.construction.utils.extensions
 
 import me.slavita.construction.multichat.ChatType
 import me.slavita.construction.multichat.MultiChatUtil

@@ -16,11 +16,12 @@ object ConnectionUtil {
     fun createChannel(player: Player) {
         val craftPlayer = player as CraftPlayer
         readers[player.uniqueId] = arrayListOf()
+        writers[player.uniqueId] = arrayListOf()
 
         craftPlayer.handle.playerConnection.networkManager.channel.pipeline().addBefore("packet_handler", craftPlayer.name, object : ChannelDuplexHandler() {
             override fun channelRead(ctx: ChannelHandlerContext?, packet: Any?) {
                 MinecraftServer.SERVER.postToMainThread {
-                    readers[player.uniqueId]?.forEach {
+                    readers[player.uniqueId]!!.forEach {
                         it(packet)
                     }
                 }
@@ -30,7 +31,7 @@ object ConnectionUtil {
             override fun write(ctx: ChannelHandlerContext?, packet: Any?, promise: ChannelPromise?) {
                 MinecraftServer.SERVER.postToMainThread {
                     val context = PacketContext()
-                    writers[player.uniqueId]?.forEach {
+                    writers[player.uniqueId]!!.forEach {
                         it(context, packet)
                     }
                     if (!context.cancelled) super.write(ctx, packet, promise)

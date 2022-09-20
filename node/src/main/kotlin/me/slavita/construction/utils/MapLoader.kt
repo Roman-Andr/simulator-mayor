@@ -1,4 +1,4 @@
-package me.slavita.construction.util
+package me.slavita.construction.utils
 
 import clepto.cristalix.Cristalix
 import dev.implario.games5e.sdk.cristalix.WorldMeta
