@@ -30,24 +30,25 @@ class ClientStructure(val world: GameWorld, val structure: Structure, val owner:
             if (packet !is PacketPlayInUseItem) return@registerReader
             if (packet.c != EnumHand.MAIN_HAND) return@registerReader
 
-            val clickedBlock = packet.a.toLocation(world.map.world)
-                .block.getRelative(BlockFace.valueOf(packet.b.name)).location.subtract(allocation)
+            MinecraftServer.SERVER.postToMainThread {
+                val clickedBlock = packet.a.toLocation(world.map.world)
+                    .block.getRelative(BlockFace.valueOf(packet.b.name)).location.subtract(allocation)
 
-            if (clickedBlock.blockX != currentBlock!!.position.x ||
-                clickedBlock.blockY != currentBlock!!.position.y ||
-                clickedBlock.blockZ != currentBlock!!.position.z ||
-                owner.inventory.itemInMainHand.getType() != currentBlock!!.type) return@registerReader
+                if (clickedBlock.blockX != currentBlock!!.position.x ||
+                    clickedBlock.blockY != currentBlock!!.position.y ||
+                    clickedBlock.blockZ != currentBlock!!.position.z ||
+                    owner.inventory.itemInMainHand.getType() != currentBlock!!.type) return@postToMainThread
 
-            placeCurrentBlock()
+                placeCurrentBlock()
+            }
         }
 
-        registerWriter(owner.uniqueId) { context, packet ->
-            if (packet !is PacketPlayOutBlockChange) return@registerWriter
-            if (packet.block.material != Material.AIR) return@registerWriter
-            println(structure.firstBlock!!.position)
-            if (structure.contains(BlockPosition(packet.a.x - allocation.x, packet.a.y - allocation.y, packet.a.z - allocation.z))) return@registerWriter
+        registerWriter(owner.uniqueId) { packet ->
+            if (packet !is PacketPlayOutBlockChange) return@registerWriter false
+            if (packet.block.material != Material.AIR) return@registerWriter false
+            if (structure.contains(BlockPosition(packet.a.x - allocation.x, packet.a.y - allocation.y, packet.a.z - allocation.z))) return@registerWriter false
 
-            context.cancelled = true
+            return@registerWriter true
         }
     }
 
