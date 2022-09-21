@@ -7,6 +7,7 @@ import me.slavita.construction.app
 import me.slavita.construction.connection.ConnectionUtil
 import me.slavita.construction.connection.ConnectionUtil.createChannel
 import me.slavita.construction.multichat.MultiChatUtil
+import me.slavita.construction.world.market.Market
 import org.bukkit.GameMode
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -21,6 +22,9 @@ class PlayerJoinEvents : Listener {
         createChannel(player)
         after (2) {
             Anime.hideIndicator(player, Indicators.HEALTH, Indicators.EXP, Indicators.HUNGER)
+        }
+        after(2) {
+            Market.sendPlayer(player)
         }
     }
 }

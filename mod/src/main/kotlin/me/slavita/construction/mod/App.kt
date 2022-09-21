@@ -10,8 +10,6 @@ class App : KotlinMod() {
         mod = this
         UIEngine.initialize(this)
         UIEngine.overlayContext.addChild(Scoreboard.score)
-
         StructureBuilding()
-        Market
     }
 }
