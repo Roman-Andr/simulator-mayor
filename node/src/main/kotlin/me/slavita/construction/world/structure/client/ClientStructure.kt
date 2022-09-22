@@ -1,4 +1,4 @@
-package me.slavita.construction.world.structure
+package me.slavita.construction.world.structure.client
 
 import me.func.mod.Anime
 import me.func.mod.conversation.ModTransfer
@@ -12,12 +12,14 @@ import me.slavita.construction.connection.ConnectionUtil.registerReader
 import me.slavita.construction.connection.ConnectionUtil.registerWriter
 import me.slavita.construction.ui.ItemIcons
 import me.slavita.construction.utils.Colors
+import me.slavita.construction.utils.Cooldown
 import me.slavita.construction.utils.extensions.BlocksExtensions.add
 import me.slavita.construction.utils.extensions.BlocksExtensions.minus
 import me.slavita.construction.utils.extensions.BlocksExtensions.toLocation
 import me.slavita.construction.utils.extensions.Extensions.swapItems
 import me.slavita.construction.world.BlockProperties
 import me.slavita.construction.world.GameWorld
+import me.slavita.construction.world.structure.Structure
 import net.minecraft.server.v1_12_R1.EnumHand
 import net.minecraft.server.v1_12_R1.Material
 import net.minecraft.server.v1_12_R1.PacketPlayInUseItem
@@ -33,6 +35,7 @@ class ClientStructure(val world: GameWorld, val structure: Structure, val owner:
     private var blocksPlaced = 0
     private var progressBar = ReactiveProgress()
     private var hasBlock = true
+    private val blockCooldown = Cooldown(1500, owner)
 
     fun updateColor() {
         if (state != ClientStructureState.FINISHED) {
@@ -93,6 +96,11 @@ class ClientStructure(val world: GameWorld, val structure: Structure, val owner:
                     Anime.killboardMessage(owner, "§cНеверный блок")
                     return@registerReader
                 } else {
+                    if (!blockCooldown.isExpired()) {
+                        Glow.animate(owner, 0.4, GlowColor.RED)
+                        Anime.killboardMessage(owner, "§cВы сможете поставить блок через §b${blockCooldown.getTimeLast()}")
+                        return@registerReader
+                    }
                     setAmount(getAmount() - 1)
                 }
             }
@@ -113,6 +121,7 @@ class ClientStructure(val world: GameWorld, val structure: Structure, val owner:
                 }
             }
             if (!hasBlock) {
+                Glow.animate(owner, 0.4, GlowColor.GOLD)
                 Anime.killboardMessage(owner, "§6В инвентаре нет следующего материала")
                 updateColor()
                 sendCurrentBlock()
@@ -135,6 +144,8 @@ class ClientStructure(val world: GameWorld, val structure: Structure, val owner:
         blocksPlaced++
         progressBar.progress = blocksPlaced.toDouble() / structure.getBlocksCount().toDouble()
         progressBar.text = "§aПоставлено блоков: §b$blocksPlaced/${structure.getBlocksCount()}"
+
+        blockCooldown.start()
         if (currentBlock == null) {
             state = ClientStructureState.FINISHED
             sendFinish()

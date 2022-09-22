@@ -5,7 +5,7 @@ import me.func.mod.util.after
 import me.func.protocol.ui.indicator.Indicators
 import me.slavita.construction.app
 import me.slavita.construction.connection.ConnectionUtil.createChannel
-import me.slavita.construction.multichat.MultiChatUtil
+import me.slavita.construction.utils.multichat.MultiChatUtil
 import me.slavita.construction.world.market.Market
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener

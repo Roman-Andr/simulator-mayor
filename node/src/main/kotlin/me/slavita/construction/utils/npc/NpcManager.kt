@@ -1,4 +1,4 @@
-package me.slavita.construction.npc
+package me.slavita.construction.utils.npc
 
 import me.func.mod.world.Npc
 import me.func.mod.world.Npc.location

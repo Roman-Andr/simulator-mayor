@@ -1,4 +1,4 @@
-package me.slavita.construction.npc
+package me.slavita.construction.utils.npc
 
 enum class NpcType(
     val title: String,

@@ -5,7 +5,7 @@ import dev.implario.bukkit.world.Label
 import dev.implario.games5e.sdk.cristalix.WorldMeta
 import me.func.mod.util.after
 import me.func.mod.util.command
-import me.slavita.construction.world.structure.ClientStructure
+import me.slavita.construction.world.structure.client.ClientStructure
 import me.slavita.construction.world.structure.Structure
 import me.slavita.construction.world.structure.StructureProperties
 import me.slavita.construction.world.structure.Structures

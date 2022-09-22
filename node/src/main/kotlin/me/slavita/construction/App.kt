@@ -10,8 +10,8 @@ import me.func.mod.conversation.ModLoader
 import me.func.mod.util.listener
 import me.slavita.construction.command.AdminCommands
 import me.slavita.construction.command.UserCommands
-import me.slavita.construction.multichat.MultiChatUtil
-import me.slavita.construction.npc.NpcManager
+import me.slavita.construction.utils.multichat.MultiChatUtil
+import me.slavita.construction.utils.npc.NpcManager
 import me.slavita.construction.player.Statistics
 import me.slavita.construction.player.User
 import me.slavita.construction.player.events.PhysicsDisabler

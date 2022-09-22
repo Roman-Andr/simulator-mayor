@@ -1,4 +1,4 @@
-package me.slavita.construction.multichat
+package me.slavita.construction.utils.multichat
 
 import java.util.*
 
