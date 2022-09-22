@@ -1,20 +1,17 @@
 package me.slavita.construction.utils
 
 import me.func.mod.Anime
-import me.func.protocol.data.color.GlowColor
 import org.bukkit.entity.Player
-import java.text.DecimalFormat
 
 class Cooldown(
     val time: Long,
-    val player: Player
+    val player: Player,
 ) {
-
     private var startTime = 0L
 
     fun start() {
         startTime = System.currentTimeMillis()
-        Anime.reload(player, time.toDouble() / 1000, "Перезарядка", Colors.GOLD.toRGB())
+        Anime.reload(player, time.toDouble() / 1000, "Перезарядка", SpecialColor.GOLD.toRGB())
     }
 
     fun getTimeLast() : Double {

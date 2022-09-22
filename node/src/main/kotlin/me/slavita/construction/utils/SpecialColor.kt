@@ -1,9 +1,8 @@
 package me.slavita.construction.utils
 
-import me.func.protocol.data.color.RGB
 import me.func.protocol.data.color.Tricolor
 
-enum class Colors(
+enum class SpecialColor(
     val red: Int,
     val green: Int,
     val blue: Int,
