@@ -2,9 +2,12 @@ package me.slavita.construction.world.structure
 
 import me.func.mod.Anime
 import me.func.mod.conversation.ModTransfer
+import me.func.mod.reactive.ReactiveProgress
 import me.func.mod.ui.Glow
 import me.func.mod.util.after
 import me.func.protocol.data.color.GlowColor
+import me.func.protocol.data.color.Tricolor
+import me.func.protocol.math.Position
 import me.slavita.construction.connection.ConnectionUtil.registerReader
 import me.slavita.construction.connection.ConnectionUtil.registerWriter
 import me.slavita.construction.ui.ItemIcons
@@ -28,6 +31,8 @@ class ClientStructure(val world: GameWorld, val structure: Structure, val owner:
     private var state = ClientStructureState.NOT_STARTED
     private var currentBlock: BlockProperties? = null
     private var blocksPlaced = 0
+    private var progressBar = ReactiveProgress()
+    private var hasBlock = true
 
     fun updateColor() {
         if (state != ClientStructureState.FINISHED) {
@@ -39,8 +44,6 @@ class ClientStructure(val world: GameWorld, val structure: Structure, val owner:
                     ) {
                         color = Colors.RED
                     }
-                    println(getType().toString() + "   " + currentBlock!!.type)
-                    println(getData().data.toString() + "   " + currentBlock!!.data)
                 }
 
                 ModTransfer()
@@ -58,6 +61,18 @@ class ClientStructure(val world: GameWorld, val structure: Structure, val owner:
         currentBlock = structure.firstBlock!!
         updateColor()
         sendCurrentBlock()
+        progressBar = ReactiveProgress.builder()
+            .position(Position.BOTTOM)
+            .offsetY(24.0)
+            .hideOnTab(true)
+            .color(Tricolor(36, 175, 255))
+            .build().apply {
+                text = "§aПоставлено блоков: §b0/0"
+                after(1) {
+                    progressBar.send(owner)
+                    progress = 0.0
+                }
+            }
 
         registerReader(owner.uniqueId) { packet ->
             if (state != ClientStructureState.BUILDING) return@registerReader
@@ -74,6 +89,7 @@ class ClientStructure(val world: GameWorld, val structure: Structure, val owner:
             owner.inventory.itemInMainHand.apply {
                 if (getType() != currentBlock!!.type ||
                     getData().data != currentBlock!!.data) {
+                    Glow.animate(owner, 0.4, GlowColor.RED)
                     Anime.killboardMessage(owner, "§cНеверный блок")
                     return@registerReader
                 } else {
@@ -83,6 +99,7 @@ class ClientStructure(val world: GameWorld, val structure: Structure, val owner:
 
             placeCurrentBlock()
 
+            hasBlock = false
             (0..35).forEach {
                 val item = owner.inventory.getItem(it)
                 if (item != null) {
@@ -90,9 +107,15 @@ class ClientStructure(val world: GameWorld, val structure: Structure, val owner:
                         (owner.inventory as PlayerInventory).apply {
                             heldItemSlot = 0
                             swapItems(0, it)
+                            hasBlock = true
                         }
                     }
                 }
+            }
+            if (!hasBlock) {
+                Anime.killboardMessage(owner, "§6В инвентаре нет следующего материала")
+                updateColor()
+                sendCurrentBlock()
             }
         }
 
@@ -110,9 +133,12 @@ class ClientStructure(val world: GameWorld, val structure: Structure, val owner:
 
         currentBlock = currentBlock!!.nextBlock
         blocksPlaced++
+        progressBar.progress = blocksPlaced.toDouble() / structure.getBlocksCount().toDouble()
+        progressBar.text = "§aПоставлено блоков: §b$blocksPlaced/${structure.getBlocksCount()}"
         if (currentBlock == null) {
             state = ClientStructureState.FINISHED
             sendFinish()
+            progressBar.delete(setOf(owner))
         }
         sendCurrentBlock()
     }
@@ -121,13 +147,13 @@ class ClientStructure(val world: GameWorld, val structure: Structure, val owner:
         if (state != ClientStructureState.BUILDING) return
         val position = currentBlock!!.withOffset(allocation).position
         ModTransfer()
-            .integer(position.x)
-            .integer(position.y)
-            .integer(position.z)
+            .double(position.x.toDouble())
+            .double(position.y.toDouble())
+            .double(position.z.toDouble())
             .integer(currentBlock!!.type.id)
-            .integer(structure.getBlocksCount() - blocksPlaced)
             .byte(currentBlock!!.data)
-            .send("structure:next", owner)
+            .boolean(hasBlock)
+            .send("structure:update", owner)
     }
 
     private fun sendFinish() {
