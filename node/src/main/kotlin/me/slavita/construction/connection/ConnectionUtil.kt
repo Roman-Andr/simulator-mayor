@@ -3,11 +3,9 @@ package me.slavita.construction.connection
 import io.netty.channel.ChannelDuplexHandler
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelPromise
-import net.minecraft.server.v1_12_R1.MinecraftServer
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer
 import org.bukkit.entity.Player
 import java.util.*
-import kotlin.collections.ArrayList
 
 object ConnectionUtil {
     private val readers = hashMapOf<UUID, HashSet<(packet: Any?) -> Unit>>()

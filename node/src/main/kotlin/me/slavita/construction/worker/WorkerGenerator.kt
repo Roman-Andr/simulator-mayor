@@ -3,7 +3,7 @@ package me.slavita.construction.worker
 import kotlin.random.Random
 
 object WorkerGenerator {
-    val names = listOf<String>(
+    val names = listOf(
         "Григорий", "Андрей", "Арсений", "Степан", "Владислав", "Никита", "Давид", "Ярослав", "Евгений", "Матвей", "Фёдор", "Николай",
         "Алексей", "Артемий", "Виктор", "Даниил", "Денис", "Егор", "Игорь", "Леонид", "Павел", "Петр", "Руслан", "Сергей", "Семён", "Тимофей")
 

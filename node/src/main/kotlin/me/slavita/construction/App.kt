@@ -18,10 +18,8 @@ import me.slavita.construction.player.events.PhysicsDisabler
 import me.slavita.construction.player.events.PlayerJoinEvents
 import me.slavita.construction.utils.MapLoader
 import me.slavita.construction.world.GameWorld
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
-import ru.cristalix.core.BukkitPlatform
 import ru.cristalix.core.CoreApi
 import ru.cristalix.core.datasync.EntityDataParameters
 import ru.cristalix.core.network.ISocketClient
@@ -64,8 +62,6 @@ class App : JavaPlugin() {
             isLobbyServer = true
         }
 
-        listener(PlayerJoinEvents(), PhysicsDisabler())
-
         Anime.include(Kit.STANDARD, Kit.EXPERIMENTAL, Kit.DIALOG, Kit.MULTI_CHAT, Kit.LOOTBOX, Kit.NPC)
         MultiChatUtil.createChats()
 
@@ -74,6 +70,8 @@ class App : JavaPlugin() {
 
         structureMap = MapLoader.load("construction", "structures")!!
         mainWorld = GameWorld(MapLoader.load("construction", "test")!!)
+
+        listener(PlayerJoinEvents(), PhysicsDisabler(), mainWorld)
 
         NpcManager
         UserCommands

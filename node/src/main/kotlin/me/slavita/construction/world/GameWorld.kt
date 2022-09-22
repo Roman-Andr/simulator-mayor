@@ -5,20 +5,37 @@ import dev.implario.bukkit.world.Label
 import dev.implario.games5e.sdk.cristalix.WorldMeta
 import me.func.mod.util.after
 import me.func.mod.util.command
-import me.slavita.construction.app
-import me.slavita.construction.utils.extensions.LoggerUtils.fine
-import me.slavita.construction.world.structure.*
-import org.bukkit.Bukkit
+import me.slavita.construction.world.structure.ClientStructure
+import me.slavita.construction.world.structure.Structure
+import me.slavita.construction.world.structure.StructureProperties
+import me.slavita.construction.world.structure.Structures
 import org.bukkit.Location
-import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.event.EventHandler
+import org.bukkit.event.Listener
+import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.player.PlayerItemHeldEvent
 import java.util.*
 
 
-class GameWorld(val map: WorldMeta) {
+class GameWorld(val map: WorldMeta) : Listener {
     private val structures = hashMapOf<StructureProperties, Structure>()
     private val clientStructures = hashMapOf<UUID, ArrayList<ClientStructure>>()
     val testStructure = Structures.structureGroups[0].structures[0]
+
+    @EventHandler
+    fun InventoryClickEvent.handle() {
+        clientStructures[whoClicked.uniqueId]?.forEach {
+            it.updateColor()
+        }
+    }
+
+    @EventHandler
+    fun PlayerItemHeldEvent.handle() {
+        clientStructures[player.uniqueId]?.forEach {
+            it.updateColor()
+        }
+    }
 
     init {
         structures[testStructure] = Structure(testStructure)
@@ -29,25 +46,6 @@ class GameWorld(val map: WorldMeta) {
             val clientStructure = ClientStructure(this, structures[testStructure]!!, player, map.getLabels("default", "1")[0])
             clientStructures[player.uniqueId]!!.add(clientStructure)
             clientStructure.startBuilding()
-        }
-
-        command("show") { player, _ ->
-            val types = hashSetOf<Material>()
-
-            Structures.structureGroups.forEach { group ->
-                group.structures.forEach { structure ->
-                    val min = structure.box.min
-                    val max = structure.box.max
-                    (max.y.toInt() downTo min.y.toInt()).forEach { y ->
-                        (max.x.toInt() downTo min.x.toInt()).forEach { x ->
-                            (max.z.toInt() downTo min.z.toInt()).forEach { z ->
-                                types.add(app.structureMap.world.getBlockAt(x, y, z).type)
-                            }
-                        }
-                    }
-                }
-            }
-            player.fine(types.size)
         }
 
         command("next") { player, args ->

@@ -9,6 +9,7 @@ import ru.cristalix.uiengine.UIEngine
 import ru.cristalix.uiengine.element.ItemElement
 import ru.cristalix.uiengine.element.RectangleElement
 import ru.cristalix.uiengine.element.TextElement
+import ru.cristalix.uiengine.utility.Relative
 import ru.cristalix.uiengine.utility.*
 
 class StructureBuilding {
@@ -47,6 +48,8 @@ class StructureBuilding {
         })
     }
 
+    private var color: Color = Color(100, 100, 0, 65.0)
+
     init {
         UIEngine.overlayContext.addChild(nextBlock)
 
@@ -69,6 +72,15 @@ class StructureBuilding {
             currentBlockLocation = V3(x.toDouble(), y.toDouble(), z.toDouble())
         }
 
+        mod.registerChannel("structure:changeColor") {
+            color = Color(
+                readInt(),
+                readInt(),
+                readInt(),
+                readDouble(),
+            )
+        }
+
         mod.registerChannel("structure:completed") {
             nextBlock.enabled = false
             currentBlockLocation = null
@@ -76,7 +88,7 @@ class StructureBuilding {
 
         mod.registerHandler<RenderPass> {
             if (currentBlockLocation == null) return@registerHandler
-            Renderer.renderBlockFrame(JavaMod.clientApi, currentBlockLocation!!)
+            Renderer.renderBlockFrame(JavaMod.clientApi, currentBlockLocation!!, color, 3.0f)
         }
     }
 }
