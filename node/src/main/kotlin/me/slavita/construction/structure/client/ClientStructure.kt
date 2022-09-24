@@ -57,12 +57,12 @@ class ClientStructure(val world: GameWorld, val structure: Structure, val owner:
     private fun tryPlaceBlock() {
         owner.inventory.itemInMainHand.apply {
             if (getType() != currentBlock!!.type || getData().data != currentBlock!!.data) {
-                Glow.animate(owner, 0.4, GlowColor.RED)
+                Glow.animate(owner, 0.2, GlowColor.RED)
                 Anime.killboardMessage(owner, "§cНеверный блок")
                 return
             }
             if (!cooldown.isExpired()) {
-                Glow.animate(owner, 0.4, GlowColor.GOLD)
+                Glow.animate(owner, 0.2, GlowColor.GOLD)
                 Anime.killboardMessage(owner, "§cВы сможете поставить блок через §b${cooldown.timeLeft()}")
                 return
             }
@@ -77,7 +77,7 @@ class ClientStructure(val world: GameWorld, val structure: Structure, val owner:
                     swapItems(heldItemSlot, index)
                 }
                 if (!hasNext) {
-                    Glow.animate(owner, 0.4, GlowColor.GOLD)
+                    Glow.animate(owner, 0.2, GlowColor.GOLD)
                     Anime.killboardMessage(owner, "§6В инвентаре нет нужного материала")
                 }
                 return
@@ -90,7 +90,7 @@ class ClientStructure(val world: GameWorld, val structure: Structure, val owner:
 
         world.placeFakeBlock(owner, currentBlock!!.withOffset(allocation))
         currentBlock = structure.getNextBlock(currentBlock!!.position)
-        Glow.animate(owner, 0.15, GlowColor.GREEN)
+        Glow.animate(owner, 0.2, GlowColor.GREEN)
         cooldown.start { updateFrameColor() }
 
         blocksPlaced++
