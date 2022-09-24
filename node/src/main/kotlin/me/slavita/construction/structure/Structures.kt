@@ -1,4 +1,4 @@
-package me.slavita.construction.world.structure
+package me.slavita.construction.structure
 
 object Structures {
     val structureGroups = arrayListOf(

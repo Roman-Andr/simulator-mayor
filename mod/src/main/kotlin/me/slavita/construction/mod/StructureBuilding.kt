@@ -11,7 +11,7 @@ import ru.cristalix.uiengine.element.ItemElement
 import ru.cristalix.uiengine.element.RectangleElement
 import ru.cristalix.uiengine.utility.*
 
-class BuildingInfo {
+class StructureBuilding {
     private var currentBlockLocation: V3? = null
 
     private val nextBlock: RectangleElement = rectangle {
@@ -40,28 +40,24 @@ class BuildingInfo {
     init {
         UIEngine.overlayContext.addChild(nextBlock)
 
-        mod.registerChannel("structure:update") {
+        mod.registerChannel("structure:currentBlock") {
             val position = V3(readDouble(), readDouble(), readDouble())
             val typeId = readInt()
             val data = readByte()
             val item = Item.of(typeId)
             (nextBlock.children[0] as ItemElement).stack = if (item != null) ItemStack.of(item, 1, data.toInt()) else null
-            val image: ResourceLocation? = if (readBoolean()) {
+            /*val image: ResourceLocation? = if (readBoolean()) {
                 ResourceLocation.of("minecraft", "mcpatcher/cit/others/badges/info1.png")
             } else {
                 ResourceLocation.of("minecraft", "mcpatcher/cit/others/badges/close.png")
             }
-            (nextBlock.children[1] as RectangleElement).textureLocation = image
+            (nextBlock.children[1] as RectangleElement).textureLocation = image*/
             currentBlockLocation = position
             nextBlock.enabled = true
         }
 
-        mod.registerChannel("structure:changeColor") {
+        mod.registerChannel("structure:frameColor") {
             color = Color(readInt(), readInt(), readInt(), readDouble())
-        }
-
-        mod.registerChannel("structure:changeLineWidth") {
-            lineWidth = readFloat()
         }
 
         mod.registerHandler<RenderPass> {
@@ -73,9 +69,5 @@ class BuildingInfo {
             nextBlock.enabled = false
             currentBlockLocation = null
         }
-    }
-
-    private fun createIcon() {
-
     }
 }

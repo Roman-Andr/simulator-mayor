@@ -18,6 +18,7 @@ import me.slavita.construction.player.events.PhysicsDisabler
 import me.slavita.construction.player.events.PlayerJoinEvents
 import me.slavita.construction.utils.MapLoader
 import me.slavita.construction.world.GameWorld
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import ru.cristalix.core.CoreApi
@@ -39,10 +40,14 @@ class App : JavaPlugin() {
     lateinit var structureMap: WorldMeta
     lateinit var mainWorld: GameWorld
     val users = mutableMapOf<UUID, User>()
+    var pass = 0L
+        private set
 
     override fun onEnable() {
         app = this
         plugin = app
+
+        server.scheduler.scheduleSyncRepeatingTask(this, { pass++ }, 0, 1)
 
         CoreApi.get().run {
             registerService(ITransferService::class.java, TransferService(ISocketClient.get()))

@@ -1,24 +1,29 @@
 package me.slavita.construction.utils
 
 import me.func.mod.Anime
+import me.func.mod.util.after
+import me.slavita.construction.app
 import org.bukkit.entity.Player
+import java.lang.Long.max
 
 class Cooldown(
-    val time: Long,
+    val duration: Long,
     val player: Player,
 ) {
     private var startTime = 0L
 
-    fun start() {
-        startTime = System.currentTimeMillis()
-        Anime.reload(player, time.toDouble() / 1000, "Перезарядка", SpecialColor.GOLD.toRGB())
+    fun start(finishAction: () -> Unit) {
+        startTime = app.pass
+        after(duration) {
+            finishAction()
+        }
+        Anime.reload(player, duration / 20.0, "Перезарядка", SpecialColor.GOLD.toRGB())
     }
 
-    fun getTimeLast() : Double {
-        val targetTime = time - (System.currentTimeMillis() - startTime)
-        return if (targetTime > 0) (targetTime.toDouble() / 1000)
-        else 0.0
+    fun timeLeft() : Long {
+        val timeLeft = duration - (app.pass - startTime)
+        return (max(timeLeft, 0) + 19) / 20
     }
 
-    fun isExpired() = (time - (System.currentTimeMillis() - startTime)) <= 0
+    fun isExpired() = timeLeft() == 0L
 }

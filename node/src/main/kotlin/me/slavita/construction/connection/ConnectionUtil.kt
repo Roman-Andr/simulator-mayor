@@ -6,6 +6,7 @@ import io.netty.channel.ChannelPromise
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer
 import org.bukkit.entity.Player
 import java.util.*
+import kotlin.reflect.KClass
 
 object ConnectionUtil {
     private val readers = hashMapOf<UUID, HashSet<(packet: Any?) -> Unit>>()

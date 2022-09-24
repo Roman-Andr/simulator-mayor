@@ -2,7 +2,7 @@ package me.slavita.construction.world.market
 
 import dev.implario.bukkit.item.ItemBuilder
 import me.slavita.construction.app
-import me.slavita.construction.world.structure.Structures
+import me.slavita.construction.structure.Structures
 import net.minecraft.server.v1_12_R1.*
 import org.bukkit.Material
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer
