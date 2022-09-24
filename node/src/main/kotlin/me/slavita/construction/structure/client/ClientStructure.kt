@@ -13,6 +13,7 @@ import me.slavita.construction.utils.extensions.BlocksExtensions.minus
 import me.slavita.construction.utils.extensions.BlocksExtensions.equals
 import me.slavita.construction.utils.extensions.BlocksExtensions.equalsLocation
 import me.slavita.construction.utils.extensions.BlocksExtensions.toLocation
+import me.slavita.construction.utils.extensions.ItemExtensions.equalsData
 import me.slavita.construction.utils.extensions.PlayerExtensions.swapItems
 import me.slavita.construction.world.BlockProperties
 import me.slavita.construction.world.GameWorld
@@ -61,20 +62,26 @@ class ClientStructure(val world: GameWorld, val structure: Structure, val owner:
                 return
             }
             if (!cooldown.isExpired()) {
-                Glow.animate(owner, 0.4, GlowColor.RED)
+                Glow.animate(owner, 0.4, GlowColor.GOLD)
                 Anime.killboardMessage(owner, "§cВы сможете поставить блок через §b${cooldown.timeLeft()}")
                 return
             }
             setAmount(getAmount() - 1)
             placeCurrentBlock()
-            owner.inventory.storageContents.forEachIndexed { index, item ->
-                if (item.getType() != currentBlock?.type || item.getData().data != currentBlock?.data) return@forEachIndexed
-
-                owner.inventory.apply {
+            var hasNext = false
+            owner.inventory.apply {
+                storageContents.forEachIndexed { index, item ->
+                    if (item == null || !item.equalsData(currentBlock!!)) return@forEachIndexed
+                    hasNext = true
+                    if (itemInMainHand.equalsData(currentBlock!!)) return@forEachIndexed
                     swapItems(heldItemSlot, index)
                 }
-        }
-            return
+                if (!hasNext) {
+                    Glow.animate(owner, 0.4, GlowColor.GOLD)
+                    Anime.killboardMessage(owner, "§6В инвентаре нет нужного материала")
+                }
+                return
+            }
         }
     }
 
@@ -83,6 +90,7 @@ class ClientStructure(val world: GameWorld, val structure: Structure, val owner:
 
         world.placeFakeBlock(owner, currentBlock!!.withOffset(allocation))
         currentBlock = structure.getNextBlock(currentBlock!!.position)
+        Glow.animate(owner, 0.15, GlowColor.GREEN)
         cooldown.start { updateFrameColor() }
 
         blocksPlaced++
