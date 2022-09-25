@@ -75,7 +75,6 @@ class App : JavaPlugin() {
         ModLoader.loadAll("mods")
         ModLoader.onJoining("mod-bundle-1.0.jar")
 
-        structureMap = MapLoader.load("construction", "structures")!!
         structureMap = MapLoader.load("construction", "structures")
         mainWorld = GameWorld(MapLoader.load("construction", "test"))
 
