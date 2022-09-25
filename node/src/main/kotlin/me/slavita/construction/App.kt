@@ -62,7 +62,7 @@ class App : JavaPlugin() {
         IRealmService.get().currentRealmInfo.apply {
             IScoreboardService.get().serverStatusBoard.displayName = "§fТест #§b" + realmId.id
             after(5) {
-                ITransferService.get().transfer(UUID.fromString("e2543a0a-5799-11e9-8374-1cb72caa35fd"), realmId)
+                ITransferService.get().transfer(UUID.fromString(System.getProperty("construction.user")), realmId)
             }
         }.run {
             readableName = "Тест"
