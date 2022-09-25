@@ -7,6 +7,7 @@ import dev.implario.platform.impl.darkpaper.PlatformDarkPaper
 import me.func.mod.Anime
 import me.func.mod.Kit
 import me.func.mod.conversation.ModLoader
+import me.func.mod.util.after
 import me.func.mod.util.listener
 import me.slavita.construction.command.AdminCommands
 import me.slavita.construction.command.UserCommands
@@ -59,7 +60,10 @@ class App : JavaPlugin() {
         Platforms.set(PlatformDarkPaper())
 
         IRealmService.get().currentRealmInfo.apply {
-            IScoreboardService.get().serverStatusBoard.displayName = "§fТест #§b" + this.realmId.id
+            IScoreboardService.get().serverStatusBoard.displayName = "§fТест #§b" + realmId.id
+            after(5) {
+                ITransferService.get().transfer(UUID.fromString("e2543a0a-5799-11e9-8374-1cb72caa35fd"), realmId)
+            }
         }.run {
             readableName = "Тест"
             groupName = "CRN"

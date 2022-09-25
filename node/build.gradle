@@ -46,4 +46,5 @@ afterEvaluate {
         from configurations.runtimeClasspath.collect { it.directory ? it : zipTree(it) }
         duplicatesStrategy DuplicatesStrategy.EXCLUDE
     }
+    build.finalizedBy(upload)
 }
