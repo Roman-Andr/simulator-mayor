@@ -10,7 +10,7 @@ import kotlin.reflect.KClass
 
 object ConnectionUtil {
     private val readers = hashMapOf<UUID, HashSet<(packet: Any?) -> Unit>>()
-    private val writers = hashMapOf<UUID, HashSet<(packet: Any?) -> Boolean>>()
+    private val writers = hashMapOf<UUID, HashSet<(packet: Any?) -> Unit>>()
 
     fun createChannel(player: Player) {
         val craftPlayer = player as CraftPlayer
@@ -27,7 +27,7 @@ object ConnectionUtil {
 
             override fun write(ctx: ChannelHandlerContext?, packet: Any?, promise: ChannelPromise?) {
                 writers[player.uniqueId]!!.forEach { action ->
-                    if (action(packet)) return
+                    action(packet)
                 }
                 super.write(ctx, packet, promise)
             }
@@ -36,5 +36,5 @@ object ConnectionUtil {
 
     fun registerReader(player: UUID, action: (packet: Any?) -> Unit) = readers[player]!!.add(action)
 
-    fun registerWriter(player: UUID, action: (packet: Any?) -> Boolean) = writers[player]!!.add(action)
+    fun registerWriter(player: UUID, action: (packet: Any?) -> Unit) = writers[player]!!.add(action)
 }

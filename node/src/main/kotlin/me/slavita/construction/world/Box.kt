@@ -1,5 +1,6 @@
 package me.slavita.construction.world
 
+import me.slavita.construction.utils.extensions.BlocksExtensions.minus
 import org.bukkit.Location
 import org.bukkit.block.Block
 

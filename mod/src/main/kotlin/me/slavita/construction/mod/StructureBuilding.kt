@@ -1,11 +1,13 @@
 package me.slavita.construction.mod
 
+import dev.xdark.clientapi.block.material.Material
 import dev.xdark.clientapi.event.render.RenderPass
 import dev.xdark.clientapi.item.Item
 import dev.xdark.clientapi.item.ItemStack
 import dev.xdark.clientapi.resource.ResourceLocation
 import me.slavita.construction.mod.util.Renderer
 import ru.cristalix.clientapi.JavaMod
+import ru.cristalix.clientapi.readAscii
 import ru.cristalix.uiengine.UIEngine
 import ru.cristalix.uiengine.element.ItemElement
 import ru.cristalix.uiengine.element.RectangleElement
@@ -44,8 +46,8 @@ class StructureBuilding {
             val position = V3(readDouble(), readDouble(), readDouble())
             val typeId = readInt()
             val data = readByte()
-            val item = Item.of(typeId)
-            (nextBlock.children[0] as ItemElement).stack = if (item != null) ItemStack.of(item, 1, data.toInt()) else null
+            val item = ItemStack.of(Item.of(typeId), 1, data.toInt())
+            (nextBlock.children[0] as ItemElement).stack = item
             /*val image: ResourceLocation? = if (readBoolean()) {
                 ResourceLocation.of("minecraft", "mcpatcher/cit/others/badges/info1.png")
             } else {
