@@ -6,8 +6,8 @@
 #-adaptresourcefilecontents *.txt // dontobfuscate main
 -dontpreverify
 -allowaccessmodification
--optimizationpasses 10
--overloadaggressively
+-optimizationpasses 2
+#-overloadaggressively
 
 -dontobfuscate
 
@@ -24,10 +24,10 @@
 -flattenpackagehierarchy _
 -repackageclasses _
 
+-keep class ru.cristalix.** { *; }
+
 -keep, allowoptimization class MAINCLASS
 -keep, allowoptimization class MAINCLASS$**
-
--keep class ru.cristalix.** { *; }
 
 -keepclassmembers, allowoptimization class ** {
     public void load(dev.xdark.clientapi.ClientApi);

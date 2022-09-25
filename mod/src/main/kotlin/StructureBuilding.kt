@@ -1,25 +1,22 @@
-package me.slavita.construction.mod
-
-import dev.xdark.clientapi.block.material.Material
 import dev.xdark.clientapi.event.render.RenderPass
 import dev.xdark.clientapi.item.Item
 import dev.xdark.clientapi.item.ItemStack
-import dev.xdark.clientapi.resource.ResourceLocation
-import me.slavita.construction.mod.util.Renderer
 import ru.cristalix.clientapi.JavaMod
-import ru.cristalix.clientapi.readAscii
 import ru.cristalix.uiengine.UIEngine
 import ru.cristalix.uiengine.element.ItemElement
 import ru.cristalix.uiengine.element.RectangleElement
 import ru.cristalix.uiengine.utility.*
 
 class StructureBuilding {
+
     private var currentBlockLocation: V3? = null
 
     private val nextBlock: RectangleElement = rectangle {
+
         align = Relative.BOTTOM
         offset = V3(-105.0, -2.0)
         enabled = false
+
         +item {
             align = Relative.BOTTOM
             origin = Relative.BOTTOM_RIGHT

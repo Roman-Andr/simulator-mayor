@@ -9,16 +9,24 @@ dependencies {
     implementation("implario:humanize:1.1.3")
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
+mod {
+    name = "construction"
+    main = "App"
+    author = "Slavita"
 }
 
-mod {
-    name = "construction-mod"
-    main = "me.slavita.construction.mod.App"
-    author = "Slavita"
+def key = System.getenv("CRI_HOST_SSHKEY_PATH")
+
+if (!key) return
+
+remotes {
+    webServer {
+        host = System.getenv("CRI_HOST")
+        user = System.getenv("CRI_HOST_USERNAME")
+        knownHosts = allowAnyHosts
+        identity = file(key ?: "key")
+        passphrase = System.getenv("CRI_HOST_PASSPHRASE")
+    }
 }
 
 task upload() {

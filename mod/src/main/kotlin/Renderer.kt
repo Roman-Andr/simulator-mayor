@@ -1,5 +1,3 @@
-package me.slavita.construction.mod.util
-
 import dev.xdark.clientapi.ClientApi
 import dev.xdark.clientapi.opengl.GlStateManager
 import dev.xdark.clientapi.render.DefaultVertexFormats
@@ -8,7 +6,9 @@ import ru.cristalix.uiengine.utility.Color
 import ru.cristalix.uiengine.utility.V3
 
 object Renderer {
+
     fun renderBlockFrame(api: ClientApi, location: V3, color: Color, lineWidth: Float) {
+
         val tessellator = api.tessellator()
         val bufferbuilder = tessellator.bufferBuilder
         GlStateManager.disableTexture2D()
