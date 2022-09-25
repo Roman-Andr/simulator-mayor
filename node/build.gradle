@@ -1,5 +1,6 @@
 plugins {
     id("org.jetbrains.kotlin.jvm")
+    id("org.hidetake.ssh")
 }
 
 dependencies {
@@ -26,6 +27,17 @@ dependencies {
 
 
     implementation project(':common')
+}
+
+task upload() {
+    doLast {
+        ssh.run {
+            session(remotes.webServer) {
+                put from: project(':node').tasks.jar.getArchiveFile().get().asFile.path, into: "/home/" + System.getenv("CRI_HOST_USERNAME") + "/construction/plugins/"
+                execute 'pkill -u ' + System.getenv("CRI_HOST_USERNAME") + ' java;cd construction;./start.sh'
+            }
+        }
+    }
 }
 
 afterEvaluate {

@@ -1,11 +1,22 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.7.10' apply false
+    id 'org.hidetake.ssh' version '2.10.1'
 }
 
 allprojects {
     apply plugin: 'java-library'
+    apply plugin: 'org.hidetake.ssh'
     group 'me.slavita'
     version '1.0'
+    remotes {
+        webServer {
+            host = System.getenv("CRI_HOST")
+            user = System.getenv("CRI_HOST_USERNAME")
+            knownHosts = allowAnyHosts
+            identity = file(System.getenv("CRI_HOST_SSHKEY_PATH"))
+            passphrase = System.getenv("CRI_HOST_PASSPHRASE")
+        }
+    }
     repositories {
         maven {
             url 'https://repo.c7x.ru/repository/maven-public/'

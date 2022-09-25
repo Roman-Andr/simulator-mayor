@@ -23,6 +23,16 @@ bundle {
     keep('class ru.cristalix.** { *; }')
 }
 
+task upload() {
+    doLast {
+        ssh.run {
+            session(remotes.webServer) {
+                put from: project(':mod').tasks.jar.getArchiveFile().get().asFile.path.replace("-raw", "-bundle"), into: "/home/" + System.getenv("CRI_HOST_USERNAME") + "/construction/mods/"
+            }
+        }
+    }
+}
+
 jar {
     duplicatesStrategy DuplicatesStrategy.EXCLUDE
     from {
