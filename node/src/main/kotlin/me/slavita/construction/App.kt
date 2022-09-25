@@ -1,14 +1,14 @@
 package me.slavita.construction
 
-import clepto.bukkit.B.plugin
 import dev.implario.bukkit.platform.Platforms
-import dev.implario.games5e.sdk.cristalix.WorldMeta
 import dev.implario.platform.impl.darkpaper.PlatformDarkPaper
 import me.func.mod.Anime
 import me.func.mod.Kit
 import me.func.mod.conversation.ModLoader
 import me.func.mod.util.after
 import me.func.mod.util.listener
+import me.func.world.MapLoader
+import me.func.world.WorldMeta
 import me.slavita.construction.command.AdminCommands
 import me.slavita.construction.command.UserCommands
 import me.slavita.construction.utils.multichat.MultiChatUtil
@@ -17,9 +17,7 @@ import me.slavita.construction.player.Statistics
 import me.slavita.construction.player.User
 import me.slavita.construction.player.events.PhysicsDisabler
 import me.slavita.construction.player.events.PlayerJoinEvents
-import me.slavita.construction.utils.MapLoader
 import me.slavita.construction.world.GameWorld
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import ru.cristalix.core.CoreApi
@@ -38,6 +36,7 @@ import java.util.*
 lateinit var app: App
 
 class App : JavaPlugin() {
+
     lateinit var structureMap: WorldMeta
     lateinit var mainWorld: GameWorld
     val users = mutableMapOf<UUID, User>()
@@ -46,7 +45,6 @@ class App : JavaPlugin() {
 
     override fun onEnable() {
         app = this
-        plugin = app
 
         server.scheduler.scheduleSyncRepeatingTask(this, { pass++ }, 0, 1)
 
@@ -78,7 +76,8 @@ class App : JavaPlugin() {
         ModLoader.onJoining("mod-bundle-1.0.jar")
 
         structureMap = MapLoader.load("construction", "structures")!!
-        mainWorld = GameWorld(MapLoader.load("construction", "test")!!)
+        structureMap = MapLoader.load("construction", "structures")
+        mainWorld = GameWorld(MapLoader.load("construction", "test"))
 
         listener(PlayerJoinEvents(), PhysicsDisabler(), mainWorld)
 

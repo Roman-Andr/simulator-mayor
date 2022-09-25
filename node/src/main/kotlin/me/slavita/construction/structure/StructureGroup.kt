@@ -1,13 +1,13 @@
 package me.slavita.construction.structure
 
-import dev.implario.bukkit.world.V3
 import me.slavita.construction.app
 import me.slavita.construction.world.Box
 import org.bukkit.Location
+import ru.cristalix.core.math.V3
 
-class StructureGroup(val name: String, val labelId: String, val count: Int) {
+class StructureGroup(val name: String, labelId: String, count: Int) {
     val structures = arrayListOf<Structure>()
-    private val dimensions: V3 = V3.of(25.0, 50.0, 25.0)
+    private val dimensions: V3 = V3(25.0, 50.0, 25.0)
 
     init {
         val label = app.structureMap.getLabels("group", labelId)[0]

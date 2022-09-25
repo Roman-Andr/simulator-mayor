@@ -50,6 +50,7 @@ object Market {
                     isNoGravity = true
                     isSmall = true
                     isInvisible = true
+
                     setSlot(EnumItemSlot.HEAD, CraftItemStack.asNMSCopy(ItemBuilder(it.type).data(it.data.toInt()).build()))
                 }
                 mutableListOf<Packet<PacketListenerPlayOut>>(

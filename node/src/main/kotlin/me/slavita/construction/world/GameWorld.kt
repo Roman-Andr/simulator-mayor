@@ -1,10 +1,8 @@
 package me.slavita.construction.world
 
-import dev.implario.bukkit.world.Box
-import dev.implario.bukkit.world.Label
-import dev.implario.games5e.sdk.cristalix.WorldMeta
 import me.func.mod.util.after
 import me.func.mod.util.command
+import me.func.world.WorldMeta
 import me.slavita.construction.structure.client.ClientStructure
 import me.slavita.construction.structure.Structure
 import me.slavita.construction.structure.Structures
@@ -18,8 +16,8 @@ import org.bukkit.event.inventory.InventoryInteractEvent
 import org.bukkit.event.player.PlayerItemHeldEvent
 import java.util.*
 
-
 class GameWorld(val map: WorldMeta) : Listener {
+
     private val structures = hashMapOf<Structure, Structure>()
     private val clientStructures = hashMapOf<UUID, ArrayList<ClientStructure>>()
     val testStructure = Structures.structureGroups[0].structures[0]
@@ -68,10 +66,10 @@ class GameWorld(val map: WorldMeta) : Listener {
         }
     }
 
-    fun getSpawn(): Label = map.getLabel("spawn")
+    fun getSpawn() = map.label("spawn")
 
-    fun getNpcLabels(): List<Label> = map.getLabels("npc")
+    fun getNpcLabels() = map.labels("npc")
 
-    fun getShopBox(): Box = map.getBox("shop", "1")
+    fun getShopBox() = map.box("shop", "1")
 
 }
