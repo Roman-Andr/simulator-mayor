@@ -8,15 +8,7 @@ allprojects {
     apply plugin: 'org.hidetake.ssh'
     group 'me.slavita'
     version '1.0'
-    remotes {
-        webServer {
-            host = System.getenv("CRI_HOST")
-            user = System.getenv("CRI_HOST_USERNAME")
-            knownHosts = allowAnyHosts
-            identity = file(System.getenv("CRI_HOST_SSHKEY_PATH")?: "key")
-            passphrase = System.getenv("CRI_HOST_PASSPHRASE")
-        }
-    }
+
     repositories {
         gradlePluginPortal()
         mavenCentral()
@@ -33,6 +25,20 @@ allprojects {
                 username = System.getenv("CRI_ARC_REPO_LOGIN")
                 password = System.getenv("CRI_ARC_REPO_PASSWORD")
             }
+        }
+    }
+
+    def key = System.getenv("CRI_HOST_SSHKEY_PATH")
+
+    if (!key) return
+
+    remotes {
+        webServer {
+            host = System.getenv("CRI_HOST")
+            user = System.getenv("CRI_HOST_USERNAME")
+            knownHosts = allowAnyHosts
+            identity = file(key ?: "key")
+            passphrase = System.getenv("CRI_HOST_PASSPHRASE")
         }
     }
 }
