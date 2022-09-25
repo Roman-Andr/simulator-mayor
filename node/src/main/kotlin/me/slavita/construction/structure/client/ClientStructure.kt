@@ -47,10 +47,10 @@ class ClientStructure(val world: GameWorld, val structure: Structure, val owner:
         }
 
         ConnectionUtil.registerWriter(owner.uniqueId) { packet ->
-            if (packet !is PacketPlayOutBlockChange) return@registerWriter false
-            if (packet.block.material != Material.AIR) return@registerWriter false
+            if (packet !is PacketPlayOutBlockChange) return@registerWriter
+            if (packet.block.material != Material.AIR) return@registerWriter
 
-            return@registerWriter !structure.contains(packet.a - allocation)
+            if (structure.contains(packet.a - allocation)) packet.a = BlockPosition(0, 0, 0)
         }
     }
 

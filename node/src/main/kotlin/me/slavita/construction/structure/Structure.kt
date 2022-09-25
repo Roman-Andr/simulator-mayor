@@ -49,5 +49,5 @@ class Structure(val name: String, val box: Box) {
 
     fun getFirstBlock(): BlockProperties = getNextBlock(0)!!
 
-    fun contains(location: BlockPosition): Boolean = box.contains(Location(null, location.x.toDouble(), location.y.toDouble(), location.z.toDouble()))
+    fun contains(location: BlockPosition): Boolean = box.contains(Location(null, location.x.toDouble() + box.min.x, location.y.toDouble()+ box.min.y, location.z.toDouble() + box.min.z))
 }
