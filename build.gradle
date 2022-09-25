@@ -13,19 +13,27 @@ allprojects {
             host = System.getenv("CRI_HOST")
             user = System.getenv("CRI_HOST_USERNAME")
             knownHosts = allowAnyHosts
-            identity = file(System.getenv("CRI_HOST_SSHKEY_PATH"))
+            identity = file(System.getenv("CRI_HOST_SSHKEY_PATH")?: "key")
             passphrase = System.getenv("CRI_HOST_PASSPHRASE")
         }
     }
     repositories {
+        gradlePluginPortal()
+        mavenCentral()
         maven {
-            url 'https://repo.c7x.ru/repository/maven-public/'
+            url = uri("https://repo.c7x.ru/repository/maven-public/")
             credentials {
-                username = System.getenv("CRI_REPO_LOGIN") ?: System.getenv("CRISTALIX_REPO_USERNAME") ?: project.properties["CRI_REPO_LOGIN"] as String
-                password = System.getenv("CRI_REPO_PASSWORD") ?: System.getenv("CRISTALIX_REPO_PASSWORD") ?: project.properties["CRI_REPO_PASSWORD"] as String
+                username = System.getenv("CRI_REPO_LOGIN") ?: System.getenv("CRISTALIX_REPO_USERNAME") ?: System.getenv("REPO_C7X_USERNAME")
+                password = System.getenv("CRI_REPO_PASSWORD") ?: System.getenv("CRISTALIX_REPO_PASSWORD") ?: System.getenv("REPO_C7X_PASSWORD")
             }
         }
-        mavenCentral()
+        maven {
+            url = uri("https://repo.c7x.dev/repository/arcades/")
+            credentials {
+                username = System.getenv("CRI_ARC_REPO_LOGIN")
+                password = System.getenv("CRI_ARC_REPO_PASSWORD")
+            }
+        }
     }
 }
 

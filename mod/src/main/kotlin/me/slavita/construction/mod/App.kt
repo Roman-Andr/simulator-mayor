@@ -9,7 +9,6 @@ class App : KotlinMod() {
     override fun onEnable() {
         mod = this
         UIEngine.initialize(this)
-        UIEngine.overlayContext.addChild(Scoreboard.score)
         StructureBuilding()
     }
 }

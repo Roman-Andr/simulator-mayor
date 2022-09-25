@@ -21,8 +21,5 @@ class PlayerJoinEvents : Listener {
         after (2) {
             Anime.hideIndicator(player, Indicators.HEALTH, Indicators.EXP, Indicators.HUNGER)
         }
-        after(2) {
-            Market.sendPlayer(player)
-        }
     }
 }

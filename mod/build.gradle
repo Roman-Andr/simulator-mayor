@@ -1,12 +1,12 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm'
-    id 'dev.implario.bundler' version '4.0.1'
+    id("anime.mod-bundler")
 }
 
 dependencies {
     compileOnly("ru.cristalix:client-api:10.2-SNAPSHOT")
     implementation("ru.cristalix:client-sdk:10.2-SNAPSHOT")
     implementation("ru.cristalix:uiengine:10.2-SNAPSHOT")
+    implementation("implario:humanize:1.1.3")
 }
 
 tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
@@ -15,27 +15,18 @@ tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
     }
 }
 
-bundle {
-    modName 'construction'
-    mainClass 'me.slavita.construction.mod.App'
-    author 'Slavita'
-    keep('class ru.cristalix.data.** { *; }')
-    keep('class ru.cristalix.** { *; }')
+mod {
+    name = "construction-mod"
+    main = "me.slavita.construction.mod.App"
+    author = "Slavita"
 }
 
 task upload() {
     doLast {
         ssh.run {
             session(remotes.webServer) {
-                put from: project(':mod').tasks.jar.getArchiveFile().get().asFile.path.replace("-raw", "-bundle"), into: "/home/" + System.getenv("CRI_HOST_USERNAME") + "/construction/mods/"
+                put from: project(':mod').tasks.jar.getArchiveFile().get().asFile.path, into: "/home/" + System.getenv("CRI_HOST_USERNAME") + "/construction/mods/"
             }
         }
-    }
-}
-
-jar {
-    duplicatesStrategy DuplicatesStrategy.EXCLUDE
-    from {
-        configurations.runtimeClasspath.collect { it.directory ? it : zipTree(it) }
     }
 }
