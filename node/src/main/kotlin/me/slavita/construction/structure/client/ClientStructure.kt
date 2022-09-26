@@ -11,9 +11,7 @@ import me.slavita.construction.utils.Cooldown
 import me.slavita.construction.utils.SpecialColor
 import me.slavita.construction.utils.extensions.BlocksExtensions.minus
 import me.slavita.construction.utils.extensions.BlocksExtensions.equals
-import me.slavita.construction.utils.extensions.BlocksExtensions.equalsLocation
 import me.slavita.construction.utils.extensions.BlocksExtensions.toLocation
-import me.slavita.construction.utils.extensions.ItemExtensions.equalsData
 import me.slavita.construction.utils.extensions.PlayerExtensions.swapItems
 import me.slavita.construction.world.BlockProperties
 import me.slavita.construction.world.GameWorld
@@ -27,7 +25,7 @@ class ClientStructure(val world: GameWorld, val structure: Structure, val owner:
     private var currentBlock: BlockProperties? = null
     private val progressBar = StructureProgressBar(owner, structure.blocksCount)
     private val sender = StructureSender(owner)
-    private val cooldown = Cooldown(3 * 20, owner)
+    private val cooldown = Cooldown(30, owner)
     private var blocksPlaced = 0
 
     fun startBuilding() {
@@ -56,7 +54,7 @@ class ClientStructure(val world: GameWorld, val structure: Structure, val owner:
 
     private fun tryPlaceBlock() {
         owner.inventory.itemInMainHand.apply {
-            if (getType() != currentBlock!!.type || getData().data != currentBlock!!.data) {
+            if (!currentBlock!!.equalsItem(this)) {
                 Glow.animate(owner, 0.2, GlowColor.RED)
                 Anime.killboardMessage(owner, "§cНеверный блок")
                 return
@@ -69,11 +67,13 @@ class ClientStructure(val world: GameWorld, val structure: Structure, val owner:
             setAmount(getAmount() - 1)
             placeCurrentBlock()
             var hasNext = false
+
+            if (currentBlock!!.equalsItem(this)) return
+
             owner.inventory.apply {
                 storageContents.forEachIndexed { index, item ->
-                    if (item == null || !item.equalsData(currentBlock!!)) return@forEachIndexed
+                    if (!currentBlock!!.equalsItem(item)) return@forEachIndexed
                     hasNext = true
-                    if (itemInMainHand.equalsData(currentBlock!!)) return@forEachIndexed
                     swapItems(heldItemSlot, index)
                 }
                 if (!hasNext) {
@@ -109,7 +109,7 @@ class ClientStructure(val world: GameWorld, val structure: Structure, val owner:
         after(1) {
             val handItem = owner.inventory.itemInMainHand
             sender.sendFrameColor(
-                if (handItem.getType() != currentBlock!!.type || handItem.getData().data != currentBlock!!.data) SpecialColor.RED
+                if (!currentBlock!!.equalsItem(handItem)) SpecialColor.RED
                 else if (!cooldown.isExpired()) SpecialColor.GOLD
                 else SpecialColor.GREEN
             )

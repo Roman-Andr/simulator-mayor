@@ -11,7 +11,7 @@ class StructureProgressBar(val player: Player, private val blocksTotal: Int) {
         .offsetY(24.0)
         .hideOnTab(true)
         .color(Tricolor(36, 175, 255))
-        .text("§aПоставлено блоков: §b0/0")
+        .text("§aПоставлено блоков: §b0/$blocksTotal")
         .build()
 
     fun show() {

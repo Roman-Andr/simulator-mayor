@@ -19,9 +19,7 @@ class StructureGroup(val name: String, labelId: String, count: Int) {
             val maxLocation = Location(app.structureMap.world, startX - 1, startY - 1, startZ - 1)
             structures.add(Structure(name, Box(minLocation, maxLocation)))
 
-            startX += dimensions.x
-            startY += dimensions.y
-            startZ += dimensions.z
+            startX -= dimensions.x + 1
         }
     }
 }

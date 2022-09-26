@@ -46,6 +46,7 @@ class StructureBuilding {
             val typeId = readInt()
             val data = readByte()
             val item = ItemStack.of(Item.of(typeId), 1, data.toInt())
+            println(item)
             (nextBlock.children[0] as ItemElement).stack = item
             /*val image: ResourceLocation? = if (readBoolean()) {
                 ResourceLocation.of("minecraft", "mcpatcher/cit/others/badges/info1.png")

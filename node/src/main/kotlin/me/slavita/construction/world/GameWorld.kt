@@ -20,7 +20,7 @@ class GameWorld(val map: WorldMeta) : Listener {
 
     private val structures = hashMapOf<Structure, Structure>()
     private val clientStructures = hashMapOf<UUID, ArrayList<ClientStructure>>()
-    val testStructure = Structures.structureGroups[0].structures[0]
+    val testStructure = Structures.structureGroups[1].structures[1]
 
     @EventHandler
     fun InventoryClickEvent.handle() = updateFramesColor(whoClicked)
