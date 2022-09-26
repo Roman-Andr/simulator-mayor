@@ -1,6 +1,5 @@
 plugins {
     id("anime.mod-bundler")
-    id 'org.hidetake.ssh'
 }
 
 dependencies {

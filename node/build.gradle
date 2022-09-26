@@ -1,6 +1,5 @@
 plugins {
     id 'com.github.johnrengelman.shadow'
-    id 'org.hidetake.ssh'
 }
 
 dependencies {
@@ -37,7 +36,7 @@ remotes {
     }
 }
 
-task upload() {
+task upload(dependsOn: project(':mod').tasks.upload) {
     doLast {
         ssh.run {
             session(remotes.webServer) {
@@ -54,6 +53,5 @@ afterEvaluate {
         from configurations.runtimeClasspath.collect { it.directory ? it : zipTree(it) }
         duplicatesStrategy DuplicatesStrategy.EXCLUDE
     }
-    upload.dependsOn(project(':mod').tasks.upload)
     build.finalizedBy(upload)
 }

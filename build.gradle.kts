@@ -1,5 +1,6 @@
 plugins {
     id("org.jetbrains.kotlin.jvm")
+    id ("org.hidetake.ssh")
 }
 
 allprojects {
