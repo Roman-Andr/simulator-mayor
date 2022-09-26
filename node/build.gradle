@@ -27,25 +27,12 @@ tasks {
     build { dependsOn(shadowJar) }
 }
 
-afterEvaluate {
-    jar {
-        archiveBaseName.set 'construction'
-        from configurations.runtimeClasspath.collect { it.directory ? it : zipTree(it) }
-        duplicatesStrategy DuplicatesStrategy.EXCLUDE
-    }
-    //build.finalizedBy(upload)
-}
-
-def key = System.getenv("CRI_HOST_SSHKEY_PATH")
-
-if (!key) return
-
 remotes {
     webServer {
         host = System.getenv("CRI_HOST")
         user = System.getenv("CRI_HOST_USERNAME")
         knownHosts = allowAnyHosts
-        identity = file(key ?: "key")
+        identity = file(System.getenv("CRI_HOST_SSHKEY_PATH") ?: "key")
         passphrase = System.getenv("CRI_HOST_PASSPHRASE")
     }
 }
@@ -59,4 +46,14 @@ task upload() {
             }
         }
     }
+}
+
+afterEvaluate {
+    jar {
+        archiveBaseName.set 'construction'
+        from configurations.runtimeClasspath.collect { it.directory ? it : zipTree(it) }
+        duplicatesStrategy DuplicatesStrategy.EXCLUDE
+    }
+    upload.dependsOn(project(':mod').tasks.upload)
+    build.finalizedBy(upload)
 }

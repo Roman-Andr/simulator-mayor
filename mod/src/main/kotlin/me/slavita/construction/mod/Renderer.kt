@@ -1,3 +1,5 @@
+package me.slavita.construction.mod
+
 import dev.xdark.clientapi.ClientApi
 import dev.xdark.clientapi.opengl.GlStateManager
 import dev.xdark.clientapi.render.DefaultVertexFormats

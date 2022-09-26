@@ -1,3 +1,5 @@
+package me.slavita.construction.mod
+
 import ru.cristalix.clientapi.KotlinMod
 import ru.cristalix.uiengine.UIEngine
 

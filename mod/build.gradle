@@ -1,5 +1,6 @@
 plugins {
     id("anime.mod-bundler")
+    id 'org.hidetake.ssh'
 }
 
 dependencies {
@@ -11,7 +12,8 @@ dependencies {
 
 mod {
     name = "construction"
-    main = "App"
+    jarFileName = "construction-mod.jar"
+    main = "me.slavita.construction.mod.App"
     author = "Slavita"
 }
 
@@ -33,7 +35,7 @@ task upload() {
     doLast {
         ssh.run {
             session(remotes.webServer) {
-                put from: project(':mod').tasks.jar.getArchiveFile().get().asFile.path, into: "/home/" + System.getenv("CRI_HOST_USERNAME") + "/construction/mods/"
+                put from: layout.buildDirectory.file("libs/construction-mod.jar").get().asFile, into: "/home/" + System.getenv("CRI_HOST_USERNAME") + "/construction/mods/"
             }
         }
     }

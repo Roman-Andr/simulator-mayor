@@ -73,7 +73,7 @@ class App : JavaPlugin() {
         MultiChatUtil.createChats()
 
         ModLoader.loadAll("mods")
-        ModLoader.onJoining("mod-bundle-1.0.jar")
+        ModLoader.onJoining("construction-mod.jar")
 
         structureMap = MapLoader.load("construction", "structures")
         mainWorld = GameWorld(MapLoader.load("construction", "test"))

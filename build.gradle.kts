@@ -3,7 +3,7 @@ plugins {
 }
 
 allprojects {
-    group = "ru.cristalix"
+    group = "me.slavita.construction"
     version = "1.0"
 }
 

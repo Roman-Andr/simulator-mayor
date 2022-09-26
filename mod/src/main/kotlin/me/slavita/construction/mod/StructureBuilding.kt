@@ -1,3 +1,5 @@
+package me.slavita.construction.mod
+
 import dev.xdark.clientapi.event.render.RenderPass
 import dev.xdark.clientapi.item.Item
 import dev.xdark.clientapi.item.ItemStack
