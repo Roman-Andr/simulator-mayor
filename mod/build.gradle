@@ -30,7 +30,7 @@ remotes {
     }
 }
 
-task upload() {
+task upload(dependsOn: build) {
     doLast {
         ssh.run {
             session(remotes.webServer) {

@@ -1,4 +1,4 @@
-package me.slavita.construction.mod
+package me.slavita.construction.mod.utils
 
 import dev.xdark.clientapi.ClientApi
 import dev.xdark.clientapi.opengl.GlStateManager
@@ -23,7 +23,7 @@ object Renderer {
 
         GlStateManager.translate(
             -player.lastX - (player.x - player.lastX) * ticks,
-            -player.lastY - (player.y - player.lastY) * ticks,
+            -player.lastY - (player.y - player.lastY) * ticks + 0.05,
             -player.lastZ - (player.z - player.lastZ) * ticks,
         )
 

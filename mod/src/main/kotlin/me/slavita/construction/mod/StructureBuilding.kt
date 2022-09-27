@@ -3,10 +3,14 @@ package me.slavita.construction.mod
 import dev.xdark.clientapi.event.render.RenderPass
 import dev.xdark.clientapi.item.Item
 import dev.xdark.clientapi.item.ItemStack
+import dev.xdark.clientapi.opengl.GlStateManager
+import dev.xdark.clientapi.resource.ResourceLocation
+import me.slavita.construction.mod.utils.Renderer
 import ru.cristalix.clientapi.JavaMod
 import ru.cristalix.uiengine.UIEngine
 import ru.cristalix.uiengine.element.ItemElement
 import ru.cristalix.uiengine.element.RectangleElement
+import ru.cristalix.uiengine.element.TextElement
 import ru.cristalix.uiengine.utility.*
 
 class StructureBuilding {
@@ -27,16 +31,26 @@ class StructureBuilding {
         +rectangle {
             align = Relative.TOP_RIGHT
             origin = Relative.BOTTOM_LEFT
-            size = V3(12.0, 12.0, 12.0)
+            size = V3(12.0, 12.0, 1.0)
             offset.x -= 2.0
             offset.y -= 25
             color = WHITE
         }
+        +text {
+            align = Relative.BOTTOM_RIGHT
+            origin = Relative.TOP_LEFT
+            size = V3(12.0, 12.0, 1.0)
+            offset.x -= 18.0
+            offset.y -= 9
+            color = WHITE
+            beforeRender { GlStateManager.disableDepth() }
+            afterRender { GlStateManager.enableDepth() }
+        }
     }
 
-    private var color = Color(100, 100, 0, 65.0)
+    private var color = Color(0, 0, 0, 65.0)
 
-    private var lineWidth = 3.0f
+    private var lineWidth = 3.4f
 
     init {
         UIEngine.overlayContext.addChild(nextBlock)
@@ -48,12 +62,13 @@ class StructureBuilding {
             val item = ItemStack.of(Item.of(typeId), 1, data.toInt())
             println(item)
             (nextBlock.children[0] as ItemElement).stack = item
-            /*val image: ResourceLocation? = if (readBoolean()) {
+            val image: ResourceLocation? = if (/*readBoolean()*/true) {
                 ResourceLocation.of("minecraft", "mcpatcher/cit/others/badges/info1.png")
             } else {
                 ResourceLocation.of("minecraft", "mcpatcher/cit/others/badges/close.png")
             }
-            (nextBlock.children[1] as RectangleElement).textureLocation = image*/
+            (nextBlock.children[1] as RectangleElement).textureLocation = image
+            (nextBlock.children[2] as TextElement).content = "1234"
             currentBlockLocation = position
             nextBlock.enabled = true
         }
