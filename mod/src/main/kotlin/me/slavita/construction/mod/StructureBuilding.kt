@@ -1,12 +1,13 @@
 package me.slavita.construction.mod
 
 import dev.xdark.clientapi.event.render.RenderPass
-import dev.xdark.clientapi.item.Item
-import dev.xdark.clientapi.item.ItemStack
+import me.slavita.construction.mod.utils.extensions.PlayerExtensions.blocksCount
+import dev.xdark.clientapi.item.ItemTools
 import dev.xdark.clientapi.opengl.GlStateManager
 import dev.xdark.clientapi.resource.ResourceLocation
 import me.slavita.construction.mod.utils.Renderer
 import ru.cristalix.clientapi.JavaMod
+import ru.cristalix.clientapi.JavaMod.clientApi
 import ru.cristalix.uiengine.UIEngine
 import ru.cristalix.uiengine.element.ItemElement
 import ru.cristalix.uiengine.element.RectangleElement
@@ -57,18 +58,18 @@ class StructureBuilding {
 
         mod.registerChannel("structure:currentBlock") {
             val position = V3(readDouble(), readDouble(), readDouble())
-            val typeId = readInt()
-            val data = readByte()
-            val item = ItemStack.of(Item.of(typeId), 1, data.toInt())
-            println(item)
+            val item = ItemTools.read(this)
+            val blocksCount = clientApi.minecraft().player.blocksCount(item, readBoolean())
+
+            val image = ResourceLocation.of("minecraft",
+                if (blocksCount > 0) "mcpatcher/cit/others/badges/info1.png"
+                else "mcpatcher/cit/others/badges/close.png"
+            )
+
             (nextBlock.children[0] as ItemElement).stack = item
-            val image: ResourceLocation? = if (/*readBoolean()*/true) {
-                ResourceLocation.of("minecraft", "mcpatcher/cit/others/badges/info1.png")
-            } else {
-                ResourceLocation.of("minecraft", "mcpatcher/cit/others/badges/close.png")
-            }
             (nextBlock.children[1] as RectangleElement).textureLocation = image
-            (nextBlock.children[2] as TextElement).content = "1234"
+            (nextBlock.children[2] as TextElement).content = if (blocksCount > 0) blocksCount.toString() else ""
+
             currentBlockLocation = position
             nextBlock.enabled = true
         }
@@ -77,14 +78,14 @@ class StructureBuilding {
             color = Color(readInt(), readInt(), readInt(), readDouble())
         }
 
-        mod.registerHandler<RenderPass> {
-            if (currentBlockLocation == null) return@registerHandler
-            Renderer.renderBlockFrame(JavaMod.clientApi, currentBlockLocation!!, color, lineWidth)
-        }
-
         mod.registerChannel("structure:completed") {
             nextBlock.enabled = false
             currentBlockLocation = null
+        }
+
+        mod.registerHandler<RenderPass> {
+            if (currentBlockLocation == null) return@registerHandler
+            Renderer.renderBlockFrame(clientApi, currentBlockLocation!!, color, lineWidth)
         }
     }
 }

@@ -39,6 +39,7 @@ object Renderer {
             bufferbuilder.pos(tx + 1.0, ty + i, tz).color(color.red, color.green, color.blue, alpha).endVertex()
             bufferbuilder.pos(tx, ty + i, tz).color(color.red, color.green, color.blue, alpha).endVertex()
         }
+
         for (j1 in 0..1) {
             for (l1 in 0..1) {
                 bufferbuilder.pos(tx + j1.toDouble(), ty, tz + l1.toDouble()).color(color.red, color.green, color.blue, 0).endVertex()
@@ -47,6 +48,7 @@ object Renderer {
                 bufferbuilder.pos(tx + j1.toDouble(), ty + 1, tz + l1.toDouble()).color(color.red, color.green, color.blue, 0).endVertex()
             }
         }
+
         tessellator.draw()
         GlStateManager.glLineWidth(lineWidth)
         GlStateManager.enableBlend()

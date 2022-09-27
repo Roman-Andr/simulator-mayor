@@ -1,6 +1,7 @@
 package me.slavita.construction.structure.client
 
 import me.func.mod.conversation.ModTransfer
+import me.func.mod.util.after
 import me.slavita.construction.utils.SpecialColor
 import me.slavita.construction.world.BlockProperties
 import org.bukkit.Bukkit
@@ -16,8 +17,8 @@ class StructureSender(val client: Player) {
             .double(position.x.toDouble())
             .double(position.y.toDouble())
             .double(position.z.toDouble())
-            .integer(block.type.id)
-            .byte(block.data)
+            .item(ItemStack(block.type, 1, 1, block.data))
+            .boolean(block.colorable)
             .send("structure:currentBlock", client)
     }
 

@@ -42,6 +42,7 @@ class ClientStructure(val world: GameWorld, val structure: Structure, val owner:
             val relativeBlock = clickedBlock.getRelative(BlockFace.valueOf(packet.b.name)).location
 
             if (currentBlock!!.withOffset(allocation).equalsLocation(relativeBlock)) tryPlaceBlock()
+            packet.a = BlockPosition(0, 0, 0)
         }
 
         ConnectionUtil.registerWriter(owner.uniqueId) { packet ->
@@ -59,11 +60,13 @@ class ClientStructure(val world: GameWorld, val structure: Structure, val owner:
                 Anime.killboardMessage(owner, "§cНеверный блок")
                 return
             }
+
             if (!cooldown.isExpired()) {
                 Glow.animate(owner, 0.2, GlowColor.GOLD)
                 Anime.killboardMessage(owner, "§cВы сможете поставить блок через §b${cooldown.timeLeft()}")
                 return
             }
+
             setAmount(getAmount() - 1)
             placeCurrentBlock()
             var hasNext = false
@@ -76,6 +79,7 @@ class ClientStructure(val world: GameWorld, val structure: Structure, val owner:
                     hasNext = true
                     swapItems(heldItemSlot, index)
                 }
+
                 if (!hasNext) {
                     Glow.animate(owner, 0.2, GlowColor.GOLD)
                     Anime.killboardMessage(owner, "§6В инвентаре нет нужного материала")
