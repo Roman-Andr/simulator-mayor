@@ -11,7 +11,7 @@ class StructureProgressBar(val player: Player, private val blocksTotal: Int) {
         .offsetY(31.0)
         .hideOnTab(false)
         .color(Tricolor(36, 175, 255))
-        .text("§aПоставлено блоков: §b0/$blocksTotal")
+        .text("§aПоставлено блоков: §b0 §a/ §b$blocksTotal")
         .build()
 
     fun show() {
@@ -24,7 +24,7 @@ class StructureProgressBar(val player: Player, private val blocksTotal: Int) {
     fun update(blocksPlaced: Int) {
         bar.apply {
             progress = blocksPlaced.toDouble() / blocksTotal.toDouble()
-            text = "§aПоставлено блоков: §b$blocksPlaced/$blocksTotal"
+            text = "§aПоставлено блоков: §b$blocksPlaced §aиз §b$blocksTotal"
         }
     }
 

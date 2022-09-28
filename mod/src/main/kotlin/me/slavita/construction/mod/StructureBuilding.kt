@@ -9,6 +9,7 @@ import dev.xdark.clientapi.util.EnumHand
 import me.slavita.construction.mod.utils.extensions.InventoryExtensions.blocksCount
 import me.slavita.construction.mod.utils.extensions.InventoryExtensions.hotbarEqualSlots
 import me.slavita.construction.mod.utils.Renderer
+import me.slavita.construction.mod.utils.extensions.InventoryExtensions.handItemEquals
 import org.lwjgl.input.Mouse
 import ru.cristalix.clientapi.JavaMod.clientApi
 import ru.cristalix.uiengine.UIEngine
@@ -27,6 +28,7 @@ class StructureBuilding {
     private var hoverText: String? = null
     private var targetText: String? = null
     private var currentItemColorable: Boolean? = null
+    private var cooldownExpired = true
     private var frameColor = Color(0, 0, 0, 65.0)
     private var lastMarkersSlots = arrayOf<Int>()
     private var lineWidth = 3.5f
@@ -79,7 +81,12 @@ class StructureBuilding {
 
         mod.registerChannel("structure:currentBlock") {
             val position = V3(readDouble(), readDouble(), readDouble())
-            if (currentBlockLocation != null) player.swingArm(EnumHand.MAIN_HAND)
+            if (currentBlockLocation != null) {
+                player.swingArm(EnumHand.MAIN_HAND)
+                cooldownExpired = false
+            } else {
+                cooldownExpired = true
+            }
             currentItem = ItemTools.read(this).apply { targetText = this.displayName }
             currentItemColorable = readBoolean()
 
@@ -105,6 +112,13 @@ class StructureBuilding {
 
             updateInfoIcon()
 
+            val targetColor = if (!player.inventory.handItemEquals(currentItem!!, currentItemColorable!!)) SpecialColor.RED
+            else if (!cooldownExpired) SpecialColor.GOLD
+            else SpecialColor.GREEN
+            targetColor.run {
+                frameColor = Color(red, green, blue, alpha)
+            }
+
             player.inventory.hotbarEqualSlots(currentItem!!, currentItemColorable!!).toTypedArray().apply {
                 if (this contentEquals lastMarkersSlots) return@registerHandler
                 lastMarkersSlots = this
@@ -125,8 +139,8 @@ class StructureBuilding {
             }
         }
 
-        mod.registerChannel("structure:frameColor") {
-            frameColor = Color(readInt(), readInt(), readInt(), readDouble())
+        mod.registerChannel("structure:cooldown") {
+            cooldownExpired = true
         }
 
         mod.registerChannel("structure:completed") {

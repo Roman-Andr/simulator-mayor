@@ -20,6 +20,8 @@ dependencies {
     implementation("me.func:animation-api:3.2.8")
     implementation("me.func:world-api:1.0.7")
     implementation("me.func:metaworld-api:1.0.0")
+
+    implementation project(':common')
 }
 
 tasks {
@@ -36,7 +38,9 @@ remotes {
     }
 }
 
-task upload(dependsOn: project(':mod').tasks.upload) {
+task upload(
+        dependsOn: project(':mod').tasks.upload
+) {
     doLast {
         ssh.run {
             session(remotes.webServer) {

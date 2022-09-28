@@ -22,15 +22,6 @@ class GameWorld(val map: WorldMeta) : Listener {
     private val clientStructures = hashMapOf<UUID, ArrayList<ClientStructure>>()
     val testStructure = Structures.structureGroups[2].structures[0]
 
-    @EventHandler
-    fun InventoryClickEvent.handle() = updateFramesColor(whoClicked)
-
-    @EventHandler
-    fun PlayerItemHeldEvent.handle() = updateFramesColor(player)
-
-    @EventHandler
-    fun InventoryInteractEvent.handle() = updateFramesColor(whoClicked)
-
     init {
         structures[testStructure] = Structure("", testStructure.box)
 
@@ -58,12 +49,6 @@ class GameWorld(val map: WorldMeta) : Listener {
             block.type,
             block.data
         )
-    }
-
-    private fun updateFramesColor(player: HumanEntity) {
-        clientStructures[player.uniqueId]?.forEach {
-            it.updateFrameColor()
-        }
     }
 
     fun getSpawn() = map.label("spawn")

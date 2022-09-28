@@ -27,4 +27,10 @@ object InventoryExtensions {
 
         return list
     }
+
+    fun InventoryPlayer.handItemEquals(targetItem: ItemStack, needCheckData: Boolean): Boolean {
+        if (currentItem.item == null) return false
+        if (currentItem.item.id != targetItem.item.id) return false
+        return (!needCheckData || currentItem.metadata == targetItem.metadata)
+    }
 }
