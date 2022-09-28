@@ -8,7 +8,7 @@ import org.bukkit.entity.Player
 class StructureProgressBar(val player: Player, private val blocksTotal: Int) {
     private val bar = ReactiveProgress.builder()
         .position(Position.BOTTOM)
-        .offsetY(24.0)
+        .offsetY(34.0)
         .hideOnTab(true)
         .color(Tricolor(36, 175, 255))
         .text("§aПоставлено блоков: §b0/$blocksTotal")

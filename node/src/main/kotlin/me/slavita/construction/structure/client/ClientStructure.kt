@@ -42,7 +42,6 @@ class ClientStructure(val world: GameWorld, val structure: Structure, val owner:
             val relativeBlock = clickedBlock.getRelative(BlockFace.valueOf(packet.b.name)).location
 
             if (currentBlock!!.withOffset(allocation).equalsLocation(relativeBlock)) tryPlaceBlock()
-            packet.a = BlockPosition(0, 0, 0)
         }
 
         ConnectionUtil.registerWriter(owner.uniqueId) { packet ->
