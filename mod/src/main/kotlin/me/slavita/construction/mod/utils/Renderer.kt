@@ -23,7 +23,7 @@ object Renderer {
 
         GlStateManager.translate(
             -player.lastX - (player.x - player.lastX) * ticks,
-            -player.lastY - (player.y - player.lastY) * ticks + 0.05,
+            -player.lastY - (player.y - player.lastY) * ticks + 0.0005,
             -player.lastZ - (player.z - player.lastZ) * ticks,
         )
 

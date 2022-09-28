@@ -1,16 +1,15 @@
 package me.slavita.construction.mod
 
-import dev.xdark.clientapi.entity.DataParameter
-import dev.xdark.clientapi.event.entity.EntityDataChange
 import dev.xdark.clientapi.event.lifecycle.GameTickPost
 import dev.xdark.clientapi.event.render.RenderPass
 import dev.xdark.clientapi.item.ItemStack
-import me.slavita.construction.mod.utils.extensions.PlayerExtensions.blocksCount
 import dev.xdark.clientapi.item.ItemTools
 import dev.xdark.clientapi.opengl.GlStateManager
-import dev.xdark.clientapi.resource.ResourceLocation
+import dev.xdark.clientapi.util.EnumHand
+import me.slavita.construction.mod.utils.extensions.InventoryExtensions.blocksCount
+import me.slavita.construction.mod.utils.extensions.InventoryExtensions.hotbarEqualSlots
 import me.slavita.construction.mod.utils.Renderer
-import me.slavita.construction.mod.utils.extensions.PlayerExtensions.hotbarEqualSlots
+import org.lwjgl.input.Mouse
 import ru.cristalix.clientapi.JavaMod.clientApi
 import ru.cristalix.uiengine.UIEngine
 import ru.cristalix.uiengine.element.ItemElement
@@ -23,7 +22,14 @@ import ru.cristalix.uiengine.utility.*
 
 class StructureBuilding {
 
+    private var currentItem: ItemStack? = null
     private var currentBlockLocation: V3? = null
+    private var hoverText: String? = null
+    private var targetText: String? = null
+    private var currentItemColorable: Boolean? = null
+    private var frameColor = Color(0, 0, 0, 65.0)
+    private var lastMarkersSlots = arrayOf<Int>()
+    private var lineWidth = 3.5f
 
     private val nextBlock: RectangleElement = rectangle {
 
@@ -35,14 +41,19 @@ class StructureBuilding {
             align = Relative.BOTTOM
             origin = Relative.BOTTOM_RIGHT
             scale = V3(2.5, 2.5, 1.0)
+            onHover {
+                hoverText = if (hovered) targetText else null
+            }
         }
         +rectangle {
             align = Relative.TOP_RIGHT
             origin = Relative.BOTTOM_LEFT
-            size = V3(12.0, 12.0, 1.0)
-            offset.x -= 2.0
+            size = V3(10.0, 10.0, 1.0)
+            offset.x -= 5.0
             offset.y -= 25
             color = WHITE
+            beforeRender { GlStateManager.disableDepth() }
+            afterRender { GlStateManager.enableDepth() }
         }
         +text {
             align = Relative.BOTTOM_RIGHT
@@ -51,6 +62,7 @@ class StructureBuilding {
             offset.x -= 18.0
             offset.y -= 9
             color = WHITE
+            shadow = true
             beforeRender { GlStateManager.disableDepth() }
             afterRender { GlStateManager.enableDepth() }
         }
@@ -58,14 +70,8 @@ class StructureBuilding {
 
     private val markers: RectangleElement = rectangle {
         align = Relative.BOTTOM
-        offset = V3(-88.0, -32.0)
+        offset = V3(-80.0, -24.0)
     }
-
-    private var frameColor = Color(0, 0, 0, 65.0)
-    private var currentItem: ItemStack? = null
-    private var currentItemColorable: Boolean? = null
-    private var lastMarkersSlots = arrayOf<Int>()
-    private var lineWidth = 3.4f
 
     init {
         UIEngine.overlayContext.addChild(nextBlock)
@@ -73,20 +79,22 @@ class StructureBuilding {
 
         mod.registerChannel("structure:currentBlock") {
             val position = V3(readDouble(), readDouble(), readDouble())
-            currentItem = ItemTools.read(this)!!
+            if (currentBlockLocation != null) player.swingArm(EnumHand.MAIN_HAND)
+            currentItem = ItemTools.read(this).apply { targetText = this.displayName }
             currentItemColorable = readBoolean()
 
             (nextBlock.children[0] as ItemElement).stack = currentItem
+            updateInfoIcon()
 
             currentBlockLocation = position
             nextBlock.enabled = true
         }
 
-        mod.runRepeatingTask(0.0, 1.2) {
+        mod.runRepeatingTask(.0, .9) {
             markers.children.forEach { marker ->
-                marker.animate(0.5, Easings.CUBIC_OUT) {
+                marker.animate(0.4, Easings.CUBIC_OUT) {
                     offset.y += 4
-                }.thenWait(0.1).thenAnimate(0.5, Easings.CUBIC_OUT) {
+                }.thenWait(0.05).thenAnimate(0.4, Easings.CUBIC_OUT) {
                     offset.y -= 4
                 }
             }
@@ -95,29 +103,25 @@ class StructureBuilding {
         mod.registerHandler<GameTickPost> {
             if (currentItem == null) return@registerHandler
 
-            val blocksCount = player.inventory.blocksCount(currentItem!!, currentItemColorable!!)
-            val image = ResourceLocation.of("minecraft",
-                if (blocksCount > 0) "mcpatcher/cit/others/badges/info1.png"
-                else "mcpatcher/cit/others/badges/close.png"
-            )
-            (nextBlock.children[1] as RectangleElement).textureLocation = image
-            (nextBlock.children[2] as TextElement).content = if (blocksCount > 0) blocksCount.toString() else ""
+            updateInfoIcon()
 
-            val slots = player.inventory.hotbarEqualSlots(currentItem!!, currentItemColorable!!).toTypedArray()
-            if (slots contentEquals lastMarkersSlots) return@registerHandler
-            lastMarkersSlots = slots
+            player.inventory.hotbarEqualSlots(currentItem!!, currentItemColorable!!).toTypedArray().apply {
+                if (this contentEquals lastMarkersSlots) return@registerHandler
+                lastMarkersSlots = this
 
-            markers.removeChild(*markers.children.toTypedArray())
-            slots.forEach {
-                markers.addChild(rectangle {
-                    textureLocation = ResourceLocation.of("minecraft", "mcpatcher/cit/others/badges/arrow_down.png")
-                    size = V3(16.0, 16.0, 1.0)
-                    offset.x = it * 20.0
-                    color = WHITE
+                markers.children.clear()
+                this.forEach {
+                    markers.addChild(rectangle {
+                        origin = CENTER
+                        textureLocation = Resources.ARROW.source
+                        size = V3(16.0, 16.0, 1.0)
+                        offset.x = it * 20.0
+                        color = WHITE
 
-                    beforeRender { GlStateManager.disableDepth() }
-                    afterRender { GlStateManager.enableDepth() }
-                })
+                        beforeRender { GlStateManager.disableDepth() }
+                        afterRender { GlStateManager.enableDepth() }
+                    })
+                }
             }
         }
 
@@ -128,12 +132,31 @@ class StructureBuilding {
         mod.registerChannel("structure:completed") {
             nextBlock.enabled = false
             currentBlockLocation = null
-            markers.removeChild(*markers.children.toTypedArray())
+            markers.children.clear()
         }
 
         mod.registerHandler<RenderPass> {
             if (currentBlockLocation == null) return@registerHandler
             Renderer.renderBlockFrame(clientApi, currentBlockLocation!!, frameColor, lineWidth)
+        }
+
+        UIEngine.postOverlayContext.afterRender {
+            clientApi.resolution().run {
+                if (hoverText == null) return@afterRender
+                clientApi.minecraft().currentScreen()?.drawHoveringText(
+                    hoverText, Mouse.getX() / scaleFactor,
+                    (clientApi.resolution().scaledHeight_double - Mouse.getY() / scaleFactor).toInt()
+                )
+            }
+        }
+    }
+
+    private fun updateInfoIcon() {
+        player.inventory.blocksCount(currentItem!!, currentItemColorable!!).run {
+            (nextBlock.children[1] as RectangleElement).textureLocation =
+                if (this > 0) Resources.INFO.source
+                else Resources.CANCEL.source
+            (nextBlock.children[2] as TextElement).content = if (this > 0) this.toString() else ""
         }
     }
 }

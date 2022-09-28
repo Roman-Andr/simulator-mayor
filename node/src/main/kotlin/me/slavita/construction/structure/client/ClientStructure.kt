@@ -1,5 +1,6 @@
 package me.slavita.construction.structure.client
 
+import implario.humanize.Humanize
 import me.func.mod.Anime
 import me.func.mod.ui.Glow
 import me.func.mod.util.after
@@ -62,7 +63,14 @@ class ClientStructure(val world: GameWorld, val structure: Structure, val owner:
 
             if (!cooldown.isExpired()) {
                 Glow.animate(owner, 0.2, GlowColor.GOLD)
-                Anime.killboardMessage(owner, "§cВы сможете поставить блок через §b${cooldown.timeLeft()}")
+                Anime.killboardMessage(owner, "§cВы сможете поставить блок через §b${cooldown.timeLeft()} ${
+                    Humanize.plurals(
+                        "секунду",
+                        "секунды",
+                        "секунд", 
+                            cooldown.timeLeft().toInt()
+                    )}"
+                )
                 return
             }
 

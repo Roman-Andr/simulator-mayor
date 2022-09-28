@@ -1,10 +1,9 @@
 package me.slavita.construction.mod.utils.extensions
 
-import dev.xdark.clientapi.entity.EntityPlayerSP
 import dev.xdark.clientapi.inventory.InventoryPlayer
 import dev.xdark.clientapi.item.ItemStack
 
-object PlayerExtensions {
+object InventoryExtensions {
     fun InventoryPlayer.blocksCount(target: ItemStack, needCheckData: Boolean): Int {
         var count = 0
         (0..35).forEach {
