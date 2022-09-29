@@ -18,7 +18,6 @@ import me.slavita.construction.player.User
 import me.slavita.construction.player.events.PhysicsDisabler
 import me.slavita.construction.player.events.PlayerJoinEvents
 import me.slavita.construction.world.GameWorld
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import ru.cristalix.core.CoreApi

@@ -1,9 +1,7 @@
 package me.slavita.construction.utils.extensions
 
-import me.slavita.construction.world.BlockProperties
 import net.minecraft.server.v1_12_R1.BlockPosition
 import org.bukkit.Location
-import org.bukkit.Material
 import org.bukkit.World
 
 object BlocksExtensions {

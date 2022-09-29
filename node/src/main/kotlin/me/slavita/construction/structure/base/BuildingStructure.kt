@@ -3,7 +3,6 @@ package me.slavita.construction.structure.base
 import me.slavita.construction.structure.data.Structure
 import me.slavita.construction.structure.tools.StructureProgressBar
 import me.slavita.construction.structure.tools.StructureState
-import me.slavita.construction.utils.Cooldown
 import me.slavita.construction.world.BlockProperties
 import me.slavita.construction.world.GameWorld
 import org.bukkit.Location

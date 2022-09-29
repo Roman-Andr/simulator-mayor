@@ -1,14 +1,11 @@
 package me.slavita.construction.structure.base.types
 
-import kotlinx.coroutines.delay
 import me.func.mod.util.after
 import me.slavita.construction.app
-import me.slavita.construction.structure.data.Structure
 import me.slavita.construction.structure.base.BuildingStructure
+import me.slavita.construction.structure.data.Structure
 import me.slavita.construction.structure.tools.StructureState
-import me.slavita.construction.utils.Cooldown
 import me.slavita.construction.world.GameWorld
-import org.bukkit.Bukkit.server
 import org.bukkit.Location
 import org.bukkit.entity.Player
 
