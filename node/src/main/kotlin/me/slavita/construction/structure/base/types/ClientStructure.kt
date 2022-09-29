@@ -5,7 +5,7 @@ import me.func.mod.Anime
 import me.func.mod.ui.Glow
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.connection.ConnectionUtil
-import me.slavita.construction.structure.data.Structure
+import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureSender
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.structure.base.BuildingStructure

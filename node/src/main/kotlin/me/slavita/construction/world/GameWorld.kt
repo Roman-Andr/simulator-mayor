@@ -6,8 +6,8 @@ import me.func.world.WorldMeta
 import me.slavita.construction.structure.base.BuildingStructure
 import me.slavita.construction.structure.base.types.ClientStructure
 import me.slavita.construction.structure.base.types.WorkerStructure
-import me.slavita.construction.structure.data.Structure
-import me.slavita.construction.structure.data.Structures
+import me.slavita.construction.structure.instance.Structure
+import me.slavita.construction.structure.instance.Structures
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.event.Listener

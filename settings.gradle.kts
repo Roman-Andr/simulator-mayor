@@ -51,8 +51,8 @@ dependencyResolutionManagement {
 rootProject.name = "construction"
 
 include(
-    "node",
-    "common",
     "service",
+    "common",
     "mod",
+    "node",
 )

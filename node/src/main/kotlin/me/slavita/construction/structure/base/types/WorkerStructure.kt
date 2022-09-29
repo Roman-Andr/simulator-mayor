@@ -3,7 +3,7 @@ package me.slavita.construction.structure.base.types
 import me.func.mod.util.after
 import me.slavita.construction.app
 import me.slavita.construction.structure.base.BuildingStructure
-import me.slavita.construction.structure.data.Structure
+import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.world.GameWorld
 import org.bukkit.Location

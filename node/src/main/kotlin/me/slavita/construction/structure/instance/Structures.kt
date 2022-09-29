@@ -1,4 +1,4 @@
-package me.slavita.construction.structure.data
+package me.slavita.construction.structure.instance
 
 object Structures {
     val structureGroups = arrayListOf(

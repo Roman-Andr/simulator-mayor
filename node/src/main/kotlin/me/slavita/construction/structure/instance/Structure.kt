@@ -1,4 +1,4 @@
-package me.slavita.construction.structure.data
+package me.slavita.construction.structure.instance
 
 import me.slavita.construction.world.BlockProperties
 import me.slavita.construction.world.Box
