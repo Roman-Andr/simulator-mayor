@@ -3,23 +3,20 @@ package me.slavita.construction.world
 import me.func.mod.util.after
 import me.func.mod.util.command
 import me.func.world.WorldMeta
-import me.slavita.construction.structure.client.ClientStructure
-import me.slavita.construction.structure.Structure
-import me.slavita.construction.structure.Structures
+import me.slavita.construction.structure.base.BuildingStructure
+import me.slavita.construction.structure.base.types.ClientStructure
+import me.slavita.construction.structure.base.types.WorkerStructure
+import me.slavita.construction.structure.data.Structure
+import me.slavita.construction.structure.data.Structures
 import org.bukkit.Location
-import org.bukkit.entity.HumanEntity
 import org.bukkit.entity.Player
-import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import org.bukkit.event.inventory.InventoryClickEvent
-import org.bukkit.event.inventory.InventoryInteractEvent
-import org.bukkit.event.player.PlayerItemHeldEvent
 import java.util.*
 
 class GameWorld(val map: WorldMeta) : Listener {
 
     private val structures = hashMapOf<Structure, Structure>()
-    private val clientStructures = hashMapOf<UUID, ArrayList<ClientStructure>>()
+    private val clientStructures = hashMapOf<UUID, ArrayList<BuildingStructure>>()
     val testStructure = Structures.structureGroups[2].structures[0]
 
     init {
@@ -29,6 +26,14 @@ class GameWorld(val map: WorldMeta) : Listener {
             if (clientStructures[player.uniqueId] == null) clientStructures[player.uniqueId] = arrayListOf()
 
             val clientStructure = ClientStructure(this, structures[testStructure]!!, player, map.getLabels("default", "1")[0])
+            clientStructures[player.uniqueId]!!.add(clientStructure)
+            clientStructure.startBuilding()
+        }
+
+        command("build") { player, _ ->
+            if (clientStructures[player.uniqueId] == null) clientStructures[player.uniqueId] = arrayListOf()
+
+            val clientStructure = WorkerStructure(this, structures[testStructure]!!, player, map.getLabels("default", "1")[0])
             clientStructures[player.uniqueId]!!.add(clientStructure)
             clientStructure.startBuilding()
         }

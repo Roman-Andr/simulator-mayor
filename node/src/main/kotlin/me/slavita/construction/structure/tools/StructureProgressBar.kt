@@ -1,4 +1,4 @@
-package me.slavita.construction.structure.client
+package me.slavita.construction.structure.tools
 
 import me.func.mod.reactive.ReactiveProgress
 import me.func.protocol.data.color.Tricolor

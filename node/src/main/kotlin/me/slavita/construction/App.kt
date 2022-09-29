@@ -11,13 +11,14 @@ import me.func.world.MapLoader
 import me.func.world.WorldMeta
 import me.slavita.construction.command.AdminCommands
 import me.slavita.construction.command.UserCommands
-import me.slavita.construction.utils.multichat.MultiChatUtil
-import me.slavita.construction.utils.npc.NpcManager
+import me.slavita.construction.multichat.MultiChatUtil
+import me.slavita.construction.npc.NpcManager
 import me.slavita.construction.player.Statistics
 import me.slavita.construction.player.User
 import me.slavita.construction.player.events.PhysicsDisabler
 import me.slavita.construction.player.events.PlayerJoinEvents
 import me.slavita.construction.world.GameWorld
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import ru.cristalix.core.CoreApi

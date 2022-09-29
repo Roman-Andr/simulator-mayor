@@ -1,7 +1,7 @@
 package me.slavita.construction.player
 
 data class Statistics(
-    var money: Double,
+    var money: Long,
     var level: Int,
     var experience: Double,
     var reputation: Double,
@@ -9,5 +9,5 @@ data class Statistics(
     var totalProjects: Int,
     var maxProjects: Int,
 ) {
-    constructor() : this(.0, 1, .0, .0, 0, 0)
+    constructor() : this(0, 1, .0, .0, 0, 0)
 }

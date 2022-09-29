@@ -1,13 +1,16 @@
-package me.slavita.construction.structure.client
+package me.slavita.construction.structure.base.types
 
 import implario.humanize.Humanize
 import me.func.mod.Anime
 import me.func.mod.ui.Glow
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.connection.ConnectionUtil
-import me.slavita.construction.structure.BuildingStructure
-import me.slavita.construction.structure.Structure
+import me.slavita.construction.structure.data.Structure
+import me.slavita.construction.structure.tools.StructureSender
+import me.slavita.construction.structure.tools.StructureState
+import me.slavita.construction.structure.base.BuildingStructure
 import me.slavita.construction.ui.ItemIcons
+import me.slavita.construction.utils.Cooldown
 import me.slavita.construction.utils.extensions.BlocksExtensions.minus
 import me.slavita.construction.utils.extensions.BlocksExtensions.toLocation
 import me.slavita.construction.utils.extensions.PlayerExtensions.swapItems
@@ -23,8 +26,11 @@ class ClientStructure(
     owner: Player,
     allocation: Location
 ) : BuildingStructure(world, structure, owner, allocation) {
+    private val sender = StructureSender(owner)
+    private val cooldown = Cooldown(30, owner)
 
     override fun enterBuilding() {
+        sender.sendBlock(currentBlock!!, allocation)
         ConnectionUtil.registerReader(owner.uniqueId) { packet ->
             if (packet !is PacketPlayInUseItem || state != StructureState.BUILDING || packet.c != EnumHand.MAIN_HAND) return@registerReader
 
@@ -42,21 +48,14 @@ class ClientStructure(
         }
     }
 
-    override fun placeCurrentBlock() {
-        if (state != StructureState.BUILDING) return
-
-        world.placeFakeBlock(owner, currentBlock!!.withOffset(allocation))
-        currentBlock = structure.getNextBlock(currentBlock!!.position)
+    override fun blockPlaced() {
         cooldown.start { sender.sendCooldownExpired() }
-
-        blocksPlaced++
-        progressBar.update(blocksPlaced)
-
-        if (currentBlock == null) {
-            finishBuilding()
-            return
-        }
         sender.sendBlock(currentBlock!!, allocation)
+    }
+
+    override fun buildFinished() {
+        Glow.animate(owner, 1.5, GlowColor.GREEN)
+        Anime.itemTitle(owner, ItemIcons.get("other", "access"), "Постройка завершена", "Отличная работа", 1.5)
     }
 
     private fun tryPlaceBlock() {
@@ -99,13 +98,5 @@ class ClientStructure(
                 return
             }
         }
-    }
-
-    private fun finishBuilding() {
-        state = StructureState.FINISHED
-        progressBar.hide()
-        sender.sendCompleted()
-        Glow.animate(owner, 1.5, GlowColor.GREEN)
-        Anime.itemTitle(owner, ItemIcons.get("other", "access"), "Постройка завершена", "Отличная работа", 1.5)
     }
 }

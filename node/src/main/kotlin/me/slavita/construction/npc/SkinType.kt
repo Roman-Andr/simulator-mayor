@@ -1,4 +1,4 @@
-package me.slavita.construction.utils.npc
+package me.slavita.construction.npc
 
 enum class SkinType {
     URL,

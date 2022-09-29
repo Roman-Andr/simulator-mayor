@@ -1,7 +1,7 @@
 package me.slavita.construction.utils.extensions
 
-import me.slavita.construction.utils.multichat.ChatType
-import me.slavita.construction.utils.multichat.MultiChatUtil
+import me.slavita.construction.multichat.ChatType
+import me.slavita.construction.multichat.MultiChatUtil
 import org.bukkit.entity.Player
 import ru.cristalix.core.formatting.Formatting
 

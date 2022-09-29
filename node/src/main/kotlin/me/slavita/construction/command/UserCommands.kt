@@ -9,6 +9,7 @@ import me.func.mod.util.command
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.app
 import me.slavita.construction.ui.ItemIcons
+import me.slavita.construction.utils.extensions.LoggerUtils.fine
 import me.slavita.construction.worker.WorkerGenerator
 import me.slavita.construction.worker.WorkerRarity
 import java.util.*
@@ -88,6 +89,14 @@ object UserCommands {
                 }
             Anime.close(player)
             menu.open(player)
+        }
+
+        val command = CustomCommand(40, "Подождите %t")
+        command("test") { player, _ ->
+
+            command.execute(player) {
+                player.fine("ага")
+            }
         }
     }
 }

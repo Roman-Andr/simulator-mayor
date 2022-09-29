@@ -8,7 +8,7 @@ import java.lang.Long.max
 
 class Cooldown(
     val duration: Long,
-    val player: Player,
+    val player: Player? = null,
 ) {
     private var startTime = 0L
 
@@ -17,6 +17,7 @@ class Cooldown(
         after(duration) {
             finishAction()
         }
+        if (player == null) return
         Anime.reload(player, duration / 20.0, "Перезарядка", SpecialColor.GOLD.toRGB())
     }
 
