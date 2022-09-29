@@ -1,6 +1,5 @@
 package me.slavita.construction.world
 
-import me.func.mod.util.after
 import me.func.mod.util.command
 import me.func.world.WorldMeta
 import me.slavita.construction.structure.base.BuildingStructure
@@ -16,7 +15,7 @@ import java.util.*
 class GameWorld(val map: WorldMeta) : Listener {
 
     private val structures = hashMapOf<Structure, Structure>()
-    private val clientStructures = hashMapOf<UUID, ArrayList<BuildingStructure>>()
+    val clientStructures = hashMapOf<UUID, ArrayList<BuildingStructure>>()
     val testStructure = Structures.structureGroups[2].structures[0]
 
     init {
@@ -37,15 +36,22 @@ class GameWorld(val map: WorldMeta) : Listener {
             clientStructures[player.uniqueId]!!.add(clientStructure)
             clientStructure.startBuilding()
         }
+    }
 
-        command("next") { player, args ->
-            val count = args[0].toInt()
-            for (i in 1..count) {
-                after((i - 1) * 2L) {
-                    clientStructures[player.uniqueId]!![0].placeCurrentBlock()
-                }
-            }
-        }
+    fun playerBuild(player: Player) {
+        if (clientStructures[player.uniqueId] == null) clientStructures[player.uniqueId] = arrayListOf()
+
+        val clientStructure = ClientStructure(this, Structures.structureGroups.random().structures.random(), player, map.getLabels("default", "1")[0])
+        clientStructures[player.uniqueId]!!.add(clientStructure)
+        clientStructure.startBuilding()
+    }
+
+    fun playerWorkerBuild(player: Player) {
+        if (clientStructures[player.uniqueId] == null) clientStructures[player.uniqueId] = arrayListOf()
+
+        val clientStructure = WorkerStructure(this, Structures.structureGroups.random().structures.random(), player, map.getLabels("default", "2")[0])
+        clientStructures[player.uniqueId]!!.add(clientStructure)
+        clientStructure.startBuilding()
     }
 
     fun placeFakeBlock(player: Player, block: BlockProperties) {

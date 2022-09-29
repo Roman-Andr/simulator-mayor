@@ -16,7 +16,7 @@ class WorkerStructure(
     allocation: Location
 ) : BuildingStructure(world, structure, owner, allocation) {
     private val delayTime: Long
-        get() = 10000L / app.getUser(owner).workers.sumOf { it.skill }
+        get() = 1000L / app.getUser(owner).workers.sumOf { it.skill }
 
     override fun enterBuilding() {
         build()

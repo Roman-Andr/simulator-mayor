@@ -9,8 +9,8 @@ import me.func.mod.util.after
 import me.func.mod.util.listener
 import me.func.world.MapLoader
 import me.func.world.WorldMeta
-import me.slavita.construction.command.AdminCommands
-import me.slavita.construction.command.UserCommands
+import me.slavita.construction.commands.chat.AdminCommands
+import me.slavita.construction.commands.chat.UserCommands
 import me.slavita.construction.multichat.MultiChatUtil
 import me.slavita.construction.npc.NpcManager
 import me.slavita.construction.player.Statistics

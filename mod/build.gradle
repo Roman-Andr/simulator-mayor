@@ -17,16 +17,12 @@ mod {
     author = "Slavita"
 }
 
-def key = System.getenv("CRI_HOST_SSHKEY_PATH")
-
-if (!key) return
-
 remotes {
     webServer {
         host = System.getenv("CRI_HOST")
         user = System.getenv("CRI_HOST_USERNAME")
         knownHosts = allowAnyHosts
-        identity = file(key ?: "key")
+        identity = file(System.getenv("CRI_HOST_SSHKEY_PATH" ?: "key"))
         passphrase = System.getenv("CRI_HOST_PASSPHRASE")
     }
 }

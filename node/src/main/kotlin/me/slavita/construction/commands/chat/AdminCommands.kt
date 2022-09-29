@@ -1,4 +1,4 @@
-package me.slavita.construction.command
+package me.slavita.construction.commands.chat
 
 import me.func.mod.util.command
 import me.slavita.construction.app

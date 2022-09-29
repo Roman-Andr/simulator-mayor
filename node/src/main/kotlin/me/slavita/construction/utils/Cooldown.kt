@@ -18,7 +18,7 @@ class Cooldown(
             finishAction()
         }
         if (player == null) return
-        Anime.reload(player, duration / 20.0, "Перезарядка", SpecialColor.GOLD.toRGB())
+        Anime.reload(player, duration / 20.0, "Перезарядка", SpecialColor.GOLD)
     }
 
     fun timeLeft() : Long {

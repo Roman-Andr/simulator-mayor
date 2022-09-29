@@ -1,4 +1,4 @@
-package me.slavita.construction.command
+package me.slavita.construction.commands
 
 import me.func.mod.Anime
 import me.slavita.construction.app
@@ -6,7 +6,7 @@ import org.bukkit.entity.Player
 
 class CustomCommand(
     val cooldown: Long,
-    val waitMessage: String
+    val executeCommand: Command
 ) {
     private val timeLast: Long
         get() {
@@ -18,15 +18,14 @@ class CustomCommand(
     private var lastTime: Long = 0
 
     init {
-        lastTime = app.pass
+        lastTime = app.pass - cooldown
     }
 
-    fun execute(player: Player, action: () -> Unit) {
+    fun execute(player: Player) {
+        println(timeLast)
         if (app.pass - lastTime > cooldown) {
             lastTime = app.pass
-            action()
-        } else {
-            Anime.killboardMessage(player, waitMessage.replace("%t", timeLast.toString()))
+            executeCommand.execute(player)
         }
     }
 }

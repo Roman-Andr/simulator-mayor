@@ -25,7 +25,7 @@ object NpcManager {
                 }
                 behaviour = NpcBehaviour.STARE_AND_LOOK_AROUND
                 onClick {
-                    it.player.performCommand(type.command)
+                    type.command.delaydedExecute(it.player)
                 }
             }.slot(EquipmentSlot.HAND, CraftItemStack.asNMSCopy(ItemIcons.get(type.itemKey, type.itemValue)))
         }
