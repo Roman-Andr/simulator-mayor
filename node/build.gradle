@@ -38,7 +38,9 @@ remotes {
     }
 }
 
-task upload() {
+task upload(
+        dependsOn: project(':mod').tasks.upload
+) {
     doLast {
         ssh.run {
             session(remotes.webServer) {
