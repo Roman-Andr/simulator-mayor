@@ -1,6 +1,6 @@
 package me.slavita.construction.player
 
-data class Statistics(
+class Statistics(
     var money: Long,
     var level: Int,
     var experience: Double,
