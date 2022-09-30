@@ -1,4 +1,4 @@
-package me.slavita.construction.structure.base
+package me.slavita.construction.structure
 
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureProgressBar

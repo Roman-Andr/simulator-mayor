@@ -1,11 +1,9 @@
 package me.slavita.construction.world
 
-import me.func.mod.util.command
 import me.func.world.WorldMeta
-import me.slavita.construction.structure.base.BuildingStructure
-import me.slavita.construction.structure.base.types.ClientStructure
-import me.slavita.construction.structure.base.types.WorkerStructure
-import me.slavita.construction.structure.instance.Structure
+import me.slavita.construction.structure.BuildingStructure
+import me.slavita.construction.structure.ClientStructure
+import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.structure.instance.Structures
 import org.bukkit.Location
 import org.bukkit.entity.Player
@@ -14,29 +12,7 @@ import java.util.*
 
 class GameWorld(val map: WorldMeta) : Listener {
 
-    private val structures = hashMapOf<Structure, Structure>()
     val clientStructures = hashMapOf<UUID, ArrayList<BuildingStructure>>()
-    val testStructure = Structures.structureGroups[2].structures[0]
-
-    init {
-        structures[testStructure] = Structure("", testStructure.box)
-
-        command("start") { player, _ ->
-            if (clientStructures[player.uniqueId] == null) clientStructures[player.uniqueId] = arrayListOf()
-
-            val clientStructure = ClientStructure(this, structures[testStructure]!!, player, map.getLabels("default", "1")[0])
-            clientStructures[player.uniqueId]!!.add(clientStructure)
-            clientStructure.startBuilding()
-        }
-
-        command("build") { player, _ ->
-            if (clientStructures[player.uniqueId] == null) clientStructures[player.uniqueId] = arrayListOf()
-
-            val clientStructure = WorkerStructure(this, structures[testStructure]!!, player, map.getLabels("default", "1")[0])
-            clientStructures[player.uniqueId]!!.add(clientStructure)
-            clientStructure.startBuilding()
-        }
-    }
 
     fun playerBuild(player: Player) {
         if (clientStructures[player.uniqueId] == null) clientStructures[player.uniqueId] = arrayListOf()

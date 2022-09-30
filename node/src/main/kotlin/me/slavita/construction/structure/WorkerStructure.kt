@@ -1,8 +1,7 @@
-package me.slavita.construction.structure.base.types
+package me.slavita.construction.structure
 
 import me.func.mod.util.after
 import me.slavita.construction.app
-import me.slavita.construction.structure.base.BuildingStructure
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.world.GameWorld
@@ -31,7 +30,8 @@ class WorkerStructure(
     }
 
     private fun build() {
-        if (state != StructureState.FINISHED) after(delayTime) {
+        if (state != StructureState.BUILDING) return
+        after(delayTime) {
             placeCurrentBlock()
             build()
         }

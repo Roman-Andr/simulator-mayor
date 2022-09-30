@@ -1,4 +1,4 @@
-package me.slavita.construction.structure.base.types
+package me.slavita.construction.structure
 
 import implario.humanize.Humanize
 import me.func.mod.Anime
@@ -8,7 +8,6 @@ import me.slavita.construction.connection.ConnectionUtil
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureSender
 import me.slavita.construction.structure.tools.StructureState
-import me.slavita.construction.structure.base.BuildingStructure
 import me.slavita.construction.ui.ItemIcons
 import me.slavita.construction.utils.Cooldown
 import me.slavita.construction.utils.extensions.BlocksExtensions.minus
