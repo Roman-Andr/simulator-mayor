@@ -1,22 +1,25 @@
-package me.slavita.construction.action.command
+package me.slavita.construction.action.command.menu
 
 import me.func.mod.conversation.data.LootDrop
 import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.selection.Selection
-import me.slavita.construction.action.MenuCommand
+import me.func.protocol.data.emoji.Emoji
+import me.slavita.construction.action.OpenCommand
+import me.slavita.construction.action.command.OpenWorker
 import me.slavita.construction.app
 import me.slavita.construction.ui.ItemIcons
 import me.slavita.construction.worker.WorkerGenerator
 import me.slavita.construction.worker.WorkerRarity
 import org.bukkit.entity.Player
 
-class LootboxCommand(player: Player) : MenuCommand(player) {
+class BuyWorkersMenu(player: Player) : OpenCommand(player) {
 
     override fun getMenu(): Openable {
         app.getUser(player).run user@ {
             return Selection(
                 title = "Покупка строителей",
+                vault = Emoji.DOLLAR,
                 money = "Ваш баланс ${stats.money}",
                 rows = 3,
                 columns = 3,

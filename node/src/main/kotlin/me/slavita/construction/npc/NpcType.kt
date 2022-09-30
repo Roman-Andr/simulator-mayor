@@ -1,8 +1,9 @@
 package me.slavita.construction.npc
 
-import me.slavita.construction.action.command.LootboxCommand
-import me.slavita.construction.action.command.ProjectsCommand
-import me.slavita.construction.action.command.TeamCommand
+import me.slavita.construction.action.command.menu.BuyWorkersMenu
+import me.slavita.construction.action.command.menu.ControlPanelMenu
+import me.slavita.construction.action.command.menu.ProjectsChoise
+import me.slavita.construction.action.command.menu.WorkerTeamMenu
 import org.bukkit.entity.Player
 
 enum class NpcType(
@@ -21,7 +22,7 @@ enum class NpcType(
         "e2543a0a-5799-11e9-8374-1cb72caa35fd",
         "other",
         "stats",
-        { LootboxCommand(it).tryExecute() }
+        { BuyWorkersMenu(it).tryExecute() }
     ),
     PROJECTS(
         "Проекты",
@@ -30,7 +31,7 @@ enum class NpcType(
         "ba821208-6b64-11e9-8374-1cb72caa35fd",
         "other",
         "stats",
-        { ProjectsCommand(it).tryExecute() }
+        { ProjectsChoise(it).tryExecute() }
     ),
     TEAM(
         "Работники",
@@ -38,7 +39,16 @@ enum class NpcType(
         SkinType.UUID,
         "307264a1-2c69-11e8-b5ea-1cb72caa35fd",
         "other",
-        "guild_members",
-        { TeamCommand(it).tryExecute() }
+        "stats",
+        { WorkerTeamMenu(it).tryExecute() }
+    ),
+    MENU(
+        "Меню",
+        "menu",
+        SkinType.UUID,
+        "303c31eb-2c69-11e8-b5ea-1cb72caa35fd",
+        "other",
+        "stats",
+        { ControlPanelMenu(it).tryExecute() }
     ),
 }

@@ -5,11 +5,13 @@ import me.slavita.construction.structure.BuildingStructure
 
 class Project(
     val owner: User,
+    var id: Int,
     val structure: BuildingStructure,
     val stats: ProjectStatistics
 ) {
     init {
         owner.activeProjects.add(this)
+        id = owner.stats.totalProjects
     }
 
     fun start() {
