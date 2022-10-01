@@ -20,6 +20,7 @@ class ControlPanelMenu(player: Player) : OpenCommand(player) {
                 rows = 4,
                 columns = 3,
                 storage = mutableListOf(
+                    ReactiveButton(),
                     ReactiveButton()
                         .title("Работники")
                         .description("Управление вашими\nработниками")

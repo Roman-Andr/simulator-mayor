@@ -11,6 +11,6 @@ class Worker(
 ) {
     val uuid = UUID.randomUUID()
 
-    val sellPrice: Int
+    val sellPrice: Long
         get() { return 199 /* Формула */ }
 }

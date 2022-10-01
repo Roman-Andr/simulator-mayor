@@ -8,6 +8,8 @@ import me.func.protocol.ui.indicator.Indicators
 import me.slavita.construction.app
 import me.slavita.construction.connection.ConnectionUtil.createChannel
 import me.slavita.construction.multichat.MultiChatUtil
+import me.slavita.construction.utils.Formatter.toMoneyIcon
+import org.bukkit.ChatColor.*
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
@@ -25,10 +27,10 @@ class PlayerJoinEvents : Listener {
                 .key("scoreboard")
                 .header("Стройка")
                 .dynamic("Монеты") {
-                    return@dynamic "${app.getUser(it).stats.money}§f ${Emoji.DOLLAR}"
+                    return@dynamic app.getUser(it).stats.money.toMoneyIcon()
                 }
                 .dynamic("Уровень") {
-                    return@dynamic "${app.getUser(it).stats.level}§f ${Emoji.UP}"
+                    return@dynamic "${app.getUser(it).stats.level}${WHITE} ${Emoji.UP}"
                 }
                 .empty()
                 .dynamic("Строителей") {

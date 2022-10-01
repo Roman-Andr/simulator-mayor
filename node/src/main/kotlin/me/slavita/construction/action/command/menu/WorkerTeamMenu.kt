@@ -7,6 +7,10 @@ import me.func.protocol.data.emoji.Emoji
 import me.slavita.construction.action.OpenCommand
 import me.slavita.construction.app
 import me.slavita.construction.ui.ItemIcons
+import me.slavita.construction.utils.Formatter.toMoney
+import me.slavita.construction.utils.Formatter.toMoneyIcon
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.WHITE
 import org.bukkit.entity.Player
 import java.util.stream.Collectors
 import java.util.stream.Stream
@@ -17,7 +21,7 @@ class WorkerTeamMenu(player: Player) : OpenCommand(player) {
             return Selection(
                 title = "Ваши строители",
                 vault = Emoji.DOLLAR,
-                money = "Ваш баланс ${stats.money}",
+                money = "Ваш баланс ${stats.money.toMoney()}",
                 rows = 4,
                 columns = 5,
                 storage = mutableListOf<ReactiveButton>().apply storage@{
@@ -27,14 +31,14 @@ class WorkerTeamMenu(player: Player) : OpenCommand(player) {
                                 .item(ItemIcons.get(worker.rarity.iconKey, worker.rarity.iconValue, worker.rarity.iconMaterial))
                                 .title(worker.name)
                                 .hover(Stream.of(
-                                    "§aИмя: ${worker.name}\n",
-                                    "§eРедкость: ${worker.rarity.title}\n",
-                                    "§bУровень: ${worker.skill}§f${Emoji.UP}\n",
-                                    "§3Надёжность: ${worker.reliability}\n",
-                                    "§cЖадность: ${worker.rapacity.title}\n\n",
-                                    "§cПродать за ${worker.sellPrice}§f${Emoji.DOLLAR}"
+                                    "${AQUA}Имя: ${worker.name}\n",
+                                    "${AQUA}Редкость: ${worker.rarity.title}\n",
+                                    "${AQUA}Уровень: ${worker.skill}${WHITE}${Emoji.UP}\n",
+                                    "${AQUA}Надёжность: ${worker.reliability}\n",
+                                    "${AQUA}Жадность: ${worker.rapacity.title}\n",
+                                    "${AQUA}Продать за ${worker.sellPrice.toMoneyIcon()}"
                                 ).collect(Collectors.joining()))
-                                .hint("§cПродать")
+                                .hint("${AQUA}Продать")
                                 .onClick { _, _, _ ->
                                     SellWorkerConfirm(player, worker).tryExecute()
                                 }

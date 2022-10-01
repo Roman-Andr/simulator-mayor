@@ -18,6 +18,8 @@ import me.slavita.construction.player.User
 import me.slavita.construction.player.events.PhysicsDisabler
 import me.slavita.construction.player.events.PlayerJoinEvents
 import me.slavita.construction.world.GameWorld
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.WHITE
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import ru.cristalix.core.CoreApi
@@ -58,7 +60,7 @@ class App : JavaPlugin() {
         Platforms.set(PlatformDarkPaper())
 
         IRealmService.get().currentRealmInfo.apply {
-            IScoreboardService.get().serverStatusBoard.displayName = "§fТест #§b" + realmId.id
+            IScoreboardService.get().serverStatusBoard.displayName = "${WHITE}Тест #${AQUA}" + realmId.id
             after(5) {
                 ITransferService.get().transfer(UUID.fromString(System.getProperty("construction.user")), realmId)
             }

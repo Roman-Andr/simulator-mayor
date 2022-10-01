@@ -9,5 +9,5 @@ class Statistics(
     var totalProjects: Int,
     var maxProjects: Int,
 ) {
-    constructor() : this(0, 1, .0, .0, 0, 0)
+    constructor() : this(1000000000000000000, 1, .0, .0, 0, 0)
 }

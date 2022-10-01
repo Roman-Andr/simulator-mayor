@@ -9,6 +9,7 @@ import me.slavita.construction.action.OpenCommand
 import me.slavita.construction.action.command.OpenWorker
 import me.slavita.construction.app
 import me.slavita.construction.ui.ItemIcons
+import me.slavita.construction.utils.Formatter.toMoney
 import me.slavita.construction.worker.WorkerGenerator
 import me.slavita.construction.worker.WorkerRarity
 import org.bukkit.entity.Player
@@ -20,7 +21,7 @@ class BuyWorkersMenu(player: Player) : OpenCommand(player) {
             return Selection(
                 title = "Покупка строителей",
                 vault = Emoji.DOLLAR,
-                money = "Ваш баланс ${stats.money}",
+                money = "Ваш баланс ${stats.money.toMoney()}",
                 rows = 3,
                 columns = 3,
                 storage = mutableListOf<ReactiveButton>().apply storage@ {

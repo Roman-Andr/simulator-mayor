@@ -9,6 +9,8 @@ import me.slavita.construction.action.OpenCommand
 import me.slavita.construction.app
 import me.slavita.construction.structure.ClientStructure
 import me.slavita.construction.ui.ItemIcons
+import me.slavita.construction.utils.Formatter.toMoney
+import org.bukkit.ChatColor.AQUA
 import org.bukkit.entity.Player
 import java.util.stream.Collectors
 import java.util.stream.Stream
@@ -19,7 +21,7 @@ class ActiveProjectsMenu(player: Player) : OpenCommand(player) {
             return Selection(
                 title = "Ваши активные проекты",
                 vault = Emoji.DOLLAR,
-                money = "Ваш баланс ${stats.money}",
+                money = "Ваш баланс ${stats.money.toMoney()}",
                 rows = 4,
                 columns = 5,
                 storage = mutableListOf<ReactiveButton>().apply storage@{
@@ -29,8 +31,8 @@ class ActiveProjectsMenu(player: Player) : OpenCommand(player) {
                                     .item(ItemIcons.get("skyblock", "spawn"))
                                     .title("Проект #${it.id}")
                                     .hover(Stream.of(
-                                        "§aID: ${it.id}\n",
-                                        "§eНаграда: ${it.stats.reward}\n"
+                                        "${AQUA}ID: ${it.id}\n",
+                                        "${AQUA}Награда: ${it.stats.reward}\n"
                                     ).collect(Collectors.joining()))
                                     .special(it.structure is ClientStructure)
                                     .onClick { _, _, _ ->

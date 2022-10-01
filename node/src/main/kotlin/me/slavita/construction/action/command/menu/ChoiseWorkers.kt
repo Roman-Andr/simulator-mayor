@@ -10,6 +10,8 @@ import me.slavita.construction.app
 import me.slavita.construction.project.Project
 import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.ui.ItemIcons
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.WHITE
 import org.bukkit.entity.Player
 import java.util.stream.Collectors
 import java.util.stream.Stream
@@ -31,11 +33,11 @@ class ChoiseWorkers(player: Player, val project: Project) : OpenCommand(player) 
                                 .item(ItemIcons.get(worker.rarity.iconKey, worker.rarity.iconValue, worker.rarity.iconMaterial))
                                 .title(worker.name)
                                 .hover(Stream.of(
-                                    "§aИмя: ${worker.name}\n",
-                                    "§eРедкость: ${worker.rarity.title}\n",
-                                    "§bУровень: ${worker.skill}§f${Emoji.UP}\n",
-                                    "§3Надёжность: ${worker.reliability}\n",
-                                    "§cЖадность: ${worker.rapacity.title}\n"
+                                    "${AQUA}Имя: ${worker.name}\n",
+                                    "${AQUA}Редкость: ${worker.rarity.title}\n",
+                                    "${AQUA}Уровень: ${worker.skill}${WHITE}${Emoji.UP}\n",
+                                    "${AQUA}Надёжность: ${worker.reliability}\n",
+                                    "${AQUA}Жадность: ${worker.rapacity.title}\n"
                                 ).collect(Collectors.joining()))
                                 .hint("Выбрать")
                                 .onClick { _, _, _ ->
