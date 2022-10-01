@@ -24,7 +24,7 @@ class ControlPanelMenu(player: Player) : OpenCommand(player) {
                         .title("Работники")
                         .description("Управление вашими\nработниками")
                         .hint("Выбрать")
-                        .item(ItemIcons.get("skyblock", "crafts"))
+                        .item(ItemIcons.get("other", "guild_members"))
                         .onClick { _, _, _ ->
                             WorkerTeamMenu(player).closeAll(false).tryExecute()
                         },
@@ -32,7 +32,7 @@ class ControlPanelMenu(player: Player) : OpenCommand(player) {
                         .title("Покупка работников")
                         .description("Покупка рабочих")
                         .hint("Выбрать")
-                        .item(ItemIcons.get("skyblock", "crafts"))
+                        .item(ItemIcons.get("other", "guild_members_add"))
                         .onClick { _, _, _ ->
                             BuyWorkersMenu(player).closeAll(false).tryExecute()
                         },
@@ -40,7 +40,7 @@ class ControlPanelMenu(player: Player) : OpenCommand(player) {
                         .title("Проекты")
                         .description("Получение проектов\nдля строительства")
                         .hint("Выбрать")
-                        .item(ItemIcons.get("skyblock", "crafts"))
+                        .item(ItemIcons.get("skyblock", "info"))
                         .onClick { _, _, _ ->
                             ProjectsChoise(player).closeAll(false).tryExecute()
                         },
@@ -48,7 +48,7 @@ class ControlPanelMenu(player: Player) : OpenCommand(player) {
                         .title("Активные проекты")
                         .description("Просмостр ваших\nактивных проектов")
                         .hint("Выбрать")
-                        .item(ItemIcons.get("skyblock", "crafts"))
+                        .item(ItemIcons.get("other", "book"))
                         .onClick { _, _, _ ->
                             ActiveProjectsMenu(player).closeAll(false).tryExecute()
                         },
@@ -56,7 +56,7 @@ class ControlPanelMenu(player: Player) : OpenCommand(player) {
                         .title("Маркет")
                         .description("Покупка блоков\nдля постройки")
                         .hint("Выбрать")
-                        .item(ItemIcons.get("skyblock", "crafts"))
+                        .item(ItemIcons.get("skyblock", "collections"))
                         .onClick { _, _, _ ->
                             MarketStandMenu(player, Material.values().toSet()).tryExecute()
                         },

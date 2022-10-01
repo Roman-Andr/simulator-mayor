@@ -25,7 +25,7 @@ class ProjectsChoise(player: Player) : OpenCommand(player) {
                         .title("Лично")
                         .description("Вы сами будете\nстроить проект")
                         .hint("Выбрать")
-                        .item(ItemIcons.get("skyblock", "crafts"))
+                        .item(ItemIcons.get("other", "human"))
                         .onClick { _, _, _ ->
                             Anime.close(player)
                         },
@@ -33,7 +33,7 @@ class ProjectsChoise(player: Player) : OpenCommand(player) {
                         .title("Рабочие")
                         .description("Проект будут \nстроить выбранные\nвами строители")
                         .hint("Выбрать")
-                        .item(ItemIcons.get("skyblock", "crafts"))
+                        .item(ItemIcons.get("other", "myfriends"))
                         .onClick { _, _, _ ->
                             ChoiseWorkers(player, Project(
                                 this,

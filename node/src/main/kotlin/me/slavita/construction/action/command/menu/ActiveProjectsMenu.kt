@@ -26,7 +26,7 @@ class ActiveProjectsMenu(player: Player) : OpenCommand(player) {
                     activeProjects.forEach {
                             this@storage.add(
                                 ReactiveButton()
-                                    .item(ItemIcons.get("", ""))
+                                    .item(ItemIcons.get("skyblock", "spawn"))
                                     .title("Проект #${it.id}")
                                     .hover(Stream.of(
                                         "§aID: ${it.id}\n",
