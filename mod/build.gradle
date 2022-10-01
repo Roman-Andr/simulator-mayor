@@ -22,7 +22,7 @@ remotes {
         host = System.getenv("CRI_HOST")
         user = System.getenv("CRI_HOST_USERNAME")
         knownHosts = allowAnyHosts
-        identity = file(System.getenv("CRI_HOST_SSHKEY_PATH" ?: "key"))
+        identity = file(System.getenv("CRI_HOST_SSHKEY_PATH") ?: "key")
         passphrase = System.getenv("CRI_HOST_PASSPHRASE")
     }
 }
