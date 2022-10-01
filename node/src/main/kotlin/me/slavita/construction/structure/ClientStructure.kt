@@ -11,6 +11,7 @@ import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.ui.ItemIcons
 import me.slavita.construction.utils.Cooldown
 import me.slavita.construction.utils.extensions.BlocksExtensions.toLocation
+import me.slavita.construction.utils.extensions.LoggerUtils.killboard
 import me.slavita.construction.utils.extensions.PlayerExtensions.swapItems
 import me.slavita.construction.world.GameWorld
 import net.minecraft.server.v1_12_R1.EnumHand
@@ -55,12 +56,12 @@ class ClientStructure(
         owner.inventory.itemInMainHand.apply {
             if (!currentBlock!!.equalsItem(this)) {
                 Glow.animate(owner, 0.2, GlowColor.RED)
-                Anime.killboardMessage(owner, "${RED}Неверный блок")
+                owner.killboard("${RED}Неверный блок")
                 return
             }
 
             if (!cooldown.isExpired()) {
-                Anime.killboardMessage(owner, "${AQUA}Вы сможете поставить блок через ${AQUA}${cooldown.timeLeft()} ${
+                owner.killboard("${AQUA}Вы сможете поставить блок через ${AQUA}${cooldown.timeLeft()} ${
                     Humanize.plurals(
                         "секунду",
                         "секунды",
@@ -86,7 +87,7 @@ class ClientStructure(
 
                 if (!hasNext) {
                     Glow.animate(owner, 0.2, GlowColor.GOLD)
-                    Anime.killboardMessage(owner, "${WHITE}В инвентаре нет нужного материала")
+                    owner.killboard("${WHITE}В инвентаре нет нужного материала")
                 }
                 return
             }

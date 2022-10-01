@@ -15,7 +15,6 @@ import me.slavita.construction.worker.WorkerRarity
 import org.bukkit.entity.Player
 
 class BuyWorkersMenu(player: Player) : OpenCommand(player) {
-
     override fun getMenu(): Openable {
         app.getUser(player).run user@ {
             return Selection(

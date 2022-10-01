@@ -12,11 +12,10 @@ class Project(
     val place: BlockPosition
 ) {
     init {
-        owner.activeProjects.add(this)
         id = owner.stats.totalProjects
     }
 
     fun start() {
-        structure.startBuilding()
+        structure.startBuilding(this)
     }
 }

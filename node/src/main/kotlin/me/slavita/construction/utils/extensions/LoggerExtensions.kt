@@ -1,5 +1,6 @@
 package me.slavita.construction.utils.extensions
 
+import me.func.mod.Anime
 import me.slavita.construction.multichat.ChatType
 import me.slavita.construction.multichat.MultiChatUtil
 import org.bukkit.entity.Player
@@ -20,5 +21,9 @@ object LoggerUtils {
 
     fun Player.fine(text: Int) {
         MultiChatUtil.sendPlayerMessage(this, ChatType.SYSTEM, Formatting.fine(text.toString()))
+    }
+
+    fun Player.killboard(text: String) {
+        Anime.killboardMessage(this, text)
     }
 }

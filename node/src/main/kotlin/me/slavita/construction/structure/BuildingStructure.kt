@@ -1,6 +1,8 @@
 package me.slavita.construction.structure
 
+import me.slavita.construction.app
 import me.slavita.construction.connection.ConnectionUtil
+import me.slavita.construction.project.Project
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureProgressBar
 import me.slavita.construction.structure.tools.StructureState
@@ -23,6 +25,7 @@ abstract class BuildingStructure(
     protected var currentBlock: BlockProperties? = null
     protected val progressBar = StructureProgressBar(owner, structure.blocksCount)
     protected var blocksPlaced = 0
+    private var currentProject: Project? = null
 
     abstract fun enterBuilding()
 
@@ -30,7 +33,7 @@ abstract class BuildingStructure(
 
     abstract fun buildFinished()
 
-    fun startBuilding() {
+    fun startBuilding(project: Project) {
         state = StructureState.BUILDING
         currentBlock = structure.getFirstBlock()
         progressBar.show()
@@ -41,6 +44,7 @@ abstract class BuildingStructure(
             if (structure.contains(packet.a - allocation)) packet.a = BlockPosition(0, 0, 0)
         }
         enterBuilding()
+        currentProject = project
     }
 
     fun placeCurrentBlock() {
@@ -64,5 +68,7 @@ abstract class BuildingStructure(
         state = StructureState.FINISHED
         progressBar.hide()
         buildFinished()
+        app.getUser(owner).activeProjects.remove(currentProject)
+        app.getUser(owner).stats.totalProjects++
     }
 }
