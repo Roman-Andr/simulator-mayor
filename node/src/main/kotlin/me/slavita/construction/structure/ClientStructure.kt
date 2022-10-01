@@ -10,11 +10,11 @@ import me.slavita.construction.structure.tools.StructureSender
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.ui.ItemIcons
 import me.slavita.construction.utils.Cooldown
-import me.slavita.construction.utils.extensions.BlocksExtensions.minus
 import me.slavita.construction.utils.extensions.BlocksExtensions.toLocation
 import me.slavita.construction.utils.extensions.PlayerExtensions.swapItems
 import me.slavita.construction.world.GameWorld
-import net.minecraft.server.v1_12_R1.*
+import net.minecraft.server.v1_12_R1.EnumHand
+import net.minecraft.server.v1_12_R1.PacketPlayInUseItem
 import org.bukkit.Location
 import org.bukkit.block.BlockFace
 import org.bukkit.entity.Player
@@ -37,13 +37,6 @@ class ClientStructure(
             val relativeBlock = clickedBlock.getRelative(BlockFace.valueOf(packet.b.name)).location
 
             if (currentBlock!!.withOffset(allocation).equalsLocation(relativeBlock)) tryPlaceBlock()
-        }
-
-        ConnectionUtil.registerWriter(owner.uniqueId) { packet ->
-            if (packet !is PacketPlayOutBlockChange) return@registerWriter
-            if (packet.block.material != Material.AIR) return@registerWriter
-
-            if (structure.contains(packet.a - allocation)) packet.a = BlockPosition(0, 0, 0)
         }
     }
 

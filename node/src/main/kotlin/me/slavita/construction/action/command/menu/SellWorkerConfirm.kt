@@ -15,8 +15,10 @@ class SellWorkerConfirm(player: Player, val worker: Worker) : OpenCommand(player
                 "Продать строителя",
                 worker.name,
                 "за ${worker.sellPrice}${Emoji.DOLLAR}",
-            )) { player ->
-                app.getUser(player).workers.remove(worker)
+            )) {
+                this.workers.remove(worker)
+                this.stats.money += worker.sellPrice
+                WorkerTeamMenu(player).tryExecute()
             }
         }
     }

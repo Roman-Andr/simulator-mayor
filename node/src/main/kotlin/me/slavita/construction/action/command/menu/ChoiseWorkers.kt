@@ -1,27 +1,31 @@
 package me.slavita.construction.action.command.menu
 
+import me.func.mod.Anime
 import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.selection.Selection
 import me.func.protocol.data.emoji.Emoji
 import me.slavita.construction.action.OpenCommand
 import me.slavita.construction.app
+import me.slavita.construction.project.Project
+import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.ui.ItemIcons
 import org.bukkit.entity.Player
 import java.util.stream.Collectors
 import java.util.stream.Stream
 
-class WorkerTeamMenu(player: Player) : OpenCommand(player) {
+class ChoiseWorkers(player: Player, val project: Project) : OpenCommand(player) {
     override fun getMenu(): Openable {
-        app.getUser(player).run {
+        app.getUser(player).run user@ {
             return Selection(
-                title = "Ваши строители",
-                vault = Emoji.DOLLAR,
-                money = "Ваш баланс ${stats.money}",
-                rows = 4,
+                title = "Выбор строителей",
+                rows = 5,
                 columns = 5,
                 storage = mutableListOf<ReactiveButton>().apply storage@{
-                    workers.forEach { worker ->
+                    workers.filter {
+                            worker -> activeProjects.stream().anyMatch { !(it.structure as WorkerStructure).workers.contains(worker) }
+                    }.filter { !(project.structure as WorkerStructure).workers.contains(it) }
+                        .forEach { worker ->
                         this@storage.add(
                             ReactiveButton()
                                 .item(ItemIcons.get(worker.rarity.iconKey, worker.rarity.iconValue, worker.rarity.iconMaterial))
@@ -31,12 +35,17 @@ class WorkerTeamMenu(player: Player) : OpenCommand(player) {
                                     "§eРедкость: ${worker.rarity.title}\n",
                                     "§bУровень: ${worker.skill}§f${Emoji.UP}\n",
                                     "§3Надёжность: ${worker.reliability}\n",
-                                    "§cЖадность: ${worker.rapacity.title}\n\n",
-                                    "§cПродать за ${worker.sellPrice}§f${Emoji.DOLLAR}"
+                                    "§cЖадность: ${worker.rapacity.title}\n"
                                 ).collect(Collectors.joining()))
-                                .hint("§cПродать")
+                                .hint("Выбрать")
                                 .onClick { _, _, _ ->
-                                    SellWorkerConfirm(player, worker).tryExecute()
+                                    if ((project.structure as WorkerStructure).workers.size < 3) {
+                                        project.structure.workers.add(worker)
+                                        ChoiseWorkers(player, project).tryExecute()
+                                    } else {
+                                        Anime.close(player)
+                                        this@user.activeProjects.add(project.apply { start() })
+                                    }
                                 }
                         )
                     }

@@ -7,6 +7,7 @@ import me.func.protocol.data.emoji.Emoji
 import me.slavita.construction.action.OpenCommand
 import me.slavita.construction.app
 import me.slavita.construction.ui.ItemIcons
+import org.bukkit.Material
 import org.bukkit.entity.Player
 
 class ControlPanelMenu(player: Player) : OpenCommand(player) {
@@ -50,6 +51,14 @@ class ControlPanelMenu(player: Player) : OpenCommand(player) {
                         .item(ItemIcons.get("skyblock", "crafts"))
                         .onClick { _, _, _ ->
                             ActiveProjectsMenu(player).closeAll(false).tryExecute()
+                        },
+                    ReactiveButton()
+                        .title("Маркет")
+                        .description("Покупка блоков\nдля постройки")
+                        .hint("Выбрать")
+                        .item(ItemIcons.get("skyblock", "crafts"))
+                        .onClick { _, _, _ ->
+                            MarketStandMenu(player, Material.values().toSet()).tryExecute()
                         },
                 )
             )

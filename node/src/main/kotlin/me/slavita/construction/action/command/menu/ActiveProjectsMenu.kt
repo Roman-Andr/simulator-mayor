@@ -28,8 +28,7 @@ class ActiveProjectsMenu(player: Player) : OpenCommand(player) {
                                 ReactiveButton()
                                     .item(ItemIcons.get("", ""))
                                     .title("Проект #${it.id}")
-                                    .hover(
-                                        Stream.of(
+                                    .hover(Stream.of(
                                         "§aID: ${it.id}\n",
                                         "§eНаграда: ${it.stats.reward}\n"
                                     ).collect(Collectors.joining()))

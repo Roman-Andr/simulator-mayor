@@ -6,6 +6,10 @@ import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.choicer.Choicer
 import me.slavita.construction.action.OpenCommand
 import me.slavita.construction.app
+import me.slavita.construction.project.Project
+import me.slavita.construction.project.ProjectStatistics
+import me.slavita.construction.structure.WorkerStructure
+import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.ItemIcons
 import org.bukkit.entity.Player
 
@@ -31,7 +35,19 @@ class ProjectsChoise(player: Player) : OpenCommand(player) {
                         .hint("Выбрать")
                         .item(ItemIcons.get("skyblock", "crafts"))
                         .onClick { _, _, _ ->
-                            Anime.close(player)
+                            ChoiseWorkers(player, Project(
+                                this,
+                                activeProjects.size,
+                                WorkerStructure(
+                                    app.mainWorld,
+                                    Structures.structureGroups.random().structures.random(),
+                                    player,
+                                    app.mainWorld.map.getLabels("default", "1")[0],
+                                    mutableSetOf()
+                                ),
+                                ProjectStatistics(1000)
+                            )
+                            ).tryExecute()
                         }
                 )
             )
