@@ -11,6 +11,7 @@ import me.slavita.construction.project.ProjectStatistics
 import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.ItemIcons
+import me.slavita.construction.utils.extensions.BlocksExtensions.toLocation
 import org.bukkit.entity.Player
 
 class ProjectsChoise(player: Player) : OpenCommand(player) {
@@ -35,6 +36,7 @@ class ProjectsChoise(player: Player) : OpenCommand(player) {
                         .hint("Выбрать")
                         .item(ItemIcons.get("other", "myfriends"))
                         .onClick { _, _, _ ->
+                            val location = getEmptyPlace()!!
                             ChoiseWorkers(player, Project(
                                 this,
                                 activeProjects.size,
@@ -42,12 +44,12 @@ class ProjectsChoise(player: Player) : OpenCommand(player) {
                                     app.mainWorld,
                                     Structures.structureGroups.random().structures.random(),
                                     player,
-                                    app.mainWorld.map.getLabels("default", "1")[0],
-                                    mutableSetOf()
+                                    location.toLocation(app.mainWorld.map.world),
+                                    hashSetOf()
                                 ),
-                                ProjectStatistics(1000)
-                            )
-                            ).tryExecute()
+                                ProjectStatistics(1000),
+                                location
+                            )).tryExecute()
                         }
                 )
             )

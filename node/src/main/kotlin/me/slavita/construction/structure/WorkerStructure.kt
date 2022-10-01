@@ -13,7 +13,7 @@ class WorkerStructure(
     structure: Structure,
     owner: Player,
     allocation: Location,
-    val workers: MutableSet<Worker>
+    val workers: HashSet<Worker>
 ) : BuildingStructure(world, structure, owner, allocation) {
     private val delayTime: Long
         get() = (structure.blocksCount / (workers.sumOf { it.skill }*1.4)).toLong()
