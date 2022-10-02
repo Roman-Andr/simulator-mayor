@@ -39,13 +39,15 @@ abstract class BuildingStructure(
     protected abstract fun onHide()
 
     fun show() {
-        progressBar.show()
         hidden = false
+        progressBar.show()
+        onShow()
     }
 
     fun hide() {
-        progressBar.hide()
         hidden = true
+        progressBar.hide()
+        onHide()
     }
 
     fun startBuilding(project: Project) {
@@ -60,8 +62,6 @@ abstract class BuildingStructure(
         }
         enterBuilding()
         currentProject = project
-
-        show()
     }
 
     fun placeCurrentBlock() {

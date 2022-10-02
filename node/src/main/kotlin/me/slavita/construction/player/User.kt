@@ -19,17 +19,15 @@ class User(
 
     init {
         Bukkit.server.scheduler.scheduleSyncRepeatingTask(app, {
-            println(player.location)
-            if (watchableProject != null && !watchableProject!!.structure.structure.box.contains(player.location)) {
+            if (watchableProject != null && !watchableProject!!.structure.structure.box.contains(player.location, watchableProject!!.structure.allocation)) {
                 watchableProject!!.structure.hide()
-                println("hide: ${watchableProject!!.structure.structure.box}")
                 watchableProject = null
             }
+
             if (watchableProject == null) {
                 activeProjects.forEach {
-                    if (it.structure.structure.box.contains(player.location)) {
+                    if (it.structure.structure.box.contains(player.location, it.structure.allocation)) {
                         watchableProject = it
-                        println("show: ${it.structure.structure.box}")
                         it.structure.show()
                         return@forEach
                     }

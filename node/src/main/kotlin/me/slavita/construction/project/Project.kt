@@ -16,6 +16,5 @@ class Project(
 
     fun start() {
         structure.startBuilding(this)
-        owner.watchableProject = this
     }
 }

@@ -14,15 +14,22 @@ class StructureProgressBar(val player: Player, private val blocksTotal: Int) {
         .color(Tricolor(36, 175, 255))
         .build()
 
+    var hidden = false
+    var blocksPlaced = 0
+
     fun show() {
+        if (!hidden) return
+        hidden = false
+
         bar.apply {
-            update(0)
+            update(blocksPlaced)
             send(player)
             progress = 0.0
         }
     }
 
     fun update(blocksPlaced: Int) {
+        this.blocksPlaced = blocksPlaced
         bar.apply {
             progress = blocksPlaced.toDouble() / blocksTotal.toDouble()
             text = "${WHITE}Поставлено блоков: ${WHITE}$blocksPlaced ${WHITE}из ${AQUA}$blocksTotal"
@@ -30,6 +37,9 @@ class StructureProgressBar(val player: Player, private val blocksTotal: Int) {
     }
 
     fun hide() {
+        if (hidden) return
+        hidden = true
+
         bar.delete(setOf(player))
     }
 }
