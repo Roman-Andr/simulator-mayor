@@ -10,7 +10,7 @@ import me.slavita.construction.project.ProjectGenerator
 import me.slavita.construction.ui.ItemIcons
 import org.bukkit.entity.Player
 
-class ProjectsChoise(player: Player) : OpenCommand(player) {
+class ProjectsChoice(player: Player) : OpenCommand(player) {
     override fun getMenu(): Openable {
         app.getUser(player).run {
             return Choicer(

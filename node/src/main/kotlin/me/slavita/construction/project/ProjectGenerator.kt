@@ -17,10 +17,9 @@ object ProjectGenerator {
                 app.mainWorld,
                 Structures.structureGroups.random().structures.random(),
                 owner.player,
-                location.toLocation(app.mainWorld.map.world)
+                location
             ),
-            ProjectStatistics(1000),
-            location
+            ProjectStatistics(1000)
         )
     }
 
@@ -33,11 +32,10 @@ object ProjectGenerator {
                 app.mainWorld,
                 Structures.structureGroups.random().structures.random(),
                 owner.player,
-                location.toLocation(app.mainWorld.map.world),
+                location,
                 hashSetOf()
             ),
-            ProjectStatistics(1000),
-            location
+            ProjectStatistics(1000)
         )
     }
 }

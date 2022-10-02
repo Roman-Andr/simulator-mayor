@@ -25,18 +25,33 @@ abstract class BuildingStructure(
     protected var currentBlock: BlockProperties? = null
     protected val progressBar = StructureProgressBar(owner, structure.blocksCount)
     protected var blocksPlaced = 0
+    protected var hidden = false
     private var currentProject: Project? = null
 
-    abstract fun enterBuilding()
+    protected abstract fun enterBuilding()
 
-    abstract fun blockPlaced()
+    protected abstract fun blockPlaced()
 
-    abstract fun buildFinished()
+    protected abstract fun buildFinished()
+
+    protected abstract fun onShow()
+
+    protected abstract fun onHide()
+
+    fun show() {
+        progressBar.show()
+        hidden = false
+    }
+
+    fun hide() {
+        progressBar.hide()
+        hidden = true
+    }
 
     fun startBuilding(project: Project) {
         state = StructureState.BUILDING
         currentBlock = structure.getFirstBlock()
-        progressBar.show()
+
         ConnectionUtil.registerWriter(owner.uniqueId) { packet ->
             if (packet !is PacketPlayOutBlockChange) return@registerWriter
             if (packet.block.material != Material.AIR) return@registerWriter
@@ -45,6 +60,8 @@ abstract class BuildingStructure(
         }
         enterBuilding()
         currentProject = project
+
+        show()
     }
 
     fun placeCurrentBlock() {
@@ -66,9 +83,11 @@ abstract class BuildingStructure(
 
     private fun finishBuilding() {
         state = StructureState.FINISHED
-        progressBar.hide()
+        hide()
         buildFinished()
-        app.getUser(owner).activeProjects.remove(currentProject)
-        app.getUser(owner).stats.totalProjects++
+        app.getUser(owner).apply {
+            activeProjects.remove(currentProject)
+            stats.totalProjects++
+        }
     }
 }

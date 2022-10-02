@@ -42,7 +42,7 @@ class ControlPanelMenu(player: Player) : OpenCommand(player) {
                         .hint("Выбрать")
                         .item(ItemIcons.get("skyblock", "info"))
                         .onClick { _, _, _ ->
-                            ProjectsChoise(player).closeAll(false).tryExecute()
+                            ProjectsChoice(player).closeAll(false).tryExecute()
                         },
                     ReactiveButton()
                         .title("Активные проекты")

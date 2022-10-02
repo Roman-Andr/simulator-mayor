@@ -18,8 +18,8 @@ class StructureSender(val client: Player) {
             .send("structure:currentBlock", client)
     }
 
-    fun sendCompleted() {
-        ModTransfer().send("structure:completed", client)
+    fun sendHide() {
+        ModTransfer().send("structure:hide", client)
     }
 
     fun sendCooldownExpired() {

@@ -143,7 +143,7 @@ class StructureBuilding {
             cooldownExpired = true
         }
 
-        mod.registerChannel("structure:completed") {
+        mod.registerChannel("structure:hide") {
             nextBlock.enabled = false
             currentBlockLocation = null
             markers.children.clear()

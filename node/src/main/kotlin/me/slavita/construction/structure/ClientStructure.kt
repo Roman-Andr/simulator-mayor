@@ -4,6 +4,7 @@ import implario.humanize.Humanize
 import me.func.mod.Anime
 import me.func.mod.ui.Glow
 import me.func.protocol.data.color.GlowColor
+import me.slavita.construction.app
 import me.slavita.construction.connection.ConnectionUtil
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureSender
@@ -31,7 +32,8 @@ class ClientStructure(
     private val cooldown = Cooldown(30, owner)
 
     override fun enterBuilding() {
-        sender.sendBlock(currentBlock!!, allocation)
+        show()
+
         ConnectionUtil.registerReader(owner.uniqueId) { packet ->
             if (packet !is PacketPlayInUseItem || state != StructureState.BUILDING || packet.c != EnumHand.MAIN_HAND) return@registerReader
 
@@ -42,9 +44,17 @@ class ClientStructure(
         }
     }
 
-    override fun blockPlaced() {
-        cooldown.start { sender.sendCooldownExpired() }
+    override fun onShow() {
         sender.sendBlock(currentBlock!!, allocation)
+    }
+
+    override fun onHide() {
+        sender.sendHide()
+    }
+
+    override fun blockPlaced() {
+        cooldown.start { if (!hidden) sender.sendCooldownExpired() }
+        if (!hidden) sender.sendBlock(currentBlock!!, allocation)
     }
 
     override fun buildFinished() {

@@ -22,13 +22,13 @@ class WorkerStructure(
         build()
     }
 
-    override fun blockPlaced() {
+    override fun onShow() { }
 
-    }
+    override fun onHide() { }
 
-    override fun buildFinished() {
+    override fun blockPlaced() { }
 
-    }
+    override fun buildFinished() { }
 
     private fun build() {
         if (state != StructureState.BUILDING) return

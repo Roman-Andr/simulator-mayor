@@ -1,5 +1,6 @@
 package me.slavita.construction.world
 
+import me.func.world.Box
 import me.func.world.WorldMeta
 import me.slavita.construction.structure.BuildingStructure
 import me.slavita.construction.structure.ClientStructure

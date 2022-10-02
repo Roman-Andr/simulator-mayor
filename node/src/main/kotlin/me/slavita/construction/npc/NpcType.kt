@@ -2,7 +2,7 @@ package me.slavita.construction.npc
 
 import me.slavita.construction.action.command.menu.BuyWorkersMenu
 import me.slavita.construction.action.command.menu.ControlPanelMenu
-import me.slavita.construction.action.command.menu.ProjectsChoise
+import me.slavita.construction.action.command.menu.ProjectsChoice
 import me.slavita.construction.action.command.menu.WorkerTeamMenu
 import org.bukkit.entity.Player
 
@@ -31,7 +31,7 @@ enum class NpcType(
         "ba821208-6b64-11e9-8374-1cb72caa35fd",
         "other",
         "stats",
-        { ProjectsChoise(it).tryExecute() }
+        { ProjectsChoice(it).tryExecute() }
     ),
     TEAM(
         "Работники",

@@ -1,15 +1,14 @@
 package me.slavita.construction.project
 
+import me.slavita.construction.app
 import me.slavita.construction.player.User
 import me.slavita.construction.structure.BuildingStructure
-import net.minecraft.server.v1_12_R1.BlockPosition
 
 class Project(
     val owner: User,
     var id: Int,
     val structure: BuildingStructure,
-    val stats: ProjectStatistics,
-    val place: BlockPosition
+    val stats: ProjectStatistics
 ) {
     init {
         id = owner.stats.totalProjects
@@ -17,5 +16,6 @@ class Project(
 
     fun start() {
         structure.startBuilding(this)
+        owner.watchableProject = this
     }
 }
