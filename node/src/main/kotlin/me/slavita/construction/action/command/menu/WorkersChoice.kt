@@ -93,7 +93,6 @@ class WorkersChoice(player: Player, val project: Project) : OpenCommand(player) 
     private fun getWorkerState(targetWorker: Worker): WorkerState {
         val busyWorkers = user.workers.filter { worker -> user.activeProjects.stream().anyMatch { (it.structure as WorkerStructure).workers.contains(worker) }}
         val selectedWorkers = (project.structure as WorkerStructure).workers
-        println(user.activeProjects.size)
 
         if (selectedWorkers.contains(targetWorker)) return WorkerState.SELECTED
         if (busyWorkers.contains(targetWorker)) return WorkerState.BUSY
