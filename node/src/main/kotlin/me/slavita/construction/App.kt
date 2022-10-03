@@ -42,6 +42,12 @@ class App : JavaPlugin() {
     lateinit var structureMap: WorldMeta
     lateinit var mainWorld: GameWorld
     val users = mutableMapOf<UUID, User>()
+
+    val localStaff  = hashSetOf(
+        "e2543a0a-5799-11e9-8374-1cb72caa35fd",
+        "ba821208-6b64-11e9-8374-1cb72caa35fd"
+    ).map { UUID.fromString(it) }
+
     var pass = 0L
         private set
 

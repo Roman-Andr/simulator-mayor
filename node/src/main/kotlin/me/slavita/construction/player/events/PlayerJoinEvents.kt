@@ -1,18 +1,18 @@
 package me.slavita.construction.player.events
 
 import me.func.mod.Anime
-import me.func.mod.ui.scoreboard.ScoreBoard
 import me.func.mod.util.after
-import me.func.protocol.data.emoji.Emoji
 import me.func.protocol.ui.indicator.Indicators
 import me.slavita.construction.app
 import me.slavita.construction.connection.ConnectionUtil.createChannel
 import me.slavita.construction.multichat.MultiChatUtil
-import me.slavita.construction.utils.Formatter.toMoneyIcon
-import org.bukkit.ChatColor.*
+import me.slavita.construction.utils.ScoreBoardGenerator
+import org.bukkit.GameMode
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
+import ru.cristalix.core.permissions.IPermissionService
+import ru.cristalix.core.permissions.StaffGroups
 
 class PlayerJoinEvents : Listener {
     @EventHandler
@@ -21,32 +21,15 @@ class PlayerJoinEvents : Listener {
         app.addUser(player)
         player.teleport(app.mainWorld.getSpawn())
         createChannel(player)
+        if (app.localStaff.contains(player.uniqueId)) {
+            IPermissionService.get().getPermissionContextDirect(player.uniqueId).displayGroup = StaffGroups.LOCAL_STAFF
+            player.isOp = true
+            player.allowFlight = true
+        }
         after (1) {
             Anime.hideIndicator(player, Indicators.HEALTH, Indicators.EXP, Indicators.HUNGER)
-            ScoreBoard.builder()
-                .key("scoreboard")
-                .header("Стройка")
-                .dynamic("Монеты") {
-                    return@dynamic app.getUser(it).stats.money.toMoneyIcon()
-                }
-                .dynamic("Уровень") {
-                    return@dynamic "${app.getUser(it).stats.level}${WHITE} ${Emoji.UP}"
-                }
-                .empty()
-                .dynamic("Строителей") {
-                    return@dynamic "${app.getUser(it).workers.size}"
-                }
-                .empty()
-                .dynamic("Проектов") {
-                    return@dynamic "${app.getUser(it).stats.totalProjects}"
-                }
-                .dynamic("Репутация") {
-                    return@dynamic "${app.getUser(it).stats.reputation}"
-                }
-                .build().apply {
-                    ScoreBoard.subscribe("scoreboard", player)
-                    show(player)
-                }
+            player.gameMode = GameMode.ADVENTURE
+            ScoreBoardGenerator.generate(player)
         }
     }
 }
