@@ -7,7 +7,7 @@ import me.func.protocol.data.emoji.Emoji
 import me.slavita.construction.action.OpenCommand
 import me.slavita.construction.app
 import me.slavita.construction.ui.ItemIcons
-import me.slavita.construction.utils.Formatter.toMoney
+import me.slavita.construction.ui.Formatter.toMoney
 import org.bukkit.ChatColor.*
 import org.bukkit.Material
 import org.bukkit.entity.Player

@@ -17,6 +17,7 @@ import me.slavita.construction.player.Statistics
 import me.slavita.construction.player.User
 import me.slavita.construction.player.events.PhysicsDisabler
 import me.slavita.construction.player.events.PlayerEvents
+import me.slavita.construction.ui.ItemsManager
 import me.slavita.construction.world.GameWorld
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.WHITE
@@ -84,11 +85,11 @@ class App : JavaPlugin() {
         structureMap = MapLoader.load("construction", "structures")
         mainWorld = GameWorld(MapLoader.load("construction", "test"))
 
-        listener(PlayerEvents(), PhysicsDisabler(), mainWorld)
-
         NpcManager
         UserCommands
         AdminCommands
+
+        listener(PlayerEvents(), PhysicsDisabler(), mainWorld, ItemsManager)
 
         server.scheduler.scheduleSyncRepeatingTask(this, { pass++ }, 0, 1)
     }

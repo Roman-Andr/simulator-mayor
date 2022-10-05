@@ -7,8 +7,8 @@ import me.func.protocol.data.emoji.Emoji
 import me.slavita.construction.action.OpenCommand
 import me.slavita.construction.app
 import me.slavita.construction.ui.ItemIcons
-import me.slavita.construction.utils.Formatter.toMoney
-import me.slavita.construction.utils.Formatter.toMoneyIcon
+import me.slavita.construction.ui.Formatter.toMoney
+import me.slavita.construction.ui.Formatter.toMoneyIcon
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.entity.Player
 import java.util.stream.Collectors

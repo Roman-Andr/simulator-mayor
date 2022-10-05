@@ -1,7 +1,8 @@
-package me.slavita.construction.utils
+package me.slavita.construction.ui
 
 import me.func.protocol.data.emoji.Emoji
-import org.bukkit.ChatColor.*
+import me.slavita.construction.utils.NumberConverter
+import org.bukkit.ChatColor.WHITE
 
 object Formatter {
     fun Long.toMoney(): String {

@@ -6,7 +6,9 @@ import me.func.protocol.ui.indicator.Indicators
 import me.slavita.construction.app
 import me.slavita.construction.connection.ConnectionUtil
 import me.slavita.construction.multichat.MultiChatUtil
-import me.slavita.construction.utils.ScoreBoardGenerator
+import me.slavita.construction.ui.ItemIcons
+import me.slavita.construction.ui.ItemsManager
+import me.slavita.construction.ui.ScoreBoardGenerator
 import org.bukkit.GameMode
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -31,6 +33,12 @@ class PlayerEvents : Listener {
             Anime.hideIndicator(player, Indicators.HEALTH, Indicators.EXP, Indicators.HUNGER)
             player.gameMode = GameMode.ADVENTURE
             ScoreBoardGenerator.generate(player)
+
+            ItemsManager.actions[player.uniqueId] = mutableMapOf()
+            ItemsManager.registerItem(player, ItemIcons.get("other", "myfriends")) {
+                Anime.alert(player, "Самый умный?", "Ок")
+            }
+            player.inventory.setItem(0, ItemIcons.get("other", "myfriends"))
         }
     }
 

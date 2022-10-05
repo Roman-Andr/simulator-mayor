@@ -9,7 +9,7 @@ import me.slavita.construction.action.OpenCommand
 import me.slavita.construction.app
 import me.slavita.construction.structure.ClientStructure
 import me.slavita.construction.ui.ItemIcons
-import me.slavita.construction.utils.Formatter.toMoney
+import me.slavita.construction.ui.Formatter.toMoney
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.entity.Player
 import java.util.stream.Collectors

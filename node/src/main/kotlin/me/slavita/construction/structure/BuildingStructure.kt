@@ -3,12 +3,12 @@ package me.slavita.construction.structure
 import me.func.mod.world.Banners
 import me.func.protocol.data.element.Banner
 import me.slavita.construction.app
+import me.slavita.construction.banner.BannerUtil
 import me.slavita.construction.connection.ConnectionUtil
 import me.slavita.construction.project.Project
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureProgressBar
 import me.slavita.construction.structure.tools.StructureState
-import me.slavita.construction.utils.banner.BannerUtil
 import me.slavita.construction.utils.extensions.BlocksExtensions.minus
 import me.slavita.construction.world.BlockProperties
 import me.slavita.construction.world.GameWorld

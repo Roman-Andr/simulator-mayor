@@ -1,4 +1,4 @@
-package me.slavita.construction.utils.banner
+package me.slavita.construction.banner
 
 import me.func.protocol.data.color.GlowColor
 import me.func.protocol.data.element.MotionType

@@ -12,7 +12,10 @@ import org.bukkit.event.block.*
 import org.bukkit.event.entity.*
 import org.bukkit.event.hanging.HangingBreakByEntityEvent
 import org.bukkit.event.inventory.CraftItemEvent
-import org.bukkit.event.player.*
+import org.bukkit.event.player.PlayerArmorStandManipulateEvent
+import org.bukkit.event.player.PlayerDropItemEvent
+import org.bukkit.event.player.PlayerInteractEntityEvent
+import org.bukkit.event.player.PlayerSwapHandItemsEvent
 import org.bukkit.event.world.ChunkLoadEvent
 import org.spigotmc.event.entity.EntityDismountEvent
 
@@ -24,19 +27,13 @@ class PhysicsDisabler : Listener {
     }
 
     @EventHandler
-    fun BlockPlaceEvent.handle() {
-        isCancelled = true
-    }
+    fun BlockPlaceEvent.handle() { isCancelled = true }
 
     @EventHandler
-    fun CraftItemEvent.handle() {
-        isCancelled = true
-    }
+    fun CraftItemEvent.handle() { isCancelled = true }
 
     @EventHandler
-    fun PlayerInteractEntityEvent.handle() {
-        isCancelled = true
-    }
+    fun PlayerInteractEntityEvent.handle() { isCancelled = true }
 
     @EventHandler
     fun EntityDismountEvent.handle() {
@@ -51,69 +48,43 @@ class PhysicsDisabler : Listener {
     }
 
     @EventHandler
-    fun EntityDamageEvent.handle() {
-        isCancelled = true
-    }
+    fun EntityDamageEvent.handle() { isCancelled = true }
 
     @EventHandler
-    fun FoodLevelChangeEvent.handle() {
-        foodLevel = 20
-    }
+    fun FoodLevelChangeEvent.handle() { foodLevel = 20 }
 
     @EventHandler
-    fun BlockFadeEvent.handle() {
-        isCancelled = true
-    }
+    fun BlockFadeEvent.handle() { isCancelled = true }
 
     @EventHandler
-    fun BlockPhysicsEvent.handle() {
-        isCancelled = true
-    }
+    fun BlockPhysicsEvent.handle() { isCancelled = true }
 
     @EventHandler
-    fun BlockSpreadEvent.handle() {
-        isCancelled = true
-    }
+    fun BlockSpreadEvent.handle() { isCancelled = true }
 
     @EventHandler
-    fun BlockBreakEvent.handle() {
-        isCancelled = true
-    }
+    fun BlockBreakEvent.handle() { isCancelled = true }
 
     @EventHandler
-    fun BlockGrowEvent.handle() {
-        isCancelled = true
-    }
+    fun BlockGrowEvent.handle() { isCancelled = true }
 
     @EventHandler
-    fun BlockFromToEvent.handle() {
-        isCancelled = true
-    }
+    fun BlockFromToEvent.handle() { isCancelled = true }
 
     @EventHandler
-    fun PlayerDropItemEvent.handle() {
-        isCancelled = true
-    }
+    fun PlayerDropItemEvent.handle() { isCancelled = true }
 
     @EventHandler
-    fun HangingBreakByEntityEvent.handle() {
-        isCancelled = true
-    }
+    fun HangingBreakByEntityEvent.handle() { isCancelled = true }
 
     @EventHandler
-    fun BlockBurnEvent.handle() {
-        isCancelled = true
-    }
+    fun BlockBurnEvent.handle() { isCancelled = true }
 
     @EventHandler
-    fun EntityExplodeEvent.handle() {
-        isCancelled = true
-    }
+    fun EntityExplodeEvent.handle() { isCancelled = true }
 
     @EventHandler
-    fun PlayerArmorStandManipulateEvent.handle() {
-        isCancelled = true
-    }
+    fun PlayerArmorStandManipulateEvent.handle() { isCancelled = true }
 
     @EventHandler
     fun CreatureSpawnEvent.handle() {
@@ -121,12 +92,8 @@ class PhysicsDisabler : Listener {
     }
 
     @EventHandler
-    fun PlayerAdvancementCriterionGrantEvent.handle() {
-        isCancelled = true
-    }
+    fun PlayerAdvancementCriterionGrantEvent.handle() { isCancelled = true }
 
     @EventHandler
-    fun PlayerSwapHandItemsEvent.handle() {
-        isCancelled = true
-    }
+    fun PlayerSwapHandItemsEvent.handle() { isCancelled = true }
 }

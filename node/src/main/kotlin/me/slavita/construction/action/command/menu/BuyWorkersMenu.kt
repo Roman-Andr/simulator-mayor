@@ -9,7 +9,7 @@ import me.slavita.construction.action.OpenCommand
 import me.slavita.construction.action.command.OpenWorker
 import me.slavita.construction.app
 import me.slavita.construction.ui.ItemIcons
-import me.slavita.construction.utils.Formatter.toMoney
+import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.worker.WorkerGenerator
 import me.slavita.construction.worker.WorkerRarity
 import org.bukkit.entity.Player

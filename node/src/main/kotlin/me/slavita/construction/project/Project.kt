@@ -1,6 +1,5 @@
 package me.slavita.construction.project
 
-import me.slavita.construction.app
 import me.slavita.construction.player.User
 import me.slavita.construction.structure.BuildingStructure
 

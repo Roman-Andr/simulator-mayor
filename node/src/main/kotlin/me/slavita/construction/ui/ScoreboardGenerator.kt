@@ -1,9 +1,9 @@
-package me.slavita.construction.utils
+package me.slavita.construction.ui
 
 import me.func.mod.ui.scoreboard.ScoreBoard
 import me.func.protocol.data.emoji.Emoji
 import me.slavita.construction.app
-import me.slavita.construction.utils.Formatter.toMoneyIcon
+import me.slavita.construction.ui.Formatter.toMoneyIcon
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 
