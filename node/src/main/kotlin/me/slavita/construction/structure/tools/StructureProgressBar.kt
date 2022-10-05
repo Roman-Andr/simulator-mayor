@@ -33,7 +33,7 @@ class StructureProgressBar(val player: Player, private val blocksTotal: Int) {
         if (hidden) return
         hidden = true
 
-        bar.delete(setOf(player.uniqueId))
+        bar.delete(setOf(player))
     }
 
     fun update(blocksPlaced: Int) {

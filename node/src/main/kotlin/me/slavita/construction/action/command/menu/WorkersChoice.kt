@@ -28,7 +28,7 @@ class WorkersChoice(player: Player, val project: Project) : OpenCommand(player) 
                 storage = mutableListOf<ReactiveButton>().apply storage@{
                     this@storage.add(
                         ReactiveButton()
-                            .item(ItemIcons.get("", "", Material.AIR))
+                            .material(Material.AIR)
                             .hint(""))
                     this@storage.add(
                         ReactiveButton()
@@ -50,7 +50,7 @@ class WorkersChoice(player: Player, val project: Project) : OpenCommand(player) 
                             })
                     this@storage.add(
                         ReactiveButton()
-                            .item(ItemIcons.get("", "", Material.AIR))
+                            .material(Material.AIR)
                             .hint(""))
                     workers.forEach { worker ->
                         this@storage.add(

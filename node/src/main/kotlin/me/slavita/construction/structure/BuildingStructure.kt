@@ -1,5 +1,6 @@
 package me.slavita.construction.structure
 
+import me.func.mod.world.Banners
 import me.func.protocol.data.element.Banner
 import me.slavita.construction.app
 import me.slavita.construction.connection.ConnectionUtil
@@ -7,6 +8,7 @@ import me.slavita.construction.project.Project
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureProgressBar
 import me.slavita.construction.structure.tools.StructureState
+import me.slavita.construction.utils.banner.BannerUtil
 import me.slavita.construction.utils.extensions.BlocksExtensions.minus
 import me.slavita.construction.world.BlockProperties
 import me.slavita.construction.world.GameWorld
@@ -15,6 +17,7 @@ import net.minecraft.server.v1_12_R1.Material
 import net.minecraft.server.v1_12_R1.PacketPlayOutBlockChange
 import org.bukkit.Location
 import org.bukkit.entity.Player
+import java.util.*
 
 abstract class BuildingStructure(
     val world: GameWorld,
@@ -28,6 +31,7 @@ abstract class BuildingStructure(
     protected var blocksPlaced = 0
     protected var hidden = false
     protected var banners = mutableListOf<Banner>()
+    protected var bannersIDs = mutableListOf<UUID>()
     private var currentProject: Project? = null
 
     protected abstract fun enterBuilding()
@@ -43,12 +47,14 @@ abstract class BuildingStructure(
     fun show() {
         hidden = false
         progressBar.show()
+        Banners.hide(owner, *bannersIDs.toTypedArray())
         onShow()
     }
 
     fun hide() {
         hidden = true
         progressBar.hide()
+        Banners.show(owner, *banners.toTypedArray())
         onHide()
     }
 
@@ -64,6 +70,11 @@ abstract class BuildingStructure(
         }
         enterBuilding()
         currentProject = project
+
+        banners = BannerUtil.createRectangle(
+        allocation // вместо этого центр
+        , 11.0).toMutableList()
+        bannersIDs = banners.map { it.uuid }.toMutableList()
     }
 
     fun placeCurrentBlock() {
