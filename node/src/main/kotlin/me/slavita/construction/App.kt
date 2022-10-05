@@ -16,7 +16,7 @@ import me.slavita.construction.npc.NpcManager
 import me.slavita.construction.player.Statistics
 import me.slavita.construction.player.User
 import me.slavita.construction.player.events.PhysicsDisabler
-import me.slavita.construction.player.events.PlayerJoinEvents
+import me.slavita.construction.player.events.PlayerEvents
 import me.slavita.construction.world.GameWorld
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.WHITE
@@ -84,7 +84,7 @@ class App : JavaPlugin() {
         structureMap = MapLoader.load("construction", "structures")
         mainWorld = GameWorld(MapLoader.load("construction", "test"))
 
-        listener(PlayerJoinEvents(), PhysicsDisabler(), mainWorld)
+        listener(PlayerEvents(), PhysicsDisabler(), mainWorld)
 
         NpcManager
         UserCommands

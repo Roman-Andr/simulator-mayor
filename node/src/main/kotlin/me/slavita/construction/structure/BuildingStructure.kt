@@ -1,5 +1,6 @@
 package me.slavita.construction.structure
 
+import me.func.protocol.data.element.Banner
 import me.slavita.construction.app
 import me.slavita.construction.connection.ConnectionUtil
 import me.slavita.construction.project.Project
@@ -26,6 +27,7 @@ abstract class BuildingStructure(
     protected val progressBar = StructureProgressBar(owner, structure.blocksCount)
     protected var blocksPlaced = 0
     protected var hidden = false
+    protected var banners = mutableListOf<Banner>()
     private var currentProject: Project? = null
 
     protected abstract fun enterBuilding()

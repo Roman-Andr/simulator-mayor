@@ -11,10 +11,11 @@ import org.bukkit.GameMode
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.event.player.PlayerMoveEvent
 import ru.cristalix.core.permissions.IPermissionService
 import ru.cristalix.core.permissions.StaffGroups
 
-class PlayerJoinEvents : Listener {
+class PlayerEvents : Listener {
     @EventHandler
     fun PlayerJoinEvent.handle() {
         after (5) {
@@ -30,6 +31,30 @@ class PlayerJoinEvents : Listener {
             Anime.hideIndicator(player, Indicators.HEALTH, Indicators.EXP, Indicators.HUNGER)
             player.gameMode = GameMode.ADVENTURE
             ScoreBoardGenerator.generate(player)
+        }
+    }
+
+    @EventHandler
+    fun PlayerMoveEvent.handle() {
+        app.getUser(player).run {
+            if (watchableProject != null && !watchableProject!!.structure.structure.box.contains(
+                    player.location,
+                    watchableProject!!.structure.allocation
+                )
+            ) {
+                watchableProject!!.structure.hide()
+                watchableProject = null
+            }
+
+            if (watchableProject == null) {
+                activeProjects.forEach {
+                    if (it.structure.structure.box.contains(player.location, it.structure.allocation)) {
+                        watchableProject = it
+                        it.structure.show()
+                        return@forEach
+                    }
+                }
+            }
         }
     }
 }

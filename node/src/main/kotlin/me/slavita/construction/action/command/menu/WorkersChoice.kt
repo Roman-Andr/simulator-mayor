@@ -64,21 +64,21 @@ class WorkersChoice(player: Player, val project: Project) : OpenCommand(player) 
                                         WorkerState.BUSY -> "Занят"
                                     })
                                 .special(getWorkerState(worker) == WorkerState.SELECTED)
-                                .onClick { _, _, _ ->
+                                .onClick { _, _, button ->
                                     when(getWorkerState(worker)) {
                                         WorkerState.FREE -> {
                                             project.structure.workers.add(worker)
-                                            WorkersChoice(player, project).tryExecute()
+                                            button.special = true
                                         }
                                         WorkerState.SELECTED -> {
                                             project.structure.workers.remove(worker)
-                                            WorkersChoice(player, project).tryExecute()
+                                            button.special = false
                                         }
                                         WorkerState.BUSY -> {
                                             activeProjects.find { if (it.structure is WorkerStructure) it.structure.workers.contains(worker) else false }!!.apply {
                                                 (structure as WorkerStructure).workers.remove(worker)
                                                 project.structure.workers.add(worker)
-                                                WorkersChoice(player, project).tryExecute()
+                                                button.special = true
                                             }
                                         }
                                     }
