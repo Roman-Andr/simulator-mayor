@@ -3,7 +3,8 @@ package me.slavita.construction.structure.tools
 import me.func.mod.reactive.ReactiveProgress
 import me.func.protocol.data.color.Tricolor
 import me.func.protocol.math.Position
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.WHITE
 import org.bukkit.entity.Player
 
 class StructureProgressBar(val player: Player, private val blocksTotal: Int) {
@@ -28,18 +29,18 @@ class StructureProgressBar(val player: Player, private val blocksTotal: Int) {
         }
     }
 
+    fun hide() {
+        if (hidden) return
+        hidden = true
+
+        bar.delete(setOf(player.uniqueId))
+    }
+
     fun update(blocksPlaced: Int) {
         this.blocksPlaced = blocksPlaced
         bar.apply {
             progress = blocksPlaced.toDouble() / blocksTotal.toDouble()
             text = "${WHITE}Поставлено блоков: ${WHITE}$blocksPlaced ${WHITE}из ${AQUA}$blocksTotal"
         }
-    }
-
-    fun hide() {
-        if (hidden) return
-        hidden = true
-
-        bar.delete(setOf(player))
     }
 }

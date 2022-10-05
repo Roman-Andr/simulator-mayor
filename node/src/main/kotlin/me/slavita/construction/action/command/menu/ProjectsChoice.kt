@@ -25,7 +25,10 @@ class ProjectsChoice(player: Player) : OpenCommand(player) {
                         .item(ItemIcons.get("other", "human"))
                         .onClick { _, _, _ ->
                             Anime.close(player)
-                            activeProjects.add(ProjectGenerator.generateClient(this).apply { start() })
+                            activeProjects.add(ProjectGenerator.generateClient(this).apply {
+                                watchableProject = this
+                                start()
+                            })
                         },
                     ReactiveButton()
                         .title("Рабочие")
@@ -33,7 +36,7 @@ class ProjectsChoice(player: Player) : OpenCommand(player) {
                         .hint("Выбрать")
                         .item(ItemIcons.get("other", "myfriends"))
                         .onClick { _, _, _ ->
-                            WorkersChoice(player, ProjectGenerator.generateWorker(this)).tryExecute()
+                            WorkersChoice(player, ProjectGenerator.generateWorker(this).apply { watchableProject = this }).tryExecute()
                         }
                 )
             )

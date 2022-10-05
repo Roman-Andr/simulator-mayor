@@ -54,16 +54,17 @@ class App : JavaPlugin() {
     override fun onEnable() {
         app = this
 
-        server.scheduler.scheduleSyncRepeatingTask(this, { pass++ }, 0, 1)
+        EntityDataParameters.register()
+        Platforms.set(PlatformDarkPaper())
+
+        Anime.include(Kit.STANDARD, Kit.EXPERIMENTAL, Kit.DIALOG, Kit.MULTI_CHAT, Kit.LOOTBOX, Kit.NPC)
+        MultiChatUtil.createChats()
 
         CoreApi.get().run {
             registerService(ITransferService::class.java, TransferService(ISocketClient.get()))
             registerService(IPartyService::class.java, PartyService(ISocketClient.get()))
             registerService(IScoreboardService::class.java, ScoreboardService())
         }
-
-        EntityDataParameters.register()
-        Platforms.set(PlatformDarkPaper())
 
         IRealmService.get().currentRealmInfo.apply {
             IScoreboardService.get().serverStatusBoard.displayName = "${WHITE}Тест #${AQUA}" + realmId.id
@@ -77,9 +78,6 @@ class App : JavaPlugin() {
             isLobbyServer = true
         }
 
-        Anime.include(Kit.STANDARD, Kit.EXPERIMENTAL, Kit.DIALOG, Kit.MULTI_CHAT, Kit.LOOTBOX, Kit.NPC)
-        MultiChatUtil.createChats()
-
         ModLoader.loadAll("mods")
         ModLoader.onJoining("construction-mod.jar")
 
@@ -91,6 +89,8 @@ class App : JavaPlugin() {
         NpcManager
         UserCommands
         AdminCommands
+
+        server.scheduler.scheduleSyncRepeatingTask(this, { pass++ }, 0, 1)
     }
 
     fun addUser(player: Player) {
