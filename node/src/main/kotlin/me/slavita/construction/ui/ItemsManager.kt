@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack
 import java.util.*
 
 object ItemsManager : Listener {
-    val actions = mutableMapOf<UUID, MutableMap<ItemStack, () -> Unit>>()
+    val actions = hashMapOf<UUID, HashMap<ItemStack, () -> Unit>>()
 
     fun registerItem(player: Player, item: ItemStack, action: () -> Unit) {
         actions[player.uniqueId]!![item] = action

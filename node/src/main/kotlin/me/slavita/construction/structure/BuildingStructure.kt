@@ -10,6 +10,7 @@ import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureProgressBar
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.utils.extensions.BlocksExtensions.minus
+import me.slavita.construction.utils.extensions.BlocksExtensions.withOffset
 import me.slavita.construction.world.BlockProperties
 import me.slavita.construction.world.GameWorld
 import net.minecraft.server.v1_12_R1.BlockPosition
@@ -30,8 +31,6 @@ abstract class BuildingStructure(
     protected val progressBar = StructureProgressBar(owner, structure.blocksCount)
     protected var blocksPlaced = 0
     protected var hidden = false
-    protected var banners = mutableListOf<Banner>()
-    protected var bannersIDs = mutableListOf<UUID>()
     private var currentProject: Project? = null
 
     protected abstract fun enterBuilding()
@@ -47,14 +46,12 @@ abstract class BuildingStructure(
     fun show() {
         hidden = false
         progressBar.show()
-        Banners.hide(owner, *bannersIDs.toTypedArray())
         onShow()
     }
 
     fun hide() {
         hidden = true
         progressBar.hide()
-        Banners.show(owner, *banners.toTypedArray())
         onHide()
     }
 
@@ -70,11 +67,6 @@ abstract class BuildingStructure(
         }
         enterBuilding()
         currentProject = project
-
-        banners = BannerUtil.createRectangle(
-        allocation // вместо этого центр
-        , 11.0).toMutableList()
-        bannersIDs = banners.map { it.uuid }.toMutableList()
     }
 
     fun placeCurrentBlock() {

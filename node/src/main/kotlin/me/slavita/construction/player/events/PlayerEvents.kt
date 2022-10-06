@@ -34,7 +34,7 @@ class PlayerEvents : Listener {
             player.gameMode = GameMode.ADVENTURE
             ScoreBoardGenerator.generate(player)
 
-            ItemsManager.actions[player.uniqueId] = mutableMapOf()
+            ItemsManager.actions[player.uniqueId] = hashMapOf()
             ItemsManager.registerItem(player, ItemIcons.get("other", "myfriends")) {
                 Anime.alert(player, "Самый умный?", "Ок")
             }

@@ -17,33 +17,34 @@ object BannerUtil {
                 create(BannerInfo(source, blockFace, content, width, height, color, opacity, motionType, pitch)),
                 create(
                     BannerInfo(
-                    Location(
-                        source.world,
-                        source.x + blockFace.modX,
-                        source.y,
-                        source.z + blockFace.modZ
-                    ), blockFace.oppositeFace, content, width, height, color, opacity, motionType, pitch
-                )
+                        Location(
+                            source.world,
+                            source.x + blockFace.modX,
+                            source.y,
+                            source.z + blockFace.modZ
+                        ), blockFace.oppositeFace, content, width, height, color, opacity, motionType, pitch
+                    )
                 )
             )
         }
     }
 
-    fun createRectangle(center: Location, side: Double): List<Banner> {
-        val banners = mutableListOf<Banner>()
+    fun createRectangle(center: Location, side: Double): HashSet<Banner> {
+        val banners = hashSetOf<Banner>()
         listOf(BlockFace.NORTH, BlockFace.WEST, BlockFace.SOUTH, BlockFace.EAST).forEach {
             banners.addAll(
                 createDual(
                     BannerInfo(
-                center.clone().add(Vector(it.modX*side, 0.0, it.modZ*side)),
-                it,
-                listOf(),
-                (side*2+1).toInt()*16,
-                16*20,
-                GlowColor.GREEN,
-                0.25
+                        center.clone().add(Vector(it.modX * side, 0.0, it.modZ * side)),
+                        it,
+                        listOf(),
+                        (side * 2 + 1).toInt() * 16,
+                        16 * 20,
+                        GlowColor.GREEN,
+                        0.25
+                    )
+                ).toList()
             )
-                ).toList())
         }
         return banners
     }
@@ -67,7 +68,7 @@ object BannerUtil {
                 .build()
                 .apply {
                     location(
-                        source.clone().add(Vector(offset *blockFace.modX, -0.5 + height/16, offset *blockFace.modZ)).apply {
+                        source.clone().add(Vector(offset * blockFace.modX, -0.5 + height / 16, offset * blockFace.modZ)).apply {
                             setYaw(blockFace.toYaw())
                             setPitch(0.0f)
                         }

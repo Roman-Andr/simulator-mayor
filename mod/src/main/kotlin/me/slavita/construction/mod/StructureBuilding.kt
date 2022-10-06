@@ -81,11 +81,11 @@ class StructureBuilding {
 
         mod.registerChannel("structure:currentBlock") {
             val position = V3(readDouble(), readDouble(), readDouble())
-            if (currentBlockLocation != null) {
+            cooldownExpired = if (currentBlockLocation != null) {
                 player.swingArm(EnumHand.MAIN_HAND)
-                cooldownExpired = false
+                false
             } else {
-                cooldownExpired = true
+                true
             }
             currentItem = ItemTools.read(this).apply { targetText = this.displayName }
             currentItemColorable = readBoolean()
@@ -94,6 +94,7 @@ class StructureBuilding {
             updateInfoIcon()
 
             currentBlockLocation = position
+            lastMarkersSlots = arrayOf()
             nextBlock.enabled = true
         }
 

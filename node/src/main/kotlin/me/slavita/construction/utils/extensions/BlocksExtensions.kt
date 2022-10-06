@@ -20,6 +20,10 @@ object BlocksExtensions {
             this.z - additionalPosition.z)
     }
 
+    fun Location.withOffset(offset: Location): Location {
+        return Location(offset.world, x + offset.x, y + offset.y, z + offset.z)
+    }
+
     fun BlockFace.toYaw(): Float {
         return when (this) {
             BlockFace.EAST -> -90

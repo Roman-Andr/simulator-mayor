@@ -42,7 +42,7 @@ class App : JavaPlugin() {
 
     lateinit var structureMap: WorldMeta
     lateinit var mainWorld: GameWorld
-    val users = mutableMapOf<UUID, User>()
+    val users = hashMapOf<UUID, User>()
 
     val localStaff  = hashSetOf(
         "e2543a0a-5799-11e9-8374-1cb72caa35fd",
