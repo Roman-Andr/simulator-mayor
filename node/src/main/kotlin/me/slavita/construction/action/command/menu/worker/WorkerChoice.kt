@@ -1,4 +1,4 @@
-package me.slavita.construction.action.command.menu
+package me.slavita.construction.action.command.menu.worker
 
 import me.func.mod.Anime
 import me.func.mod.reactive.ReactiveButton
@@ -15,7 +15,7 @@ import org.bukkit.ChatColor.GREEN
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-class WorkersChoice(player: Player, val project: Project) : OpenCommand(player) {
+class WorkerChoice(player: Player, val project: Project) : OpenCommand(player) {
     val user = app.getUser(player)
 
     override fun getMenu(): Openable {
@@ -46,7 +46,7 @@ class WorkersChoice(player: Player, val project: Project) : OpenCommand(player) 
                             .hint("Убрать")
                             .onClick { _, _, _ ->
                                 project.structure.workers.clear()
-                                WorkersChoice(player, project).tryExecute()
+                                WorkerChoice(player, project).tryExecute()
                             })
                     this@storage.add(
                         ReactiveButton()

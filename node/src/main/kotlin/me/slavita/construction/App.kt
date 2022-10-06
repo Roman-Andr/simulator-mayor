@@ -11,6 +11,7 @@ import me.func.world.MapLoader
 import me.func.world.WorldMeta
 import me.slavita.construction.action.chat.AdminCommands
 import me.slavita.construction.action.chat.UserCommands
+import me.slavita.construction.action.command.menu.worker.WorkerBuyMenu
 import me.slavita.construction.multichat.MultiChatUtil
 import me.slavita.construction.npc.NpcManager
 import me.slavita.construction.player.Statistics
@@ -88,6 +89,10 @@ class App : JavaPlugin() {
         NpcManager
         UserCommands
         AdminCommands
+
+        Anime.createReader("lootbox:closed") { player, _ ->
+            WorkerBuyMenu(player).tryExecute()
+        }
 
         listener(PlayerEvents(), PhysicsDisabler(), mainWorld, ItemsManager)
 

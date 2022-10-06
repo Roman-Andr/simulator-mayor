@@ -16,7 +16,7 @@ class WorkerStructure(
     val workers: HashSet<Worker>
 ) : BuildingStructure(world, structure, owner, allocation) {
     private val delayTime: Long
-        get() = (structure.blocksCount / (workers.sumOf { it.skill }*1.4)).toLong()
+        get() = (structure.blocksCount / (workers.sumOf { it.level }*1.4)).toLong()
 
     override fun enterBuilding() {
         build()

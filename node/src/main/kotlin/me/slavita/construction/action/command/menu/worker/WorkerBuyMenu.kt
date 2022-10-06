@@ -1,4 +1,4 @@
-package me.slavita.construction.action.command.menu
+package me.slavita.construction.action.command.menu.worker
 
 import me.func.mod.conversation.data.LootDrop
 import me.func.mod.reactive.ReactiveButton
@@ -8,13 +8,13 @@ import me.func.protocol.data.emoji.Emoji
 import me.slavita.construction.action.OpenCommand
 import me.slavita.construction.action.command.OpenWorker
 import me.slavita.construction.app
-import me.slavita.construction.ui.ItemIcons
 import me.slavita.construction.ui.Formatter.toMoney
+import me.slavita.construction.ui.ItemIcons
 import me.slavita.construction.worker.WorkerGenerator
 import me.slavita.construction.worker.WorkerRarity
 import org.bukkit.entity.Player
 
-class BuyWorkersMenu(player: Player) : OpenCommand(player) {
+class WorkerBuyMenu(player: Player) : OpenCommand(player) {
     override fun getMenu(): Openable {
         app.getUser(player).run user@ {
             return Selection(

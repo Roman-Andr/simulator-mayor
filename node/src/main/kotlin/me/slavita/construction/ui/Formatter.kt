@@ -10,6 +10,6 @@ object Formatter {
     }
 
     fun Long.toMoneyIcon(): String {
-        return "${toMoney()} $WHITE ${Emoji.DOLLAR}"
+        return "${toMoney()} $WHITE${Emoji.DOLLAR}"
     }
 }

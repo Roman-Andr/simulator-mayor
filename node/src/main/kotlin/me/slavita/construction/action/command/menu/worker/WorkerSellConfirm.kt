@@ -1,4 +1,4 @@
-package me.slavita.construction.action.command.menu
+package me.slavita.construction.action.command.menu.worker
 
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.confirmation.Confirmation
@@ -8,7 +8,7 @@ import me.slavita.construction.app
 import me.slavita.construction.worker.Worker
 import org.bukkit.entity.Player
 
-class SellWorkerConfirm(player: Player, val worker: Worker) : OpenCommand(player) {
+class WorkerSellConfirm(player: Player, val worker: Worker) : OpenCommand(player) {
     override fun getMenu(): Openable {
         app.getUser(player).run {
             return Confirmation( text = listOf(

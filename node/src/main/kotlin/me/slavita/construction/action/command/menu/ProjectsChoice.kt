@@ -5,6 +5,7 @@ import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.choicer.Choicer
 import me.slavita.construction.action.OpenCommand
+import me.slavita.construction.action.command.menu.worker.WorkerChoice
 import me.slavita.construction.app
 import me.slavita.construction.project.ProjectGenerator
 import me.slavita.construction.ui.ItemIcons
@@ -36,7 +37,7 @@ class ProjectsChoice(player: Player) : OpenCommand(player) {
                         .hint("Выбрать")
                         .item(ItemIcons.get("other", "myfriends"))
                         .onClick { _, _, _ ->
-                            WorkersChoice(player, ProjectGenerator.generateWorker(this).apply { watchableProject = this }).tryExecute()
+                            WorkerChoice(player, ProjectGenerator.generateWorker(this).apply { watchableProject = this }).tryExecute()
                         }
                 )
             )

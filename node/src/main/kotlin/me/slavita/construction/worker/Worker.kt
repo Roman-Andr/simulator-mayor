@@ -10,7 +10,7 @@ import java.util.stream.Stream
 class Worker(
     val name: String,
     val rarity: WorkerRarity,
-    val skill: Int,
+    var level: Int,
     val reliability: Int,
     val rapacity: WorkerRapacity
 ) {
@@ -19,11 +19,14 @@ class Worker(
     val sellPrice: Long
         get() { return 199 /* Формула */ }
 
+    val upgradePrice: Long
+        get() { return 199 /* Формула */ }
+
     override fun toString(): String {
         return Stream.of(
             "${AQUA}Имя: ${name}\n",
             "${AQUA}Редкость: ${rarity.title}\n",
-            "${AQUA}Уровень: ${skill}${WHITE}${Emoji.UP}\n",
+            "${AQUA}Уровень: ${level}${WHITE}${Emoji.UP}\n",
             "${AQUA}Надёжность: ${reliability}\n",
             "${AQUA}Жадность: ${rapacity.title}\n"
         ).collect(Collectors.joining())
