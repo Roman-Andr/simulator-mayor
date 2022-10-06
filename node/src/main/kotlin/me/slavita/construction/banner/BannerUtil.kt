@@ -11,7 +11,7 @@ import org.bukkit.util.Vector
 object BannerUtil {
     private const val offset = 0.52
 
-    private fun createDual(info: BannerInfo): Pair<Banner, Banner> {
+    fun createDual(info: BannerInfo): Pair<Banner, Banner> {
         info.run {
             return Pair(
                 create(BannerInfo(source, blockFace, content, width, height, color, opacity, motionType, pitch)),
@@ -49,7 +49,7 @@ object BannerUtil {
         return banners
     }
 
-    private fun create(info: BannerInfo): Banner {
+    fun create(info: BannerInfo): Banner {
         info.run {
             return Banner.builder()
                 .motionType(motionType)
@@ -70,7 +70,7 @@ object BannerUtil {
                     location(
                         source.clone().add(Vector(offset * blockFace.modX, -0.5 + height / 16, offset * blockFace.modZ)).apply {
                             setYaw(blockFace.toYaw())
-                            setPitch(0.0f)
+                            setPitch(info.pitch)
                         }
                     )
                 }

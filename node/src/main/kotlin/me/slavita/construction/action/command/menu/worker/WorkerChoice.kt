@@ -29,7 +29,8 @@ class WorkerChoice(player: Player, val project: Project) : OpenCommand(player) {
                     this@storage.add(
                         ReactiveButton()
                             .material(Material.AIR)
-                            .hint(""))
+                            .hint("")
+                            .apply { enabled = false })
                     this@storage.add(
                         ReactiveButton()
                             .item(ItemIcons.get("other", "access"))
@@ -51,7 +52,8 @@ class WorkerChoice(player: Player, val project: Project) : OpenCommand(player) {
                     this@storage.add(
                         ReactiveButton()
                             .material(Material.AIR)
-                            .hint(""))
+                            .hint("")
+                            .apply { enabled = false })
                     workers.forEach { worker ->
                         this@storage.add(
                             ReactiveButton()
@@ -91,7 +93,10 @@ class WorkerChoice(player: Player, val project: Project) : OpenCommand(player) {
     }
 
     private fun getWorkerState(targetWorker: Worker): WorkerState {
-        val busyWorkers = user.workers.filter { worker -> user.activeProjects.stream().anyMatch { (it.structure as WorkerStructure).workers.contains(worker) }}
+        val busyWorkers = user.workers.filter { worker -> user.activeProjects.stream().anyMatch {
+            when (it.structure is WorkerStructure) { true -> it.structure.workers.contains(worker)
+            else -> { false }
+        } }}
         val selectedWorkers = (project.structure as WorkerStructure).workers
 
         if (selectedWorkers.contains(targetWorker)) return WorkerState.SELECTED

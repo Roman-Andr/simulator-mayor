@@ -24,6 +24,10 @@ object BlocksExtensions {
         return Location(offset.world, x + offset.x, y + offset.y, z + offset.z)
     }
 
+    operator fun Location.unaryMinus(): Location {
+        return Location(world, -x, -y, -z, yaw, pitch)
+    }
+
     fun BlockFace.toYaw(): Float {
         return when (this) {
             BlockFace.EAST -> -90

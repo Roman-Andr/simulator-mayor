@@ -28,7 +28,7 @@ class WorkerTeamMenu(player: Player) : OpenCommand(player) {
                                 .title(worker.name)
                                 .hint("${AQUA}Управление")
                                 .onClick { _, _, _ ->
-                                    WorkerUpgradeMenu(player, worker).tryExecute()
+                                    WorkerUpgradeMenu(player, worker).closeAll(false).tryExecute()
                                 }
                         )
                     }

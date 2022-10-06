@@ -1,8 +1,14 @@
 package me.slavita.construction.structure
 
+import me.func.mod.Anime
 import me.func.mod.world.Banners
+import me.func.protocol.data.color.GlowColor
 import me.func.protocol.data.element.Banner
+import me.func.protocol.data.element.MotionType
+import me.func.protocol.world.marker.Marker
+import me.func.protocol.world.marker.MarkerSign
 import me.slavita.construction.app
+import me.slavita.construction.banner.BannerInfo
 import me.slavita.construction.banner.BannerUtil
 import me.slavita.construction.connection.ConnectionUtil
 import me.slavita.construction.project.Project
@@ -10,6 +16,7 @@ import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureProgressBar
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.utils.extensions.BlocksExtensions.minus
+import me.slavita.construction.utils.extensions.BlocksExtensions.unaryMinus
 import me.slavita.construction.utils.extensions.BlocksExtensions.withOffset
 import me.slavita.construction.world.BlockProperties
 import me.slavita.construction.world.GameWorld
@@ -17,8 +24,8 @@ import net.minecraft.server.v1_12_R1.BlockPosition
 import net.minecraft.server.v1_12_R1.Material
 import net.minecraft.server.v1_12_R1.PacketPlayOutBlockChange
 import org.bukkit.Location
+import org.bukkit.block.BlockFace
 import org.bukkit.entity.Player
-import java.util.*
 
 abstract class BuildingStructure(
     val world: GameWorld,
@@ -28,8 +35,10 @@ abstract class BuildingStructure(
 ) {
     var state = StructureState.NOT_STARTED
     protected var currentBlock: BlockProperties? = null
-    protected val progressBar = StructureProgressBar(owner, structure.blocksCount)
-    protected var blocksPlaced = 0
+    private val progressBar = StructureProgressBar(owner, structure.blocksCount)
+    private var blocksPlaced = 0
+    private var banner: Banner? = null
+    private var marker: Marker? = null
     protected var hidden = false
     private var currentProject: Project? = null
 
@@ -46,12 +55,16 @@ abstract class BuildingStructure(
     fun show() {
         hidden = false
         progressBar.show()
+        Banners.hide(owner, banner!!.uuid)
+        Anime.removeMarker(owner, marker!!)
         onShow()
     }
 
     fun hide() {
         hidden = true
         progressBar.hide()
+        Banners.show(owner, banner!!)
+        Anime.marker(owner, marker!!)
         onHide()
     }
 
@@ -67,6 +80,20 @@ abstract class BuildingStructure(
         }
         enterBuilding()
         currentProject = project
+
+        val center = structure.box.center.withOffset(-structure.box.min).withOffset(allocation)
+        banner = BannerUtil.create(BannerInfo(
+            center.clone().apply { z = allocation.z }.apply { y = allocation.y - 22.49 },
+            BlockFace.UP,
+            listOf(),
+            16*23,
+            16*23,
+            GlowColor.BLUE,
+            0.24,
+            MotionType.CONSTANT,
+            -90.0f
+        ))
+        marker = Marker(center.x, center.y, center.z, 80.0, MarkerSign.ARROW_DOWN)
     }
 
     fun placeCurrentBlock() {
