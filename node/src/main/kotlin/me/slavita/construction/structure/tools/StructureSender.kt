@@ -13,8 +13,7 @@ class StructureSender(val client: Player) {
             .double(position.x.toDouble())
             .double(position.y.toDouble())
             .double(position.z.toDouble())
-            .item(ItemStack(block.type, 1, 1, block.data))
-            .boolean(block.colorable)
+            .item(ItemStack(block.type, 1, 1, block.data.toByte()))
             .send("structure:currentBlock", client)
     }
 

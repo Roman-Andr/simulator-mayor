@@ -7,6 +7,7 @@ import me.slavita.construction.utils.extensions.BlocksExtensions.add
 import me.slavita.construction.utils.extensions.BlocksExtensions.toLocation
 import org.bukkit.Location
 import org.bukkit.Material
+import org.bukkit.craftbukkit.v1_12_R1.block.CraftBlock
 
 class Structure(val name: String, val box: Box) {
     val world = box.min.world
@@ -41,7 +42,7 @@ class Structure(val name: String, val box: Box) {
             val currentPosition = BlockPosition(x, y, z)
             val block = currentPosition.add(box.min).toLocation(world).block
 
-            if (block.type != Material.AIR) return BlockProperties(currentPosition, block.type, block.data)
+            if (block.type != Material.AIR) return BlockProperties(currentPosition, block.type, (block as CraftBlock).nmsBlock.getDropData(block.data0), block.data.toInt())
 
             blocks++
         }

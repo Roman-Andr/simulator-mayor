@@ -1,43 +1,27 @@
 package me.slavita.construction.world
 
 import me.slavita.construction.utils.extensions.BlocksExtensions.add
+import net.minecraft.server.v1_12_R1.Block
 import net.minecraft.server.v1_12_R1.BlockPosition
+import net.minecraft.server.v1_12_R1.EnumProtocol.DirectionData
+import net.minecraft.server.v1_12_R1.Item
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
-
-val colorableMaterials = arrayOf(
-    Material.WOOD,
-    Material.CONCRETE,
-    Material.CONCRETE_POWDER,
-    Material.STAINED_CLAY,
-    Material.HARD_CLAY,
-    Material.WOOL,
-    Material.GLASS,
-    Material.STAINED_GLASS_PANE,
-    Material.STAINED_GLASS,
-    Material.WOOD,
-)
+import org.bukkit.material.Directional
 
 class BlockProperties(
     val position: BlockPosition,
     val type: Material,
-    val data: Byte
+    val data: Int,
+    val sourceData: Int
 ) {
-    val colorable: Boolean
-
-    init {
-        colorable = colorableMaterials.contains(type)
-    }
-
     fun withOffset(position: Location): BlockProperties {
-        return BlockProperties(this.position.add(position), this.type, this.data)
+        return BlockProperties(this.position.add(position), this.type, this.data, this.sourceData)
     }
 
     fun equalsItem(item: ItemStack?): Boolean {
-        if (item == null || item.getType() != type) return false
-        if (colorable) return item.getData().data == data
-        return true
+        return item != null && item.getType() == type && item.getData().data.toInt() == data
     }
 
     fun equalsLocation(location: Location): Boolean {

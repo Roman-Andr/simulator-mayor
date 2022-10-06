@@ -10,7 +10,7 @@ class GameWorld(val map: WorldMeta) : Listener {
         player.sendBlockChange(
             Location(map.world, block.position.x.toDouble(), block.position.y.toDouble(), block.position.z.toDouble()),
             block.type,
-            block.data
+            block.sourceData.toByte()
         )
     }
 
