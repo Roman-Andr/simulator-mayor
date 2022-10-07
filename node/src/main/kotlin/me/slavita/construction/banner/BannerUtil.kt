@@ -65,6 +65,7 @@ object BannerUtil {
                         resizeLine(index, value.second)
                     }
                 }
+                .watchingOnPlayer(watchingOnPlayer)
                 .build()
                 .apply {
                     location(
