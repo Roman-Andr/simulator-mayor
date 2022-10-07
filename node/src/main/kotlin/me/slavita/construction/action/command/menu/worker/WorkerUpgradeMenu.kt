@@ -19,7 +19,7 @@ import java.util.stream.Stream
 class WorkerUpgradeMenu(player: Player, val worker: Worker) : OpenCommand(player) {
     override fun getMenu(): Openable {
         app.getUser(player).run {
-            var infoButton = ReactiveButton()
+            var infoButton: ReactiveButton
             return Selection(
                 title = "Улучшение рабочего",
                 vault = Emoji.DOLLAR,
