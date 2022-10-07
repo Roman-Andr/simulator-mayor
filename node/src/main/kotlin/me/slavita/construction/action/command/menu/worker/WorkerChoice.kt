@@ -60,27 +60,26 @@ class WorkerChoice(player: Player, val project: Project) : OpenCommand(player) {
                                 .item(ItemIcons.get(worker.rarity.iconKey, worker.rarity.iconValue, worker.rarity.iconMaterial))
                                 .title(worker.name)
                                 .hover(worker.toString())
-                                .hint(when(getWorkerState(worker)) {
-                                        WorkerState.FREE -> "Выбрать"
-                                        WorkerState.SELECTED -> "Выбран"
-                                        WorkerState.BUSY -> "Занят"
-                                    })
+                                .hint(getWorkerState(worker).title)
                                 .special(getWorkerState(worker) == WorkerState.SELECTED)
                                 .onClick { _, _, button ->
                                     when(getWorkerState(worker)) {
                                         WorkerState.FREE -> {
                                             project.structure.workers.add(worker)
                                             button.special = true
+                                            button.hint = getWorkerState(worker).title
                                         }
                                         WorkerState.SELECTED -> {
                                             project.structure.workers.remove(worker)
                                             button.special = false
+                                            button.hint = getWorkerState(worker).title
                                         }
                                         WorkerState.BUSY -> {
                                             activeProjects.find { if (it.structure is WorkerStructure) it.structure.workers.contains(worker) else false }!!.apply {
                                                 (structure as WorkerStructure).workers.remove(worker)
                                                 project.structure.workers.add(worker)
                                                 button.special = true
+                                                button.hint = getWorkerState(worker).title
                                             }
                                         }
                                     }
