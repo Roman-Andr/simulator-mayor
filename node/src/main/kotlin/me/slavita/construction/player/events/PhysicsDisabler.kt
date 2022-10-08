@@ -19,7 +19,7 @@ import org.bukkit.event.player.PlayerSwapHandItemsEvent
 import org.bukkit.event.world.ChunkLoadEvent
 import org.spigotmc.event.entity.EntityDismountEvent
 
-class PhysicsDisabler : Listener {
+object PhysicsDisabler : Listener {
     @EventHandler
     fun ChunkLoadEvent.handle() {
         chunk.biome = EmptyChunkBiome.INSTANCE

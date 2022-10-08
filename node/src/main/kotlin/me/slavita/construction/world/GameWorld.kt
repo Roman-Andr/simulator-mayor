@@ -7,7 +7,7 @@ import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.event.Listener
 
-class GameWorld(val map: WorldMeta) : Listener {
+class GameWorld(val map: WorldMeta) {
 
     fun placeFakeBlock(player: Player, block: StructureBlock) {
         player.sendBlockChange(

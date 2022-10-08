@@ -11,9 +11,8 @@ import me.func.world.MapLoader
 import me.func.world.WorldMeta
 import me.slavita.construction.action.chat.AdminCommands
 import me.slavita.construction.action.chat.UserCommands
-import me.slavita.construction.action.command.menu.worker.WorkerBuyMenu
 import me.slavita.construction.market.MarketsManager
-import me.slavita.construction.multichat.MultiChatUtil
+import me.slavita.construction.multichat.MultiChats
 import me.slavita.construction.npc.NpcManager
 import me.slavita.construction.player.Statistics
 import me.slavita.construction.player.User
@@ -21,7 +20,7 @@ import me.slavita.construction.player.events.PhysicsDisabler
 import me.slavita.construction.player.events.PlayerEvents
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.ItemsManager
-import me.slavita.construction.utils.KeysManager
+import me.slavita.construction.utils.ModCallbacks
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.ChatColor.AQUA
@@ -65,7 +64,6 @@ class App : JavaPlugin() {
         Platforms.set(PlatformDarkPaper())
 
         Anime.include(Kit.STANDARD, Kit.EXPERIMENTAL, Kit.DIALOG, Kit.MULTI_CHAT, Kit.LOOTBOX, Kit.NPC)
-        MultiChatUtil.createChats()
 
         CoreApi.get().run {
             registerService(ITransferService::class.java, TransferService(ISocketClient.get()))
@@ -91,24 +89,22 @@ class App : JavaPlugin() {
         structureMap = MapLoader.load("construction", "structures")
         mainWorld = GameWorld(MapLoader.load("construction", "test"))
 
+        MultiChats
         NpcManager
         UserCommands
         AdminCommands
         Structures
         MarketsManager
-        KeysManager
+        ModCallbacks
 
-        Anime.createReader("lootbox:closed") { player, _ ->
-            WorkerBuyMenu(player).tryExecute()
-        }
-
-        listener(PlayerEvents(), PhysicsDisabler(), mainWorld, ItemsManager)
+        listener(PlayerEvents, PhysicsDisabler, ItemsManager)
 
         server.scheduler.scheduleSyncRepeatingTask(this, { pass++ }, 0, 1)
     }
 
-    fun addUser(player: Player) {
+    fun addUser(player: Player): User {
         users[player.uniqueId] = User(player, Statistics())
+        return getUser(player)
     }
 
     fun getUser(uuid: UUID) : User {

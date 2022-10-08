@@ -7,15 +7,17 @@ import org.bukkit.entity.Player
 import java.util.*
 
 
-object MultiChatUtil {
+object MultiChats {
     private val chatList = arrayListOf<ModChat>()
 
-    fun createChats() = ChatType.values().forEach {
+    init {
+        ChatType.values().forEach {
             ModChat(UUID.randomUUID(), it.title, it.symbol).apply {
                 MultiChat.createKey(it.key, this)
                 chatList.add(this)
             }
         }
+    }
 
     fun sendPlayerChats(player : Player) = after(1) { MultiChat.sendChats(player, *chatList.toTypedArray()) }
 

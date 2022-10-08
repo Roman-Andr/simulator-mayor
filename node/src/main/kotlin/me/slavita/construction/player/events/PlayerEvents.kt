@@ -1,44 +1,27 @@
 package me.slavita.construction.player.events
 
-import me.func.mod.Anime
-import me.func.mod.conversation.ModTransfer
 import me.func.mod.util.after
-import me.func.protocol.ui.indicator.Indicators
 import me.slavita.construction.app
-import me.slavita.construction.connection.ConnectionUtil
-import me.slavita.construction.market.Market
-import me.slavita.construction.market.MarketsManager
-import me.slavita.construction.market.Showcase
-import me.slavita.construction.multichat.MultiChatUtil
-import me.slavita.construction.ui.ItemsManager
-import me.slavita.construction.ui.ScoreBoardGenerator
-import org.bukkit.GameMode
+import me.slavita.construction.prepare.*
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerMoveEvent
-import ru.cristalix.core.permissions.IPermissionService
-import ru.cristalix.core.permissions.StaffGroups
 
-class PlayerEvents : Listener {
+object PlayerEvents : Listener {
     @EventHandler
     fun PlayerJoinEvent.handle() {
         after (2) {
-            MultiChatUtil.sendPlayerChats(player)
-            app.addUser(player)
-            player.teleport(app.mainWorld.getSpawn())
-            ConnectionUtil.createChannel(player)
-            if (app.localStaff.contains(player.uniqueId)) {
-                IPermissionService.get().getPermissionContextDirect(player.uniqueId).displayGroup = StaffGroups.LOCAL_STAFF
-                player.allowFlight = true
+            app.addUser(player).run {
+                listOf(
+                    PlayerWorldPrepare,
+                    ConnectionPrepare,
+                    PermissionsPrepare,
+                    UIPrepare,
+                    ItemCallbacksPrepare,
+                    ShowcasePrepare,
+                ).forEach { it.prepare(this) }
             }
-            Anime.hideIndicator(player, Indicators.HEALTH, Indicators.EXP, Indicators.HUNGER)
-            player.gameMode = GameMode.ADVENTURE
-            ScoreBoardGenerator.generate(player)
-            ItemsManager.registerPlayer(player)
-            ModTransfer()
-                .json(MarketsManager.markets.map(Market::instances).flatMap { it!! }.map(Showcase::getData).toTypedArray())
-                .send("showcase", player)
         }
     }
 
