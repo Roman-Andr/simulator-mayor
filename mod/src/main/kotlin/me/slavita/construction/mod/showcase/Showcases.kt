@@ -6,38 +6,36 @@ import dev.xdark.feder.NetUtil
 import me.slavita.construction.mod.mod
 import ru.cristalix.clientapi.JavaMod.clientApi
 import ru.cristalix.uiengine.UIEngine
-import ru.cristalix.uiengine.element.CarvedRectangle
 import ru.cristalix.uiengine.element.TextElement
 import ru.cristalix.uiengine.utility.*
 
 object Showcases {
-    private var showcaseBox: CarvedRectangle
     private lateinit var showcaseText: TextElement
+    private var showcaseBox = carved {
+        size = V3(210.0, 40.0)
+        align = BOTTOM
+        origin = BOTTOM
+        offset.y -= 65.0
+        color = Color(0, 0, 0, 0.52)
+        enabled = false
+        showcaseText = +text {
+            origin = TOP
+            align = TOP
+            offset.y += 4.0
+            color = Color(0, 255, 0, 1.0)
+        }
+        +text {
+            origin = BOTTOM
+            align = BOTTOM
+            offset.y -= 4.0
+            color = Color(255, 255, 255, 1.0)
+            content = "Открыть витрину [ПКМ]"
+        }
+    }
 
     init {
         var showcases: Array<ShowcaseData>? = null
 
-        showcaseBox = carved {
-            size = V3(210.0, 40.0)
-            align = BOTTOM
-            origin = BOTTOM
-            offset.y -= 65.0
-            color = Color(0, 0, 0, 0.52)
-            enabled = false
-            showcaseText = +text {
-                origin = TOP
-                align = TOP
-                offset.y += 4.0
-                color = Color(0, 255, 0, 1.0)
-            }
-            +text {
-                origin = BOTTOM
-                align = BOTTOM
-                offset.y -= 4.0
-                color = Color(255, 255, 255, 1.0)
-                content = "Открыть витрину [ПКМ]"
-            }
-        }
         UIEngine.overlayContext.addChild(showcaseBox)
 
         mod.registerHandler<GameLoop> {
@@ -59,7 +57,7 @@ object Showcases {
                     }
                 }
 
-                if (!shown) {
+                if (!shown && showcaseBox.enabled) {
                     showcaseBox.enabled = false
                 }
             }

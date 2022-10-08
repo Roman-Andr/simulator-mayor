@@ -21,6 +21,7 @@ import me.slavita.construction.player.events.PhysicsDisabler
 import me.slavita.construction.player.events.PlayerEvents
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.ItemsManager
+import me.slavita.construction.utils.KeysManager
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.ChatColor.AQUA
@@ -95,6 +96,7 @@ class App : JavaPlugin() {
         AdminCommands
         Structures
         MarketsManager
+        KeysManager
 
         Anime.createReader("lootbox:closed") { player, _ ->
             WorkerBuyMenu(player).tryExecute()
