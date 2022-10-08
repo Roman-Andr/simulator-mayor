@@ -23,7 +23,7 @@ import ru.cristalix.uiengine.eventloop.thenAnimate
 import ru.cristalix.uiengine.eventloop.thenWait
 import ru.cristalix.uiengine.utility.*
 
-class StructureBuilding {
+object StructureBuilding {
 
     private var currentItem: ItemStack? = null
     private var currentBlockLocation: V3? = null

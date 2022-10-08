@@ -1,10 +1,14 @@
 package me.slavita.construction.player.events
 
 import me.func.mod.Anime
+import me.func.mod.conversation.ModTransfer
 import me.func.mod.util.after
 import me.func.protocol.ui.indicator.Indicators
 import me.slavita.construction.app
 import me.slavita.construction.connection.ConnectionUtil
+import me.slavita.construction.market.Market
+import me.slavita.construction.market.MarketsManager
+import me.slavita.construction.market.Showcase
 import me.slavita.construction.multichat.MultiChatUtil
 import me.slavita.construction.ui.ItemsManager
 import me.slavita.construction.ui.ScoreBoardGenerator
@@ -31,8 +35,10 @@ class PlayerEvents : Listener {
             Anime.hideIndicator(player, Indicators.HEALTH, Indicators.EXP, Indicators.HUNGER)
             player.gameMode = GameMode.ADVENTURE
             ScoreBoardGenerator.generate(player)
-
             ItemsManager.registerPlayer(player)
+            ModTransfer()
+                .json(MarketsManager.markets.map(Market::instances).flatMap { it!! }.map(Showcase::getData).toTypedArray())
+                .send("showcase", player)
         }
     }
 

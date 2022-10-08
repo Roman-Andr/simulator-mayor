@@ -39,7 +39,7 @@ remotes {
 }
 
 task upload(
-//        dependsOn: project(':mod').tasks.upload
+        dependsOn: project(':mod').tasks.upload
 ) {
     doLast {
         ssh.run {

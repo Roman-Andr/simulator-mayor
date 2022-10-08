@@ -1,6 +1,7 @@
 package me.slavita.construction.mod
 
 import dev.xdark.clientapi.entity.EntityPlayerSP
+import me.slavita.construction.mod.showcase.Showcases
 import ru.cristalix.clientapi.KotlinMod
 import ru.cristalix.uiengine.UIEngine
 import java.util.*
@@ -14,7 +15,9 @@ class App : KotlinMod() {
         UIEngine.initialize(this)
         player = clientApi.minecraft().player
         mod = this
-        StructureBuilding()
+        StructureBuilding
+        KeysManager
+        Showcases
     }
 
     fun runRepeatingTask(delay: Double, period: Double, action: () -> Unit) {

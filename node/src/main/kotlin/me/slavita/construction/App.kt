@@ -12,8 +12,7 @@ import me.func.world.WorldMeta
 import me.slavita.construction.action.chat.AdminCommands
 import me.slavita.construction.action.chat.UserCommands
 import me.slavita.construction.action.command.menu.worker.WorkerBuyMenu
-import me.slavita.construction.market.Market
-import me.slavita.construction.market.Showcases
+import me.slavita.construction.market.MarketsManager
 import me.slavita.construction.multichat.MultiChatUtil
 import me.slavita.construction.npc.NpcManager
 import me.slavita.construction.player.Statistics
@@ -95,13 +94,13 @@ class App : JavaPlugin() {
         UserCommands
         AdminCommands
         Structures
+        MarketsManager
 
         Anime.createReader("lootbox:closed") { player, _ ->
             WorkerBuyMenu(player).tryExecute()
         }
 
         listener(PlayerEvents(), PhysicsDisabler(), mainWorld, ItemsManager)
-        Market()
 
         server.scheduler.scheduleSyncRepeatingTask(this, { pass++ }, 0, 1)
     }

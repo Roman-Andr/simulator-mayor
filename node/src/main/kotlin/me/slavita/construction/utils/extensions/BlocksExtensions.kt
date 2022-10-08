@@ -4,6 +4,7 @@ import net.minecraft.server.v1_12_R1.BlockPosition
 import org.bukkit.Location
 import org.bukkit.World
 import org.bukkit.block.BlockFace
+import ru.cristalix.core.math.V3
 
 object BlocksExtensions {
     fun BlockPosition.add(position: Location): BlockPosition {
@@ -26,6 +27,10 @@ object BlocksExtensions {
 
     fun Location.toPosition(): BlockPosition {
         return BlockPosition(x, y, z)
+    }
+
+    fun Location.toV3(): V3 {
+        return V3(x, y, z)
     }
 
     operator fun Location.unaryMinus(): Location {
