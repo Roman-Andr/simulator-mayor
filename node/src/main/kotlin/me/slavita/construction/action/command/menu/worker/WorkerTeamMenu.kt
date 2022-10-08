@@ -4,14 +4,14 @@ import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.selection.Selection
 import me.func.protocol.data.emoji.Emoji
-import me.slavita.construction.action.OpenCommand
+import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.app
 import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.ui.ItemIcons
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.entity.Player
 
-class WorkerTeamMenu(player: Player) : OpenCommand(player) {
+class WorkerTeamMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         app.getUser(player).run {
             return Selection(

@@ -7,7 +7,7 @@ import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.structure.tools.StructureVisual
 import me.slavita.construction.utils.extensions.BlocksExtensions.minus
-import me.slavita.construction.world.BlockProperties
+import me.slavita.construction.world.StructureBlock
 import me.slavita.construction.world.GameWorld
 import net.minecraft.server.v1_12_R1.BlockPosition
 import net.minecraft.server.v1_12_R1.Material
@@ -22,7 +22,7 @@ abstract class BuildingStructure(
     val allocation: Location
 ) {
     var state = StructureState.NOT_STARTED
-    protected var currentBlock: BlockProperties? = null
+    protected var currentBlock: StructureBlock? = null
     private val visual = StructureVisual(this)
     var blocksPlaced = 0
     protected var hidden = false

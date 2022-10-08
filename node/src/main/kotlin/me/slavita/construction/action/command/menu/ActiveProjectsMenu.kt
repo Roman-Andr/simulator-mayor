@@ -5,7 +5,7 @@ import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.selection.Selection
 import me.func.protocol.data.emoji.Emoji
-import me.slavita.construction.action.OpenCommand
+import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.app
 import me.slavita.construction.structure.ClientStructure
 import me.slavita.construction.ui.ItemIcons
@@ -15,7 +15,7 @@ import org.bukkit.entity.Player
 import java.util.stream.Collectors
 import java.util.stream.Stream
 
-class ActiveProjectsMenu(player: Player) : OpenCommand(player) {
+class ActiveProjectsMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         app.getUser(player).run {
             return Selection(

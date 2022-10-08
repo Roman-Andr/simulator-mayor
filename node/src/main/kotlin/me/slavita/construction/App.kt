@@ -12,14 +12,18 @@ import me.func.world.WorldMeta
 import me.slavita.construction.action.chat.AdminCommands
 import me.slavita.construction.action.chat.UserCommands
 import me.slavita.construction.action.command.menu.worker.WorkerBuyMenu
+import me.slavita.construction.market.Market
+import me.slavita.construction.market.Showcases
 import me.slavita.construction.multichat.MultiChatUtil
 import me.slavita.construction.npc.NpcManager
 import me.slavita.construction.player.Statistics
 import me.slavita.construction.player.User
 import me.slavita.construction.player.events.PhysicsDisabler
 import me.slavita.construction.player.events.PlayerEvents
+import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.ItemsManager
 import me.slavita.construction.world.GameWorld
+import me.slavita.construction.world.ItemProperties
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.WHITE
 import org.bukkit.entity.Player
@@ -44,8 +48,9 @@ class App : JavaPlugin() {
     lateinit var structureMap: WorldMeta
     lateinit var mainWorld: GameWorld
     val users = hashMapOf<UUID, User>()
+    val allBlocks = hashSetOf<ItemProperties>()
 
-    val localStaff  = hashSetOf(
+    val localStaff = hashSetOf(
         "e2543a0a-5799-11e9-8374-1cb72caa35fd",
         "ba821208-6b64-11e9-8374-1cb72caa35fd"
     ).map { UUID.fromString(it) }
@@ -89,12 +94,14 @@ class App : JavaPlugin() {
         NpcManager
         UserCommands
         AdminCommands
+        Structures
 
         Anime.createReader("lootbox:closed") { player, _ ->
             WorkerBuyMenu(player).tryExecute()
         }
 
         listener(PlayerEvents(), PhysicsDisabler(), mainWorld, ItemsManager)
+        Market()
 
         server.scheduler.scheduleSyncRepeatingTask(this, { pass++ }, 0, 1)
     }

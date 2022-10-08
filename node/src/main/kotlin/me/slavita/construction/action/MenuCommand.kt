@@ -4,12 +4,12 @@ import me.func.mod.Anime
 import me.func.mod.ui.menu.Openable
 import org.bukkit.entity.Player
 
-abstract class OpenCommand(player: Player) : CooldownCommand(player, 5) {
+abstract class MenuCommand(player: Player) : CooldownCommand(player, 5) {
     private var close = true
 
     protected abstract fun getMenu(): Openable
 
-    fun closeAll(close: Boolean): OpenCommand {
+    fun closeAll(close: Boolean): MenuCommand {
         this.close = close
         return this
     }

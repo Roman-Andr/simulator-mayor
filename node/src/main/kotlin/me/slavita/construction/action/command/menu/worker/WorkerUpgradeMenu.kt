@@ -4,7 +4,7 @@ import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.selection.Selection
 import me.func.protocol.data.emoji.Emoji
-import me.slavita.construction.action.OpenCommand
+import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.UpgradeWorker
 import me.slavita.construction.app
 import me.slavita.construction.ui.Formatter.toMoney
@@ -16,7 +16,7 @@ import org.bukkit.entity.Player
 import java.util.stream.Collectors
 import java.util.stream.Stream
 
-class WorkerUpgradeMenu(player: Player, val worker: Worker) : OpenCommand(player) {
+class WorkerUpgradeMenu(player: Player, val worker: Worker) : MenuCommand(player) {
     override fun getMenu(): Openable {
         app.getUser(player).run {
             var infoButton: ReactiveButton

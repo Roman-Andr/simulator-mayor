@@ -1,13 +1,14 @@
 package me.slavita.construction.structure.instance
 
-import me.slavita.construction.world.BlockProperties
+import me.slavita.construction.app
+import me.slavita.construction.world.StructureBlock
 import me.slavita.construction.world.Box
 import net.minecraft.server.v1_12_R1.BlockPosition
 import me.slavita.construction.utils.extensions.BlocksExtensions.add
 import me.slavita.construction.utils.extensions.BlocksExtensions.toLocation
+import me.slavita.construction.world.ItemProperties
 import org.bukkit.Location
 import org.bukkit.Material
-import org.bukkit.craftbukkit.v1_12_R1.block.CraftBlock
 
 class Structure(val name: String, val box: Box) {
     val world = box.min.world
@@ -16,15 +17,18 @@ class Structure(val name: String, val box: Box) {
 
     init {
         box.forEachBukkit {
-            if (it.type != Material.AIR) blocksCount++
+            if (it.type == Material.AIR) return@forEachBukkit
+
+            blocksCount++
+            app.allBlocks.add(ItemProperties.fromBlock(it))
         }
     }
 
-    fun getNextBlock(position: BlockPosition): BlockProperties? {
+    fun getNextBlock(position: BlockPosition): StructureBlock? {
         return getNextBlock(position.y * (box.dimensions.x * box.dimensions.z) + position.x * box.dimensions.z + position.z + 1)
     }
 
-    private fun getNextBlock(blocksPassed: Int): BlockProperties? {
+    private fun getNextBlock(blocksPassed: Int): StructureBlock? {
         var blocks = blocksPassed
 
         while (true) {
@@ -42,13 +46,13 @@ class Structure(val name: String, val box: Box) {
             val currentPosition = BlockPosition(x, y, z)
             val block = currentPosition.add(box.min).toLocation(world).block
 
-            if (block.type != Material.AIR) return BlockProperties(currentPosition, block.type, (block as CraftBlock).nmsBlock.getDropData(block.data0), block.data.toInt())
+            if (block.type != Material.AIR) return StructureBlock.fromBlock(block)
 
             blocks++
         }
     }
 
-    fun getFirstBlock(): BlockProperties = getNextBlock(0)!!
+    fun getFirstBlock(): StructureBlock = getNextBlock(0)!!
 
     fun contains(location: BlockPosition): Boolean = box.contains(Location(null, location.x.toDouble() + box.min.x, location.y.toDouble()+ box.min.y, location.z.toDouble() + box.min.z))
 }

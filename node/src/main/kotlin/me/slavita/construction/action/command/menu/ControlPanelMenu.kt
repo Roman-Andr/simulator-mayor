@@ -4,7 +4,7 @@ import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.selection.Selection
 import me.func.protocol.data.emoji.Emoji
-import me.slavita.construction.action.OpenCommand
+import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.menu.worker.WorkerBuyMenu
 import me.slavita.construction.action.command.menu.worker.WorkerTeamMenu
 import me.slavita.construction.app
@@ -12,7 +12,7 @@ import me.slavita.construction.ui.ItemIcons
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-class ControlPanelMenu(player: Player) : OpenCommand(player) {
+class ControlPanelMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         app.getUser(player).run {
             return Selection(
@@ -53,14 +53,6 @@ class ControlPanelMenu(player: Player) : OpenCommand(player) {
                         .item(ItemIcons.get("other", "book"))
                         .onClick { _, _, _ ->
                             ActiveProjectsMenu(player).closeAll(false).tryExecute()
-                        },
-                    ReactiveButton()
-                        .title("Маркет")
-                        .description("Покупка блоков\nдля постройки")
-                        .hint("Выбрать")
-                        .item(ItemIcons.get("skyblock", "collections"))
-                        .onClick { _, _, _ ->
-                            MarketStandMenu(player, Material.values().toSet()).tryExecute()
                         },
                 )
             )

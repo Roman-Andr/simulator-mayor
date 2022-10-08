@@ -4,7 +4,7 @@ import me.func.mod.Anime
 import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.selection.Selection
-import me.slavita.construction.action.OpenCommand
+import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.app
 import me.slavita.construction.project.Project
 import me.slavita.construction.structure.WorkerStructure
@@ -15,7 +15,7 @@ import org.bukkit.ChatColor.GREEN
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-class WorkerChoice(player: Player, val project: Project) : OpenCommand(player) {
+class WorkerChoice(player: Player, val project: Project) : MenuCommand(player) {
     val user = app.getUser(player)
 
     override fun getMenu(): Openable {

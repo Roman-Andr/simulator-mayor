@@ -1,7 +1,9 @@
 package me.slavita.construction.structure.instance
 
+import me.slavita.construction.world.ItemProperties
+
 object Structures {
-    val structureGroups = arrayListOf(
+    val structureGroups = arrayOf(
         StructureGroup("Дом 1", "1", 10),
         StructureGroup("Дом 2", "2", 10),
         StructureGroup("Дом 3", "3", 10),
