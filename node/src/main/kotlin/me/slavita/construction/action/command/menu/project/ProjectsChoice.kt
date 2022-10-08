@@ -1,4 +1,4 @@
-package me.slavita.construction.action.command.menu
+package me.slavita.construction.action.command.menu.project
 
 import me.func.mod.Anime
 import me.func.mod.reactive.ReactiveButton

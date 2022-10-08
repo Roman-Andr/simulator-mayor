@@ -2,7 +2,7 @@ package me.slavita.construction.npc
 
 import me.slavita.construction.action.command.menu.worker.WorkerBuyMenu
 import me.slavita.construction.action.command.menu.ControlPanelMenu
-import me.slavita.construction.action.command.menu.ProjectsChoice
+import me.slavita.construction.action.command.menu.project.ProjectsChoice
 import me.slavita.construction.action.command.menu.worker.WorkerTeamMenu
 import org.bukkit.entity.Player
 

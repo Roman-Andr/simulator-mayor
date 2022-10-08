@@ -1,4 +1,4 @@
-package me.slavita.construction.action.command.menu
+package me.slavita.construction.action.command.menu.project
 
 import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
@@ -18,6 +18,11 @@ class BuildingInfoMenu(player: Player, val project: Project) : MenuCommand(playe
                 columns = 3,
                 storage = mutableListOf(
                     ReactiveButton()
+                        .title("Информация")
+                        .hint("")
+                        .hover("")
+                        .item(ItemIcons.get("skyblock", "spawn")),
+                    ReactiveButton()
                         .title("Строители")
                         .description("Просмотреть выбранных\nстроителей")
                         .hint("Выбрать")
@@ -26,10 +31,13 @@ class BuildingInfoMenu(player: Player, val project: Project) : MenuCommand(playe
 
                         },
                     ReactiveButton()
-                        .title("Информация")
-                        .hint("")
-                        .hover("")
-                        .item(ItemIcons.get("skyblock", "spawn"))
+                        .title("Список материалов")
+                        .description("Просмотреть список\nнеобходимых материалов")
+                        .hint("Выбрать")
+                        .item(ItemIcons.get("skyblock", "info"))
+                        .onClick { _, _, _ ->
+                            BlocksListMenu(player, project.structure.structure).closeAll(false).tryExecute()
+                        }
                 )
             )
         }
