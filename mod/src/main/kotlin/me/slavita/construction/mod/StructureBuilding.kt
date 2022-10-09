@@ -32,7 +32,7 @@ object StructureBuilding {
     private var cooldownExpired = true
     private var frameColor = Color(0, 0, 0, 65.0)
     private var lastMarkersSlots = arrayOf<Int>()
-    private var lineWidth = 3.5f
+    private var lineWidth = 3.5F
 
     private val nextBlock: RectangleElement = rectangle {
 

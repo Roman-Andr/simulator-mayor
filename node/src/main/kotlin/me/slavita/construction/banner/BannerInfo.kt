@@ -15,7 +15,7 @@ class BannerInfo(
     val color: RGB = GlowColor.GREEN,
     val opacity: Double = 0.65,
     val motionType: MotionType = MotionType.CONSTANT,
-    val pitch: Float = 0.0f,
+    val pitch: Float = 0.0F,
     val watchingOnPlayer: Boolean = false
 ) {
 }

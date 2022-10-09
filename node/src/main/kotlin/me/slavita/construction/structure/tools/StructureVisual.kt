@@ -40,7 +40,7 @@ class StructureVisual(
             GlowColor.BLUE,
             0.24,
             MotionType.CONSTANT,
-            -90.0f
+            -90.0F
         )
         )
         infoBanner = BannerUtil.create(
@@ -55,7 +55,7 @@ class StructureVisual(
             Tricolor(0, 0, 0),
             0.24,
             MotionType.CONSTANT,
-            0.0f,
+            0.0F,
             true
         )
         )

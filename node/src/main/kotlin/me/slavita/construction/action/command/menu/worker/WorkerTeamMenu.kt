@@ -2,6 +2,7 @@ package me.slavita.construction.action.command.menu.worker
 
 import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
+import me.func.mod.ui.menu.button
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.app
 import me.slavita.construction.ui.menu.ItemIcons
@@ -17,19 +18,14 @@ class WorkerTeamMenu(player: Player) : MenuCommand(player) {
                 storage = mutableListOf<ReactiveButton>().apply storage@{
                     workers.forEach { worker ->
                         this@storage.add(
-                            ReactiveButton()
-                                .item(
-                                    ItemIcons.get(
-                                        worker.rarity.iconKey,
-                                        worker.rarity.iconValue,
-                                        worker.rarity.iconMaterial
-                                    )
-                                )
-                                .title(worker.name)
-                                .hint("${AQUA}Управление")
-                                .onClick { _, _, _ ->
+                            button {
+                                item = ItemIcons.get(worker.rarity.iconKey, worker.rarity.iconValue, worker.rarity.iconMaterial)
+                                title = worker.name
+                                hint = "${AQUA}Управление"
+                                onClick { _, _, _ ->
                                     WorkerUpgradeMenu(player, worker).closeAll(false).tryExecute()
                                 }
+                            }
                         )
                     }
                 }

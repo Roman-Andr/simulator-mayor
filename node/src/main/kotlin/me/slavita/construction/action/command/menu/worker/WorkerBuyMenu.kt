@@ -3,6 +3,7 @@ package me.slavita.construction.action.command.menu.worker
 import me.func.mod.conversation.data.LootDrop
 import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
+import me.func.mod.ui.menu.button
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.OpenWorker
 import me.slavita.construction.app
@@ -22,21 +23,20 @@ class WorkerBuyMenu(player: Player) : MenuCommand(player) {
                         val canBuy = stats.money >= rarity.price
                         val iconItem = ItemIcons.get(rarity.iconKey, rarity.iconValue, rarity.iconMaterial)
 
-                        this@storage.add(
-                            ReactiveButton()
-                                .item(iconItem)
-                                .title(rarity.title)
-                                .description(rarity.description)
-                                .price(rarity.price)
-                                .hint(if (canBuy) "Купить" else "Недостаточно\nсредств")
-                                .onClick { _, _, _ ->
-                                    if (!canBuy) return@onClick
+                        this@storage.add(button {
+                            item = iconItem
+                            title = rarity.title
+                            description = rarity.description
+                            price = rarity.price
+                            hint = if (canBuy) "Купить" else "Недостаточно\nсредств"
+                            onClick { _, _, _ ->
+                                if (!canBuy) return@onClick
 
-                                    val worker = WorkerGenerator.generate(rarity)
-                                    val lootDrop = LootDrop(iconItem, worker.name, rarity.dropRare)
-                                    OpenWorker(this@user, worker, lootDrop).tryExecute()
-                                }
-                        )
+                                val worker = WorkerGenerator.generate(rarity)
+                                val lootDrop = LootDrop(iconItem, worker.name, rarity.dropRare)
+                                OpenWorker(this@user, worker, lootDrop).tryExecute()
+                            }
+                        })
                     }
                 }
             }

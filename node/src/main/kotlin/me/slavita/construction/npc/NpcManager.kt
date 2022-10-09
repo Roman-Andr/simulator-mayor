@@ -7,6 +7,8 @@ import me.func.mod.world.Npc.skin
 import me.func.protocol.world.npc.NpcBehaviour
 import me.slavita.construction.app
 import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.utils.music.MusicExtension.playSound
+import me.slavita.construction.utils.music.MusicSound
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack
 import org.bukkit.inventory.EquipmentSlot
 import java.util.*

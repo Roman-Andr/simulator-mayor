@@ -2,6 +2,7 @@ package me.slavita.construction.action.command.menu.worker
 
 import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
+import me.func.mod.ui.menu.button
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.UpgradeWorker
 import me.slavita.construction.app
@@ -20,34 +21,33 @@ class WorkerUpgradeMenu(player: Player, val worker: Worker) : MenuCommand(player
             var infoButton: ReactiveButton
             return get(MenuInfo("Улучшение рабочего", StatsType.MONEY, 4, 3)).apply {
                 storage = mutableListOf(
-                    ReactiveButton()
-                        .item(ItemIcons.get("other", "info1"))
-                        .title("Информация")
-                        .hover(worker.toString())
-                        .hint("Информация")
-                        .apply {
-                            infoButton = this
-                        },
-                    ReactiveButton()
-                        .item(ItemIcons.get("other", "add"))
-                        .title("Улучшить")
-                        .hover(getUpgradeHover())
-                        .hint("Улучшить")
-                        .onClick { _, _, button ->
+                    button {
+                        item = ItemIcons.get("other", "info1")
+                        title = "Информация"
+                        hover = worker.toString()
+                        hint = "Информация"
+                    }.apply { infoButton = this },
+                    button {
+                        item = ItemIcons.get("other", "add")
+                        title = "Улучшить"
+                        hover = getUpgradeHover()
+                        hint = "Улучшить"
+                        onClick { _, _, button ->
                             UpgradeWorker(player, worker).tryExecute()
                             button.hover = getUpgradeHover()
                             infoButton.hover = worker.toString()
-                        },
-                    ReactiveButton()
-                        .item(ItemIcons.get("other", "reload"))
-                        .title("Продать")
-                        .hover(getSellHover())
-                        .hint("Продать")
-                        .onClick { _, _, button ->
+                        }},
+                    button {
+                        item = ItemIcons.get("other", "reload")
+                        title = "Продать"
+                        hover = getSellHover()
+                        hint = "Продать"
+                        onClick { _, _, button ->
                             WorkerSellConfirm(player, worker).tryExecute()
                             button.hover = getSellHover()
                             infoButton.hover = worker.toString()
                         }
+                    }
                 )
             }
         }

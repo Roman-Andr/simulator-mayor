@@ -14,6 +14,17 @@ class User(
     var activeProjects = hashSetOf<Project>()
     var watchableProject: Project? = null
 
+    fun tryPurchase(cost: Long, action: () -> Unit) {
+        if (stats.money >= cost) {
+            stats.money -= cost
+            action()
+        }
+    }
+
+    fun canPurchase(cost: Long): Boolean {
+        return stats.money >= cost
+    }
+
     fun getEmptyPlace(): Location? {
         val used = arrayListOf<Location>()
 
