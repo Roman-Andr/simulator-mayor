@@ -14,7 +14,7 @@ mod {
     name = "construction"
     jarFileName = "construction-mod.jar"
     main = "me.slavita.construction.mod.App"
-    author = "Slavita"
+    author = "Slavita, RomanAndr"
 }
 
 remotes {

@@ -69,6 +69,7 @@ class StructureVisual(
             .build()
         marker = Marker(center.x, center.y, center.z, 80.0, MarkerSign.ARROW_DOWN)
         update()
+        hide()
     }
 
     fun update() {
@@ -80,6 +81,7 @@ class StructureVisual(
     }
 
     fun show() {
+        println("show")
         Banners.hide(owner, floorBanner!!)
         Banners.hide(owner, infoBanner!!)
         Anime.removeMarker(owner, marker!!)
@@ -88,9 +90,18 @@ class StructureVisual(
     }
 
     fun hide() {
+        println("hide")
         Banners.show(owner, floorBanner!!)
         Banners.show(owner, infoBanner!!)
         Anime.marker(owner, marker!!)
+        progressWorld!!.delete(setOf(owner))
+        progressBar.hide()
+    }
+
+    fun delete() {
+        Banners.hide(owner, floorBanner!!)
+        Banners.hide(owner, infoBanner!!)
+        Anime.removeMarker(owner, marker!!)
         progressWorld!!.delete(setOf(owner))
         progressBar.hide()
     }

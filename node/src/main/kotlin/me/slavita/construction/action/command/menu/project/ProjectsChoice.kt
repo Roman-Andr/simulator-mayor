@@ -13,7 +13,7 @@ import org.bukkit.entity.Player
 
 class ProjectsChoice(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
-        app.getUser(player).run {
+        app.getUser(player).run user@ {
             return Choicer(
                 title = "Выбор проекта",
                 description = "Выберите тип проекта",
@@ -26,8 +26,7 @@ class ProjectsChoice(player: Player) : MenuCommand(player) {
                         .item(ItemIcons.get("other", "human"))
                         .onClick { _, _, _ ->
                             Anime.close(player)
-                            activeProjects.add(ProjectGenerator.generateClient(this).apply {
-                                watchableProject = this
+                            activeProjects.add(ProjectGenerator.generateClient(this@user).apply {
                                 start()
                             })
                         },
@@ -37,7 +36,7 @@ class ProjectsChoice(player: Player) : MenuCommand(player) {
                         .hint("Выбрать")
                         .item(ItemIcons.get("other", "myfriends"))
                         .onClick { _, _, _ ->
-                            WorkerChoice(player, ProjectGenerator.generateWorker(this).apply { watchableProject = this }).tryExecute()
+                            WorkerChoice(player, ProjectGenerator.generateWorker(this@user)).tryExecute()
                         }
                 )
             )

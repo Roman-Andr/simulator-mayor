@@ -10,7 +10,7 @@ class UpgradeWorker(val user: Player, val worker: Worker) : CooldownCommand(user
         app.getUser(user).apply user@ {
             workers.find { it == worker }!!.apply {
                 this@user.stats.money -= upgradePrice
-                level += 1
+                levelUp()
             }
         }
     }

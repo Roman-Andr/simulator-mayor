@@ -7,10 +7,10 @@ import dev.xdark.clientapi.item.ItemStack
 import dev.xdark.clientapi.item.ItemTools
 import dev.xdark.clientapi.opengl.GlStateManager
 import dev.xdark.clientapi.util.EnumHand
-import me.slavita.construction.mod.utils.extensions.InventoryExtensions.blocksCount
-import me.slavita.construction.mod.utils.extensions.InventoryExtensions.hotbarEqualSlots
 import me.slavita.construction.mod.utils.Renderer
+import me.slavita.construction.mod.utils.extensions.InventoryExtensions.blocksCount
 import me.slavita.construction.mod.utils.extensions.InventoryExtensions.handItemEquals
+import me.slavita.construction.mod.utils.extensions.InventoryExtensions.hotbarEqualSlots
 import me.slavita.construction.mod.utils.extensions.PositionExtensions.equalsV
 import org.lwjgl.input.Mouse
 import ru.cristalix.clientapi.JavaMod.clientApi
@@ -94,6 +94,16 @@ object StructureBuilding {
             nextBlock.enabled = true
         }
 
+        mod.registerChannel("structure:cooldown") {
+            cooldownExpired = true
+        }
+
+        mod.registerChannel("structure:hide") {
+            nextBlock.enabled = false
+            currentBlockLocation = null
+            markers.children.clear()
+        }
+
         mod.runRepeatingTask(.0, .9) {
             markers.children.forEach { marker ->
                 marker.animate(0.4, Easings.CUBIC_OUT) {
@@ -130,28 +140,9 @@ object StructureBuilding {
 
                 markers.children.clear()
                 this.forEach {
-                    markers.addChild(rectangle {
-                        origin = CENTER
-                        textureLocation = Resources.ARROW.source
-                        size = V3(16.0, 16.0, 1.0)
-                        offset.x = it * 20.0
-                        color = WHITE
-
-                        beforeRender { GlStateManager.disableDepth() }
-                        afterRender { GlStateManager.enableDepth() }
-                    })
+                    markers.addChild(createMarker(it))
                 }
             }
-        }
-
-        mod.registerChannel("structure:cooldown") {
-            cooldownExpired = true
-        }
-
-        mod.registerChannel("structure:hide") {
-            nextBlock.enabled = false
-            currentBlockLocation = null
-            markers.children.clear()
         }
 
         mod.registerHandler<RenderPass> {
@@ -176,6 +167,19 @@ object StructureBuilding {
                 if (this > 0) Resources.INFO.source
                 else Resources.CANCEL.source
             (nextBlock.children[2] as TextElement).content = if (this > 0) this.toString() else ""
+        }
+    }
+
+    private fun createMarker(slotId: Int): RectangleElement {
+        return rectangle {
+            origin = CENTER
+            textureLocation = Resources.ARROW.source
+            size = V3(16.0, 16.0, 1.0)
+            offset.x = slotId * 20.0
+            color = WHITE
+
+            beforeRender { GlStateManager.disableDepth() }
+            afterRender { GlStateManager.enableDepth() }
         }
     }
 }

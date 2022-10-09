@@ -39,12 +39,7 @@ object Showcases {
         UIEngine.overlayContext.addChild(showcaseBox)
 
         mod.registerHandler<GameLoop> {
-            val pos = clientApi.minecraft().mouseOver.pos
-            if (pos != null) {
-                val x = pos.x
-                val y = pos.y
-                val z = pos.z
-
+            clientApi.minecraft().mouseOver.pos?.run {
                 var shown = false
 
                 showcases?.forEach {

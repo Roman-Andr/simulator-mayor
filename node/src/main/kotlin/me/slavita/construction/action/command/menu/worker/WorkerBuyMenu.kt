@@ -3,13 +3,12 @@ package me.slavita.construction.action.command.menu.worker
 import me.func.mod.conversation.data.LootDrop
 import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
-import me.func.mod.ui.menu.selection.Selection
-import me.func.protocol.data.emoji.Emoji
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.OpenWorker
 import me.slavita.construction.app
-import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.ui.ItemIcons
+import me.slavita.construction.ui.MenuInfo
+import me.slavita.construction.ui.StatsType
 import me.slavita.construction.worker.WorkerGenerator
 import me.slavita.construction.worker.WorkerRarity
 import org.bukkit.entity.Player
@@ -17,13 +16,8 @@ import org.bukkit.entity.Player
 class WorkerBuyMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         app.getUser(player).run user@ {
-            return Selection(
-                title = "Покупка строителей",
-                vault = Emoji.DOLLAR,
-                money = "Ваш баланс ${stats.money.toMoney()}",
-                rows = 3,
-                columns = 3,
-                storage = mutableListOf<ReactiveButton>().apply storage@ {
+            return get(MenuInfo("Покупка строителей", StatsType.MONEY, 3, 3)).apply {
+                storage = mutableListOf<ReactiveButton>().apply storage@{
                     WorkerRarity.values().forEach { rarity ->
                         val canBuy = stats.money >= rarity.price
                         val iconItem = ItemIcons.get(rarity.iconKey, rarity.iconValue, rarity.iconMaterial)
@@ -45,7 +39,7 @@ class WorkerBuyMenu(player: Player) : MenuCommand(player) {
                         )
                     }
                 }
-            )
+            }
         }
     }
 }

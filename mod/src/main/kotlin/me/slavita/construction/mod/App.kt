@@ -13,8 +13,9 @@ class App : KotlinMod() {
 
     override fun onEnable() {
         UIEngine.initialize(this)
-        player = clientApi.minecraft().player
         mod = this
+        player = clientApi.minecraft().player
+
         StructureBuilding
         KeysManager
         Showcases

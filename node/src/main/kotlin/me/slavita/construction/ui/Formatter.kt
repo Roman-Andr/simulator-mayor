@@ -6,10 +6,14 @@ import org.bukkit.ChatColor.WHITE
 
 object Formatter {
     fun Long.toMoney(): String {
-        return NumberConverter.toMoney(this)
+        return NumberConverter.toMoneyFormat(this)
     }
 
     fun Long.toMoneyIcon(): String {
         return "${toMoney()} $WHITE${Emoji.DOLLAR}"
+    }
+
+    fun Long.toLevel(): String {
+        return "$this $WHITE${Emoji.UP}"
     }
 }

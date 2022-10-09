@@ -3,7 +3,7 @@ package me.slavita.construction.worker
 import kotlin.random.Random
 
 object WorkerGenerator {
-    val names = listOf(
+    private val names = listOf(
         "Григорий", "Андрей", "Арсений", "Степан", "Владислав", "Никита", "Давид", "Ярослав", "Евгений", "Матвей", "Фёдор", "Николай",
         "Алексей", "Артемий", "Виктор", "Даниил", "Денис", "Егор", "Игорь", "Леонид", "Павел", "Петр", "Руслан", "Сергей", "Семён", "Тимофей")
 
@@ -12,6 +12,7 @@ object WorkerGenerator {
         return Worker(
             names.shuffled()[0],
             rarity,
+            1,
             1,
             when(rapacity) {
                 WorkerRapacity.LOW -> Random.nextInt(10, 50)

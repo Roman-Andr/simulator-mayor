@@ -1,4 +1,4 @@
-package me.slavita.construction.market
+package me.slavita.construction.market.showcase
 
 import me.func.mod.util.listener
 import me.slavita.construction.action.command.menu.ShowcaseMenu

@@ -1,8 +1,10 @@
 package me.slavita.construction.structure
 
 import me.func.mod.util.after
+import me.slavita.construction.app
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureState
+import me.slavita.construction.utils.extensions.LoggerUtils.fine
 import me.slavita.construction.worker.Worker
 import me.slavita.construction.world.GameWorld
 import org.bukkit.Location
@@ -16,9 +18,11 @@ class WorkerStructure(
     val workers: HashSet<Worker>
 ) : BuildingStructure(world, structure, owner, allocation) {
     private val delayTime: Long
-        get() = (structure.blocksCount / (workers.sumOf { it.level }*1.4)).toLong()
+        get() = (1 / workers.sumOf { it.blocksSpeed }).toLong()
 
     override fun enterBuilding() {
+        println("stated")
+        owner.fine(app.getUser(owner).activeProjects.map{it.structure.state}.toString())
         build()
     }
 
@@ -32,9 +36,11 @@ class WorkerStructure(
 
     private fun build() {
         if (state != StructureState.BUILDING) return
+        println("place delay")
         after(delayTime) {
             placeCurrentBlock()
             build()
+            println("place")
         }
     }
 }

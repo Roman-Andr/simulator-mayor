@@ -1,4 +1,4 @@
-package me.slavita.construction.market
+package me.slavita.construction.market.showcase
 
 import org.bukkit.Material
 

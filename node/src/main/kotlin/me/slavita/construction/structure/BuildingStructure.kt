@@ -7,8 +7,8 @@ import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.structure.tools.StructureVisual
 import me.slavita.construction.utils.extensions.BlocksExtensions.minus
-import me.slavita.construction.world.StructureBlock
 import me.slavita.construction.world.GameWorld
+import me.slavita.construction.world.StructureBlock
 import net.minecraft.server.v1_12_R1.BlockPosition
 import net.minecraft.server.v1_12_R1.Material
 import net.minecraft.server.v1_12_R1.PacketPlayOutBlockChange
@@ -38,21 +38,28 @@ abstract class BuildingStructure(
 
     protected abstract fun onHide()
 
-    fun show() {
+    fun showVisual() {
         hidden = false
         visual.show()
         onShow()
     }
 
-    fun hide() {
+    fun hideVisual() {
         hidden = true
         visual.hide()
+        onHide()
+    }
+
+    fun deleteVisual() {
+        hidden = true
+        visual.delete()
         onHide()
     }
 
     fun startBuilding(project: Project) {
         state = StructureState.BUILDING
         currentBlock = structure.getFirstBlock()
+        println(currentBlock)
 
         ConnectionUtil.registerWriter(owner.uniqueId) { packet ->
             if (packet !is PacketPlayOutBlockChange) return@registerWriter
@@ -70,6 +77,7 @@ abstract class BuildingStructure(
 
         world.placeFakeBlock(owner, currentBlock!!.withOffset(allocation))
         currentBlock = structure.getNextBlock(currentBlock!!.position)
+        println(currentBlock)
 
         blockPlaced()
 
@@ -77,13 +85,14 @@ abstract class BuildingStructure(
         visual.update()
         if (currentBlock == null) {
             finishBuilding()
+            println("finished")
             return
         }
     }
 
     private fun finishBuilding() {
         state = StructureState.FINISHED
-        hide()
+        deleteVisual()
         buildFinished()
         app.getUser(owner).apply {
             activeProjects.remove(currentProject)

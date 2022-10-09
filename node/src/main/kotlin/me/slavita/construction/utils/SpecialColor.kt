@@ -6,7 +6,8 @@ enum class SpecialColor(override var red: Int, override var green: Int, override
 
     GREEN(43, 228, 92),
     RED(255, 48, 48),
-    GOLD(246, 198, 41);
+    GOLD(246, 198, 41),
+    BLUE(36, 175, 255);
 
     override fun toRGB() = toRGB(red, green, blue)
 }

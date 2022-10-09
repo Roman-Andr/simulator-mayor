@@ -12,10 +12,7 @@ import org.bukkit.entity.Player
 class BlocksListMenu(player: Player, val structure: Structure) : MenuCommand(player) {
     override fun getMenu(): Openable {
         app.getUser(player).run user@ {
-            return Selection(
-                title = "Список материалов",
-                rows = 5,
-                columns = 4,
+            return Selection(title = "Список материалов", rows = 5, columns = 4,
                 storage = mutableListOf<ReactiveButton>().apply {
                     hashSetOf<ItemProperties>().apply {
                         structure.box.forEachBukkit { this.add(ItemProperties.fromBlock(it)) }

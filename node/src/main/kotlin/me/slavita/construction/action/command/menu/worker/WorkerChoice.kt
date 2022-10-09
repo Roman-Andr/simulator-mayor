@@ -4,6 +4,7 @@ import me.func.mod.Anime
 import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.selection.Selection
+import me.func.mod.util.after
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.app
 import me.slavita.construction.project.Project
@@ -16,15 +17,10 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 
 class WorkerChoice(player: Player, val project: Project) : MenuCommand(player) {
-    val user = app.getUser(player)
-
     override fun getMenu(): Openable {
         if (project.structure !is WorkerStructure) return Selection()
-        user.run user@ {
-            return Selection(
-                title = "Выбор строителей",
-                rows = 5,
-                columns = 4,
+        app.getUser(player).run user@ {
+            return Selection(title = "Выбор строителей", rows = 5, columns = 4,
                 storage = mutableListOf<ReactiveButton>().apply storage@{
                     this@storage.add(
                         ReactiveButton()
@@ -36,9 +32,18 @@ class WorkerChoice(player: Player, val project: Project) : MenuCommand(player) {
                             .item(ItemIcons.get("other", "access"))
                             .title("${GREEN}Подтвердить")
                             .hint("Готово")
-                            .onClick { _, _, _ ->
+                            .onClick { _, _, button ->
+                                if (project.structure.workers.isEmpty()) {
+                                    button.hover = "Выберите минимум 1 строителя"
+                                    return@onClick
+                                }
                                 Anime.close(player)
-                                this@user.activeProjects.add(project.apply { start() })
+                                this@user.activeProjects.add(project.apply {
+                                    println("added")
+                                    start()
+                                })
+                                println(this@user.activeProjects.size)
+                                after((2)){ println(this@user.activeProjects.size) }
                             })
                     this@storage.add(
                         ReactiveButton()
@@ -92,7 +97,7 @@ class WorkerChoice(player: Player, val project: Project) : MenuCommand(player) {
     }
 
     private fun getWorkerState(targetWorker: Worker): WorkerState {
-        val busyWorkers = user.workers.filter { worker -> user.activeProjects.stream().anyMatch {
+        val busyWorkers = app.getUser(player).workers.filter { worker -> app.getUser(player).activeProjects.stream().anyMatch {
             when (it.structure is WorkerStructure) { true -> it.structure.workers.contains(worker)
             else -> { false }
         } }}

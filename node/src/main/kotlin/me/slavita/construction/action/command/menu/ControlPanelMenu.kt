@@ -2,8 +2,6 @@ package me.slavita.construction.action.command.menu
 
 import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
-import me.func.mod.ui.menu.selection.Selection
-import me.func.protocol.data.emoji.Emoji
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
 import me.slavita.construction.action.command.menu.project.ProjectsChoice
@@ -11,17 +9,14 @@ import me.slavita.construction.action.command.menu.worker.WorkerBuyMenu
 import me.slavita.construction.action.command.menu.worker.WorkerTeamMenu
 import me.slavita.construction.app
 import me.slavita.construction.ui.ItemIcons
+import me.slavita.construction.ui.MenuInfo
+import me.slavita.construction.ui.StatsType
 import org.bukkit.entity.Player
 
 class ControlPanelMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         app.getUser(player).run {
-            return Selection(
-                title = "Меню",
-                vault = Emoji.EXP,
-                money = "Ваш уровень ${stats.level}",
-                rows = 4,
-                columns = 3,
+            return get(MenuInfo("Меню", StatsType.LEVEL, 4, 3)).apply {
                 storage = mutableListOf(
                     ReactiveButton()
                         .title("Работники")
@@ -56,7 +51,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                             ActiveProjectsMenu(player).closeAll(false).tryExecute()
                         },
                 )
-            )
+            }
         }
     }
 }

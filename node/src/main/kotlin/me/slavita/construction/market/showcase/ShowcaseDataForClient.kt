@@ -1,4 +1,4 @@
-package me.slavita.construction.market
+package me.slavita.construction.market.showcase
 
 import ru.cristalix.core.math.V3
 import java.util.*

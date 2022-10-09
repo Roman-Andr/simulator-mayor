@@ -2,22 +2,22 @@ package me.slavita.construction.action.command.menu.worker
 
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.confirmation.Confirmation
-import me.func.protocol.data.emoji.Emoji
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.app
+import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.worker.Worker
 import org.bukkit.entity.Player
 
 class WorkerSellConfirm(player: Player, val worker: Worker) : MenuCommand(player) {
     override fun getMenu(): Openable {
-        app.getUser(player).run {
+        app.getUser(player).run user@ {
             return Confirmation( text = listOf(
                 "Продать строителя",
                 worker.name,
-                "за ${worker.sellPrice}${Emoji.DOLLAR}",
+                "за ${worker.sellPrice.toMoneyIcon()}",
             )) {
-                this.workers.remove(worker)
-                this.stats.money += worker.sellPrice
+                this@user.workers.remove(worker)
+                this@user.stats.money += worker.sellPrice
                 WorkerTeamMenu(player).tryExecute()
             }
         }

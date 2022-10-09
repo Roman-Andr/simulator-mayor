@@ -33,7 +33,7 @@ object PlayerEvents : Listener {
                     watchableProject!!.structure.allocation
                 )
             ) {
-                watchableProject!!.structure.hide()
+                watchableProject!!.structure.hideVisual()
                 watchableProject = null
             }
 
@@ -41,7 +41,7 @@ object PlayerEvents : Listener {
                 activeProjects.forEach {
                     if (it.structure.structure.box.contains(player.location, it.structure.allocation)) {
                         watchableProject = it
-                        it.structure.show()
+                        it.structure.showVisual()
                         return@forEach
                     }
                 }

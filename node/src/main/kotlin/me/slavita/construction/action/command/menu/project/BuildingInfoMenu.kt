@@ -12,10 +12,7 @@ import org.bukkit.entity.Player
 class BuildingInfoMenu(player: Player, val project: Project) : MenuCommand(player) {
     override fun getMenu(): Openable {
         app.getUser(player).run user@ {
-            return Selection(
-                title = "Процесс постройки",
-                rows = 3,
-                columns = 3,
+            return Selection(title = "Процесс постройки", rows = 3, columns = 3,
                 storage = mutableListOf(
                     ReactiveButton()
                         .title("Информация")
