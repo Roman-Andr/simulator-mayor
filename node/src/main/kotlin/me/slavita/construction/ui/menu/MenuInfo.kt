@@ -1,4 +1,4 @@
-package me.slavita.construction.ui
+package me.slavita.construction.ui.menu
 
 class MenuInfo(
     val title: String,

@@ -6,9 +6,9 @@ import me.func.mod.ui.menu.Openable
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.OpenWorker
 import me.slavita.construction.app
-import me.slavita.construction.ui.ItemIcons
-import me.slavita.construction.ui.MenuInfo
-import me.slavita.construction.ui.StatsType
+import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.ui.menu.MenuInfo
+import me.slavita.construction.ui.menu.StatsType
 import me.slavita.construction.worker.WorkerGenerator
 import me.slavita.construction.worker.WorkerRarity
 import org.bukkit.entity.Player

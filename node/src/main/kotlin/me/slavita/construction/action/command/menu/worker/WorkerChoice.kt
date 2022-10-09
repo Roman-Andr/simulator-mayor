@@ -9,7 +9,7 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.app
 import me.slavita.construction.project.Project
 import me.slavita.construction.structure.WorkerStructure
-import me.slavita.construction.ui.ItemIcons
+import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.worker.Worker
 import me.slavita.construction.worker.WorkerState
 import org.bukkit.ChatColor.GREEN

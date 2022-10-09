@@ -4,9 +4,9 @@ import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.app
-import me.slavita.construction.ui.ItemIcons
-import me.slavita.construction.ui.MenuInfo
-import me.slavita.construction.ui.StatsType
+import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.ui.menu.MenuInfo
+import me.slavita.construction.ui.menu.StatsType
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.entity.Player
 

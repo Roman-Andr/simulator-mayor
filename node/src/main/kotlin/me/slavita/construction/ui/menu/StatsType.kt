@@ -1,4 +1,4 @@
-package me.slavita.construction.ui
+package me.slavita.construction.ui.menu
 
 import me.func.protocol.data.emoji.Emoji
 

@@ -6,7 +6,7 @@ import me.func.mod.ui.menu.selection.Selection
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.app
 import me.slavita.construction.project.Project
-import me.slavita.construction.ui.ItemIcons
+import me.slavita.construction.ui.menu.ItemIcons
 import org.bukkit.entity.Player
 
 class BuildingInfoMenu(player: Player, val project: Project) : MenuCommand(player) {

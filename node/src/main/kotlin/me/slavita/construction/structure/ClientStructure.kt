@@ -8,7 +8,7 @@ import me.slavita.construction.connection.ConnectionUtil
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureSender
 import me.slavita.construction.structure.tools.StructureState
-import me.slavita.construction.ui.ItemIcons
+import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.utils.Cooldown
 import me.slavita.construction.utils.extensions.BlocksExtensions.toLocation
 import me.slavita.construction.utils.extensions.LoggerUtils.killboard

@@ -5,8 +5,8 @@ import me.func.mod.ui.menu.Openable
 import me.func.protocol.data.emoji.Emoji
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.app
-import me.slavita.construction.ui.MenuInfo
-import me.slavita.construction.ui.StatsType
+import me.slavita.construction.ui.menu.MenuInfo
+import me.slavita.construction.ui.menu.StatsType
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player

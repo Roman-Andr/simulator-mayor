@@ -8,7 +8,7 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.menu.worker.WorkerChoice
 import me.slavita.construction.app
 import me.slavita.construction.project.ProjectGenerator
-import me.slavita.construction.ui.ItemIcons
+import me.slavita.construction.ui.menu.ItemIcons
 import org.bukkit.entity.Player
 
 class ProjectsChoice(player: Player) : MenuCommand(player) {

@@ -1,4 +1,4 @@
-package me.slavita.construction.ui
+package me.slavita.construction.ui.menu
 
 import dev.implario.bukkit.item.ItemBuilder
 import org.bukkit.Material

@@ -5,8 +5,8 @@ import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.selection.Selection
 import me.slavita.construction.app
 import me.slavita.construction.ui.Formatter.toMoney
-import me.slavita.construction.ui.MenuInfo
-import me.slavita.construction.ui.StatsType
+import me.slavita.construction.ui.menu.MenuInfo
+import me.slavita.construction.ui.menu.StatsType
 import org.bukkit.entity.Player
 
 abstract class MenuCommand(player: Player) : CooldownCommand(player, 5) {
