@@ -12,6 +12,7 @@ import me.func.protocol.world.marker.Marker
 import me.func.protocol.world.marker.MarkerSign
 import me.slavita.construction.banner.BannerInfo
 import me.slavita.construction.banner.BannerUtil
+import me.slavita.construction.banner.BannerUtil.color
 import me.slavita.construction.structure.BuildingStructure
 import me.slavita.construction.utils.extensions.BlocksExtensions.unaryMinus
 import me.slavita.construction.utils.extensions.BlocksExtensions.withOffset
@@ -26,7 +27,7 @@ class StructureVisual(
     private var progressWorld: ReactiveProgress? = null
     private var marker: Marker? = null
     private val owner = structure.owner
-    private val progressBar = StructureProgressBar(owner, structure.structure.blocksCount)
+    private val progressBar = StructureProgressBar(owner.player, structure.structure.blocksCount)
 
     fun start() {
         val center = structure.structure.box.center.withOffset(-structure.structure.box.min).withOffset(structure.allocation)
@@ -65,7 +66,7 @@ class StructureVisual(
             .build()
 
         marker = Marker(center.x, center.y, center.z, 80.0, MarkerSign.ARROW_DOWN)
-        Banners.show(owner, *infoBanners!!.toTypedArray())
+        Banners.show(owner.player, *infoBanners!!.toTypedArray())
 
         update()
         hide()
@@ -80,25 +81,33 @@ class StructureVisual(
     }
 
     fun show() {
-        Banners.hide(owner, floorBanner!!)
-        Anime.removeMarker(owner, marker!!)
-        progressWorld!!.send(owner)
+        Banners.hide(owner.player, floorBanner!!)
+        Anime.removeMarker(owner.player, marker!!)
+        progressWorld!!.send(owner.player)
         progressBar.show()
         update()
     }
 
     fun hide() {
-        Banners.show(owner, floorBanner!!)
-        Anime.marker(owner, marker!!)
-        progressWorld!!.delete(setOf(owner))
+        Banners.show(owner.player, floorBanner!!)
+        Anime.marker(owner.player, marker!!)
+        progressWorld!!.delete(setOf(owner.player))
         progressBar.hide()
     }
 
     fun delete() {
-        Banners.hide(owner, floorBanner!!)
-        Banners.hide(owner, *infoBanners!!.toTypedArray())
-        Anime.removeMarker(owner, marker!!)
-        progressWorld!!.delete(setOf(owner))
+        Banners.hide(owner.player, floorBanner!!)
+        Banners.hide(owner.player, *infoBanners!!.toTypedArray())
+        Anime.removeMarker(owner.player, marker!!)
+        progressWorld!!.delete(setOf(owner.player))
         progressBar.hide()
+    }
+
+    fun finishShow() {
+        Banners.show(owner.player, floorBanner!!.apply { color(GlowColor.GREEN) })
+    }
+
+    fun hideFinish() {
+        Banners.hide(owner.player, floorBanner!!)
     }
 }

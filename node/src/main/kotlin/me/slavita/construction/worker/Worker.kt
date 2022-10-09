@@ -26,7 +26,7 @@ class Worker(
 
     fun levelUp() {
         level += 1
-        blocksSpeed = (blocksSpeed * 1.5).toInt()
+        blocksSpeed = (blocksSpeed * 2).toInt()
     }
 
     override fun toString(): String {

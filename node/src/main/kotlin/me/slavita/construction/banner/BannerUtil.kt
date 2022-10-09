@@ -1,7 +1,7 @@
 package me.slavita.construction.banner
 
 import me.func.mod.world.Banners.location
-import me.func.protocol.data.color.GlowColor
+import me.func.protocol.data.color.RGB
 import me.func.protocol.data.color.Tricolor
 import me.func.protocol.data.element.Banner
 import me.slavita.construction.utils.extensions.BlocksExtensions.toYaw
@@ -77,5 +77,11 @@ object BannerUtil {
                     )
                 }
         }
+    }
+
+    fun Banner.color(color: RGB) {
+        red = color.red
+        green = color.green
+        blue = color.blue
     }
 }

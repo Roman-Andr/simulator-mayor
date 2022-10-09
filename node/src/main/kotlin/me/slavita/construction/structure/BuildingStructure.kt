@@ -1,8 +1,7 @@
 package me.slavita.construction.structure
 
-import me.slavita.construction.app
 import me.slavita.construction.connection.ConnectionUtil
-import me.slavita.construction.reward.Reward
+import me.slavita.construction.player.User
 import me.slavita.construction.project.Project
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureState
@@ -14,14 +13,12 @@ import net.minecraft.server.v1_12_R1.BlockPosition
 import net.minecraft.server.v1_12_R1.Material
 import net.minecraft.server.v1_12_R1.PacketPlayOutBlockChange
 import org.bukkit.Location
-import org.bukkit.entity.Player
 
 abstract class BuildingStructure(
     val world: GameWorld,
     val structure: Structure,
-    val owner: Player,
-    val allocation: Location,
-    val rewards: List<Reward>
+    val owner: User,
+    val allocation: Location
 ) {
     var state = StructureState.NOT_STARTED
     protected var currentBlock: StructureBlock? = null
@@ -33,8 +30,6 @@ abstract class BuildingStructure(
     protected abstract fun enterBuilding()
 
     protected abstract fun blockPlaced()
-
-    protected abstract fun buildFinished()
 
     protected abstract fun onShow()
 
@@ -62,7 +57,7 @@ abstract class BuildingStructure(
         state = StructureState.BUILDING
         currentBlock = structure.getFirstBlock()
 
-        ConnectionUtil.registerWriter(owner.uniqueId) { packet ->
+        ConnectionUtil.registerWriter(owner.player.uniqueId) { packet ->
             if (packet !is PacketPlayOutBlockChange) return@registerWriter
             if (packet.block.material != Material.AIR) return@registerWriter
 
@@ -76,7 +71,7 @@ abstract class BuildingStructure(
     fun placeCurrentBlock() {
         if (state != StructureState.BUILDING) return
 
-        world.placeFakeBlock(owner, currentBlock!!.withOffset(allocation))
+        world.placeFakeBlock(owner.player, currentBlock!!.withOffset(allocation))
         currentBlock = structure.getNextBlock(currentBlock!!.position)
 
         blockPlaced()
@@ -92,13 +87,11 @@ abstract class BuildingStructure(
     private fun finishBuilding() {
         state = StructureState.FINISHED
         deleteVisual()
-        buildFinished()
-        app.getUser(owner).apply {
-            activeProjects.remove(currentProject)
-            stats.totalProjects++
-            rewards.forEach {
-                it.getReward(this)
-            }
-        }
+        visual.finishShow()
+    }
+
+    fun claimed() {
+        visual.hideFinish()
+        state = StructureState.REWARD_CLAIMED
     }
 }

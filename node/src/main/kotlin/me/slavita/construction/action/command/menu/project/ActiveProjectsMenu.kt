@@ -26,7 +26,7 @@ class ActiveProjectsMenu(player: Player) : MenuCommand(player) {
                                 .title("Проект #${it.id}")
                                 .hover(Stream.of(
                                     "${AQUA}ID: ${it.id}\n",
-                                    "${AQUA}Награда: ${it.stats.reward}\n"
+                                    "${AQUA}Награды: \n${it.rewards.joinToString("\n") { toString() }}\n"
                                 ).collect(Collectors.joining()))
                                 .special(it.structure is ClientStructure)
                                 .onClick { _, _, _ ->

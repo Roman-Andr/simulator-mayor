@@ -3,11 +3,9 @@ package me.slavita.construction.project
 import me.slavita.construction.app
 import me.slavita.construction.player.User
 import me.slavita.construction.reward.MoneyReward
-import me.slavita.construction.reward.Reward
 import me.slavita.construction.structure.ClientStructure
 import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.structure.instance.Structures
-import me.slavita.construction.utils.extensions.BlocksExtensions.toLocation
 
 object ProjectGenerator {
     fun generateClient(owner: User): Project {
@@ -18,13 +16,12 @@ object ProjectGenerator {
             ClientStructure(
                 app.mainWorld,
                 Structures.structureGroups.random().structures.random(),
-                owner.player,
-                location,
-                listOf(
-                    MoneyReward(10)
-                )
+                owner,
+                location
             ),
-            ProjectStatistics(1000)
+            listOf(
+                MoneyReward(10)
+            )
         )
     }
 
@@ -36,14 +33,12 @@ object ProjectGenerator {
             WorkerStructure(
                 app.mainWorld,
                 Structures.structureGroups.random().structures.random(),
-                owner.player,
-                location,
-                hashSetOf(),
-                listOf(
-                    MoneyReward(10)
-                )
+                owner,
+                location
             ),
-            ProjectStatistics(1000)
+            listOf(
+                MoneyReward(10)
+            )
         )
     }
 }

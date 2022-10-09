@@ -17,7 +17,7 @@ dependencies {
 
     implementation("ru.cristalix:boards-bukkit-api:3.0.15")
 
-    implementation("me.func:animation-api:3.6.2")
+    implementation("me.func:animation-api:3.7.1")
     implementation("me.func:world-api:1.0.7")
     implementation("me.func:metaworld-api:1.0.1")
 
@@ -39,7 +39,7 @@ remotes {
 }
 
 task upload(
-        dependsOn: project(':mod').tasks.upload
+//        dependsOn: project(':mod').tasks.upload
 ) {
     doLast {
         ssh.run {

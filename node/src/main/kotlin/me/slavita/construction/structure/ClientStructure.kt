@@ -1,15 +1,14 @@
 package me.slavita.construction.structure
 
 import implario.humanize.Humanize
-import me.func.mod.Anime
 import me.func.mod.ui.Glow
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.connection.ConnectionUtil
+import me.slavita.construction.player.User
 import me.slavita.construction.reward.Reward
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureSender
 import me.slavita.construction.structure.tools.StructureState
-import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.utils.Cooldown
 import me.slavita.construction.utils.extensions.BlocksExtensions.toLocation
 import me.slavita.construction.utils.extensions.LoggerUtils.killboard
@@ -20,20 +19,18 @@ import net.minecraft.server.v1_12_R1.PacketPlayInUseItem
 import org.bukkit.ChatColor.*
 import org.bukkit.Location
 import org.bukkit.block.BlockFace
-import org.bukkit.entity.Player
 
 class ClientStructure(
     world: GameWorld,
     structure: Structure,
-    owner: Player,
-    allocation: Location,
-    rewards: List<Reward>
-) : BuildingStructure(world, structure, owner, allocation, rewards) {
-    private val sender = StructureSender(owner)
-    private val cooldown = Cooldown(30, owner)
+    owner: User,
+    allocation: Location
+) : BuildingStructure(world, structure, owner, allocation) {
+    private val sender = StructureSender(owner.player)
+    private val cooldown = Cooldown(30, owner.player)
 
     override fun enterBuilding() {
-        ConnectionUtil.registerReader(owner.uniqueId) { packet ->
+        ConnectionUtil.registerReader(owner.player.uniqueId) { packet ->
             if (packet !is PacketPlayInUseItem || state != StructureState.BUILDING || packet.c != EnumHand.MAIN_HAND) return@registerReader
 
             val clickedBlock = packet.a.toLocation(world.map.world).block
@@ -56,21 +53,16 @@ class ClientStructure(
         if (!hidden) sender.sendBlock(currentBlock!!, allocation)
     }
 
-    override fun buildFinished() {
-        Glow.animate(owner, 1.5, GlowColor.GREEN)
-        Anime.itemTitle(owner, ItemIcons.get("other", "access"), "Постройка завершена", "Отличная работа", 1.5)
-    }
-
     private fun tryPlaceBlock() {
-        owner.inventory.itemInMainHand.apply {
+        owner.player.inventory.itemInMainHand.apply {
             if (!currentBlock!!.equalsItem(this)) {
-                Glow.animate(owner, 0.2, GlowColor.RED)
-                owner.killboard("${RED}Неверный блок")
+                Glow.animate(owner.player, 0.2, GlowColor.RED)
+                owner.player.killboard("${RED}Неверный блок")
                 return
             }
 
             if (!cooldown.isExpired()) {
-                owner.killboard("${AQUA}Вы сможете поставить блок через ${AQUA}${cooldown.timeLeft()} ${
+                owner.player.killboard("${AQUA}Вы сможете поставить блок через ${AQUA}${cooldown.timeLeft()} ${
                     Humanize.plurals(
                         "секунду",
                         "секунды",
@@ -87,7 +79,7 @@ class ClientStructure(
 
             if (currentBlock!!.equalsItem(this)) return
 
-            owner.inventory.apply {
+            owner.player.inventory.apply {
                 storageContents.forEachIndexed { index, item ->
                     if (!currentBlock!!.equalsItem(item)) return@forEachIndexed
                     hasNext = true
@@ -95,8 +87,8 @@ class ClientStructure(
                 }
 
                 if (!hasNext) {
-                    Glow.animate(owner, 0.2, GlowColor.GOLD)
-                    owner.killboard("${WHITE}В инвентаре нет нужного материала")
+                    Glow.animate(owner.player, 0.2, GlowColor.GOLD)
+                    owner.player.killboard("${WHITE}В инвентаре нет нужного материала")
                 }
                 return
             }

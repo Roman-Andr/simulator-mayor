@@ -4,4 +4,5 @@ enum class StructureState {
     NOT_STARTED,
     BUILDING,
     FINISHED,
+    REWARD_CLAIMED
 }
