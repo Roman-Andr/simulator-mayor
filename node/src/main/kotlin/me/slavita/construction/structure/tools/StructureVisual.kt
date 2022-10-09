@@ -22,7 +22,7 @@ class StructureVisual(
     val structure: BuildingStructure
 ) {
     private var floorBanner: Banner? = null
-    private var infoBanner: Banner? = null
+    private var infoBanners: HashSet<Banner>? = null
     private var progressWorld: ReactiveProgress? = null
     private var marker: Marker? = null
     private val owner = structure.owner
@@ -32,33 +32,29 @@ class StructureVisual(
         val center = structure.structure.box.center.withOffset(-structure.structure.box.min).withOffset(structure.allocation)
         floorBanner = BannerUtil.create(
             BannerInfo(
-            center.clone().apply { z = structure.allocation.z }.apply { y = structure.allocation.y - 22.49 },
-            BlockFace.UP,
-            listOf(),
-            16*23,
-            16*23,
-            GlowColor.BLUE,
-            0.24,
-            MotionType.CONSTANT,
-            -90.0F
+                center.clone().apply {
+                    y = structure.allocation.y - 22.49
+                    z = structure.allocation.z
+                },
+                BlockFace.UP,
+                listOf(),
+                16 * 23,
+                16 * 23,
+                GlowColor.BLUE,
+                0.24,
+                MotionType.CONSTANT,
+                -90.0F
+            )
         )
-        )
-        infoBanner = BannerUtil.create(
-            BannerInfo(
-            center.clone().apply { z = structure.allocation.z }.apply { y = structure.allocation.y },
-            BlockFace.UP,
-            listOf(
-                Pair("Привет", 0.5)
-            ),
-            16,
-            16,
+
+        infoBanners = BannerUtil.createRectangle(
+            structure.structure.box.bottomCenter.withOffset(-structure.structure.box.min).withOffset(structure.allocation),
+            11.0,
             Tricolor(0, 0, 0),
-            0.24,
-            MotionType.CONSTANT,
-            0.0F,
-            true
+            3,
+            4
         )
-        )
+
         progressWorld = ReactiveProgress.builder()
             .position(Position.BOTTOM)
             .offsetX(structure.allocation.x)
@@ -67,7 +63,10 @@ class StructureVisual(
             .hideOnTab(false)
             .color(GlowColor.GREEN)
             .build()
+
         marker = Marker(center.x, center.y, center.z, 80.0, MarkerSign.ARROW_DOWN)
+        Banners.show(owner, *infoBanners!!.toTypedArray())
+
         update()
         hide()
     }
@@ -81,18 +80,15 @@ class StructureVisual(
     }
 
     fun show() {
-        println("show")
         Banners.hide(owner, floorBanner!!)
-        Banners.hide(owner, infoBanner!!)
         Anime.removeMarker(owner, marker!!)
         progressWorld!!.send(owner)
         progressBar.show()
+        update()
     }
 
     fun hide() {
-        println("hide")
         Banners.show(owner, floorBanner!!)
-        Banners.show(owner, infoBanner!!)
         Anime.marker(owner, marker!!)
         progressWorld!!.delete(setOf(owner))
         progressBar.hide()
@@ -100,7 +96,7 @@ class StructureVisual(
 
     fun delete() {
         Banners.hide(owner, floorBanner!!)
-        Banners.hide(owner, infoBanner!!)
+        Banners.hide(owner, *infoBanners!!.toTypedArray())
         Anime.removeMarker(owner, marker!!)
         progressWorld!!.delete(setOf(owner))
         progressBar.hide()

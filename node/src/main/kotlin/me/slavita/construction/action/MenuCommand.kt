@@ -24,7 +24,7 @@ abstract class MenuCommand(player: Player) : CooldownCommand(player, 5) {
         return this
     }
 
-    fun get(info: MenuInfo): Selection {
+    fun getBaseSelection(info: MenuInfo): Selection {
         info.run {
             return Selection(
                 title = title,

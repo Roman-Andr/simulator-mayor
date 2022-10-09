@@ -17,7 +17,7 @@ import java.util.stream.Stream
 class ActiveProjectsMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         app.getUser(player).run {
-            return get(MenuInfo("Ваши активные проекты", StatsType.MONEY, 4, 5)).apply {
+            return getBaseSelection(MenuInfo("Ваши активные проекты", StatsType.MONEY, 4, 5)).apply {
                 storage = mutableListOf<ReactiveButton>().apply storage@{
                     activeProjects.forEach {
                         this@storage.add(

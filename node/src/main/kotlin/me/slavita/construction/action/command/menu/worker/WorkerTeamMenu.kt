@@ -14,7 +14,7 @@ import org.bukkit.entity.Player
 class WorkerTeamMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         app.getUser(player).run user@ {
-            return get(MenuInfo("Ваши строители", StatsType.MONEY, 4, 4)).apply {
+            return getBaseSelection(MenuInfo("Ваши строители", StatsType.MONEY, 4, 4)).apply {
                 storage = mutableListOf<ReactiveButton>().apply storage@{
                     workers.forEach { worker ->
                         this@storage.add(

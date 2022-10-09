@@ -2,6 +2,7 @@ package me.slavita.construction.banner
 
 import me.func.mod.world.Banners.location
 import me.func.protocol.data.color.GlowColor
+import me.func.protocol.data.color.Tricolor
 import me.func.protocol.data.element.Banner
 import me.slavita.construction.utils.extensions.BlocksExtensions.toYaw
 import org.bukkit.Location
@@ -29,18 +30,18 @@ object BannerUtil {
         }
     }
 
-    fun createRectangle(center: Location, side: Double): HashSet<Banner> {
+    fun createRectangle(center: Location, radius: Double, color: Tricolor, width: Int, height: Int): HashSet<Banner> {
         val banners = hashSetOf<Banner>()
         listOf(BlockFace.NORTH, BlockFace.WEST, BlockFace.SOUTH, BlockFace.EAST).forEach {
             banners.addAll(
                 createDual(
                     BannerInfo(
-                        center.clone().add(Vector(it.modX * side, 0.0, it.modZ * side)),
+                        center.clone().add(it.modX * radius, 0.0, it.modZ * radius),
                         it,
                         listOf(),
-                        (side * 2 + 1).toInt() * 16,
-                        16 * 20,
-                        GlowColor.GREEN,
+                        width * 16,
+                        height * 16,
+                        color,
                         0.25
                     )
                 ).toList()

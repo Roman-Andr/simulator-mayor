@@ -17,7 +17,7 @@ import org.bukkit.entity.Player
 class WorkerBuyMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         app.getUser(player).run user@ {
-            return get(MenuInfo("Покупка строителей", StatsType.MONEY, 3, 3)).apply {
+            return getBaseSelection(MenuInfo("Покупка строителей", StatsType.MONEY, 3, 3)).apply {
                 storage = mutableListOf<ReactiveButton>().apply storage@{
                     WorkerRarity.values().forEach { rarity ->
                         val canBuy = stats.money >= rarity.price

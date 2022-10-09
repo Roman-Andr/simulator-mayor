@@ -6,7 +6,8 @@ import org.bukkit.block.Block
 
 class Box(val min: Location, val max: Location) {
     val dimensions = V3i(max.blockX - min.blockX + 1, max.blockY - min.blockY + 1, max.blockZ - min.blockZ + 1)
-    val center = Location(min.world, (max.blockX + min.blockX) / 2.0, (max.blockY + min.blockY) / 2.0, (max.blockZ + min.blockZ) / 2.0)
+    val center = Location(min.world, (max.blockX + min.blockX) / 2.0, (max.blockY + min.blockY) / 2.0, (max.blockZ + min.blockZ) / 2.0).toCenterLocation()!!
+    val bottomCenter = Location(min.world, center.x, min.y, center.z).toCenterLocation()!!
 
     fun forEachBukkit(action: (Block) -> Unit) {
         (min.blockX..max.blockX).forEach { x ->

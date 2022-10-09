@@ -5,6 +5,7 @@ import me.func.mod.Anime
 import me.func.mod.ui.Glow
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.connection.ConnectionUtil
+import me.slavita.construction.reward.Reward
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureSender
 import me.slavita.construction.structure.tools.StructureState
@@ -25,8 +26,9 @@ class ClientStructure(
     world: GameWorld,
     structure: Structure,
     owner: Player,
-    allocation: Location
-) : BuildingStructure(world, structure, owner, allocation) {
+    allocation: Location,
+    rewards: List<Reward>
+) : BuildingStructure(world, structure, owner, allocation, rewards) {
     private val sender = StructureSender(owner)
     private val cooldown = Cooldown(30, owner)
 

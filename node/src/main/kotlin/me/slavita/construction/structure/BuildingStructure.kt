@@ -2,6 +2,7 @@ package me.slavita.construction.structure
 
 import me.slavita.construction.app
 import me.slavita.construction.connection.ConnectionUtil
+import me.slavita.construction.reward.Reward
 import me.slavita.construction.project.Project
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureState
@@ -19,7 +20,8 @@ abstract class BuildingStructure(
     val world: GameWorld,
     val structure: Structure,
     val owner: Player,
-    val allocation: Location
+    val allocation: Location,
+    val rewards: List<Reward>
 ) {
     var state = StructureState.NOT_STARTED
     protected var currentBlock: StructureBlock? = null
@@ -59,7 +61,6 @@ abstract class BuildingStructure(
     fun startBuilding(project: Project) {
         state = StructureState.BUILDING
         currentBlock = structure.getFirstBlock()
-        println(currentBlock)
 
         ConnectionUtil.registerWriter(owner.uniqueId) { packet ->
             if (packet !is PacketPlayOutBlockChange) return@registerWriter
@@ -77,7 +78,6 @@ abstract class BuildingStructure(
 
         world.placeFakeBlock(owner, currentBlock!!.withOffset(allocation))
         currentBlock = structure.getNextBlock(currentBlock!!.position)
-        println(currentBlock)
 
         blockPlaced()
 
@@ -85,7 +85,6 @@ abstract class BuildingStructure(
         visual.update()
         if (currentBlock == null) {
             finishBuilding()
-            println("finished")
             return
         }
     }
@@ -97,6 +96,9 @@ abstract class BuildingStructure(
         app.getUser(owner).apply {
             activeProjects.remove(currentProject)
             stats.totalProjects++
+            rewards.forEach {
+                it.getReward(this)
+            }
         }
     }
 }

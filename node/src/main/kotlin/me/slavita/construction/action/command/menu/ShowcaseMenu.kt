@@ -17,7 +17,7 @@ import java.util.stream.Stream
 class ShowcaseMenu(player: Player, val menuName: String, val items: List<ItemProperties>) : MenuCommand(player) {
     override fun getMenu(): Openable {
         app.getUser(player).run {
-            return get(MenuInfo(menuName, StatsType.MONEY, 6, 14)).apply {
+            return getBaseSelection(MenuInfo(menuName, StatsType.MONEY, 6, 14)).apply {
                 storage = mutableListOf<ReactiveButton>().apply storage@{
                     items.forEach { targetItem ->
                         this@storage.add(

@@ -2,6 +2,8 @@ package me.slavita.construction.project
 
 import me.slavita.construction.app
 import me.slavita.construction.player.User
+import me.slavita.construction.reward.MoneyReward
+import me.slavita.construction.reward.Reward
 import me.slavita.construction.structure.ClientStructure
 import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.structure.instance.Structures
@@ -17,7 +19,10 @@ object ProjectGenerator {
                 app.mainWorld,
                 Structures.structureGroups.random().structures.random(),
                 owner.player,
-                location
+                location,
+                listOf(
+                    MoneyReward(10)
+                )
             ),
             ProjectStatistics(1000)
         )
@@ -33,7 +38,10 @@ object ProjectGenerator {
                 Structures.structureGroups.random().structures.random(),
                 owner.player,
                 location,
-                hashSetOf()
+                hashSetOf(),
+                listOf(
+                    MoneyReward(10)
+                )
             ),
             ProjectStatistics(1000)
         )

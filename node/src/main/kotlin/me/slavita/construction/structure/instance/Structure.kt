@@ -6,6 +6,7 @@ import me.slavita.construction.world.Box
 import net.minecraft.server.v1_12_R1.BlockPosition
 import me.slavita.construction.utils.extensions.BlocksExtensions.add
 import me.slavita.construction.utils.extensions.BlocksExtensions.toLocation
+import me.slavita.construction.utils.extensions.BlocksExtensions.unaryMinus
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.Location
 import org.bukkit.Material
@@ -46,7 +47,7 @@ class Structure(val name: String, val box: Box) {
             val currentPosition = BlockPosition(x, y, z)
             val block = currentPosition.add(box.min).toLocation(world).block
 
-            if (block.type != Material.AIR) return StructureBlock.fromBlock(block)
+            if (block.type != Material.AIR) return StructureBlock.fromBlock(block).withOffset(-box.min)
 
             blocks++
         }

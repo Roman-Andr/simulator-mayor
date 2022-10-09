@@ -19,7 +19,7 @@ class WorkerUpgradeMenu(player: Player, val worker: Worker) : MenuCommand(player
     override fun getMenu(): Openable {
         app.getUser(player).run user@ {
             var infoButton: ReactiveButton
-            return get(MenuInfo("Улучшение рабочего", StatsType.MONEY, 4, 3)).apply {
+            return getBaseSelection(MenuInfo("Улучшение рабочего", StatsType.MONEY, 4, 3)).apply {
                 storage = mutableListOf(
                     button {
                         item = ItemIcons.get("other", "info1")

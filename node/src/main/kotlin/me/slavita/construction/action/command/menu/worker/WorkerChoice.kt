@@ -38,11 +38,8 @@ class WorkerChoice(player: Player, val project: Project) : MenuCommand(player) {
                             }
                             Anime.close(player)
                             this@user.activeProjects.add(project.apply {
-                                println("added")
                                 start()
                             })
-                            println(this@user.activeProjects.size)
-                            after((2)){ println(this@user.activeProjects.size) }
                         }},
                     button {
                         item = ItemIcons.get("other", "reload")

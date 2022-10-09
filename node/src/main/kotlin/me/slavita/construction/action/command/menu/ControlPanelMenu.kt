@@ -16,7 +16,7 @@ import org.bukkit.entity.Player
 class ControlPanelMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         app.getUser(player).run {
-            return get(MenuInfo("Меню", StatsType.LEVEL, 4, 3)).apply {
+            return getBaseSelection(MenuInfo("Меню", StatsType.LEVEL, 4, 3)).apply {
                 storage = mutableListOf(
                     button {
                         title = "Работники"
