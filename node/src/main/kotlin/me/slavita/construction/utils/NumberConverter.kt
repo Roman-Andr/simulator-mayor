@@ -11,7 +11,7 @@ object NumberConverter {
         "трлн",
         "квдрлн",
         "квнтлн",
-        "сктлн",
+        "скcтлн",
         "сптлн",
     )
     private val THOUSAND = BigInteger.valueOf(1000)
