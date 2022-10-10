@@ -16,7 +16,7 @@ object ScoreBoardGenerator {
                 return@dynamic app.getUser(it).stats.money.toMoneyIcon()
             }
             .dynamic("Уровень") {
-                return@dynamic "${app.getUser(it).stats.level}${ChatColor.WHITE} ${Emoji.UP}"
+                return@dynamic "${app.getUser(it).stats.level}${ChatColor.WHITE} (${app.getUser(it).stats.experience}/100) ${Emoji.UP}"
             }
             .empty()
             .dynamic("Строителей") {
