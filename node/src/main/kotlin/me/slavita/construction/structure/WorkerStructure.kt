@@ -17,7 +17,10 @@ class WorkerStructure(
     val workers: HashSet<Worker> = hashSetOf()
 ) : BuildingStructure(world, structure, owner, allocation) {
     private val delayTime: Long
-        get() = (60 / workers.sumOf { it.blocksSpeed }).toLong()
+        get() {
+            if (workers.isEmpty()) return 1
+            return (60 / workers.sumOf { it.blocksSpeed }).toLong()
+        }
 
     override fun enterBuilding() {
         owner.player.fine(owner.activeProjects.map{it.structure.state}.toString())
@@ -33,7 +36,9 @@ class WorkerStructure(
     private fun build() {
         if (state != StructureState.BUILDING) return
         after(delayTime) {
-            placeCurrentBlock()
+            if (workers.isNotEmpty()) {
+                placeCurrentBlock()
+            }
             build()
         }
     }

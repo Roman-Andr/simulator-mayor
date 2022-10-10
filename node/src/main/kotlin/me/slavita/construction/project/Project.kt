@@ -11,6 +11,9 @@ class Project(
     val structure: BuildingStructure,
     val rewards: List<Reward>
 ) {
+    val timeLast: Int
+        get() = 0
+
     init {
         id = owner.stats.totalProjects
     }

@@ -4,7 +4,6 @@ import me.func.mod.Anime
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection.Selection
-import me.func.mod.util.after
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.app
 import me.slavita.construction.project.Project
@@ -32,10 +31,6 @@ class WorkerChoice(player: Player, val project: Project) : MenuCommand(player) {
                         title = "${GREEN}Подтвердить"
                         hint = "Готово"
                         onClick { _, _, button ->
-                            if (project.structure.workers.isEmpty()) {
-                                button.hover = "Выберите минимум 1 строителя"
-                                return@onClick
-                            }
                             Anime.close(player)
                             this@user.activeProjects.add(project.apply {
                                 start()

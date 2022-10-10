@@ -10,19 +10,21 @@ import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.ui.menu.ItemIcons
 import org.bukkit.entity.Player
 
-class BuildingInfoMenu(player: Player, val project: Project) : MenuCommand(player) {
+class BuildingControlMenu(player: Player, val project: Project) : MenuCommand(player) {
     override fun getMenu(): Openable {
         app.getUser(player).run user@ {
-            return Selection(title = "Информация об постройке", rows = 3, columns = 3,
+            return Selection(title = "Процесс постройки", rows = 3, columns = 3,
                 storage = mutableListOf(
                     button {
-                        title = "Время"
+                        title = "Информация"
                         hint = "Выбрать"
                         item = ItemIcons.get("skyblock", "spawn")
-                        hover = "Время до конца постройки: ${project.timeLast}"
+                        onClick { _, _, _ ->
+                            BuildingInfoMenu(player, project).closeAll(false).tryExecute()
+                        }
                     },
                     button {
-                        title = "Материалы"
+                        title = "Список материалов"
                         description = "Просмотреть список\nнеобходимых материалов"
                         hint = "Выбрать"
                         item = ItemIcons.get("skyblock", "info")
@@ -32,11 +34,13 @@ class BuildingInfoMenu(player: Player, val project: Project) : MenuCommand(playe
                     }).apply {
                         if (project.structure !is WorkerStructure) return@apply
                         add(button {
-                            title = "Скорость"
+                            title = "Строители"
                             description = "Просмотреть выбранных\nстроителей"
                             hint = "Выбрать"
                             item = ItemIcons.get("other", "myfriends")
-                            hover = "Скорость постройки: ${project.structure.workers.sumOf { it.blocksSpeed }} в секунду"
+                            onClick { _, _, _ ->
+                                WorkersBuildingMenu(player, project.structure).closeAll(false).tryExecute()
+                            }
                         })
                     }
             )

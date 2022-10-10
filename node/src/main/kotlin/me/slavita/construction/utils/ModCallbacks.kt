@@ -1,7 +1,7 @@
 package me.slavita.construction.utils
 
 import me.func.mod.Anime
-import me.slavita.construction.action.command.menu.project.BuildingInfoMenu
+import me.slavita.construction.action.command.menu.project.BuildingControlMenu
 import me.slavita.construction.action.command.menu.worker.WorkerBuyMenu
 import me.slavita.construction.app
 
@@ -10,7 +10,7 @@ object ModCallbacks {
         Anime.createReader("menu:open") { player, _ ->
             //ControlPanelMenu(player).tryExecute()
             if (app.getUser(player).watchableProject != null) {
-                BuildingInfoMenu(player, app.getUser(player).watchableProject!!).tryExecute()
+                BuildingControlMenu(player, app.getUser(player).watchableProject!!).tryExecute()
             }
         }
 
