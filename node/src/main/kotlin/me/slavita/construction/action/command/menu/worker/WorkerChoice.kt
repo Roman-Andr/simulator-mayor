@@ -4,35 +4,28 @@ import me.func.mod.Anime
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection.Selection
-import me.slavita.construction.action.MenuCommand
+import me.slavita.construction.action.WorkerExecutor
 import me.slavita.construction.app
-import me.slavita.construction.project.Project
+import me.slavita.construction.project.ProjectGenerator
 import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.ui.menu.ItemIcons
-import me.slavita.construction.worker.Worker
 import me.slavita.construction.worker.WorkerState
 import org.bukkit.ChatColor.GREEN
-import org.bukkit.Material
 import org.bukkit.entity.Player
 
-class WorkerChoice(player: Player, val project: Project) : MenuCommand(player) {
+class WorkerChoice(player: Player, structure: WorkerStructure) : WorkerExecutor(player, structure) {
     override fun getMenu(): Openable {
-        if (project.structure !is WorkerStructure) return Selection()
         app.getUser(player).run user@ {
-            return Selection(title = "Выбор строителей", rows = 5, columns = 4,
-                storage = mutableListOf(
-                    button {
-                        material(Material.AIR)
-                        hint = ""
-                        enabled = false
-                    },
+            return Selection(title = "Выбор строителей", rows = 5, columns = 4, storage = mutableListOf(
+                    getEmptyButton(),
                     button {
                         item = ItemIcons.get("other", "access")
                         title = "${GREEN}Подтвердить"
                         hint = "Готово"
-                        onClick { _, _, button ->
+                        onClick { _, _, _ ->
                             Anime.close(player)
-                            this@user.activeProjects.add(project.apply {
+                            this@user.activeProjects.add(ProjectGenerator.generateWorker(this@user).apply {
+                                (this.structure as WorkerStructure).workers.addAll(this@WorkerChoice.structure.workers)
                                 start()
                             })
                         }},
@@ -41,14 +34,10 @@ class WorkerChoice(player: Player, val project: Project) : MenuCommand(player) {
                         title = "${GREEN}Убрать\nвыделение"
                         hint = "Убрать"
                         onClick { _, _, _ ->
-                            project.structure.workers.clear()
-                            WorkerChoice(player, project).tryExecute()
+                            structure.workers.clear()
+                            WorkerChoice(player, structure).tryExecute()
                         }},
-                    button {
-                        material(Material.AIR)
-                        hint = ""
-                        enabled = false
-                    }
+                    getEmptyButton()
                 ).apply storage@{
                     workers.forEach { worker ->
                         this@storage.add(
@@ -59,26 +48,7 @@ class WorkerChoice(player: Player, val project: Project) : MenuCommand(player) {
                                 hint = getWorkerState(worker).title
                                 special = getWorkerState(worker) == WorkerState.SELECTED
                                 onClick { _, _, button ->
-                                    when(getWorkerState(worker)) {
-                                        WorkerState.FREE -> {
-                                            project.structure.workers.add(worker)
-                                            button.special = true
-                                            button.hint = getWorkerState(worker).title
-                                        }
-                                        WorkerState.SELECTED -> {
-                                            project.structure.workers.remove(worker)
-                                            button.special = false
-                                            button.hint = getWorkerState(worker).title
-                                        }
-                                        WorkerState.BUSY -> {
-                                            activeProjects.find { if (it.structure is WorkerStructure) it.structure.workers.contains(worker) else false }!!.apply {
-                                                (structure as WorkerStructure).workers.remove(worker)
-                                                project.structure.workers.add(worker)
-                                                button.special = true
-                                                button.hint = getWorkerState(worker).title
-                                            }
-                                        }
-                                    }
+                                    distributeWorker(worker, button)
                                 }
                             }
                         )
@@ -86,17 +56,5 @@ class WorkerChoice(player: Player, val project: Project) : MenuCommand(player) {
                 }
             )
         }
-    }
-
-    private fun getWorkerState(targetWorker: Worker): WorkerState {
-        val busyWorkers = app.getUser(player).workers.filter { worker -> app.getUser(player).activeProjects.stream().anyMatch {
-            when (it.structure is WorkerStructure) { true -> it.structure.workers.contains(worker)
-            else -> { false }
-        } }}
-        val selectedWorkers = (project.structure as WorkerStructure).workers
-
-        if (selectedWorkers.contains(targetWorker)) return WorkerState.SELECTED
-        if (busyWorkers.contains(targetWorker)) return WorkerState.BUSY
-        return WorkerState.FREE
     }
 }

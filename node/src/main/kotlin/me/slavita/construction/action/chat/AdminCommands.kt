@@ -2,6 +2,7 @@ package me.slavita.construction.action.chat
 
 import me.func.mod.reactive.ReactivePanel
 import me.func.protocol.data.color.GlowColor
+import me.slavita.construction.action.command.menu.DailyMenu
 import me.slavita.construction.app
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.ChatCommandUtils.opCommand
@@ -32,6 +33,10 @@ object AdminCommands {
                     .progress(1.0)
                     .build(),
             ).forEach { it.send(player) }
+        }
+
+        opCommand("daily") { player, args ->
+            DailyMenu(player).tryExecute()
         }
     }
 }
