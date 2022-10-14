@@ -10,7 +10,7 @@ class DailyReward(val recieved: Boolean, val reward: Reward) {
         get() {
             return button {
                 item = ItemIcons.get("other", "info")
-                hover = if (recieved) "Получено" else "Получить"
+                title = "Мега подарок"
             }
         }
 }

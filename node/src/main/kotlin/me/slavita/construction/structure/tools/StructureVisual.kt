@@ -14,6 +14,7 @@ import me.slavita.construction.banner.BannerInfo
 import me.slavita.construction.banner.BannerUtil
 import me.slavita.construction.banner.BannerUtil.color
 import me.slavita.construction.structure.BuildingStructure
+import me.slavita.construction.ui.Animations
 import me.slavita.construction.utils.extensions.BlocksExtensions.unaryMinus
 import me.slavita.construction.utils.extensions.BlocksExtensions.withOffset
 import org.bukkit.ChatColor
@@ -108,6 +109,7 @@ class StructureVisual(
     }
 
     fun hideFinish() {
+        Animations.buildingFinished(owner.player)
         Banners.hide(owner.player, floorBanner!!)
     }
 }
