@@ -6,14 +6,16 @@ import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection.Selection
 import me.slavita.construction.action.WorkerExecutor
 import me.slavita.construction.app
+import me.slavita.construction.project.Project
 import me.slavita.construction.project.ProjectGenerator
 import me.slavita.construction.structure.WorkerStructure
+import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.worker.WorkerState
 import org.bukkit.ChatColor.GREEN
 import org.bukkit.entity.Player
 
-class WorkerChoice(player: Player, structure: WorkerStructure) : WorkerExecutor(player, structure) {
+class WorkerChoice(player: Player, val project: Project) : WorkerExecutor(player, project.structure as WorkerStructure) {
     override fun getMenu(): Openable {
         app.getUser(player).run user@ {
             return Selection(title = "Выбор строителей", rows = 5, columns = 4, storage = mutableListOf(
@@ -24,10 +26,10 @@ class WorkerChoice(player: Player, structure: WorkerStructure) : WorkerExecutor(
                         hint = "Готово"
                         onClick { _, _, _ ->
                             Anime.close(player)
-                            this@user.activeProjects.add(ProjectGenerator.generateWorker(this@user).apply {
-                                (this.structure as WorkerStructure).workers.addAll(this@WorkerChoice.structure.workers)
-                                start()
-                            })
+
+                            (project.structure as WorkerStructure).workers.addAll(this@WorkerChoice.structure.workers)
+                            project.start()
+                            this@user.activeProjects.add(project)
                         }},
                     button {
                         item = ItemIcons.get("other", "reload")
@@ -35,7 +37,7 @@ class WorkerChoice(player: Player, structure: WorkerStructure) : WorkerExecutor(
                         hint = "Убрать"
                         onClick { _, _, _ ->
                             structure.workers.clear()
-                            WorkerChoice(player, structure).tryExecute()
+                            WorkerChoice(player, project).tryExecute()
                         }},
                     getEmptyButton()
                 ).apply storage@{

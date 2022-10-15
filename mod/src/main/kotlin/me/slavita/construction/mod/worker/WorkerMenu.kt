@@ -20,7 +20,6 @@ object WorkerMenu {
     init {
 
         KeysManager.registerKey(Keyboard.KEY_V) {
-            println("АБОБА")
             ContextGui().apply {
                 addChild(carved {
                     size = UIEngine.overlayContext.size

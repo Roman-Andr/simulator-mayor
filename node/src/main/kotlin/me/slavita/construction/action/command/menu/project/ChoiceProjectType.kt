@@ -9,10 +9,12 @@ import me.slavita.construction.action.command.menu.worker.WorkerChoice
 import me.slavita.construction.app
 import me.slavita.construction.project.ProjectGenerator
 import me.slavita.construction.structure.WorkerStructure
+import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.ui.menu.ItemIcons
+import org.bukkit.Location
 import org.bukkit.entity.Player
 
-class ProjectsChoice(player: Player) : MenuCommand(player) {
+class ChoiceProjectType(player: Player, val structure: Structure, val allocation: Location) : MenuCommand(player) {
     override fun getMenu(): Openable {
         app.getUser(player).run user@ {
             return Choicer(
@@ -26,10 +28,11 @@ class ProjectsChoice(player: Player) : MenuCommand(player) {
                         .hint("Выбрать")
                         .item(ItemIcons.get("other", "human"))
                         .onClick { _, _, _ ->
+                            val project = ProjectGenerator.generateClient(this@user, structure, allocation)
+                            project.start()
+                            activeProjects.add(project)
+
                             Anime.close(player)
-                            activeProjects.add(ProjectGenerator.generateClient(this@user).apply {
-                                start()
-                            })
                         },
                     ReactiveButton()
                         .title("Рабочие")
@@ -37,7 +40,7 @@ class ProjectsChoice(player: Player) : MenuCommand(player) {
                         .hint("Выбрать")
                         .item(ItemIcons.get("other", "myfriends"))
                         .onClick { _, _, _ ->
-                            WorkerChoice(player, ProjectGenerator.generateWorker(this@user).structure as WorkerStructure).tryExecute()
+                            WorkerChoice(player, ProjectGenerator.generateWorker(this@user, structure, allocation)).tryExecute()
                         }
                 )
             )

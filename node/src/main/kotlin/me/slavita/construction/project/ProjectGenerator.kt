@@ -5,17 +5,18 @@ import me.slavita.construction.player.User
 import me.slavita.construction.reward.MoneyReward
 import me.slavita.construction.structure.ClientStructure
 import me.slavita.construction.structure.WorkerStructure
+import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.instance.Structures
+import org.bukkit.Location
 
 object ProjectGenerator {
-    fun generateClient(owner: User): Project {
-        val location = owner.getEmptyPlace()!!
+    fun generateClient(owner: User, structure: Structure, location: Location): Project {
         return Project(
             owner,
-            owner.stats.totalProjects+owner.activeProjects.size,
+            owner.stats.totalProjects + owner.activeProjects.size,
             ClientStructure(
                 app.mainWorld,
-                Structures.structureGroups.random().structures.random(),
+                structure,
                 owner,
                 location
             ),
@@ -25,14 +26,13 @@ object ProjectGenerator {
         )
     }
 
-    fun generateWorker(owner: User): Project {
-        val location = owner.getEmptyPlace()!!
+    fun generateWorker(owner: User, structure: Structure, location: Location): Project {
         return Project(
             owner,
-            owner.stats.totalProjects+owner.activeProjects.size,
+            owner.stats.totalProjects + owner.activeProjects.size,
             WorkerStructure(
                 app.mainWorld,
-                Structures.structureGroups.random().structures.random(),
+                structure,
                 owner,
                 location
             ),

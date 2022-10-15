@@ -14,8 +14,8 @@ object ModCallbacks {
             }
         }
 
-        Anime.createReader("lootbox:closed") { player, _ ->
+        /*Anime.createReader("lootbox:closed") { player, _ ->
             WorkerBuyMenu(player).tryExecute()
-        }
+        }*/
     }
 }

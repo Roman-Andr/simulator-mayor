@@ -7,6 +7,10 @@ import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.structure.tools.StructureVisual
 import me.slavita.construction.utils.extensions.BlocksExtensions.minus
+import me.slavita.construction.utils.extensions.BlocksExtensions.toLocation
+import me.slavita.construction.utils.extensions.BlocksExtensions.unaryMinus
+import me.slavita.construction.utils.extensions.BlocksExtensions.withOffset
+import me.slavita.construction.world.Box
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.StructureBlock
 import net.minecraft.server.v1_12_R1.BlockPosition
@@ -20,12 +24,13 @@ abstract class BuildingStructure(
     val owner: User,
     val allocation: Location
 ) {
-    var state = StructureState.NOT_STARTED
     protected var currentBlock: StructureBlock? = null
-    private val visual = StructureVisual(this)
-    var blocksPlaced = 0
     protected var hidden = false
     private var currentProject: Project? = null
+    private val visual = StructureVisual(this)
+    val box = Box(allocation, structure.box.max.withOffset(-structure.box.min).withOffset(allocation).add(1.0, 1.0, 1.0))
+    var state = StructureState.NOT_STARTED
+    var blocksPlaced = 0
 
     protected abstract fun enterBuilding()
 
@@ -61,7 +66,7 @@ abstract class BuildingStructure(
             if (packet !is PacketPlayOutBlockChange) return@registerWriter
             if (packet.block.material != Material.AIR) return@registerWriter
 
-            if (structure.contains(packet.a - allocation)) packet.a = BlockPosition(0, 0, 0)
+            if (box.contains(packet.a)) packet.a = BlockPosition(0, 0, 0)
         }
         enterBuilding()
         currentProject = project

@@ -24,7 +24,7 @@ object KeysManager {
         }
     }
 
-    private fun registerKey(key: Int, action: () -> Unit) {
+    fun registerKey(key: Int, action: () -> Unit) {
         keys[key] = action
     }
 }

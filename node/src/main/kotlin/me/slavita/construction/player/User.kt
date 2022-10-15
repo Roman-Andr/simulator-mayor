@@ -28,17 +28,4 @@ class User(
     fun canPurchase(cost: Long): Boolean {
         return stats.money >= cost
     }
-
-    fun getEmptyPlace(): Location? {
-        val used = arrayListOf<Location>()
-
-        activeProjects.forEach {
-            used.add(it.structure.allocation.toBlockLocation())
-        }
-
-        app.mainWorld.map.labels("place").forEach {
-            if (!used.contains(it.toBlockLocation())) return it
-        }
-        return null
-    }
 }

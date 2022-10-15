@@ -100,6 +100,7 @@ object StructureBuilding {
 
         mod.registerChannel("structure:hide") {
             nextBlock.enabled = false
+            currentItem = null
             currentBlockLocation = null
             markers.children.clear()
         }

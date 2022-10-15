@@ -1,6 +1,8 @@
 package me.slavita.construction.world
 
 import me.slavita.construction.utils.V3i
+import me.slavita.construction.utils.extensions.BlocksExtensions.withOffset
+import net.minecraft.server.v1_12_R1.BlockPosition
 import org.bukkit.Location
 import org.bukkit.block.Block
 
@@ -19,13 +21,23 @@ class Box(val min: Location, val max: Location) {
         }
     }
 
+    fun withOffset(location: Location): Box {
+        return Box(min.withOffset(location), max.withOffset(location))
+    }
+
     fun contains(location: Location): Boolean {
         return min.getX() <= location.getX() && max.getX() >= location.getX() &&
                 min.getY() <= location.getY() && max.getY() >= location.getY() &&
                 min.getZ() <= location.getZ() && max.getZ() >= location.getZ()
     }
 
-    fun contains(location: Location, offset: Location): Boolean {
-        return contains(location.clone().add(-offset.x, -offset.y, -offset.z).add(min.x, min.y, min.z))
+    fun contains(location: BlockPosition): Boolean {
+        return min.getX() <= location.x && max.getX() >= location.x &&
+                min.getY() <= location.y && max.getY() >= location.y &&
+                min.getZ() <= location.z && max.getZ() >= location.z
+    }
+
+    override fun toString(): String {
+        return "Box(min: $min, max: $max)"
     }
 }
