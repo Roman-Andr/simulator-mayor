@@ -7,6 +7,8 @@ import me.func.mod.Kit
 import me.func.mod.conversation.ModLoader
 import me.func.mod.util.after
 import me.func.mod.util.listener
+import me.func.sound.Category
+import me.func.sound.Music
 import me.func.world.MapLoader
 import me.func.world.WorldMeta
 import me.slavita.construction.action.chat.AdminCommands
@@ -88,6 +90,8 @@ class App : JavaPlugin() {
 
         structureMap = MapLoader.load("construction", "structures")
         mainWorld = GameWorld(MapLoader.load("construction", "test"))
+
+        Music.block(Category.MUSIC)
 
         MultiChats
         NpcManager

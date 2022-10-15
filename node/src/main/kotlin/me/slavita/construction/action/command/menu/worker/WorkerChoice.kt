@@ -4,12 +4,11 @@ import me.func.mod.Anime
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection.Selection
+import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.WorkerExecutor
 import me.slavita.construction.app
 import me.slavita.construction.project.Project
-import me.slavita.construction.project.ProjectGenerator
 import me.slavita.construction.structure.WorkerStructure
-import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.worker.WorkerState
 import org.bukkit.ChatColor.GREEN
@@ -48,7 +47,7 @@ class WorkerChoice(player: Player, val project: Project) : WorkerExecutor(player
                                 title = worker.name
                                 hover = worker.toString()
                                 hint = getWorkerState(worker).title
-                                special = getWorkerState(worker) == WorkerState.SELECTED
+                                backgroundColor = if (getWorkerState(worker) == WorkerState.SELECTED) GlowColor.ORANGE else GlowColor.BLUE
                                 onClick { _, _, button ->
                                     distributeWorker(worker, button)
                                 }

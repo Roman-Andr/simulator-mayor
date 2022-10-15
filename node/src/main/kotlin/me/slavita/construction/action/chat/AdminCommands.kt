@@ -4,9 +4,9 @@ import me.func.mod.reactive.ReactivePanel
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.command.menu.DailyMenu
 import me.slavita.construction.app
+import me.slavita.construction.bank.Bank
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.ChatCommandUtils.opCommand
-import me.slavita.construction.utils.SpecialColor
 import org.bukkit.Sound
 import org.bukkit.SoundCategory
 
@@ -24,7 +24,7 @@ object AdminCommands {
             listOf(
                 ReactivePanel.builder()
                     .text("Монет ${app.getUser(player).stats.money.toMoneyIcon()}")
-                    .color(SpecialColor.GOLD)
+                    .color(GlowColor.ORANGE)
                     .progress(1.0)
                     .build(),
                 ReactivePanel.builder()
@@ -37,6 +37,10 @@ object AdminCommands {
 
         opCommand("daily") { player, args ->
             DailyMenu(player).tryExecute()
+        }
+
+        opCommand("credit") { player, args ->
+            Bank.giveCredit(app.getUser(player), args[0].toLong())
         }
     }
 }

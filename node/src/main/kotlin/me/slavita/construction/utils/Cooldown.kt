@@ -2,6 +2,7 @@ package me.slavita.construction.utils
 
 import me.func.mod.Anime
 import me.func.mod.util.after
+import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.app
 import org.bukkit.entity.Player
 import java.lang.Long.max
@@ -18,7 +19,7 @@ class Cooldown(
             finishAction()
         }
         if (player == null) return
-        Anime.reload(player, duration / 20.0, "Перезарядка", SpecialColor.GOLD)
+        Anime.reload(player, duration / 20.0, "Перезарядка", GlowColor.ORANGE)
     }
 
     fun timeLeft() : Long {

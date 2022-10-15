@@ -1,7 +1,8 @@
 package me.slavita.construction.npc
 
-import me.slavita.construction.action.command.menu.worker.WorkerBuyMenu
 import me.slavita.construction.action.command.menu.ControlPanelMenu
+import me.slavita.construction.action.command.menu.bank.BankMainMenu
+import me.slavita.construction.action.command.menu.worker.WorkerBuyMenu
 import me.slavita.construction.action.command.menu.worker.WorkerTeamMenu
 import org.bukkit.entity.Player
 
@@ -40,5 +41,14 @@ enum class NpcType(
         "other",
         "stats",
         { ControlPanelMenu(it).tryExecute() }
+    ),
+    BANK(
+        "Банк",
+        "bank",
+        SkinType.UUID,
+        "ba821208-6b64-11e9-8374-1cb72caa35fd",
+        "other",
+        "stats",
+        { BankMainMenu(it).tryExecute() }
     ),
 }

@@ -11,10 +11,10 @@ class UpgradeWorker(val user: Player, val worker: Worker) : CooldownCommand(user
     override fun execute() {
         app.getUser(user).apply user@ {
             workers.find { it == worker }!!.apply {
-                this@user.tryPurchase(upgradePrice) {
+                this@user.tryPurchase(upgradePrice, {
                     levelUp()
                     player.playSound(MusicSound.LEVEL_UP)
-                }
+                })
             }
         }
     }

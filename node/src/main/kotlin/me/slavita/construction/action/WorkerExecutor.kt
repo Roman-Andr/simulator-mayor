@@ -2,6 +2,7 @@ package me.slavita.construction.action
 
 import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
+import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.app
 import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.worker.Worker
@@ -16,19 +17,19 @@ abstract class WorkerExecutor(player: Player, val structure: WorkerStructure) : 
             when(getWorkerState(targetWorker)) {
                 WorkerState.FREE -> {
                     structure.workers.add(targetWorker)
-                    button.special = true
+                    button.backgroundColor = GlowColor.ORANGE
                     button.hint = getWorkerState(targetWorker).title
                 }
                 WorkerState.SELECTED -> {
                     structure.workers.remove(targetWorker)
-                    button.special = false
+                    button.backgroundColor = GlowColor.BLUE
                     button.hint = getWorkerState(targetWorker).title
                 }
                 WorkerState.BUSY -> {
                     activeProjects.find { if (it.structure is WorkerStructure) it.structure.workers.contains(targetWorker) else false }!!.apply target@ {
                         (this@target.structure as WorkerStructure).workers.remove(targetWorker)
                         structure.workers.add(targetWorker)
-                        button.special = true
+                        button.backgroundColor = GlowColor.ORANGE
                         button.hint = getWorkerState(targetWorker).title
                     }
                 }

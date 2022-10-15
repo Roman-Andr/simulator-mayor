@@ -30,10 +30,10 @@ class ShowcaseMenu(player: Player, val menuName: String, val items: List<ItemPro
                                     ).collect(Collectors.joining())
                                 hint = (if (canPurchase(123)) "${ChatColor.WHITE}" else "${ChatColor.RED}") + Emoji.COIN
                                 onLeftClick { _, _, _ ->
-                                    tryPurchase(123) { player.inventory.addItem(targetItem.createItemStack(8)) }
+                                    tryPurchase(123, { player.inventory.addItem(targetItem.createItemStack(8)) })
                                 }
                                 onRightClick { _, _, _ ->
-                                    tryPurchase(123) { player.inventory.addItem(targetItem.createItemStack(32)) }
+                                    tryPurchase(123, { player.inventory.addItem(targetItem.createItemStack(32)) })
                                 }
                             }
                         )

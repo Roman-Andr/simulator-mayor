@@ -6,6 +6,7 @@ import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection.Selection
 import me.slavita.construction.app
+import me.slavita.construction.bank.Bank
 import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
@@ -35,6 +36,7 @@ abstract class MenuCommand(player: Player) : CooldownCommand(player, 3) {
                 money = "Ваш ${type.title} ${when (type){
                     StatsType.MONEY -> app.getUser(player).stats.money.toMoney()
                     StatsType.LEVEL -> app.getUser(player).stats.level
+                    StatsType.CREDIT -> Bank.playersData[player.uniqueId]!!.sumOf { it.creditValue }.toMoney()
                 }}",
                 rows = rows,
                 columns = columns

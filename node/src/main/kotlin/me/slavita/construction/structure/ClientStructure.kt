@@ -5,7 +5,6 @@ import me.func.mod.ui.Glow
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.connection.ConnectionUtil
 import me.slavita.construction.player.User
-import me.slavita.construction.reward.Reward
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureSender
 import me.slavita.construction.structure.tools.StructureState
@@ -87,7 +86,7 @@ class ClientStructure(
                 }
 
                 if (!hasNext) {
-                    Glow.animate(owner.player, 0.2, GlowColor.GOLD)
+                    Glow.animate(owner.player, 0.2, GlowColor.ORANGE)
                     owner.player.killboard("${WHITE}В инвентаре нет нужного материала")
                 }
                 return

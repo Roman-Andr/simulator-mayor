@@ -1,8 +1,8 @@
 package me.slavita.construction.structure.tools
 
 import me.func.mod.reactive.ReactiveProgress
+import me.func.protocol.data.color.GlowColor
 import me.func.protocol.math.Position
-import me.slavita.construction.utils.SpecialColor
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.WHITE
 import org.bukkit.entity.Player
@@ -12,7 +12,7 @@ class StructureProgressBar(val player: Player, private val blocksTotal: Int) {
         .position(Position.BOTTOM)
         .offsetY(31.0)
         .hideOnTab(false)
-        .color(SpecialColor.BLUE)
+        .color(GlowColor.BLUE)
         .build()
 
     var hidden = false

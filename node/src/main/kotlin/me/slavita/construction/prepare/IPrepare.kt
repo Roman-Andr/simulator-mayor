@@ -2,6 +2,6 @@ package me.slavita.construction.prepare
 
 import me.slavita.construction.player.User
 
-interface Prepare {
+interface IPrepare {
     fun prepare(user: User)
 }

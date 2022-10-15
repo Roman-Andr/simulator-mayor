@@ -19,12 +19,13 @@ object PlayerEvents : Listener {
         after (2) {
             app.addUser(player).run {
                 listOf(
-                    PlayerWorldPrepare,
-                    ConnectionPrepare,
-                    PermissionsPrepare,
-                    UIPrepare,
-                    ItemCallbacksPrepare,
-                    ShowcasePrepare,
+                    PlayerWorldIPrepare,
+                    ConnectionIPrepare,
+                    PermissionsIPrepare,
+                    UIIPrepare,
+                    ItemCallbacksIPrepare,
+                    ShowcaseIPrepare,
+                    BankAccountRegister
                 ).forEach { it.prepare(this) }
             }
         }

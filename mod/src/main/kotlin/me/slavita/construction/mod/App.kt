@@ -1,8 +1,8 @@
 package me.slavita.construction.mod
 
 import dev.xdark.clientapi.entity.EntityPlayerSP
+import me.slavita.construction.mod.bank.CreditTaking
 import me.slavita.construction.mod.showcase.Showcases
-import me.slavita.construction.mod.worker.WorkerMenu
 import ru.cristalix.clientapi.KotlinMod
 import ru.cristalix.uiengine.UIEngine
 import java.util.*
@@ -20,7 +20,7 @@ class App : KotlinMod() {
         StructureBuilding
         KeysManager
         Showcases
-        WorkerMenu
+        CreditTaking
     }
 
     fun runRepeatingTask(delay: Double, period: Double, action: () -> Unit) {
