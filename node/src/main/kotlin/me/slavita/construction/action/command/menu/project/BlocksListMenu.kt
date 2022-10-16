@@ -2,6 +2,7 @@ package me.slavita.construction.action.command.menu.project
 
 import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
+import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection.Selection
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.app
@@ -17,10 +18,10 @@ class BlocksListMenu(player: Player, val structure: Structure) : MenuCommand(pla
                     hashSetOf<ItemProperties>().apply {
                         structure.box.forEachBukkit { this.add(ItemProperties.fromBlock(it)) }
                     }.forEach {
-                        add(ReactiveButton()
-                            .hover(it.type.name)
-                            .item(it.createItemStack(1))
-                        )
+                        add(button {
+                            hover = it.type.name
+                            item = it.createItemStack(1)
+                        })
                     }
                 }
             )

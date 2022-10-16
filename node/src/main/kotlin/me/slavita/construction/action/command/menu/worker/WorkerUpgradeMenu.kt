@@ -3,6 +3,7 @@ package me.slavita.construction.action.command.menu.worker
 import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
+import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.UpgradeWorker
 import me.slavita.construction.app
@@ -19,29 +20,36 @@ class WorkerUpgradeMenu(player: Player, val worker: Worker) : MenuCommand(player
     override fun getMenu(): Openable {
         app.getUser(player).run user@ {
             var infoButton: ReactiveButton
-            return getBaseSelection(MenuInfo("Улучшение рабочего", StatsType.MONEY, 4, 3)).apply {
+            return getBaseSelection(MenuInfo("Улучшение рабочего", StatsType.MONEY, 3, 3)).apply {
                 storage = mutableListOf(
+                    getEmptyButton(),
                     button {
                         item = ItemIcons.get("other", "info1")
                         title = "Информация"
                         hover = worker.toString()
                         hint = "Информация"
                     }.apply { infoButton = this },
+                    getEmptyButton(),
+                    getEmptyButton(),
                     button {
                         item = ItemIcons.get("other", "add")
                         title = "Улучшить"
                         hover = getUpgradeHover()
                         hint = "Улучшить"
+                        backgroundColor = GlowColor.GREEN
                         onClick { _, _, button ->
                             UpgradeWorker(player, worker).tryExecute()
                             button.hover = getUpgradeHover()
                             infoButton.hover = worker.toString()
                         }},
+                    getEmptyButton(),
+                    getEmptyButton(),
                     button {
                         item = ItemIcons.get("other", "reload")
                         title = "Продать"
                         hover = getSellHover()
                         hint = "Продать"
+                        backgroundColor = GlowColor.RED
                         onClick { _, _, button ->
                             WorkerSellConfirm(player, worker).tryExecute()
                             button.hover = getSellHover()

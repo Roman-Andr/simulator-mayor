@@ -33,6 +33,12 @@ class WorkerStructure(
 
     override fun blockPlaced() { }
 
+    override fun getBannerInfo(): List<Pair<String, Double>> {
+        return listOf(
+            Pair("Привет", 1.0)
+        )
+    }
+
     private fun build() {
         if (state != StructureState.BUILDING) return
         after(delayTime) {

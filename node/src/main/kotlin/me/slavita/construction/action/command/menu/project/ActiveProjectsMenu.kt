@@ -3,6 +3,7 @@ package me.slavita.construction.action.command.menu.project
 import me.func.mod.Anime
 import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
+import me.func.mod.ui.menu.button
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.app
 import me.slavita.construction.structure.ClientStructure
@@ -21,17 +22,18 @@ class ActiveProjectsMenu(player: Player) : MenuCommand(player) {
                 storage = mutableListOf<ReactiveButton>().apply storage@{
                     activeProjects.forEach {
                         this@storage.add(
-                            ReactiveButton()
-                                .item(ItemIcons.get("skyblock", "spawn"))
-                                .title("Проект #${it.id}")
-                                .hover(Stream.of(
+                            button {
+                                item = ItemIcons.get("skyblock", "settings")
+                                title = "Проект #${it.id}"
+                                hover = Stream.of(
                                     "${AQUA}ID: ${it.id}\n",
                                     "${AQUA}Награды: \n${it.rewards.joinToString("\n") { it.toString() }}\n"
-                                ).collect(Collectors.joining()))
-                                .special(it.structure is ClientStructure)
-                                .onClick { _, _, _ ->
+                                ).collect(Collectors.joining())
+                                special(it.structure is ClientStructure)
+                                onClick { _, _, _ ->
                                     Anime.close(player)
                                 }
+                            }
                         )
                     }
                 }

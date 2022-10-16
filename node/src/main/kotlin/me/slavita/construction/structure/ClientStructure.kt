@@ -52,6 +52,12 @@ class ClientStructure(
         if (!hidden) sender.sendBlock(currentBlock!!, allocation)
     }
 
+    override fun getBannerInfo(): List<Pair<String, Double>> {
+        return listOf(
+            Pair("Пока", 1.0)
+        )
+    }
+
     private fun tryPlaceBlock() {
         owner.player.inventory.itemInMainHand.apply {
             if (!currentBlock!!.equalsItem(this)) {

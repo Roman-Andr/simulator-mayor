@@ -15,7 +15,7 @@ import org.bukkit.entity.Player
 class ControlPanelMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         app.getUser(player).run {
-            return getBaseSelection(MenuInfo("Меню", StatsType.LEVEL, 4, 3)).apply {
+            return getBaseSelection(MenuInfo("Меню", StatsType.LEVEL, 3, 3)).apply {
                 storage = mutableListOf(
                     button {
                         title = "Работники"
@@ -36,17 +36,8 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         }
                     },
                     button {
-                        title = "Проекты"
-                        description = "Получение проектов\nдля строительства"
-                        hint = "Выбрать"
-                        item = ItemIcons.get("skyblock", "info")
-                        onClick { _, _, _ ->
-
-                        }
-                    },
-                    button {
                         title = "Активные проекты"
-                        description = "Просмостр ваших\nактивных проектов"
+                        description = "Просмостр ваших активных проектов"
                         hint = "Выбрать"
                         item = ItemIcons.get("other", "book")
                         onClick { _, _, _ ->

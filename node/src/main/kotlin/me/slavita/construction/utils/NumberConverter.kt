@@ -26,7 +26,7 @@ object NumberConverter {
     fun toMoneyFormat(arg: Long): String {
         BigInteger.valueOf(arg).apply {
             val (key, value) = map.floorEntry(this) ?: return this.toString()
-            val rounded = String.format("%.2f", this.divide(key.divide(THOUSAND)).toInt() / 1000.0).toDouble()
+            val rounded = this.divide(key.divide(THOUSAND)).toInt() / 1000.0
 
             return if (rounded % 1 == 0.0) "${rounded.toInt()} $value" else "$rounded $value"
         }

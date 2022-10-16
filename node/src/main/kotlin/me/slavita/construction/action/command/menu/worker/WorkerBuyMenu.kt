@@ -29,6 +29,7 @@ class WorkerBuyMenu(player: Player) : MenuCommand(player) {
                             description = rarity.description
                             price = rarity.price
                             hint = if (canBuy) "Купить" else "Недостаточно\nсредств"
+                            backgroundColor = rarity.color
                             onClick { _, _, _ ->
                                 if (!canBuy) return@onClick
 

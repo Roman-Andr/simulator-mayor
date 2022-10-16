@@ -8,7 +8,6 @@ import me.slavita.construction.app
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
-import org.bukkit.ChatColor.AQUA
 import org.bukkit.entity.Player
 
 class WorkerTeamMenu(player: Player) : MenuCommand(player) {
@@ -21,7 +20,7 @@ class WorkerTeamMenu(player: Player) : MenuCommand(player) {
                             button {
                                 item = ItemIcons.get(worker.rarity.iconKey, worker.rarity.iconValue, worker.rarity.iconMaterial)
                                 title = worker.name
-                                hint = "${AQUA}Управление"
+                                hint = "Выбрать"
                                 onClick { _, _, _ ->
                                     WorkerUpgradeMenu(player, worker).closeAll(false).tryExecute()
                                 }

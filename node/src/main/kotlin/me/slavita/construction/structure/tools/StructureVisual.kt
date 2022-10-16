@@ -15,6 +15,8 @@ import me.slavita.construction.banner.BannerUtil
 import me.slavita.construction.banner.BannerUtil.color
 import me.slavita.construction.structure.BuildingStructure
 import me.slavita.construction.ui.Animations
+import me.slavita.construction.utils.extensions.BannersExtensions.hide
+import me.slavita.construction.utils.extensions.BannersExtensions.show
 import me.slavita.construction.utils.extensions.BlocksExtensions.unaryMinus
 import me.slavita.construction.utils.extensions.BlocksExtensions.withOffset
 import org.bukkit.ChatColor
@@ -24,7 +26,7 @@ class StructureVisual(
     val structure: BuildingStructure
 ) {
     private var floorBanner: Banner? = null
-    private var infoBanners: HashSet<Banner>? = null
+    private var infoBanners: Pair<Banner, Banner>? = null
     private var progressWorld: ReactiveProgress? = null
     private var marker: Marker? = null
     private val owner = structure.owner
@@ -49,13 +51,15 @@ class StructureVisual(
             )
         )
 
-        infoBanners = BannerUtil.createRectangle(
-            structure.structure.box.bottomCenter.withOffset(-structure.structure.box.min).withOffset(structure.allocation),
-            11.0,
+        infoBanners = BannerUtil.createDual(BannerInfo(
+            structure.box.bottomCenter.withOffset(-structure.box.min).withOffset(structure.allocation),
+            BlockFace.NORTH,
+            structure.getBannerInfo(),
+            48,
+            80,
             Tricolor(0, 0, 0),
-            3,
-            4
-        )
+            0.65
+        ))
 
         progressWorld = ReactiveProgress.builder()
             .position(Position.BOTTOM)
@@ -67,7 +71,7 @@ class StructureVisual(
             .build()
 
         marker = Marker(center.x, center.y, center.z, 80.0, MarkerSign.ARROW_DOWN)
-        Banners.show(owner.player, *infoBanners!!.toTypedArray())
+        Banners.show(owner.player, infoBanners!!)
 
         update()
         hide()
@@ -98,7 +102,7 @@ class StructureVisual(
 
     fun delete() {
         Banners.hide(owner.player, floorBanner!!)
-        Banners.hide(owner.player, *infoBanners!!.toTypedArray())
+        Banners.hide(owner.player, infoBanners!!)
         Anime.removeMarker(owner.player, marker!!)
         progressWorld!!.delete(setOf(owner.player))
         progressBar.hide()

@@ -6,8 +6,6 @@ import me.slavita.construction.project.Project
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.structure.tools.StructureVisual
-import me.slavita.construction.utils.extensions.BlocksExtensions.minus
-import me.slavita.construction.utils.extensions.BlocksExtensions.toLocation
 import me.slavita.construction.utils.extensions.BlocksExtensions.unaryMinus
 import me.slavita.construction.utils.extensions.BlocksExtensions.withOffset
 import me.slavita.construction.world.Box
@@ -39,6 +37,8 @@ abstract class BuildingStructure(
     protected abstract fun onShow()
 
     protected abstract fun onHide()
+
+    abstract fun getBannerInfo(): List<Pair<String, Double>>
 
     fun showVisual() {
         hidden = false
