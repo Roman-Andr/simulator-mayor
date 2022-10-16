@@ -28,7 +28,7 @@ class WorkerChoice(player: Player, val project: Project) : WorkerExecutor(player
 
                             (project.structure as WorkerStructure).workers.addAll(this@WorkerChoice.structure.workers)
                             project.start()
-                            this@user.activeProjects.add(project)
+                            this@user.city.addProject(project)
                         }},
                     button {
                         item = ItemIcons.get("other", "reload")

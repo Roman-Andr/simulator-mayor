@@ -100,7 +100,6 @@ object StructureBuilding {
 
         mod.registerChannel("structure:hide") {
             nextBlock.enabled = false
-            currentItem = null
             currentBlockLocation = null
             markers.children.clear()
         }
@@ -116,7 +115,7 @@ object StructureBuilding {
         }
 
         mod.registerHandler<BlockRightClick> {
-            if (currentItem == null || hand == EnumHand.OFF_HAND) return@registerHandler
+            if (currentBlockLocation == null || hand == EnumHand.OFF_HAND) return@registerHandler
             if (!position.add(facing.xOffset, facing.yOffset, facing.zOffset).equalsV(currentBlockLocation!!)) return@registerHandler
             if (!player.inventory.handItemEquals(currentItem!!)) return@registerHandler
 
@@ -124,7 +123,7 @@ object StructureBuilding {
         }
 
         mod.registerHandler<GameTickPost> {
-            if (currentItem == null) return@registerHandler
+            if (currentBlockLocation == null) return@registerHandler
 
             updateInfoIcon()
 

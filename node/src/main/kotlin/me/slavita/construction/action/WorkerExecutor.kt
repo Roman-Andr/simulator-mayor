@@ -26,7 +26,7 @@ abstract class WorkerExecutor(player: Player, val structure: WorkerStructure) : 
                     button.hint = getWorkerState(targetWorker).title
                 }
                 WorkerState.BUSY -> {
-                    activeProjects.find { if (it.structure is WorkerStructure) it.structure.workers.contains(targetWorker) else false }!!.apply target@ {
+                    city.projects.find { if (it.structure is WorkerStructure) it.structure.workers.contains(targetWorker) else false }!!.apply target@ {
                         (this@target.structure as WorkerStructure).workers.remove(targetWorker)
                         structure.workers.add(targetWorker)
                         button.backgroundColor = GlowColor.ORANGE
@@ -38,7 +38,7 @@ abstract class WorkerExecutor(player: Player, val structure: WorkerStructure) : 
     }
 
     protected fun getWorkerState(targetWorker: Worker): WorkerState {
-        val busyWorkers = app.getUser(player).workers.filter { worker -> app.getUser(player).activeProjects.stream().anyMatch {
+        val busyWorkers = app.getUser(player).workers.filter { worker -> app.getUser(player).city.projects.stream().anyMatch {
             when (it.structure is WorkerStructure) { true -> it.structure.workers.contains(worker)
                 else -> { false }
             } }}

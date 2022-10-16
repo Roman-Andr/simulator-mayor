@@ -60,6 +60,7 @@ object BannerUtil {
                 .red(color.red)
                 .green(color.green)
                 .blue(color.blue)
+                .xray(0.0)
                 .apply {
                     content(content.joinToString("\n") { it.first })
                     content.forEachIndexed { index, value ->

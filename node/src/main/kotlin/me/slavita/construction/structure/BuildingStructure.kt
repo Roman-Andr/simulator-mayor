@@ -20,15 +20,16 @@ abstract class BuildingStructure(
     val world: GameWorld,
     val structure: Structure,
     val owner: User,
-    val allocation: Location
+    val cell: Cell
 ) {
     protected var currentBlock: StructureBlock? = null
     protected var hidden = false
     private var currentProject: Project? = null
     private val visual = StructureVisual(this)
-    val box = Box(allocation, structure.box.max.withOffset(-structure.box.min).withOffset(allocation).add(1.0, 1.0, 1.0))
     var state = StructureState.NOT_STARTED
     var blocksPlaced = 0
+    val box = cell.box
+    val allocation = box.min
 
     protected abstract fun enterBuilding()
 

@@ -30,7 +30,7 @@ class Project(
                 rewards.forEach {
                     it.getReward(owner)
                 }
-                owner.activeProjects.remove(this@Project)
+                owner.city.removeProject(this@Project)
                 owner.stats.totalProjects++
             }
             StructureState.REWARD_CLAIMED -> {}

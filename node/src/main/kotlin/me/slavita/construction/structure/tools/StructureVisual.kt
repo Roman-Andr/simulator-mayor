@@ -22,9 +22,8 @@ import me.slavita.construction.utils.extensions.BlocksExtensions.withOffset
 import org.bukkit.ChatColor
 import org.bukkit.block.BlockFace
 
-class StructureVisual(
-    val structure: BuildingStructure
-) {
+class StructureVisual(val structure: BuildingStructure) {
+
     private var floorBanner: Banner? = null
     private var infoBanners: Pair<Banner, Banner>? = null
     private var progressWorld: ReactiveProgress? = null
@@ -33,7 +32,7 @@ class StructureVisual(
     private val progressBar = StructureProgressBar(owner.player, structure.structure.blocksCount)
 
     fun start() {
-        val center = structure.structure.box.center.withOffset(-structure.structure.box.min).withOffset(structure.allocation)
+        val center = structure.box.center
         floorBanner = BannerUtil.create(
             BannerInfo(
                 center.clone().apply {

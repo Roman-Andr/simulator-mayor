@@ -23,8 +23,8 @@ class ClientStructure(
     world: GameWorld,
     structure: Structure,
     owner: User,
-    allocation: Location
-) : BuildingStructure(world, structure, owner, allocation) {
+    cell: Cell
+) : BuildingStructure(world, structure, owner, cell) {
     private val sender = StructureSender(owner.player)
     private val cooldown = Cooldown(30, owner.player)
 

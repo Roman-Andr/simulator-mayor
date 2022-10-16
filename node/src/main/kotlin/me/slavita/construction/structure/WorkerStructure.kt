@@ -13,9 +13,9 @@ class WorkerStructure(
     world: GameWorld,
     structure: Structure,
     owner: User,
-    allocation: Location,
+    cell: Cell,
     val workers: HashSet<Worker> = hashSetOf()
-) : BuildingStructure(world, structure, owner, allocation) {
+) : BuildingStructure(world, structure, owner, cell) {
     private val delayTime: Long
         get() {
             if (workers.isEmpty()) return 1
@@ -23,7 +23,7 @@ class WorkerStructure(
         }
 
     override fun enterBuilding() {
-        owner.player.fine(owner.activeProjects.map{it.structure.state}.toString())
+        owner.player.fine(owner.city.projects.map{it.structure.state}.toString())
         build()
     }
 

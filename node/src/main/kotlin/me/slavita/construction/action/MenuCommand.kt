@@ -13,7 +13,7 @@ import me.slavita.construction.ui.menu.StatsType
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-abstract class MenuCommand(player: Player) : CooldownCommand(player, 3) {
+abstract class MenuCommand(player: Player) : CooldownCommand(player, 1) {
     private var close = true
 
     protected abstract fun getMenu(): Openable

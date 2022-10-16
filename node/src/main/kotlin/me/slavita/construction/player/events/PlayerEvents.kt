@@ -40,7 +40,7 @@ object PlayerEvents : Listener {
             }
 
             if (watchableProject == null) {
-                activeProjects.forEach {
+                city.projects.forEach {
                     if (it.structure.box.contains(player.location)) {
                         watchableProject = it
                         it.onEnter()
@@ -48,13 +48,12 @@ object PlayerEvents : Listener {
                     }
                 }
 
+                city.cells.forEach {
+                    if (it.busy || !it.box.contains(player.location)) return@forEach
 
-                app.mainWorld.map.labels("place").forEach {
-                    if (Box(it, it.clone().add(22.0, 48.0, 22.0)).contains(player.location)) {
-                        if (inZone[player] == null || !inZone[player]!!) ChoiceStructure(player, it).tryExecute()
-                        inZone[player] = true
-                        return
-                    }
+                    if (inZone[player] == false) ChoiceStructure(player, it).tryExecute()
+                    inZone[player] = true
+                    return
                 }
 
                 inZone[player] = false

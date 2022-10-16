@@ -6,12 +6,13 @@ import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection.Selection
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.app
+import me.slavita.construction.structure.Cell
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.menu.ItemIcons
 import org.bukkit.Location
 import org.bukkit.entity.Player
 
-class ChoiceStructure(player: Player, val allocation: Location) : MenuCommand(player) {
+class ChoiceStructure(player: Player, val cell: Cell) : MenuCommand(player) {
     override fun getMenu(): Openable {
         val structures = arrayListOf<ReactiveButton>()
         Structures.structureGroups.forEach {
@@ -22,7 +23,7 @@ class ChoiceStructure(player: Player, val allocation: Location) : MenuCommand(pl
                         hint = "Выбрать"
                         item = ItemIcons.get("skyblock", "spawn")
                         onClick { _, _, _ ->
-                            ChoiceProjectType(player, structure, allocation).tryExecute()
+                            ChoiceProjectType(player, structure, cell).tryExecute()
                         }
                     }
                 )

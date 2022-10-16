@@ -20,7 +20,7 @@ class ActiveProjectsMenu(player: Player) : MenuCommand(player) {
         app.getUser(player).run {
             return getBaseSelection(MenuInfo("Ваши активные проекты", StatsType.MONEY, 4, 5)).apply {
                 storage = mutableListOf<ReactiveButton>().apply storage@{
-                    activeProjects.forEach {
+                    city.projects.forEach {
                         this@storage.add(
                             button {
                                 item = ItemIcons.get("skyblock", "settings")
