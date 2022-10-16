@@ -4,7 +4,6 @@ import me.func.mod.util.after
 import me.slavita.construction.action.command.menu.project.ChoiceStructure
 import me.slavita.construction.app
 import me.slavita.construction.prepare.*
-import me.slavita.construction.world.Box
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -27,6 +26,7 @@ object PlayerEvents : Listener {
                     ShowcaseIPrepare,
                     BankAccountRegister
                 ).forEach { it.prepare(this) }
+                player.setResourcePack("")
             }
         }
     }
