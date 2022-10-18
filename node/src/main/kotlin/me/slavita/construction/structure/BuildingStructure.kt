@@ -89,6 +89,10 @@ abstract class BuildingStructure(
         deleteVisual()
         visual.finishShow()
         owner.city.cityStructures.add(CityStructure(owner.player, structure, cell))
+
+        box.getChunks().forEach {chunk ->
+            world.blocks[owner.player.uniqueId]?.get(chunk)?.removeIf { box.contains(it.position) }
+        }
     }
 
     fun claimed() {
