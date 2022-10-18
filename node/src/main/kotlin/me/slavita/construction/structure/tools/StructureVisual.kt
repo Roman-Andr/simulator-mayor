@@ -54,7 +54,7 @@ class StructureVisual(val structure: BuildingStructure) {
             structure.box.bottomCenter.withOffset(-structure.box.min).withOffset(structure.allocation),
             BlockFace.NORTH,
             structure.getBannerInfo(),
-            48,
+            102,
             80,
             Tricolor(0, 0, 0),
             0.65
@@ -81,6 +81,9 @@ class StructureVisual(val structure: BuildingStructure) {
         progressWorld!!.apply {
             progress = structure.blocksPlaced.toDouble() / structure.structure.blocksCount.toDouble()
             text = "${ChatColor.WHITE}Поставлено блоков: ${ChatColor.WHITE}${structure.blocksPlaced} ${ChatColor.WHITE}из ${ChatColor.AQUA}${structure.structure.blocksCount}"
+        }
+        infoBanners!!.toList().forEach {
+            Banners.content(owner.player, it, structure.getBannerInfo().joinToString("\n") { it.first })
         }
     }
 

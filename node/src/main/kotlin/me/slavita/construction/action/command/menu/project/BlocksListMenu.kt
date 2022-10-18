@@ -19,7 +19,7 @@ class BlocksListMenu(player: Player, val structure: Structure) : MenuCommand(pla
                         structure.box.forEachBukkit { this.add(ItemProperties.fromBlock(it)) }
                     }.forEach {
                         add(button {
-                            hover = it.type.name
+                            hover = it.createItemStack(1).i18NDisplayName
                             item = it.createItemStack(1)
                         })
                     }

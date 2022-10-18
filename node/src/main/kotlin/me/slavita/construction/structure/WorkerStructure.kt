@@ -7,7 +7,6 @@ import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.utils.extensions.LoggerUtils.fine
 import me.slavita.construction.worker.Worker
 import me.slavita.construction.world.GameWorld
-import org.bukkit.Location
 
 class WorkerStructure(
     world: GameWorld,
@@ -35,7 +34,12 @@ class WorkerStructure(
 
     override fun getBannerInfo(): List<Pair<String, Double>> {
         return listOf(
-            Pair("Привет", 1.0)
+            Pair("Информация об постройке", 0.7),
+            Pair("Название: ${structure.name}", 0.7),
+            Pair("Рабочих: ${workers.size}", 0.7),
+            Pair("", 0.5),
+            Pair("Скорость: ${workers.sumOf { it.blocksSpeed }} блоков в секунду", 0.5),
+            Pair("Прогресс: $blocksPlaced блоков из ${structure.blocksCount}", 0.5)
         )
     }
 

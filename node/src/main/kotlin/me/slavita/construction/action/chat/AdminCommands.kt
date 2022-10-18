@@ -20,7 +20,7 @@ object AdminCommands {
             player.playSound(player.location, Sound.valueOf(args[0]), SoundCategory.MASTER, 1.0f, 1.0f)
         }
 
-        opCommand("panel") { player, args ->
+        opCommand("panel") { player, _ ->
             listOf(
                 ReactivePanel.builder()
                     .text("Монет ${app.getUser(player).stats.money.toMoneyIcon()}")
@@ -35,7 +35,7 @@ object AdminCommands {
             ).forEach { it.send(player) }
         }
 
-        opCommand("daily") { player, args ->
+        opCommand("daily") { player, _ ->
             DailyMenu(player).tryExecute()
         }
 

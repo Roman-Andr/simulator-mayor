@@ -16,7 +16,6 @@ import me.slavita.construction.world.GameWorld
 import net.minecraft.server.v1_12_R1.EnumHand
 import net.minecraft.server.v1_12_R1.PacketPlayInUseItem
 import org.bukkit.ChatColor.*
-import org.bukkit.Location
 import org.bukkit.block.BlockFace
 
 class ClientStructure(
@@ -54,7 +53,10 @@ class ClientStructure(
 
     override fun getBannerInfo(): List<Pair<String, Double>> {
         return listOf(
-            Pair("Пока", 1.0)
+            Pair("Информация об постройке", 0.7),
+            Pair("Название: ${structure.name}", 0.7),
+            Pair("", 0.5),
+            Pair("Прогресс: $blocksPlaced блоков из ${structure.blocksCount}", 0.5)
         )
     }
 
