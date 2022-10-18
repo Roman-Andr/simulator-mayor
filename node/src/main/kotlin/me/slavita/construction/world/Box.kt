@@ -1,5 +1,6 @@
 package me.slavita.construction.world
 
+import me.slavita.construction.utils.V2i
 import me.slavita.construction.utils.V3i
 import me.slavita.construction.utils.extensions.BlocksExtensions.withOffset
 import net.minecraft.server.v1_12_R1.BlockPosition
@@ -21,8 +22,14 @@ class Box(val min: Location, val max: Location) {
         }
     }
 
-    fun withOffset(location: Location): Box {
-        return Box(min.withOffset(location), max.withOffset(location))
+    fun getChunks(): HashSet<V2i> {
+        val response = hashSetOf<V2i>()
+        (min.blockX..max.blockX).forEach { x ->
+            (min.blockZ..max.blockZ).forEach { z ->
+                response.add(V2i(x / 16, z / 16))
+            }
+        }
+        return response
     }
 
     fun contains(location: Location): Boolean {
