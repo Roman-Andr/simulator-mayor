@@ -2,7 +2,7 @@ package me.slavita.construction.npc
 
 import me.slavita.construction.action.command.menu.ControlPanelMenu
 import me.slavita.construction.action.command.menu.bank.BankMainMenu
-import me.slavita.construction.action.command.menu.worker.WorkerBuyMenu
+import me.slavita.construction.action.command.menu.lootbbox.BuyLootboxMenu
 import me.slavita.construction.action.command.menu.worker.WorkerTeamMenu
 import org.bukkit.entity.Player
 
@@ -22,7 +22,7 @@ enum class NpcType(
         "e2543a0a-5799-11e9-8374-1cb72caa35fd",
         "other",
         "stats",
-        { WorkerBuyMenu(it).tryExecute() }
+        { BuyLootboxMenu(it).tryExecute() }
     ),
     TEAM(
         "Работники",

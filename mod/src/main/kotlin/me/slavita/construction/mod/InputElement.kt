@@ -3,15 +3,13 @@ package me.slavita.construction.mod
 import org.lwjgl.input.Keyboard
 import ru.cristalix.uiengine.element.TextElement
 
-val textPattern = Regex("\\d")
-
 inline fun input(initializer: InputElement.() -> Unit) = InputElement().also(initializer)
+val textLinePattern = Regex("[A-ZА-Яа-яЁёa-z0-9\\s.]")
 
 class InputElement : TextElement() {
 
     var value: String = ""
     var focused: Boolean = true
-    var pattern: Regex = textPattern
     var placeholder: String = ""
 
     init {
@@ -30,10 +28,8 @@ class InputElement : TextElement() {
     fun handleInput(char: Char, keyCode: Int) {
         if (keyCode == Keyboard.KEY_BACK && value.isNotEmpty()) value = value.substring(0, value.length - 1)
         else {
-            if (char.toString().matches(pattern)) {
-                println("accept")
+            if (char.toString().matches(textLinePattern))
                 value += char
-            }
         }
     }
 

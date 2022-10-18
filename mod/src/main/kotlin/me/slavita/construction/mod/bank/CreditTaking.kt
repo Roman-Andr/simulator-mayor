@@ -1,71 +1,115 @@
 package me.slavita.construction.mod.bank
 
+import io.netty.buffer.Unpooled
 import me.slavita.construction.mod.KeysManager
+import me.slavita.construction.mod.SpecialColor
 import me.slavita.construction.mod.input
 import org.lwjgl.input.Keyboard
+import ru.cristalix.clientapi.JavaMod.clientApi
 import ru.cristalix.uiengine.UIEngine
+import ru.cristalix.uiengine.element.CarvedRectangle
 import ru.cristalix.uiengine.element.ContextGui
 import ru.cristalix.uiengine.eventloop.animate
 import ru.cristalix.uiengine.onMouseUp
 import ru.cristalix.uiengine.utility.*
+import kotlin.math.pow
 
 object CreditTaking: ContextGui() {
-    val back = rectangle {
+    private fun createButton(position: V3, title: String, normalColor: Color, hoveredColor: Color, click: () -> Unit, key: Int): CarvedRectangle {
+        return carved {
+            carveSize = 2.0
+            align = position
+            origin = CENTER
+            size = V3(clientApi.fontRenderer().getStringWidth(title).toDouble() + 10.0, 20.0)
+            color = normalColor
+            onHover {
+                animate(0.08, Easings.QUINT_OUT) {
+                    color = if (hovered) hoveredColor else normalColor
+                    scale = V3(if (hovered) 1.1 else 1.0, if (hovered) 1.1 else 1.0, 1.0)
+                }
+            }
+            onMouseUp {
+                click()
+            }
+            onKeyTyped { c, i ->
+                if (i == key) click()
+            }
+            +text {
+                align = CENTER
+                origin = CENTER
+                color = WHITE
+                content = title
+                shadow = true
+            }
+        }
+    }
+
+    private val back = rectangle {
         size = UIEngine.overlayContext.size
         color = Color(0, 0, 0, 0.8)
         align = CENTER
         origin = CENTER
     }
 
-    val moneyInputBox = rectangle {
-        align = CENTER
+    private val title = text {
+        color = WHITE
+        align = V3(0.5, 0.4)
         origin = CENTER
-        color = Color(0, 0, 0, 0.83)
-        size = V3(100.0, 24.0)
+        content = "Кредит\nВведите необходимую сумму (Пример: 2.4 тыс)"
     }
 
-    val moneyInput = moneyInputBox + input {
+    private val moneyInput = input {
+        onKeyTyped { c, i ->
+            if (i == Keyboard.KEY_RETURN) return@onKeyTyped
+            handleInput(c, i)
+        }
         align = CENTER
         origin = CENTER
         placeholder = "Введите сумму"
     }
 
-    val keyExit = carved {
-        carveSize = 2.0
-        align = V3(0.5, 0.7)
-        origin = CENTER
-        size = V3(76.0, 20.0)
-        val normalColor = Color(160, 29, 40, 0.83)
-        val hoveredColor = Color(231, 61, 75, 0.83)
-        color = normalColor
-        onHover {
-            animate(0.08, Easings.QUINT_OUT) {
-                color = if (hovered) hoveredColor else normalColor
-                scale = V3(if (hovered) 1.1 else 1.0, if (hovered) 1.1 else 1.0, 1.0)
-            }
-        }
-        onMouseUp {
-            close()
-        }
-        +text {
-            align = CENTER
-            origin = CENTER
-            color = WHITE
-            scale = V3(0.9, 0.9, 0.9)
-            content = "Выйти [ ESC ]"
-            shadow = true
-        }
-    }
-
     init {
         +back
+        +title
         +moneyInput
-        +keyExit
-        onKeyTyped { c, i ->
-            moneyInput.handleInput(c, i)
-        }
+
+        +createButton(
+            V3(0.5, 0.6),
+            "Подтвердить [ENTER]",
+            SpecialColor.GREEN_MIDDLE.toColor(),
+            SpecialColor.GREEN_LIGHT.toColor(),
+            action@ {
+                val values = listOf(
+                    Pair("тыс", 10.0.pow(3)),
+                    Pair("млн", 10.0.pow(6)),
+                    Pair("млрд", 10.0.pow(9)),
+                    Pair("трлн", 10.0.pow(12)),
+                    Pair("квдрлн", 10.0.pow(15)),
+                    Pair("квнтлн", 10.0.pow(18)),
+                    Pair("скcтлн", 10.0.pow(21)),
+                    Pair("сптлн", 10.0.pow(24)),
+                )
+                if (moneyInput.value.split(" ").size > 1 && moneyInput.value.split(" ")[0].toDoubleOrNull() != null) {
+                    val target = values.find { it.first == moneyInput.value.split(" ")[1] }
+                    clientApi.clientConnection().sendPayload("bank:submit", Unpooled.buffer().apply { writeDouble(moneyInput.value.split(" ")[0].toDouble() * target!!.second) })
+                    close()
+                }
+                println("error")
+            },
+            Keyboard.KEY_RETURN
+        )
+
+        +createButton(
+            V3(0.5, 0.7),
+            "Выйти [ESC]",
+            SpecialColor.RED_MIDDLE.toColor(),
+            SpecialColor.RED_LIGHT.toColor(),
+            { close() },
+            Keyboard.KEY_ESCAPE
+        )
 
         KeysManager.registerKey(Keyboard.KEY_B) {
+            moneyInput.value = ""
             open()
         }
     }

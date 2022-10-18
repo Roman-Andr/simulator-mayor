@@ -130,9 +130,7 @@ object StructureBuilding {
             val targetColor = if (!player.inventory.handItemEquals(currentItem!!)) SpecialColor.RED
             else if (!cooldownExpired) SpecialColor.GOLD
             else SpecialColor.GREEN
-            targetColor.run {
-                frameColor = Color(red, green, blue, alpha)
-            }
+            frameColor = targetColor.toColor()
 
             player.inventory.hotbarEqualSlots(currentItem!!).toTypedArray().apply {
                 if (this contentEquals lastMarkersSlots) return@registerHandler

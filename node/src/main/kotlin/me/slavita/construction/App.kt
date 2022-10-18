@@ -65,7 +65,7 @@ class App : JavaPlugin() {
         EntityDataParameters.register()
         Platforms.set(PlatformDarkPaper())
 
-        Anime.include(Kit.STANDARD, Kit.EXPERIMENTAL, Kit.DIALOG, Kit.MULTI_CHAT, Kit.LOOTBOX, Kit.NPC)
+        Anime.include(Kit.STANDARD, Kit.EXPERIMENTAL, Kit.DIALOG, Kit.MULTI_CHAT, Kit.LOOTBOX, Kit.NPC, Kit.DEBUG)
 
         CoreApi.get().run {
             registerService(ITransferService::class.java, TransferService(ISocketClient.get()))

@@ -4,7 +4,7 @@ import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
-import me.slavita.construction.action.command.menu.worker.WorkerBuyMenu
+import me.slavita.construction.action.command.menu.lootbbox.BuyLootboxMenu
 import me.slavita.construction.action.command.menu.worker.WorkerTeamMenu
 import me.slavita.construction.app
 import me.slavita.construction.ui.menu.ItemIcons
@@ -32,7 +32,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         hint = "Выбрать"
                         item = ItemIcons.get("other", "guild_members_add")
                         onClick { _, _, _ ->
-                            WorkerBuyMenu(player).closeAll(false).tryExecute()
+                            BuyLootboxMenu(player).closeAll(false).tryExecute()
                         }
                     },
                     button {
