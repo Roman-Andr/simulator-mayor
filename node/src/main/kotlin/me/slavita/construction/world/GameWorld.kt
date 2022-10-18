@@ -34,7 +34,6 @@ class GameWorld(val map: WorldMeta) {
                             it.position,
                             (it.sourceBlock as CraftBlock).data0
                         )
-                        println(it.position)
                     }
 
                     chunk

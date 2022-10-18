@@ -31,4 +31,26 @@ class StructureBlock(
     fun equalsLocation(location: Location): Boolean {
         return location.blockX == position.x && location.blockY == position.y && location.blockZ == position.z
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        if (!super.equals(other)) return false
+
+        other as StructureBlock
+
+        if (position != other.position) return false
+        if (sourceData != other.sourceData) return false
+        if (sourceBlock != other.sourceBlock) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + position.hashCode()
+        result = 31 * result + sourceData
+        result = 31 * result + sourceBlock.hashCode()
+        return result
+    }
 }
