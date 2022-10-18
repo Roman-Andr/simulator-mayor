@@ -13,7 +13,7 @@ class User(
     var stats: Statistics
 ) {
     val city = City(this)
-    val blocksStorage = BlocksStorage()
+    val blocksStorage = BlocksStorage(this)
     var workers = hashSetOf<Worker>()
     var lootboxes = hashSetOf<Lootbox>()
     var watchableProject: Project? = null

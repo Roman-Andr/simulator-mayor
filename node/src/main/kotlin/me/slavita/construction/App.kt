@@ -22,6 +22,7 @@ import me.slavita.construction.player.events.PhysicsDisabler
 import me.slavita.construction.player.events.PlayerEvents
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.items.ItemsManager
+import me.slavita.construction.utils.Config
 import me.slavita.construction.utils.ModCallbacks
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.ItemProperties
@@ -100,6 +101,7 @@ class App : JavaPlugin() {
         Structures
         MarketsManager
         ModCallbacks
+        Config
 
         listener(PlayerEvents, PhysicsDisabler, ItemsManager)
 
