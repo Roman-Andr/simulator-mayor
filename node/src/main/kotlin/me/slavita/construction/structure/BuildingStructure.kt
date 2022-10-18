@@ -63,12 +63,6 @@ abstract class BuildingStructure(
         state = StructureState.BUILDING
         currentBlock = structure.getFirstBlock()
 
-        ConnectionUtil.registerWriter(owner.player.uniqueId) { packet ->
-            if (packet !is PacketPlayOutBlockChange) return@registerWriter
-            if (packet.block.material != Material.AIR) return@registerWriter
-
-            if (box.contains(packet.a)) packet.a = BlockPosition(0, 0, 0)
-        }
         enterBuilding()
         currentProject = project
         visual.start()
@@ -94,6 +88,7 @@ abstract class BuildingStructure(
         state = StructureState.FINISHED
         deleteVisual()
         visual.finishShow()
+        owner.city.cityStructures.add(CityStructure(owner.player, structure, cell))
     }
 
     fun claimed() {

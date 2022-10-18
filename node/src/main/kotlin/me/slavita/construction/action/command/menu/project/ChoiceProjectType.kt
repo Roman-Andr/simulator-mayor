@@ -43,7 +43,7 @@ class ChoiceProjectType(player: Player, val structure: Structure, val cell: Cell
                         onClick { _, _, _ ->
                             WorkerChoice(
                                 player,
-                                ProjectGenerator.generateWorker(this@user, structure, cell.apply { busy = true })
+                                ProjectGenerator.generateWorker(this@user, structure, cell)
                             ).tryExecute()
                         }
                     }

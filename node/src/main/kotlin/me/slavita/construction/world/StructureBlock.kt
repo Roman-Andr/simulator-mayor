@@ -12,20 +12,20 @@ class StructureBlock(
     val position: BlockPosition,
     type: Material,
     data: Byte,
-    val sourceData: Byte
+    val sourceData: Byte,
+    val sourceBlock: Block
 ) : ItemProperties(type, data) {
 
-    companion object {
-        fun fromBlock(block: Block) = StructureBlock(
-            block.location.toPosition(),
-            block.type,
-            (block as CraftBlock).nmsBlock.getDropData(block.data0).toByte(),
-            block.data
-        )
-    }
+    constructor(sourceBlock: Block) : this(
+        sourceBlock.location.toPosition(),
+        sourceBlock.type,
+        (sourceBlock as CraftBlock).nmsBlock.getDropData(sourceBlock.data0).toByte(),
+        sourceBlock.data,
+        sourceBlock
+    )
 
     fun withOffset(position: Location): StructureBlock {
-        return StructureBlock(this.position.add(position), this.type, this.data, this.sourceData)
+        return StructureBlock(this.position.add(position), this.type, this.data, this.sourceData, this.sourceBlock)
     }
 
     fun equalsLocation(location: Location): Boolean {

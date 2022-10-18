@@ -111,6 +111,10 @@ class App : JavaPlugin() {
         return getUser(player)
     }
 
+    fun getUserOrNull(uuid: UUID) : User? {
+        return users[uuid]
+    }
+
     fun getUser(uuid: UUID) : User {
         return users[uuid]!!
     }

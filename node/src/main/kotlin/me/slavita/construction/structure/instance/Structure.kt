@@ -47,7 +47,7 @@ class Structure(val name: String, val box: Box) {
             val currentPosition = BlockPosition(x, y, z)
             val block = currentPosition.add(box.min).toLocation(world).block
 
-            if (block.type != Material.AIR) return StructureBlock.fromBlock(block).withOffset(-box.min)
+            if (block.type != Material.AIR) return StructureBlock(block).withOffset(-box.min)
 
             blocks++
         }

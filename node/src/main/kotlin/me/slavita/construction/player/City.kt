@@ -20,7 +20,7 @@ class City(val owner: User) {
         projects.add(project)
     }
 
-    fun removeProject(project: Project) {
+    fun finishProject(project: Project) {
         projects.remove(project)
     }
 }
