@@ -6,7 +6,7 @@ import me.slavita.construction.multichat.MultiChats
 import me.slavita.construction.player.User
 import me.slavita.construction.ui.ScoreBoardGenerator
 
-object UIIPrepare: IPrepare {
+object UIPrepare: IPrepare {
     override fun prepare(user: User) {
         user.player.setResourcePack("")
         Anime.hideIndicator(user.player, Indicators.HEALTH, Indicators.EXP, Indicators.HUNGER)

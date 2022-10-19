@@ -6,7 +6,7 @@ import me.slavita.construction.market.MarketsManager
 import me.slavita.construction.market.showcase.Showcase
 import me.slavita.construction.player.User
 
-object ShowcaseIPrepare: IPrepare {
+object ShowcasePrepare: IPrepare {
     override fun prepare(user: User) {
         ModTransfer()
             .json(MarketsManager.markets.map(Market::instances).flatMap { it!! }.map(Showcase::getData).toTypedArray())

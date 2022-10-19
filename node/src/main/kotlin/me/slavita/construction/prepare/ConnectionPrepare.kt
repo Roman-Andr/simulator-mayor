@@ -6,10 +6,9 @@ import net.minecraft.server.v1_12_R1.BlockPosition
 import net.minecraft.server.v1_12_R1.Material
 import net.minecraft.server.v1_12_R1.PacketPlayOutBlockChange
 
-object ConnectionIPrepare: IPrepare {
+object ConnectionPrepare: IPrepare {
     override fun prepare(user: User) {
         ConnectionUtil.createChannel(user.player)
-
         ConnectionUtil.registerWriter(user.player.uniqueId) { packet ->
             if (packet !is PacketPlayOutBlockChange) return@registerWriter
             if (packet.block.material != Material.AIR) return@registerWriter

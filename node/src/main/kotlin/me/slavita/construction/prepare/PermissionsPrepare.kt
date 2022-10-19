@@ -5,7 +5,7 @@ import me.slavita.construction.player.User
 import ru.cristalix.core.permissions.IPermissionService
 import ru.cristalix.core.tab.ITabService
 
-object PermissionsIPrepare: IPrepare {
+object PermissionsPrepare: IPrepare {
     override fun prepare(user: User) {
         if (app.localStaff.contains(user.player.uniqueId)) {
             IPermissionService.get().getPermissionContextDirect(user.player.uniqueId).apply {
