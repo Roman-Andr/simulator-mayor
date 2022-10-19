@@ -7,6 +7,7 @@ import me.slavita.construction.mod.mod
 import me.slavita.construction.mod.templates.button
 import me.slavita.construction.mod.templates.checkbox
 import me.slavita.construction.mod.templates.input
+import me.slavita.construction.mod.utils.ColorPalette
 import me.slavita.construction.mod.utils.extensions.ColorExtensions.toColor
 import org.lwjgl.input.Keyboard
 import ru.cristalix.clientapi.JavaMod.clientApi
@@ -109,9 +110,7 @@ object CreditTaking: ContextGui() {
             align = CENTER
             origin = CENTER
 
-            noneColor = GlowColor.GREEN.toColor()
-            hoveredColor = GlowColor.GREEN_LIGHT.toColor()
-            activeColor = GlowColor.GREEN_MIDDLE.toColor()
+            palette = ColorPalette.BLUE
         }
 
 
