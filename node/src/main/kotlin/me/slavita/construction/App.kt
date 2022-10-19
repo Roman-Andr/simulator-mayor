@@ -120,7 +120,7 @@ class App : JavaPlugin() {
     }
 
     fun hasUser(player: Player) : Boolean {
-        return getUserOrNull(player.uniqueId) == null
+        return getUserOrNull(player.uniqueId) != null
     }
 
     fun getUser(uuid: UUID) : User {

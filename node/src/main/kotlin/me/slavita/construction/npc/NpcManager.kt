@@ -19,7 +19,6 @@ import me.slavita.construction.ui.menu.ItemIcons
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack
 import org.bukkit.inventory.EquipmentSlot
 import java.util.*
-import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
 
 object NpcManager {
@@ -31,23 +30,14 @@ object NpcManager {
 
     private fun load() {
         Atlas.find("npc").getMapList("npc").forEach { values ->
-            val title = values.entries.elementAt(0).value as String
-            val labelTag = values.entries.elementAt(1).value as String
-            val skinType = values.entries.elementAt(2).value as String
-            val skin = values.entries.elementAt(3).value as String
-            val itemKey = values.entries.elementAt(4).value as String
-            val itemValue = values.entries.elementAt(5).value as String
-            val action = values.entries.elementAt(6).value as String
+            val title = values["title"] as String
+            val labelTag = values["labelTag"] as String
+            val skinType = values["skinType"] as String
+            val skin = values["skin"] as String
+            val itemKey = values["itemKey"] as String
+            val itemValue = values["itemValue"] as String
+            val action = values["action"] as String
 
-            val commands = mapOf<String, KClass<out Command>>(
-                "BuyLootboxMenu" to BuyLootboxMenu::class,
-                "WorkerTeamMenu" to WorkerTeamMenu::class,
-                "ControlPanelMenu" to ControlPanelMenu::class,
-                "BankMainMenu" to BankMainMenu::class,
-                "UserLootboxesMenu" to UserLootboxesMenu::class,
-                "ActiveProjectsMenu" to ActiveProjectsMenu::class,
-                "DailyMenu" to DailyMenu::class,
-            )
             Npc.npc {
                 labels.find { it.tag == labelTag }?.let { location(it) }
                 name = title
@@ -57,7 +47,17 @@ object NpcManager {
                 }
                 behaviour = NpcBehaviour.STARE_AND_LOOK_AROUND
                 onClick {
-                    commands[action]!!.primaryConstructor!!.call(it.player).tryExecute()
+                    when(action) {
+                        "BuyLootboxMenu" -> BuyLootboxMenu::class
+                        "WorkerTeamMenu" -> WorkerTeamMenu::class
+                        "ControlPanelMenu" -> ControlPanelMenu::class
+                        "BankMainMenu" -> BankMainMenu::class
+                        "UserLootboxesMenu" -> UserLootboxesMenu::class
+                        "ActiveProjectsMenu" -> ActiveProjectsMenu::class
+                        "DailyMenu" -> DailyMenu::class
+                        else -> ControlPanelMenu::class
+                    }.primaryConstructor!!.call(it.player).tryExecute()
+
                 }
             }.slot(EquipmentSlot.HAND, CraftItemStack.asNMSCopy(ItemIcons.get(itemKey, itemValue)))
         }
