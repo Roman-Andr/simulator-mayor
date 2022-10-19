@@ -11,13 +11,13 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.app
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.ui.menu.ItemIcons
-import me.slavita.construction.utils.extensions.LoggerUtils.killboard
+import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
 import me.slavita.construction.worker.WorkerGenerator
 import me.slavita.construction.worker.WorkerRarity
 import org.bukkit.ChatColor.RED
 import org.bukkit.entity.Player
 
-class ChoiceLootboxAmountMenu(player: Player, val rarity: WorkerRarity) : MenuCommand(player) {
+class ChoiceLootboxAmount(player: Player, val rarity: WorkerRarity) : MenuCommand(player) {
     override fun getMenu(): Openable {
         app.getUser(player).run user@ {
             return Choicer(

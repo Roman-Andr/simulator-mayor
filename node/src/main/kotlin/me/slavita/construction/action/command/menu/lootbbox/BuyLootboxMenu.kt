@@ -24,7 +24,7 @@ class BuyLootboxMenu(player: Player) : MenuCommand(player) {
                             hint = "Выбрать"
                             backgroundColor = rarity.color
                             onClick { _, _, _ ->
-                                ChoiceLootboxAmountMenu(player, rarity).closeAll(false).tryExecute()
+                                ChoiceLootboxAmount(player, rarity).closeAll(false).tryExecute()
                             }
                         })
                     }

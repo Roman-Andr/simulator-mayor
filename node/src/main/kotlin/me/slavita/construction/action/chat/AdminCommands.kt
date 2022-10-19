@@ -2,15 +2,13 @@ package me.slavita.construction.action.chat
 
 import me.func.atlas.Atlas
 import me.func.mod.reactive.ReactivePanel
-import me.func.mod.util.log
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.command.menu.DailyMenu
 import me.slavita.construction.app
 import me.slavita.construction.bank.Bank
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.ChatCommandUtils.opCommand
-import me.slavita.construction.utils.Config
-import me.slavita.construction.utils.extensions.LoggerUtils.killboard
+import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
 import org.bukkit.Sound
 import org.bukkit.SoundCategory
 

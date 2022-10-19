@@ -20,7 +20,8 @@ object PlayerEvents : Listener {
     @EventHandler
     fun PlayerJoinEvent.handle() {
         after (2) {
-            app.addUser(player).run {
+            if (!app.hasUser(player)) app.addUser(player)
+            app.getUser(player).run {
                 listOf(
                     PlayerWorldIPrepare,
                     ConnectionIPrepare,
@@ -30,14 +31,6 @@ object PlayerEvents : Listener {
                     ShowcaseIPrepare,
                     BankAccountRegister
                 ).forEach { it.prepare(this) }
-                player.setResourcePack("")
-            }
-
-            ConnectionUtil.registerWriter(player.uniqueId) { packet ->
-                if (packet !is PacketPlayOutBlockChange) return@registerWriter
-                if (packet.block.material != Material.AIR) return@registerWriter
-
-                packet.a = BlockPosition(0, 0, 0)
             }
         }
     }

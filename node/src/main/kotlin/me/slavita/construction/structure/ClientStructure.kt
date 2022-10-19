@@ -10,7 +10,7 @@ import me.slavita.construction.structure.tools.StructureSender
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.utils.Cooldown
 import me.slavita.construction.utils.extensions.BlocksExtensions.toLocation
-import me.slavita.construction.utils.extensions.LoggerUtils.killboard
+import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
 import me.slavita.construction.utils.extensions.PlayerExtensions.swapItems
 import me.slavita.construction.world.GameWorld
 import net.minecraft.server.v1_12_R1.EnumHand

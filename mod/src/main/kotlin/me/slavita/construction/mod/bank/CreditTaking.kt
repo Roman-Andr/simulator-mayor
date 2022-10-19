@@ -1,9 +1,12 @@
 package me.slavita.construction.mod.bank
 
+import dev.xdark.clientapi.event.render.ScaleChange
+import dev.xdark.clientapi.event.window.WindowResize
 import io.netty.buffer.Unpooled
 import me.slavita.construction.mod.KeysManager
 import me.slavita.construction.mod.SpecialColor
 import me.slavita.construction.mod.input
+import me.slavita.construction.mod.mod
 import org.lwjgl.input.Keyboard
 import ru.cristalix.clientapi.JavaMod.clientApi
 import ru.cristalix.uiengine.UIEngine
@@ -44,13 +47,6 @@ object CreditTaking: ContextGui() {
         }
     }
 
-    private val back = rectangle {
-        size = UIEngine.overlayContext.size
-        color = Color(0, 0, 0, 0.8)
-        align = CENTER
-        origin = CENTER
-    }
-
     private val title = text {
         color = WHITE
         align = V3(0.5, 0.4)
@@ -69,7 +65,8 @@ object CreditTaking: ContextGui() {
     }
 
     init {
-        +back
+        this.size = UIEngine.overlayContext.size
+        color = Color(0, 0, 0, 0.86)
         +title
         +moneyInput
 
@@ -108,7 +105,7 @@ object CreditTaking: ContextGui() {
             Keyboard.KEY_ESCAPE
         )
 
-        KeysManager.registerKey(Keyboard.KEY_B) {
+        mod.registerChannel("bank:open") {
             moneyInput.value = ""
             open()
         }

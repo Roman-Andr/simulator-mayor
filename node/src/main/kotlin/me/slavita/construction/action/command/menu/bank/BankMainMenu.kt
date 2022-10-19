@@ -1,5 +1,6 @@
 package me.slavita.construction.action.command.menu.bank
 
+import me.func.mod.conversation.ModTransfer
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection.Selection
@@ -27,7 +28,7 @@ class BankMainMenu(player: Player) : MenuCommand(player) {
                         hint = "Выбрать"
                         item = ItemIcons.get("other", "add")
                         onClick { _, _, _ ->
-
+                            ModTransfer().send("bank:open", player)
                         }
                     },
                     button {

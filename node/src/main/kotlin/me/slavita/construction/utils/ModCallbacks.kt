@@ -5,7 +5,7 @@ import me.slavita.construction.action.command.menu.project.BuildingControlMenu
 import me.slavita.construction.app
 import me.slavita.construction.bank.Bank
 import me.slavita.construction.ui.Formatter.toMoneyIcon
-import me.slavita.construction.utils.extensions.LoggerUtils.killboard
+import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
 import org.bukkit.ChatColor.GREEN
 
 object ModCallbacks {

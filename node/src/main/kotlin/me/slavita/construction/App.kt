@@ -76,7 +76,7 @@ class App : JavaPlugin() {
 
         IRealmService.get().currentRealmInfo.apply {
             IScoreboardService.get().serverStatusBoard.displayName = "${WHITE}Тест #${AQUA}" + realmId.id
-            after(5) {
+            after(60) {
                 ITransferService.get().transfer(UUID.fromString(System.getProperty("construction.user")), realmId)
             }
         }.run {
@@ -94,14 +94,16 @@ class App : JavaPlugin() {
 
         Music.block(Category.MUSIC)
 
+        Config
+        after(50) {
+            NpcManager
+        }
         MultiChats
-        NpcManager
         UserCommands
         AdminCommands
         Structures
         MarketsManager
         ModCallbacks
-        Config
 
         listener(PlayerEvents, PhysicsDisabler, ItemsManager)
 
@@ -115,6 +117,10 @@ class App : JavaPlugin() {
 
     fun getUserOrNull(uuid: UUID) : User? {
         return users[uuid]
+    }
+
+    fun hasUser(player: Player) : Boolean {
+        return getUserOrNull(player.uniqueId) == null
     }
 
     fun getUser(uuid: UUID) : User {

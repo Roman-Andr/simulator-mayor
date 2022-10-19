@@ -11,10 +11,9 @@ import me.slavita.construction.project.ProjectGenerator
 import me.slavita.construction.structure.Cell
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.ui.menu.ItemIcons
-import org.bukkit.Location
 import org.bukkit.entity.Player
 
-class ChoiceProjectType(player: Player, val structure: Structure, val cell: Cell) : MenuCommand(player) {
+class ChoiceProject(player: Player, val structure: Structure, val cell: Cell) : MenuCommand(player) {
     override fun getMenu(): Openable {
         app.getUser(player).run user@ {
             return Choicer(
