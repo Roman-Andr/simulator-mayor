@@ -1,4 +1,4 @@
-package me.slavita.construction.mod
+package me.slavita.construction.mod.templates
 
 import org.lwjgl.input.Keyboard
 import ru.cristalix.uiengine.element.TextElement

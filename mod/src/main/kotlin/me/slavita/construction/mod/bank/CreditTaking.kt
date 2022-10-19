@@ -1,12 +1,13 @@
 package me.slavita.construction.mod.bank
 
-import dev.xdark.clientapi.event.render.ScaleChange
-import dev.xdark.clientapi.event.window.WindowResize
 import io.netty.buffer.Unpooled
-import me.slavita.construction.mod.KeysManager
+import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.mod.SpecialColor
-import me.slavita.construction.mod.input
 import me.slavita.construction.mod.mod
+import me.slavita.construction.mod.templates.button
+import me.slavita.construction.mod.templates.checkbox
+import me.slavita.construction.mod.templates.input
+import me.slavita.construction.mod.utils.extensions.ColorExtensions.toColor
 import org.lwjgl.input.Keyboard
 import ru.cristalix.clientapi.JavaMod.clientApi
 import ru.cristalix.uiengine.UIEngine
@@ -69,7 +70,6 @@ object CreditTaking: ContextGui() {
         color = Color(0, 0, 0, 0.86)
         +title
         +moneyInput
-
         +createButton(
             V3(0.5, 0.6),
             "Подтвердить [ENTER]",
@@ -104,6 +104,16 @@ object CreditTaking: ContextGui() {
             { close() },
             Keyboard.KEY_ESCAPE
         )
+
+        +checkbox {
+            align = CENTER
+            origin = CENTER
+
+            noneColor = GlowColor.GREEN.toColor()
+            hoveredColor = GlowColor.GREEN_LIGHT.toColor()
+            activeColor = GlowColor.GREEN_MIDDLE.toColor()
+        }
+
 
         mod.registerChannel("bank:open") {
             moneyInput.value = ""
