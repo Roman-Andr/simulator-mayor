@@ -4,7 +4,7 @@ import com.google.gson.Gson
 import dev.xdark.clientapi.event.lifecycle.GameLoop
 import dev.xdark.feder.NetUtil
 import me.slavita.construction.mod.mod
-import ru.cristalix.clientapi.JavaMod.clientApi
+import ru.cristalix.uiengine.UIEngine.clientApi
 import ru.cristalix.uiengine.UIEngine
 import ru.cristalix.uiengine.element.TextElement
 import ru.cristalix.uiengine.utility.*

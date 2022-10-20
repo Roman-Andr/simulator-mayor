@@ -4,8 +4,8 @@ import dev.xdark.clientapi.event.input.KeyPress
 import dev.xdark.clientapi.gui.ingame.ChatScreen
 import io.netty.buffer.Unpooled
 import org.lwjgl.input.Keyboard
-import ru.cristalix.clientapi.JavaMod.clientApi
 import ru.cristalix.uiengine.UIEngine
+import ru.cristalix.uiengine.UIEngine.clientApi
 
 object KeysManager {
     private val keys = mutableMapOf<Int, () -> Unit>()

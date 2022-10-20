@@ -13,8 +13,8 @@ import me.slavita.construction.mod.utils.extensions.InventoryExtensions.handItem
 import me.slavita.construction.mod.utils.extensions.InventoryExtensions.hotbarEqualSlots
 import me.slavita.construction.mod.utils.extensions.PositionExtensions.equalsV
 import org.lwjgl.input.Mouse
-import ru.cristalix.clientapi.JavaMod.clientApi
 import ru.cristalix.uiengine.UIEngine
+import ru.cristalix.uiengine.UIEngine.clientApi
 import ru.cristalix.uiengine.element.ItemElement
 import ru.cristalix.uiengine.element.RectangleElement
 import ru.cristalix.uiengine.element.TextElement
