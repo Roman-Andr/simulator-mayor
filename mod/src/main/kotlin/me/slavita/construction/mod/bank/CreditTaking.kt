@@ -51,9 +51,11 @@ object CreditTaking: ContextGui() {
             origin = CENTER
             offset.y = 50.0
             palette = ColorPalette.GREEN
-            content = "Нажми"
             beforeTransform {
                 content = slider.progress.toString()
+            }
+            onButtonClick {
+
             }
         }
         +toggle {

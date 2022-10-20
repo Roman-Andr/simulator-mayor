@@ -19,14 +19,14 @@ class ToggleElement : CarvedRectangle() {
             update()
         }
     var action = {}
-    val check = rectangle {
+    private val check = rectangle {
         align = CENTER
         origin = CENTER
         color = WHITE
         size = V3(14.0, 14.0)
         textureLocation = loadTextureFromJar(clientApi, "check", "check", "cross.png")
     }
-    val box = carved {
+    private val box = carved {
         +check
         carveSize = 4.0
         align = V3(0.25, 0.5)
@@ -43,7 +43,7 @@ class ToggleElement : CarvedRectangle() {
 
         onHover {
             if (!active) return@onHover
-            animate(0.08, Easings.QUINT_OUT) {
+            animate(0.15, Easings.QUINT_OUT) {
                 update()
             }
         }
@@ -51,7 +51,7 @@ class ToggleElement : CarvedRectangle() {
         onMouseUp {
             if (!active) return@onMouseUp
             status = !status
-            animate(0.13) {
+            animate(0.15) {
                 box.align.x = if (!status) 0.25 else 0.75
                 update()
                 action()
@@ -59,9 +59,10 @@ class ToggleElement : CarvedRectangle() {
         }
     }
 
-    fun update() {
-        check.textureLocation = if (status) loadTextureFromJar(clientApi, "checkbox", "check", "check.png")
+    private fun update() {
+        val targetTexture = if (status) loadTextureFromJar(clientApi, "checkbox", "check", "check.png")
         else loadTextureFromJar(clientApi, "checkbox", "cross", "cross.png")
+        if (check.textureLocation != targetTexture) check.textureLocation = targetTexture
         if (!active) {
             color = ColorPalette.NEUTRAL.none.apply { alpha = 0.28 }
             box.color = ColorPalette.NEUTRAL.none.apply { alpha = 1.0 }
