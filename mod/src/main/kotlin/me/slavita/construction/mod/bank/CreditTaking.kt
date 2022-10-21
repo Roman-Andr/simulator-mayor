@@ -31,20 +31,26 @@ object CreditTaking: ContextGui() {
         color = Color(0, 0, 0, 0.86)
         +title
 
-        +switch {
-            align = CENTER
-            origin = CENTER
-            text = listOf(
-                "Тип 1",
-                "Тип 2",
-                "Тип 3",
-            )
-            scaleFactor = 0.7
-        }
         val slider = +slider {
             offset.y = 150.0
             align = CENTER
             origin = CENTER
+        }
+        +switch {
+            align = CENTER
+            origin = CENTER
+            text = listOf(
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+            )
+            scaleFactor = 0.7
+            onSwitch {
+                println(activeValue.toInt())
+                slider.partsCount = activeValue.toInt()
+            }
         }
         +button {
             align = CENTER
@@ -55,7 +61,7 @@ object CreditTaking: ContextGui() {
                 content = slider.progress.toString()
             }
             onButtonClick {
-
+                slider.partsCount++
             }
         }
         +toggle {

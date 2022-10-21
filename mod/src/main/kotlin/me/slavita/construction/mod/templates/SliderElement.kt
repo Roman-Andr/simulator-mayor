@@ -9,13 +9,15 @@ import ru.cristalix.uiengine.element.CarvedRectangle
 import ru.cristalix.uiengine.eventloop.animate
 import ru.cristalix.uiengine.onMouseDown
 import ru.cristalix.uiengine.utility.*
+import kotlin.math.abs
+import kotlin.math.roundToInt
 
 inline fun slider(initializer: SliderElement.() -> Unit) = SliderElement().also(initializer)
 
 class SliderElement: CarvedRectangle() {
     val progress: Double
         get() {
-            return progressBox.size.x / size.x
+            return (progressBox.size.x / size.x * 10.0).roundToInt() / 10.0
         }
     private var prevSize = 0.0
     private var draggingStart = 0.0
@@ -51,8 +53,25 @@ class SliderElement: CarvedRectangle() {
             drag()
         }
     }
+    private val emptyRectangle = rectangle {
+        size = V3(8.0, 12.0)
+    }
+    private var parts = flex {
+        align = LEFT
+        origin = LEFT
+        flexDirection = FlexDirection.RIGHT
+        flexSpacing = (451.0 - (partsCount + 2)*8.0)/(partsCount+1)
+    }
+    var partsCount = 0
+        set(value) {
+            parts.children.clear()
+            field = value
+            updateParts()
+        }
 
     init {
+        updateParts()
+        +parts
         onMouseDown {
             progressBox.size.x = hoverPosition.x
             prevSize = progressBox.size.x
@@ -67,6 +86,14 @@ class SliderElement: CarvedRectangle() {
                         cursor.hovered -> Color(175, 208, 255, 1.0)
                         else -> WHITE
                     }
+                    if (partsCount != 0) {
+                        val element = parts.children.minByOrNull { abs(progressBox.size.x - it.offset.x) }
+                        progressBox.size.x = element!!.offset.x + when {
+                            parts.children.indexOf(element) == 0 -> 0.0
+                            parts.children.indexOf(element) == (children.size - 1) -> 8.0
+                            else -> 2.0
+                        }
+                    }
                 }
             }
             if (draggingStart != 0.0) {
@@ -78,6 +105,22 @@ class SliderElement: CarvedRectangle() {
         carveSize = 4.0
         size = V3(451.0, 12.0)
         color = ColorPalette.BLUE.middle.apply { alpha = 0.62 }
+    }
+
+    fun updateParts() {
+        parts.flexSpacing = (451.0 - (partsCount + 2)*8.0)/(partsCount+1)
+        parts + rectangle {
+            size = V3(8.0, 12.0)
+        }
+        repeat(partsCount) {
+            parts +rectangle {
+                size = V3(8.0, 12.0)
+                color = ColorPalette.BLUE.none
+            }
+        }
+        parts + rectangle {
+            size = V3(8.0, 12.0)
+        }
     }
 
     fun drag() {

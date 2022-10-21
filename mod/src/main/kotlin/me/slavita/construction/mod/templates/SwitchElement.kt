@@ -25,6 +25,7 @@ class SwitchElement: RectangleElement() {
         }
     val activeValue
         get() = text[activeElement]
+    private var action = {}
     private var activeElement = 0
         set(value) {
             field = value
@@ -81,6 +82,7 @@ class SwitchElement: RectangleElement() {
                     onMouseUp {
                         activeElement = index
                         color.alpha = 1.0
+                        action()
                     }
                 }
                 onHover {
@@ -96,5 +98,9 @@ class SwitchElement: RectangleElement() {
             back.size = V3(text.sumOf { (getWidth(it) + 32.0)*scaleFactor } + (text.size - 1) * interval, 38.0*scaleFactor)
         }
         activeBox.size.y = 38.0*scaleFactor
+    }
+
+    fun onSwitch(targetAction: () -> Unit) {
+        action = targetAction
     }
 }
