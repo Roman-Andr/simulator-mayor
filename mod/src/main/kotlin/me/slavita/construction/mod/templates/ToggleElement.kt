@@ -1,5 +1,6 @@
 package me.slavita.construction.mod.templates
 
+import dev.xdark.clientapi.resource.ResourceLocation
 import me.slavita.construction.mod.utils.ColorPalette
 import ru.cristalix.clientapi.JavaMod.loadTextureFromJar
 import ru.cristalix.uiengine.UIEngine.clientApi
@@ -11,7 +12,6 @@ import ru.cristalix.uiengine.utility.*
 inline fun toggle(initializer: ToggleElement.() -> Unit) = ToggleElement().also(initializer)
 
 class ToggleElement : CarvedRectangle() {
-    var palette = ColorPalette.BLUE
     var status = false
     var active = true
         set(value) {
@@ -19,12 +19,14 @@ class ToggleElement : CarvedRectangle() {
             update()
         }
     var action = {}
+    private var palette = ColorPalette.BLUE
+    private val checkTexture: ResourceLocation = loadTextureFromJar(clientApi, "toggle", "check", "check.png")
+    private val crossTexture: ResourceLocation = loadTextureFromJar(clientApi, "toggle", "cross", "cross.png")
     private val check = rectangle {
         align = CENTER
         origin = CENTER
         color = WHITE
         size = V3(14.0, 14.0)
-        textureLocation = loadTextureFromJar(clientApi, "check", "check", "cross.png")
     }
     private val box = carved {
         +check
@@ -60,9 +62,8 @@ class ToggleElement : CarvedRectangle() {
     }
 
     private fun update() {
-        val targetTexture = if (status) loadTextureFromJar(clientApi, "checkbox", "check", "check.png")
-        else loadTextureFromJar(clientApi, "checkbox", "cross", "cross.png")
-        if (check.textureLocation != targetTexture) check.textureLocation = targetTexture
+        check.textureLocation = if (status) checkTexture
+        else crossTexture
         if (!active) {
             color = ColorPalette.NEUTRAL.none.apply { alpha = 0.28 }
             box.color = ColorPalette.NEUTRAL.none.apply { alpha = 1.0 }

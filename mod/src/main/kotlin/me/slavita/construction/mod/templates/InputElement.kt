@@ -2,6 +2,7 @@ package me.slavita.construction.mod.templates
 
 import me.slavita.construction.mod.utils.ColorPalette
 import org.lwjgl.input.Keyboard
+import org.lwjgl.input.Mouse
 import ru.cristalix.uiengine.element.CarvedRectangle
 import ru.cristalix.uiengine.element.ContextGui
 import ru.cristalix.uiengine.eventloop.animate
@@ -48,13 +49,14 @@ class InputElement : CarvedRectangle() {
                 System.currentTimeMillis() % 1000 > 500 -> "${value}|"
                 else -> "$value "
             }
+            if (Mouse.isButtonDown(0) && !hovered) focused = false
         }
         onMouseUp {
             focused = !focused
         }
         onHover {
             animate(0.08) {
-                color = if (hovered) ColorPalette.BLUE.light else updateColor()
+                color = if (hovered) ColorPalette.BLUE.light.apply { alpha = 0.62 } else updateColor()
             }
         }
     }

@@ -1,5 +1,6 @@
 package me.slavita.construction.mod.bank
 
+import me.slavita.construction.mod.bank.CreditTaking.unaryPlus
 import me.slavita.construction.mod.mod
 import me.slavita.construction.mod.templates.*
 import me.slavita.construction.mod.utils.ColorPalette
@@ -16,64 +17,89 @@ object CreditTaking: ContextGui() {
         content = "Кредит\nВведите необходимую сумму (Пример: 2.4 тыс)"
     }
 
-    private val moneyInput = input {
-        context = this@CreditTaking
-        align = CENTER
-        origin = CENTER
-        placeholder = "Введите сумму"
-        this@CreditTaking.onMouseUp {
-            focused = false
-        }
-    }
-
     init {
         this.size = UIEngine.overlayContext.size
         color = Color(0, 0, 0, 0.86)
-        +title
+        //+title
+        val input = +input {
+            context = this@CreditTaking
+            align = CENTER
+            origin = LEFT
+            offset.x = 100.0
+            placeholder = "Введите значение"
+        }
 
         val slider = +slider {
             offset.y = 150.0
             align = CENTER
             origin = CENTER
         }
-        +switch {
+        val switch = +switch {
             align = CENTER
             origin = CENTER
             text = listOf(
-                "0",
                 "1",
                 "2",
                 "3",
-                "4",
             )
             scaleFactor = 0.7
-            onSwitch {
-                println(activeValue.toInt())
-                slider.partsCount = activeValue.toInt()
-            }
         }
-        +button {
+        val dropdown = +dropdown {
+            offset.y = -150.0
             align = CENTER
             origin = CENTER
+        }
+        +flex {
+            align = CENTER
+            origin = CENTER
+            flexDirection = FlexDirection.RIGHT
+            flexSpacing = 10.0
             offset.y = 50.0
-            palette = ColorPalette.GREEN
-            beforeTransform {
-                content = slider.progress.toString()
+            val btn1 = +button {
+                origin = CENTER
+                palette = ColorPalette.GREEN
+                content = "Добавить"
+                onButtonClick {
+                    dropdown.entries = dropdown.entries.toMutableList().apply { this[switch.activeValue.toInt() - 1] = input.value }
+                    input.value = ""
+                }
             }
-            onButtonClick {
-                slider.partsCount++
+            val btn2 = +button {
+                origin = CENTER
+                palette = ColorPalette.BLUE
+                content = "Добавить"
+                onButtonClick {
+                    slider.partsCount++
+                }
             }
-        }
-        +toggle {
-            offset.y = 100.0
-            align = CENTER
-            origin = CENTER
-            palette = ColorPalette.BLUE
+            val btn3 = +button {
+                origin = CENTER
+                palette = ColorPalette.RED
+                content = "Очистить"
+                onButtonClick {
+                    slider.partsCount = 0
+                }
+            }
+            +toggle {
+                onChange {
+                    btn1.disable = !btn1.disable
+                }
+            }
+            +toggle {
+                onChange {
+                    btn2.disable = !btn2.disable
+                }
+            }
+            +toggle {
+                onChange {
+                    btn3.disable = !btn3.disable
+                }
+            }
         }
 
 
         mod.registerChannel("bank:open") {
-            moneyInput.value = ""
+            input.value = ""
             open()
         }
     }

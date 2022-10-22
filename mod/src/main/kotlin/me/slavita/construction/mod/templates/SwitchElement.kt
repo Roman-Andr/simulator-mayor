@@ -3,6 +3,7 @@ package me.slavita.construction.mod.templates
 import me.slavita.construction.mod.utils.ColorPalette
 import me.slavita.construction.mod.utils.getWidth
 import ru.cristalix.uiengine.element.RectangleElement
+import ru.cristalix.uiengine.element.TextElement
 import ru.cristalix.uiengine.eventloop.animate
 import ru.cristalix.uiengine.onMouseUp
 import ru.cristalix.uiengine.utility.*
@@ -15,13 +16,13 @@ class SwitchElement: RectangleElement() {
         set(value) {
             field = value
             redraw()
-            click()
+            relocate()
         }
     var scaleFactor = 1.0
         set(value) {
             field = value
             redraw()
-            click()
+            relocate()
         }
     val activeValue
         get() = text[activeElement]
@@ -29,12 +30,7 @@ class SwitchElement: RectangleElement() {
     private var activeElement = 0
         set(value) {
             field = value
-            click()
-        }
-    private var interval = 4.0
-        set(value) {
-            field = value
-            redraw()
+            relocate()
         }
     private val back = carved {
         carveSize = 2.0
@@ -51,7 +47,7 @@ class SwitchElement: RectangleElement() {
     private val container = flex {
         align = CENTER
         origin = CENTER
-        flexSpacing = interval
+        flexSpacing = 0.0
         flexDirection = FlexDirection.RIGHT
     }
 
@@ -60,10 +56,10 @@ class SwitchElement: RectangleElement() {
         back + activeBox
         +container
         redraw()
-        click()
+        relocate()
     }
 
-    private fun click() {
+    private fun relocate() {
         animate(0.25, Easings.CUBIC_OUT) {
             activeBox.size.x = container.children[activeElement].size.x
             activeBox.offset.x = container.children[activeElement].offset.x
@@ -74,33 +70,36 @@ class SwitchElement: RectangleElement() {
         container.children.clear()
         text.forEachIndexed { index, s ->
             val entry = rectangle {
-                size = V3((getWidth(s) + 32.0)*scaleFactor, 38.0*scaleFactor)
+                size = V3((getWidth(s) + 34.0)*scaleFactor, 38.0*scaleFactor)
                 val title = +text {
                     align = CENTER
                     origin = CENTER
                     content = s
                     onMouseUp {
-                        activeElement = index
-                        color.alpha = 1.0
-                        action()
+                        click(index, this@text)
                     }
                 }
                 onHover {
                     title.color.alpha = if (hovered && activeElement != index) 0.62 else 1.0
                 }
                 onMouseUp {
-                    activeElement = index
-                    title.color.alpha = 1.0
+                    click(index, title)
                 }
             }
             container + entry
             variants.add(entry)
-            back.size = V3(text.sumOf { (getWidth(it) + 32.0)*scaleFactor } + (text.size - 1) * interval, 38.0*scaleFactor)
+            back.size = V3(text.sumOf { (getWidth(it) + 34.0)*scaleFactor }, 38.0*scaleFactor)
         }
         activeBox.size.y = 38.0*scaleFactor
     }
 
     fun onSwitch(targetAction: () -> Unit) {
         action = targetAction
+    }
+
+    fun click(index: Int, title: TextElement) {
+        activeElement = index
+        title.color.alpha = 1.0
+        action()
     }
 }

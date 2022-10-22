@@ -4,6 +4,7 @@ import dev.xdark.clientapi.event.lifecycle.GameLoop
 import me.slavita.construction.mod.mod
 import me.slavita.construction.mod.utils.ColorPalette
 import org.lwjgl.input.Mouse
+import ru.cristalix.uiengine.UIEngine
 import ru.cristalix.uiengine.UIEngine.clientApi
 import ru.cristalix.uiengine.element.CarvedRectangle
 import ru.cristalix.uiengine.eventloop.animate
@@ -17,7 +18,7 @@ inline fun slider(initializer: SliderElement.() -> Unit) = SliderElement().also(
 class SliderElement: CarvedRectangle() {
     val progress: Double
         get() {
-            return (progressBox.size.x / size.x * 10.0).roundToInt() / 10.0
+            return (progressBox.size.x / size.x * 10000).roundToInt() / 10000.0
         }
     private var prevSize = 0.0
     private var draggingStart = 0.0
@@ -27,6 +28,7 @@ class SliderElement: CarvedRectangle() {
         origin = CENTER
         color = WHITE
         size = V3(14.0, 30.0)
+        offset.x = 3.0
         onMouseDown {
             drag()
         }
@@ -53,20 +55,18 @@ class SliderElement: CarvedRectangle() {
             drag()
         }
     }
-    private val emptyRectangle = rectangle {
-        size = V3(8.0, 12.0)
-    }
     private var parts = flex {
         align = LEFT
         origin = LEFT
         flexDirection = FlexDirection.RIGHT
-        flexSpacing = (451.0 - (partsCount + 2)*8.0)/(partsCount+1)
+        flexSpacing = (451.0 - (partsCount + 1)*8.0)/(partsCount+1)
     }
     var partsCount = 0
         set(value) {
             parts.children.clear()
             field = value
             updateParts()
+            magnetizeCursor()
         }
 
     init {
@@ -87,12 +87,7 @@ class SliderElement: CarvedRectangle() {
                         else -> WHITE
                     }
                     if (partsCount != 0) {
-                        val element = parts.children.minByOrNull { abs(progressBox.size.x - it.offset.x) }
-                        progressBox.size.x = element!!.offset.x + when {
-                            parts.children.indexOf(element) == 0 -> 0.0
-                            parts.children.indexOf(element) == (children.size - 1) -> 8.0
-                            else -> 2.0
-                        }
+                        magnetizeCursor()
                     }
                 }
             }
@@ -107,15 +102,27 @@ class SliderElement: CarvedRectangle() {
         color = ColorPalette.BLUE.middle.apply { alpha = 0.62 }
     }
 
-    fun updateParts() {
-        parts.flexSpacing = (451.0 - (partsCount + 2)*8.0)/(partsCount+1)
+    private fun magnetizeCursor() {
+        if (partsCount == 0) return
+        UIEngine.schedule(0.13) {
+            if (partsCount == 0) return@schedule
+            animate(0.02) {
+                val element = parts.children.minBy { abs(progressBox.size.x - it.offset.x) }
+                progressBox.size.x = element.offset.x
+            }
+        }
+    }
+
+    private fun updateParts() {
+        parts.flexSpacing = (451.0 - (partsCount + 1)*8.0)/(partsCount+1)
+        if (partsCount == 0) return
         parts + rectangle {
             size = V3(8.0, 12.0)
         }
         repeat(partsCount) {
             parts +rectangle {
                 size = V3(8.0, 12.0)
-                color = ColorPalette.BLUE.none
+                color = ColorPalette.BLUE.none.apply { alpha = 1.0 }
             }
         }
         parts + rectangle {
