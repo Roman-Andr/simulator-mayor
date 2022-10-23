@@ -59,11 +59,17 @@ class SliderElement: CarvedRectangle() {
         align = LEFT
         origin = LEFT
         flexDirection = FlexDirection.RIGHT
-        flexSpacing = (225.5 - (partsCount + 1)*4.0)/(partsCount+1)
+        flexSpacing = (targetWidth - (partsCount + 1)*4.0)/(partsCount+1)
     }
+    var targetWidth = 225.5
+        set(value) {
+            back.size.x = value
+            field = value
+            updateParts()
+            magnetizeCursor()
+        }
     var partsCount = 0
         set(value) {
-            parts.children.clear()
             field = value
             updateParts()
             magnetizeCursor()
@@ -78,13 +84,14 @@ class SliderElement: CarvedRectangle() {
         }
         +progressBox
         carveSize = 2.0
-        size = V3(225.5, 6.0)
+        size = V3(targetWidth, 6.0)
         color = ColorPalette.BLUE.middle.apply { alpha = 0.62 }
     }
 
     init {
         +back
         size = back.size
+        origin = CENTER
         mod.registerHandler<GameLoop> {
             if (draggingStart != 0.0 && !Mouse.isButtonDown(0)) {
                 draggingStart = 0.0
@@ -101,7 +108,7 @@ class SliderElement: CarvedRectangle() {
             }
             if (draggingStart != 0.0) {
                 val target = prevSize + (Mouse.getX() / clientApi.resolution().scaleFactor - draggingStart)
-                progressBox.size.x = if (target < 0.0) 0.0 else if (target > 225.5) 225.5 else target
+                progressBox.size.x = if (target < 0.0) 0.0 else if (target > targetWidth) targetWidth else target
             }
         }
     }
@@ -118,8 +125,9 @@ class SliderElement: CarvedRectangle() {
     }
 
     private fun updateParts() {
-        parts.flexSpacing = (225.5 - (partsCount + 1)*4.0)/(partsCount+1)
+        parts.flexSpacing = (targetWidth - (partsCount + 1)*4.0)/(partsCount+1)
         if (partsCount == 0) return
+        parts.children.clear()
         parts + rectangle {
             size = V3(4.0, 6.0)
         }

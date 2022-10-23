@@ -2,12 +2,14 @@ package me.slavita.construction.mod.templates
 
 import me.slavita.construction.mod.utils.ColorPalette
 import me.slavita.construction.mod.utils.doubleVec
+import me.slavita.construction.mod.utils.getWidth
 import org.lwjgl.input.Mouse
 import ru.cristalix.uiengine.UIEngine.clientApi
 import ru.cristalix.uiengine.element.CarvedRectangle
 import ru.cristalix.uiengine.element.RectangleElement
 import ru.cristalix.uiengine.eventloop.animate
 import ru.cristalix.uiengine.utility.*
+import kotlin.math.max
 
 inline fun button(initializer: ButtonElement.() -> Unit) = ButtonElement().also(initializer)
 
@@ -23,15 +25,23 @@ class ButtonElement : RectangleElement() {
             back.color = value.none
             field = value
         }
+    var scaling = true
     private var text = text {
         align = CENTER
         origin = CENTER
     }
+    var targetWidth = 0.0
+        set(value) {
+            field = value
+            back.size.x = targetWidth
+            back.size.y = 19.0
+        }
     var content: String =  ""
         set(value) {
             text.content = value
             animate(0.05) {
-                back.size = V3(clientApi.fontRenderer().getStringWidth(text.content).toDouble() + 10.0, 20.0)
+                back.size.x = targetWidth
+                back.size.y = 19.0
             }
             field = value
         }
@@ -39,12 +49,11 @@ class ButtonElement : RectangleElement() {
         align = CENTER
         origin = CENTER
         carveSize = 2.0
-        +text
         onHover {
             if (disable) return@onHover
             animate(0.08, Easings.QUINT_OUT) {
                 color = (if (hovered && !Mouse.isButtonDown(0)) palette.light else palette.none).apply { alpha = 1.0 }
-                scale = (if (hovered && !Mouse.isButtonDown(0)) 1.1 else 1.0).doubleVec()
+                //if (scaling) scale = (if (hovered && !Mouse.isButtonDown(0)) 1.1 else 1.0).doubleVec()
             }
         }
         onMouseStateChange {
@@ -53,11 +62,11 @@ class ButtonElement : RectangleElement() {
             animate(0.08) {
                 if (down) {
                     color = palette.middle
-                    scale = 0.9.doubleVec()
+                    //if (scaling) scale = 0.9.doubleVec()
                 } else  {
                     action()
                     color = (if (hovered && !Mouse.isButtonDown(0)) palette.light else palette.none).apply { alpha = 1.0 }
-                    scale = (if (hovered && !Mouse.isButtonDown(0)) 1.1 else 1.0).doubleVec()
+                    //if (scaling) scale = (if (hovered && !Mouse.isButtonDown(0)) 1.1 else 1.0).doubleVec()
                 }
             }
         }
@@ -67,6 +76,7 @@ class ButtonElement : RectangleElement() {
 
     init {
         +back
+        +text
         beforeTransform {
             size = back.size
         }
@@ -79,6 +89,6 @@ class ButtonElement : RectangleElement() {
 
     private fun updateColor() {
         back.color = (if (hovered && !Mouse.isButtonDown(0)) palette.light else palette.none).apply { alpha = 1.0 }
-        back.scale = (if (hovered && !Mouse.isButtonDown(0)) 1.1 else 1.0).doubleVec()
+        //if (scaling) back.scale = (if (hovered && !Mouse.isButtonDown(0)) 1.1 else 1.0).doubleVec()
     }
 }

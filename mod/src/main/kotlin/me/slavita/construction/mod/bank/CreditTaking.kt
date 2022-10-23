@@ -10,96 +10,48 @@ import ru.cristalix.uiengine.onMouseUp
 import ru.cristalix.uiengine.utility.*
 
 object CreditTaking: ContextGui() {
-    private val title = text {
-        color = WHITE
-        align = V3(0.5, 0.4)
+    private val back = carved {
+        align = CENTER
         origin = CENTER
-        content = "Кредит\nВведите необходимую сумму (Пример: 2.4 тыс)"
+        carveSize = 3.0
+        size = V3(173.5, 91.5)
+        color = Color(75, 75, 75, 0.28)
+        +slider {
+            align = CENTER
+            origin = CENTER
+            partsCount = 7
+            targetWidth = 173.5
+        }
+
+        +flex {
+            flexDirection = FlexDirection.RIGHT
+            flexSpacing = 5.0
+            align = BOTTOM
+            origin = BOTTOM
+            offset.y = -7.0
+            +button {
+                targetWidth = 53.0
+                content = "Взять кредит"
+                palette = ColorPalette.BLUE
+                scaling = false
+            }
+            +button {
+                targetWidth = 103.5
+                content = "Отмена"
+                palette = ColorPalette.RED
+                scaling = false
+            }
+        }
     }
 
     init {
         this.size = UIEngine.overlayContext.size
         color = Color(0, 0, 0, 0.86)
-        //+title
-        val input = +input {
-            context = this@CreditTaking
-            align = CENTER
-            origin = LEFT
-            offset.x = 100.0
-            placeholder = "Введите значение"
-        }
 
-        val slider = +slider {
-            offset.y = 150.0
-            align = CENTER
-            origin = CENTER
-        }
-        val switch = +switch {
-            align = CENTER
-            origin = CENTER
-            text = listOf(
-                "1",
-                "2",
-                "3",
-            )
-            scaleFactor = 0.7
-        }
-        val dropdown = +dropdown {
-            offset.y = -150.0
-            align = CENTER
-            origin = CENTER
-        }
-        +flex {
-            align = CENTER
-            origin = CENTER
-            flexDirection = FlexDirection.RIGHT
-            flexSpacing = 10.0
-            offset.y = 50.0
-            val btn1 = +button {
-                origin = CENTER
-                palette = ColorPalette.GREEN
-                content = "Добавить"
-                onButtonClick {
-                    dropdown.entries = dropdown.entries.toMutableList().apply { this[switch.activeValue.toInt() - 1] = input.value }
-                    input.value = ""
-                }
-            }
-            val btn2 = +button {
-                origin = CENTER
-                palette = ColorPalette.BLUE
-                content = "Добавить"
-                onButtonClick {
-                    slider.partsCount++
-                }
-            }
-            val btn3 = +button {
-                origin = CENTER
-                palette = ColorPalette.RED
-                content = "Очистить"
-                onButtonClick {
-                    slider.partsCount = 0
-                }
-            }
-            +toggle {
-                onChange {
-                    btn1.disable = !btn1.disable
-                }
-            }
-            +toggle {
-                onChange {
-                    btn2.disable = !btn2.disable
-                }
-            }
-            +toggle {
-                onChange {
-                    btn3.disable = !btn3.disable
-                }
-            }
-        }
+        +back
 
 
         mod.registerChannel("bank:open") {
-            input.value = ""
             open()
         }
     }
