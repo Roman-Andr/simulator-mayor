@@ -111,7 +111,7 @@ class App : JavaPlugin() {
     }
 
     fun addUser(player: Player): User {
-        users[player.uniqueId] = User(player, Statistics())
+        users[player.uniqueId] = User(player.uniqueId, Statistics())
         return getUser(player)
     }
 
