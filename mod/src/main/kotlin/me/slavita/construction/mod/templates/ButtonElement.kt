@@ -29,6 +29,7 @@ class ButtonElement : RectangleElement() {
     private var text = text {
         align = CENTER
         origin = CENTER
+        scale = 1.01.doubleVec()
     }
     var targetWidth = 0.0
         set(value) {
@@ -62,11 +63,11 @@ class ButtonElement : RectangleElement() {
             animate(0.08) {
                 if (down) {
                     color = palette.middle
-                    //if (scaling) scale = 0.9.doubleVec()
+                    if (scaling) scale = 0.9.doubleVec()
                 } else  {
                     action()
                     color = (if (hovered && !Mouse.isButtonDown(0)) palette.light else palette.none).apply { alpha = 1.0 }
-                    //if (scaling) scale = (if (hovered && !Mouse.isButtonDown(0)) 1.1 else 1.0).doubleVec()
+                    if (scaling) scale = (if (hovered && !Mouse.isButtonDown(0)) 1.1 else 1.0).doubleVec()
                 }
             }
         }
@@ -89,6 +90,6 @@ class ButtonElement : RectangleElement() {
 
     private fun updateColor() {
         back.color = (if (hovered && !Mouse.isButtonDown(0)) palette.light else palette.none).apply { alpha = 1.0 }
-        //if (scaling) back.scale = (if (hovered && !Mouse.isButtonDown(0)) 1.1 else 1.0).doubleVec()
+        if (scaling) back.scale = (if (hovered && !Mouse.isButtonDown(0)) 1.1 else 1.0).doubleVec()
     }
 }

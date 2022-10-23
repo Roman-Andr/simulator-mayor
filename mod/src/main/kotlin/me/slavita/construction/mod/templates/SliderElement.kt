@@ -74,7 +74,9 @@ class SliderElement: CarvedRectangle() {
             updateParts()
             magnetizeCursor()
         }
+    var activeId = 0
     private val back = carved {
+        origin = LEFT
         updateParts()
         +parts
         onMouseDown {
@@ -91,7 +93,6 @@ class SliderElement: CarvedRectangle() {
     init {
         +back
         size = back.size
-        origin = CENTER
         mod.registerHandler<GameLoop> {
             if (draggingStart != 0.0 && !Mouse.isButtonDown(0)) {
                 draggingStart = 0.0
@@ -107,6 +108,8 @@ class SliderElement: CarvedRectangle() {
                 }
             }
             if (draggingStart != 0.0) {
+                val element = parts.children.minBy { abs(progressBox.size.x - it.offset.x) }
+                activeId = parts.children.indexOf(element)
                 val target = prevSize + (Mouse.getX() / clientApi.resolution().scaleFactor - draggingStart)
                 progressBox.size.x = if (target < 0.0) 0.0 else if (target > targetWidth) targetWidth else target
             }
@@ -119,6 +122,7 @@ class SliderElement: CarvedRectangle() {
             if (partsCount == 0) return@schedule
             animate(0.02) {
                 val element = parts.children.minBy { abs(progressBox.size.x - it.offset.x) }
+                activeId = parts.children.indexOf(element)
                 progressBox.size.x = element.offset.x
             }
         }

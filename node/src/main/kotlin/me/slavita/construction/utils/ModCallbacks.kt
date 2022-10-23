@@ -17,9 +17,9 @@ object ModCallbacks {
         }
 
         Anime.createReader("bank:submit") { player, buff ->
-            val amount = buff.getDouble(0).toLong()
-            player.killboard("${GREEN}Кредит на сумму ${amount.toMoneyIcon()} ${GREEN}успешно взят")
-            Bank.giveCredit(app.getUser(player), amount)
+            val amount = buff.getInt(0)
+            player.killboard("${GREEN}Кредит на сумму ${amount.toLong().toMoneyIcon()} ${GREEN}успешно взят")
+            Bank.giveCredit(app.getUser(player), amount.toLong())
         }
     }
 }
