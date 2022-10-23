@@ -70,7 +70,7 @@ class SwitchElement: RectangleElement() {
         container.children.clear()
         text.forEachIndexed { index, s ->
             val entry = rectangle {
-                size = V3((getWidth(s) + 34.0)*scaleFactor, 38.0*scaleFactor)
+                size = V3((getWidth(s) + 17.0)*scaleFactor, 19.0*scaleFactor)
                 val title = +text {
                     align = CENTER
                     origin = CENTER
@@ -88,9 +88,9 @@ class SwitchElement: RectangleElement() {
             }
             container + entry
             variants.add(entry)
-            back.size = V3(text.sumOf { (getWidth(it) + 34.0)*scaleFactor }, 38.0*scaleFactor)
+            back.size = V3(text.sumOf { (getWidth(it) + 17.0)*scaleFactor }, 19.0*scaleFactor)
         }
-        activeBox.size.y = 38.0*scaleFactor
+        activeBox.size.y = 19.0*scaleFactor
     }
 
     fun onSwitch(targetAction: () -> Unit) {

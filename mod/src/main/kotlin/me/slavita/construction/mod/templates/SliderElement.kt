@@ -23,12 +23,12 @@ class SliderElement: CarvedRectangle() {
     private var prevSize = 0.0
     private var draggingStart = 0.0
     private val cursor = carved {
-        carveSize = 4.0
+        carveSize = 2.0
         align = RIGHT
         origin = CENTER
         color = WHITE
-        size = V3(14.0, 30.0)
-        offset.x = 3.0
+        size = V3(7.0, 15.0)
+        offset.x = 1.5
         onMouseDown {
             drag()
         }
@@ -43,11 +43,11 @@ class SliderElement: CarvedRectangle() {
         }
     }
     private val progressBox = carved {
-        carveSize = 4.0
+        carveSize = 2.0
         color = ColorPalette.BLUE.none
         align = LEFT
         origin = LEFT
-        size = V3(0.0, 12.0)
+        size = V3(0.0, 6.0)
         +cursor
         onMouseDown {
             size.x = hoverPosition.x
@@ -59,7 +59,7 @@ class SliderElement: CarvedRectangle() {
         align = LEFT
         origin = LEFT
         flexDirection = FlexDirection.RIGHT
-        flexSpacing = (451.0 - (partsCount + 1)*8.0)/(partsCount+1)
+        flexSpacing = (225.5 - (partsCount + 1)*4.0)/(partsCount+1)
     }
     var partsCount = 0
         set(value) {
@@ -68,8 +68,7 @@ class SliderElement: CarvedRectangle() {
             updateParts()
             magnetizeCursor()
         }
-
-    init {
+    private val back = carved {
         updateParts()
         +parts
         onMouseDown {
@@ -77,6 +76,15 @@ class SliderElement: CarvedRectangle() {
             prevSize = progressBox.size.x
             drag()
         }
+        +progressBox
+        carveSize = 2.0
+        size = V3(225.5, 6.0)
+        color = ColorPalette.BLUE.middle.apply { alpha = 0.62 }
+    }
+
+    init {
+        +back
+        size = back.size
         mod.registerHandler<GameLoop> {
             if (draggingStart != 0.0 && !Mouse.isButtonDown(0)) {
                 draggingStart = 0.0
@@ -93,13 +101,9 @@ class SliderElement: CarvedRectangle() {
             }
             if (draggingStart != 0.0) {
                 val target = prevSize + (Mouse.getX() / clientApi.resolution().scaleFactor - draggingStart)
-                progressBox.size.x = if (target < 0.0) 0.0 else if (target > 451.0) 451.0 else target
+                progressBox.size.x = if (target < 0.0) 0.0 else if (target > 225.5) 225.5 else target
             }
         }
-        +progressBox
-        carveSize = 4.0
-        size = V3(451.0, 12.0)
-        color = ColorPalette.BLUE.middle.apply { alpha = 0.62 }
     }
 
     private fun magnetizeCursor() {
@@ -114,23 +118,23 @@ class SliderElement: CarvedRectangle() {
     }
 
     private fun updateParts() {
-        parts.flexSpacing = (451.0 - (partsCount + 1)*8.0)/(partsCount+1)
+        parts.flexSpacing = (225.5 - (partsCount + 1)*4.0)/(partsCount+1)
         if (partsCount == 0) return
         parts + rectangle {
-            size = V3(8.0, 12.0)
+            size = V3(4.0, 6.0)
         }
         repeat(partsCount) {
             parts +rectangle {
-                size = V3(8.0, 12.0)
+                size = V3(4.0, 6.0)
                 color = ColorPalette.BLUE.none.apply { alpha = 1.0 }
             }
         }
         parts + rectangle {
-            size = V3(8.0, 12.0)
+            size = V3(4.0, 6.0)
         }
     }
 
-    fun drag() {
+    private fun drag() {
         draggingStart = (Mouse.getX() / clientApi.resolution().scaleFactor).toDouble()
         animate(0.08) {
             cursor.color = ColorPalette.BLUE.light.apply { alpha = 1.0 }

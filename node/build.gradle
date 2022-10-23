@@ -44,14 +44,14 @@ remotes {
 task upload(
         dependsOn: project(':mod').tasks.upload
 ) {
-    doLast {
-        ssh.run {
-            session(remotes.webServer) {
-                put from: project(':node').tasks.jar.getArchiveFile().get().asFile.path, into: "/home/" + System.getenv("CRI_HOST_USERNAME") + "/construction/plugins/"
-                execute 'pkill -u ' + System.getenv("CRI_HOST_USERNAME") + ' java;cd construction;./start.sh'
-            }
-        }
-    }
+//    doLast {
+//        ssh.run {
+//            session(remotes.webServer) {
+//                put from: project(':node').tasks.jar.getArchiveFile().get().asFile.path, into: "/home/" + System.getenv("CRI_HOST_USERNAME") + "/construction/plugins/"
+//                execute 'pkill -u ' + System.getenv("CRI_HOST_USERNAME") + ' java;cd construction;./start.sh'
+//            }
+//        }
+//    }
 }
 
 afterEvaluate {

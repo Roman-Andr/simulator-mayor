@@ -1,16 +1,15 @@
 package me.slavita.construction.mod.templates
 
 import me.slavita.construction.mod.utils.ColorPalette
+import me.slavita.construction.mod.utils.getWidth
 import org.lwjgl.input.Keyboard
 import org.lwjgl.input.Mouse
 import ru.cristalix.uiengine.element.CarvedRectangle
 import ru.cristalix.uiengine.element.ContextGui
 import ru.cristalix.uiengine.eventloop.animate
 import ru.cristalix.uiengine.onMouseUp
-import ru.cristalix.uiengine.utility.Color
-import ru.cristalix.uiengine.utility.LEFT
-import ru.cristalix.uiengine.utility.V3
-import ru.cristalix.uiengine.utility.text
+import ru.cristalix.uiengine.utility.*
+import kotlin.math.max
 
 inline fun input(initializer: InputElement.() -> Unit) = InputElement().also(initializer)
 val textLinePattern = Regex("[A-ZА-Яа-яЁёa-z0-9\\s.]")
@@ -24,22 +23,27 @@ class InputElement : CarvedRectangle() {
             field = value
         }
     var value: String = ""
+        set(value) {
+            back.size.x = max(getWidth(placeholder), getWidth(value)) + 12.0
+            field = value
+        }
     var focused: Boolean = true
     var placeholder: String = ""
-    var width = 180.0
         set(value) {
-            size.x = value
+            back.size.x = getWidth(value) + 12.0
             field = value
         }
     private var text = text {
         align = LEFT
         origin = LEFT
-        offset.x = 5.0
+        offset.x = 6.0
         shadow = true
     }
-
-    init {
-        size = V3(width, 38.0)
+    private val back = carved {
+        align = CENTER
+        origin = CENTER
+        carveSize = 2.0
+        size = V3(max(getWidth(placeholder), getWidth(value)) + 12.0, 19.0)
         +text
         color = updateColor()
         beforeTransform {
@@ -58,6 +62,13 @@ class InputElement : CarvedRectangle() {
             animate(0.08) {
                 color = if (hovered) ColorPalette.BLUE.light.apply { alpha = 0.62 } else updateColor()
             }
+        }
+    }
+
+    init {
+        +back
+        beforeTransform {
+            size = back.size
         }
     }
 

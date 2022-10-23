@@ -26,22 +26,22 @@ class ToggleElement : CarvedRectangle() {
         align = CENTER
         origin = CENTER
         color = WHITE
-        size = V3(14.0, 14.0)
+        size = V3(7.0, 7.0)
     }
     private val box = carved {
         +check
-        carveSize = 4.0
+        carveSize = 2.0
         align = V3(0.25, 0.5)
         origin = CENTER
-        size = V3(26.0, 26.0)
+        size = V3(13.0, 13.0)
         color = ColorPalette.RED.none
     }
-
-    init {
-        carveSize = 4.0
-        size = V3(52.0, 26.0)
-        addChild(box)
-        update()
+    private val back = carved {
+        align = CENTER
+        origin = CENTER
+        carveSize = 2.0
+        size = V3(26.0, 13.0)
+        +box
 
         onHover {
             if (!active) return@onHover
@@ -61,22 +61,30 @@ class ToggleElement : CarvedRectangle() {
         }
     }
 
+    init {
+        +back
+        beforeTransform {
+            size = back.size
+        }
+        update()
+    }
+
     private fun update() {
         check.textureLocation = if (status) checkTexture
         else crossTexture
         if (!active) {
-            color = ColorPalette.NEUTRAL.none.apply { alpha = 0.28 }
+            back.color = ColorPalette.NEUTRAL.none.apply { alpha = 0.28 }
             box.color = ColorPalette.NEUTRAL.none.apply { alpha = 1.0 }
             return
         }
         if (hovered) {
             (if (status) palette.light else ColorPalette.RED.light).run {
-                color = this.apply { alpha = 0.28 }
+                back.color = this.apply { alpha = 0.28 }
                 box.color = this.apply { alpha = 0.62 }
             }
         } else {
             (if (status) palette.middle else ColorPalette.RED.none).run {
-                color = this.apply { alpha = 0.28 }
+                back.color = this.apply { alpha = 0.28 }
                 box.color = this.apply { alpha = 1.0 }
             }
         }

@@ -3,18 +3,13 @@ package me.slavita.construction.mod.templates
 import me.slavita.construction.mod.utils.ColorPalette
 import me.slavita.construction.mod.utils.doubleVec
 import me.slavita.construction.mod.utils.getWidth
-import org.lwjgl.input.Mouse
 import ru.cristalix.clientapi.JavaMod
-import ru.cristalix.uiengine.UIEngine
-import ru.cristalix.uiengine.UIEngine.animationContext
 import ru.cristalix.uiengine.UIEngine.clientApi
 import ru.cristalix.uiengine.element.AbstractElement
 import ru.cristalix.uiengine.element.CarvedRectangle
 import ru.cristalix.uiengine.element.Parent
 import ru.cristalix.uiengine.element.TextElement
 import ru.cristalix.uiengine.eventloop.animate
-import ru.cristalix.uiengine.eventloop.thenAnimate
-import ru.cristalix.uiengine.eventloop.thenWait
 import ru.cristalix.uiengine.onMouseUp
 import ru.cristalix.uiengine.utility.*
 import kotlin.math.max
@@ -46,23 +41,23 @@ class DropdownElement : CarvedRectangle() {
     private val title = text {
         align = LEFT
         origin = LEFT
-        offset.x = 12.0
+        offset.x = 6.0
         content = placeholder
     }
     private val arrow = rectangle {
         textureLocation = JavaMod.loadTextureFromJar(clientApi, "dropdown", "arrow", "arrow.png")
         align = RIGHT
         origin = CENTER
-        offset.x = -20.0
+        offset.x = -10.0
         color = WHITE
-        size = 16.0.doubleVec()
+        size = 8.0.doubleVec()
     }
     private val back = carved {
-        carveSize = 4.0
+        carveSize = 2.0
         align = TOP
         origin = TOP
         color = ColorPalette.BLUE.none.apply { alpha = 0.0 }
-        size = V3(179.0, 38.0)
+        size = V3(89.5, 19.0)
     }
     private val elements = flex {
         flexDirection = FlexDirection.DOWN
@@ -70,17 +65,16 @@ class DropdownElement : CarvedRectangle() {
         align = BOTTOM
         origin = TOP
     }
-
-
-    init {
-        +back
-        carveSize = 4.0
+    private val topElement = carved {
+        align = CENTER
+        origin = CENTER
+        carveSize = 2.0
         color = ColorPalette.BLUE.middle
-        size = V3(179.0, 38.0)
+        size = V3(89.5, 19.0)
+        +back
         +title
         +arrow
         +elements
-        initElements()
 
         onHover {
             animate(0.08, Easings.QUINT_OUT) {
@@ -91,6 +85,15 @@ class DropdownElement : CarvedRectangle() {
             opened = !opened
             animateAlpha()
             animateArrow()
+        }
+    }
+
+
+    init {
+        +topElement
+        initElements()
+        beforeTransform {
+            size = back.size
         }
     }
 
@@ -121,20 +124,20 @@ class DropdownElement : CarvedRectangle() {
 
     private fun initElements() {
         elements.children.clear()
-        val width = max(179.0, entries.maxOf { getWidth(it) + 52.0 })
-        back.size = V3(width, (entries.size + 1) * 38.0)
-        size.x = width
-        entries.forEachIndexed { index, entrie ->
+        val width = max(100.0, entries.maxOf { getWidth(it) + 26.0 })
+        back.size = V3(width, (entries.size + 1) * 19.0)
+        topElement.size.x = width
+        entries.forEachIndexed { index, entire ->
             elements + carved {
+                carveSize = 2.0
+                color = ColorPalette.BLUE.light.apply { alpha = 0.0 }
+                size = V3(width, 19.0)
                 +text {
                     align = CENTER
                     origin = CENTER
-                    content = entrie
+                    content = entire
                     color.alpha = 0.0
                 }
-                carveSize = 4.0
-                color = ColorPalette.BLUE.light.apply { alpha = 0.0 }
-                size = V3(width, 38.0)
                 onHover {
                     if (!opened) return@onHover
                     animate(0.08, Easings.QUINT_OUT) {
