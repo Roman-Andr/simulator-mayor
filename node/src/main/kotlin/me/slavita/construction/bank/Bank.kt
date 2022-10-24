@@ -15,7 +15,7 @@ object Bank {
             UUID.randomUUID(),
             amount,
             3.0,
-            1*60*20
+            60*1000
         ))
         user.stats.money += amount
     }

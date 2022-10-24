@@ -15,7 +15,7 @@ import org.bukkit.SoundCategory
 object AdminCommands {
     init {
         opCommand("money") { player, args ->
-            app.getUser(player).stats.money += args[0].toLong()
+            app.getUser(player).stats.money = args[0].toLong()
         }
 
         opCommand("sound") { player, args ->

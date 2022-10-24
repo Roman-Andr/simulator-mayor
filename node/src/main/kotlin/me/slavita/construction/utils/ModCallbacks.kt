@@ -7,6 +7,7 @@ import me.slavita.construction.bank.Bank
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
 import org.bukkit.ChatColor.GREEN
+import kotlin.math.pow
 
 object ModCallbacks {
     init {
@@ -17,9 +18,11 @@ object ModCallbacks {
         }
 
         Anime.createReader("bank:submit") { player, buff ->
-            val amount = buff.getInt(0)
-            player.killboard("${GREEN}Кредит на сумму ${amount.toLong().toMoneyIcon()} ${GREEN}успешно взят")
-            Bank.giveCredit(app.getUser(player), amount.toLong())
+            val amount = buff.readInt()
+            val digit = buff.readInt()
+            val value = (amount*10.0.pow(digit)).toLong()
+            player.killboard("${GREEN}Кредит на сумму ${value.toMoneyIcon()} ${GREEN}успешно взят")
+            Bank.giveCredit(app.getUser(player), value)
         }
     }
 }

@@ -1,9 +1,9 @@
-package me.slavita.construction.utils
+package me.slavita.construction.common
 
 import java.math.BigInteger
 import java.util.*
 
-object NumberConverter {
+object NumberFormatter {
     private val NAMES = arrayOf(
         "тыс",
         "млн",

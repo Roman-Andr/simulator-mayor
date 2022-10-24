@@ -25,7 +25,7 @@ class ClientStructure(
     cell: Cell
 ) : BuildingStructure(world, structure, owner, cell) {
     private val sender = StructureSender(owner.player)
-    private val cooldown = Cooldown(30, owner.player)
+    private val cooldown = Cooldown(5, owner.player)
 
     override fun enterBuilding() {
         ConnectionUtil.registerReader(owner.player.uniqueId) { packet ->

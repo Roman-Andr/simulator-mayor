@@ -30,13 +30,13 @@ class Worker(
     }
 
     override fun toString(): String {
-        return Stream.of(
-            "${AQUA}Имя: ${name}\n",
-            "${AQUA}Редкость: ${rarity.title}\n",
-            "${AQUA}Уровень: ${level}${WHITE}${Emoji.UP}\n",
-            "${AQUA}Скорость: $blocksSpeed ${Humanize.plurals("блок", "блока", "блоков", blocksSpeed)} в секунду\n",
-            "${AQUA}Надёжность: ${reliability}\n",
-            "${AQUA}Жадность: ${rapacity.title}\n"
-        ).collect(Collectors.joining())
+        return """
+            ${AQUA}Имя: $name
+            ${AQUA}Редкость: ${rarity.title}
+            ${AQUA}Уровень: ${level}${WHITE}${Emoji.UP}
+            ${AQUA}Скорость: $blocksSpeed ${Humanize.plurals("блок", "блока", "блоков", blocksSpeed)} в секунду
+            ${AQUA}Надёжность: $reliability
+            ${AQUA}Жадность: ${rapacity.title}
+        """.trimIndent()
     }
 }

@@ -12,13 +12,13 @@ class Credit(
 ) {
     var initialTime: Long = 0
     val timeSince: Long
-        get() = (app.pass - initialTime) / 20
+        get() = (System.currentTimeMillis() - initialTime)
     val timeLast: Long
-        get() = if (timeToGive -  timeSince > 0) timeToGive -  timeSince else 0
+        get() = if (timeToGive - timeSince > 0) timeToGive -  timeSince else 0
     val needToGive: Long
         get() = (creditValue * (1 + percent / 100) * (if (timeLast == 0L) Atlas.find("bank").getDouble("percent") else 1.0)).toLong()
 
     init {
-        initialTime = app.pass
+        initialTime = System.currentTimeMillis()
     }
 }

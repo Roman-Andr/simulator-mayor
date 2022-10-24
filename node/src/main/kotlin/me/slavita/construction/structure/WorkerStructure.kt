@@ -4,7 +4,7 @@ import me.func.mod.util.after
 import me.slavita.construction.player.User
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureState
-import me.slavita.construction.utils.extensions.PlayerExtensions.fine
+import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
 import me.slavita.construction.worker.Worker
 import me.slavita.construction.world.GameWorld
 
@@ -22,7 +22,7 @@ class WorkerStructure(
         }
 
     override fun enterBuilding() {
-        owner.player.fine(owner.city.projects.map{it.structure.state}.toString())
+        owner.player.killboard(owner.city.projects.map{it.structure.state}.toString())
         build()
     }
 

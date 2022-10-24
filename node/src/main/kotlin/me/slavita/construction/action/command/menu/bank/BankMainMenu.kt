@@ -28,7 +28,7 @@ class BankMainMenu(player: Player) : MenuCommand(player) {
                         hint = "Выбрать"
                         item = ItemIcons.get("other", "add")
                         onClick { _, _, _ ->
-                            ModTransfer().long(app.getUser(player).stats.money%10*10).send("bank:open", player)
+                            ModTransfer().integer((app.getUser(player).stats.money).toString().length).send("bank:open", player)
                         }
                     },
                     button {

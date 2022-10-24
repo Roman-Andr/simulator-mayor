@@ -26,10 +26,6 @@ object PlayerExtensions {
         MultiChats.sendPlayerMessage(this, ChatType.SYSTEM, Formatting.fine(text))
     }
 
-    fun Player.fine(text: Int) {
-        MultiChats.sendPlayerMessage(this, ChatType.SYSTEM, Formatting.fine(text.toString()))
-    }
-
     fun Player.killboard(text: String) {
         Anime.killboardMessage(this, text)
     }

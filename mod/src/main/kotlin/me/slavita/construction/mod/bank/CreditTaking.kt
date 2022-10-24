@@ -1,8 +1,7 @@
 package me.slavita.construction.mod.bank
 
-import io.netty.buffer.ByteBuf
 import io.netty.buffer.Unpooled
-import me.slavita.construction.mod.bank.CreditTaking.unaryPlus
+import me.slavita.construction.common.NumberFormatter
 import me.slavita.construction.mod.mod
 import me.slavita.construction.mod.templates.*
 import me.slavita.construction.mod.utils.ColorPalette
@@ -10,8 +9,8 @@ import me.slavita.construction.mod.utils.doubleVec
 import ru.cristalix.uiengine.UIEngine
 import ru.cristalix.uiengine.UIEngine.clientApi
 import ru.cristalix.uiengine.element.ContextGui
-import ru.cristalix.uiengine.onMouseUp
 import ru.cristalix.uiengine.utility.*
+import kotlin.math.pow
 
 object CreditTaking: ContextGui() {
     private val back = carved {
@@ -30,17 +29,17 @@ object CreditTaking: ContextGui() {
         val slider = +slider {
             align = LEFT
             offset.x = 8.0
-            partsCount = 7
+            partsCount = 9
             targetWidth = 157.5
         }
-        val text = +text {
+        +text {
             align = TOP
             origin = TOP
             offset.y = 11.0
             content = "Выберите сумму"
             scale = 1.1.doubleVec()
             beforeTransform {
-                content = if (slider.activeId != 0) "${slider.activeId*10} Трл" else "Выберите сумму"
+                content = if (slider.activeId != 0) NumberFormatter.toMoneyFormat((slider.activeId*10.0.pow(digit)).toLong()) else "Выберите сумму"
             }
         }
         +text {
@@ -76,9 +75,8 @@ object CreditTaking: ContextGui() {
             scaling = false
 
             onButtonClick {
-                val buffer = Unpooled.buffer().writeInt((slider.activeId*digit).toInt())
+                val buffer = Unpooled.buffer().writeInt(slider.activeId).writeInt(digit)
                 UIEngine.schedule(0.1) {
-                    println(slider.activeId*digit)
                     clientApi.clientConnection().sendPayload("bank:submit", buffer)
                     close()
                 }
@@ -94,7 +92,7 @@ object CreditTaking: ContextGui() {
         }
     }
 
-    private var digit = 0L
+    private var digit = 0
 
     init {
         this.size = UIEngine.overlayContext.size
@@ -102,9 +100,8 @@ object CreditTaking: ContextGui() {
 
         +back
 
-
         mod.registerChannel("bank:open") {
-            digit = readLong()
+            digit = readInt()
             open()
         }
     }

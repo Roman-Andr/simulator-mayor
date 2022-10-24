@@ -25,10 +25,10 @@ class ActiveProjectsMenu(player: Player) : MenuCommand(player) {
                             button {
                                 item = ItemIcons.get("skyblock", "settings")
                                 title = "Проект #${it.id}"
-                                hover = Stream.of(
-                                    "${AQUA}ID: ${it.id}\n",
-                                    "${AQUA}Награды: \n${it.rewards.joinToString("\n") { it.toString() }}\n"
-                                ).collect(Collectors.joining())
+                                hover = """
+                                    ${AQUA}ID: ${it.id}
+                                    ${AQUA}Награды: \n${it.rewards.joinToString("\n") { it.toString() }}
+                                """.trimIndent()
                                 special(it.structure is ClientStructure)
                                 onClick { _, _, _ ->
                                     Anime.close(player)
