@@ -1,8 +1,8 @@
 package me.slavita.construction.storage
 
 import me.slavita.construction.player.User
-import me.slavita.construction.world.ItemProperties
+import org.bukkit.inventory.ItemStack
 
 class BlocksStorage(val owner: User) {
-    val blocks = hashSetOf<ItemProperties>()
+    var blocks = listOf<ItemStack>()
 }

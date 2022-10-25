@@ -25,12 +25,9 @@ class ButtonElement : RectangleElement() {
             back.color = value.none
             field = value
         }
+    var action = {}
+    var clicked = false
     var scaling = true
-    private var text = text {
-        align = CENTER
-        origin = CENTER
-        scale = 1.01.doubleVec()
-    }
     var targetWidth = 0.0
         set(value) {
             field = value
@@ -46,6 +43,11 @@ class ButtonElement : RectangleElement() {
             }
             field = value
         }
+    private var text = text {
+        align = CENTER
+        origin = CENTER
+        scale = 1.01.doubleVec()
+    }
     private val back = carved {
         align = CENTER
         origin = CENTER
@@ -72,8 +74,6 @@ class ButtonElement : RectangleElement() {
             }
         }
     }
-    var action = {}
-    var clicked = false
 
     init {
         +back

@@ -1,8 +1,7 @@
 package me.slavita.construction.world
 
-import me.slavita.construction.utils.V2i
-import me.slavita.construction.utils.V3i
-import me.slavita.construction.utils.extensions.BlocksExtensions.withOffset
+import me.slavita.construction.common.utils.V2i
+import me.slavita.construction.common.utils.V3i
 import net.minecraft.server.v1_12_R1.BlockPosition
 import org.bukkit.Location
 import org.bukkit.block.Block

@@ -4,7 +4,6 @@ import dev.xdark.clientapi.event.input.KeyPress
 import dev.xdark.clientapi.gui.ingame.ChatScreen
 import io.netty.buffer.Unpooled
 import org.lwjgl.input.Keyboard
-import ru.cristalix.uiengine.UIEngine
 import ru.cristalix.uiengine.UIEngine.clientApi
 
 object KeysManager {
@@ -18,13 +17,13 @@ object KeysManager {
         }
 
         mod.registerHandler<KeyPress> {
-            if (UIEngine.clientApi.minecraft().currentScreen() is ChatScreen)
+            if (clientApi.minecraft().currentScreen() is ChatScreen)
                 return@registerHandler
             keys[key]?.invoke()
         }
     }
 
-    fun registerKey(key: Int, action: () -> Unit) {
+    private fun registerKey(key: Int, action: () -> Unit) {
         keys[key] = action
     }
 }

@@ -30,6 +30,7 @@ class CreditsListMenu(player: Player) : MenuCommand(player) {
                         this@storage.add(
                             button {
                                 item = ItemIcons.get("other", "quests")
+                                hint = "Погасить"
                                 title = "Кредит #$index"
                                 val task = Bukkit.server.scheduler.scheduleSyncRepeatingTask(app, {
                                     hover = """

@@ -1,4 +1,4 @@
-package me.slavita.construction.utils
+package me.slavita.construction.common.utils
 
 class V2i(val x: Int, val z: Int) {
     override fun equals(other: Any?): Boolean {

@@ -1,8 +1,8 @@
 package me.slavita.construction.ui
 
 import me.func.protocol.data.emoji.Emoji
-import me.slavita.construction.common.NumberFormatter
-import me.slavita.construction.common.TimeFormatter
+import me.slavita.construction.common.utils.NumberFormatter
+import me.slavita.construction.common.utils.TimeFormatter
 import org.bukkit.ChatColor.WHITE
 
 object Formatter {

@@ -1,7 +1,7 @@
 package me.slavita.construction.mod.bank
 
 import io.netty.buffer.Unpooled
-import me.slavita.construction.common.NumberFormatter
+import me.slavita.construction.common.utils.NumberFormatter
 import me.slavita.construction.mod.mod
 import me.slavita.construction.mod.templates.*
 import me.slavita.construction.mod.utils.ColorPalette

@@ -79,10 +79,4 @@ object BannerUtil {
                 }
         }
     }
-
-    fun Banner.color(color: RGB) {
-        red = color.red
-        green = color.green
-        blue = color.blue
-    }
 }

@@ -12,7 +12,6 @@ import me.func.protocol.world.marker.Marker
 import me.func.protocol.world.marker.MarkerSign
 import me.slavita.construction.banner.BannerInfo
 import me.slavita.construction.banner.BannerUtil
-import me.slavita.construction.banner.BannerUtil.color
 import me.slavita.construction.structure.BuildingStructure
 import me.slavita.construction.ui.Animations
 import me.slavita.construction.utils.extensions.BannersExtensions.hide
@@ -111,7 +110,7 @@ class StructureVisual(val structure: BuildingStructure) {
     }
 
     fun finishShow() {
-        Banners.show(owner.player, floorBanner!!.apply { color(GlowColor.GREEN) })
+        Banners.show(owner.player, floorBanner!!.apply { color = GlowColor.GREEN })
     }
 
     fun hideFinish() {

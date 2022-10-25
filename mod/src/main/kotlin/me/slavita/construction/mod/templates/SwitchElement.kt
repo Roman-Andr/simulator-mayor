@@ -11,7 +11,6 @@ import ru.cristalix.uiengine.utility.*
 inline fun switch(initializer: SwitchElement.() -> Unit) = SwitchElement().also(initializer)
 
 class SwitchElement: RectangleElement() {
-    private val variants = mutableListOf<RectangleElement>()
     var text = listOf("Пусто")
         set(value) {
             field = value
@@ -26,6 +25,7 @@ class SwitchElement: RectangleElement() {
         }
     val activeValue
         get() = text[activeElement]
+    private val variants = mutableListOf<RectangleElement>()
     private var action = {}
     private var activeElement = 0
         set(value) {

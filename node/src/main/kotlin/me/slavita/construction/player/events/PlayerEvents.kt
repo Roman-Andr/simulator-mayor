@@ -3,11 +3,7 @@ package me.slavita.construction.player.events
 import me.func.mod.util.after
 import me.slavita.construction.action.command.menu.project.ChoiceStructure
 import me.slavita.construction.app
-import me.slavita.construction.connection.ConnectionUtil
 import me.slavita.construction.prepare.*
-import net.minecraft.server.v1_12_R1.BlockPosition
-import net.minecraft.server.v1_12_R1.Material
-import net.minecraft.server.v1_12_R1.PacketPlayOutBlockChange
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener

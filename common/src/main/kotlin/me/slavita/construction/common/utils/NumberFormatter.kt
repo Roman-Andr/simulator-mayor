@@ -1,4 +1,4 @@
-package me.slavita.construction.common
+package me.slavita.construction.common.utils
 
 import java.math.BigInteger
 import java.util.*

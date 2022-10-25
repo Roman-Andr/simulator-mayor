@@ -20,6 +20,20 @@ class SliderElement: CarvedRectangle() {
         get() {
             return (progressBox.size.x / size.x * 10000).roundToInt() / 10000.0
         }
+    var targetWidth = 225.5
+        set(value) {
+            back.size.x = value
+            field = value
+            updateParts()
+            magnetizeCursor()
+        }
+    var partsCount = 0
+        set(value) {
+            field = value
+            updateParts()
+            magnetizeCursor()
+        }
+    var activeId = 0
     private var prevSize = 0.0
     private var draggingStart = 0.0
     private val cursor = carved {
@@ -61,20 +75,6 @@ class SliderElement: CarvedRectangle() {
         flexDirection = FlexDirection.RIGHT
         flexSpacing = (targetWidth - (partsCount + 1)*4.0)/(partsCount+1)
     }
-    var targetWidth = 225.5
-        set(value) {
-            back.size.x = value
-            field = value
-            updateParts()
-            magnetizeCursor()
-        }
-    var partsCount = 0
-        set(value) {
-            field = value
-            updateParts()
-            magnetizeCursor()
-        }
-    var activeId = 0
     private val back = carved {
         origin = LEFT
         updateParts()

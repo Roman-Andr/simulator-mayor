@@ -4,18 +4,13 @@ import me.func.MetaWorld
 import me.func.builder.MetaSubscriber
 import me.func.mod.util.after
 import me.func.unit.Building
-import me.func.world.Box
 import me.func.world.WorldMeta
 import me.slavita.construction.app
-import me.slavita.construction.structure.instance.Structures
-import me.slavita.construction.utils.V2i
-import me.slavita.construction.utils.V3i
-import net.minecraft.server.v1_12_R1.Block
-import net.minecraft.server.v1_12_R1.IBlockData
+import me.slavita.construction.common.utils.V2i
 import org.bukkit.Location
+import org.bukkit.Material
 import org.bukkit.craftbukkit.v1_12_R1.block.CraftBlock
 import org.bukkit.entity.Player
-import ru.cristalix.core.math.V2
 import java.util.*
 
 class GameWorld(val map: WorldMeta) {
@@ -50,6 +45,11 @@ class GameWorld(val map: WorldMeta) {
                     buildings
                 }.build()
         )
+        after (5) {
+            map.getLabels("storage").forEach {
+                map.world.getBlockAt(it.toBlockLocation()).type = Material.CHEST
+            }
+        }
     }
 
     fun placeFakeBlock(player: Player, block: StructureBlock) {

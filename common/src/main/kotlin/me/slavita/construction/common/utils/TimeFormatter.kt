@@ -1,4 +1,4 @@
-package me.slavita.construction.common
+package me.slavita.construction.common.utils
 
 object TimeFormatter {
     fun toTimeFormat(duration: Long): String {
