@@ -12,32 +12,30 @@ import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.entity.Player
-import java.util.stream.Collectors
-import java.util.stream.Stream
 
 class ActiveProjectsMenu(player: Player) : MenuCommand(player) {
-    override fun getMenu(): Openable {
-        app.getUser(player).run {
-            return getBaseSelection(MenuInfo("Ваши активные проекты", StatsType.MONEY, 4, 5)).apply {
-                storage = mutableListOf<ReactiveButton>().apply storage@{
-                    city.projects.forEach {
-                        this@storage.add(
-                            button {
-                                item = ItemIcons.get("skyblock", "settings")
-                                title = "Проект #${it.id}"
-                                hover = """
+	override fun getMenu(): Openable {
+		app.getUser(player).run {
+			return getBaseSelection(MenuInfo("Ваши активные проекты", StatsType.MONEY, 4, 5)).apply {
+				storage = mutableListOf<ReactiveButton>().apply storage@{
+					city.projects.forEach {
+						this@storage.add(
+							button {
+								item = ItemIcons.get("skyblock", "settings")
+								title = "Проект #${it.id}"
+								hover = """
                                     ${AQUA}ID: ${it.id}
                                     ${AQUA}Награды: \n${it.rewards.joinToString("\n") { it.toString() }}
                                 """.trimIndent()
-                                special(it.structure is ClientStructure)
-                                onClick { _, _, _ ->
-                                    Anime.close(player)
-                                }
-                            }
-                        )
-                    }
-                }
-            }
-        }
-    }
+								special(it.structure is ClientStructure)
+								onClick { _, _, _ ->
+									Anime.close(player)
+								}
+							}
+						)
+					}
+				}
+			}
+		}
+	}
 }

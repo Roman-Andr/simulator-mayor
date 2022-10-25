@@ -7,23 +7,24 @@ import org.lwjgl.input.Keyboard
 import ru.cristalix.uiengine.UIEngine.clientApi
 
 object KeysManager {
-    private val keys = mutableMapOf<Int, () -> Unit>()
-    init {
-        registerKey(Keyboard.KEY_M) {
-            clientApi.clientConnection().sendPayload("menu:open", Unpooled.EMPTY_BUFFER)
-        }
-        registerKey(Keyboard.KEY_N) {
-            clientApi.clientConnection().sendPayload("menu:open", Unpooled.EMPTY_BUFFER)
-        }
+	private val keys = mutableMapOf<Int, () -> Unit>()
 
-        mod.registerHandler<KeyPress> {
-            if (clientApi.minecraft().currentScreen() is ChatScreen)
-                return@registerHandler
-            keys[key]?.invoke()
-        }
-    }
+	init {
+		registerKey(Keyboard.KEY_M) {
+			clientApi.clientConnection().sendPayload("menu:open", Unpooled.EMPTY_BUFFER)
+		}
+		registerKey(Keyboard.KEY_N) {
+			clientApi.clientConnection().sendPayload("menu:open", Unpooled.EMPTY_BUFFER)
+		}
 
-    private fun registerKey(key: Int, action: () -> Unit) {
-        keys[key] = action
-    }
+		mod.registerHandler<KeyPress> {
+			if (clientApi.minecraft().currentScreen() is ChatScreen)
+				return@registerHandler
+			keys[key]?.invoke()
+		}
+	}
+
+	private fun registerKey(key: Int, action: () -> Unit) {
+		keys[key] = action
+	}
 }

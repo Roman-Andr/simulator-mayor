@@ -13,6 +13,6 @@ annotation class GradlePlugin
 private val temp = Files.createTempDirectory("modbundler").apply { toFile().deleteOnExit() }
 
 fun KClass<*>.getResource(path: String): File =
-    temp.resolve("${System.currentTimeMillis() + Random.nextInt()}.pro").also {
-        Files.copy(java.getResourceAsStream(path)!!, it)
-    }.toFile()
+	temp.resolve("${System.currentTimeMillis() + Random.nextInt()}.pro").also {
+		Files.copy(java.getResourceAsStream(path)!!, it)
+	}.toFile()

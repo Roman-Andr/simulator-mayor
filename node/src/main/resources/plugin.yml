@@ -1,5 +1,8 @@
 name: Construction
 main: me.slavita.construction.App
 version: 1.0.0
+authors:
+  - RomanAndr
+  - slavita
 depend:
   - CoreAPI

@@ -5,55 +5,51 @@ package anime.modbundler
 import org.gradle.api.JavaVersion
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.Property
-import org.gradle.api.tasks.Classpath
-import org.gradle.api.tasks.Input
-import org.gradle.api.tasks.InputFile
-import org.gradle.api.tasks.OutputFile
-import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.*
 import org.gradle.kotlin.dsl.property
 import proguard.gradle.ProGuardTask
 import java.nio.file.Files
 
 open class ProguardTask : ProGuardTask() {
-    @get:[InputFile Classpath]
-    val input: RegularFileProperty = project.objects.fileProperty()
+	@get:[InputFile Classpath]
+	val input: RegularFileProperty = project.objects.fileProperty()
 
-    @get:OutputFile
-    val outputFile: RegularFileProperty = project.objects.fileProperty()
+	@get:OutputFile
+	val outputFile: RegularFileProperty = project.objects.fileProperty()
 
-    @get:Input
-    val mainClass: Property<String> = project.objects.property()
+	@get:Input
+	val mainClass: Property<String> = project.objects.property()
 
-    @TaskAction
-    override fun proguard() {
-        project.configurations
-            .getByName("compileClasspath")
-            .resolve()
-            .map { it.absolutePath }
-            .toMutableList()
-            .apply {
-                removeAll(
-                    project.configurations
-                        .getByName("runtimeClasspath")
-                        .resolve()
-                        .map { it.absolutePath }
-                )
-            }.forEach(::libraryjars)
+	@TaskAction
+	override fun proguard() {
+		project.configurations
+			.getByName("compileClasspath")
+			.resolve()
+			.map { it.absolutePath }
+			.toMutableList()
+			.apply {
+				removeAll(
+					project.configurations
+						.getByName("runtimeClasspath")
+						.resolve()
+						.map { it.absolutePath }
+				)
+			}.forEach(::libraryjars)
 
-        libraryjars(
-            if (JavaVersion.current().isJava9Compatible) {
-                "${System.getProperty("java.home")}/jmods"
-            } else {
-                "${System.getProperty("java.home")}/lib/rt.jar"
-            }
-        )
+		libraryjars(
+			if (JavaVersion.current().isJava9Compatible) {
+				"${System.getProperty("java.home")}/jmods"
+			} else {
+				"${System.getProperty("java.home")}/lib/rt.jar"
+			}
+		)
 
-        injars(input.get())
-        outjars(outputFile.get())
-        configuration(this::class.getResource("/proguard.pro").apply {
-            Files.write(toPath(), readText().replace("MAINCLASS", mainClass.get()).toByteArray())
-        })
+		injars(input.get())
+		outjars(outputFile.get())
+		configuration(this::class.getResource("/proguard.pro").apply {
+			Files.write(toPath(), readText().replace("MAINCLASS", mainClass.get()).toByteArray())
+		})
 
-        super.proguard()
-    }
+		super.proguard()
+	}
 }

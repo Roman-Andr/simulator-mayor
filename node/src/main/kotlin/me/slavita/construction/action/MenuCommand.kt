@@ -14,39 +14,41 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 
 abstract class MenuCommand(player: Player) : CooldownCommand(player, 1) {
-    private var close = true
+	private var close = true
 
-    protected abstract fun getMenu(): Openable
+	protected abstract fun getMenu(): Openable
 
-    override fun execute() {
-        if (close) Anime.close(player)
-        getMenu().open(player)
-    }
+	override fun execute() {
+		if (close) Anime.close(player)
+		getMenu().open(player)
+	}
 
-    fun closeAll(close: Boolean): MenuCommand {
-        this.close = close
-        return this
-    }
+	fun closeAll(close: Boolean): MenuCommand {
+		this.close = close
+		return this
+	}
 
-    fun getBaseSelection(info: MenuInfo): Selection =
-        info.run {
-            return Selection(
-                title = title,
-                vault = type.vault,
-                money = "Ваш ${type.title} ${when (type){
-                    StatsType.MONEY -> app.getUser(player).stats.money.toMoney()
-                    StatsType.LEVEL -> app.getUser(player).stats.level
-                    StatsType.CREDIT -> Bank.playersData[player.uniqueId]!!.sumOf { it.creditValue }.toMoney()
-                }}",
-                rows = rows,
-                columns = columns
-            )
-        }
+	fun getBaseSelection(info: MenuInfo): Selection =
+		info.run {
+			return Selection(
+				title = title,
+				vault = type.vault,
+				money = "Ваш ${type.title} ${
+					when (type) {
+						StatsType.MONEY  -> app.getUser(player).stats.money.toMoney()
+						StatsType.LEVEL  -> app.getUser(player).stats.level
+						StatsType.CREDIT -> Bank.playersData[player.uniqueId]!!.sumOf { it.creditValue }.toMoney()
+					}
+				}",
+				rows = rows,
+				columns = columns
+			)
+		}
 
-    fun getEmptyButton(): ReactiveButton =
-        button {
-            material(Material.AIR)
-            hint = ""
-            enabled = false
-        }
+	fun getEmptyButton(): ReactiveButton =
+		button {
+			material(Material.AIR)
+			hint = ""
+			enabled = false
+		}
 }

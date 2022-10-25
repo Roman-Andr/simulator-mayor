@@ -47,87 +47,87 @@ lateinit var app: App
 
 class App : JavaPlugin() {
 
-    lateinit var structureMap: WorldMeta
-    lateinit var mainWorld: GameWorld
-    val users = hashMapOf<UUID, User>()
-    val allBlocks = hashSetOf<ItemProperties>()
+	lateinit var structureMap: WorldMeta
+	lateinit var mainWorld: GameWorld
+	private val users = hashMapOf<UUID, User>()
+	val allBlocks = hashSetOf<ItemProperties>()
 
-    val localStaff = hashSetOf(
-        "e2543a0a-5799-11e9-8374-1cb72caa35fd",
-        "ba821208-6b64-11e9-8374-1cb72caa35fd"
-    ).map { UUID.fromString(it) }
+	val localStaff = hashSetOf(
+		"e2543a0a-5799-11e9-8374-1cb72caa35fd",
+		"ba821208-6b64-11e9-8374-1cb72caa35fd"
+	).map { UUID.fromString(it) }
 
-    var pass = 0L
-        private set
+	var pass = 0L
+		private set
 
-    override fun onEnable() {
-        app = this
+	override fun onEnable() {
+		app = this
 
-        EntityDataParameters.register()
-        Platforms.set(PlatformDarkPaper())
+		EntityDataParameters.register()
+		Platforms.set(PlatformDarkPaper())
 
-        Anime.include(Kit.STANDARD, Kit.EXPERIMENTAL, Kit.DIALOG, Kit.MULTI_CHAT, Kit.LOOTBOX, Kit.NPC, Kit.DEBUG)
+		Anime.include(Kit.STANDARD, Kit.EXPERIMENTAL, Kit.DIALOG, Kit.MULTI_CHAT, Kit.LOOTBOX, Kit.NPC, Kit.DEBUG)
 
-        CoreApi.get().run {
-            registerService(ITransferService::class.java, TransferService(ISocketClient.get()))
-            registerService(IPartyService::class.java, PartyService(ISocketClient.get()))
-            registerService(IScoreboardService::class.java, ScoreboardService())
-        }
+		CoreApi.get().run {
+			registerService(ITransferService::class.java, TransferService(ISocketClient.get()))
+			registerService(IPartyService::class.java, PartyService(ISocketClient.get()))
+			registerService(IScoreboardService::class.java, ScoreboardService())
+		}
 
-        IRealmService.get().currentRealmInfo.apply {
-            IScoreboardService.get().serverStatusBoard.displayName = "${WHITE}Тест #${AQUA}" + realmId.id
-            after(60) {
-                ITransferService.get().transfer(UUID.fromString(System.getProperty("construction.user")), realmId)
-            }
-        }.run {
-            readableName = "Тест"
-            groupName = "CRN"
-            status = RealmStatus.WAITING_FOR_PLAYERS
-            isLobbyServer = true
-        }
+		IRealmService.get().currentRealmInfo.apply {
+			IScoreboardService.get().serverStatusBoard.displayName = "${WHITE}Тест #${AQUA}" + realmId.id
+			after(60) {
+				ITransferService.get().transfer(UUID.fromString(System.getProperty("construction.user")), realmId)
+			}
+		}.run {
+			readableName = "Тест"
+			groupName = "CRN"
+			status = RealmStatus.WAITING_FOR_PLAYERS
+			isLobbyServer = true
+		}
 
-        ModLoader.loadAll("mods")
-        ModLoader.onJoining("construction-mod.jar")
+		ModLoader.loadAll("mods")
+		ModLoader.onJoining("construction-mod.jar")
 
-        structureMap = MapLoader.load("construction", "structures")
-        mainWorld = GameWorld(MapLoader.load("construction", "test"))
+		structureMap = MapLoader.load("construction", "structures")
+		mainWorld = GameWorld(MapLoader.load("construction", "test"))
 
-        Music.block(Category.MUSIC)
+		Music.block(Category.MUSIC)
 
-        Config
-        after(50) {
-            NpcManager
-        }
-        MultiChats
-        UserCommands
-        AdminCommands
-        Structures
-        MarketsManager
-        ModCallbacks
+		Config
+		after(50) {
+			NpcManager
+		}
+		MultiChats
+		UserCommands
+		AdminCommands
+		Structures
+		MarketsManager
+		ModCallbacks
 
-        listener(PlayerEvents, PhysicsDisabler, ItemsManager)
+		listener(PlayerEvents, PhysicsDisabler, ItemsManager)
 
-        server.scheduler.scheduleSyncRepeatingTask(this, { pass++ }, 0, 1)
-    }
+		server.scheduler.scheduleSyncRepeatingTask(this, { pass++ }, 0, 1)
+	}
 
-    fun addUser(player: Player): User {
-        users[player.uniqueId] = User(player.uniqueId, Statistics())
-        return getUser(player)
-    }
+	fun addUser(player: Player): User {
+		users[player.uniqueId] = User(player.uniqueId, Statistics())
+		return getUser(player)
+	}
 
-    fun getUserOrNull(uuid: UUID) : User? {
-        return users[uuid]
-    }
+	fun getUserOrNull(uuid: UUID): User? {
+		return users[uuid]
+	}
 
-    fun hasUser(player: Player) : Boolean {
-        return getUserOrNull(player.uniqueId) != null
-    }
+	fun hasUser(player: Player): Boolean {
+		return getUserOrNull(player.uniqueId) != null
+	}
 
-    fun getUser(uuid: UUID) : User {
-        return users[uuid]!!
-    }
+	fun getUser(uuid: UUID): User {
+		return users[uuid]!!
+	}
 
-    fun getUser(player: Player) : User {
-        return getUser(player.uniqueId)
-    }
+	fun getUser(player: Player): User {
+		return getUser(player.uniqueId)
+	}
 }

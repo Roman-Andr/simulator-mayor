@@ -6,7 +6,6 @@ import me.func.mod.world.Npc.location
 import me.func.mod.world.Npc.onClick
 import me.func.mod.world.Npc.skin
 import me.func.protocol.world.npc.NpcBehaviour
-import me.slavita.construction.action.Command
 import me.slavita.construction.action.command.menu.ControlPanelMenu
 import me.slavita.construction.action.command.menu.DailyMenu
 import me.slavita.construction.action.command.menu.bank.BankMainMenu
@@ -22,44 +21,44 @@ import java.util.*
 import kotlin.reflect.full.primaryConstructor
 
 object NpcManager {
-    private val labels = app.mainWorld.getNpcLabels()
+	private val labels = app.mainWorld.getNpcLabels()
 
-    init {
-        load()
-    }
+	init {
+		load()
+	}
 
-    private fun load() {
-        Atlas.find("npc").getMapList("npc").forEach { values ->
-            val title = values["title"] as String
-            val labelTag = values["labelTag"] as String
-            val skinType = values["skinType"] as String
-            val skin = values["skin"] as String
-            val itemKey = values["itemKey"] as String
-            val itemValue = values["itemValue"] as String
-            val action = values["action"] as String
+	private fun load() {
+		Atlas.find("npc").getMapList("npc").forEach { values ->
+			val title = values["title"] as String
+			val labelTag = values["labelTag"] as String
+			val skinType = values["skinType"] as String
+			val skin = values["skin"] as String
+			val itemKey = values["itemKey"] as String
+			val itemValue = values["itemValue"] as String
+			val action = values["action"] as String
 
-            Npc.npc {
-                labels.find { it.tag == labelTag }?.let { location(it) }
-                name = title
-                when(skinType) {
-                    "uuid" -> skin(UUID.fromString(skin))
-                    "url" -> skin(skin)
-                }
-                behaviour = NpcBehaviour.STARE_AND_LOOK_AROUND
-                onClick {
-                    when(action) {
-                        "BuyLootboxMenu" -> BuyLootboxMenu::class
-                        "WorkerTeamMenu" -> WorkerTeamMenu::class
-                        "ControlPanelMenu" -> ControlPanelMenu::class
-                        "BankMainMenu" -> BankMainMenu::class
-                        "UserLootboxesMenu" -> UserLootboxesMenu::class
-                        "ActiveProjectsMenu" -> ActiveProjectsMenu::class
-                        "DailyMenu" -> DailyMenu::class
-                        else -> ControlPanelMenu::class
-                    }.primaryConstructor!!.call(it.player).tryExecute()
+			Npc.npc {
+				labels.find { it.tag == labelTag }?.let { location(it) }
+				name = title
+				when (skinType) {
+					"uuid" -> skin(UUID.fromString(skin))
+					"url"  -> skin(skin)
+				}
+				behaviour = NpcBehaviour.STARE_AND_LOOK_AROUND
+				onClick {
+					when (action) {
+						"BuyLootboxMenu"     -> BuyLootboxMenu::class
+						"WorkerTeamMenu"     -> WorkerTeamMenu::class
+						"ControlPanelMenu"   -> ControlPanelMenu::class
+						"BankMainMenu"       -> BankMainMenu::class
+						"UserLootboxesMenu"  -> UserLootboxesMenu::class
+						"ActiveProjectsMenu" -> ActiveProjectsMenu::class
+						"DailyMenu"          -> DailyMenu::class
+						else                 -> ControlPanelMenu::class
+					}.primaryConstructor!!.call(it.player).tryExecute()
 
-                }
-            }.slot(EquipmentSlot.HAND, CraftItemStack.asNMSCopy(ItemIcons.get(itemKey, itemValue)))
-        }
-    }
+				}
+			}.slot(EquipmentSlot.HAND, CraftItemStack.asNMSCopy(ItemIcons.get(itemKey, itemValue)))
+		}
+	}
 }

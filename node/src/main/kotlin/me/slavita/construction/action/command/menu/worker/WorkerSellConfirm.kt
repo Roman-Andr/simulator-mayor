@@ -9,17 +9,19 @@ import me.slavita.construction.worker.Worker
 import org.bukkit.entity.Player
 
 class WorkerSellConfirm(player: Player, val worker: Worker) : MenuCommand(player) {
-    override fun getMenu(): Openable {
-        app.getUser(player).run user@ {
-            return Confirmation( text = listOf(
-                "Продать строителя",
-                worker.name,
-                "за ${worker.sellPrice.toMoneyIcon()}",
-            )) {
-                this@user.workers.remove(worker)
-                this@user.stats.money += worker.sellPrice
-                WorkerTeamMenu(player).tryExecute()
-            }
-        }
-    }
+	override fun getMenu(): Openable {
+		app.getUser(player).run user@{
+			return Confirmation(
+				text = listOf(
+					"Продать строителя",
+					worker.name,
+					"за ${worker.sellPrice.toMoneyIcon()}",
+				)
+			) {
+				this@user.workers.remove(worker)
+				this@user.stats.money += worker.sellPrice
+				WorkerTeamMenu(player).tryExecute()
+			}
+		}
+	}
 }

@@ -4,9 +4,9 @@ import me.slavita.construction.market.showcase.Showcase
 import me.slavita.construction.market.showcase.Showcases
 
 class Market {
-    var instances: List<Showcase>? = null
+	var instances: List<Showcase>? = null
 
-    init {
-        instances = Showcases.showcases.map { Showcase(it) }
-    }
+	init {
+		instances = Showcases.showcases.map { Showcase(it) }
+	}
 }

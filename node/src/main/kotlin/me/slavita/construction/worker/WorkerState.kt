@@ -1,9 +1,9 @@
 package me.slavita.construction.worker
 
 enum class WorkerState(
-    val title: String
+	val title: String,
 ) {
-    FREE("Выбрать"),
-    SELECTED("Выбран"),
-    BUSY("Занят");
+	FREE("Выбрать"),
+	SELECTED("Выбран"),
+	BUSY("Занят");
 }

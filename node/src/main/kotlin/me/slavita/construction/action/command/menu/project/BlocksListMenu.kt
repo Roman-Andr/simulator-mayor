@@ -11,20 +11,20 @@ import me.slavita.construction.world.ItemProperties
 import org.bukkit.entity.Player
 
 class BlocksListMenu(player: Player, val structure: Structure) : MenuCommand(player) {
-    override fun getMenu(): Openable {
-        app.getUser(player).run user@ {
-            return Selection(title = "Список материалов", rows = 5, columns = 4,
-                storage = mutableListOf<ReactiveButton>().apply {
-                    hashSetOf<ItemProperties>().apply {
-                        structure.box.forEachBukkit { this.add(ItemProperties.fromBlock(it)) }
-                    }.forEach {
-                        add(button {
-                            hover = it.createItemStack(1).i18NDisplayName
-                            item = it.createItemStack(1)
-                        })
-                    }
-                }
-            )
-        }
-    }
+	override fun getMenu(): Openable {
+		app.getUser(player).run user@{
+			return Selection(title = "Список материалов", rows = 5, columns = 4,
+				storage = mutableListOf<ReactiveButton>().apply {
+					hashSetOf<ItemProperties>().apply {
+						structure.box.forEachBukkit { this.add(ItemProperties.fromBlock(it)) }
+					}.forEach {
+						add(button {
+							hover = it.createItemStack(1).i18NDisplayName
+							item = it.createItemStack(1)
+						})
+					}
+				}
+			)
+		}
+	}
 }

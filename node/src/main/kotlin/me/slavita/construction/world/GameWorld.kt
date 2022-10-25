@@ -14,56 +14,56 @@ import org.bukkit.entity.Player
 import java.util.*
 
 class GameWorld(val map: WorldMeta) {
-    val blocks = hashMapOf<UUID, HashMap<V2i, HashSet<StructureBlock>>>()
+	private val blocks = hashMapOf<UUID, HashMap<V2i, HashSet<StructureBlock>>>()
 
-    init {
-        MetaWorld.universe(
-            map.world,
-            *MetaSubscriber()
-                .customModifier { chunk ->
-                    val chunks = blocks[chunk.owner] ?: return@customModifier chunk
-                    val blocks = chunks[V2i(chunk.chunk.locX, chunk.chunk.locZ)] ?: return@customModifier chunk
+	init {
+		MetaWorld.universe(
+			map.world,
+			*MetaSubscriber()
+				.customModifier { chunk ->
+					val chunks = blocks[chunk.owner] ?: return@customModifier chunk
+					val blocks = chunks[V2i(chunk.chunk.locX, chunk.chunk.locZ)] ?: return@customModifier chunk
 
-                    blocks.forEach {
-                        chunk.modify(
-                            it.position,
-                            (it.sourceBlock as CraftBlock).data0
-                        )
-                    }
+					blocks.forEach {
+						chunk.modify(
+							it.position,
+							(it.sourceBlock as CraftBlock).data0
+						)
+					}
 
-                    chunk
-                }
-                .buildingLoader {
-                    val user = app.getUserOrNull(it) ?: return@buildingLoader arrayListOf()
+					chunk
+				}
+				.buildingLoader {
+					val user = app.getUserOrNull(it) ?: return@buildingLoader arrayListOf()
 
-                    val buildings = arrayListOf<Building>()
-                    user.city.cityStructures.forEach { structure ->
-                        buildings.add(structure.building.apply {
-                            show(user.player)
-                        })
-                    }
-                    buildings
-                }.build()
-        )
-        after (5) {
-            map.getLabels("storage").forEach {
-                map.world.getBlockAt(it.toBlockLocation()).type = Material.CHEST
-            }
-        }
-    }
+					val buildings = arrayListOf<Building>()
+					user.city.cityStructures.forEach { structure ->
+						buildings.add(structure.building.apply {
+							show(user.player)
+						})
+					}
+					buildings
+				}.build()
+		)
+		after(5) {
+			map.getLabels("storage").forEach {
+				map.world.getBlockAt(it.toBlockLocation()).type = Material.CHEST
+			}
+		}
+	}
 
-    fun placeFakeBlock(player: Player, block: StructureBlock) {
-        player.sendBlockChange(
-            Location(map.world, block.position.x.toDouble(), block.position.y.toDouble(), block.position.z.toDouble()),
-            block.type,
-            block.sourceData
-        )
+	fun placeFakeBlock(player: Player, block: StructureBlock) {
+		player.sendBlockChange(
+			Location(map.world, block.position.x.toDouble(), block.position.y.toDouble(), block.position.z.toDouble()),
+			block.type,
+			block.sourceData
+		)
 
-        val chunk = V2i(block.position.x / 16, block.position.z / 16)
-        blocks.getOrPut(player.uniqueId) { hashMapOf() }.getOrPut(chunk) { hashSetOf() }.add(block)
-    }
+		val chunk = V2i(block.position.x / 16, block.position.z / 16)
+		blocks.getOrPut(player.uniqueId) { hashMapOf() }.getOrPut(chunk) { hashSetOf() }.add(block)
+	}
 
-    fun getSpawn() = map.label("spawn")
+	fun getSpawn() = map.label("spawn")
 
-    fun getNpcLabels() = map.labels("npc")
+	fun getNpcLabels() = map.labels("npc")
 }

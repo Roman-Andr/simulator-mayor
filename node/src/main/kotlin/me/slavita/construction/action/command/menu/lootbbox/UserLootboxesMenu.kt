@@ -7,9 +7,9 @@ import me.slavita.construction.app
 import org.bukkit.entity.Player
 
 class UserLootboxesMenu(player: Player) : MenuCommand(player) {
-    override fun getMenu(): Openable {
-        app.getUser(player).run user@ {
-            return Selection()
-        }
-    }
+	override fun getMenu(): Openable {
+		app.getUser(player).run user@{
+			return Selection()
+		}
+	}
 }

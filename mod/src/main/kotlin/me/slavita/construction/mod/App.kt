@@ -12,22 +12,22 @@ lateinit var player: EntityPlayerSP
 
 class App : KotlinMod() {
 
-    override fun onEnable() {
-        UIEngine.initialize(this)
-        mod = this
-        player = clientApi.minecraft().player
+	override fun onEnable() {
+		UIEngine.initialize(this)
+		mod = this
+		player = clientApi.minecraft().player
 
-        StructureBuilding
-        KeysManager
-        Showcases
-        CreditTaking
-    }
+		StructureBuilding
+		KeysManager
+		Showcases
+		CreditTaking
+	}
 
-    fun runRepeatingTask(delay: Double, period: Double, action: () -> Unit) {
-        Timer().schedule(object: TimerTask() {
-            override fun run() {
-                action()
-            }
-        }, (delay * 1000).toLong(), (period * 1000).toLong())
-    }
+	fun runRepeatingTask(delay: Double, period: Double, action: () -> Unit) {
+		Timer().schedule(object : TimerTask() {
+			override fun run() {
+				action()
+			}
+		}, (delay * 1000).toLong(), (period * 1000).toLong())
+	}
 }

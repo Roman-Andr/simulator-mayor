@@ -18,34 +18,34 @@ import org.bukkit.ChatColor.RED
 import org.bukkit.entity.Player
 
 class ChoiceLootboxAmount(player: Player, val rarity: WorkerRarity) : MenuCommand(player) {
-    override fun getMenu(): Openable {
-        app.getUser(player).run user@ {
-            return Choicer(
-                title = "Купить лутбоксы",
-                description = "Выберите необходимое количество лутбоксов",
-                storage = mutableListOf<ReactiveButton>().apply {
-                    listOf(1, 5, 10).forEach {
-                        add(button {
-                            item = ItemIcons.get("other", "new_lvl_rare_close")
-                            title = "$it ${Humanize.plurals("лутбокс", "лутбокса", "лутбоксов", it)}"
-                            description = (rarity.price*it).toMoneyIcon()
-                            hint = "Купить"
-                            onClick { _, _, _ ->
-                                if (!app.getUser(player).canPurchase(rarity.price*it)) {
-                                    Anime.close(player)
-                                    player.killboard("${RED}Недостаточно средств!")
-                                    return@onClick
-                                }
-                                val workers = WorkerGenerator.generate(rarity, it)
-                                val lootDrop = mutableListOf<LootDrop>()
-                                workers.forEach {
-                                    lootDrop.add(LootDrop(rarity.getIcon(), it.name, rarity.dropRare))
-                                }
-                                OpenWorker(this@user, *workers.toTypedArray()).tryExecute()
-                            }
-                        })
-                    }
-                })
-        }
-    }
+	override fun getMenu(): Openable {
+		app.getUser(player).run user@{
+			return Choicer(
+				title = "Купить лутбоксы",
+				description = "Выберите необходимое количество лутбоксов",
+				storage = mutableListOf<ReactiveButton>().apply {
+					listOf(1, 5, 10).forEach {
+						add(button {
+							item = ItemIcons.get("other", "new_lvl_rare_close")
+							title = "$it ${Humanize.plurals("лутбокс", "лутбокса", "лутбоксов", it)}"
+							description = (rarity.price * it).toMoneyIcon()
+							hint = "Купить"
+							onClick { _, _, _ ->
+								if (!app.getUser(player).canPurchase(rarity.price * it)) {
+									Anime.close(player)
+									player.killboard("${RED}Недостаточно средств!")
+									return@onClick
+								}
+								val workers = WorkerGenerator.generate(rarity, it)
+								val lootDrop = mutableListOf<LootDrop>()
+								workers.forEach {
+									lootDrop.add(LootDrop(rarity.getIcon(), it.name, rarity.dropRare))
+								}
+								OpenWorker(this@user, *workers.toTypedArray()).tryExecute()
+							}
+						})
+					}
+				})
+		}
+	}
 }
