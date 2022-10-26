@@ -18,4 +18,8 @@ class V2i(val x: Int, val z: Int) {
 		result = 31 * result + z
 		return result
 	}
+
+	override fun toString(): String {
+		return "{chunk: x: $x, z:$z}"
+	}
 }

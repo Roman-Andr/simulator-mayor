@@ -13,7 +13,7 @@ class CityStructure(val owner: Player, val structure: Structure, val cell: Cell)
 	val building = Building(UUID.randomUUID(), "", "", 0.0, 0.0, 0.0, box)
 
 	init {
-		building.allocate(cell.box.min.clone().add(11.0, 0.0, 11.0))
+		building.allocate(cell.box.min)
 		building.show(owner)
 	}
 }
