@@ -1,5 +1,10 @@
 package me.slavita.construction.player.lootbox
 
-abstract class Lootbox {
-	abstract fun open()
+import me.func.protocol.data.rare.DropRare
+import me.slavita.construction.player.User
+
+interface Lootbox {
+	val title: String
+	val rare: DropRare
+	fun open(user: User)
 }

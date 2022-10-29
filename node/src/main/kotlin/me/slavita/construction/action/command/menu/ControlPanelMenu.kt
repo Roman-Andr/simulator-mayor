@@ -4,6 +4,7 @@ import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.menu.lootbbox.BuyLootboxMenu
+import me.slavita.construction.action.command.menu.lootbbox.LootboxesListMenu
 import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
 import me.slavita.construction.action.command.menu.worker.WorkerTeamMenu
 import me.slavita.construction.app
@@ -42,6 +43,15 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
 						item = ItemIcons.get("other", "book")
 						onClick { _, _, _ ->
 							ActiveProjectsMenu(player).closeAll(false).tryExecute()
+						}
+					},
+					button {
+						title = "Лутбоксы"
+						description = "Список ваших лутбоксов"
+						hint = "Выбрать"
+						item = ItemIcons.get("other", "new_lvl_rare_close")
+						onClick { _, _, _ ->
+							LootboxesListMenu(player).closeAll(false).tryExecute()
 						}
 					}
 				)

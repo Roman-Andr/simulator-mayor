@@ -3,9 +3,12 @@ package me.slavita.construction.action.chat
 import me.func.atlas.Atlas
 import me.func.mod.reactive.ReactivePanel
 import me.func.protocol.data.color.GlowColor
+import me.func.protocol.data.rare.DropRare
 import me.slavita.construction.action.command.menu.DailyMenu
 import me.slavita.construction.app
 import me.slavita.construction.bank.Bank
+import me.slavita.construction.player.lootbox.BlocksLootbox
+import me.slavita.construction.player.lootbox.WorkerLootbox
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.ChatCommandUtils.opCommand
 import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
@@ -14,8 +17,13 @@ import org.bukkit.SoundCategory
 
 object AdminCommands {
 	init {
-		opCommand("money") { player, args ->
+		opCommand("setmoney") { player, args ->
 			app.getUser(player).stats.money = args[0].toLong()
+		}
+
+		opCommand("givelootbox") { player, args ->
+			app.getUser(player).lootboxes.add(WorkerLootbox(DropRare.RARE))
+			app.getUser(player).lootboxes.add(BlocksLootbox(DropRare.RARE))
 		}
 
 		opCommand("sound") { player, args ->
