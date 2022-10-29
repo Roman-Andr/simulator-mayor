@@ -15,7 +15,7 @@ class Project(
 		get() = 0
 
 	init {
-		id = owner.stats.totalProjects
+		id = owner.stats.totalProjects + owner.city.projects.size
 	}
 
 	fun start() {

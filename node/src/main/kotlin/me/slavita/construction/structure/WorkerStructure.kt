@@ -22,7 +22,6 @@ class WorkerStructure(
 		}
 
 	override fun enterBuilding() {
-		owner.player.killboard(owner.city.projects.map { it.structure.state }.toString())
 		build()
 	}
 

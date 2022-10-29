@@ -25,7 +25,8 @@ class ActiveProjectsMenu(player: Player) : MenuCommand(player) {
 								title = "Проект #${it.id}"
 								hover = """
                                     ${AQUA}ID: ${it.id}
-                                    ${AQUA}Награды: \n${it.rewards.joinToString("\n") { it.toString() }}
+                                    ${AQUA}Награды:
+                                    ${it.rewards.joinToString("\n") { it.toString() }}
                                 """.trimIndent()
 								special(it.structure is ClientStructure)
 								onClick { _, _, _ ->
