@@ -3,6 +3,7 @@ package me.slavita.construction.action.command.menu.bank
 import me.func.mod.conversation.ModTransfer
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
+import me.func.mod.ui.menu.choicer.Choicer
 import me.func.mod.ui.menu.selection.Selection
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.app
@@ -12,8 +13,9 @@ import org.bukkit.entity.Player
 class BankMainMenu(player: Player) : MenuCommand(player) {
 	override fun getMenu(): Openable {
 		app.getUser(player).run user@{
-			return Selection(
-				title = "Банк", rows = 4, columns = 3,
+			return Choicer(
+				title = "Банк",
+				description = "Выбери нужный раздел",
 				storage = mutableListOf(
 					button {
 						title = "Информация"
@@ -36,7 +38,7 @@ class BankMainMenu(player: Player) : MenuCommand(player) {
 					},
 					button {
 						title = "Мои кредиты"
-						description = "Нажмите для просмотра ваших кредитов"
+						description = "Нажмите для\nпросмотра ваших\nкредитов"
 						hint = "Выбрать"
 						item = ItemIcons.get("other", "quest_month")
 						onClick { _, _, _ ->

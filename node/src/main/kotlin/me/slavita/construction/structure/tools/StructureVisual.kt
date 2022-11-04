@@ -51,7 +51,7 @@ class StructureVisual(val structure: BuildingStructure) {
 
 		infoBanners = BannerUtil.createDual(
 			BannerInfo(
-				structure.box.bottomCenter.withOffset(-structure.box.min).withOffset(structure.allocation),
+				structure.box.bottomInfo.withOffset(-structure.box.min).withOffset(structure.allocation),
 				BlockFace.NORTH,
 				structure.getBannerInfo(),
 				102,
@@ -63,11 +63,12 @@ class StructureVisual(val structure: BuildingStructure) {
 
 		progressWorld = ReactiveProgress.builder()
 			.position(Position.BOTTOM)
-			.offsetX(structure.allocation.x)
-			.offsetY(structure.allocation.y + 5.0)
-			.offsetZ(structure.allocation.z)
+			.offsetX(structure.box.bottomInfo.withOffset(-structure.box.min).withOffset(structure.allocation).x)
+			.offsetY(structure.allocation.y + 6.0)
+			.offsetZ(structure.box.bottomInfo.withOffset(-structure.box.min).withOffset(structure.allocation).z)
 			.hideOnTab(false)
 			.color(GlowColor.GREEN)
+			.scale(2.5)
 			.build()
 
 		marker = Marker(center.x, center.y, center.z, 80.0, MarkerSign.ARROW_DOWN)
@@ -84,7 +85,7 @@ class StructureVisual(val structure: BuildingStructure) {
 			text =
 				"${ChatColor.WHITE}Поставлено блоков: ${ChatColor.WHITE}${structure.blocksPlaced} ${ChatColor.WHITE}из ${ChatColor.AQUA}${structure.structure.blocksCount}"
 		}
-		infoBanners!!.toList().forEach {
+		infoBanners!!.toList().forEach { it ->
 			Banners.content(owner.player, it, structure.getBannerInfo().joinToString("\n") { it.first })
 		}
 	}

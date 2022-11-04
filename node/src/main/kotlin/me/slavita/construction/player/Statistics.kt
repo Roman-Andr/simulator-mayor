@@ -18,5 +18,5 @@ class Statistics(
 			field = response
 		}
 
-	constructor() : this(1000000000000000000, 1, 0, .0, 0, 0)
+	constructor() : this(10000000000, 1, 0, .0, 0, 0)
 }

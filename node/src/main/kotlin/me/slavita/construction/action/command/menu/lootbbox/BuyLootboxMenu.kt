@@ -3,6 +3,7 @@ package me.slavita.construction.action.command.menu.lootbbox
 import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
+import me.func.mod.ui.menu.choicer.Choicer
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.app
 import me.slavita.construction.ui.Formatter.toMoneyIcon
@@ -14,7 +15,7 @@ import org.bukkit.entity.Player
 class BuyLootboxMenu(player: Player) : MenuCommand(player) {
 	override fun getMenu(): Openable {
 		app.getUser(player).run user@{
-			return getBaseSelection(MenuInfo("Покупка строителей", StatsType.MONEY, 3, 3)).apply {
+			return Choicer(title = "Покупка строителей", description = "Выбери нужного строителя",).apply {
 				storage = mutableListOf<ReactiveButton>().apply storage@{
 					WorkerRarity.values().forEach { rarity ->
 						this@storage.add(button {

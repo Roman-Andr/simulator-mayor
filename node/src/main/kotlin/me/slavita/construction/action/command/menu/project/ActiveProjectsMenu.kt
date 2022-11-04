@@ -14,29 +14,27 @@ import org.bukkit.ChatColor.AQUA
 import org.bukkit.entity.Player
 
 class ActiveProjectsMenu(player: Player) : MenuCommand(player) {
-	override fun getMenu(): Openable {
-		app.getUser(player).run {
-			return getBaseSelection(MenuInfo("Ваши активные проекты", StatsType.MONEY, 4, 5)).apply {
-				storage = mutableListOf<ReactiveButton>().apply storage@{
-					city.projects.forEach {
-						this@storage.add(
-							button {
-								item = ItemIcons.get("skyblock", "settings")
-								title = "Проект #${it.id}"
-								hover = """
-                                    ${AQUA}ID: ${it.id}
-                                    ${AQUA}Награды:
-                                    ${it.rewards.joinToString("\n") { it.toString() }}
-                                """.trimIndent()
-								special(it.structure is ClientStructure)
-								onClick { _, _, _ ->
-									Anime.close(player)
-								}
-							}
-						)
-					}
-				}
-			}
-		}
-	}
+    override fun getMenu(): Openable {
+        app.getUser(player).run {
+            return getBaseSelection(MenuInfo("Ваши активные проекты", StatsType.MONEY, 4, 5)).apply {
+                storage = mutableListOf<ReactiveButton>().apply storage@{
+                    city.projects.forEach {
+                        this@storage.add(
+                            button {
+                                item = ItemIcons.get("skyblock", "settings")
+                                title = "Проект #${it.id}"
+                                hover = "${AQUA}ID: ${it.id}\n" +
+										"${AQUA}Награды:\n" +
+										it.rewards.joinToString("\n") { it.toString() }
+                                special(it.structure is ClientStructure)
+                                onClick { _, _, _ ->
+                                    Anime.close(player)
+                                }
+                            }
+                        )
+                    }
+                }
+            }
+        }
+    }
 }

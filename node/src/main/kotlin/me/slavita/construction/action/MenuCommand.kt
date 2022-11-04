@@ -4,6 +4,7 @@ import me.func.mod.Anime
 import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
+import me.func.mod.ui.menu.choicer.Choicer
 import me.func.mod.ui.menu.selection.Selection
 import me.slavita.construction.app
 import me.slavita.construction.bank.Bank

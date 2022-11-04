@@ -2,6 +2,7 @@ package me.slavita.construction.action.command.menu
 
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
+import me.func.mod.ui.menu.choicer.Choicer
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.menu.lootbbox.BuyLootboxMenu
 import me.slavita.construction.action.command.menu.lootbbox.LootboxesListMenu
@@ -16,7 +17,7 @@ import org.bukkit.entity.Player
 class ControlPanelMenu(player: Player) : MenuCommand(player) {
 	override fun getMenu(): Openable {
 		app.getUser(player).run {
-			return getBaseSelection(MenuInfo("Меню", StatsType.LEVEL, 3, 3)).apply {
+			return Choicer(title = "Меню", description = "Выбери нужный раздел",).apply {
 				storage = mutableListOf(
 					button {
 						title = "Работники"
@@ -38,7 +39,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
 					},
 					button {
 						title = "Активные проекты"
-						description = "Просмостр ваших активных проектов"
+						description = "Просмотр ваших\nактивных проектов"
 						hint = "Выбрать"
 						item = ItemIcons.get("other", "book")
 						onClick { _, _, _ ->
@@ -47,7 +48,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
 					},
 					button {
 						title = "Лутбоксы"
-						description = "Список ваших лутбоксов"
+						description = "Список ваших\nлутбоксов"
 						hint = "Выбрать"
 						item = ItemIcons.get("other", "new_lvl_rare_close")
 						onClick { _, _, _ ->

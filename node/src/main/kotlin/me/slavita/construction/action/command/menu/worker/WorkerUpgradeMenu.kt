@@ -3,6 +3,7 @@ package me.slavita.construction.action.command.menu.worker
 import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
+import me.func.mod.ui.menu.choicer.Choicer
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.UpgradeWorker
@@ -20,17 +21,14 @@ class WorkerUpgradeMenu(player: Player, val worker: Worker) : MenuCommand(player
 	override fun getMenu(): Openable {
 		app.getUser(player).run user@{
 			var infoButton: ReactiveButton
-			return getBaseSelection(MenuInfo("Улучшение рабочего", StatsType.MONEY, 3, 3)).apply {
+			return Choicer(title = "Улучшение рабочего").apply {
 				storage = mutableListOf(
-					getEmptyButton(),
 					button {
 						item = ItemIcons.get("other", "info1")
 						title = "Информация"
 						hover = worker.toString()
 						hint = "Информация"
 					}.apply { infoButton = this },
-					getEmptyButton(),
-					getEmptyButton(),
 					button {
 						item = ItemIcons.get("other", "add")
 						title = "Улучшить"
@@ -43,8 +41,6 @@ class WorkerUpgradeMenu(player: Player, val worker: Worker) : MenuCommand(player
 							infoButton.hover = worker.toString()
 						}
 					},
-					getEmptyButton(),
-					getEmptyButton(),
 					button {
 						item = ItemIcons.get("other", "reload")
 						title = "Продать"

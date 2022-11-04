@@ -15,6 +15,7 @@ class Box(val min: Location, val max: Location) {
 		(max.blockZ + min.blockZ) / 2.0
 	).toCenterLocation()!!
 	val bottomCenter = Location(min.world, center.x, min.y, center.z).toCenterLocation()!!
+	val bottomInfo = Location(min.world, center.x, min.y, min.z).toCenterLocation()!!
 
 	fun forEachBukkit(action: (Block) -> Unit) {
 		(min.blockX..max.blockX).forEach { x ->

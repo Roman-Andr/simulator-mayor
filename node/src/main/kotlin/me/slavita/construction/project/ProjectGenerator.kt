@@ -2,7 +2,9 @@ package me.slavita.construction.project
 
 import me.slavita.construction.app
 import me.slavita.construction.player.User
+import me.slavita.construction.reward.ExperienceReward
 import me.slavita.construction.reward.MoneyReward
+import me.slavita.construction.reward.ReputationReward
 import me.slavita.construction.structure.Cell
 import me.slavita.construction.structure.ClientStructure
 import me.slavita.construction.structure.WorkerStructure
@@ -20,7 +22,9 @@ object ProjectGenerator {
 				cell
 			),
 			listOf(
-				MoneyReward(10)
+				MoneyReward(10),
+				ExperienceReward(10),
+				ReputationReward(10),
 			)
 		)
 	}

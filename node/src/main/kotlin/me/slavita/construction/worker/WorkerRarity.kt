@@ -4,6 +4,7 @@ import me.func.protocol.data.color.GlowColor
 import me.func.protocol.data.color.RGB
 import me.func.protocol.data.rare.DropRare
 import me.slavita.construction.ui.menu.ItemIcons
+import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
@@ -20,10 +21,10 @@ enum class WorkerRarity(
 	val iconMaterial: Material = Material.CLAY_BALL,
 ) {
 	COMMON(
-		"${AQUA}Обычный",
+		"${AQUA}${BOLD}Обычный",
 		GlowColor.BLUE,
 		DropRare.COMMON,
-		"Обыкновенный строитель",
+		"Обыкновенный",
 		100,
 		1.0,
 		"other",
@@ -31,10 +32,10 @@ enum class WorkerRarity(
 		Material.TOTEM
 	),
 	RARE(
-		"${AQUA}Редкий",
+		"${AQUA}${BOLD}Редкий",
 		GlowColor.GREEN_MIDDLE,
 		DropRare.RARE,
-		"Неплохой строитель",
+		"Неплохой",
 		10000,
 		1.0,
 		"other",
@@ -42,10 +43,10 @@ enum class WorkerRarity(
 		Material.TOTEM
 	),
 	EPIC(
-		"${AQUA}Эпический",
+		"${AQUA}${BOLD}Эпический",
 		GlowColor.PURPLE,
 		DropRare.EPIC,
-		"Отличный строитель",
+		"Отличный",
 		1000000,
 		1.0,
 		"other",
@@ -53,10 +54,10 @@ enum class WorkerRarity(
 		Material.TOTEM
 	),
 	LEGENDARY(
-		"${AQUA}Легендарный",
+		"${AQUA}${BOLD}Легендарный",
 		GlowColor.ORANGE,
 		DropRare.LEGENDARY,
-		"Превосходный строитель",
+		"Превосходный",
 		100000000,
 		1.0,
 		"other",

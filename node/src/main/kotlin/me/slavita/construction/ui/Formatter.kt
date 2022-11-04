@@ -18,6 +18,10 @@ object Formatter {
 		return "$this $WHITE${Emoji.UP}"
 	}
 
+	fun Long.toReputation(): String {
+		return "$this $WHITE${Emoji.RUBY}"
+	}
+
 	fun Long.toTimeIcon(): String {
 		return "${toTime()} $WHITE${Emoji.TIME}"
 	}
