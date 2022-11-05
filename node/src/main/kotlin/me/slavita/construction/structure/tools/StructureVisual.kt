@@ -118,7 +118,6 @@ class StructureVisual(val structure: BuildingStructure) {
 	}
 
 	fun hideFinish() {
-		Animations.buildingFinished(owner.player)
 		Banners.hide(owner.player, floorBanner!!)
 	}
 }

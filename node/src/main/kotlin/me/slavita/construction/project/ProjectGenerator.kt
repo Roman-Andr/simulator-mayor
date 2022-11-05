@@ -22,9 +22,9 @@ object ProjectGenerator {
 				cell
 			),
 			listOf(
-				MoneyReward(10),
-				ExperienceReward(10),
-				ReputationReward(10),
+				MoneyReward(100),
+				ExperienceReward(100),
+				ReputationReward(100),
 			)
 		)
 	}
@@ -40,7 +40,9 @@ object ProjectGenerator {
 				cell
 			),
 			listOf(
-				MoneyReward(10)
+				MoneyReward(300),
+				ExperienceReward(200),
+				ReputationReward(100),
 			)
 		)
 	}

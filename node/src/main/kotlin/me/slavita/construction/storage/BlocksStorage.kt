@@ -17,7 +17,7 @@ class BlocksStorage(val owner: User) {
 
 	init {
 		Anime.createReader("storage:open") { player, _ ->
-			if (owner.uuid == player.uniqueId) StorageMenu(owner).tryExecute()
+			if (owner.uuid == player.uniqueId) StorageMenu(owner.player).tryExecute()
 		}
 	}
 }

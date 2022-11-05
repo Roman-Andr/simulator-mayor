@@ -1,22 +1,14 @@
 package me.slavita.construction.player
 
+import kotlin.math.pow
+
 class Statistics(
 	var money: Long,
 	var level: Int,
-	experience: Int,
+	var experience: Long,
 	var reputation: Double,
 	var totalProjects: Int,
 	var maxProjects: Int,
 ) {
-	var experience = experience
-		set(value) {
-			var response = value
-			if (response / 100 > 0) {
-				level += response / 100
-				response %= 100
-			}
-			field = response
-		}
-
 	constructor() : this(10000000000, 1, 0, .0, 0, 0)
 }

@@ -21,6 +21,10 @@ object AdminCommands {
 			app.getUser(player).stats.money = args[0].toLong()
 		}
 
+		opCommand("exp") { player, args ->
+			app.getUser(player).addExp(args[0].toLong())
+		}
+
 		opCommand("givelootbox") { player, args ->
 			app.getUser(player).lootboxes.add(WorkerLootbox(DropRare.RARE))
 			app.getUser(player).lootboxes.add(BlocksLootbox(DropRare.RARE))

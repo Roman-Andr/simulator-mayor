@@ -18,8 +18,12 @@ object Formatter {
 		return "$this $WHITE${Emoji.UP}"
 	}
 
+	fun Long.toExp(): String {
+		return "${toMoney()} ${Emoji.EXP}"
+	}
+
 	fun Long.toReputation(): String {
-		return "$this $WHITE${Emoji.RUBY}"
+		return "${toMoney()} $WHITE${Emoji.RUBY}"
 	}
 
 	fun Long.toTimeIcon(): String {
