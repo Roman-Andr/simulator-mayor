@@ -1,13 +1,20 @@
 package me.slavita.construction.mod.showcase
 
 import com.google.gson.Gson
+import dev.xdark.clientapi.event.block.BlockRightClick
 import dev.xdark.clientapi.event.lifecycle.GameLoop
+import dev.xdark.clientapi.math.BlockPos
+import dev.xdark.clientapi.util.EnumHand
 import dev.xdark.feder.NetUtil
+import io.netty.buffer.Unpooled
 import me.slavita.construction.mod.mod
+import me.slavita.construction.mod.player
+import me.slavita.construction.mod.utils.extensions.PositionExtensions.inBox
 import ru.cristalix.uiengine.UIEngine
 import ru.cristalix.uiengine.UIEngine.clientApi
 import ru.cristalix.uiengine.element.TextElement
 import ru.cristalix.uiengine.utility.*
+import java.nio.charset.Charset
 
 object Showcases {
 	private lateinit var showcaseText: TextElement
@@ -43,9 +50,7 @@ object Showcases {
 				var shown = false
 
 				showcases?.forEach {
-					val a = it.min
-					val b = it.max
-					if (a.x <= x && x <= b.x && a.y <= y && y <= b.y && a.z <= z && z <= b.z) {
+					if (inBox(it.min, it.max)) {
 						showcaseText.content = it.title
 						showcaseBox.enabled = true
 						shown = true
@@ -58,7 +63,19 @@ object Showcases {
 			}
 		}
 
-		mod.registerChannel("showcase") {
+		mod.registerHandler<BlockRightClick> {
+			if (hand == EnumHand.OFF_HAND) return@registerHandler
+			showcases?.forEach {
+				if (!position.add(facing.xOffset, facing.yOffset, facing.zOffset).inBox(it.min, it.max)) return@forEach
+
+				val buffer = Unpooled.buffer().writeInt(it.id)
+				clientApi.clientConnection().sendPayload("showcase:open", buffer)
+
+				player.swingArm(EnumHand.MAIN_HAND)
+			}
+		}
+
+		mod.registerChannel("showcase:initialize") {
 			showcases = Gson().fromJson(NetUtil.readUtf8(this), Array<ShowcaseData>::class.java)
 		}
 	}

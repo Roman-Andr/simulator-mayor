@@ -45,11 +45,6 @@ class GameWorld(val map: WorldMeta) {
 					buildings
 				}.build()
 		)
-		after(5) {
-			map.getLabels("storage").forEach {
-				map.world.getBlockAt(it.toBlockLocation()).type = Material.CHEST
-			}
-		}
 	}
 
 	fun placeFakeBlock(player: Player, block: StructureBlock) {

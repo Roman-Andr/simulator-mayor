@@ -1,6 +1,7 @@
 package me.slavita.construction.structure
 
 import implario.humanize.Humanize
+import me.func.mod.Anime
 import me.func.mod.ui.Glow
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.connection.ConnectionUtil
@@ -28,13 +29,8 @@ class ClientStructure(
 	private val cooldown = Cooldown(5, owner.player)
 
 	override fun enterBuilding() {
-		ConnectionUtil.registerReader(owner.player.uniqueId) { packet ->
-			if (packet !is PacketPlayInUseItem || state != StructureState.BUILDING || packet.c != EnumHand.MAIN_HAND) return@registerReader
-
-			val clickedBlock = packet.a.toLocation(world.map.world).block
-			val relativeBlock = clickedBlock.getRelative(BlockFace.valueOf(packet.b.name)).location
-
-			if (currentBlock!!.withOffset(allocation).equalsLocation(relativeBlock)) tryPlaceBlock()
+		Anime.createReader("structure:place") { player, _ ->
+			if (player.uniqueId == owner.uuid) tryPlaceBlock()
 		}
 	}
 

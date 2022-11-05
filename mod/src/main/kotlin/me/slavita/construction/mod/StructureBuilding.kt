@@ -7,6 +7,7 @@ import dev.xdark.clientapi.item.ItemStack
 import dev.xdark.clientapi.item.ItemTools
 import dev.xdark.clientapi.opengl.GlStateManager
 import dev.xdark.clientapi.util.EnumHand
+import io.netty.buffer.Unpooled
 import me.slavita.construction.mod.utils.Renderer
 import me.slavita.construction.mod.utils.extensions.InventoryExtensions.blocksCount
 import me.slavita.construction.mod.utils.extensions.InventoryExtensions.handItemEquals
@@ -121,6 +122,7 @@ object StructureBuilding {
 			) return@registerHandler
 			if (!player.inventory.handItemEquals(currentItem!!)) return@registerHandler
 
+			clientApi.clientConnection().sendPayload("structure:place", Unpooled.buffer())
 			player.swingArm(EnumHand.MAIN_HAND)
 		}
 

@@ -27,16 +27,6 @@ class Box(val min: Location, val max: Location) {
 		}
 	}
 
-	fun getChunks(): HashSet<V2i> {
-		val response = hashSetOf<V2i>()
-		(min.blockX..max.blockX).forEach { x ->
-			(min.blockZ..max.blockZ).forEach { z ->
-				response.add(V2i(x / 16, z / 16))
-			}
-		}
-		return response
-	}
-
 	fun contains(location: Location): Boolean {
 		return min.getX() <= location.getX() && max.getX() >= location.getX() &&
 				min.getY() <= location.getY() && max.getY() >= location.getY() &&

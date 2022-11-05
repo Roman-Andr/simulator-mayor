@@ -4,19 +4,19 @@ import org.bukkit.Material
 
 object Showcases {
 	val showcases = hashSetOf(
-		ShowcaseProperties("concrete", "Бетон", Material.CONCRETE, Material.CONCRETE_POWDER),
-		ShowcaseProperties("glass", "Стекло", Material.GLASS, Material.STAINED_GLASS, Material.STAINED_GLASS_PANE),
+		ShowcaseProperties(1, "concrete", "Бетон", Material.CONCRETE, Material.CONCRETE_POWDER),
+		ShowcaseProperties(2, "glass", "Стекло", Material.GLASS, Material.STAINED_GLASS, Material.STAINED_GLASS_PANE),
 		ShowcaseProperties(
-			"flowers", "Цветы",
+			3, "flowers", "Цветы",
 			Material.FLOWER_POT,
 			Material.YELLOW_FLOWER,
 			Material.RED_ROSE,
 			Material.DOUBLE_PLANT,
 			Material.CHORUS_PLANT
 		),
-		ShowcaseProperties("wool", "Шерсть", Material.WOOL),
+		ShowcaseProperties(4, "wool", "Шерсть", Material.WOOL),
 		ShowcaseProperties(
-			"wood", "Дерево",
+			5, "wood", "Дерево",
 			Material.WOOD,
 			Material.ACACIA_STAIRS,
 			Material.BIRCH_WOOD_STAIRS,
@@ -28,7 +28,7 @@ object Showcases {
 	init {
 		showcases.add(
 			ShowcaseProperties(
-				"deco", "Декорации",
+				6, "deco", "Декорации",
 				*Material.values().filter filter@{ material ->
 					showcases.forEach {
 						if (it.materials.contains(material)) return@filter false

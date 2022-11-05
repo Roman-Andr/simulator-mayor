@@ -11,12 +11,13 @@ import me.slavita.construction.ui.menu.StatsType
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 import java.util.stream.Collectors
 import java.util.stream.Stream
 
 class ShowcaseMenu(player: Player, val menuName: String, val items: List<ItemProperties>) : MenuCommand(player) {
 	override fun getMenu(): Openable {
-		app.getUser(player).run {
+		app.getUser(player).run user@{
 			return getBaseSelection(MenuInfo(menuName, StatsType.MONEY, 6, 14)).apply {
 				storage = mutableListOf<ReactiveButton>().apply storage@{
 					items.forEach { targetItem ->
@@ -30,10 +31,16 @@ class ShowcaseMenu(player: Player, val menuName: String, val items: List<ItemPro
 									).collect(Collectors.joining())
 								hint = (if (canPurchase(123)) "${ChatColor.WHITE}" else "${ChatColor.RED}") + Emoji.COIN
 								onLeftClick { _, _, _ ->
-									tryPurchase(123, { player.inventory.addItem(targetItem.createItemStack(8)) })
+									tryPurchase(123, {
+										val item = ItemProperties(targetItem.type, targetItem.data)
+										this@user.blocksStorage.blocks.getOrPut(item) { item.createItemStack(0) }.amount += 8
+									})
 								}
 								onRightClick { _, _, _ ->
-									tryPurchase(123, { player.inventory.addItem(targetItem.createItemStack(32)) })
+									tryPurchase(123, {
+										val item = ItemProperties(targetItem.type, targetItem.data)
+										this@user.blocksStorage.blocks.getOrPut(item) { item.createItemStack(0) }.amount += 32
+									})
 								}
 							}
 						)
