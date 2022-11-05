@@ -1,37 +1,38 @@
 package me.slavita.construction.ui
 
-import me.func.mod.ui.scoreboard.ScoreBoard
+import me.func.mod.ui.token.Token
+import me.func.mod.ui.token.TokenGroup
 import me.func.protocol.data.emoji.Emoji
 import me.slavita.construction.app
-import me.slavita.construction.ui.Formatter.toMoneyIcon
-import org.bukkit.ChatColor
+import me.slavita.construction.ui.Formatter.toMoney
+import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 
 object ScoreBoardGenerator {
 	fun generate(player: Player) {
-		ScoreBoard.builder()
-			.key("scoreboard")
-			.header("Стройка")
-			.dynamic("Монеты") {
-				return@dynamic app.getUser(it).stats.money.toMoneyIcon()
-			}
-			.dynamic("Уровень") {
-				return@dynamic "${app.getUser(it).stats.level}${ChatColor.WHITE} (${app.getUser(it).stats.experience}/100) ${Emoji.UP}"
-			}
-			.empty()
-			.dynamic("Строителей") {
-				return@dynamic "${app.getUser(it).workers.size}"
-			}
-			.empty()
-			.dynamic("Проектов") {
-				return@dynamic "${app.getUser(it).stats.totalProjects}"
-			}
-			.dynamic("Репутация") {
-				return@dynamic "${app.getUser(it).stats.reputation}"
-			}
-			.build().apply {
-				ScoreBoard.subscribe("scoreboard", player)
-				show(player)
-			}
+		TokenGroup(
+			Token.builder()
+				.title("Деньги")
+				.content { "${Emoji.DOLLAR} ${DARK_GREEN}${app.getUser(player).stats.money.toMoney()}" }
+				.build(),
+			Token.builder()
+				.title("Уровень")
+				.content { "${Emoji.UP} ${GREEN}${app.getUser(player).stats.level}" }
+				.build(),
+			Token.builder()
+				.title("Строителей")
+				.content { "${Emoji.MINING} ${LIGHT_PURPLE}${app.getUser(player).workers.size}" }
+				.build(),
+			Token.builder()
+				.title("Проектов")
+				.content { "${Emoji.HEART} ${DARK_PURPLE}${app.getUser(player).stats.totalProjects}" }
+				.build(),
+			Token.builder()
+				.title("Репутация")
+				.content { "${Emoji.RUBY} ${GOLD}${app.getUser(player).stats.reputation}" }
+				.build()
+		).apply {
+				subscribe(player)
+		}
 	}
 }
