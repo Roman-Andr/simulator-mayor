@@ -32,21 +32,11 @@ class StructureVisual(val structure: BuildingStructure) {
 
 	fun start() {
 		val center = structure.box.center
-		floorBanner = BannerUtil.create(
-			BannerInfo(
-				center.clone().apply {
-					y = structure.allocation.y - 22.49
-					z = structure.allocation.z
-				},
-				BlockFace.UP,
-				listOf(),
-				16 * 23,
-				16 * 23,
-				GlowColor.BLUE,
-				0.24,
-				MotionType.CONSTANT,
-				-90.0F
-			)
+		floorBanner = BannerUtil.createFloorBanner(
+			center.clone().apply {
+				y = structure.allocation.y - 22.49
+				z = structure.allocation.z
+			}, GlowColor.BLUE
 		)
 
 		infoBanners = BannerUtil.createDual(

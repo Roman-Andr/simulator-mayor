@@ -3,6 +3,7 @@ package me.slavita.construction.project
 import me.slavita.construction.player.User
 import me.slavita.construction.reward.Reward
 import me.slavita.construction.structure.BuildingStructure
+import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.structure.tools.StructureState
 
 class Project(
@@ -30,6 +31,8 @@ class Project(
 				rewards.forEach {
 					it.getReward(owner)
 				}
+				structure.cityStructure!!.state = CityStructureState.FUNCTIONING
+				structure.cityStructure!!.startIncome()
 				owner.city.finishProject(this@Project)
 				owner.stats.totalProjects++
 			}

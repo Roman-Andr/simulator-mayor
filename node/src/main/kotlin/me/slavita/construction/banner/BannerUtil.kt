@@ -1,8 +1,11 @@
 package me.slavita.construction.banner
 
 import me.func.mod.world.Banners.location
+import me.func.protocol.data.color.GlowColor
+import me.func.protocol.data.color.RGB
 import me.func.protocol.data.color.Tricolor
 import me.func.protocol.data.element.Banner
+import me.func.protocol.data.element.MotionType
 import me.slavita.construction.utils.extensions.BlocksExtensions.toYaw
 import org.bukkit.Location
 import org.bukkit.block.BlockFace
@@ -10,6 +13,22 @@ import org.bukkit.util.Vector
 
 object BannerUtil {
 	private const val offset = 0.52
+
+	fun createFloorBanner(location: Location, color: RGB): Banner {
+		return create(
+			BannerInfo(
+				location,
+				BlockFace.UP,
+				listOf(),
+				16 * 23,
+				16 * 23,
+				color,
+				0.24,
+				MotionType.CONSTANT,
+				-90.0F
+			)
+		)
+	}
 
 	fun createDual(info: BannerInfo): Pair<Banner, Banner> {
 		info.run {

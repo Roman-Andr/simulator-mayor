@@ -38,7 +38,9 @@ object NpcManager {
 			val action = values["action"] as String
 
 			Npc.npc {
-				labels.find { it.tag == labelTag }?.let { location(it) }
+				labels.find { it.tag == labelTag }?.let { location(it.toCenterLocation().apply { y =
+					it.blockY.toDouble()
+				}) }
 				name = title
 				when (skinType) {
 					"uuid" -> skin(UUID.fromString(skin))

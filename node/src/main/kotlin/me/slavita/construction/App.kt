@@ -90,7 +90,7 @@ class App : JavaPlugin() {
 		ModLoader.onJoining("construction-mod.jar")
 
 		structureMap = MapLoader.load("construction", "structures")
-		mainWorld = GameWorld(MapLoader.load("construction", "test"))
+		mainWorld = GameWorld(MapLoader.load("construction", "Spawn"))
 
 		Music.block(Category.MUSIC)
 

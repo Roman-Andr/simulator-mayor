@@ -7,7 +7,6 @@ import me.slavita.construction.app
 import me.slavita.construction.ui.Formatter.toMoney
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
-import kotlin.math.pow
 
 object ScoreBoardGenerator {
 	fun generate(player: Player) {
@@ -17,12 +16,16 @@ object ScoreBoardGenerator {
 				.content { "${Emoji.DOLLAR} ${DARK_GREEN}${app.getUser(player).stats.money.toMoney()}" }
 				.build(),
 			Token.builder()
+				.title("Доход")
+				.content { "${Emoji.COIN} ${GREEN}${app.getUser(player).income.toMoney()}" }
+				.build(),
+			Token.builder()
 				.title("Уровень")
-				.content { "${Emoji.UP} ${GREEN}${app.getUser(player).stats.level}" }
+				.content { "${Emoji.UP} ${BLUE}${app.getUser(player).stats.level}" }
 				.build(),
 			Token.builder()
 				.title("Опыт")
-				.content { "${Emoji.EXP} ${GREEN}${app.getUser(player).stats.experience}/..." }
+				.content { "${Emoji.EXP} ${DARK_BLUE}${app.getUser(player).stats.experience}/..." }
 				.build(),
 			Token.builder()
 				.title("Строителей")

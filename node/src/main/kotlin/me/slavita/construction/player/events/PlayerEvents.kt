@@ -4,12 +4,12 @@ import me.func.mod.util.after
 import me.slavita.construction.action.command.menu.project.ChoiceStructure
 import me.slavita.construction.app
 import me.slavita.construction.prepare.*
+import me.slavita.construction.structure.tools.CityStructureState
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerMoveEvent
-import org.bukkit.event.player.PlayerQuitEvent
 
 object PlayerEvents : Listener {
 	private val inZone = hashMapOf<Player, Boolean>()
@@ -39,6 +39,12 @@ object PlayerEvents : Listener {
 			if (watchableProject != null && !watchableProject!!.structure.box.contains(player.location)) {
 				watchableProject!!.onLeave()
 				watchableProject = null
+			}
+
+			city.cityStructures.forEach {
+				if (it.cell.box.contains(player.location) && it.state == CityStructureState.BROKEN) {
+					it.repair()
+				}
 			}
 
 			if (watchableProject == null) {

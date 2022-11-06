@@ -3,6 +3,7 @@ package me.slavita.construction.player
 import me.func.mod.Anime
 import me.func.mod.ui.Glow
 import me.func.protocol.data.color.GlowColor
+import me.slavita.construction.app
 import me.slavita.construction.player.lootbox.Lootbox
 import me.slavita.construction.project.Project
 import me.slavita.construction.storage.BlocksStorage
@@ -27,6 +28,13 @@ class User(
 	var workers = hashSetOf<Worker>()
 	var lootboxes = hashSetOf<Lootbox>()
 	var watchableProject: Project? = null
+	var income = 0L
+
+	init {
+		Bukkit.server.scheduler.scheduleSyncRepeatingTask(app, {
+			stats.money += income
+		}, 0L, 20L)
+	}
 
 	fun tryPurchase(
 		cost: Long,

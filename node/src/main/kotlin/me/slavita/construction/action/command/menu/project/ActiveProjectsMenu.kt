@@ -17,6 +17,7 @@ class ActiveProjectsMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         app.getUser(player).run {
             return getBaseSelection(MenuInfo("Ваши активные проекты", StatsType.MONEY, 4, 5)).apply {
+                hint = ""
                 storage = mutableListOf<ReactiveButton>().apply storage@{
                     city.projects.forEach {
                         this@storage.add(

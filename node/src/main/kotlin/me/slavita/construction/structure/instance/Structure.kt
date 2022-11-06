@@ -16,6 +16,8 @@ class Structure(val name: String, val box: Box) {
 	var blocksCount = 0
 		private set
 
+	val income = 100L
+
 	init {
 		box.forEachBukkit {
 			if (it.type == Material.AIR) return@forEachBukkit

@@ -18,6 +18,7 @@ abstract class BuildingStructure(
 	protected var hidden = false
 	private var currentProject: Project? = null
 	private val visual = StructureVisual(this)
+	var cityStructure: CityStructure? = null
 	var state = StructureState.NOT_STARTED
 	var blocksPlaced = 0
 	val box = cell.box
@@ -80,7 +81,7 @@ abstract class BuildingStructure(
 		state = StructureState.FINISHED
 		deleteVisual()
 		visual.finishShow()
-		owner.city.cityStructures.add(CityStructure(owner.player, structure, cell))
+		cityStructure = owner.city.addStructure(CityStructure(owner.player, structure, cell))
 	}
 
 	fun claimed() {
