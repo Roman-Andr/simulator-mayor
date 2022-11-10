@@ -24,10 +24,6 @@ object NpcManager {
 	private val labels = app.mainWorld.getNpcLabels()
 
 	init {
-		load()
-	}
-
-	private fun load() {
 		Atlas.find("npc").getMapList("npc").forEach { values ->
 			val title = values["title"] as String
 			val labelTag = values["labelTag"] as String

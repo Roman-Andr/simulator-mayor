@@ -22,6 +22,7 @@ import me.slavita.construction.player.events.PhysicsDisabler
 import me.slavita.construction.player.events.PlayerEvents
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.items.ItemsManager
+import me.slavita.construction.utils.BoardsManager
 import me.slavita.construction.utils.Config
 import me.slavita.construction.utils.ModCallbacks
 import me.slavita.construction.world.GameWorld
@@ -94,9 +95,9 @@ class App : JavaPlugin() {
 
 		Music.block(Category.MUSIC)
 
-		Config
-		after(50) {
+		Config.load {
 			NpcManager
+			BoardsManager
 		}
 		MultiChats
 		UserCommands
