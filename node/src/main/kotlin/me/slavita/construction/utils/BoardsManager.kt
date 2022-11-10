@@ -38,6 +38,7 @@ object BoardsManager {
         Boards.addBoard(blocks)
 
         Bukkit.server.scheduler.scheduleSyncRepeatingTask(app, {
+            blocks.clearContent()
             blocks.addContent(
                 UUID.randomUUID(),
                 "1",
