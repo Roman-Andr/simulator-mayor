@@ -19,10 +19,9 @@ class CityStructure(val owner: Player, val structure: Structure, val cell: Cell)
 	val visual = CityStructureVisual(this)
 
 	init {
-		building.allocate(cell.box.min)
+		building.allocate(cell.box.min.clone().add(11.0, 0.0, 11.0))
 		building.show(owner)
 		visual.update()
-
 	}
 
 	fun repair() {

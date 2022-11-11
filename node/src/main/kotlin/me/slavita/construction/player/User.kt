@@ -21,8 +21,7 @@ class User(
 	var stats: Statistics,
 ) {
 	var prepared = false
-	val player: Player
-		get() = Bukkit.getPlayer(uuid)
+	val player = Bukkit.getPlayer(uuid)
 	val city = City(this)
 	val blocksStorage = BlocksStorage(this)
 	var workers = hashSetOf<Worker>()

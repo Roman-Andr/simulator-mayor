@@ -11,6 +11,8 @@ open class ItemProperties(val type: Material, val data: Byte) {
 			ItemProperties(block.type, (block as CraftBlock).nmsBlock.getDropData(block.data0).toByte())
 	}
 
+	constructor(item: ItemStack) : this(item.getData().itemType, if (item.getData() == null) 0 else item.getData().data)
+
 	fun equalsItem(item: ItemStack?): Boolean {
 		return item != null && item.getType() == type && item.getData().data == data
 	}

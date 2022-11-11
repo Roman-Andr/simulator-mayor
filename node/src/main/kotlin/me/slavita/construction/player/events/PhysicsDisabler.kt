@@ -91,11 +91,6 @@ object PhysicsDisabler : Listener {
 	}
 
 	@EventHandler
-	fun PlayerDropItemEvent.handle() {
-		isCancelled = true
-	}
-
-	@EventHandler
 	fun HangingBreakByEntityEvent.handle() {
 		isCancelled = true
 	}

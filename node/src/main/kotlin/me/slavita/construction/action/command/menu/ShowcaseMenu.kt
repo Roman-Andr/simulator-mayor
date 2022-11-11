@@ -11,7 +11,6 @@ import me.slavita.construction.ui.menu.StatsType
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemStack
 import java.util.stream.Collectors
 import java.util.stream.Stream
 
@@ -23,7 +22,7 @@ class ShowcaseMenu(player: Player, val menuName: String, val items: List<ItemPro
 					items.forEach { targetItem ->
 						this@storage.add(
 							button {
-								item = targetItem.createItemStack(1)
+								item = targetItem.createItemStack(0)
 								hover =
 									Stream.of(
 										"${ChatColor.AQUA}Купить 8 шт за 123 [ЛКМ]\n",
@@ -32,14 +31,12 @@ class ShowcaseMenu(player: Player, val menuName: String, val items: List<ItemPro
 								hint = (if (canPurchase(123)) "${ChatColor.WHITE}" else "${ChatColor.RED}") + Emoji.COIN
 								onLeftClick { _, _, _ ->
 									tryPurchase(123, {
-										val item = ItemProperties(targetItem.type, targetItem.data)
-										this@user.blocksStorage.blocks.getOrPut(item) { item.createItemStack(0) }.amount += 8
+										this@user.blocksStorage.addItem(targetItem.createItemStack(0), 8)
 									})
 								}
 								onRightClick { _, _, _ ->
 									tryPurchase(123, {
-										val item = ItemProperties(targetItem.type, targetItem.data)
-										this@user.blocksStorage.blocks.getOrPut(item) { item.createItemStack(0) }.amount += 32
+										this@user.blocksStorage.addItem(targetItem.createItemStack(0), 32)
 									})
 								}
 							}
