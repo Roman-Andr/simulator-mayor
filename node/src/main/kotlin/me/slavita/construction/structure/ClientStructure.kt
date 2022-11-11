@@ -4,20 +4,14 @@ import implario.humanize.Humanize
 import me.func.mod.Anime
 import me.func.mod.ui.Glow
 import me.func.protocol.data.color.GlowColor
-import me.slavita.construction.connection.ConnectionUtil
 import me.slavita.construction.player.User
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureSender
-import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.utils.Cooldown
-import me.slavita.construction.utils.extensions.BlocksExtensions.toLocation
 import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
 import me.slavita.construction.utils.extensions.PlayerExtensions.swapItems
 import me.slavita.construction.world.GameWorld
-import net.minecraft.server.v1_12_R1.EnumHand
-import net.minecraft.server.v1_12_R1.PacketPlayInUseItem
 import org.bukkit.ChatColor.*
-import org.bukkit.block.BlockFace
 
 class ClientStructure(
 	world: GameWorld,

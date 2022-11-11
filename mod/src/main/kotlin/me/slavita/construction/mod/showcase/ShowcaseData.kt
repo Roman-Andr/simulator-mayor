@@ -1,7 +1,6 @@
 package me.slavita.construction.mod.showcase
 
 import ru.cristalix.uiengine.utility.V3
-import java.util.*
 
 data class ShowcaseData(
 	val title: String,

@@ -4,7 +4,6 @@ import me.func.mod.util.after
 import me.slavita.construction.player.User
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureState
-import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
 import me.slavita.construction.worker.Worker
 import me.slavita.construction.world.GameWorld
 

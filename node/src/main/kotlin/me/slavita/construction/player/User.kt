@@ -1,20 +1,14 @@
 package me.slavita.construction.player
 
-import me.func.mod.Anime
-import me.func.mod.ui.Glow
-import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.app
 import me.slavita.construction.player.lootbox.Lootbox
 import me.slavita.construction.project.Project
 import me.slavita.construction.storage.BlocksStorage
-import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.utils.music.MusicExtension.playSound
 import me.slavita.construction.utils.music.MusicSound
 import me.slavita.construction.worker.Worker
 import org.bukkit.Bukkit
-import org.bukkit.entity.Player
 import java.util.*
-import kotlin.math.pow
 
 class User(
 	val uuid: UUID,
