@@ -6,7 +6,6 @@ import me.slavita.construction.app
 import me.slavita.construction.prepare.*
 import me.slavita.construction.storage.BlocksStorage
 import me.slavita.construction.structure.tools.CityStructureState
-import me.slavita.construction.world.ItemProperties
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener

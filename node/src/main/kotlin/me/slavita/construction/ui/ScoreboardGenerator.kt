@@ -40,7 +40,7 @@ object ScoreBoardGenerator {
 				.content { "${Emoji.RUBY} ${GOLD}${app.getUser(player).stats.reputation}" }
 				.build()
 		).apply {
-				subscribe(player)
+			subscribe(player)
 		}
 	}
 }

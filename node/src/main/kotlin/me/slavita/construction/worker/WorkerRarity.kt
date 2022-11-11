@@ -4,8 +4,8 @@ import me.func.protocol.data.color.GlowColor
 import me.func.protocol.data.color.RGB
 import me.func.protocol.data.rare.DropRare
 import me.slavita.construction.ui.menu.ItemIcons
-import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.BOLD
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 

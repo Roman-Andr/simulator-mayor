@@ -3,7 +3,6 @@ package me.slavita.construction.mod.showcase
 import com.google.gson.Gson
 import dev.xdark.clientapi.event.block.BlockRightClick
 import dev.xdark.clientapi.event.lifecycle.GameLoop
-import dev.xdark.clientapi.math.BlockPos
 import dev.xdark.clientapi.util.EnumHand
 import dev.xdark.feder.NetUtil
 import io.netty.buffer.Unpooled
@@ -14,7 +13,6 @@ import ru.cristalix.uiengine.UIEngine
 import ru.cristalix.uiengine.UIEngine.clientApi
 import ru.cristalix.uiengine.element.TextElement
 import ru.cristalix.uiengine.utility.*
-import java.nio.charset.Charset
 
 object Showcases {
 	private lateinit var showcaseText: TextElement

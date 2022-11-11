@@ -7,7 +7,6 @@ import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.structure.tools.CityStructureVisual
 import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import java.util.*
 

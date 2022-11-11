@@ -6,14 +6,12 @@ import me.func.mod.world.Banners
 import me.func.protocol.data.color.GlowColor
 import me.func.protocol.data.color.Tricolor
 import me.func.protocol.data.element.Banner
-import me.func.protocol.data.element.MotionType
 import me.func.protocol.math.Position
 import me.func.protocol.world.marker.Marker
 import me.func.protocol.world.marker.MarkerSign
 import me.slavita.construction.banner.BannerInfo
 import me.slavita.construction.banner.BannerUtil
 import me.slavita.construction.structure.BuildingStructure
-import me.slavita.construction.ui.Animations
 import me.slavita.construction.utils.extensions.BannersExtensions.hide
 import me.slavita.construction.utils.extensions.BannersExtensions.show
 import me.slavita.construction.utils.extensions.BlocksExtensions.unaryMinus

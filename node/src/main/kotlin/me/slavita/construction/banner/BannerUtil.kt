@@ -1,7 +1,6 @@
 package me.slavita.construction.banner
 
 import me.func.mod.world.Banners.location
-import me.func.protocol.data.color.GlowColor
 import me.func.protocol.data.color.RGB
 import me.func.protocol.data.color.Tricolor
 import me.func.protocol.data.element.Banner

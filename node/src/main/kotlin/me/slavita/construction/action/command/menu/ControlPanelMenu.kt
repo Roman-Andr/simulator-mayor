@@ -10,14 +10,12 @@ import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
 import me.slavita.construction.action.command.menu.worker.WorkerTeamMenu
 import me.slavita.construction.app
 import me.slavita.construction.ui.menu.ItemIcons
-import me.slavita.construction.ui.menu.MenuInfo
-import me.slavita.construction.ui.menu.StatsType
 import org.bukkit.entity.Player
 
 class ControlPanelMenu(player: Player) : MenuCommand(player) {
 	override fun getMenu(): Openable {
 		app.getUser(player).run {
-			return Choicer(title = "Меню", description = "Выбери нужный раздел",).apply {
+			return Choicer(title = "Меню", description = "Выбери нужный раздел").apply {
 				storage = mutableListOf(
 					button {
 						title = "Работники"

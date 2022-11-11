@@ -1,6 +1,5 @@
 package me.slavita.construction.world
 
-import me.slavita.construction.common.utils.V2i
 import me.slavita.construction.common.utils.V3i
 import net.minecraft.server.v1_12_R1.BlockPosition
 import org.bukkit.Location

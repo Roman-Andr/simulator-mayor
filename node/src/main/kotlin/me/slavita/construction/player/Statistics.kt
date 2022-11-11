@@ -1,7 +1,5 @@
 package me.slavita.construction.player
 
-import kotlin.math.pow
-
 class Statistics(
 	var money: Long,
 	var level: Int,

@@ -4,7 +4,6 @@ import me.func.mod.conversation.ModTransfer
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.choicer.Choicer
-import me.func.mod.ui.menu.selection.Selection
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.app
 import me.slavita.construction.ui.menu.ItemIcons

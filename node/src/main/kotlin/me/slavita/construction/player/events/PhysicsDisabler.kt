@@ -12,7 +12,9 @@ import org.bukkit.event.block.*
 import org.bukkit.event.entity.*
 import org.bukkit.event.hanging.HangingBreakByEntityEvent
 import org.bukkit.event.inventory.CraftItemEvent
-import org.bukkit.event.player.*
+import org.bukkit.event.player.PlayerArmorStandManipulateEvent
+import org.bukkit.event.player.PlayerInteractEntityEvent
+import org.bukkit.event.player.PlayerSwapHandItemsEvent
 import org.bukkit.event.world.ChunkLoadEvent
 import org.spigotmc.event.entity.EntityDismountEvent
 

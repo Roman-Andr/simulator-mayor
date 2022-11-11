@@ -10,8 +10,6 @@ import me.slavita.construction.action.command.UpgradeWorker
 import me.slavita.construction.app
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.ui.menu.ItemIcons
-import me.slavita.construction.ui.menu.MenuInfo
-import me.slavita.construction.ui.menu.StatsType
 import me.slavita.construction.worker.Worker
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.GREEN
