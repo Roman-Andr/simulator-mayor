@@ -20,9 +20,10 @@ class ShowcaseMenu(player: Player, val menuName: String, val items: List<ItemPro
 			return getBaseSelection(MenuInfo(menuName, StatsType.MONEY, 6, 14)).apply {
 				storage = mutableListOf<ReactiveButton>().apply storage@{
 					items.forEach { targetItem ->
+						val emptyItem = targetItem.createItemStack(1)
 						this@storage.add(
 							button {
-								item = targetItem.createItemStack(0)
+								item = emptyItem
 								hover =
 									Stream.of(
 										"${ChatColor.AQUA}Купить 8 шт за 123 [ЛКМ]\n",
@@ -31,12 +32,12 @@ class ShowcaseMenu(player: Player, val menuName: String, val items: List<ItemPro
 								hint = (if (canPurchase(123)) "${ChatColor.WHITE}" else "${ChatColor.RED}") + Emoji.COIN
 								onLeftClick { _, _, _ ->
 									tryPurchase(123, {
-										this@user.blocksStorage.addItem(targetItem.createItemStack(0), 8)
+										this@user.blocksStorage.addItem(emptyItem, 8)
 									})
 								}
 								onRightClick { _, _, _ ->
 									tryPurchase(123, {
-										this@user.blocksStorage.addItem(targetItem.createItemStack(0), 32)
+										this@user.blocksStorage.addItem(emptyItem, 32)
 									})
 								}
 							}

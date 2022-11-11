@@ -17,10 +17,10 @@ class StorageMenu(player: Player) : MenuCommand(player) {
                 storage.blocks.forEach {
                     val item = it.value
                     add(button {
-                        hint = "Взять"
+                        hint = "Взять 32 шт"
                         this.item = item
                         description = "${item.amount} шт"
-                        onRightClick { _, _, _ ->
+                        onClick { _, _, _ ->
                             player.inventory.addItem(it.key.createItemStack(storage.removeItem(it.value, 32)))
                             StorageMenu(player).tryExecute()
                         }
