@@ -19,7 +19,7 @@ class Showcase(val properties: ShowcaseProperties) : Listener {
 			ShowcaseMenu(
 				player,
 				properties.name,
-				app.allBlocks.filter { properties.materials.contains(it.type) }).tryExecute()
+				properties.elements).tryExecute()
 		}
 	}
 

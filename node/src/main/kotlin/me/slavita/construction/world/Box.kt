@@ -3,6 +3,7 @@ package me.slavita.construction.world
 import me.slavita.construction.common.utils.V3i
 import net.minecraft.server.v1_12_R1.BlockPosition
 import org.bukkit.Location
+import org.bukkit.Material
 import org.bukkit.block.Block
 
 class Box(val min: Location, val max: Location) {

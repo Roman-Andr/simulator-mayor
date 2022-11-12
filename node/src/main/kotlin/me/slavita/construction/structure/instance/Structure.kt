@@ -31,6 +31,14 @@ class Structure(val name: String, val box: Box) {
 		return getNextBlock(position.y * (box.dimensions.x * box.dimensions.z) + position.x * box.dimensions.z + position.z + 1)
 	}
 
+	fun getMaterials(): HashSet<Material> {
+		return hashSetOf<Material>().apply {
+			box.forEachBukkit {
+				this.add(it.type)
+			}
+		}
+	}
+
 	private fun getNextBlock(blocksPassed: Int): StructureBlock? {
 		var blocks = blocksPassed
 

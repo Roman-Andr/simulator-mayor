@@ -6,12 +6,14 @@ import me.func.mod.world.Npc.location
 import me.func.mod.world.Npc.onClick
 import me.func.mod.world.Npc.skin
 import me.func.protocol.world.npc.NpcBehaviour
+import me.slavita.construction.action.command.GuideDialog
 import me.slavita.construction.action.command.menu.ControlPanelMenu
 import me.slavita.construction.action.command.menu.DailyMenu
 import me.slavita.construction.action.command.menu.bank.BankMainMenu
 import me.slavita.construction.action.command.menu.lootbbox.BuyLootboxMenu
 import me.slavita.construction.action.command.menu.lootbbox.UserLootboxesMenu
 import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
+import me.slavita.construction.action.command.menu.storage.StorageMenu
 import me.slavita.construction.action.command.menu.worker.WorkerTeamMenu
 import me.slavita.construction.app
 import me.slavita.construction.ui.menu.ItemIcons
@@ -55,6 +57,8 @@ object NpcManager {
 						"UserLootboxesMenu"  -> UserLootboxesMenu::class
 						"ActiveProjectsMenu" -> ActiveProjectsMenu::class
 						"DailyMenu"          -> DailyMenu::class
+						"GuideDialog"        -> GuideDialog::class
+						"StorageMenu" -> StorageMenu::class
 						else                 -> ControlPanelMenu::class
 					}.primaryConstructor!!.call(it.player).tryExecute()
 

@@ -6,8 +6,8 @@ dependencies {
     implementation(project(":common"))
 
     compileOnly("ru.cristalix:client-api:10.2-SNAPSHOT")
-    implementation("ru.cristalix:client-sdk:10.2-SNAPSHOT")
     implementation("ru.cristalix:uiengine:10.2-SNAPSHOT")
+    implementation("ru.cristalix:client-sdk:10.2-SNAPSHOT")
 
     implementation("implario:humanize:1.1.3")
 

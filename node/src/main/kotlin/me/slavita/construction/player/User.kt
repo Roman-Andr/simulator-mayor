@@ -22,6 +22,12 @@ class User(
 	var lootboxes = hashSetOf<Lootbox>()
 	var watchableProject: Project? = null
 	var income = 0L
+	var dialogId = 0
+
+	fun updateLevelBar() {
+		player.level = stats.level
+		player.exp = 0.0F
+	}
 
 	init {
 		Bukkit.server.scheduler.scheduleSyncRepeatingTask(app, {

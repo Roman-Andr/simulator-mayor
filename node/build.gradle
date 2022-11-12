@@ -25,6 +25,7 @@ dependencies {
     implementation("me.func:metaworld-api:1.0.4")
     implementation("me.func:sound-api:1.0.5")
     implementation("me.func:atlas-api:1.0.10")
+    implementation("me.func:nightingale-api:1.0.13")
 }
 
 tasks {

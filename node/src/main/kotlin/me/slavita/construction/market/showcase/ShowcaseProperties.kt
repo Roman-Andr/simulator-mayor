@@ -1,7 +1,8 @@
 package me.slavita.construction.market.showcase
 
-import org.bukkit.Material
+import me.slavita.construction.world.ItemProperties
 
-class ShowcaseProperties(val id: Int, val boxName: String, val name: String, vararg materials: Material) {
-	val materials = materials.toList()
+class ShowcaseProperties(val id: Int, val boxName: String, var elements: HashSet<Pair<ItemProperties, Long>>) {
+	val name
+		get() = "Магазин №$id"
 }

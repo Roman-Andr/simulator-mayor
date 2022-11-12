@@ -7,6 +7,7 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.app
 import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
+import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
 import org.bukkit.entity.Player
 
 class StorageMenu(player: Player) : MenuCommand(player) {

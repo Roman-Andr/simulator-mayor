@@ -7,7 +7,6 @@ import dev.xdark.feder.NetUtil
 import io.netty.buffer.Unpooled
 import me.slavita.construction.mod.mod
 import me.slavita.construction.mod.player
-import me.slavita.construction.mod.showcase.ShowcaseData
 import me.slavita.construction.mod.utils.extensions.PositionExtensions.inBox
 import ru.cristalix.uiengine.UIEngine
 

@@ -1,5 +1,6 @@
 package me.slavita.construction
 
+import Nightingale
 import dev.implario.bukkit.platform.Platforms
 import dev.implario.platform.impl.darkpaper.PlatformDarkPaper
 import me.func.mod.Anime
@@ -94,6 +95,11 @@ class App : JavaPlugin() {
 		mainWorld = GameWorld(MapLoader.load("construction", "Spawn"))
 
 		Music.block(Category.MUSIC)
+
+		Nightingale
+			.subscribe("construction")
+			.useP2p()
+			.start()
 
 		Config.load {
 			NpcManager

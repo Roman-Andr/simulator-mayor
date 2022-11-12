@@ -24,18 +24,6 @@ object ScoreBoardGenerator {
 				.content { "${Emoji.UP} ${BLUE}${app.getUser(player).stats.level}" }
 				.build(),
 			Token.builder()
-				.title("Опыт")
-				.content { "${Emoji.EXP} ${DARK_BLUE}${app.getUser(player).stats.experience}/..." }
-				.build(),
-			Token.builder()
-				.title("Строителей")
-				.content { "${Emoji.MINING} ${LIGHT_PURPLE}${app.getUser(player).workers.size}" }
-				.build(),
-			Token.builder()
-				.title("Проектов")
-				.content { "${Emoji.HEART} ${DARK_PURPLE}${app.getUser(player).stats.totalProjects}" }
-				.build(),
-			Token.builder()
 				.title("Репутация")
 				.content { "${Emoji.RUBY} ${GOLD}${app.getUser(player).stats.reputation}" }
 				.build()
