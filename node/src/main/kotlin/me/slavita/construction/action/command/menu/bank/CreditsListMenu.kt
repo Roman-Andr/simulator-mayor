@@ -18,38 +18,38 @@ import org.bukkit.ChatColor.AQUA
 import org.bukkit.entity.Player
 
 class CreditsListMenu(player: Player) : MenuCommand(player) {
-	override fun getMenu(): Openable {
-		app.getUser(player).run user@{
-			return getBaseSelection(MenuInfo("Ваши кредиты", StatsType.CREDIT, 4, 5)).apply {
-				storage = mutableListOf<ReactiveButton>().apply storage@{
-					Bank.playersData[player.uniqueId]!!.forEachIndexed { index, value ->
-						this@storage.add(
-							button {
-								item = ItemIcons.get("other", "quests")
-								hint = "Погасить"
-								title = "Кредит #$index"
-								val task = Bukkit.server.scheduler.scheduleSyncRepeatingTask(app, {
-									hover = """
-                                    ${AQUA}Номер: $index
-                                    ${AQUA}Величина: ${value.creditValue.toMoney()}
+    override fun getMenu(): Openable {
+        app.getUser(player).run user@{
+            return getBaseSelection(MenuInfo("Ваши кредиты", StatsType.CREDIT, 4, 5)).apply {
+                storage = mutableListOf<ReactiveButton>().apply storage@{
+                    Bank.playersData[player.uniqueId]!!.forEachIndexed { index, value ->
+                        this@storage.add(
+                            button {
+                                item = ItemIcons.get("other", "quests")
+                                hint = "Погасить"
+                                title = "Кредит #${index + 1}"
+                                val task = Bukkit.server.scheduler.scheduleSyncRepeatingTask(app, {
+                                    hover = """
+                                    ${AQUA}Номер: ${index + 1}
+                                    ${AQUA}К отдаче: ${value.needToGive.toMoney()}
                                     ${AQUA}Процент: ${value.percent}%
                                     ${AQUA}Оставшееся время: ${value.timeLast.toTime()}
                                 """.trimIndent()
-								}, 0L, 20L)
-								onClick { _, _, _ ->
-									Bukkit.server.scheduler.cancelTask(task)
-									if (this@user.stats.money > value.needToGive) {
-										RepayCreditConfim(player, value).tryExecute()
-									} else {
-										player.killboard("Не хватает денег для погашения кредита")
-										Anime.close(player)
-									}
-								}
-							}
-						)
-					}
-				}
-			}
-		}
-	}
+                                }, 0L, 20L)
+                                onClick { _, _, _ ->
+                                    Bukkit.server.scheduler.cancelTask(task)
+                                    if (this@user.stats.money > value.needToGive) {
+                                        RepayCreditConfim(player, value).tryExecute()
+                                    } else {
+                                        player.killboard("Не хватает денег для погашения кредита")
+                                        Anime.close(player)
+                                    }
+                                }
+                            }
+                        )
+                    }
+                }
+            }
+        }
+    }
 }

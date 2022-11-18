@@ -1,14 +1,14 @@
 package me.slavita.construction.action.chat
 
+import Nightingale
 import me.func.atlas.Atlas
 import me.func.mod.reactive.ReactivePanel
 import me.func.protocol.data.color.GlowColor
-import me.func.protocol.data.rare.DropRare
 import me.slavita.construction.action.command.menu.DailyMenu
 import me.slavita.construction.app
 import me.slavita.construction.bank.Bank
-import me.slavita.construction.player.lootbox.BlocksLootbox
-import me.slavita.construction.player.lootbox.WorkerLootbox
+import me.slavita.construction.booster.BoosterType
+import me.slavita.construction.booster.Boosters
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.ChatCommandUtils.opCommand
 import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
@@ -16,58 +16,61 @@ import org.bukkit.Sound
 import org.bukkit.SoundCategory
 
 object AdminCommands {
-	init {
-		opCommand("setmoney") { player, args ->
-			app.getUser(player).stats.money = args[0].toLong()
-		}
+    init {
+        opCommand("setmoney") { player, args ->
+            app.getUser(player).stats.money = args[0].toLong()
+        }
 
-		opCommand("exp") { player, args ->
-			app.getUser(player).addExp(args[0].toLong())
-		}
+        opCommand("exp") { player, args ->
+            app.getUser(player).addExp(args[0].toLong())
+        }
 
-		opCommand("givelootbox") { player, args ->
-			app.getUser(player).lootboxes.add(WorkerLootbox(DropRare.RARE))
-			app.getUser(player).lootboxes.add(BlocksLootbox(DropRare.RARE))
-		}
+        opCommand("sound") { player, args ->
+            player.playSound(player.location, Sound.valueOf(args[0]), SoundCategory.MASTER, 1.0f, 1.0f)
+        }
 
-		opCommand("sound") { player, args ->
-			player.playSound(player.location, Sound.valueOf(args[0]), SoundCategory.MASTER, 1.0f, 1.0f)
-		}
+        opCommand("panel") { player, _ ->
+            listOf(
+                ReactivePanel.builder()
+                    .text("Монет ${app.getUser(player).stats.money.toMoneyIcon()}")
+                    .color(GlowColor.ORANGE)
+                    .progress(1.0)
+                    .build(),
+                ReactivePanel.builder()
+                    .text("Опыт ${app.getUser(player).stats.experience}")
+                    .color(GlowColor.BLUE)
+                    .progress(1.0)
+                    .build(),
+            ).forEach { it.send(player) }
+        }
 
-		opCommand("panel") { player, _ ->
-			listOf(
-				ReactivePanel.builder()
-					.text("Монет ${app.getUser(player).stats.money.toMoneyIcon()}")
-					.color(GlowColor.ORANGE)
-					.progress(1.0)
-					.build(),
-				ReactivePanel.builder()
-					.text("Опыт ${app.getUser(player).stats.experience}")
-					.color(GlowColor.BLUE)
-					.progress(1.0)
-					.build(),
-			).forEach { it.send(player) }
-		}
+        opCommand("daily") { player, _ ->
+            DailyMenu(player).tryExecute()
+        }
 
-		opCommand("daily") { player, _ ->
-			DailyMenu(player).tryExecute()
-		}
+        opCommand("credit") { player, args ->
+            Bank.giveCredit(app.getUser(player), args[0].toLong())
+        }
 
-		opCommand("credit") { player, args ->
-			Bank.giveCredit(app.getUser(player), args[0].toLong())
-		}
+        opCommand("config") { player, args ->
+            if (Atlas.find(args[0]).get(args[1]) != null)
+                player.killboard(Atlas.find(args[0]).get(args[1]).toString())
+            else
+                player.killboard("Конфиг или значение не найдены")
+        }
 
-		opCommand("config") { player, args ->
-			if (Atlas.find(args[0]).get(args[1]) != null)
-				player.killboard(Atlas.find(args[0]).get(args[1]).toString())
-			else
-				player.killboard("Конфиг или значение не найдены")
-		}
+        opCommand("refresh") { player, _ ->
+            Atlas.update {
+                player.killboard("Конфигурация обновлена")
+            }
+        }
 
-		opCommand("refresh") { player, _ ->
-			Atlas.update {
-				player.killboard("Конфигурация обновлена")
-			}
-		}
-	}
+        opCommand("booster") { player, args ->
+            Boosters.activateGlobal(player, BoosterType.valueOf(args[0]))
+        }
+
+        opCommand("bc") { player, args ->
+            Nightingale.broadcast("construction", "Всем привет!")
+        }
+    }
 }

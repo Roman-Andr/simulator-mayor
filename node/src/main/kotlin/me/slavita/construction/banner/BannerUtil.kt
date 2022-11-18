@@ -11,90 +11,90 @@ import org.bukkit.block.BlockFace
 import org.bukkit.util.Vector
 
 object BannerUtil {
-	private const val offset = 0.52
+    private const val offset = 0.52
 
-	fun createFloorBanner(location: Location, color: RGB): Banner {
-		return create(
-			BannerInfo(
-				location,
-				BlockFace.UP,
-				listOf(),
-				16 * 23,
-				16 * 23,
-				color,
-				0.24,
-				MotionType.CONSTANT,
-				-90.0F
-			)
-		)
-	}
+    fun createFloorBanner(location: Location, color: RGB): Banner {
+        return create(
+            BannerInfo(
+                location,
+                BlockFace.UP,
+                listOf(),
+                16 * 23,
+                16 * 23,
+                color,
+                0.24,
+                MotionType.CONSTANT,
+                -90.0F
+            )
+        )
+    }
 
-	fun createDual(info: BannerInfo): Pair<Banner, Banner> {
-		info.run {
-			return Pair(
-				create(BannerInfo(source, blockFace, content, width, height, color, opacity, motionType, pitch)),
-				create(
-					BannerInfo(
-						Location(
-							source.world,
-							source.x + blockFace.modX,
-							source.y,
-							source.z + blockFace.modZ
-						), blockFace.oppositeFace, content, width, height, color, opacity, motionType, pitch
-					)
-				)
-			)
-		}
-	}
+    fun createDual(info: BannerInfo): Pair<Banner, Banner> {
+        info.run {
+            return Pair(
+                create(BannerInfo(source, blockFace, content, width, height, color, opacity, motionType, pitch)),
+                create(
+                    BannerInfo(
+                        Location(
+                            source.world,
+                            source.x + blockFace.modX,
+                            source.y,
+                            source.z + blockFace.modZ
+                        ), blockFace.oppositeFace, content, width, height, color, opacity, motionType, pitch
+                    )
+                )
+            )
+        }
+    }
 
-	fun createRectangle(center: Location, radius: Double, color: Tricolor, width: Int, height: Int): HashSet<Banner> {
-		val banners = hashSetOf<Banner>()
-		listOf(BlockFace.NORTH, BlockFace.WEST, BlockFace.SOUTH, BlockFace.EAST).forEach {
-			banners.addAll(
-				createDual(
-					BannerInfo(
-						center.clone().add(it.modX * radius, 0.0, it.modZ * radius),
-						it,
-						listOf(),
-						width * 16,
-						height * 16,
-						color,
-						0.25
-					)
-				).toList()
-			)
-		}
-		return banners
-	}
+    fun createRectangle(center: Location, radius: Double, color: Tricolor, width: Int, height: Int): HashSet<Banner> {
+        val banners = hashSetOf<Banner>()
+        listOf(BlockFace.NORTH, BlockFace.WEST, BlockFace.SOUTH, BlockFace.EAST).forEach {
+            banners.addAll(
+                createDual(
+                    BannerInfo(
+                        center.clone().add(it.modX * radius, 0.0, it.modZ * radius),
+                        it,
+                        listOf(),
+                        width * 16,
+                        height * 16,
+                        color,
+                        0.25
+                    )
+                ).toList()
+            )
+        }
+        return banners
+    }
 
-	fun create(info: BannerInfo): Banner {
-		info.run {
-			return Banner.builder()
-				.motionType(motionType)
-				.weight(width)
-				.height(height)
-				.opacity(opacity)
-				.red(color.red)
-				.green(color.green)
-				.blue(color.blue)
-				.xray(0.0)
-				.apply {
-					content(content.joinToString("\n") { it.first })
-					content.forEachIndexed { index, value ->
-						resizeLine(index, value.second)
-					}
-				}
-				.watchingOnPlayer(watchingOnPlayer)
-				.build()
-				.apply {
-					location(
-						source.clone().add(Vector(offset * blockFace.modX, -0.5 + height / 16, offset * blockFace.modZ))
-							.apply {
-								setYaw(blockFace.toYaw())
-								setPitch(info.pitch)
-							}
-					)
-				}
-		}
-	}
+    fun create(info: BannerInfo): Banner {
+        info.run {
+            return Banner.builder()
+                .motionType(motionType)
+                .weight(width)
+                .height(height)
+                .opacity(opacity)
+                .red(color.red)
+                .green(color.green)
+                .blue(color.blue)
+                .xray(0.0)
+                .apply {
+                    content(content.joinToString("\n") { it.first })
+                    content.forEachIndexed { index, value ->
+                        resizeLine(index, value.second)
+                    }
+                }
+                .watchingOnPlayer(watchingOnPlayer)
+                .build()
+                .apply {
+                    location(
+                        source.clone().add(Vector(offset * blockFace.modX, -0.5 + height / 16, offset * blockFace.modZ))
+                            .apply {
+                                setYaw(blockFace.toYaw())
+                                setPitch(info.pitch)
+                            }
+                    )
+                }
+        }
+    }
 }

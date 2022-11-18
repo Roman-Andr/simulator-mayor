@@ -10,22 +10,22 @@ import org.gradle.kotlin.dsl.property
 
 @CacheableTask
 open class GenerateModPropertiesTask : DefaultTask() {
-	@get:Input
-	val desc: Property<ModBundlerExtension> = project.objects.property()
+    @get:Input
+    val desc: Property<ModBundlerExtension> = project.objects.property()
 
-	@get:OutputDirectory
-	val outputDirectory: DirectoryProperty = project.objects.directoryProperty()
+    @get:OutputDirectory
+    val outputDirectory: DirectoryProperty = project.objects.directoryProperty()
 
-	@TaskAction
-	fun run() {
-		outputDirectory.file("mod.properties").get().asFile.writeBytes(desc.get().run {
-			"""
+    @TaskAction
+    fun run() {
+        outputDirectory.file("mod.properties").get().asFile.writeBytes(desc.get().run {
+            """
                 main=$main
                 author=$author
                 name=$name
                 version=${version ?: project.version}
                 
             """.trimIndent().toByteArray()
-		})
-	}
+        })
+    }
 }

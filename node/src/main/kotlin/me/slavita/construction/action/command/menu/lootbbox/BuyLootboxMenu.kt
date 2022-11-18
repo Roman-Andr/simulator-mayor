@@ -11,24 +11,24 @@ import me.slavita.construction.worker.WorkerRarity
 import org.bukkit.entity.Player
 
 class BuyLootboxMenu(player: Player) : MenuCommand(player) {
-	override fun getMenu(): Openable {
-		app.getUser(player).run user@{
-			return Choicer(title = "Покупка строителей", description = "Выбери нужного строителя").apply {
-				storage = mutableListOf<ReactiveButton>().apply storage@{
-					WorkerRarity.values().forEach { rarity ->
-						this@storage.add(button {
-							item = rarity.getIcon()
-							title = rarity.title
-							description = rarity.description + "\n\n${rarity.price.toMoneyIcon()}"
-							hint = "Выбрать"
-							backgroundColor = rarity.color
-							onClick { _, _, _ ->
-								ChoiceLootboxAmount(player, rarity).closeAll(false).tryExecute()
-							}
-						})
-					}
-				}
-			}
-		}
-	}
+    override fun getMenu(): Openable {
+        app.getUser(player).run user@{
+            return Choicer(title = "Покупка строителей", description = "Выбери нужного строителя").apply {
+                storage = mutableListOf<ReactiveButton>().apply storage@{
+                    WorkerRarity.values().forEach { rarity ->
+                        this@storage.add(button {
+                            item = rarity.getIcon()
+                            title = rarity.title
+                            description = rarity.description + "\n\n${rarity.price.toMoneyIcon()}"
+                            hint = "Выбрать"
+                            backgroundColor = rarity.color
+                            onClick { _, _, _ ->
+                                ChoiceLootboxAmount(player, rarity).closeAll(false).tryExecute()
+                            }
+                        })
+                    }
+                }
+            }
+        }
+    }
 }

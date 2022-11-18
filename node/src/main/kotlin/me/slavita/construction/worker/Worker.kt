@@ -7,32 +7,32 @@ import org.bukkit.ChatColor.WHITE
 import java.util.*
 
 class Worker(
-	val name: String,
-	val rarity: WorkerRarity,
-	var level: Int,
-	var blocksSpeed: Int,
-	val reliability: Int,
-	val rapacity: WorkerRapacity,
+    val name: String,
+    val rarity: WorkerRarity,
+    var level: Int,
+    var blocksSpeed: Int,
+    val reliability: Int,
+    val rapacity: WorkerRapacity,
 ) {
-	val uuid = UUID.randomUUID()
+    val uuid = UUID.randomUUID()
 
-	val sellPrice: Long
-		get() {
-			return 199 /* Формула */
-		}
+    val sellPrice: Long
+        get() {
+            return 199 /* Формула */
+        }
 
-	val upgradePrice: Long
-		get() {
-			return 199 /* Формула */
-		}
+    val upgradePrice: Long
+        get() {
+            return 199 /* Формула */
+        }
 
-	fun levelUp() {
-		level += 1
-		blocksSpeed *= 2
-	}
+    fun levelUp() {
+        level += 1
+        blocksSpeed *= 2
+    }
 
-	override fun toString(): String {
-		return """
+    override fun toString(): String {
+        return """
             ${AQUA}Имя: $name
             ${AQUA}Редкость: ${rarity.title}
             ${AQUA}Уровень: ${level}${WHITE}${Emoji.UP}
@@ -40,5 +40,5 @@ class Worker(
             ${AQUA}Надёжность: $reliability
             ${AQUA}Жадность: ${rapacity.title}
         """.trimIndent()
-	}
+    }
 }

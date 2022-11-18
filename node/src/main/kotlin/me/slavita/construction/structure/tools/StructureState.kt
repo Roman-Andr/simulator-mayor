@@ -1,8 +1,8 @@
 package me.slavita.construction.structure.tools
 
 enum class StructureState {
-	NOT_STARTED,
-	BUILDING,
-	FINISHED,
-	REWARD_CLAIMED
+    NOT_STARTED,
+    BUILDING,
+    FINISHED,
+    REWARD_CLAIMED
 }

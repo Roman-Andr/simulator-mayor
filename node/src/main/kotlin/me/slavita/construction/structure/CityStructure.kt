@@ -12,25 +12,25 @@ import java.util.*
 
 class CityStructure(val owner: Player, val structure: Structure, val cell: Cell) {
 
-	val box = Box(app.structureMap, structure.box.min, structure.box.max, "", "")
-	val building = Building(UUID.randomUUID(), "", "", 0.0, 0.0, 0.0, box)
-	var state = CityStructureState.NOT_READY
-	val visual = CityStructureVisual(this)
+    val box = Box(app.structureMap, structure.box.min, structure.box.max, "", "")
+    val building = Building(UUID.randomUUID(), "", "", 0.0, 0.0, 0.0, box)
+    var state = CityStructureState.NOT_READY
+    val visual = CityStructureVisual(this)
 
-	init {
-		building.allocate(cell.box.min.clone().add(11.0, 0.0, 11.0))
-		building.show(owner)
-		visual.update()
-	}
+    init {
+        building.allocate(cell.box.min.clone().add(11.0, 0.0, 11.0))
+        building.show(owner)
+        visual.update()
+    }
 
-	fun repair() {
-		startIncome()
-		state = CityStructureState.FUNCTIONING
-		owner.killboard("Здание #${cell.id} отремантировано")
-		visual.update()
-	}
+    fun repair() {
+        startIncome()
+        state = CityStructureState.FUNCTIONING
+        owner.killboard("Здание #${cell.id} отремантировано")
+        visual.update()
+    }
 
-	fun startIncome() {
-		app.getUser(owner).income += structure.income
-	}
+    fun startIncome() {
+        app.getUser(owner).income += structure.income
+    }
 }

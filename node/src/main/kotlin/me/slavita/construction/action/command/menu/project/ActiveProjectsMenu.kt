@@ -25,8 +25,8 @@ class ActiveProjectsMenu(player: Player) : MenuCommand(player) {
                                 item = ItemIcons.get("skyblock", "settings")
                                 title = "Проект #${it.id}"
                                 hover = "${AQUA}ID: ${it.id}\n" +
-										"${AQUA}Награды:\n" +
-										it.rewards.joinToString("\n") { it.toString() }
+                                        "${AQUA}Награды:\n" +
+                                        it.rewards.joinToString("\n") { it.toString() }
                                 special(it.structure is ClientStructure)
                                 onClick { _, _, _ ->
                                     Anime.close(player)

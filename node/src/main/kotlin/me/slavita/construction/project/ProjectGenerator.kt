@@ -11,39 +11,39 @@ import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.structure.instance.Structure
 
 object ProjectGenerator {
-	fun generateClient(owner: User, structure: Structure, cell: Cell): Project {
-		return Project(
-			owner,
-			owner.stats.totalProjects,
-			ClientStructure(
-				app.mainWorld,
-				structure,
-				owner,
-				cell
-			),
-			listOf(
-				MoneyReward(100),
-				ExperienceReward(100),
-				ReputationReward(100),
-			)
-		)
-	}
+    fun generateClient(owner: User, structure: Structure, cell: Cell): Project {
+        return Project(
+            owner,
+            owner.stats.totalProjects,
+            ClientStructure(
+                app.mainWorld,
+                structure,
+                owner,
+                cell
+            ),
+            listOf(
+                MoneyReward(100),
+                ExperienceReward(100),
+                ReputationReward(100),
+            )
+        )
+    }
 
-	fun generateWorker(owner: User, structure: Structure, cell: Cell): Project {
-		return Project(
-			owner,
-			owner.stats.totalProjects,
-			WorkerStructure(
-				app.mainWorld,
-				structure,
-				owner,
-				cell
-			),
-			listOf(
-				MoneyReward(300),
-				ExperienceReward(200),
-				ReputationReward(100),
-			)
-		)
-	}
+    fun generateWorker(owner: User, structure: Structure, cell: Cell): Project {
+        return Project(
+            owner,
+            owner.stats.totalProjects,
+            WorkerStructure(
+                app.mainWorld,
+                structure,
+                owner,
+                cell
+            ),
+            listOf(
+                MoneyReward(300),
+                ExperienceReward(200),
+                ReputationReward(100),
+            )
+        )
+    }
 }

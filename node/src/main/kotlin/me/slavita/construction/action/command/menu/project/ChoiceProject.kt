@@ -14,41 +14,41 @@ import me.slavita.construction.ui.menu.ItemIcons
 import org.bukkit.entity.Player
 
 class ChoiceProject(player: Player, val structure: Structure, val cell: Cell) : MenuCommand(player) {
-	override fun getMenu(): Openable {
-		app.getUser(player).run user@{
-			return Choicer(
-				title = "Выбор проекта",
-				description = "Выберите тип проекта",
-				info = "В данном меню\nвам необходимо выбрать,\nкакой тип проекта\nвы хотите взять для постройки.",
-				storage = mutableListOf(
-					button {
-						title = "Лично"
-						description = "Вы сами будете\nстроить проект"
-						hint = "Выбрать"
-						item = ItemIcons.get("other", "human")
-						onClick { _, _, _ ->
-							val project =
-								ProjectGenerator.generateClient(this@user, structure, cell.apply { busy = true })
-							project.start()
-							city.addProject(project)
+    override fun getMenu(): Openable {
+        app.getUser(player).run user@{
+            return Choicer(
+                title = "Выбор проекта",
+                description = "Выберите тип проекта",
+                info = "В данном меню\nвам необходимо выбрать,\nкакой тип проекта\nвы хотите взять для постройки.",
+                storage = mutableListOf(
+                    button {
+                        title = "Лично"
+                        description = "Вы сами будете\nстроить проект"
+                        hint = "Выбрать"
+                        item = ItemIcons.get("other", "human")
+                        onClick { _, _, _ ->
+                            val project =
+                                ProjectGenerator.generateClient(this@user, structure, cell.apply { busy = true })
+                            project.start()
+                            city.addProject(project)
 
-							Anime.close(player)
-						}
-					},
-					button {
-						title = "Рабочие"
-						description = "Проект будут \nстроить выбранные\nвами строители"
-						hint = "Выбрать"
-						item = ItemIcons.get("other", "myfriends")
-						onClick { _, _, _ ->
-							WorkerChoice(
-								player,
-								ProjectGenerator.generateWorker(this@user, structure, cell)
-							).tryExecute()
-						}
-					}
-				)
-			)
-		}
-	}
+                            Anime.close(player)
+                        }
+                    },
+                    button {
+                        title = "Рабочие"
+                        description = "Проект будут \nстроить выбранные\nвами строители"
+                        hint = "Выбрать"
+                        item = ItemIcons.get("other", "myfriends")
+                        onClick { _, _, _ ->
+                            WorkerChoice(
+                                player,
+                                ProjectGenerator.generateWorker(this@user, structure, cell)
+                            ).tryExecute()
+                        }
+                    }
+                )
+            )
+        }
+    }
 }

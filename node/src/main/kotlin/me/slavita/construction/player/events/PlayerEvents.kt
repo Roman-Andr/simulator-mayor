@@ -14,71 +14,71 @@ import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerMoveEvent
 
 object PlayerEvents : Listener {
-	private val inZone = hashMapOf<Player, Boolean>()
+    private val inZone = hashMapOf<Player, Boolean>()
 
-	@EventHandler
-	fun PlayerJoinEvent.handle() {
-		after(2) {
-			if (!app.hasUser(player)) app.addUser(player)
-			app.getUser(player).run {
-				listOf(
-					PlayerWorldPrepare,
-					ConnectionPrepare,
-					PermissionsPrepare,
-					UIPrepare,
-					ItemCallbacksPrepare,
-					ShowcasePrepare,
-					BankAccountRegister,
-					StoragePrepare
-				).forEach { it.prepare(this) }
-			}
-		}
-	}
+    @EventHandler
+    fun PlayerJoinEvent.handle() {
+        after(2) {
+            if (!app.hasUser(player)) app.addUser(player)
+            app.getUser(player).run {
+                listOf(
+                    PlayerWorldPrepare,
+                    ConnectionPrepare,
+                    PermissionsPrepare,
+                    UIPrepare,
+                    ItemCallbacksPrepare,
+                    ShowcasePrepare,
+                    BankAccountRegister,
+                    StoragePrepare
+                ).forEach { it.prepare(this) }
+            }
+        }
+    }
 
-	@EventHandler
-	fun PlayerDropItemEvent.handle() {
-		if (!BlocksStorage.box.contains(player.location)) {
-			isCancelled = true
-			return
-		}
+    @EventHandler
+    fun PlayerDropItemEvent.handle() {
+        if (!BlocksStorage.box.contains(player.location)) {
+            isCancelled = true
+            return
+        }
 
-		app.getUser(player).blocksStorage.addItem(drop.itemStack)
-		drop.remove()
-	}
+        app.getUser(player).blocksStorage.addItem(drop.itemStack)
+        drop.remove()
+    }
 
-	@EventHandler
-	fun PlayerMoveEvent.handle() {
-		app.getUser(player).run {
-			if (watchableProject != null && !watchableProject!!.structure.box.contains(player.location)) {
-				watchableProject!!.onLeave()
-				watchableProject = null
-			}
+    @EventHandler
+    fun PlayerMoveEvent.handle() {
+        app.getUser(player).run {
+            if (watchableProject != null && !watchableProject!!.structure.box.contains(player.location)) {
+                watchableProject!!.onLeave()
+                watchableProject = null
+            }
 
-			city.cityStructures.forEach {
-				if (it.cell.box.contains(player.location) && it.state == CityStructureState.BROKEN) {
-					it.repair()
-				}
-			}
+            city.cityStructures.forEach {
+                if (it.cell.box.contains(player.location) && it.state == CityStructureState.BROKEN) {
+                    it.repair()
+                }
+            }
 
-			if (watchableProject == null) {
-				city.projects.forEach {
-					if (it.structure.box.contains(player.location)) {
-						watchableProject = it
-						it.onEnter()
-						return
-					}
-				}
+            if (watchableProject == null) {
+                city.projects.forEach {
+                    if (it.structure.box.contains(player.location)) {
+                        watchableProject = it
+                        it.onEnter()
+                        return
+                    }
+                }
 
-				city.cells.forEach {
-					if (it.busy || !it.box.contains(player.location)) return@forEach
+                city.cells.forEach {
+                    if (it.busy || !it.box.contains(player.location)) return@forEach
 
-					if (inZone[player] == false) ChoiceStructure(player, it).tryExecute()
-					inZone[player] = true
-					return
-				}
+                    if (inZone[player] == false) ChoiceStructure(player, it).tryExecute()
+                    inZone[player] = true
+                    return
+                }
 
-				inZone[player] = false
-			}
-		}
-	}
+                inZone[player] = false
+            }
+        }
+    }
 }

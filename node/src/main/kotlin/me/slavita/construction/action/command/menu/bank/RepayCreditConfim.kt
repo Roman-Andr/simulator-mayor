@@ -11,18 +11,18 @@ import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
 import org.bukkit.entity.Player
 
 class RepayCreditConfim(player: Player, val credit: Credit) : MenuCommand(player) {
-	override fun getMenu(): Openable {
-		app.getUser(player).run user@{
-			return Confirmation(
-				text = listOf(
-					"Погасить кредит",
-					"выплатой в ${credit.needToGive.toMoneyIcon()}",
-				)
-			) {
-				Bank.repayCredit(this, credit.uuid) {
-					player.killboard("Кредит успешно погашен!")
-				}
-			}
-		}
-	}
+    override fun getMenu(): Openable {
+        app.getUser(player).run user@{
+            return Confirmation(
+                text = listOf(
+                    "Погасить кредит",
+                    "выплатой в ${credit.needToGive.toMoneyIcon()}",
+                )
+            ) {
+                Bank.repayCredit(this, credit.uuid) {
+                    player.killboard("Кредит успешно погашен!")
+                }
+            }
+        }
+    }
 }

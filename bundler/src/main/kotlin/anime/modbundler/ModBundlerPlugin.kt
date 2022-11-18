@@ -10,37 +10,37 @@ import org.gradle.kotlin.dsl.*
 
 @GradlePlugin
 class ModBundlerPlugin : Plugin<Project> {
-	override fun apply(project: Project): Unit = project.run {
-		if (!plugins.hasPlugin("java")) apply(plugin = "java")
+    override fun apply(project: Project): Unit = project.run {
+        if (!plugins.hasPlugin("java")) apply(plugin = "java")
 
-		val ext = ModBundlerExtension().also { extensions.add("mod", it) }
+        val ext = ModBundlerExtension().also { extensions.add("mod", it) }
 
-		val generateModPropertiesTask =
-			tasks.register<GenerateModPropertiesTask>("generateModProperties") {
-				outputDirectory.set(layout.buildDirectory.dir("generated/modbundler"))
-				desc.set(ext)
-			}
+        val generateModPropertiesTask =
+            tasks.register<GenerateModPropertiesTask>("generateModProperties") {
+                outputDirectory.set(layout.buildDirectory.dir("generated/modbundler"))
+                desc.set(ext)
+            }
 
-		extensions.getByType<SourceSetContainer>().named(SourceSet.MAIN_SOURCE_SET_NAME) {
-			resources.srcDir(generateModPropertiesTask)
-		}
+        extensions.getByType<SourceSetContainer>().named(SourceSet.MAIN_SOURCE_SET_NAME) {
+            resources.srcDir(generateModPropertiesTask)
+        }
 
-		tasks.getByName<Jar>("jar") {
-			doFirst {
-				from(configurations.getByName("runtimeClasspath")
-					.map { if (it.isDirectory) it else zipTree(it) })
+        tasks.getByName<Jar>("jar") {
+            doFirst {
+                from(configurations.getByName("runtimeClasspath")
+                    .map { if (it.isDirectory) it else zipTree(it) })
 
-				duplicatesStrategy = DuplicatesStrategy.INCLUDE
-				include("**/*.class", "*.class", "mod.properties", "*.png")
-			}
-		}
+                duplicatesStrategy = DuplicatesStrategy.INCLUDE
+                include("**/*.class", "*.class", "mod.properties", "*.png")
+            }
+        }
 
-		tasks.register<ProguardTask>("proguardJar") {
-			input.set(tasks.getByName<Jar>("jar").archiveFile)
-			outputFile.set(
-				project.layout.buildDirectory.file("libs/${ext.jarFileName ?: "${project.name}-bundle.jar"}")
-			)
-			mainClass.set(ext.main)
-		}.let { tasks.getByName("jar").finalizedBy(it) }
-	}
+        tasks.register<ProguardTask>("proguardJar") {
+            input.set(tasks.getByName<Jar>("jar").archiveFile)
+            outputFile.set(
+                project.layout.buildDirectory.file("libs/${ext.jarFileName ?: "${project.name}-bundle.jar"}")
+            )
+            mainClass.set(ext.main)
+        }.let { tasks.getByName("jar").finalizedBy(it) }
+    }
 }

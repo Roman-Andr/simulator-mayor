@@ -19,111 +19,111 @@ import org.bukkit.event.world.ChunkLoadEvent
 import org.spigotmc.event.entity.EntityDismountEvent
 
 object PhysicsDisabler : Listener {
-	@EventHandler
-	fun ChunkLoadEvent.handle() {
-		chunk.biome = EmptyChunkBiome.INSTANCE
-		chunk.emittedLight = FixedChunkLight((-1).toByte())
-	}
+    @EventHandler
+    fun ChunkLoadEvent.handle() {
+        chunk.biome = EmptyChunkBiome.INSTANCE
+        chunk.emittedLight = FixedChunkLight((-1).toByte())
+    }
 
-	@EventHandler
-	fun BlockPlaceEvent.handle() {
-		isCancelled = true
-	}
+    @EventHandler
+    fun BlockPlaceEvent.handle() {
+        isCancelled = true
+    }
 
-	@EventHandler
-	fun CraftItemEvent.handle() {
-		isCancelled = true
-	}
+    @EventHandler
+    fun CraftItemEvent.handle() {
+        isCancelled = true
+    }
 
-	@EventHandler
-	fun PlayerInteractEntityEvent.handle() {
-		isCancelled = true
-	}
+    @EventHandler
+    fun PlayerInteractEntityEvent.handle() {
+        isCancelled = true
+    }
 
-	@EventHandler
-	fun EntityDismountEvent.handle() {
-		if (dismounted.type === EntityType.BAT) after(1) {
-			dismounted.remove()
-		}
-	}
+    @EventHandler
+    fun EntityDismountEvent.handle() {
+        if (dismounted.type === EntityType.BAT) after(1) {
+            dismounted.remove()
+        }
+    }
 
-	@EventHandler
-	fun EntityChangeBlockEvent.handle() {
-		if (entity is FallingBlock) isCancelled = true
-	}
+    @EventHandler
+    fun EntityChangeBlockEvent.handle() {
+        if (entity is FallingBlock) isCancelled = true
+    }
 
-	@EventHandler
-	fun EntityDamageEvent.handle() {
-		isCancelled = true
-	}
+    @EventHandler
+    fun EntityDamageEvent.handle() {
+        isCancelled = true
+    }
 
-	@EventHandler
-	fun FoodLevelChangeEvent.handle() {
-		foodLevel = 20
-	}
+    @EventHandler
+    fun FoodLevelChangeEvent.handle() {
+        foodLevel = 20
+    }
 
-	@EventHandler
-	fun BlockFadeEvent.handle() {
-		isCancelled = true
-	}
+    @EventHandler
+    fun BlockFadeEvent.handle() {
+        isCancelled = true
+    }
 
-	@EventHandler
-	fun BlockPhysicsEvent.handle() {
-		isCancelled = true
-	}
+    @EventHandler
+    fun BlockPhysicsEvent.handle() {
+        isCancelled = true
+    }
 
-	@EventHandler
-	fun BlockSpreadEvent.handle() {
-		isCancelled = true
-	}
+    @EventHandler
+    fun BlockSpreadEvent.handle() {
+        isCancelled = true
+    }
 
-	@EventHandler
-	fun BlockBreakEvent.handle() {
-		isCancelled = true
-	}
+    @EventHandler
+    fun BlockBreakEvent.handle() {
+        isCancelled = true
+    }
 
-	@EventHandler
-	fun BlockGrowEvent.handle() {
-		isCancelled = true
-	}
+    @EventHandler
+    fun BlockGrowEvent.handle() {
+        isCancelled = true
+    }
 
-	@EventHandler
-	fun BlockFromToEvent.handle() {
-		isCancelled = true
-	}
+    @EventHandler
+    fun BlockFromToEvent.handle() {
+        isCancelled = true
+    }
 
-	@EventHandler
-	fun HangingBreakByEntityEvent.handle() {
-		isCancelled = true
-	}
+    @EventHandler
+    fun HangingBreakByEntityEvent.handle() {
+        isCancelled = true
+    }
 
-	@EventHandler
-	fun BlockBurnEvent.handle() {
-		isCancelled = true
-	}
+    @EventHandler
+    fun BlockBurnEvent.handle() {
+        isCancelled = true
+    }
 
-	@EventHandler
-	fun EntityExplodeEvent.handle() {
-		isCancelled = true
-	}
+    @EventHandler
+    fun EntityExplodeEvent.handle() {
+        isCancelled = true
+    }
 
-	@EventHandler
-	fun PlayerArmorStandManipulateEvent.handle() {
-		isCancelled = true
-	}
+    @EventHandler
+    fun PlayerArmorStandManipulateEvent.handle() {
+        isCancelled = true
+    }
 
-	@EventHandler
-	fun CreatureSpawnEvent.handle() {
-		isCancelled = spawnReason == CreatureSpawnEvent.SpawnReason.NATURAL
-	}
+    @EventHandler
+    fun CreatureSpawnEvent.handle() {
+        isCancelled = spawnReason == CreatureSpawnEvent.SpawnReason.NATURAL
+    }
 
-	@EventHandler
-	fun PlayerAdvancementCriterionGrantEvent.handle() {
-		isCancelled = true
-	}
+    @EventHandler
+    fun PlayerAdvancementCriterionGrantEvent.handle() {
+        isCancelled = true
+    }
 
-	@EventHandler
-	fun PlayerSwapHandItemsEvent.handle() {
-		isCancelled = true
-	}
+    @EventHandler
+    fun PlayerSwapHandItemsEvent.handle() {
+        isCancelled = true
+    }
 }

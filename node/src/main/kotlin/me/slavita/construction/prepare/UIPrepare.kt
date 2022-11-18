@@ -7,11 +7,11 @@ import me.slavita.construction.player.User
 import me.slavita.construction.ui.ScoreBoardGenerator
 
 object UIPrepare : IPrepare {
-	override fun prepare(user: User) {
-		user.player.setResourcePack("")
-		user.updateLevelBar()
-		Anime.hideIndicator(user.player, Indicators.HEALTH, Indicators.HUNGER)
-		MultiChats.sendPlayerChats(user.player)
-		ScoreBoardGenerator.generate(user.player)
-	}
+    override fun prepare(user: User) {
+        user.player.setResourcePack("")
+        user.updateLevelBar()
+        Anime.hideIndicator(user.player, Indicators.HEALTH, Indicators.HUNGER)
+        MultiChats.sendPlayerChats(user.player)
+        ScoreBoardGenerator.generate(user.player)
+    }
 }

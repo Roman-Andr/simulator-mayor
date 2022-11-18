@@ -11,35 +11,35 @@ import me.slavita.construction.ui.menu.ItemIcons
 import org.bukkit.entity.Player
 
 class BuildingInfoMenu(player: Player, val project: Project) : MenuCommand(player) {
-	override fun getMenu(): Openable {
-		app.getUser(player).run user@{
-			return Selection(title = "Информация об постройке", rows = 3, columns = 3,
-				storage = mutableListOf(
-					button {
-						title = "Время"
-						hint = "Выбрать"
-						item = ItemIcons.get("skyblock", "spawn")
-						hover = "Время до конца постройки: ${project.timeLast}"
-					},
-					button {
-						title = "Материалы"
-						description = "Просмотреть список\nнеобходимых материалов"
-						hint = "Выбрать"
-						item = ItemIcons.get("skyblock", "info")
-						onClick { _, _, _ ->
-							BlocksListMenu(player, project.structure.structure).closeAll(false).tryExecute()
-						}
-					}).apply {
-					if (project.structure !is WorkerStructure) return@apply
-					add(button {
-						title = "Скорость"
-						description = "Просмотреть выбранных\nстроителей"
-						hint = "Выбрать"
-						item = ItemIcons.get("other", "myfriends")
-						hover = "Скорость постройки: ${project.structure.workers.sumOf { it.blocksSpeed }} в секунду"
-					})
-				}
-			)
-		}
-	}
+    override fun getMenu(): Openable {
+        app.getUser(player).run user@{
+            return Selection(title = "Информация об постройке", rows = 3, columns = 3,
+                storage = mutableListOf(
+                    button {
+                        title = "Время"
+                        hint = "Выбрать"
+                        item = ItemIcons.get("skyblock", "spawn")
+                        hover = "Время до конца постройки: ${project.timeLast}"
+                    },
+                    button {
+                        title = "Материалы"
+                        description = "Просмотреть список\nнеобходимых материалов"
+                        hint = "Выбрать"
+                        item = ItemIcons.get("skyblock", "info")
+                        onClick { _, _, _ ->
+                            BlocksListMenu(player, project.structure.structure).closeAll(false).tryExecute()
+                        }
+                    }).apply {
+                    if (project.structure !is WorkerStructure) return@apply
+                    add(button {
+                        title = "Скорость"
+                        description = "Просмотреть выбранных\nстроителей"
+                        hint = "Выбрать"
+                        item = ItemIcons.get("other", "myfriends")
+                        hover = "Скорость постройки: ${project.structure.workers.sumOf { it.blocksSpeed }} в секунду"
+                    })
+                }
+            )
+        }
+    }
 }

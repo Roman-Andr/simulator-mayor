@@ -4,7 +4,7 @@ import me.func.protocol.data.color.GlowColor
 import ru.cristalix.uiengine.utility.Color
 
 object ColorExtensions {
-	fun GlowColor.toColor(): Color {
-		return Color(red, green, blue, 1.0)
-	}
+    fun GlowColor.toColor(): Color {
+        return Color(red, green, blue, 1.0)
+    }
 }

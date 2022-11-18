@@ -24,7 +24,7 @@ object BoardsManager {
     private fun createTop(
         location: Location,
         title: String,
-        value: String
+        value: String,
     ) {
         val blocks = Boards.newBoard()
         blocks.addColumn("#", 10.0)
