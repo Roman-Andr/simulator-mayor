@@ -26,8 +26,8 @@ dependencies {
     implementation("me.func:sound-api:1.0.5")
     implementation("me.func:atlas-api:1.0.11")
     implementation("me.func:nightingale-api:1.0.13")
-    implementation("me.func:stronghold:1.0.8.RELEASE")
-    implementation("me.func:stronghold-protocol:1.0.8.RELEASE")
+    implementation("me.func:stronghold:1.0.9.RELEASE")
+    implementation("me.func:stronghold-protocol:1.0.9.RELEASE")
 }
 
 tasks {

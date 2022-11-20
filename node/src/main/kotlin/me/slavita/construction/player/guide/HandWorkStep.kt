@@ -1,6 +1,6 @@
 package me.slavita.construction.player.guide
 
-class FinishHandWorkStage : IGuideStage {
+class HandWorkStep : IGuideStep {
     override fun action() {
 
     }

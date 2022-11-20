@@ -1,14 +1,16 @@
 package me.slavita.construction.action.chat
 
+import me.func.atlas.Atlas
 import me.func.mod.util.command
 import me.func.stronghold.Stronghold
+import me.slavita.construction.prepare.GuidePrepare
 
 object UserCommands {
     init {
-        command("thx") { player, _ ->
-            Stronghold.boosters.keys.forEach {
-                player.performCommand("/func:thanks $it")
-            }
+        command("dialog") { player, args ->
+            if (args[0] != Atlas.find("dialogs").getString("command-key")) return@command
+
+            GuidePrepare.tryNext(player)
         }
     }
 }

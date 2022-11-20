@@ -8,6 +8,7 @@ import me.func.mod.Kit
 import me.func.mod.conversation.ModLoader
 import me.func.mod.util.after
 import me.func.mod.util.listener
+import me.func.protocol.math.Position
 import me.func.sound.Category
 import me.func.sound.Music
 import me.func.stronghold.Stronghold
@@ -15,6 +16,7 @@ import me.func.world.MapLoader
 import me.func.world.WorldMeta
 import me.slavita.construction.action.chat.AdminCommands
 import me.slavita.construction.action.chat.UserCommands
+import me.slavita.construction.booster.Boosters
 import me.slavita.construction.market.MarketsManager
 import me.slavita.construction.multichat.MultiChats
 import me.slavita.construction.npc.NpcManager
@@ -23,17 +25,20 @@ import me.slavita.construction.player.User
 import me.slavita.construction.player.events.PhysicsDisabler
 import me.slavita.construction.player.events.PlayerEvents
 import me.slavita.construction.structure.instance.Structures
+import me.slavita.construction.ui.SpeedPlaces
 import me.slavita.construction.ui.items.ItemsManager
 import me.slavita.construction.utils.*
-import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.ItemProperties
+import org.bukkit.Bukkit
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.WHITE
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import ru.cristalix.core.CoreApi
 import ru.cristalix.core.datasync.EntityDataParameters
+import ru.cristalix.core.invoice.IInvoiceService
+import ru.cristalix.core.invoice.InvoiceService
 import ru.cristalix.core.network.ISocketClient
 import ru.cristalix.core.party.IPartyService
 import ru.cristalix.core.party.PartyService
@@ -74,6 +79,7 @@ class App : JavaPlugin() {
             registerService(ITransferService::class.java, TransferService(ISocketClient.get()))
             registerService(IPartyService::class.java, PartyService(ISocketClient.get()))
             registerService(IScoreboardService::class.java, ScoreboardService())
+            registerService(IInvoiceService::class.java, InvoiceService(ISocketClient.get()))
         }
 
         IRealmService.get().currentRealmInfo.apply {
@@ -83,7 +89,7 @@ class App : JavaPlugin() {
             }
         }.run {
             readableName = "Тест"
-            groupName = "CRN"
+            groupName = "Тест"
             status = RealmStatus.WAITING_FOR_PLAYERS
             isLobbyServer = true
         }
@@ -91,7 +97,7 @@ class App : JavaPlugin() {
         ModLoader.loadAll("mods")
         ModLoader.onJoining("construction-mod.jar")
 
-        structureMap = MapLoader.load("construction", "structures")
+        structureMap = MapLoader.load("construction", "structures").apply { world.setGameRuleValue("disableElytraMovementCheck", "true") }
         mainWorld = GameWorld(MapLoader.load("construction", "Spawn"))
 
         Music.block(Category.MUSIC)
@@ -102,31 +108,30 @@ class App : JavaPlugin() {
             .start()
 
         Stronghold.namespace("construction")
-        Stronghold.addThanksConsumer { owner, player ->
-            if (owner != null) {
-                owner.killboard("Вас поблагодарил игрок ${CristalixUtil.getDisplayName(owner)}")
-                app.getUser(owner).stats.money += 100
-            }
-            if (player != null) {
-                player.killboard("Вы поблагодарили игрока ${CristalixUtil.getDisplayName(player)}")
-                app.getUser(player).stats.money += 100
-            }
-        }
 
         Config.load {
             NpcManager
             BoardsManager
         }
+        Boosters
         MultiChats
         UserCommands
         AdminCommands
         Structures
         MarketsManager
         ModCallbacks
+        SpeedPlaces
 
         listener(PlayerEvents, PhysicsDisabler, ItemsManager)
 
         server.scheduler.scheduleSyncRepeatingTask(this, { pass++ }, 0, 1)
+
+        server.scheduler.scheduleSyncRepeatingTask(this,
+        {
+            Bukkit.getOnlinePlayers().forEach { player ->
+                Anime.overlayText(player, Position.BOTTOM_RIGHT, "Онлайн: " + IRealmService.get().getOnlineOnRealms("SLVT").toString())
+            }
+        }, 0, 5 * 20)
     }
 
     fun addUser(player: Player): User {

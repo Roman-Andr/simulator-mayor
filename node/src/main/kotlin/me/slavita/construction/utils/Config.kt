@@ -7,11 +7,14 @@ object Config {
     fun load(after: () -> Unit) {
         var loaded = 0
         val configs = listOf(
-            "https://storage.c7x.dev/romanandr/construction/config/worker.yml",
-            "https://storage.c7x.dev/romanandr/construction/config/npc.yml",
-            "https://storage.c7x.dev/romanandr/construction/config/bank.yml",
-            "https://storage.c7x.dev/romanandr/construction/config/boards.yml",
-        )
+            "worker",
+            "npc",
+            "bank",
+            "boards",
+            "dialogs",
+        ).map {
+            "https://storage.c7x.dev/romanandr/construction/config/$it.yml"
+        }
 
         Atlas.config(configs).forEach { file ->
             file.thenAccept {

@@ -7,6 +7,8 @@ class Statistics(
     var reputation: Double,
     var totalProjects: Int,
     var maxProjects: Int,
+    var speed: Float,
+    var trainStep: Int,
 ) {
-    constructor() : this(10000000000, 1, 0, .0, 0, 0)
+    constructor() : this(10000000000, 1, 0, .0, 0, 0, 0.2F, 1)
 }

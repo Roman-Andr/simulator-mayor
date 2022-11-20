@@ -6,6 +6,7 @@ import me.slavita.construction.structure.Cell
 import me.slavita.construction.structure.CityStructure
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
+import me.slavita.construction.utils.labels
 import org.bukkit.Bukkit
 
 class City(val owner: User) {
@@ -14,7 +15,7 @@ class City(val owner: User) {
     val cells = arrayListOf<Cell>()
 
     init {
-        app.mainWorld.map.getLabels("place").forEachIndexed { id, label ->
+        labels("place").forEachIndexed { id, label ->
             cells.add(Cell(owner, id, label, false))
         }
         Bukkit.server.scheduler.scheduleSyncRepeatingTask(app, {

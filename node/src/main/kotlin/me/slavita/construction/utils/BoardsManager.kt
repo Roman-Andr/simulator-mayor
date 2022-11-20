@@ -12,7 +12,7 @@ import java.util.*
 
 object BoardsManager {
     init {
-        val labels = app.mainWorld.map.getLabels("board")
+        val labels = labels("board")
         Atlas.find("boards").getMapList("boards").forEachIndexed { index, values ->
             val title = values["title"] as String
             val value = values["value"] as String

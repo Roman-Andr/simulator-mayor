@@ -1,9 +1,9 @@
 package me.slavita.construction.player.guide
 
 class Guide {
-    private var state: IGuideStage = InitialStage()
+    private var state: IGuideStep = InitialStep()
 
-    fun changeState(state: IGuideStage) {
+    fun changeState(state: IGuideStep) {
         this.state = state
         this.state.action()
     }

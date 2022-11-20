@@ -9,6 +9,7 @@ import me.slavita.construction.app
 import me.slavita.construction.bank.Bank
 import me.slavita.construction.booster.BoosterType
 import me.slavita.construction.booster.Boosters
+import me.slavita.construction.prepare.GuidePrepare
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.ChatCommandUtils.opCommand
 import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
@@ -69,8 +70,12 @@ object AdminCommands {
             Boosters.activateGlobal(player, BoosterType.valueOf(args[0]))
         }
 
-        opCommand("bc") { player, args ->
+        opCommand("bc") { player, _ ->
             Nightingale.broadcast("construction", "Всем привет!")
+        }
+
+        opCommand("dialog") { player, _ ->
+            GuidePrepare.tryNext(player)
         }
     }
 }

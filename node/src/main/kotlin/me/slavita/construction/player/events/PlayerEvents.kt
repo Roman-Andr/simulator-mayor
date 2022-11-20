@@ -28,7 +28,8 @@ object PlayerEvents : Listener {
                     UIPrepare,
                     ItemCallbacksPrepare,
                     ShowcasePrepare,
-                    BankAccountRegister,
+                    BankAccountPrepare,
+                    GuidePrepare,
                     StoragePrepare
                 ).forEach { it.prepare(this) }
             }

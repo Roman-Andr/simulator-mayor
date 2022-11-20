@@ -1,0 +1,44 @@
+command-key: "e7c73529bb9e2ced61424b792f10019f"
+dialogs:
+  1:
+    title: "Обучение"
+    action: "CONTINUE"
+    content:
+      - "Строка"
+      - "Строка"
+      - "Строка"
+  2:
+    title: "Обучение"
+    action: "CONTINUE"
+    content:
+      - "Строка"
+      - "Строка"
+      - "Строка"
+  3:
+    title: "Обучение"
+    action: "CONTINUE"
+    content:
+      - "Строка"
+      - "Строка"
+      - "Строка"
+  3-not_complete:
+    title: "Обучение"
+    action: "CLOSE"
+    content:
+      - "Строка"
+      - "Строка"
+      - "Строка"
+  4:
+    title: "Обучение"
+    action: "CONTINUE"
+    content:
+      - "Строка"
+      - "Строка"
+      - "Строка"
+  4-not_complete:
+    title: "Обучение"
+    action: "CLOSE"
+    content:
+      - "Строка"
+      - "Строка"
+      - "Строка"

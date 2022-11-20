@@ -39,4 +39,8 @@ object Formatter {
     fun Long.applyBoosters(vararg boosters: BoosterType): Long {
         return this.withBoosters(*boosters.map { it.label }.toTypedArray()).toLong()
     }
+
+    fun Float.applyBoosters(vararg boosters: BoosterType): Float {
+        return this.withBoosters(*boosters.map { it.label }.toTypedArray()).toFloat()
+    }
 }

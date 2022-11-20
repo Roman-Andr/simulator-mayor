@@ -1,8 +1,12 @@
 package me.slavita.construction.mod.showcase
 
 import com.google.gson.Gson
+import dev.xdark.clientapi.block.handler.BlockClickHandler
+import dev.xdark.clientapi.event.block.BlockLeftClick
 import dev.xdark.clientapi.event.block.BlockRightClick
 import dev.xdark.clientapi.event.lifecycle.GameLoop
+import dev.xdark.clientapi.math.BlockPos
+import dev.xdark.clientapi.util.EnumFacing
 import dev.xdark.clientapi.util.EnumHand
 import dev.xdark.feder.NetUtil
 import io.netty.buffer.Unpooled
@@ -63,18 +67,26 @@ object Showcases {
 
         mod.registerHandler<BlockRightClick> {
             if (hand == EnumHand.OFF_HAND) return@registerHandler
-            showcases?.forEach {
-                if (!position.add(facing.xOffset, facing.yOffset, facing.zOffset).inBox(it.min, it.max)) return@forEach
+            onClick(showcases, position, facing)
+        }
 
-                val buffer = Unpooled.buffer().writeInt(it.id)
-                clientApi.clientConnection().sendPayload("showcase:open", buffer)
-
-                player.swingArm(EnumHand.MAIN_HAND)
-            }
+        mod.registerHandler<BlockLeftClick> {
+            onClick(showcases, position, facing)
         }
 
         mod.registerChannel("showcase:initialize") {
             showcases = Gson().fromJson(NetUtil.readUtf8(this), Array<ShowcaseData>::class.java)
+        }
+    }
+
+    fun onClick(showcases: Array<ShowcaseData>?, position: BlockPos, facing: EnumFacing) {
+        showcases?.forEach {
+            if (!position.add(facing.xOffset, facing.yOffset, facing.zOffset).inBox(it.min, it.max)) return@forEach
+
+            val buffer = Unpooled.buffer().writeInt(it.id)
+            clientApi.clientConnection().sendPayload("showcase:open", buffer)
+
+            player.swingArm(EnumHand.MAIN_HAND)
         }
     }
 }

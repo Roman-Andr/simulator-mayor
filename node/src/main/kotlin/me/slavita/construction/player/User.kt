@@ -1,13 +1,17 @@
 package me.slavita.construction.player
 
 import me.slavita.construction.app
+import me.slavita.construction.booster.BoosterType
 import me.slavita.construction.player.guide.Guide
 import me.slavita.construction.project.Project
 import me.slavita.construction.storage.BlocksStorage
+import me.slavita.construction.ui.Formatter.applyBoosters
 import me.slavita.construction.utils.music.MusicExtension.playSound
 import me.slavita.construction.utils.music.MusicSound
 import me.slavita.construction.worker.Worker
 import org.bukkit.Bukkit
+import org.bukkit.entity.Player
+import ru.cristalix.core.invoice.IInvoiceService
 import java.util.*
 
 class User(
@@ -15,18 +19,26 @@ class User(
     var stats: Statistics,
 ) {
     val guide = Guide()
-    val player = Bukkit.getPlayer(uuid)
+    val player: Player = Bukkit.getPlayer(uuid)
     val city = City(this)
     val blocksStorage = BlocksStorage(this)
     var workers = hashSetOf<Worker>()
     var watchableProject: Project? = null
     var income = 0L
     var dialogId = 0
+    var criBalanceLastUpdate = 0L
+    var criBalance: Int = 0
+        get() {
+            val now = System.currentTimeMillis()
 
-    fun updateLevelBar() {
-        player.level = stats.level
-        player.exp = 0.0F
-    }
+            if (now - criBalanceLastUpdate > 1000 * 60) {
+                criBalanceLastUpdate = now
+                IInvoiceService.get().getBalanceData(player.uniqueId).thenAccept { data ->
+                    field = data.crystals + data.coins
+                }
+            }
+            return field
+        }
 
     init {
         Bukkit.server.scheduler.scheduleSyncRepeatingTask(app, {

@@ -6,9 +6,9 @@ import me.func.mod.world.Npc.location
 import me.func.mod.world.Npc.onClick
 import me.func.mod.world.Npc.skin
 import me.func.protocol.world.npc.NpcBehaviour
-import me.slavita.construction.action.command.GuideDialog
 import me.slavita.construction.action.command.menu.ControlPanelMenu
 import me.slavita.construction.action.command.menu.DailyMenu
+import me.slavita.construction.action.command.menu.GuideDialog
 import me.slavita.construction.action.command.menu.bank.BankMainMenu
 import me.slavita.construction.action.command.menu.lootbbox.BuyLootboxMenu
 import me.slavita.construction.action.command.menu.lootbbox.UserLootboxesMenu
@@ -35,35 +35,34 @@ object NpcManager {
             val itemValue = values["itemValue"] as String
             val action = values["action"] as String
 
-            Npc.npc {
-                labels.find { it.tag == labelTag }?.let {
-                    location(it.toCenterLocation().apply {
-                        y =
-                            it.blockY.toDouble()
+            labels.filter { it.tag == labelTag }.forEach { label ->
+                Npc.npc {
+                    location(label.toCenterLocation().apply {
+                        y = label.blockY.toDouble()
                     })
-                }
-                name = title
-                when (skinType) {
-                    "uuid" -> skin(UUID.fromString(skin))
-                    "url"  -> skin(skin)
-                }
-                behaviour = NpcBehaviour.STARE_AND_LOOK_AROUND
-                onClick {
-                    when (action) {
-                        "BuyLootboxMenu"     -> BuyLootboxMenu::class
-                        "WorkerTeamMenu"     -> WorkerTeamMenu::class
-                        "ControlPanelMenu"   -> ControlPanelMenu::class
-                        "BankMainMenu"       -> BankMainMenu::class
-                        "UserLootboxesMenu"  -> UserLootboxesMenu::class
-                        "ActiveProjectsMenu" -> ActiveProjectsMenu::class
-                        "DailyMenu"          -> DailyMenu::class
-                        "GuideDialog"        -> GuideDialog::class
-                        "StorageMenu"        -> StorageMenu::class
-                        else                 -> ControlPanelMenu::class
-                    }.primaryConstructor!!.call(it.player).tryExecute()
+                    name = title
+                    when (skinType) {
+                        "uuid" -> skin(UUID.fromString(skin))
+                        "url"  -> skin(skin)
+                    }
+                    behaviour = NpcBehaviour.STARE_AND_LOOK_AROUND
+                    onClick {
+                        when (action) {
+                            "BuyLootboxMenu"     -> BuyLootboxMenu::class
+                            "WorkerTeamMenu"     -> WorkerTeamMenu::class
+                            "ControlPanelMenu"   -> ControlPanelMenu::class
+                            "BankMainMenu"       -> BankMainMenu::class
+                            "UserLootboxesMenu"  -> UserLootboxesMenu::class
+                            "ActiveProjectsMenu" -> ActiveProjectsMenu::class
+                            "DailyMenu"          -> DailyMenu::class
+                            "GuideDialog"        -> GuideDialog::class
+                            "StorageMenu"        -> StorageMenu::class
+                            else                 -> ControlPanelMenu::class
+                        }.primaryConstructor!!.call(it.player).tryExecute()
 
-                }
-            }.slot(EquipmentSlot.HAND, CraftItemStack.asNMSCopy(ItemIcons.get(itemKey, itemValue)))
+                    }
+                }.slot(EquipmentSlot.HAND, CraftItemStack.asNMSCopy(ItemIcons.get(itemKey, itemValue)))
+            }
         }
     }
 }

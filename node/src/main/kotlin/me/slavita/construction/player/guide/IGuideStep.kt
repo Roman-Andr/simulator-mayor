@@ -1,5 +1,5 @@
 package me.slavita.construction.player.guide
 
-interface IGuideStage {
+interface IGuideStep {
     fun action()
 }
