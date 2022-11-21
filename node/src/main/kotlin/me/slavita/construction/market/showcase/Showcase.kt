@@ -8,7 +8,7 @@ import me.slavita.construction.utils.extensions.BlocksExtensions.toV3
 import org.bukkit.event.Listener
 
 class Showcase(val properties: ShowcaseProperties) : Listener {
-    private val box = app.mainWorld.map.getBox("showcase", properties.boxName)
+    private val box = app.mainWorld.map.getBox("showcase", properties.id.toString())
 
     init {
         listener(this)

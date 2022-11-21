@@ -8,8 +8,8 @@ object Showcases {
 
     init {
         val materials = app.allBlocks
-        (1..3).forEach { index ->
-            showcases.add(ShowcaseProperties(index, index.toString(), hashSetOf<Pair<ItemProperties, Long>>().apply {
+        app.mainWorld.map.getLabels("showcase").forEach { label ->
+            showcases.add(ShowcaseProperties(label.tagInt, hashSetOf<Pair<ItemProperties, Long>>().apply {
                 materials.forEach { material ->
                     this.add(Pair(material, 100L))
                 }

@@ -13,8 +13,11 @@ import me.slavita.construction.prepare.GuidePrepare
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.ChatCommandUtils.opCommand
 import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
+import org.bukkit.Bukkit
 import org.bukkit.Sound
 import org.bukkit.SoundCategory
+import ru.cristalix.core.realm.IRealmService
+import ru.cristalix.core.transfer.ITransferService
 
 object AdminCommands {
     init {
@@ -70,12 +73,24 @@ object AdminCommands {
             Boosters.activateGlobal(player, BoosterType.valueOf(args[0]))
         }
 
-        opCommand("bc") { player, _ ->
+        opCommand("bc") { _, _ ->
             Nightingale.broadcast("construction", "Всем привет!")
         }
 
         opCommand("dialog") { player, _ ->
             GuidePrepare.tryNext(player)
+        }
+
+        opCommand("kickAll") { _, _ ->
+            //need test
+            println("here")
+            val availableRealms = IRealmService.get().typesAndRealms["SLVT"]!!.filter { it.realmId.id != IRealmService.get().currentRealmInfo.realmId.id }
+            Bukkit.getOnlinePlayers().chunked(availableRealms.size).forEachIndexed { index, players ->
+                players.forEach {
+                    //if (it.isOp) return@forEach
+                    ITransferService.get().transfer(it.uniqueId, availableRealms[index].realmId)
+                }
+            }
         }
     }
 }

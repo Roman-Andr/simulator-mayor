@@ -49,7 +49,7 @@ object Boosters {
             BoosterGlobal.builder()
                 .type(booster.label)
                 .title(booster.title)
-                .owner(player)
+                .owner(CristalixUtil.getDisplayName(player))
                 .duration(30, TimeUnit.SECONDS)
                 .multiplier(1.5)
                 .maxStackable(4)

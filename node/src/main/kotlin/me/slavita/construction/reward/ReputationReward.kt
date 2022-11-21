@@ -9,8 +9,8 @@ import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
 class ReputationReward(val reputation: Long) : Reward() {
     override fun getReward(user: User) {
         val value = reputation.applyBoosters(BoosterType.REPUTATION_BOOSTER)
-        user.stats.reputation += reputation
-        user.player.killboard("Вы получили ${reputation.toReputation() + " репутации"}")
+        user.stats.reputation += value
+        user.player.killboard("Вы получили ${value.toReputation() + " репутации"}")
     }
 
     override fun toString(): String {

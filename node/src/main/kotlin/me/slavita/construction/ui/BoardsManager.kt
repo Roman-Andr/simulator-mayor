@@ -1,8 +1,9 @@
-package me.slavita.construction.utils
+package me.slavita.construction.ui
 
 import me.func.atlas.Atlas
 import me.slavita.construction.app
 import me.slavita.construction.utils.extensions.BlocksExtensions.toYaw
+import me.slavita.construction.utils.labels
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.block.BlockFace
@@ -12,12 +13,10 @@ import java.util.*
 
 object BoardsManager {
     init {
-        val labels = labels("board")
-        Atlas.find("boards").getMapList("boards").forEachIndexed { index, values ->
-            val title = values["title"] as String
-            val value = values["value"] as String
-
-            createTop(labels[index], title, value)
+        Atlas.find("boards").run {
+            app.mainWorld.map.getLabels("board").forEach {
+                createTop(it.toCenterLocation(), getString("boards.${it.tag}.title"), getString("boards.${it.tag}.value"))
+            }
         }
     }
 

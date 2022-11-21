@@ -12,6 +12,7 @@ object Config {
             "bank",
             "boards",
             "dialogs",
+            "showcases",
         ).map {
             "https://storage.c7x.dev/romanandr/construction/config/$it.yml"
         }

@@ -56,7 +56,7 @@ class GameWorld(val map: WorldMeta) {
         blocks.getOrPut(player.uniqueId) { hashMapOf() }.getOrPut(chunk) { hashSetOf() }.add(block)
     }
 
-    fun getSpawn() = map.label("spawn")
+    fun getSpawn() = map.getLabel("spawn", "1")
 
     fun getNpcLabels() = map.labels("npc")
 }
