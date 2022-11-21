@@ -25,7 +25,7 @@ class GameWorld(val map: WorldMeta) {
                     blocks.forEach {
                         chunk.modify(
                             it.position,
-                            (it.sourceBlock as CraftBlock).data0
+                            it.sourceCraftData
                         )
                     }
 

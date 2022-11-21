@@ -6,6 +6,7 @@ import me.slavita.construction.app
 import me.slavita.construction.prepare.*
 import me.slavita.construction.storage.BlocksStorage
 import me.slavita.construction.structure.tools.CityStructureState
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -18,6 +19,8 @@ object PlayerEvents : Listener {
 
     @EventHandler
     fun PlayerJoinEvent.handle() {
+        app.getUserOrNull(player.uniqueId)?.player = player
+
         after(2) {
             if (!app.hasUser(player)) app.addUser(player)
             app.getUser(player).run {
