@@ -44,7 +44,7 @@ object GuidePrepare : IPrepare {
         val step = user.stats.trainStep
 
         entryPoint = if (
-            step == 3 && user.stats.totalProjects == 0 ||
+            step == 3 && user.city.projects.size == 0 ||
             step == 4 && user.workers.size == 0
         ) {
             "${step}-not_complete"

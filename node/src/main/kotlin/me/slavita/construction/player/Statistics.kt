@@ -10,5 +10,5 @@ class Statistics(
     var speed: Float,
     var trainStep: Int,
 ) {
-    constructor() : this(10000000000, 1, 0, .0, 0, 0, 0.2F, 1)
+    constructor() : this(10000000000, 1, 0, .0, 0, 0, 0.2F, 0)
 }

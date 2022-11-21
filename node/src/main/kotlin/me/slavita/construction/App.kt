@@ -31,8 +31,7 @@ import me.slavita.construction.utils.*
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.Bukkit
-import org.bukkit.ChatColor.AQUA
-import org.bukkit.ChatColor.WHITE
+import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import ru.cristalix.core.CoreApi
@@ -129,7 +128,7 @@ class App : JavaPlugin() {
         server.scheduler.scheduleSyncRepeatingTask(this,
         {
             Bukkit.getOnlinePlayers().forEach { player ->
-                Anime.overlayText(player, Position.BOTTOM_RIGHT, "Онлайн: " + IRealmService.get().getOnlineOnRealms("SLVT").toString())
+                Anime.overlayText(player, Position.BOTTOM_RIGHT, "Онлайн ${DARK_GRAY}» $GOLD" + IRealmService.get().getOnlineOnRealms("SLVT").toString())
             }
         }, 0, 5 * 20)
     }
