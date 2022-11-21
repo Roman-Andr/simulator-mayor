@@ -14,7 +14,7 @@ object Config {
             "dialogs",
             "showcases",
         ).map {
-            "https://storage.c7x.dev/romanandr/construction/config/$it.yml"
+            "https://storage.c7x.dev/${System.getProperty("storage.user")}/construction/config/$it.yml"
         }
 
         Atlas.config(configs).forEach { file ->
