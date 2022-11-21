@@ -28,7 +28,7 @@ abstract class WorkerExecutor(player: Player, val structure: WorkerStructure) : 
                 }
 
                 WorkerState.BUSY     -> {
-                    city.projects.find { if (it.structure is WorkerStructure) it.structure.workers.contains(targetWorker) else false }!!
+                    currentCity.projects.find { if (it.structure is WorkerStructure) it.structure.workers.contains(targetWorker) else false }!!
                         .apply target@{
                             (this@target.structure as WorkerStructure).workers.remove(targetWorker)
                             structure.workers.add(targetWorker)
@@ -42,7 +42,7 @@ abstract class WorkerExecutor(player: Player, val structure: WorkerStructure) : 
 
     protected fun getWorkerState(targetWorker: Worker): WorkerState {
         val busyWorkers = app.getUser(player).workers.filter { worker ->
-            app.getUser(player).city.projects.stream().anyMatch {
+            app.getUser(player).currentCity.projects.stream().anyMatch {
                 when (it.structure is WorkerStructure) {
                     true -> it.structure.workers.contains(worker)
                     else -> {

@@ -1,5 +1,6 @@
 package me.slavita.construction.player
 
+import me.func.mod.util.after
 import me.slavita.construction.app
 import me.slavita.construction.booster.BoosterType
 import me.slavita.construction.player.guide.Guide
@@ -20,7 +21,8 @@ class User(
 ) {
     val guide = Guide()
     var player: Player = Bukkit.getPlayer(uuid)
-    val city = City(this)
+    val cites = arrayOf(City(this, "1"), City(this, "2"))
+    var currentCity = cites.firstOrNull { return@firstOrNull it.box.contains(player.location) } ?: cites[0]
     val blocksStorage = BlocksStorage(this)
     var workers = hashSetOf<Worker>()
     var watchableProject: Project? = null

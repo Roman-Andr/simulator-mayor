@@ -35,10 +35,12 @@ class GameWorld(val map: WorldMeta) {
                     val user = app.getUserOrNull(it) ?: return@buildingLoader arrayListOf()
 
                     val buildings = arrayListOf<Building>()
-                    user.city.cityStructures.forEach { structure ->
-                        buildings.add(structure.building.apply {
-                            show(user.player)
-                        })
+                    user.cites.forEach { city ->
+                        city.cityStructures.forEach { structure ->
+                            buildings.add(structure.building.apply {
+                                show(user.player)
+                            })
+                        }
                     }
                     buildings
                 }.build()
@@ -55,8 +57,6 @@ class GameWorld(val map: WorldMeta) {
         val chunk = V2i(block.position.x / 16, block.position.z / 16)
         blocks.getOrPut(player.uniqueId) { hashMapOf() }.getOrPut(chunk) { hashSetOf() }.add(block)
     }
-
-    fun getSpawn() = map.getLabel("spawn", "1")
 
     fun getNpcLabels() = map.labels("npc")
 }

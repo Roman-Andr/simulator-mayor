@@ -21,7 +21,7 @@ object ConnectionPrepare : IPrepare {
                         return
                     }
 
-                    user.city.cells.forEach {
+                    user.currentCity.cells.forEach {
                         if (it.box.contains(packet.a)) packet.a = BlockPosition(0, 0, 0)
                     }
                     super.write(ctx, packet, promise)

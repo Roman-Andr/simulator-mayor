@@ -31,7 +31,7 @@ class ChoiceProject(player: Player, val structure: Structure, val cell: Cell) : 
                             val project = ProjectGenerator.generateClient(this@user, structure, cell)
 
                             project.start()
-                            city.addProject(project)
+                            currentCity.addProject(project)
 
                             Anime.close(player)
                         }

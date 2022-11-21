@@ -41,12 +41,13 @@ object PlayerEvents : Listener {
 
     @EventHandler
     fun PlayerDropItemEvent.handle() {
-        if (!BlocksStorage.box.contains(player.location)) {
+        val user = app.getUser(player)
+        if (!user.blocksStorage.inBox()) {
             isCancelled = true
             return
         }
 
-        app.getUser(player).blocksStorage.addItem(drop.itemStack)
+        user.blocksStorage.addItem(drop.itemStack)
         drop.remove()
     }
 
@@ -58,14 +59,14 @@ object PlayerEvents : Listener {
                 watchableProject = null
             }
 
-            city.cityStructures.forEach {
+            currentCity.cityStructures.forEach {
                 if (it.cell.box.contains(player.location) && it.state == CityStructureState.BROKEN) {
                     it.repair()
                 }
             }
 
             if (watchableProject == null) {
-                city.projects.forEach {
+                currentCity.projects.forEach {
                     if (it.structure.box.contains(player.location)) {
                         watchableProject = it
                         it.onEnter()
@@ -73,7 +74,7 @@ object PlayerEvents : Listener {
                     }
                 }
 
-                city.cells.forEach {
+                currentCity.cells.forEach {
                     if (it.busy || !it.box.contains(player.location)) return@forEach
 
                     if (inZone[player] == false) ChoiceStructure(player, it).tryExecute()

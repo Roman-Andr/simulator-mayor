@@ -19,20 +19,22 @@ class ActiveProjectsMenu(player: Player) : MenuCommand(player) {
             return getBaseSelection(MenuInfo("Ваши активные проекты", StatsType.MONEY, 4, 5)).apply {
                 hint = ""
                 storage = mutableListOf<ReactiveButton>().apply storage@{
-                    city.projects.forEach {
-                        this@storage.add(
-                            button {
-                                item = ItemIcons.get("skyblock", "settings")
-                                title = "Проект #${it.id}"
-                                hover = "${AQUA}ID: ${it.id}\n" +
-                                        "${AQUA}Награды:\n" +
-                                        it.rewards.joinToString("\n") { it.toString() }
-                                special(it.structure is ClientStructure)
-                                onClick { _, _, _ ->
-                                    Anime.close(player)
+                    cites.forEach { city ->
+                        city.projects.forEach {
+                            this@storage.add(
+                                button {
+                                    item = ItemIcons.get("skyblock", "settings")
+                                    title = "Проект #${it.id}"
+                                    hover = "${AQUA}ID: ${it.id}\n" +
+                                            "${AQUA}Награды:\n" +
+                                            it.rewards.joinToString("\n") { it.toString() }
+                                    special(it.structure is ClientStructure)
+                                    onClick { _, _, _ ->
+                                        Anime.close(player)
+                                    }
                                 }
-                            }
-                        )
+                            )
+                        }
                     }
                 }
             }

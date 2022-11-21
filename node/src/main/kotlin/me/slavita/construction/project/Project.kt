@@ -1,5 +1,6 @@
 package me.slavita.construction.project
 
+import me.slavita.construction.player.City
 import me.slavita.construction.player.User
 import me.slavita.construction.reward.Reward
 import me.slavita.construction.structure.BuildingStructure
@@ -9,16 +10,21 @@ import me.slavita.construction.utils.music.MusicExtension.playSound
 import me.slavita.construction.utils.music.MusicSound
 
 class Project(
-    val owner: User,
+    val city: City,
     var id: Int,
     val structure: BuildingStructure,
     val rewards: List<Reward>,
 ) {
+    val owner = city.owner
     val timeLast: Int
         get() = 0
 
     init {
-        id = owner.stats.totalProjects + owner.city.projects.size
+        var projectsCount = 0
+        owner.cites.forEach {
+            projectsCount += it.projects.size
+        }
+        id = owner.stats.totalProjects + projectsCount
     }
 
     fun start() {
@@ -35,7 +41,7 @@ class Project(
                 }
                 structure.cityStructure!!.state = CityStructureState.FUNCTIONING
                 structure.cityStructure!!.startIncome()
-                owner.city.finishProject(this@Project)
+                city.finishProject(this@Project)
                 owner.player.playSound(MusicSound.UI_CLICK)
                 owner.stats.totalProjects++
             }

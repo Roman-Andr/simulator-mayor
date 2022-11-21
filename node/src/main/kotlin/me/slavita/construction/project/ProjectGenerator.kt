@@ -13,7 +13,7 @@ import me.slavita.construction.structure.instance.Structure
 object ProjectGenerator {
     fun generateClient(owner: User, structure: Structure, cell: Cell): Project {
         return Project(
-            owner,
+            owner.currentCity,
             owner.stats.totalProjects,
             ClientStructure(
                 app.mainWorld,
@@ -31,7 +31,7 @@ object ProjectGenerator {
 
     fun generateWorker(owner: User, structure: Structure, cell: Cell): Project {
         return Project(
-            owner,
+            owner.currentCity,
             owner.stats.totalProjects,
             WorkerStructure(
                 app.mainWorld,

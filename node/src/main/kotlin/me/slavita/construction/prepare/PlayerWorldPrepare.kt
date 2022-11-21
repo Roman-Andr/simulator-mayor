@@ -9,7 +9,7 @@ import org.bukkit.GameMode
 
 object PlayerWorldPrepare : IPrepare {
     override fun prepare(user: User) {
-        user.player.teleport(app.mainWorld.getSpawn())
+        user.player.teleport(user.currentCity.getSpawn())
         user.player.gameMode = GameMode.ADVENTURE
         for (current in Bukkit.getOnlinePlayers()) {
             if (current == null) continue

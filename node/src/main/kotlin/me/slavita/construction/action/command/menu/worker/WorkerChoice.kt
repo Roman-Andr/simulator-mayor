@@ -31,7 +31,7 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
                         project.structure.cell.setBusy()
                         (project.structure as WorkerStructure).workers.addAll(this@WorkerChoice.structure.workers)
                         project.start()
-                        this@user.city.addProject(project)
+                        this@user.currentCity.addProject(project)
                     }
                 },
                 button {

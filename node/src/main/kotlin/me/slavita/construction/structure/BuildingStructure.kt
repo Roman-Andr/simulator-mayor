@@ -81,7 +81,7 @@ abstract class BuildingStructure(
         state = StructureState.FINISHED
         deleteVisual()
         visual.finishShow()
-        cityStructure = owner.city.addStructure(CityStructure(owner.player, structure, cell))
+        cityStructure = cell.city.addStructure(CityStructure(owner.player, structure, cell))
     }
 
     fun claimed() {
