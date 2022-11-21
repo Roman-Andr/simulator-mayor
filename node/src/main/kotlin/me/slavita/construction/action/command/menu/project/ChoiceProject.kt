@@ -27,8 +27,9 @@ class ChoiceProject(player: Player, val structure: Structure, val cell: Cell) : 
                         hint = "Выбрать"
                         item = ItemIcons.get("other", "human")
                         onClick { _, _, _ ->
-                            val project =
-                                ProjectGenerator.generateClient(this@user, structure, cell.apply { busy = true })
+                            cell.setBusy()
+                            val project = ProjectGenerator.generateClient(this@user, structure, cell)
+
                             project.start()
                             city.addProject(project)
 

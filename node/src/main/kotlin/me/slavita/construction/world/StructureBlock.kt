@@ -1,8 +1,10 @@
 package me.slavita.construction.world
 
+import me.slavita.construction.app
 import me.slavita.construction.utils.extensions.BlocksExtensions.add
 import me.slavita.construction.utils.extensions.BlocksExtensions.toPosition
 import net.minecraft.server.v1_12_R1.BlockPosition
+import net.minecraft.server.v1_12_R1.IBlockData
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.Block
@@ -13,7 +15,7 @@ class StructureBlock(
     type: Material,
     data: Byte,
     val sourceData: Byte,
-    val sourceBlock: Block,
+    val sourceCraftData: IBlockData
 ) : ItemProperties(type, data) {
 
     constructor(sourceBlock: Block) : this(
@@ -21,11 +23,11 @@ class StructureBlock(
         sourceBlock.type,
         (sourceBlock as CraftBlock).nmsBlock.getDropData(sourceBlock.data0).toByte(),
         sourceBlock.data,
-        sourceBlock
+        sourceBlock.data0
     )
 
     fun withOffset(position: Location): StructureBlock {
-        return StructureBlock(this.position.add(position), this.type, this.data, this.sourceData, this.sourceBlock)
+        return StructureBlock(this.position.add(position), this.type, this.data, this.sourceData, this.sourceCraftData)
     }
 
     fun equalsLocation(location: Location): Boolean {
@@ -41,7 +43,6 @@ class StructureBlock(
 
         if (position != other.position) return false
         if (sourceData != other.sourceData) return false
-        if (sourceBlock != other.sourceBlock) return false
 
         return true
     }
@@ -50,7 +51,6 @@ class StructureBlock(
         var result = super.hashCode()
         result = 31 * result + position.hashCode()
         result = 31 * result + sourceData
-        result = 31 * result + sourceBlock.hashCode()
         return result
     }
 }
