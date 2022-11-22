@@ -9,7 +9,6 @@ import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
 import me.slavita.construction.action.command.menu.worker.WorkerTeamMenu
 import me.slavita.construction.app
 import me.slavita.construction.ui.menu.ItemIcons
-import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
 import org.bukkit.entity.Player
 
 class ControlPanelMenu(player: Player) : MenuCommand(player) {

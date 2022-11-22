@@ -2,7 +2,6 @@ package me.slavita.construction.action.command.menu
 
 import implario.humanize.Humanize
 import me.func.mod.Anime
-import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.choicer.Choicer
@@ -17,23 +16,28 @@ import kotlin.math.abs
 
 class LocationsMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
-        app.getUser(player).run user@ {
+        app.getUser(player).run user@{
             return Choicer(title = "Телепортация", description = "Перемещение между локациями").apply {
                 storage = this@user.cities.map { city ->
-                        button {
-                            texture = Texture.LOCATION.path()
-                            title = city.title
-                            hint = "Выбрать"
-                            onClick { _, _, _ ->
-                                ChangeCity(player, city).tryExecute(false).run {
-                                    if (this < 0) player.killboard("${GREEN}Подождите ещё ${abs(this)/20} ${Humanize.plurals("секунду", "секунды", "секунд",
-                                        (abs(this)/20).toInt()
-                                    )}")
-                                }
-                                Anime.close(player)
+                    button {
+                        texture = Texture.LOCATION.path()
+                        title = city.title
+                        hint = "Выбрать"
+                        onClick { _, _, _ ->
+                            ChangeCity(player, city).tryExecute(false).run {
+                                if (this < 0) player.killboard(
+                                    "${GREEN}Подождите ещё ${abs(this) / 20} ${
+                                        Humanize.plurals(
+                                            "секунду", "секунды", "секунд",
+                                            (abs(this) / 20).toInt()
+                                        )
+                                    }"
+                                )
                             }
+                            Anime.close(player)
                         }
-                    }.toMutableList()
+                    }
+                }.toMutableList()
             }
         }
     }

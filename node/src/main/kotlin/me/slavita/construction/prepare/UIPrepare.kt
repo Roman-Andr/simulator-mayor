@@ -14,7 +14,10 @@ object UIPrepare : IPrepare {
         MultiChats.sendPlayerChats(user.player)
         ScoreBoardGenerator.generate(user.player)
         Texture.values().forEach {
-            Anime.loadTexture(user.player, "https://storage.c7x.dev/${System.getProperty("storage.user")}/construction/${it.fileName}")
+            Anime.loadTexture(
+                user.player,
+                "https://storage.c7x.dev/${System.getProperty("storage.user")}/construction/${it.fileName}"
+            )
         }
     }
 }

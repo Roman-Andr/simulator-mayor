@@ -31,6 +31,7 @@ class InformationBox : CarvedRectangle() {
     }
     var boxes = arrayOf<BoxData>()
     var turn = false
+
     init {
         size = V3(210.0, 40.0)
         align = BOTTOM

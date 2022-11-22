@@ -10,8 +10,6 @@ import dev.xdark.feder.NetUtil
 import io.netty.buffer.Unpooled
 import me.slavita.construction.mod.mod
 import me.slavita.construction.mod.player
-import me.slavita.construction.mod.storage.Storage
-import me.slavita.construction.mod.storage.StorageData
 import me.slavita.construction.mod.templates.BoxData
 import me.slavita.construction.mod.templates.info
 import me.slavita.construction.mod.utils.extensions.PositionExtensions.inBox
