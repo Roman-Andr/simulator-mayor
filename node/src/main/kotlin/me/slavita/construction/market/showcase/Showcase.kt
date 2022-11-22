@@ -25,6 +25,6 @@ class Showcase(val properties: ShowcaseProperties) : Listener {
     }
 
     fun getData(): ShowcaseClientData {
-        return ShowcaseClientData(properties.name, box.min.toV3(), box.max.toV3(), properties.id)
+        return ShowcaseClientData(properties.id, properties.name, box.min.toV3(), box.max.toV3())
     }
 }

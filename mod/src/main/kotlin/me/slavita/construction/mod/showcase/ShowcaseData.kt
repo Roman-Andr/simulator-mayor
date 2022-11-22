@@ -1,10 +1,11 @@
 package me.slavita.construction.mod.showcase
 
+import me.slavita.construction.mod.templates.BoxData
 import ru.cristalix.uiengine.utility.V3
 
 data class ShowcaseData(
-    val title: String,
-    val min: V3,
-    val max: V3,
     val id: Int,
-)
+    val title1: String,
+    val min1: V3,
+    val max1: V3,
+) : BoxData(title1, min1, max1)
