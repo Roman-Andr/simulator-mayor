@@ -6,10 +6,10 @@ import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection.Selection
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.WorkerExecutor
-import me.slavita.construction.app
 import me.slavita.construction.project.Project
 import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.utils.user
 import me.slavita.construction.worker.WorkerState
 import org.bukkit.ChatColor.GREEN
 import org.bukkit.entity.Player
@@ -17,7 +17,7 @@ import org.bukkit.entity.Player
 class WorkerChoice(player: Player, val project: Project, val startProject: Boolean = true) :
     WorkerExecutor(player, project.structure as WorkerStructure) {
     override fun getMenu(): Openable {
-        app.getUser(player).run user@{
+        player.user.run user@{
             return Selection(title = "Выбор строителей", rows = 5, columns = 4, storage = mutableListOf(
                 getEmptyButton(),
                 button {
@@ -59,8 +59,8 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
                             backgroundColor =
                                 when (getWorkerState(worker)) {
                                     WorkerState.SELECTED -> GlowColor.ORANGE
-                                    WorkerState.BUSY     -> GlowColor.NEUTRAL
-                                    WorkerState.FREE     -> GlowColor.BLUE
+                                    WorkerState.BUSY -> GlowColor.NEUTRAL
+                                    WorkerState.FREE -> GlowColor.BLUE
                                 }
                             onClick { _, _, button ->
                                 distributeWorker(worker, button)

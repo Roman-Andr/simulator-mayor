@@ -6,14 +6,14 @@ import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.WorkerExecutor
-import me.slavita.construction.app
 import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.utils.user
 import org.bukkit.entity.Player
 
 class WorkersBuildingMenu(player: Player, structure: WorkerStructure) : WorkerExecutor(player, structure) {
     override fun getMenu(): Openable {
-        app.getUser(player).run user@{
+        player.user.run user@{
             return selection {
                 title = "Настройка рабочих"
                 rows = 3

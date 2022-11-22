@@ -7,9 +7,9 @@ import me.func.mod.ui.menu.choicer.Choicer
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.UpgradeWorker
-import me.slavita.construction.app
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.utils.user
 import me.slavita.construction.worker.Worker
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.GREEN
@@ -17,7 +17,7 @@ import org.bukkit.entity.Player
 
 class WorkerUpgradeMenu(player: Player, val worker: Worker) : MenuCommand(player) {
     override fun getMenu(): Openable {
-        app.getUser(player).run user@{
+        player.user.run user@{
             var infoButton: ReactiveButton
             return Choicer(title = "Улучшение рабочего").apply {
                 storage = mutableListOf(

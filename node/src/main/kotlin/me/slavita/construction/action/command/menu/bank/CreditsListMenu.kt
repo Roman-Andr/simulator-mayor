@@ -13,13 +13,14 @@ import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
 import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
+import me.slavita.construction.utils.user
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.entity.Player
 
 class CreditsListMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
-        app.getUser(player).run user@{
+        player.user.run user@{
             return getBaseSelection(MenuInfo("Ваши кредиты", StatsType.CREDIT, 4, 5)).apply {
                 storage = mutableListOf<ReactiveButton>().apply storage@{
                     Bank.playersData[player.uniqueId]!!.forEachIndexed { index, value ->

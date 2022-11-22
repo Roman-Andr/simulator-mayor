@@ -3,14 +3,14 @@ package me.slavita.construction.action.command.menu
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.dailyReward
 import me.slavita.construction.action.MenuCommand
-import me.slavita.construction.app
 import me.slavita.construction.reward.MoneyReward
 import me.slavita.construction.reward.daily.DailyReward
+import me.slavita.construction.utils.user
 import org.bukkit.entity.Player
 
 class DailyMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
-        app.getUser(player).run user@{
+        player.user.run user@{
             return dailyReward {
                 taken = true
                 title = "Ежедневные награды"

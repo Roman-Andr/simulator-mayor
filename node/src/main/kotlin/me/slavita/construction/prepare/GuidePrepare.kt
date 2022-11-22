@@ -2,8 +2,8 @@ package me.slavita.construction.prepare
 
 import me.func.atlas.Atlas
 import me.func.protocol.ui.dialog.*
-import me.slavita.construction.app
 import me.slavita.construction.player.User
+import me.slavita.construction.utils.user
 import org.bukkit.entity.Player
 
 object GuidePrepare : IPrepare {
@@ -23,12 +23,12 @@ object GuidePrepare : IPrepare {
                                 Button(
                                     when (actionType) {
                                         "CONTINUE" -> "Далее"
-                                        else       -> "Хорошо"
+                                        else -> "Хорошо"
                                     }
                                 ).actions(
                                     when (actionType) {
                                         "CONTINUE" -> Action.command("/dialog ${getString("command-key")}")
-                                        else       -> Action(Actions.CLOSE)
+                                        else -> Action(Actions.CLOSE)
                                     }
                                 )
                             )
@@ -39,7 +39,7 @@ object GuidePrepare : IPrepare {
     }
 
     fun tryNext(player: Player) {
-        val user = app.getUser(player)
+        val user = player.user
         val entryPoint: String
         val step = user.stats.trainStep
 

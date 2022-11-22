@@ -2,10 +2,10 @@ package me.slavita.construction.booster
 
 import me.func.stronghold.Stronghold
 import me.func.stronghold.booster.BoosterGlobal
-import me.slavita.construction.app
 import me.slavita.construction.ui.Formatter.applyBoosters
 import me.slavita.construction.utils.CristalixUtil
 import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
+import me.slavita.construction.utils.user
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import java.util.concurrent.TimeUnit
@@ -15,17 +15,17 @@ object Boosters {
         Stronghold.addThanksConsumer { owner, player ->
             if (owner != null) {
                 owner.killboard("Вас поблагодарил игрок ${CristalixUtil.getDisplayName(owner)}")
-                app.getUser(owner).stats.money += 100
+                owner.user.stats.money += 100
             }
             if (player != null) {
                 player.killboard("Вы поблагодарили игрока ${CristalixUtil.getDisplayName(player)}")
-                app.getUser(player).stats.money += 100
+                player.user.stats.money += 100
             }
         }
 
         Stronghold.onActivate {
             Bukkit.getOnlinePlayers().forEach { player ->
-                app.getUser(player).run {
+                player.user.run {
                     stats.speed.apply { applyBoosters(BoosterType.SPEED_BOOSTER) }
                     player?.walkSpeed = stats.speed
                 }
@@ -34,7 +34,7 @@ object Boosters {
 
         Stronghold.onExpire {
             Bukkit.getOnlinePlayers().forEach { player ->
-                app.getUser(player).run {
+                player.user.run {
                     stats.speed.apply {
                         applyBoosters(BoosterType.SPEED_BOOSTER)
                     }

@@ -12,7 +12,6 @@ object PermissionsPrepare : IPrepare {
                 permissions.add("*")
             }
             ITabService.get().update(user.player)
-            user.player.allowFlight = true
         }
     }
 }

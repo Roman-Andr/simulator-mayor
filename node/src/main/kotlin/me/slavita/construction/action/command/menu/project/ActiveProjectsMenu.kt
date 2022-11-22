@@ -5,17 +5,17 @@ import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
 import me.slavita.construction.action.MenuCommand
-import me.slavita.construction.app
 import me.slavita.construction.structure.ClientStructure
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
+import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.entity.Player
 
 class ActiveProjectsMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
-        app.getUser(player).run {
+        player.user.run {
             return getBaseSelection(MenuInfo("Ваши активные проекты", StatsType.MONEY, 4, 5)).apply {
                 hint = ""
                 storage = mutableListOf<ReactiveButton>().apply storage@{

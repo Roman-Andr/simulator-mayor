@@ -16,8 +16,8 @@ import kotlin.math.pow
 object ModCallbacks {
     init {
         Anime.createReader("menu:open") { player, _ ->
-            if (app.getUser(player).watchableProject != null) {
-                BuildingControlMenu(player, app.getUser(player).watchableProject!!).tryExecute()
+            if (player.user.watchableProject != null) {
+                BuildingControlMenu(player, player.user.watchableProject!!).tryExecute()
             }
         }
 
@@ -26,7 +26,7 @@ object ModCallbacks {
             val digit = buff.readInt()
             val value = (amount * 10.0.pow(digit)).toLong()
             player.killboard("${GREEN}Кредит на сумму ${value.toMoneyIcon()} ${GREEN}успешно взят")
-            Bank.giveCredit(app.getUser(player), value)
+            Bank.giveCredit(player.user, value)
         }
 
         app.server.scheduler.scheduleSyncRepeatingTask(

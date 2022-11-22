@@ -7,13 +7,13 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.menu.lootbbox.BuyLootboxMenu
 import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
 import me.slavita.construction.action.command.menu.worker.WorkerTeamMenu
-import me.slavita.construction.app
 import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.utils.user
 import org.bukkit.entity.Player
 
 class ControlPanelMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
-        app.getUser(player).run {
+        player.user.run {
             return Choicer(title = "Меню", description = "Выбери нужный раздел").apply {
                 storage = mutableListOf(
                     button {

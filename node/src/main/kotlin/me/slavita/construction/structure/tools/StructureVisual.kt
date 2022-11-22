@@ -28,10 +28,10 @@ class StructureVisual(val structure: BuildingStructure) {
 
     val bannerLocation = structure.box.bottomCenter.clone().apply {
         when (structure.cell.face) {
-            BlockFace.EAST       -> x = structure.box.max.x
-            BlockFace.NORTH      -> z = structure.box.min.z
-            BlockFace.WEST       -> x = structure.box.min.x
-            BlockFace.SOUTH      -> z = structure.box.max.z
+            BlockFace.EAST -> x = structure.box.max.x
+            BlockFace.NORTH -> z = structure.box.min.z
+            BlockFace.WEST -> x = structure.box.min.x
+            BlockFace.SOUTH -> z = structure.box.max.z
             BlockFace.NORTH_EAST -> {
                 x = structure.box.max.x
                 z = structure.box.min.z
@@ -52,7 +52,7 @@ class StructureVisual(val structure: BuildingStructure) {
                 z = structure.box.max.z
             }
 
-            else                 -> throw IllegalArgumentException("Incorrect structure face")
+            else -> throw IllegalArgumentException("Incorrect structure face")
         }
     }
 

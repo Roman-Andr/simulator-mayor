@@ -7,6 +7,7 @@ import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.structure.tools.CityStructureVisual
 import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
+import me.slavita.construction.utils.user
 import org.bukkit.entity.Player
 import java.util.*
 
@@ -17,20 +18,20 @@ class CityStructure(val owner: Player, val structure: Structure, val cell: Cell)
     var state = CityStructureState.NOT_READY
     val visual = CityStructureVisual(this)
 
-    init {
-        building.allocate(cell.box.min.clone().add(11.0, 0.0, 11.0))
-        building.show(owner)
-        visual.update()
-    }
-
-    fun repair() {
-        startIncome()
-        state = CityStructureState.FUNCTIONING
-        owner.killboard("Здание #${cell.id} отремантировано")
+    init {  
+        building.allocate(cell.box.min.clone().add(11.0, 0.0, 11.0))    
+        building.show(owner)    
+        visual.update() 
+    }   
+    
+    fun repair() {  
+        startIncome()   
+        state = CityStructureState.FUNCTIONING  
+        owner.killboard("Здание #${cell.id} отремантировано")   
         visual.update()
     }
 
     fun startIncome() {
-        app.getUser(owner).income += structure.income
+        owner.user.income += structure.income
     }
 }

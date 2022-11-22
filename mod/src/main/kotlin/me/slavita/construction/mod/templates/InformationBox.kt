@@ -60,7 +60,7 @@ class InformationBox : CarvedRectangle() {
         description.content = text
     }
 
-    private fun show() {
+    fun show() {
         animate(0.1) {
             title.color.alpha = 1.0
             description.color.alpha = 1.0
@@ -68,7 +68,7 @@ class InformationBox : CarvedRectangle() {
         }
     }
 
-    private fun hide() {
+    fun hide() {
         animate(0.1) {
             title.color.alpha = 0.0
             description.color.alpha = 0.0

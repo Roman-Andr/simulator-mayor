@@ -5,13 +5,13 @@ import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.choicer.Choicer
 import me.slavita.construction.action.MenuCommand
-import me.slavita.construction.app
 import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.utils.user
 import org.bukkit.entity.Player
 
 class BankMainMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
-        app.getUser(player).run user@{
+        player.user.run user@{
             return Choicer(
                 title = "Банк",
                 description = "Выбери нужный раздел",
@@ -31,7 +31,7 @@ class BankMainMenu(player: Player) : MenuCommand(player) {
                         item = ItemIcons.get("other", "add")
                         onClick { _, _, _ ->
                             ModTransfer()
-                                .integer((app.getUser(player).stats.money).toString().length)
+                                .integer((player.user.stats.money).toString().length)
                                 .send("bank:open", player)
                         }
                     },

@@ -4,7 +4,6 @@ import dev.implario.bukkit.platform.Platforms
 import io.netty.channel.ChannelDuplexHandler
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelPromise
-import me.func.world.Label
 import me.func.world.WorldMeta
 import me.slavita.construction.app
 import net.minecraft.server.v1_12_R1.Packet
@@ -18,13 +17,18 @@ import org.bukkit.event.Listener
 import java.util.*
 import kotlin.reflect.KClass
 
-fun labels(key: String, map: WorldMeta = app.mainWorld.map): List<Label> {
-    return map.getLabels(key)
-}
+val Player.user
+    get() = app.getUser(this)
+
+
+val Player.userOrNull
+    get() = app.getUserOrNull(this.uniqueId)
+
+fun labels(key: String, map: WorldMeta = app.mainWorld.map) = map.getLabels(key)
 
 fun Float.revert() = when {
     this >= 0 -> this - 180F
-    else      -> this + 180F
+    else -> this + 180F
 }
 
 object EmptyListener : Listener

@@ -6,6 +6,8 @@ import me.slavita.construction.app
 import me.slavita.construction.prepare.*
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.utils.listener
+import me.slavita.construction.utils.user
+import me.slavita.construction.utils.userOrNull
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerJoinEvent
@@ -16,11 +18,11 @@ object PlayerEvents {
 
     init {
         listener<PlayerJoinEvent> {
-            app.getUserOrNull(player.uniqueId)?.player = player
+            player.userOrNull?.player = player
 
             after(2) {
                 if (!app.hasUser(player)) app.addUser(player)
-                app.getUser(player).run {
+                player.user.run {
                     listOf(
                         UIPrepare,
                         PlayerWorldPrepare,
@@ -30,14 +32,15 @@ object PlayerEvents {
                         ShowcasePrepare,
                         BankAccountPrepare,
                         GuidePrepare,
-                        StoragePrepare
+                        StoragePrepare,
+                        AbilityPrepare
                     ).forEach { it.prepare(this) }
                 }
             }
         }
 
         listener<PlayerDropItemEvent> {
-            val user = app.getUser(player)
+            val user = player.user
             if (!user.blocksStorage.inBox()) {
                 isCancelled = true
                 return@listener
@@ -48,7 +51,7 @@ object PlayerEvents {
         }
 
         listener<PlayerMoveEvent> {
-            app.getUser(player).run {
+            player.user.run {
                 if (watchableProject != null && !watchableProject!!.structure.box.contains(player.location)) {
                     watchableProject!!.onLeave()
                     watchableProject = null

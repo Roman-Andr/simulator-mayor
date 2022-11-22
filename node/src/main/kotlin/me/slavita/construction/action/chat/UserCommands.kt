@@ -2,8 +2,9 @@ package me.slavita.construction.action.chat
 
 import me.func.atlas.Atlas
 import me.func.mod.util.command
-import me.slavita.construction.app
+import me.slavita.construction.dontate.FlyDonate
 import me.slavita.construction.prepare.GuidePrepare
+import me.slavita.construction.utils.user
 
 object UserCommands {
     init {
@@ -13,11 +14,8 @@ object UserCommands {
             GuidePrepare.tryNext(player)
         }
 
-        command("city") { player, args ->
-            val user = app.getUser(player)
-            val city = user.cities[args[0].toInt()]
-
-            user.changeCity(city)
+        command("fly") { player, _ ->
+            FlyDonate.purchase(player.user)
         }
     }
 }

@@ -7,16 +7,16 @@ import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.choicer.Choicer
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.ChangeCity
-import me.slavita.construction.app
 import me.slavita.construction.utils.Texture
 import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
+import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.GREEN
 import org.bukkit.entity.Player
 import kotlin.math.abs
 
 class LocationsMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
-        app.getUser(player).run user@{
+        player.user.run user@{
             return Choicer(title = "Телепортация", description = "Перемещение между локациями").apply {
                 storage = this@user.cities.map { city ->
                     button {

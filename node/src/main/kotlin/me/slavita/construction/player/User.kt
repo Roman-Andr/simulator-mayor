@@ -1,5 +1,6 @@
 package me.slavita.construction.player
 
+import me.slavita.construction.ability.Ability
 import me.slavita.construction.app
 import me.slavita.construction.prepare.StoragePrepare
 import me.slavita.construction.project.Project
@@ -20,6 +21,7 @@ class User(
     var cities = arrayOf<City>()
     var currentCity: City = City(this, "1", "Незаданная")
     val blocksStorage = BlocksStorage(this)
+    val abilities = hashSetOf<Ability>()
     var workers = hashSetOf<Worker>()
     var watchableProject: Project? = null
     var income = 0L
@@ -70,12 +72,18 @@ class User(
     }
 
     fun changeCity(city: City) {
+        currentCity.projects.forEach { it.structure.deleteVisual() }
+
         player.teleport(city.getSpawn())
         currentCity = city
 
         StoragePrepare.prepare(this)
 
-        currentCity.projects.forEach { it.structure.deleteVisual() }
-        city.projects.forEach { it.structure.showVisual() }
+        city.projects.forEach { it.structure.visual.start() }
+    }
+
+    fun addAbility(ability: Ability) {
+        abilities.add(ability)
+        ability.apply(this)
     }
 }

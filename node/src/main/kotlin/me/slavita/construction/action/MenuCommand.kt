@@ -6,11 +6,11 @@ import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection
 import me.func.mod.ui.menu.selection.Selection
-import me.slavita.construction.app
 import me.slavita.construction.bank.Bank
 import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
+import me.slavita.construction.utils.user
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
@@ -38,8 +38,8 @@ abstract class MenuCommand(player: Player) : CooldownCommand(player, 1) {
                 columns = columns
                 money = "Ваш ${type.title} ${
                     when (type) {
-                        StatsType.MONEY  -> app.getUser(player).stats.money.toMoney()
-                        StatsType.LEVEL  -> app.getUser(player).stats.level
+                        StatsType.MONEY -> player.user.stats.money.toMoney()
+                        StatsType.LEVEL -> player.user.stats.level
                         StatsType.CREDIT -> Bank.playersData[player.uniqueId]!!.sumOf { it.creditValue }.toMoney()
                     }
                 }"

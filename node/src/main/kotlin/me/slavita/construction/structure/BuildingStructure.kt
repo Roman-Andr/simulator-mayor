@@ -22,7 +22,7 @@ abstract class BuildingStructure(
     var blocksPlaced = 0
     val box = cell.box
     val allocation = box.min
-    private val visual = StructureVisual(this)
+    val visual = StructureVisual(this)
 
     protected abstract fun enterBuilding()
 
