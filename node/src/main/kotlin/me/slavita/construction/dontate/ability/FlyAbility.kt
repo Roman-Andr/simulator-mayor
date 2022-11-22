@@ -1,4 +1,4 @@
-package me.slavita.construction.ability
+package me.slavita.construction.dontate.ability
 
 import me.slavita.construction.player.User
 

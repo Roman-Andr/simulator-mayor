@@ -70,7 +70,7 @@ object AdminCommands {
         }
 
         opCommand("booster") { player, args ->
-            Boosters.activateGlobal(player, BoosterType.valueOf(args[0]))
+            Boosters.activateGlobal(player.user, BoosterType.valueOf(args[0]))
         }
 
         opCommand("bc") { _, _ ->

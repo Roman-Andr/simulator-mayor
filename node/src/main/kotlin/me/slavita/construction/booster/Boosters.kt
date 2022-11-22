@@ -2,6 +2,7 @@ package me.slavita.construction.booster
 
 import me.func.stronghold.Stronghold
 import me.func.stronghold.booster.BoosterGlobal
+import me.slavita.construction.player.User
 import me.slavita.construction.ui.Formatter.applyBoosters
 import me.slavita.construction.utils.CristalixUtil
 import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
@@ -44,17 +45,19 @@ object Boosters {
         }
     }
 
-    fun activateGlobal(player: Player, booster: BoosterType) {
+    fun activateGlobal(user: User, time: Long, unit: TimeUnit, vararg boosters: BoosterType) {
         Stronghold.activateBoosters(
-            BoosterGlobal.builder()
-                .type(booster.label)
-                .title(booster.title)
-                .owner(player)
-                .owner(CristalixUtil.getDisplayName(player))
-                .duration(30, TimeUnit.SECONDS)
-                .multiplier(1.5)
-                .maxStackable(4)
-                .build()
+            *boosters.map {
+                BoosterGlobal.builder()
+                    .type(it.label)
+                    .title(it.title)
+                    .owner(user.player)
+                    .owner(CristalixUtil.getDisplayName(user.player))
+                    .duration(time, unit)
+                    .multiplier(1.5)
+                    .maxStackable(4)
+                    .build()
+            }.toTypedArray()
         )
     }
 }
