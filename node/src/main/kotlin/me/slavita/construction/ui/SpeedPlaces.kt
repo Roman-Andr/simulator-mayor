@@ -20,7 +20,7 @@ object SpeedPlaces {
 
     init {
         labels("speed").forEach { place ->
-            val texture = "cache/animation:arrows-no-color.png"
+            val texture = "cache/animation:arrow-no-color.png"
             val yaw = BlockFace.valueOf(place.tag.uppercase()).toYaw().revert()
             val loc = place.yaw(yaw)
             val vector = loc.direction.normalize()
