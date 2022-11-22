@@ -2,7 +2,7 @@ package me.slavita.construction.action.chat
 
 import me.func.atlas.Atlas
 import me.func.mod.util.command
-import me.slavita.construction.dontate.FlyDonate
+import me.slavita.construction.dontate.AbilityDonates
 import me.slavita.construction.prepare.GuidePrepare
 import me.slavita.construction.utils.user
 
