@@ -13,6 +13,7 @@ object Config {
             "boards",
             "dialogs",
             "showcases",
+            "locations",
         ).map {
             "https://storage.c7x.dev/${System.getProperty("storage.user")}/construction/config/$it.yml"
         }

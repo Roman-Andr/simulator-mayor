@@ -6,10 +6,8 @@ import me.func.mod.util.after
 import me.func.mod.world.Banners
 import me.func.protocol.data.color.GlowColor
 import me.func.protocol.data.element.Banner
+import me.slavita.construction.utils.*
 import me.slavita.construction.utils.extensions.BlocksExtensions.toYaw
-import me.slavita.construction.utils.labels
-import me.slavita.construction.utils.revert
-import me.slavita.construction.utils.yaw
 import org.bukkit.block.BlockFace
 import org.bukkit.entity.Player
 
@@ -20,7 +18,7 @@ object SpeedPlaces {
 
     init {
         labels("speed").forEach { place ->
-            val texture = "cache/animation:arrow-no-color.png"
+            val texture = Texture.SPEED_BOOST.path()
             val yaw = BlockFace.valueOf(place.tag.uppercase()).toYaw().revert()
             val loc = place.yaw(yaw)
             val vector = loc.direction.normalize()

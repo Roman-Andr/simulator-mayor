@@ -9,6 +9,7 @@ import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
 import me.slavita.construction.action.command.menu.worker.WorkerTeamMenu
 import me.slavita.construction.app
 import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
 import org.bukkit.entity.Player
 
 class ControlPanelMenu(player: Player) : MenuCommand(player) {
@@ -41,6 +42,15 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         item = ItemIcons.get("other", "book")
                         onClick { _, _, _ ->
                             ActiveProjectsMenu(player).closeAll(false).tryExecute()
+                        }
+                    },
+                    button {
+                        title = "Локации"
+                        description = "Перемещение\nмежду локациями"
+                        hint = "Выбрать"
+                        item = ItemIcons.get("alpha", "islands")
+                        onClick { _, _, _ ->
+                            LocationsMenu(player).closeAll(false).tryExecute()
                         }
                     }
                 )

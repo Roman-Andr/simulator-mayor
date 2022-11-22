@@ -9,15 +9,15 @@ import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
 import me.slavita.construction.utils.labels
 import org.bukkit.Bukkit
 
-class City(val owner: User, id: String) {
+class City(val owner: User, id: String, val title: String) {
     val projects = hashSetOf<Project>()
     val cityStructures = hashSetOf<CityStructure>()
     val cells = hashSetOf<Cell>()
     val box = app.mainWorld.map.box("city", id)
 
     init {
-        labels("place").forEachIndexed { id, label ->
-            cells.add(Cell(this, id, label, false))
+        labels("place").forEachIndexed { index, label ->
+            cells.add(Cell(this, index, label, false))
         }
         Bukkit.server.scheduler.scheduleSyncRepeatingTask(app, {
             if (cityStructures.size == 0) return@scheduleSyncRepeatingTask

@@ -1,7 +1,7 @@
 package me.slavita.construction.player
 
 import me.slavita.construction.app
-import me.slavita.construction.player.guide.Guide
+import me.slavita.construction.prepare.StoragePrepare
 import me.slavita.construction.project.Project
 import me.slavita.construction.storage.BlocksStorage
 import me.slavita.construction.utils.music.MusicExtension.playSound
@@ -16,15 +16,13 @@ class User(
     val uuid: UUID,
     var stats: Statistics,
 ) {
-    val guide = Guide()
     var player: Player = Bukkit.getPlayer(uuid)
-    val cites = arrayOf(City(this, "1"), City(this, "2"))
-    var currentCity = cites.firstOrNull { return@firstOrNull it.box.contains(player.location) } ?: cites[0]
+    var cities = arrayOf<City>()
+    var currentCity: City = City(this, "1", "Незаданная")
     val blocksStorage = BlocksStorage(this)
     var workers = hashSetOf<Worker>()
     var watchableProject: Project? = null
     var income = 0L
-    var dialogId = 0
     var criBalanceLastUpdate = 0L
     var criBalance: Int = 0
         get() {
@@ -69,5 +67,15 @@ class User(
 
     fun canPurchase(cost: Long): Boolean {
         return stats.money >= cost
+    }
+
+    fun changeCity(city: City) {
+        player.teleport(city.getSpawn())
+        currentCity = city
+
+        StoragePrepare.prepare(this)
+
+        currentCity.projects.forEach { it.structure.deleteVisual() }
+        city.projects.forEach { it.structure.showVisual() }
     }
 }

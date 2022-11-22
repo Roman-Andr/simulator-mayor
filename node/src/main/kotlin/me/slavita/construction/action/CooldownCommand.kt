@@ -12,11 +12,12 @@ abstract class CooldownCommand(val player: Player, private var cooldown: Long) :
 
     protected abstract fun execute()
 
-    override fun tryExecute() {
+    override fun tryExecute(ignore: Boolean): Long {
         val lastTime = playerCooldown.getOrPut(player.uniqueId) { HashMap() }.getOrDefault(javaClass.kotlin, 0)
-        if (app.pass - lastTime > cooldown) {
+        if (app.pass - lastTime > cooldown && !ignore) {
             playerCooldown[player.uniqueId]!![javaClass.kotlin] = app.pass
             execute()
         }
+        return app.pass - lastTime - cooldown
     }
 }

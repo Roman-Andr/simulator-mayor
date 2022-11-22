@@ -20,7 +20,7 @@ class Project(
 
     init {
         var projectsCount = 0
-        owner.cites.forEach {
+        owner.cities.forEach {
             projectsCount += it.projects.size
         }
         id = owner.stats.totalProjects + projectsCount

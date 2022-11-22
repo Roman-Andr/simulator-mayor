@@ -43,13 +43,11 @@ class InformationBox : CarvedRectangle() {
         mod.registerHandler<GameLoop> {
             UIEngine.clientApi.minecraft().mouseOver.pos?.run {
                 if (boxes.any { inBox(it.min, it.max) } && !turn) {
-                    println("turn on")
                     title.content = boxes.find { inBox(it.min, it.max) }!!.title
                     turn = true
                     show()
                 }
                 if (!boxes.any { inBox(it.min, it.max) } && turn) {
-                    println("turn off")
                     turn = false
                     hide()
                 }
@@ -62,15 +60,15 @@ class InformationBox : CarvedRectangle() {
     }
 
     private fun show() {
-        animate(0.2) {
+        animate(0.1) {
             title.color.alpha = 1.0
             description.color.alpha = 1.0
             color.alpha = 0.52
         }
     }
 
-    fun hide() {
-        animate(0.2) {
+    private fun hide() {
+        animate(0.1) {
             title.color.alpha = 0.0
             description.color.alpha = 0.0
             color.alpha = 0.0

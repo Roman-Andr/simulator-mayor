@@ -5,6 +5,7 @@ import me.func.protocol.ui.indicator.Indicators
 import me.slavita.construction.multichat.MultiChats
 import me.slavita.construction.player.User
 import me.slavita.construction.ui.ScoreBoardGenerator
+import me.slavita.construction.utils.Texture
 
 object UIPrepare : IPrepare {
     override fun prepare(user: User) {
@@ -12,6 +13,8 @@ object UIPrepare : IPrepare {
         Anime.hideIndicator(user.player, Indicators.HEALTH, Indicators.HUNGER, Indicators.EXP)
         MultiChats.sendPlayerChats(user.player)
         ScoreBoardGenerator.generate(user.player)
-        Anime.loadTexture(user.player, "https://storage.c7x.dev/${System.getProperty("storage.user")}/construction/arrow-no-color.png")
+        Texture.values().forEach {
+            Anime.loadTexture(user.player, "https://storage.c7x.dev/${System.getProperty("storage.user")}/construction/${it.fileName}")
+        }
     }
 }

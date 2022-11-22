@@ -22,10 +22,10 @@ object PlayerEvents {
                 if (!app.hasUser(player)) app.addUser(player)
                 app.getUser(player).run {
                     listOf(
+                        UIPrepare,
                         PlayerWorldPrepare,
                         ConnectionPrepare,
                         PermissionsPrepare,
-                        UIPrepare,
                         ItemCallbacksPrepare,
                         ShowcasePrepare,
                         BankAccountPrepare,

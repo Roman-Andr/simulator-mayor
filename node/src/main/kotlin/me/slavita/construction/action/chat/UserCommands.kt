@@ -16,15 +16,9 @@ object UserCommands {
 
         command("city") { player, args ->
             val user = app.getUser(player)
-            val city = user.cites[args[0].toInt()]
+            val city = user.cities[args[0].toInt()]
 
-            player.teleport(city.getSpawn())
-            user.currentCity = city
-
-            StoragePrepare.prepare(user)
-
-            user.currentCity.projects.forEach { it.structure.deleteVisual() }
-            city.projects.forEach { it.structure.showVisual() }
+            user.changeCity(city)
         }
     }
 }
