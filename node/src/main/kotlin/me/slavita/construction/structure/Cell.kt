@@ -1,14 +1,9 @@
 package me.slavita.construction.structure
 
-import me.func.unit.Building
 import me.func.world.Label
-import me.slavita.construction.app
 import me.slavita.construction.player.City
-import me.slavita.construction.player.User
 import me.slavita.construction.world.Box
-import org.bukkit.Location
 import org.bukkit.block.BlockFace
-import java.util.*
 
 open class Cell(val city: City, val id: Int, label: Label, var busy: Boolean) {
 

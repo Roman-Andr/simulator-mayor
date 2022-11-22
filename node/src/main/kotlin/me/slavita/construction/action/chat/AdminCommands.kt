@@ -84,7 +84,8 @@ object AdminCommands {
         opCommand("kickAll") { _, _ ->
             //need test
             println("here")
-            val availableRealms = IRealmService.get().typesAndRealms["SLVT"]!!.filter { it.realmId.id != IRealmService.get().currentRealmInfo.realmId.id }
+            val availableRealms =
+                IRealmService.get().typesAndRealms["SLVT"]!!.filter { it.realmId.id != IRealmService.get().currentRealmInfo.realmId.id }
             Bukkit.getOnlinePlayers().chunked(availableRealms.size).forEachIndexed { index, players ->
                 players.forEach {
                     //if (it.isOp) return@forEach

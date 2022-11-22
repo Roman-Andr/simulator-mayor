@@ -3,7 +3,6 @@ package me.slavita.construction.ui
 import me.func.atlas.Atlas
 import me.slavita.construction.app
 import me.slavita.construction.utils.extensions.BlocksExtensions.toYaw
-import me.slavita.construction.utils.labels
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.block.BlockFace
@@ -15,7 +14,11 @@ object BoardsManager {
     init {
         Atlas.find("boards").run {
             app.mainWorld.map.getLabels("board").forEach {
-                createTop(it.toCenterLocation(), getString("boards.${it.tag}.title"), getString("boards.${it.tag}.value"))
+                createTop(
+                    it.toCenterLocation(),
+                    getString("boards.${it.tag}.title"),
+                    getString("boards.${it.tag}.value")
+                )
             }
         }
     }

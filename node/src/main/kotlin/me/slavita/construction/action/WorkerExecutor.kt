@@ -28,7 +28,11 @@ abstract class WorkerExecutor(player: Player, val structure: WorkerStructure) : 
                 }
 
                 WorkerState.BUSY     -> {
-                    currentCity.projects.find { if (it.structure is WorkerStructure) it.structure.workers.contains(targetWorker) else false }!!
+                    currentCity.projects.find {
+                        if (it.structure is WorkerStructure) it.structure.workers.contains(
+                            targetWorker
+                        ) else false
+                    }!!
                         .apply target@{
                             (this@target.structure as WorkerStructure).workers.remove(targetWorker)
                             structure.workers.add(targetWorker)

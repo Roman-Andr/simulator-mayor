@@ -14,8 +14,6 @@ import me.slavita.construction.banner.BannerUtil
 import me.slavita.construction.structure.BuildingStructure
 import me.slavita.construction.utils.extensions.BannersExtensions.hide
 import me.slavita.construction.utils.extensions.BannersExtensions.show
-import me.slavita.construction.utils.extensions.BlocksExtensions.unaryMinus
-import me.slavita.construction.utils.extensions.BlocksExtensions.withOffset
 import org.bukkit.ChatColor
 import org.bukkit.block.BlockFace
 
@@ -30,27 +28,31 @@ class StructureVisual(val structure: BuildingStructure) {
 
     val bannerLocation = structure.box.bottomCenter.clone().apply {
         when (structure.cell.face) {
-            BlockFace.EAST -> x = structure.box.max.x
-            BlockFace.NORTH -> z = structure.box.min.z
-            BlockFace.WEST -> x = structure.box.min.x
-            BlockFace.SOUTH -> z = structure.box.max.z
+            BlockFace.EAST       -> x = structure.box.max.x
+            BlockFace.NORTH      -> z = structure.box.min.z
+            BlockFace.WEST       -> x = structure.box.min.x
+            BlockFace.SOUTH      -> z = structure.box.max.z
             BlockFace.NORTH_EAST -> {
                 x = structure.box.max.x
                 z = structure.box.min.z
             }
+
             BlockFace.NORTH_WEST -> {
                 x = structure.box.min.x
                 z = structure.box.min.z
             }
+
             BlockFace.SOUTH_EAST -> {
                 x = structure.box.max.x
                 z = structure.box.max.z
             }
+
             BlockFace.SOUTH_WEST -> {
                 x = structure.box.min.x
                 z = structure.box.max.z
             }
-            else -> throw IllegalArgumentException("Incorrect structure face")
+
+            else                 -> throw IllegalArgumentException("Incorrect structure face")
         }
     }
 

@@ -1,6 +1,5 @@
 package me.slavita.construction.world
 
-import me.slavita.construction.app
 import me.slavita.construction.utils.extensions.BlocksExtensions.add
 import me.slavita.construction.utils.extensions.BlocksExtensions.toPosition
 import net.minecraft.server.v1_12_R1.BlockPosition
@@ -15,7 +14,7 @@ class StructureBlock(
     type: Material,
     data: Byte,
     val sourceData: Byte,
-    val sourceCraftData: IBlockData
+    val sourceCraftData: IBlockData,
 ) : ItemProperties(type, data) {
 
     constructor(sourceBlock: Block) : this(

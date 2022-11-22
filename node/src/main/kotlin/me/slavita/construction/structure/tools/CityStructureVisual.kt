@@ -8,7 +8,6 @@ import me.func.protocol.world.marker.Marker
 import me.func.protocol.world.marker.MarkerSign
 import me.slavita.construction.banner.BannerUtil
 import me.slavita.construction.structure.CityStructure
-import org.bukkit.block.BlockFace
 
 class CityStructureVisual(val structure: CityStructure) {
     var redBanner: Banner? = null
@@ -27,7 +26,7 @@ class CityStructureVisual(val structure: CityStructure) {
 
     fun update() {
         when (structure.state) {
-            CityStructureState.NOT_READY -> {
+            CityStructureState.NOT_READY   -> {
                 Banners.hide(structure.owner, redBanner!!)
                 Anime.removeMarker(structure.owner, marker!!)
             }
@@ -37,7 +36,7 @@ class CityStructureVisual(val structure: CityStructure) {
                 Anime.removeMarker(structure.owner, marker!!)
             }
 
-            CityStructureState.BROKEN -> {
+            CityStructureState.BROKEN      -> {
                 Banners.show(structure.owner, redBanner!!)
                 Anime.marker(structure.owner, marker!!)
             }

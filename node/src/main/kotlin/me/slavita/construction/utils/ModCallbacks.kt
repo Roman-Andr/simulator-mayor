@@ -1,7 +1,6 @@
 package me.slavita.construction.utils
 
 import me.func.mod.Anime
-import me.func.mod.ui.Alert
 import me.func.protocol.math.Position
 import me.slavita.construction.action.command.menu.project.BuildingControlMenu
 import me.slavita.construction.app
@@ -34,8 +33,14 @@ object ModCallbacks {
             app,
             {
                 Bukkit.getOnlinePlayers().forEach { player ->
-                    Anime.overlayText(player, Position.BOTTOM_RIGHT, "Онлайн ${ChatColor.DARK_GRAY}» ${ChatColor.GOLD}" + IRealmService.get().getOnlineOnRealms("SLVT").toString())
+                    Anime.overlayText(
+                        player,
+                        Position.BOTTOM_RIGHT,
+                        "Онлайн ${ChatColor.DARK_GRAY}» ${ChatColor.GOLD}" + IRealmService.get()
+                            .getOnlineOnRealms("SLVT").toString()
+                    )
                 }
-            }, 0, 5 * 20)
+            }, 0, 5 * 20
+        )
     }
 }

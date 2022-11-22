@@ -59,8 +59,8 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
                             backgroundColor =
                                 when (getWorkerState(worker)) {
                                     WorkerState.SELECTED -> GlowColor.ORANGE
-                                    WorkerState.BUSY -> GlowColor.NEUTRAL
-                                    WorkerState.FREE -> GlowColor.BLUE
+                                    WorkerState.BUSY     -> GlowColor.NEUTRAL
+                                    WorkerState.FREE     -> GlowColor.BLUE
                                 }
                             onClick { _, _, button ->
                                 distributeWorker(worker, button)

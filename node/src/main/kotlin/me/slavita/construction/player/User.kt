@@ -1,12 +1,9 @@
 package me.slavita.construction.player
 
-import me.func.mod.util.after
 import me.slavita.construction.app
-import me.slavita.construction.booster.BoosterType
 import me.slavita.construction.player.guide.Guide
 import me.slavita.construction.project.Project
 import me.slavita.construction.storage.BlocksStorage
-import me.slavita.construction.ui.Formatter.applyBoosters
 import me.slavita.construction.utils.music.MusicExtension.playSound
 import me.slavita.construction.utils.music.MusicSound
 import me.slavita.construction.worker.Worker

@@ -1,7 +1,6 @@
 package me.slavita.construction.mod.showcase
 
 import com.google.gson.Gson
-import dev.xdark.clientapi.block.handler.BlockClickHandler
 import dev.xdark.clientapi.event.block.BlockLeftClick
 import dev.xdark.clientapi.event.block.BlockRightClick
 import dev.xdark.clientapi.event.lifecycle.GameLoop

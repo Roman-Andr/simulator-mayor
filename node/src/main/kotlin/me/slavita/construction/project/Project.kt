@@ -1,7 +1,6 @@
 package me.slavita.construction.project
 
 import me.slavita.construction.player.City
-import me.slavita.construction.player.User
 import me.slavita.construction.reward.Reward
 import me.slavita.construction.structure.BuildingStructure
 import me.slavita.construction.structure.tools.CityStructureState
