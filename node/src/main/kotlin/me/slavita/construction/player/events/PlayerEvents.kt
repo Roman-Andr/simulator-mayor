@@ -4,85 +4,81 @@ import me.func.mod.util.after
 import me.slavita.construction.action.command.menu.project.ChoiceStructure
 import me.slavita.construction.app
 import me.slavita.construction.prepare.*
-import me.slavita.construction.storage.BlocksStorage
 import me.slavita.construction.structure.tools.CityStructureState
-import org.bukkit.Bukkit
+import me.slavita.construction.utils.listener
 import org.bukkit.entity.Player
-import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerMoveEvent
 
-object PlayerEvents : Listener {
+object PlayerEvents {
     private val inZone = hashMapOf<Player, Boolean>()
 
-    @EventHandler
-    fun PlayerJoinEvent.handle() {
-        app.getUserOrNull(player.uniqueId)?.player = player
+    init {
+        listener<PlayerJoinEvent> {
+            app.getUserOrNull(player.uniqueId)?.player = player
 
-        after(2) {
-            if (!app.hasUser(player)) app.addUser(player)
-            app.getUser(player).run {
-                listOf(
-                    PlayerWorldPrepare,
-                    ConnectionPrepare,
-                    PermissionsPrepare,
-                    UIPrepare,
-                    ItemCallbacksPrepare,
-                    ShowcasePrepare,
-                    BankAccountPrepare,
-                    GuidePrepare,
-                    StoragePrepare
-                ).forEach { it.prepare(this) }
-            }
-        }
-    }
-
-    @EventHandler
-    fun PlayerDropItemEvent.handle() {
-        val user = app.getUser(player)
-        if (!user.blocksStorage.inBox()) {
-            isCancelled = true
-            return
-        }
-
-        user.blocksStorage.addItem(drop.itemStack)
-        drop.remove()
-    }
-
-    @EventHandler
-    fun PlayerMoveEvent.handle() {
-        app.getUser(player).run {
-            if (watchableProject != null && !watchableProject!!.structure.box.contains(player.location)) {
-                watchableProject!!.onLeave()
-                watchableProject = null
-            }
-
-            currentCity.cityStructures.forEach {
-                if (it.cell.box.contains(player.location) && it.state == CityStructureState.BROKEN) {
-                    it.repair()
+            after(2) {
+                if (!app.hasUser(player)) app.addUser(player)
+                app.getUser(player).run {
+                    listOf(
+                        PlayerWorldPrepare,
+                        ConnectionPrepare,
+                        PermissionsPrepare,
+                        UIPrepare,
+                        ItemCallbacksPrepare,
+                        ShowcasePrepare,
+                        BankAccountPrepare,
+                        GuidePrepare,
+                        StoragePrepare
+                    ).forEach { it.prepare(this) }
                 }
             }
+        }
 
-            if (watchableProject == null) {
-                currentCity.projects.forEach {
-                    if (it.structure.box.contains(player.location)) {
-                        watchableProject = it
-                        it.onEnter()
-                        return
+        listener<PlayerDropItemEvent> {
+            val user = app.getUser(player)
+            if (!user.blocksStorage.inBox()) {
+                isCancelled = true
+                return@listener
+            }
+
+            user.blocksStorage.addItem(drop.itemStack)
+            drop.remove()
+        }
+
+        listener<PlayerMoveEvent> {
+            app.getUser(player).run {
+                if (watchableProject != null && !watchableProject!!.structure.box.contains(player.location)) {
+                    watchableProject!!.onLeave()
+                    watchableProject = null
+                }
+
+                currentCity.cityStructures.forEach {
+                    if (it.cell.box.contains(player.location) && it.state == CityStructureState.BROKEN) {
+                        it.repair()
                     }
                 }
 
-                currentCity.cells.forEach {
-                    if (it.busy || !it.box.contains(player.location)) return@forEach
+                if (watchableProject == null) {
+                    currentCity.projects.forEach {
+                        if (it.structure.box.contains(player.location)) {
+                            watchableProject = it
+                            it.onEnter()
+                            return@listener
+                        }
+                    }
 
-                    if (inZone[player] == false) ChoiceStructure(player, it).tryExecute()
-                    inZone[player] = true
-                    return
+                    currentCity.cells.forEach {
+                        if (it.busy || !it.box.contains(player.location)) return@forEach
+
+                        if (inZone[player] == false) ChoiceStructure(player, it).tryExecute()
+                        inZone[player] = true
+                        return@listener
+                    }
+
+                    inZone[player] = false
                 }
-
-                inZone[player] = false
             }
         }
     }

@@ -7,7 +7,6 @@ import me.func.mod.Anime
 import me.func.mod.Kit
 import me.func.mod.conversation.ModLoader
 import me.func.mod.util.after
-import me.func.mod.util.listener
 import me.func.sound.Category
 import me.func.sound.Music
 import me.func.stronghold.Stronghold
@@ -27,10 +26,12 @@ import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.BoardsManager
 import me.slavita.construction.ui.SpeedPlaces
 import me.slavita.construction.ui.items.ItemsManager
-import me.slavita.construction.utils.*
+import me.slavita.construction.utils.Config
+import me.slavita.construction.utils.ModCallbacks
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.ItemProperties
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.WHITE
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import ru.cristalix.core.CoreApi
@@ -95,7 +96,10 @@ class App : JavaPlugin() {
         ModLoader.loadAll("mods")
         ModLoader.onJoining("construction-mod.jar")
 
-        structureMap = MapLoader.load("construction", "structures").apply { world.setGameRuleValue("disableElytraMovementCheck", "true") }
+        structureMap = MapLoader.load("construction", "structures")
+            .apply {
+                world.setGameRuleValue("disableElytraMovementCheck", "true")
+            }
         mainWorld = GameWorld(MapLoader.load("construction", "main"))
 
         Music.block(Category.MUSIC)
@@ -119,8 +123,9 @@ class App : JavaPlugin() {
         Structures
         ModCallbacks
         SpeedPlaces
-
-        listener(PlayerEvents, PhysicsDisabler, ItemsManager)
+        PhysicsDisabler
+        ItemsManager
+        PlayerEvents
 
         server.scheduler.scheduleSyncRepeatingTask(this, { pass++ }, 0, 1)
     }
