@@ -51,25 +51,27 @@ remotes {
     }
 }
 
-task upload(dependsOn: project(":mod").tasks.upload) {
-    dependsOn(tasks.build)
-    doLast {
-        ssh.run {
-            session(remotes.webServer) {
-                put from: project(":node").tasks.jar.getArchiveFile().get().asFile.path, into: "/home/" + System.getenv("CRI_HOST_USERNAME") + "/construction/plugins/"
-                execute("pkill -u " + System.getenv("CRI_HOST_USERNAME") + " java;cd construction;./start.sh")
-            }
-        }
-    }
-}
-
 task config() {
     dependsOn(tasks.build)
     doLast {
         ssh.run {
             session(remotes.webStorage) {
-                remove "/home/" + System.getenv("CRI_HOST_USERNAME") + "/storage/construction/config"
-                put from: this.rootDir.path + "/storage/config", into: "/home/" + System.getenv("CRI_HOST_USERNAME") + "/storage/construction"
+                remove "/home/" + System.getenv("CRI_HOST_USERNAME") + "/storage/construction"
+                put from: rootDir.path + "/storage/construction", into: "/home/" + System.getenv("CRI_HOST_USERNAME") + "/storage"
+            }
+        }
+    }
+}
+
+task upload() {
+    dependsOn(tasks.build)
+    dependsOn(project(":mod").tasks.upload)
+    dependsOn(tasks.config)
+    doLast {
+        ssh.run {
+            session(remotes.webServer) {
+                put from: project(":node").tasks.jar.getArchiveFile().get().asFile.path, into: "/home/" + System.getenv("CRI_HOST_USERNAME") + "/construction/plugins/"
+                execute("pkill -u " + System.getenv("CRI_HOST_USERNAME") + " java;cd construction;./start.sh")
             }
         }
     }

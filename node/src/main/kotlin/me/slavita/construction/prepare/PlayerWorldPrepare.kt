@@ -17,7 +17,6 @@ object PlayerWorldPrepare : IPrepare {
             current.hidePlayer(app, user.player)
         }
         SpeedPlaces.glows.forEach { it.send(user.player) }
-        Anime.loadTexture(user.player, "https://storage.c7x.dev/func/tycoon/arrows-no-color.png")
         user.player.walkSpeed = user.stats.speed
     }
 }

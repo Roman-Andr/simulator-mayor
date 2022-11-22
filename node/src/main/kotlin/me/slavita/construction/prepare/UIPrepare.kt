@@ -12,5 +12,6 @@ object UIPrepare : IPrepare {
         Anime.hideIndicator(user.player, Indicators.HEALTH, Indicators.HUNGER, Indicators.EXP)
         MultiChats.sendPlayerChats(user.player)
         ScoreBoardGenerator.generate(user.player)
+        Anime.loadTexture(user.player, "https://storage.c7x.dev/${System.getProperty("storage.user")}/construction/arrow-no-color.png")
     }
 }
