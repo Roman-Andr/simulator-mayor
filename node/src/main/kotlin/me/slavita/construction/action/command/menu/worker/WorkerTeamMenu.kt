@@ -15,7 +15,7 @@ class WorkerTeamMenu(player: Player) : MenuCommand(player) {
         player.user.run user@{
             return getBaseSelection(MenuInfo("Ваши строители", StatsType.MONEY, 4, 4)).apply {
                 storage = mutableListOf<ReactiveButton>().apply storage@{
-                    workers.forEach { worker ->
+                    stats.workers.forEach { worker ->
                         this@storage.add(
                             button {
                                 item = ItemIcons.get(

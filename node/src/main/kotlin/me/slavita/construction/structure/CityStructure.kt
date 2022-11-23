@@ -32,6 +32,6 @@ class CityStructure(val owner: Player, val structure: Structure, val cell: Cell)
     }
 
     fun startIncome() {
-        owner.user.income += structure.income
+        owner.user.stats.income += structure.income
     }
 }

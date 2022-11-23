@@ -18,13 +18,9 @@ class User(
     var stats: Statistics,
 ) {
     var player: Player = Bukkit.getPlayer(uuid)
-    var cities = arrayOf<City>()
     var currentCity: City = City(this, "1", "Незаданная")
     val blocksStorage = BlocksStorage(this)
-    val abilities = hashSetOf<Ability>()
-    var workers = hashSetOf<Worker>()
     var watchableProject: Project? = null
-    var income = 0L
     var criBalanceLastUpdate = 0L
     var criBalance: Int = 0
         get() {
@@ -41,7 +37,7 @@ class User(
 
     init {
         Bukkit.server.scheduler.scheduleSyncRepeatingTask(app, {
-            stats.money += income
+            stats.money += stats.income
         }, 0L, 20L)
     }
 
@@ -83,7 +79,7 @@ class User(
     }
 
     fun addAbility(ability: Ability) {
-        abilities.add(ability)
+        stats.abilities.add(ability)
         ability.apply(this)
     }
 }

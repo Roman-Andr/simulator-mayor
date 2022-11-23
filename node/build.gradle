@@ -13,6 +13,7 @@ dependencies {
 
     compileOnly("cristalix:dark-paper:21.02.03")
 
+    implementation("dev.implario:kensuke-client-bukkit:2.1.10")
     implementation("dev.implario.bukkit:dark-paper:1.0.0")
     implementation("dev.implario.bukkit:kotlin-api:1.1.1")
     implementation("dev.implario.bukkit:bukkit-tools:4.4.12")
@@ -67,7 +68,7 @@ task config() {
 
 task upload() {
     dependsOn(tasks.build)
-    dependsOn(project(":mod").tasks.upload)
+//    dependsOn(project(":mod").tasks.upload)
     dependsOn(tasks.config)
     doLast {
         ssh.run {

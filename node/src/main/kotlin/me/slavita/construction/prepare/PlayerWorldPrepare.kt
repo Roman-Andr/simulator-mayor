@@ -11,10 +11,10 @@ import org.bukkit.GameMode
 object PlayerWorldPrepare : IPrepare {
     override fun prepare(user: User) {
         user.apply {
-            cities = Atlas.find("locations").getMapList("locations").map { values ->
+            stats.cities = Atlas.find("locations").getMapList("locations").map { values ->
                 City(this, values["id"] as String, values["title"] as String)
-            }.toTypedArray()
-            currentCity = cities.firstOrNull { return@firstOrNull it.box.contains(player.location) } ?: cities[0]
+            }.toHashSet()
+            currentCity = stats.cities.firstOrNull { return@firstOrNull it.box.contains(player.location) } ?: stats.cities.toList()[0]
             player.teleport(currentCity.getSpawn())
             player.gameMode = GameMode.ADVENTURE
             for (current in Bukkit.getOnlinePlayers()) {

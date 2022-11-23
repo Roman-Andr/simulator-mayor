@@ -19,7 +19,7 @@ class ActiveProjectsMenu(player: Player) : MenuCommand(player) {
             return getBaseSelection(MenuInfo("Ваши активные проекты", StatsType.MONEY, 4, 5)).apply {
                 hint = ""
                 storage = mutableListOf<ReactiveButton>().apply storage@{
-                    cities.forEach { city ->
+                    stats.cities.forEach { city ->
                         city.projects.forEach {
                             this@storage.add(
                                 button {

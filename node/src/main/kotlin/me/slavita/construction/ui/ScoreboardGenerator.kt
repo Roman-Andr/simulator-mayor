@@ -21,7 +21,7 @@ object ScoreBoardGenerator {
                 .title("Доход")
                 .content {
                     "${Emoji.COIN} ${GREEN}${
-                        player.user.income.applyBoosters(BoosterType.MONEY_BOOSTER).toMoney()
+                        player.user.stats.income.applyBoosters(BoosterType.MONEY_BOOSTER).toMoney()
                     }"
                 }
                 .build(),
