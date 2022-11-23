@@ -11,4 +11,5 @@ enum class BoosterType(
     EXP_BOOSTER("exp", Emoji.EXP),
     REPUTATION_BOOSTER("reputation", Emoji.RUBY),
     SPEED_BOOSTER("speed", Emoji.TIME),
+    LUCK_BOOSTER("luck", Emoji.TREE),
 }
