@@ -17,7 +17,8 @@ class User(
     val uuid: UUID,
     var stats: Statistics,
 ) {
-    var player: Player = Bukkit.getPlayer(uuid)
+    var initialized = false
+    lateinit var player: Player
     var cities = arrayOf<City>()
     var currentCity: City = City(this, "1", "Незаданная")
     val blocksStorage = BlocksStorage(this)
