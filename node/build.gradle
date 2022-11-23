@@ -69,7 +69,7 @@ task config() {
 task upload() {
     dependsOn(tasks.build)
 //    dependsOn(project(":mod").tasks.upload)
-    dependsOn(tasks.config)
+//    dependsOn(tasks.config)
     doLast {
         ssh.run {
             session(remotes.webServer) {

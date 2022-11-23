@@ -6,8 +6,6 @@ import me.func.mod.reactive.ReactivePanel
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.command.menu.DailyMenu
 import me.slavita.construction.bank.Bank
-import me.slavita.construction.booster.BoosterType
-import me.slavita.construction.booster.Boosters
 import me.slavita.construction.prepare.GuidePrepare
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.ChatCommandUtils.opCommand
