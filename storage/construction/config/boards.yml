@@ -1,25 +1,37 @@
 boards:
   1:
-    title: "Топ\nпо §bОпыту"
+    title: "Топ\n§fпо §bОпыту"
     value: "Опыт"
     color: "§b"
+    field: "statistics.experience"
+    formatter: "MoneyFormatter"
   2:
     title: "Топ\n§2Глобальных бустеров"
     value: "Бустеров"
     color: "§2"
+    field: "statistics.money"
+    formatter: "ExpFormatter"
   3:
-    title: "Топ\nпо §eПроектам"
+    title: "Топ\n§fпо §eПроектам"
     value: "Проектов"
     color: "§e"
+    field: "statistics.money"
+    formatter: "ReputationFormatter"
   4:
-    title: "Топ\nпо §aПрибыли"
+    title: "Топ\n§fпо §aПрибыли"
     value: "Доход"
     color: "§a"
+    field: "statistics.money"
+    formatter: "MoneyFormatter"
   5:
-    title: "Топ\nпо §6Монетам"
+    title: "Топ\n§fпо §6Монетам"
     value: "Доход"
     color: "§6"
+    field: "statistics.money"
+    formatter: "MoneyFormatter"
   6:
-    title: "Топ\n§dПерерождений"
-    value: "Перерождений"
+    title: "Топ\n§fпо §dРепутации"
+    value: "Репутации"
     color: "§d"
+    field: "statistics.reputation"
+    formatter: "ReputationFormatter"

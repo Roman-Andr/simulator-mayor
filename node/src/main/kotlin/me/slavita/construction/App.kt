@@ -104,7 +104,7 @@ class App : JavaPlugin() {
             extraSlots = 15
 
             IScoreboardService.get().serverStatusBoard.displayName = "${WHITE}Тест #${AQUA}" + realmId.id
-            after(50) {
+            after(20 * 10) {
                 ITransferService.get().transfer(UUID.fromString(System.getProperty("construction.user")), realmId)
             }
         }

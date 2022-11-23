@@ -42,7 +42,7 @@ class User(val uuid: UUID) {
 
     init {
         Bukkit.server.scheduler.scheduleSyncRepeatingTask(app, {
-            statistics.money += income
+            if (initialized) statistics.money += income
         }, 0L, 20L)
     }
 
