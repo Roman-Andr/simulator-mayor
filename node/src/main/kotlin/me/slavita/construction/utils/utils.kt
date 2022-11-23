@@ -28,7 +28,7 @@ fun labels(key: String, map: WorldMeta = app.mainWorld.map) = map.getLabels(key)
 
 fun Float.revert() = when {
     this >= 0 -> this - 180F
-    else -> this + 180F
+    else      -> this + 180F
 }
 
 object EmptyListener : Listener

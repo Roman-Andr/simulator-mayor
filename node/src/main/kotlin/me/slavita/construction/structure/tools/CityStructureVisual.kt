@@ -26,7 +26,7 @@ class CityStructureVisual(val structure: CityStructure) {
 
     fun update() {
         when (structure.state) {
-            CityStructureState.NOT_READY -> {
+            CityStructureState.NOT_READY   -> {
                 Banners.hide(structure.owner, redBanner!!)
                 Anime.removeMarker(structure.owner, marker!!)
             }
@@ -36,7 +36,7 @@ class CityStructureVisual(val structure: CityStructure) {
                 Anime.removeMarker(structure.owner, marker!!)
             }
 
-            CityStructureState.BROKEN -> {
+            CityStructureState.BROKEN      -> {
                 Banners.show(structure.owner, redBanner!!)
                 Anime.marker(structure.owner, marker!!)
             }

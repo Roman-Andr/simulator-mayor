@@ -43,21 +43,21 @@ object NpcManager {
                     name = title
                     when (skinType) {
                         "uuid" -> skin(UUID.fromString(skin))
-                        "url" -> skin(skin)
+                        "url"  -> skin(skin)
                     }
                     behaviour = NpcBehaviour.STARE_AND_LOOK_AROUND
                     onClick {
                         when (action) {
-                            "BuyLootboxMenu" -> BuyLootboxMenu::class
-                            "WorkerTeamMenu" -> WorkerTeamMenu::class
-                            "ControlPanelMenu" -> ControlPanelMenu::class
-                            "BankMainMenu" -> BankMainMenu::class
-                            "UserLootboxesMenu" -> UserLootboxesMenu::class
+                            "BuyLootboxMenu"     -> BuyLootboxMenu::class
+                            "WorkerTeamMenu"     -> WorkerTeamMenu::class
+                            "ControlPanelMenu"   -> ControlPanelMenu::class
+                            "BankMainMenu"       -> BankMainMenu::class
+                            "UserLootboxesMenu"  -> UserLootboxesMenu::class
                             "ActiveProjectsMenu" -> ActiveProjectsMenu::class
-                            "DailyMenu" -> DailyMenu::class
-                            "GuideDialog" -> GuideDialog::class
-                            "StorageMenu" -> StorageMenu::class
-                            else -> ControlPanelMenu::class
+                            "DailyMenu"          -> DailyMenu::class
+                            "GuideDialog"        -> GuideDialog::class
+                            "StorageMenu"        -> StorageMenu::class
+                            else                 -> ControlPanelMenu::class
                         }.primaryConstructor!!.call(it.player).tryExecute()
 
                     }

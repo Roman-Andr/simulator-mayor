@@ -19,7 +19,8 @@ object CristalixUtil {
     private fun getDisplayNameFromContext(context: IPermissionContext, name: String): String {
         val group = context.displayGroup
         val color = if (context.color == null) "" else context.color
-        val prefix = if (context.customProfile.chatPrefix != null) context.customProfile.chatPrefix else (group.prefixColor + group.prefix)
+        val prefix =
+            if (context.customProfile.chatPrefix != null) context.customProfile.chatPrefix else (group.prefixColor + group.prefix)
         return ((if (prefix.isNotEmpty()) "$prefix §8§l| " else "") + group.nameColor) + color + name
     }
 }

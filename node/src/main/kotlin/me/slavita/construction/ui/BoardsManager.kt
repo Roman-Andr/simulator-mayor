@@ -22,11 +22,11 @@ object BoardsManager {
                     getString("boards.${it.tag}.title"),
                     getString("boards.${it.tag}.value"),
                     getString("boards.${it.tag}.color"),
-                    when(getString("boards.${it.tag}.formatter")) {
-                        "MoneyFormatter" -> MoneyFormatter()
-                        "ExpFormatter" -> ExpFormatter()
+                    when (getString("boards.${it.tag}.formatter")) {
+                        "MoneyFormatter"      -> MoneyFormatter()
+                        "ExpFormatter"        -> ExpFormatter()
                         "ReputationFormatter" -> ReputationFormatter()
-                        else             -> ExpFormatter()
+                        else                  -> ExpFormatter()
                     }
                 )
             }
@@ -39,7 +39,7 @@ object BoardsManager {
         title: String,
         value: String,
         color: String,
-        formatter: IFormatter
+        formatter: IFormatter,
     ) {
         val board = Boards.newBoard()
         board.addColumn("#", 10.0)

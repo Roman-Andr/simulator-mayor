@@ -6,9 +6,6 @@ import me.func.mod.ui.menu.confirmation.Confirmation
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.player.User
 import org.bukkit.ChatColor
-import ru.cristalix.core.formatting.Formatting
-import ru.cristalix.core.invoice.IInvoiceService
-import ru.cristalix.core.invoice.Invoice
 
 abstract class Donate(val title: String, val description: String, val price: Int) {
     fun purchase(user: User) {

@@ -1,7 +1,7 @@
 package me.slavita.construction.player
 
-import me.slavita.construction.dontate.ability.Ability
 import me.slavita.construction.app
+import me.slavita.construction.dontate.ability.Ability
 import me.slavita.construction.prepare.StoragePrepare
 import me.slavita.construction.project.Project
 import me.slavita.construction.storage.BlocksStorage

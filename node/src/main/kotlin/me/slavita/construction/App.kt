@@ -23,7 +23,9 @@ import me.slavita.construction.booster.Boosters
 import me.slavita.construction.market.MarketsManager
 import me.slavita.construction.multichat.MultiChats
 import me.slavita.construction.npc.NpcManager
-import me.slavita.construction.player.*
+import me.slavita.construction.player.Data
+import me.slavita.construction.player.KensukeUser
+import me.slavita.construction.player.User
 import me.slavita.construction.player.events.PhysicsDisabler
 import me.slavita.construction.player.events.PlayerEvents
 import me.slavita.construction.structure.instance.Structures

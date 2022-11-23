@@ -8,7 +8,6 @@ import me.slavita.construction.utils.CristalixUtil
 import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
 import me.slavita.construction.utils.user
 import org.bukkit.Bukkit
-import org.bukkit.entity.Player
 import java.util.concurrent.TimeUnit
 
 object Boosters {

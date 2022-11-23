@@ -41,15 +41,15 @@ object BlocksExtensions {
 
     fun BlockFace.toYaw(): Float {
         return when (this) {
-            BlockFace.EAST -> -90
-            BlockFace.WEST -> 90
-            BlockFace.SOUTH -> 0
-            BlockFace.NORTH -> 180
+            BlockFace.EAST       -> -90
+            BlockFace.WEST       -> 90
+            BlockFace.SOUTH      -> 0
+            BlockFace.NORTH      -> 180
             BlockFace.NORTH_WEST -> 135
             BlockFace.NORTH_EAST -> -135
             BlockFace.SOUTH_WEST -> 45
             BlockFace.SOUTH_EAST -> -45
-            else -> 0
+            else                 -> 0
         }.toFloat()
     }
 }

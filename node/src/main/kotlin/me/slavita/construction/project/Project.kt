@@ -32,8 +32,8 @@ class Project(
 
     fun onEnter() {
         when (structure.state) {
-            StructureState.BUILDING -> structure.showVisual()
-            StructureState.FINISHED -> {
+            StructureState.BUILDING       -> structure.showVisual()
+            StructureState.FINISHED       -> {
                 structure.claimed()
                 rewards.forEach {
                     it.getReward(owner)
@@ -46,14 +46,14 @@ class Project(
             }
 
             StructureState.REWARD_CLAIMED -> {}
-            StructureState.NOT_STARTED -> {}
+            StructureState.NOT_STARTED    -> {}
         }
     }
 
     fun onLeave() {
         when (structure.state) {
             StructureState.BUILDING -> structure.hideVisual()
-            else -> {}
+            else                    -> {}
         }
     }
 }
