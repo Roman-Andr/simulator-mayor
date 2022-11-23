@@ -19,7 +19,7 @@ class WorkersBuildingMenu(player: Player, structure: WorkerStructure) : WorkerEx
                 rows = 3
                 columns = 3
                 storage = mutableListOf<ReactiveButton>().apply {
-                    stats.workers.sortedBy { it.rarity }.sortedBy { structure.workers.contains(it) }.forEach { worker ->
+                    workers.sortedBy { it.rarity }.sortedBy { structure.workers.contains(it) }.forEach { worker ->
                         add(button {
                             title = worker.name
                             hint = getWorkerState(worker).title

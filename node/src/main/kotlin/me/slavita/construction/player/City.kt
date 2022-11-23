@@ -23,7 +23,7 @@ class City(val owner: User, id: String, val title: String) {
             if (cityStructures.size == 0) return@scheduleSyncRepeatingTask
             cityStructures.shuffled().chunked(5)[0].forEach {
                 if (it.state == CityStructureState.BROKEN || it.state == CityStructureState.NOT_READY) return@scheduleSyncRepeatingTask
-                owner.stats.income -= it.structure.income
+                owner.income -= it.structure.income
                 it.state = CityStructureState.BROKEN
                 owner.player.killboard("Здание #${it.cell.id} сломалось")
                 it.visual.update()

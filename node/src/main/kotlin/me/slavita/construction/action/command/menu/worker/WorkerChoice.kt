@@ -45,7 +45,7 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
                 },
                 getEmptyButton()
             ).apply storage@{
-                stats.workers.forEach { worker ->
+                workers.forEach { worker ->
                     this@storage.add(
                         button {
                             item = ItemIcons.get(

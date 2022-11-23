@@ -45,7 +45,7 @@ object GuidePrepare : IPrepare {
 
         entryPoint = if (
             step == 3 && user.currentCity.projects.size == 0 ||
-            step == 4 && user.stats.workers.size == 0
+            step == 4 && user.workers.size == 0
         ) {
             "${step}-not_complete"
         } else {

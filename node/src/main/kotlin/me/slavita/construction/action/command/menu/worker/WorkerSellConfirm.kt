@@ -18,7 +18,7 @@ class WorkerSellConfirm(player: Player, val worker: Worker) : MenuCommand(player
                     "за ${worker.sellPrice.toMoneyIcon()}",
                 )
             ) {
-                this@user.stats.workers.remove(worker)
+                this@user.workers.remove(worker)
                 this@user.stats.money += worker.sellPrice
                 WorkerTeamMenu(player).tryExecute()
             }

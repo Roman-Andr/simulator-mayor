@@ -68,7 +68,6 @@ object PlayerEvents {
         }
 
         listener<PlayerQuitEvent> {
-            player.user.stats.exitTime = System.currentTimeMillis()
             Lock.lock("construction-${player.uniqueId}", 10, TimeUnit.SECONDS)
         }
 

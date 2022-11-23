@@ -34,7 +34,7 @@ class GameWorld(val map: WorldMeta) {
                     val user = app.getUserOrNull(it) ?: return@buildingLoader arrayListOf()
 
                     val buildings = arrayListOf<Building>()
-                    user.stats.cities.map { city -> city.cityStructures }.flatten().forEach { structure ->
+                    user.cities.map { it.cityStructures }.flatten().forEach { structure ->
                         buildings.add(structure.building.apply {
                             show(user.player)
                         })

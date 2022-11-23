@@ -8,6 +8,7 @@ import me.slavita.construction.world.ItemProperties
 import org.bukkit.inventory.ItemStack
 
 class BlocksStorage(val owner: User) {
+    val blocks = hashMapOf<ItemProperties, ItemStack>()
     val boxes: MutableMap<String?, Box>
         get() = owner.currentCity.box.getBoxes("storagep")
 
@@ -23,19 +24,19 @@ class BlocksStorage(val owner: User) {
 
     fun addItem(itemStack: ItemStack, amount: Int) {
         val itemProperties = ItemProperties(itemStack)
-        owner.stats.blocks.getOrPut(itemProperties) { itemProperties.createItemStack(0) }.apply {
+        blocks.getOrPut(itemProperties) { itemProperties.createItemStack(0) }.apply {
             this.amount += amount
         }
     }
 
     fun removeItem(itemStack: ItemStack, amount: Int): Int {
         val itemProperties = ItemProperties(itemStack)
-        val newAmount = owner.stats.blocks[itemProperties]?.apply {
+        val newAmount = blocks[itemProperties]?.apply {
             this.amount -= amount
         }?.amount!!
 
         if (newAmount <= 0) {
-            owner.stats.blocks.remove(itemProperties)
+            blocks.remove(itemProperties)
             return amount + newAmount
         }
         return amount
