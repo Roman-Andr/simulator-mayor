@@ -112,7 +112,7 @@ class App : JavaPlugin() {
         userManager = BukkitUserManager(
             listOf(statScope),
             { session, context -> KensukeUser(context.uuid, context.getData(statScope), session) },
-            { user, context -> context.store(statScope, user.data) }
+            { user, context -> context.store(statScope, user.user.data) }
         )
 
         kensuke = BukkitKensuke.setup(this)
@@ -160,7 +160,7 @@ class App : JavaPlugin() {
     fun getUserOrAdd(uuid: UUID) = getUserOrNull(uuid) ?: addUser(uuid)
 
     fun addUser(uuid: UUID): User {
-        users[uuid] = User(uuid, Statistics())
+        users[uuid] = User(uuid)
         return getUser(uuid)
     }
 

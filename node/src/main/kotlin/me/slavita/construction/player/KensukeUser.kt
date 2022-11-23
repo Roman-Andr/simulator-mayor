@@ -8,11 +8,9 @@ import java.util.*
 
 class KensukeUser(uuid: UUID, data: Data?, private var session: KensukeSession) : IBukkitKensukeUser {
     val user = app.getUserOrAdd(uuid)
-    var data = data ?: Data()
 
     init {
-        println(this.data.money)
-        this.data.money += 100
+        user.data = data ?: Data()
     }
 
     override fun setPlayer(player: Player?) {

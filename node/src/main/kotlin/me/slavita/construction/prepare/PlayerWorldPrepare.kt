@@ -23,7 +23,7 @@ object PlayerWorldPrepare : IPrepare {
                 current.hidePlayer(app, player)
             }
             SpeedPlaces.glows.forEach { it.send(player) }
-            player.walkSpeed = stats.speed
+            player.walkSpeed = statistics.speed
         }
     }
 }
