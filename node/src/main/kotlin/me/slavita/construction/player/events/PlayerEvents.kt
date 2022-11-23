@@ -1,5 +1,6 @@
 package me.slavita.construction.player.events
 
+import me.func.Lock
 import me.func.mod.util.after
 import me.slavita.construction.action.command.menu.project.ChoiceStructure
 import me.slavita.construction.app
@@ -9,9 +10,10 @@ import me.slavita.construction.utils.listener
 import me.slavita.construction.utils.user
 import me.slavita.construction.utils.userOrNull
 import org.bukkit.entity.Player
-import org.bukkit.event.player.PlayerDropItemEvent
-import org.bukkit.event.player.PlayerJoinEvent
-import org.bukkit.event.player.PlayerMoveEvent
+import org.bukkit.event.EventPriority
+import org.bukkit.event.player.*
+import ru.cristalix.core.locate.ILocateService
+import java.util.concurrent.TimeUnit
 
 object PlayerEvents {
     private val inZone = hashMapOf<Player, Boolean>()
@@ -37,6 +39,36 @@ object PlayerEvents {
                     ).forEach { it.prepare(this) }
                 }
             }
+        }
+
+        listener<AsyncPlayerPreLoginEvent>(EventPriority.LOWEST) {
+            val now = System.currentTimeMillis()
+
+//            if (now < app.started + 10000) {
+//                disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "Сервер запускается...")
+//                loginResult = AsyncPlayerPreLoginEvent.Result.KICK_OTHER
+//                return@listener
+//            }
+
+            val lock = Lock.getLock("construction-$uniqueId", TimeUnit.SECONDS)
+
+            if (lock in 1..59) {
+                disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "Ваши данные сохраняются...")
+            }
+            if (lock > 60 * 60) {
+
+                val realms = ILocateService.get().findPlayers(listOf(uniqueId))[2, TimeUnit.SECONDS] ?: return@listener
+
+                if (realms[0].typeName in listOf("SLVT")) {
+                    disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "Вы уже находитесь на нужном сервере.")
+                } else {
+                    Lock.lock("construction-$uniqueId", 3, TimeUnit.SECONDS)
+                }
+            }
+        }
+
+        listener<PlayerQuitEvent> {
+            Lock.lock("construction-${player.uniqueId}", 10, TimeUnit.SECONDS)
         }
 
         listener<PlayerDropItemEvent> {

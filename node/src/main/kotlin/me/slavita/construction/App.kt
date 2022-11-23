@@ -38,6 +38,8 @@ import ru.cristalix.core.CoreApi
 import ru.cristalix.core.datasync.EntityDataParameters
 import ru.cristalix.core.invoice.IInvoiceService
 import ru.cristalix.core.invoice.InvoiceService
+import ru.cristalix.core.locate.ILocateService
+import ru.cristalix.core.locate.LocateService
 import ru.cristalix.core.network.ISocketClient
 import ru.cristalix.core.party.IPartyService
 import ru.cristalix.core.party.PartyService
@@ -65,9 +67,13 @@ class App : JavaPlugin() {
 
     var pass = 0L
         private set
+    var started = 0L
+        private set
 
     override fun onEnable() {
         app = this
+
+        started = System.currentTimeMillis()
 
         EntityDataParameters.register()
         Platforms.set(PlatformDarkPaper())
@@ -76,21 +82,23 @@ class App : JavaPlugin() {
 
         CoreApi.get().run {
             registerService(ITransferService::class.java, TransferService(ISocketClient.get()))
+            registerService(ILocateService::class.java, LocateService(ISocketClient.get()))
             registerService(IPartyService::class.java, PartyService(ISocketClient.get()))
             registerService(IScoreboardService::class.java, ScoreboardService())
             registerService(IInvoiceService::class.java, InvoiceService(ISocketClient.get()))
         }
 
         IRealmService.get().currentRealmInfo.apply {
-            IScoreboardService.get().serverStatusBoard.displayName = "${WHITE}Тест #${AQUA}" + realmId.id
-            after(30) {
-                ITransferService.get().transfer(UUID.fromString(System.getProperty("construction.user")), realmId)
-            }
-        }.run {
             readableName = "Тест"
             groupName = "Тест"
             status = RealmStatus.WAITING_FOR_PLAYERS
-            isLobbyServer = true
+            maxPlayers = 250
+            extraSlots = 15
+
+            IScoreboardService.get().serverStatusBoard.displayName = "${WHITE}Тест #${AQUA}" + realmId.id
+            after(50) {
+                ITransferService.get().transfer(UUID.fromString(System.getProperty("construction.user")), realmId)
+            }
         }
 
         ModLoader.loadAll("mods")

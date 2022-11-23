@@ -69,10 +69,6 @@ object AdminCommands {
             }
         }
 
-        opCommand("booster") { player, args ->
-            Boosters.activateGlobal(player.user, BoosterType.valueOf(args[0]))
-        }
-
         opCommand("bc") { _, _ ->
             Nightingale.broadcast("construction", "Всем привет!")
         }
