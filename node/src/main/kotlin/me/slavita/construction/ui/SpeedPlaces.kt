@@ -20,9 +20,9 @@ object SpeedPlaces {
         labels("speed").forEach { place ->
             val texture = Texture.SPEED_BOOST.path()
             val yaw = BlockFace.valueOf(place.tag.uppercase()).toYaw().revert()
-            val loc = place.yaw(yaw)
+            val loc = place.yaw(yaw).toCenterLocation().apply { y = place.y }
             val vector = loc.direction.normalize()
-            val location = loc.clone().add(vector.multiply(-1.25))
+            val location = loc.clone().add(vector.multiply(-1.25)).toCenterLocation().apply { y = place.y }
 
             val banner = Banner.builder()
                 .texture(texture)

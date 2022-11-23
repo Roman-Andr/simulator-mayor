@@ -7,12 +7,10 @@ import me.slavita.construction.app
 import me.slavita.construction.utils.extensions.BlocksExtensions.toV3
 import org.bukkit.event.Listener
 
-class Showcase(val properties: ShowcaseProperties) : Listener {
+class Showcase(val properties: ShowcaseProperties) {
     private val box = app.mainWorld.map.getBox("showcase", properties.id.toString())
 
     init {
-        listener(this)
-
         Anime.createReader("showcase:open") { player, buff ->
             if (buff.readInt() != properties.id) return@createReader
 

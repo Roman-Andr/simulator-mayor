@@ -22,16 +22,16 @@ object ScoreBoardGenerator {
                 .content {
                     "${Emoji.COIN} ${GREEN}${
                         player.user.income.applyBoosters(BoosterType.MONEY_BOOSTER).toMoney()
-                    }"
+                    }/сек"
                 }
-                .build(),
-            Token.builder()
-                .title("Уровень")
-                .content { "${Emoji.UP} ${BLUE}${player.user.statistics.level}" }
                 .build(),
             Token.builder()
                 .title("Репутация")
                 .content { "${Emoji.RUBY} ${GOLD}${player.user.statistics.reputation}" }
+                .build(),
+            Token.builder()
+                .title("Кристаллики")
+                .content { "${Emoji.DONATE} ${AQUA}${player.user.criBalance}" }
                 .build()
         ).apply {
             subscribe(player)
