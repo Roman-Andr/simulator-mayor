@@ -15,23 +15,23 @@ object ScoreBoardGenerator {
         TokenGroup(
             Token.builder()
                 .title("Деньги")
-                .content { "${Emoji.DOLLAR} ${DARK_GREEN}${player.user.stats.money.toMoney()}" }
+                .content { "${Emoji.DOLLAR} ${DARK_GREEN}${player.user.statistics.money.toMoney()}" }
                 .build(),
             Token.builder()
                 .title("Доход")
                 .content {
                     "${Emoji.COIN} ${GREEN}${
-                        player.user.stats.income.applyBoosters(BoosterType.MONEY_BOOSTER).toMoney()
+                        player.user.income.applyBoosters(BoosterType.MONEY_BOOSTER).toMoney()
                     }"
                 }
                 .build(),
             Token.builder()
                 .title("Уровень")
-                .content { "${Emoji.UP} ${BLUE}${player.user.stats.level}" }
+                .content { "${Emoji.UP} ${BLUE}${player.user.statistics.level}" }
                 .build(),
             Token.builder()
                 .title("Репутация")
-                .content { "${Emoji.RUBY} ${GOLD}${player.user.stats.reputation}" }
+                .content { "${Emoji.RUBY} ${GOLD}${player.user.statistics.reputation}" }
                 .build()
         ).apply {
             subscribe(player)

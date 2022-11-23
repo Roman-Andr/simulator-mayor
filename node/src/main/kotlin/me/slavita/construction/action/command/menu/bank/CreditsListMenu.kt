@@ -39,7 +39,7 @@ class CreditsListMenu(player: Player) : MenuCommand(player) {
                                 }, 0L, 20L)
                                 onClick { _, _, _ ->
                                     Bukkit.server.scheduler.cancelTask(task)
-                                    if (this@user.stats.money > value.needToGive) {
+                                    if (this@user.statistics.money > value.needToGive) {
                                         RepayCreditConfim(player, value).tryExecute()
                                     } else {
                                         player.killboard("Не хватает денег для погашения кредита")

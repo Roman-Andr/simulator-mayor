@@ -20,7 +20,7 @@ import ru.cristalix.core.transfer.ITransferService
 object AdminCommands {
     init {
         opCommand("setmoney") { player, args ->
-            player.user.stats.money = args[0].toLong()
+            player.user.statistics.money = args[0].toLong()
         }
 
         opCommand("exp") { player, args ->
@@ -34,12 +34,12 @@ object AdminCommands {
         opCommand("panel") { player, _ ->
             listOf(
                 ReactivePanel.builder()
-                    .text("Монет ${player.user.stats.money.toMoneyIcon()}")
+                    .text("Монет ${player.user.statistics.money.toMoneyIcon()}")
                     .color(GlowColor.ORANGE)
                     .progress(1.0)
                     .build(),
                 ReactivePanel.builder()
-                    .text("Опыт ${player.user.stats.experience}")
+                    .text("Опыт ${player.user.statistics.experience}")
                     .color(GlowColor.BLUE)
                     .progress(1.0)
                     .build(),

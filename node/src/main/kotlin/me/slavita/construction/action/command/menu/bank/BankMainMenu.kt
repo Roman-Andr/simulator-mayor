@@ -31,7 +31,7 @@ class BankMainMenu(player: Player) : MenuCommand(player) {
                         item = ItemIcons.get("other", "add")
                         onClick { _, _, _ ->
                             ModTransfer()
-                                .integer((player.user.stats.money).toString().length)
+                                .integer((player.user.statistics.money).toString().length)
                                 .send("bank:open", player)
                         }
                     },

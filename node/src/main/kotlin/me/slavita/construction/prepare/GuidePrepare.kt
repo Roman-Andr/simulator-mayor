@@ -41,16 +41,16 @@ object GuidePrepare : IPrepare {
     fun tryNext(player: Player) {
         val user = player.user
         val entryPoint: String
-        val step = user.stats.trainStep
+        val step = user.statistics.trainStep
 
         entryPoint = if (
             step == 3 && user.currentCity.projects.size == 0 ||
-            step == 4 && user.stats.workers.size == 0
+            step == 4 && user.workers.size == 0
         ) {
             "${step}-not_complete"
         } else {
-            user.stats.trainStep++
-            user.stats.trainStep.toString()
+            user.statistics.trainStep++
+            user.statistics.trainStep.toString()
         }
 
         dialog?.run {

@@ -10,7 +10,7 @@ import org.bukkit.entity.Player
 class UpgradeWorker(val user: Player, val worker: Worker) : CooldownCommand(user, 2) {
     override fun execute() {
         user.user.apply user@{
-            stats.workers.find { it == worker }!!.apply {
+            workers.find { it == worker }!!.apply {
                 this@user.tryPurchase(upgradePrice, {
                     levelUp()
                     player.playSound(MusicSound.LEVEL_UP)

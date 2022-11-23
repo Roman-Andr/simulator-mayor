@@ -9,7 +9,7 @@ import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
 class MoneyReward(val money: Long) : Reward() {
     override fun getReward(user: User) {
         val value = money.applyBoosters(BoosterType.MONEY_BOOSTER)
-        user.stats.money += value
+        user.statistics.money += value
         user.player.killboard("Вы получили ${value.toMoneyIcon()}")
     }
 

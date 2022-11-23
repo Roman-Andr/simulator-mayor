@@ -20,10 +20,10 @@ class Project(
 
     init {
         var projectsCount = 0
-        owner.stats.cities.forEach {
+        owner.cities.forEach {
             projectsCount += it.projects.size
         }
-        id = owner.stats.totalProjects + projectsCount
+        id = owner.statistics.totalProjects + projectsCount
     }
 
     fun start() {
@@ -42,7 +42,7 @@ class Project(
                 structure.cityStructure!!.startIncome()
                 city.finishProject(this@Project)
                 owner.player.playSound(MusicSound.UI_CLICK)
-                owner.stats.totalProjects++
+                owner.statistics.totalProjects++
             }
 
             StructureState.REWARD_CLAIMED -> {}

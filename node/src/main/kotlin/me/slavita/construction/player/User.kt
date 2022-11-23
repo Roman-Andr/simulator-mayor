@@ -13,14 +13,19 @@ import org.bukkit.entity.Player
 import ru.cristalix.core.invoice.IInvoiceService
 import java.util.*
 
-class User(
-    val uuid: UUID,
-    var stats: Statistics,
-) {
-    var player: Player = Bukkit.getPlayer(uuid)
+class User(val uuid: UUID) {
+    var initialized = false
+    lateinit var player: Player
+    lateinit var data: Data
+    val statistics
+        get() = data.statistics
+    var cities = arrayOf<City>()
     var currentCity: City = City(this, "1", "Незаданная")
     val blocksStorage = BlocksStorage(this)
+    val abilities = hashSetOf<Ability>()
+    var workers = hashSetOf<Worker>()
     var watchableProject: Project? = null
+    var income = 0L
     var criBalanceLastUpdate = 0L
     var criBalance: Int = 0
         get() {
@@ -37,7 +42,7 @@ class User(
 
     init {
         Bukkit.server.scheduler.scheduleSyncRepeatingTask(app, {
-            stats.money += stats.income
+            statistics.money += income
         }, 0L, 20L)
     }
 
@@ -46,8 +51,8 @@ class User(
         acceptAction: () -> Unit,
         denyAction: () -> Unit = { player.playSound(MusicSound.DENY) },
     ) {
-        if (stats.money >= cost) {
-            stats.money -= cost
+        if (statistics.money >= cost) {
+            statistics.money -= cost
             acceptAction()
         } else {
             denyAction()
@@ -55,7 +60,7 @@ class User(
     }
 
     fun addExp(exp: Long) {
-        stats.experience += exp
+        statistics.experience += exp
 //		if (exp / 10*2.0.pow(stats.level) > 0) {
 //			stats.level += (exp / 10).toInt()
 //			Anime.itemTitle(player, ItemIcons.get("other", "access"), "Новый уровень: ${stats.level}", "", 2.0)
@@ -64,7 +69,7 @@ class User(
     }
 
     fun canPurchase(cost: Long): Boolean {
-        return stats.money >= cost
+        return statistics.money >= cost
     }
 
     fun changeCity(city: City) {
@@ -79,7 +84,7 @@ class User(
     }
 
     fun addAbility(ability: Ability) {
-        stats.abilities.add(ability)
+        abilities.add(ability)
         ability.apply(this)
     }
 }

@@ -14,7 +14,7 @@ class StorageMenu(player: Player) : MenuCommand(player) {
         return getBaseSelection(MenuInfo("Склад", StatsType.LEVEL, 5, 5)).apply {
             storage = mutableListOf<ReactiveButton>().apply {
                 val storage = player.user.blocksStorage
-                player.user.stats.blocks.forEach {
+                storage.blocks.forEach {
                     val item = it.value
                     add(button {
                         hint = "Взять 32 шт"

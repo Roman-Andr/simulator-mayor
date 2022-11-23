@@ -2,6 +2,11 @@ package me.slavita.construction
 
 import Nightingale
 import dev.implario.bukkit.platform.Platforms
+import dev.implario.kensuke.Kensuke
+import dev.implario.kensuke.Scope
+import dev.implario.kensuke.UserManager
+import dev.implario.kensuke.impl.bukkit.BukkitKensuke
+import dev.implario.kensuke.impl.bukkit.BukkitUserManager
 import dev.implario.platform.impl.darkpaper.PlatformDarkPaper
 import me.func.mod.Anime
 import me.func.mod.Kit
@@ -18,8 +23,7 @@ import me.slavita.construction.booster.Boosters
 import me.slavita.construction.market.MarketsManager
 import me.slavita.construction.multichat.MultiChats
 import me.slavita.construction.npc.NpcManager
-import me.slavita.construction.player.Statistics
-import me.slavita.construction.player.User
+import me.slavita.construction.player.*
 import me.slavita.construction.player.events.PhysicsDisabler
 import me.slavita.construction.player.events.PlayerEvents
 import me.slavita.construction.structure.instance.Structures
@@ -59,6 +63,10 @@ class App : JavaPlugin() {
     lateinit var mainWorld: GameWorld
     private val users = hashMapOf<UUID, User>()
     val allBlocks = hashSetOf<ItemProperties>()
+
+    val statScope = Scope("construction-test", Data::class.java)
+    lateinit var kensuke: Kensuke
+    lateinit var userManager: UserManager<KensukeUser>
 
     val localStaff = hashSetOf(
         "e2543a0a-5799-11e9-8374-1cb72caa35fd",
@@ -101,6 +109,17 @@ class App : JavaPlugin() {
             }
         }
 
+        userManager = BukkitUserManager(
+            listOf(statScope),
+            { session, context -> KensukeUser(context.uuid, context.getData(statScope), session) },
+            { user, context -> context.store(statScope, user.user.data) }
+        )
+
+        kensuke = BukkitKensuke.setup(this)
+        kensuke.addGlobalUserManager(userManager)
+        kensuke.globalRealm = "SLVT-0"
+        userManager.isOptional = true
+
         ModLoader.loadAll("mods")
         ModLoader.onJoining("construction-mod.jar")
 
@@ -138,24 +157,20 @@ class App : JavaPlugin() {
         server.scheduler.scheduleSyncRepeatingTask(this, { pass++ }, 0, 1)
     }
 
-    fun addUser(player: Player): User {
-        users[player.uniqueId] = User(player.uniqueId, Statistics())
-        return getUser(player)
+    fun getUserOrAdd(uuid: UUID) = getUserOrNull(uuid) ?: addUser(uuid)
+
+    fun addUser(uuid: UUID): User {
+        users[uuid] = User(uuid)
+        return getUser(uuid)
     }
 
-    fun getUserOrNull(uuid: UUID): User? {
-        return users[uuid]
-    }
+    fun addUser(player: Player) = addUser(player.uniqueId)
 
-    fun hasUser(player: Player): Boolean {
-        return getUserOrNull(player.uniqueId) != null
-    }
+    fun getUserOrNull(uuid: UUID) = users[uuid]
 
-    fun getUser(uuid: UUID): User {
-        return users[uuid]!!
-    }
+    fun hasUser(player: Player) = getUserOrNull(player.uniqueId) != null
 
-    fun getUser(player: Player): User {
-        return getUser(player.uniqueId)
-    }
+    fun getUser(uuid: UUID) = users[uuid]!!
+
+    fun getUser(player: Player) = getUser(player.uniqueId)
 }

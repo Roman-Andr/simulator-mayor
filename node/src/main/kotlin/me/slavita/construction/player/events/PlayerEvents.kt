@@ -19,11 +19,17 @@ object PlayerEvents {
     private val inZone = hashMapOf<Player, Boolean>()
 
     init {
-        listener<PlayerJoinEvent> {
-            player.userOrNull?.player = player
+        listener<PlayerJoinEvent> event@{
+            player.userOrNull?.apply {
+                player = this@event.player
+                initialized = true
+            }
 
             after(2) {
-                if (!app.hasUser(player)) app.addUser(player)
+                if (app.getUserOrNull(player.uniqueId) == null) {
+                    player.kickPlayer("Не удалось прогрузить вашу статистику, перезайдите")
+                    return@after
+                }
                 player.user.run {
                     listOf(
                         UIPrepare,
@@ -68,7 +74,6 @@ object PlayerEvents {
         }
 
         listener<PlayerQuitEvent> {
-            player.user.stats.exitTime = System.currentTimeMillis()
             Lock.lock("construction-${player.uniqueId}", 10, TimeUnit.SECONDS)
         }
 

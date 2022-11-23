@@ -45,7 +45,7 @@ abstract class WorkerExecutor(player: Player, val structure: WorkerStructure) : 
     }
 
     protected fun getWorkerState(targetWorker: Worker): WorkerState {
-        val busyWorkers = player.user.stats.workers.filter { worker ->
+        val busyWorkers = player.user.workers.filter { worker ->
             player.user.currentCity.projects.stream().anyMatch {
                 when (it.structure is WorkerStructure) {
                     true -> it.structure.workers.contains(worker)
