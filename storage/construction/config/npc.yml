@@ -6,6 +6,13 @@ npc:
     itemKey: "other"
     itemValue: "stats"
     action: "BuyLootboxMenu"
+    banner:
+      height: 8
+      weight: 42
+      offset: 3.0
+      content: "Обучение"
+      lines-size:
+        - 0.5
   - title: "Работники"
     labelTag: "2"
     skinType: "uuid"
@@ -13,6 +20,13 @@ npc:
     itemKey: "other"
     itemValue: "stats"
     action: "WorkerTeamMenu"
+    banner:
+      height: 8
+      weight: 42
+      offset: 3.0
+      content: "Обучение"
+      lines-size:
+        - 0.5
   - title: "Склад"
     labelTag: "3"
     skinType: "uuid"
@@ -20,6 +34,13 @@ npc:
     itemKey: "other"
     itemValue: "stats"
     action: "StorageMenu"
+    banner:
+      height: 8
+      weight: 42
+      offset: 3.0
+      content: "Обучение"
+      lines-size:
+        - 0.5
   - title: "Активные проекты"
     labelTag: "4"
     skinType: "uuid"
@@ -27,6 +48,13 @@ npc:
     itemKey: "other"
     itemValue: "stats"
     action: "ActiveProjectsMenu"
+    banner:
+      height: 8
+      weight: 42
+      offset: 3.0
+      content: "Обучение"
+      lines-size:
+        - 0.5
   - title: "Банк"
     labelTag: "5"
     skinType: "uuid"
@@ -34,6 +62,13 @@ npc:
     itemKey: "other"
     itemValue: "stats"
     action: "BankMainMenu"
+    banner:
+      height: 8
+      weight: 42
+      offset: 3.0
+      content: "Обучение"
+      lines-size:
+        - 0.5
   - title: "Старина Джо"
     labelTag: "guide"
     skinType: "uuid"
@@ -41,3 +76,10 @@ npc:
     itemKey: "other"
     itemValue: "stats"
     action: "GuideDialog"
+    banner:
+      height: 8
+      weight: 42
+      offset: 3.0
+      content: "Обучение"
+      lines-size:
+        - 0.5

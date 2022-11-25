@@ -1,10 +1,12 @@
 package me.slavita.construction.npc
 
 import me.func.atlas.Atlas
+import me.func.mod.world.Banners
 import me.func.mod.world.Npc
 import me.func.mod.world.Npc.location
 import me.func.mod.world.Npc.onClick
 import me.func.mod.world.Npc.skin
+import me.func.protocol.data.element.Banner
 import me.func.protocol.world.npc.NpcBehaviour
 import me.slavita.construction.action.command.menu.ControlPanelMenu
 import me.slavita.construction.action.command.menu.DailyMenu
@@ -34,8 +36,23 @@ object NpcManager {
             val itemKey = values["itemKey"] as String
             val itemValue = values["itemValue"] as String
             val action = values["action"] as String
+            val banner = values["banner"] as Map<*, *>
 
             labels.filter { it.tag == labelTag }.forEach { label ->
+                Banners.new(
+                    Banner.builder()
+                        .watchingOnPlayerWithoutPitch(true)
+                        .x(label.toCenterLocation().x)
+                        .y(label.y + banner["offset"] as Double)
+                        .z(label.toCenterLocation().z)
+                        .apply {
+                            (banner["lines-size"] as List<*>).forEachIndexed { index, value ->
+                                this.resizeLine(index, value as Double)
+                            }
+                        }
+                        .build()
+                )
+
                 Npc.npc {
                     location(label.toCenterLocation().apply {
                         y = label.blockY.toDouble()
