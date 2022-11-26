@@ -8,8 +8,7 @@ import me.slavita.construction.bank.Bank
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
 import org.bukkit.Bukkit
-import org.bukkit.ChatColor
-import org.bukkit.ChatColor.GREEN
+import org.bukkit.ChatColor.*
 import ru.cristalix.core.realm.IRealmService
 import kotlin.math.pow
 
@@ -36,7 +35,7 @@ object ModCallbacks {
                     Anime.overlayText(
                         player,
                         Position.BOTTOM_RIGHT,
-                        "Онлайн ${ChatColor.DARK_GRAY}» ${ChatColor.GOLD}" + IRealmService.get()
+                        "Онлайн ${DARK_GRAY}» $GOLD" + IRealmService.get()
                             .getOnlineOnRealms("SLVT").toString()
                     )
                 }

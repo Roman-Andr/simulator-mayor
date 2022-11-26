@@ -8,6 +8,7 @@ import dev.implario.kensuke.UserManager
 import dev.implario.kensuke.impl.bukkit.BukkitKensuke
 import dev.implario.kensuke.impl.bukkit.BukkitUserManager
 import dev.implario.platform.impl.darkpaper.PlatformDarkPaper
+import me.func.Lock
 import me.func.mod.Anime
 import me.func.mod.Kit
 import me.func.mod.conversation.ModLoader
@@ -132,6 +133,8 @@ class App : JavaPlugin() {
         mainWorld = GameWorld(MapLoader.load("construction", "main"))
 
         Music.block(Category.MUSIC)
+
+        Lock.realms("FEOD", "FEOT", "TEST")
 
         Nightingale
             .subscribe("construction")

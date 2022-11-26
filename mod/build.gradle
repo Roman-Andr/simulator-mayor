@@ -31,6 +31,8 @@ remotes {
     }
 }
 
+tasks { jar { enabled = false } }
+
 task upload(dependsOn: build) {
     doLast {
         ssh.run {

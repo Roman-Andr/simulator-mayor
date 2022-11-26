@@ -26,7 +26,7 @@ class InformationBox : CarvedRectangle() {
         origin = BOTTOM
         align = BOTTOM
         offset.y -= 4.0
-        color = GlowColor.CIAN.toColor().apply { color.alpha = 0.0 }
+        color = GlowColor.YELLOW.toColor().apply { color.alpha = 0.0 }
         content = ""
     }
     var boxes = arrayOf<BoxData>()

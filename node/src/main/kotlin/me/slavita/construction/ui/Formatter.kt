@@ -5,7 +5,7 @@ import me.func.stronghold.util.withBoosters
 import me.slavita.construction.booster.BoosterType
 import me.slavita.construction.common.utils.NumberFormatter
 import me.slavita.construction.common.utils.TimeFormatter
-import org.bukkit.ChatColor.WHITE
+import org.bukkit.ChatColor.*
 
 object Formatter {
     fun Long.toMoney(): String {
@@ -38,6 +38,10 @@ object Formatter {
 
     fun Long.applyBoosters(vararg boosters: BoosterType): Long {
         return this.withBoosters(*boosters.map { it.label }.toTypedArray()).toLong()
+    }
+
+    fun Int.toCriMoney(): String {
+        return "${AQUA}$this ${Emoji.DONATE}"
     }
 
     fun Float.applyBoosters(vararg boosters: BoosterType): Float {

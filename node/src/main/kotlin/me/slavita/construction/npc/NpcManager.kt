@@ -42,6 +42,10 @@ object NpcManager {
                 Banners.new(
                     Banner.builder()
                         .watchingOnPlayerWithoutPitch(true)
+                        .weight(banner["weight"] as Int)
+                        .height(banner["height"] as Int)
+                        .content(banner["content"] as String)
+                        .carveSize(2.0)
                         .x(label.toCenterLocation().x)
                         .y(label.y + banner["offset"] as Double)
                         .z(label.toCenterLocation().z)

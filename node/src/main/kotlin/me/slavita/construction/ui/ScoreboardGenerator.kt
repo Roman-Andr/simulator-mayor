@@ -10,24 +10,24 @@ import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 
-object ScoreBoardGenerator {
+object ScoreboardGenerator {
     fun generate(player: Player) {
         TokenGroup(
             Token.builder()
-                .title("Деньги")
-                .content { "${Emoji.DOLLAR} ${DARK_GREEN}${player.user.statistics.money.toMoney()}" }
+                .title("Монет")
+                .content { "${Emoji.COIN} ${GOLD}${player.user.statistics.money.toMoney()}" }
                 .build(),
             Token.builder()
                 .title("Доход")
                 .content {
-                    "${Emoji.COIN} ${GREEN}${
+                    "${Emoji.DOLLAR} ${GREEN}${
                         player.user.income.applyBoosters(BoosterType.MONEY_BOOSTER).toMoney()
                     }/сек"
                 }
                 .build(),
             Token.builder()
                 .title("Репутация")
-                .content { "${Emoji.RUBY} ${GOLD}${player.user.statistics.reputation}" }
+                .content { "${Emoji.RUBY} ${LIGHT_PURPLE}${player.user.statistics.reputation}" }
                 .build(),
             Token.builder()
                 .title("Кристаллики")

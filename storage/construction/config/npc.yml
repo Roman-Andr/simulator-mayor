@@ -1,5 +1,5 @@
 npc:
-  - title: "Покупка работников"
+  - title: "§bПокупка работников"
     labelTag: "1"
     skinType: "uuid"
     skin: "e2543a0a-5799-11e9-8374-1cb72caa35fd"
@@ -7,13 +7,14 @@ npc:
     itemValue: "stats"
     action: "BuyLootboxMenu"
     banner:
-      height: 8
+      height: 16
       weight: 42
-      offset: 3.0
-      content: "Обучение"
+      offset: 3.5
+      content: "§bПолучение\n§bРаботников"
       lines-size:
         - 0.5
-  - title: "Работники"
+        - 0.5
+  - title: "§aРаботники"
     labelTag: "2"
     skinType: "uuid"
     skin: "307264a1-2c69-11e8-b5ea-1cb72caa35fd"
@@ -21,13 +22,14 @@ npc:
     itemValue: "stats"
     action: "WorkerTeamMenu"
     banner:
-      height: 8
+      height: 16
       weight: 42
-      offset: 3.0
-      content: "Обучение"
+      offset: 3.5
+      content: "§aУправление\n§aРаботниками"
       lines-size:
         - 0.5
-  - title: "Склад"
+        - 0.5
+  - title: "§aСклад"
     labelTag: "3"
     skinType: "uuid"
     skin: "303c31eb-2c69-11e8-b5ea-1cb72caa35fd"
@@ -35,13 +37,14 @@ npc:
     itemValue: "stats"
     action: "StorageMenu"
     banner:
-      height: 8
+      height: 16
       weight: 42
-      offset: 3.0
-      content: "Обучение"
+      offset: 3.5
+      content: "§aХранение\n§aБлоков"
       lines-size:
         - 0.5
-  - title: "Активные проекты"
+        - 0.5
+  - title: "§bАктивные проекты"
     labelTag: "4"
     skinType: "uuid"
     skin: "ba821208-6b64-11e9-8374-1cb72caa35fd"
@@ -49,13 +52,14 @@ npc:
     itemValue: "stats"
     action: "ActiveProjectsMenu"
     banner:
-      height: 8
+      height: 16
       weight: 42
-      offset: 3.0
-      content: "Обучение"
+      offset: 3.5
+      content: "§bСписок\n§bПроектов"
       lines-size:
         - 0.5
-  - title: "Банк"
+        - 0.5
+  - title: "§6Банк"
     labelTag: "5"
     skinType: "uuid"
     skin: "ba821208-6b64-11e9-8374-1cb72caa35fd"
@@ -63,13 +67,14 @@ npc:
     itemValue: "stats"
     action: "BankMainMenu"
     banner:
-      height: 8
+      height: 16
       weight: 42
-      offset: 3.0
-      content: "Обучение"
+      offset: 3.5
+      content: "§6Взятие денег\n§6В долг"
       lines-size:
         - 0.5
-  - title: "Старина Джо"
+        - 0.5
+  - title: "§aСтарина Джо"
     labelTag: "guide"
     skinType: "uuid"
     skin: "6326e7a1-8dd1-11e9-80c4-1cb72caa35fd"
@@ -80,6 +85,6 @@ npc:
       height: 8
       weight: 42
       offset: 3.0
-      content: "Обучение"
+      content: "§a§lОбучение"
       lines-size:
         - 0.5

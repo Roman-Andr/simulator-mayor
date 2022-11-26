@@ -2,6 +2,7 @@ package me.slavita.construction.ui.items
 
 import dev.implario.bukkit.item.ItemBuilder
 import me.slavita.construction.action.command.menu.ControlPanelMenu
+import me.slavita.construction.action.command.menu.donate.DonateMenu
 import me.slavita.construction.utils.listener
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -21,6 +22,15 @@ object ItemsManager {
         )
         {
             ControlPanelMenu(it).tryExecute()
+        },
+        ActionableItem(
+            8, ItemBuilder(Material.CLAY_BALL)
+                .text("Платные возможности")
+                .nbt("other", "bank")
+                .build()
+        )
+        {
+            DonateMenu(it).tryExecute()
         }
     )
 

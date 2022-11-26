@@ -1,8 +1,10 @@
 package me.slavita.construction.action.command.menu
 
 import me.func.mod.reactive.ReactiveButton
+import me.func.mod.ui.Glow
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
+import me.func.protocol.data.color.GlowColor
 import me.func.protocol.data.emoji.Emoji
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.menu.MenuInfo
@@ -35,13 +37,15 @@ class ShowcaseMenu(player: Player, val menuName: String, val items: HashSet<Pair
                                 onLeftClick { _, _, _ ->
                                     tryPurchase(123, {
                                         this@user.blocksStorage.addItem(emptyItem, 8)
-                                        player.killboard("${GREEN}Вы услешно купили блоки")
+                                        player.killboard("${GREEN}Вы успешно купили блоки")
+                                        Glow.animate(player, 0.3, GlowColor.GREEN)
                                     })
                                 }
                                 onRightClick { _, _, _ ->
                                     tryPurchase(123, {
                                         this@user.blocksStorage.addItem(emptyItem, 32)
-                                        player.killboard("${GREEN}Вы услешно купили блоки")
+                                        player.killboard("${GREEN}Вы успешно купили блоки")
+                                        Glow.animate(player, 0.3, GlowColor.GREEN)
                                     })
                                 }
                             }

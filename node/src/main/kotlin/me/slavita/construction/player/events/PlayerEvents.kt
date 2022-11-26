@@ -61,16 +61,6 @@ object PlayerEvents {
             if (lock in 1..59) {
                 disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "Ваши данные сохраняются...")
             }
-            if (lock > 60 * 60) {
-
-                val realms = ILocateService.get().findPlayers(listOf(uniqueId))[2, TimeUnit.SECONDS] ?: return@listener
-
-                if (realms[0].typeName in listOf("SLVT")) {
-                    disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "Вы уже находитесь на нужном сервере.")
-                } else {
-                    Lock.lock("construction-$uniqueId", 3, TimeUnit.SECONDS)
-                }
-            }
         }
 
         listener<PlayerQuitEvent> {
