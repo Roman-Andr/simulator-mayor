@@ -15,6 +15,7 @@ import me.slavita.construction.action.command.menu.bank.BankMainMenu
 import me.slavita.construction.action.command.menu.lootbbox.BuyLootboxMenu
 import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
 import me.slavita.construction.action.command.menu.storage.StorageMenu
+import me.slavita.construction.action.command.menu.worker.WorkerMenu
 import me.slavita.construction.action.command.menu.worker.WorkerTeamMenu
 import me.slavita.construction.app
 import me.slavita.construction.ui.menu.ItemIcons
@@ -68,8 +69,7 @@ object NpcManager {
                     behaviour = NpcBehaviour.STARE_AND_LOOK_AROUND
                     onClick {
                         when (action) {
-                            "BuyLootboxMenu"     -> BuyLootboxMenu::class
-                            "WorkerTeamMenu"     -> WorkerTeamMenu::class
+                            "WorkerMenu"         -> WorkerMenu::class
                             "ControlPanelMenu"   -> ControlPanelMenu::class
                             "BankMainMenu"       -> BankMainMenu::class
                             "ActiveProjectsMenu" -> ActiveProjectsMenu::class

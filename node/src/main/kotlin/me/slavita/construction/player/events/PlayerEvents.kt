@@ -9,6 +9,7 @@ import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.utils.listener
 import me.slavita.construction.utils.user
 import me.slavita.construction.utils.userOrNull
+import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.EventPriority
 import org.bukkit.event.player.*
@@ -68,7 +69,7 @@ object PlayerEvents {
 
         listener<PlayerDropItemEvent> {
             val user = player.user
-            if (!user.blocksStorage.inBox()) {
+            if (!user.blocksStorage.inBox() || itemDrop.itemStack.getType() == Material.CLAY_BALL) {
                 isCancelled = true
                 return@listener
             }

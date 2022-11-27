@@ -17,7 +17,7 @@ object Formatter {
         return "${toMoney()} $WHITE${Emoji.DOLLAR}"
     }
 
-    fun Long.toLevel(): String {
+    fun Int.toLevel(): String {
         return "$this $WHITE${Emoji.UP}"
     }
 

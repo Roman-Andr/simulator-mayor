@@ -29,16 +29,25 @@ class BlocksStorage(val owner: User) {
         }
     }
 
-    fun removeItem(itemStack: ItemStack, amount: Int): Int {
+    fun getAmount(itemStack: ItemStack): Int {
+        blocks.entries.find { it.value == ItemProperties(itemStack) }.let {
+            if (it == null) return -1
+            return it.value.amount
+        }
+    }
+
+    fun removeItem(itemStack: ItemStack, amount: Int): Pair<Int, Boolean> {
+        var removed = false
         val itemProperties = ItemProperties(itemStack)
         val newAmount = blocks[itemProperties]?.apply {
             this.amount -= amount
         }?.amount!!
 
         if (newAmount <= 0) {
+            removed = true
             blocks.remove(itemProperties)
-            return amount + newAmount
+            return Pair(amount + newAmount, removed)
         }
-        return amount
+        return Pair(amount, removed)
     }
 }

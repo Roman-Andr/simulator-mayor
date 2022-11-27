@@ -2,8 +2,8 @@ package me.slavita.construction.worker
 
 import implario.humanize.Humanize
 import me.func.protocol.data.emoji.Emoji
-import org.bukkit.ChatColor.AQUA
-import org.bukkit.ChatColor.WHITE
+import me.slavita.construction.ui.Formatter.toLevel
+import org.bukkit.ChatColor.*
 import java.util.*
 
 class Worker(
@@ -33,12 +33,12 @@ class Worker(
 
     override fun toString(): String {
         return """
-            ${AQUA}Имя: $name
-            ${AQUA}Редкость: ${rarity.title}
-            ${AQUA}Уровень: ${level}${WHITE}${Emoji.UP}
-            ${AQUA}Скорость: $blocksSpeed ${Humanize.plurals("блок", "блока", "блоков", blocksSpeed)} в секунду
-            ${AQUA}Надёжность: $reliability
-            ${AQUA}Жадность: ${rapacity.title}
+            ${AQUA}Имя: ${GOLD}$name
+            ${AQUA}Редкость: ${GOLD}${rarity.title}
+            ${AQUA}Уровень: ${level.toLevel()}
+            ${AQUA}Скорость: ${GOLD}$blocksSpeed ${Humanize.plurals("блок", "блока", "блоков", blocksSpeed)} в секунду
+            ${AQUA}Надёжность: ${GOLD}$reliability%
+            ${AQUA}Жадность: ${GOLD}${rapacity.title}
         """.trimIndent()
     }
 }

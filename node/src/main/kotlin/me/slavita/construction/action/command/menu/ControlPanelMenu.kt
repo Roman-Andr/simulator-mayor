@@ -28,15 +28,6 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         }
                     },
                     button {
-                        title = "${GOLD}${BOLD}Покупка\n${GOLD}${BOLD}работников"
-                        hint = "Выбрать"
-                        backgroundColor = GlowColor.BLUE_LIGHT
-                        item = ItemIcons.get("other", "guild_members_add")
-                        onClick { _, _, _ ->
-                            BuyLootboxMenu(player).closeAll(false).tryExecute()
-                        }
-                    },
-                    button {
                         title = "${GREEN}${BOLD}Локации"
                         hint = "Выбрать"
                         backgroundColor = GlowColor.GREEN

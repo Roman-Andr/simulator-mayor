@@ -44,7 +44,7 @@ object ItemsManager {
             execute(player)
         }
         listener<InventoryClickEvent> {
-            if (inventory is PlayerInventory && ITEMS.map { it.inventoryId }.contains(slot)) isCancelled = true
+            if (ITEMS.map { it.inventoryId }.contains(slot)) isCancelled = true
         }
     }
 
