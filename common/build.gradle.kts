@@ -4,5 +4,3 @@ plugins {
 
 dependencies {
 }
-
-tasks { jar { enabled = false } }

@@ -30,20 +30,18 @@ abstract class MenuCommand(player: Player) : CooldownCommand(player, 1) {
     }
 
     fun getBaseSelection(info: MenuInfo): Selection =
-        info.run {
-            return selection {
-                title = title
-                vault = type.vault
-                rows = rows
-                columns = columns
-                money = "Ваш ${type.title} ${
-                    when (type) {
-                        StatsType.MONEY  -> player.user.statistics.money.toMoney()
-                        StatsType.LEVEL  -> player.user.statistics.level
-                        StatsType.CREDIT -> Bank.playersData[player.uniqueId]!!.sumOf { it.creditValue }.toMoney()
-                    }
-                }"
-            }
+        selection {
+            title = info.title
+            vault = info.type.vault
+            rows = info.rows
+            columns = info.columns
+            money = "Ваш ${info.type.title} ${
+                when (info.type) {
+                    StatsType.MONEY  -> player.user.statistics.money.toMoney()
+                    StatsType.LEVEL  -> player.user.statistics.level
+                    StatsType.CREDIT -> Bank.playersData[player.uniqueId]!!.sumOf { it.creditValue }.toMoney()
+                }
+            }"
         }
 
     fun getEmptyButton(): ReactiveButton =

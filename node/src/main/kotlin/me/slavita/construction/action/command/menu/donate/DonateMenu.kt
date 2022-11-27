@@ -8,31 +8,44 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.utils.user
+import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 
 class DonateMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         player.user.run user@{
-            return Choicer(title = "Платные возможнсоти", description = "Баланс: ${player.user.criBalance.toCriMoney()}").apply {
+            return Choicer(title = "${GOLD}${BOLD}Платные возможнсоти", description = "Кристалликов: ${player.user.criBalance.toCriMoney()}").apply {
                 storage = mutableListOf(
                     button {
-                        item = ItemIcons.get("other", "achievements_many")
-                        title = "Бустеры"
+                        item = ItemIcons.get("other", "new_booster_1")
+                        title = "${GOLD}${BOLD}Бустеры"
+                        description = "${GRAY}Бустеры\n${GRAY}статистики"
                         hint = "Выбрать"
                         backgroundColor = GlowColor.YELLOW_LIGHT
                         onClick { _, _, _ ->
-                            BoostersMenu(player).tryExecute()
+                            BoostersMenu(player).closeAll(false).tryExecute()
+                        }
+                    },
+                    button {
+                        item = ItemIcons.get("other", "human")
+                        title = "${GREEN}${BOLD}Игровые наборы"
+                        hint = "Выбрать"
+                        description = "${GRAY}Паки\n${GRAY}бустеров"
+                        backgroundColor = GlowColor.GREEN_LIGHT
+                        onClick { _, _, _ ->
+                            BoosterPackMenu(player).closeAll(false).tryExecute()
                         }
                     },
                     button {
                         item = ItemIcons.get("other", "cup")
-                        title = "Улучшения"
+                        title = "${AQUA}${BOLD}Улучшения"
                         hint = "Выбрать"
+                        description = "${GRAY}Удобства\n${GRAY}для игры"
                         backgroundColor = GlowColor.BLUE_LIGHT
                         onClick { _, _, _ ->
-                            AbilitiesMenu(player).tryExecute()
+                            AbilitiesMenu(player).closeAll(false).tryExecute()
                         }
-                    },
+                    }
                 )
             }
         }

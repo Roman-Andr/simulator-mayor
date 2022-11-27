@@ -6,6 +6,7 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.user
 import me.slavita.construction.worker.Worker
+import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 
 class WorkerSellConfirm(player: Player, val worker: Worker) : MenuCommand(player) {
@@ -13,9 +14,9 @@ class WorkerSellConfirm(player: Player, val worker: Worker) : MenuCommand(player
         player.user.run user@{
             return Confirmation(
                 text = listOf(
-                    "Продать строителя",
+                    "${AQUA}Продать строителя",
                     worker.name,
-                    "за ${worker.sellPrice.toMoneyIcon()}",
+                    "${AQUA}за ${WHITE}${worker.sellPrice.toMoneyIcon()}",
                 )
             ) {
                 this@user.workers.remove(worker)

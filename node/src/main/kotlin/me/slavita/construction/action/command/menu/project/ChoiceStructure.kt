@@ -9,6 +9,7 @@ import me.slavita.construction.structure.Cell
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.utils.user
+import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 
 class ChoiceStructure(player: Player, val cell: Cell) : MenuCommand(player) {
@@ -30,7 +31,7 @@ class ChoiceStructure(player: Player, val cell: Cell) : MenuCommand(player) {
         }
 
         player.user.run user@{
-            return Selection(title = "Выбор задния", rows = 5, columns = 4, storage = structures)
+            return Selection(title = "${GOLD}${BOLD}Выбор здания", rows = 5, columns = 4, storage = structures)
         }
     }
 }

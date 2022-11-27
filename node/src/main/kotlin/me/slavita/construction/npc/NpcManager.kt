@@ -13,7 +13,6 @@ import me.slavita.construction.action.command.menu.DailyMenu
 import me.slavita.construction.action.command.menu.GuideDialog
 import me.slavita.construction.action.command.menu.bank.BankMainMenu
 import me.slavita.construction.action.command.menu.lootbbox.BuyLootboxMenu
-import me.slavita.construction.action.command.menu.lootbbox.UserLootboxesMenu
 import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
 import me.slavita.construction.action.command.menu.storage.StorageMenu
 import me.slavita.construction.action.command.menu.worker.WorkerTeamMenu
@@ -73,7 +72,6 @@ object NpcManager {
                             "WorkerTeamMenu"     -> WorkerTeamMenu::class
                             "ControlPanelMenu"   -> ControlPanelMenu::class
                             "BankMainMenu"       -> BankMainMenu::class
-                            "UserLootboxesMenu"  -> UserLootboxesMenu::class
                             "ActiveProjectsMenu" -> ActiveProjectsMenu::class
                             "DailyMenu"          -> DailyMenu::class
                             "GuideDialog"        -> GuideDialog::class

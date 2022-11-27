@@ -4,19 +4,22 @@ import dev.implario.bukkit.item.ItemBuilder
 import me.slavita.construction.action.command.menu.ControlPanelMenu
 import me.slavita.construction.action.command.menu.donate.DonateMenu
 import me.slavita.construction.utils.listener
+import org.bukkit.ChatColor.*
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.block.Action
+import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.PlayerInventory
 import java.util.*
 
 object ItemsManager {
     private val actions = hashMapOf<UUID, HashMap<ItemStack, (player: Player) -> Unit>>()
     private val ITEMS = listOf(
         ActionableItem(
-            0, ItemBuilder(Material.CLAY_BALL)
-                .text("Меню")
+            7, ItemBuilder(Material.CLAY_BALL)
+                .text("${GREEN}${BOLD}Меню")
                 .nbt("other", "info")
                 .build()
         )
@@ -25,7 +28,7 @@ object ItemsManager {
         },
         ActionableItem(
             8, ItemBuilder(Material.CLAY_BALL)
-                .text("Платные возможности")
+                .text("${GOLD}${BOLD}Платные возможности")
                 .nbt("other", "bank")
                 .build()
         )
@@ -39,6 +42,9 @@ object ItemsManager {
             if (action == Action.PHYSICAL) return@listener
             val execute = actions[player.uniqueId]?.get(item) ?: return@listener
             execute(player)
+        }
+        listener<InventoryClickEvent> {
+            if (inventory is PlayerInventory && ITEMS.map { it.inventoryId }.contains(slot)) isCancelled = true
         }
     }
 

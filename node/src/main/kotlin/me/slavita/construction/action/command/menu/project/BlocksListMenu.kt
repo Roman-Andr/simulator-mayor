@@ -8,12 +8,13 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.utils.user
 import me.slavita.construction.world.ItemProperties
+import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 
 class BlocksListMenu(player: Player, val structure: Structure) : MenuCommand(player) {
     override fun getMenu(): Openable {
         player.user.run user@{
-            return Selection(title = "Список материалов", rows = 5, columns = 4,
+            return Selection(title = "${AQUA}${BOLD}Список материалов", rows = 5, columns = 4,
                 storage = mutableListOf<ReactiveButton>().apply {
                     hashSetOf<ItemProperties>().apply {
                         structure.box.forEachBukkit { this.add(ItemProperties.fromBlock(it)) }

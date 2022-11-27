@@ -8,12 +8,13 @@ import me.slavita.construction.project.Project
 import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.utils.user
+import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 
 class BuildingInfoMenu(player: Player, val project: Project) : MenuCommand(player) {
     override fun getMenu(): Openable {
         player.user.run user@{
-            return Selection(title = "Информация об постройке", rows = 3, columns = 3,
+            return Selection(title = "${GOLD}${BOLD}Информация об постройке", rows = 3, columns = 3,
                 storage = mutableListOf(
                     button {
                         title = "Время"

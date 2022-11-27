@@ -11,6 +11,7 @@ import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.utils.user
 import me.slavita.construction.worker.WorkerState
+import org.bukkit.ChatColor.*
 import org.bukkit.ChatColor.GREEN
 import org.bukkit.entity.Player
 
@@ -18,7 +19,7 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
     WorkerExecutor(player, project.structure as WorkerStructure) {
     override fun getMenu(): Openable {
         player.user.run user@{
-            return Selection(title = "Выбор строителей", rows = 5, columns = 4, storage = mutableListOf(
+            return Selection(title = "${AQUA}${BOLD}Выбор строителей", rows = 5, columns = 4, storage = mutableListOf(
                 getEmptyButton(),
                 button {
                     item = ItemIcons.get("other", "access")
@@ -51,6 +52,7 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
                             item = ItemIcons.get(
                                 worker.rarity.iconKey,
                                 worker.rarity.iconValue,
+                                false,
                                 worker.rarity.iconMaterial
                             )
                             title = worker.name

@@ -10,13 +10,13 @@ import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
 import me.slavita.construction.utils.user
-import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 
 class ActiveProjectsMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         player.user.run {
-            return getBaseSelection(MenuInfo("Ваши активные проекты", StatsType.MONEY, 4, 5)).apply {
+            return getBaseSelection(MenuInfo("${AQUA}${BOLD}Ваши активные проекты", StatsType.MONEY, 4, 5)).apply {
                 hint = ""
                 storage = mutableListOf<ReactiveButton>().apply storage@{
                     cities.forEach { city ->

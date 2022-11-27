@@ -1,12 +1,13 @@
 package me.slavita.construction.player
 
 import dev.implario.kensuke.KensukeSession
+import dev.implario.kensuke.KensukeUser
 import dev.implario.kensuke.impl.bukkit.IBukkitKensukeUser
 import me.slavita.construction.app
 import org.bukkit.entity.Player
 import java.util.*
 
-class KensukeUser(uuid: UUID, data: Data?, private var session: KensukeSession) : IBukkitKensukeUser {
+class KensukeUser(uuid: UUID, data: Data?, session: KensukeSession) : KensukeUser(session), IBukkitKensukeUser {
     val user = app.getUserOrAdd(uuid)
 
     init {
@@ -18,8 +19,6 @@ class KensukeUser(uuid: UUID, data: Data?, private var session: KensukeSession) 
             user.player = player
         }
     }
-
-    override fun getSession() = session
 
     override fun getPlayer() = if (user.initialized) user.player else null
 }

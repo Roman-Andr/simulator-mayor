@@ -134,7 +134,7 @@ class App : JavaPlugin() {
 
         Music.block(Category.MUSIC)
 
-        Lock.realms("FEOD", "FEOT", "TEST")
+        Lock.realms("SLVT")
 
         Nightingale
             .subscribe("construction")

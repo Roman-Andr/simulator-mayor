@@ -16,19 +16,19 @@ import org.bukkit.entity.Player
 class ControlPanelMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         player.user.run {
-            return Choicer(title = "Меню", description = "Выбери нужный раздел").apply {
+            return Choicer(title = "${GREEN}${BOLD}Меню", description = "Выбери нужный раздел").apply {
                 storage = mutableListOf(
                     button {
-                        title = "${BOLD}Работники"
+                        title = "${AQUA}${BOLD}Работники"
                         hint = "Выбрать"
-                        backgroundColor = GlowColor.BLUE_MIDDLE
+                        backgroundColor = GlowColor.BLUE
                         item = ItemIcons.get("other", "guild_members")
                         onClick { _, _, _ ->
                             WorkerTeamMenu(player).closeAll(false).tryExecute()
                         }
                     },
                     button {
-                        title = "${BOLD}Покупка\nработников"
+                        title = "${GOLD}${BOLD}Покупка\n${GOLD}${BOLD}работников"
                         hint = "Выбрать"
                         backgroundColor = GlowColor.BLUE_LIGHT
                         item = ItemIcons.get("other", "guild_members_add")
@@ -37,18 +37,18 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         }
                     },
                     button {
-                        title = "${BOLD}Локации"
+                        title = "${GREEN}${BOLD}Локации"
                         hint = "Выбрать"
-                        backgroundColor = GlowColor.GREEN_MIDDLE
+                        backgroundColor = GlowColor.GREEN
                         item = ItemIcons.get("alpha", "islands")
                         onClick { _, _, _ ->
                             LocationsMenu(player).closeAll(false).tryExecute()
                         }
                     },
                     button {
-                        title = "${BOLD}Активные\nпроекты"
+                        title = "${AQUA}${BOLD}Активные\n${AQUA}${BOLD}проекты"
                         hint = "Выбрать"
-                        backgroundColor = GlowColor.BLUE
+                        backgroundColor = GlowColor.ORANGE
                         item = ItemIcons.get("other", "book")
                         onClick { _, _, _ ->
                             ActiveProjectsMenu(player).closeAll(false).tryExecute()

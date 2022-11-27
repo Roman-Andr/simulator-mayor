@@ -1,124 +1,229 @@
 package me.slavita.construction.dontate
 
 import me.func.protocol.data.color.GlowColor
+import me.func.protocol.data.emoji.Emoji
 import me.slavita.construction.booster.BoosterType
 import me.slavita.construction.dontate.ability.FlyAbility
 import me.slavita.construction.dontate.ability.NoLimitTeleportAbility
 import me.slavita.construction.dontate.ability.ShopTipsAbility
+import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.menu.ItemIcons
+import org.bukkit.ChatColor
+import org.bukkit.ChatColor.*
 import org.bukkit.inventory.ItemStack
 import java.util.concurrent.TimeUnit
 
 enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroudColor: GlowColor) {
-    FlyDonate(
+    FLY_DONATE(
         AbilityDonate(
-            "Полёт",
-            "Вы сможете летать без ограничений",
-            49, FlyAbility
+            "${AQUA}${BOLD}Полёт",
+            """
+                ${GOLD}Возможность:
+                  ${AQUA}Полёт
+                
+                Нажмите чтобы купить за ${89.toCriMoney()}
+            """.trimIndent(),
+            89, FlyAbility
         ),
-        ItemIcons.get("other", ""),
-        GlowColor.GREEN
+        ItemIcons.get("other", "friend_game"),
+        GlowColor.CIAN_LIGHT
     ),
-    NoLimitTeleportDonate(
+    NO_LIMIT_TELEPORT_DONATE(
         AbilityDonate(
-            "Телепорт без ограничений",
-            "Вы сможете перемещаться по локация без ограничей",
+            "${GOLD}${BOLD}Телепорт\n${GOLD}${BOLD}без ограничений",
+            """
+                ${GOLD}Возможность:
+                  Перемещение по локациям
+                  ${AQUA}без ограничений
+                
+                Нажмите чтобы купить за ${49.toCriMoney()}
+            """.trimIndent(),
             49,
             NoLimitTeleportAbility
         ),
-        ItemIcons.get("other", ""),
-        GlowColor.GREEN
+        ItemIcons.get("alpha", "islands"),
+        GlowColor.ORANGE_LIGHT
     ),
-    CheapestShopsDonate(
+    BANK_LOYALTY_DONATE(
         AbilityDonate(
-            "Подсветка самого\nвыгодного магазина",
-            "Вам будет показываться магазин с самыми низкими ценами",
-            49,
+            "${GOLD}${BOLD}Лояльность\n${GOLD}${BOLD}банка",
+            """
+                ${AQUA}Описание:
+                  Вам будет даваться больше ${GOLD}времени
+                  для погашения ${LIGHT_PURPLE}кредита
+                
+                Нажмите чтобы купить за ${59.toCriMoney()}
+            """.trimIndent(),
+            59,
             ShopTipsAbility
         ),
-        ItemIcons.get("other", ""),
-        GlowColor.GREEN
+        ItemIcons.get("other", "guild_bank"),
+        GlowColor.YELLOW
     ),
-    BankLoyaltyDonate(
+    CHEAPEST_SHOPS_DONATE(
         AbilityDonate(
-            "Лояльность банка",
-            "Вам будет даваться больше времени для погашения кредита",
-            49,
+            "${GREEN}${BOLD}Подсветка\n${GREEN}${BOLD}Выгодного\n${GREEN}${BOLD}Магазина",
+            """
+                ${AQUA}Описание:
+                  Вам будет показываться ${AQUA}магазин
+                  с ${GOLD}самыми низкими ценами
+                
+                Нажмите чтобы купить за ${69.toCriMoney()}
+            """.trimIndent(),
+            69,
             ShopTipsAbility
         ),
-        ItemIcons.get("other", ""),
+        ItemIcons.get("alpha", "home1"),
         GlowColor.GREEN
     ),
-    SpeedBooster(
+    LUCK_BOOSTER(
         BoosterDonate(
-            "Глобальный бустер\n+1.25x скорости",
-            "30 минут",
-            49,
-            30,
-            TimeUnit.MINUTES,
-            BoosterType.SPEED_BOOSTER
-        ),
-        ItemIcons.get("other", ""),
-        GlowColor.GREEN
-    ),
-    ReputationBooster(
-        BoosterDonate(
-            "Глобальный бустер\n+1.25x репутации",
-            "30 минут",
-            49,
-            30,
-            TimeUnit.MINUTES,
-            BoosterType.REPUTATION_BOOSTER
-        ),
-        ItemIcons.get("other", ""),
-        GlowColor.GREEN
-    ),
-    LuckBooster(
-        BoosterDonate(
-            "Глобальный бустер\n+1.25x удачи",
-            "Удача влияет на выпадение рабочих\n30 минут",
-            49,
+            "${GOLD}${BOLD}Глобальный бустер удачи\n+1.25x\n${GRAY}30 минут",
+            """
+                ${AQUA}Описание:
+                  Активирует ${LIGHT_PURPLE}глобальный бустер
+                  ${GOLD}+1.25x ${WHITE}к множителю ${GOLD}удачи
+                  на ${GOLD}30 минут
+                
+                Нажмите чтобы купить за ${69.toCriMoney()}
+            """.trimIndent(),
+            69,
             30,
             TimeUnit.MINUTES,
             BoosterType.LUCK_BOOSTER
         ),
-        ItemIcons.get("other", ""),
-        GlowColor.GREEN
+        ItemIcons.get("other", "new_booster_2"),
+        GlowColor.ORANGE_LIGHT
     ),
-    MoneyBooster(
+    REPUTATION_BOOSTER(
         BoosterDonate(
-            "Глобальный бустер скорости\n+1.25x монет",
-            "30 минут",
-            49,
+            "${LIGHT_PURPLE}${BOLD}Глобальный бустер репутации\n+1.25x\n${GRAY}30 минут",
+            """
+                ${AQUA}Описание:
+                  Активирует ${LIGHT_PURPLE}глобальный бустер
+                  ${RED}+1.25x ${WHITE}к множителю ${RED}репутации
+                  на ${GOLD}30 минут
+                
+                Нажмите чтобы купить за ${69.toCriMoney()}
+            """.trimIndent(),
+            69,
             30,
             TimeUnit.MINUTES,
-            BoosterType.MONEY_BOOSTER
+            BoosterType.REPUTATION_BOOSTER
         ),
-        ItemIcons.get("other", ""),
-        GlowColor.GREEN
+        ItemIcons.get("other", "new_booster_2", true),
+        GlowColor.PURPLE_LIGHT
     ),
-    IncomeBooster(
+    INCOME_BOOSTER(
         BoosterDonate(
-            "Глобальный бустер скорости\n+1.25x прибыли",
-            "30 минут",
-            49,
+            "${GREEN}${BOLD}Глобальный бустер прибыли\n+1.25x\n${GRAY}30 минут",
+            """
+                ${AQUA}Описание:
+                  Активирует ${LIGHT_PURPLE}глобальный бустер
+                  ${GREEN}+1.25x ${WHITE}к множителю ${GREEN}прибыли
+                  на ${GOLD}30 минут
+                
+                Нажмите чтобы купить за ${79.toCriMoney()}
+            """.trimIndent(),
+            79,
             30,
             TimeUnit.MINUTES,
             BoosterType.INCOME_BOOSTER
         ),
-        ItemIcons.get("other", ""),
-        GlowColor.GREEN
+        ItemIcons.get("other", "new_booster_1"),
+        GlowColor.GREEN_LIGHT
     ),
-    ExpBooster(
+    MONEY_BOOSTER(
         BoosterDonate(
-            "Глобальный бустер скорости\n+1.25x опыта",
-            "30 минут",
-            49,
+            "${GOLD}${BOLD}Глобальный бустер монет\n+1.25x\n${GRAY}30 минут",
+            """
+                ${AQUA}Описание:
+                  Активирует ${LIGHT_PURPLE}глобальный бустер
+                  ${GOLD}+1.25x ${WHITE}к множителю ${GOLD}монет
+                  на ${GOLD}30 минут
+                
+                Нажмите чтобы купить за ${79.toCriMoney()}
+            """.trimIndent(),
+            79,
+            30,
+            TimeUnit.MINUTES,
+            BoosterType.MONEY_BOOSTER
+        ),
+        ItemIcons.get("other", "new_booster_1", true),
+        GlowColor.YELLOW
+    ),
+    SPEED_BOOSTER(
+        BoosterDonate(
+            "${AQUA}${BOLD}Глобальный бустер скорости\n+1.25x\n${GRAY}30 минут",
+            """
+                ${AQUA}Описание:
+                  Активирует ${LIGHT_PURPLE}глобальный бустер
+                  ${AQUA}+1.25x ${WHITE}к множителю ${AQUA}скорости
+                  на ${GOLD}30 минут
+                
+                Нажмите чтобы купить за ${69.toCriMoney()}
+            """.trimIndent(),
+            69,
+            30,
+            TimeUnit.MINUTES,
+            BoosterType.SPEED_BOOSTER
+        ),
+        ItemIcons.get("other", "achievements_many_rare"),
+        GlowColor.CIAN
+    ),
+    EXP_BOOSTER(
+        BoosterDonate(
+            "${AQUA}${BOLD}Глобальный бустер опыта\n+1.25x\n${GRAY}30 минут",
+            """
+                ${AQUA}Описание:
+                  Активирует ${LIGHT_PURPLE}глобальный бустер
+                  ${AQUA}+1.25x ${WHITE}к множителю ${AQUA}опыта
+                  на ${GOLD}30 минут
+                
+                Нажмите чтобы купить за ${69.toCriMoney()}
+            """.trimIndent(),
+            69,
             30,
             TimeUnit.MINUTES,
             BoosterType.EXP_BOOSTER
         ),
-        ItemIcons.get("other", ""),
-        GlowColor.GREEN
+        ItemIcons.get("other", "achievements_many_rare", true),
+        GlowColor.CIAN_LIGHT
+    ),
+    BEGINNER_PACK(
+        BoosterPackDonate(
+            "${GREEN}${BOLD}Пак Новичёк",
+            """
+                ${GREEN}При покупке:
+                  Активирует ${LIGHT_PURPLE}все глобальные бустеры
+                  ${GOLD}на 1 час
+                 
+                Нажмите чтобы купить за ${RED}${STRIKETHROUGH}868 ${799.toCriMoney()}
+            """.trimIndent(),
+            799,
+            1,
+            TimeUnit.HOURS,
+            *BoosterType.values()
+        ),
+        ItemIcons.get("other", "achievements"),
+        GlowColor.GREEN_LIGHT
+    ),
+    EXPERT_PACK(
+        BoosterPackDonate(
+            "${GOLD}${BOLD}Пак Эксперт",
+            """
+                ${GREEN}При покупке:
+                  Активирует ${LIGHT_PURPLE}все глобальные бустеры
+                  ${GOLD}на 3 часа
+                 
+                Нажмите чтобы купить за ${RED}${STRIKETHROUGH}2604 ${2099.toCriMoney()}
+            """.trimIndent(),
+            2099,
+            6,
+            TimeUnit.HOURS,
+            *BoosterType.values()
+        ),
+        ItemIcons.get("other", "achievements_rare", true),
+        GlowColor.ORANGE_LIGHT
     )
 }

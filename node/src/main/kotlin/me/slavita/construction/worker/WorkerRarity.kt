@@ -33,7 +33,7 @@ enum class WorkerRarity(
     ),
     RARE(
         "${AQUA}${BOLD}Редкий",
-        GlowColor.GREEN_MIDDLE,
+        GlowColor.GREEN_LIGHT,
         DropRare.RARE,
         "Неплохой",
         10000,
@@ -66,6 +66,6 @@ enum class WorkerRarity(
     );
 
     fun getIcon(): ItemStack {
-        return ItemIcons.get(iconKey, iconValue, iconMaterial)
+        return ItemIcons.get(iconKey, iconValue, false, iconMaterial)
     }
 }

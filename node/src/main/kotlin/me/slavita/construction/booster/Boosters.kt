@@ -53,7 +53,7 @@ object Boosters {
                     .owner(user.player)
                     .owner(CristalixUtil.getDisplayName(user.player))
                     .duration(time, unit)
-                    .multiplier(1.5)
+                    .multiplier(1.25)
                     .maxStackable(4)
                     .build()
             }.toTypedArray()

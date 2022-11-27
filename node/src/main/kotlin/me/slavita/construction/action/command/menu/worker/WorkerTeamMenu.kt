@@ -8,12 +8,13 @@ import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
 import me.slavita.construction.utils.user
+import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 
 class WorkerTeamMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         player.user.run user@{
-            return getBaseSelection(MenuInfo("Ваши строители", StatsType.MONEY, 4, 4)).apply {
+            return getBaseSelection(MenuInfo("${GREEN}${BOLD}Ваши работники", StatsType.MONEY, 4, 4)).apply {
                 storage = mutableListOf<ReactiveButton>().apply storage@{
                     workers.forEach { worker ->
                         this@storage.add(
@@ -21,6 +22,7 @@ class WorkerTeamMenu(player: Player) : MenuCommand(player) {
                                 item = ItemIcons.get(
                                     worker.rarity.iconKey,
                                     worker.rarity.iconValue,
+                                    false,
                                     worker.rarity.iconMaterial
                                 )
                                 title = worker.name

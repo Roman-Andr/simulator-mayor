@@ -11,15 +11,14 @@ import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.utils.user
 import me.slavita.construction.worker.Worker
-import org.bukkit.ChatColor.AQUA
-import org.bukkit.ChatColor.GREEN
+import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 
 class WorkerUpgradeMenu(player: Player, val worker: Worker) : MenuCommand(player) {
     override fun getMenu(): Openable {
         player.user.run user@{
             var infoButton: ReactiveButton
-            return Choicer(title = "Улучшение рабочего").apply {
+            return Choicer(title = "${GOLD}${BOLD}Улучшение рабочего").apply {
                 storage = mutableListOf(
                     button {
                         item = ItemIcons.get("other", "info1")
