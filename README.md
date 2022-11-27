@@ -39,7 +39,7 @@ TODO
 - Настройка экономики
 <details>
     <summary>Концепт локаций</summary>
-    <img src="https://raw.githubusercontent.com/Roman-Andr/simulator-mayor/main/locations.png?token=GHSAT0AAAAAABYGB3HIKRAH3EAFTAKBCKI4Y4DUI5Q" alt="">
+    ![image](https://i.imgur.com/t3I3Brf.jpg)
 </details>
 
 Кастомные менюшки:
