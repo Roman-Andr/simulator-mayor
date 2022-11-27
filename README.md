@@ -30,5 +30,5 @@ TODO
 - Ежедневные награды, задания
 <details>
     <summary>Концепт локаций</summary>
-    <img src="https://raw.githubusercontent.com/Roman-Andr/simulator-mayor/main/locations.png?token=GHSAT0AAAAAABYGB3HIKRAH3EAFTAKBCKI4Y4DUI5Q">
+    <img src="https://raw.githubusercontent.com/Roman-Andr/simulator-mayor/main/locations.png?token=GHSAT0AAAAAABYGB3HIKRAH3EAFTAKBCKI4Y4DUI5Q" alt="">
 </details>
