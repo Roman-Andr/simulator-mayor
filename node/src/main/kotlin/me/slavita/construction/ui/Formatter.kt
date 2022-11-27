@@ -5,7 +5,8 @@ import me.func.stronghold.util.withBoosters
 import me.slavita.construction.booster.BoosterType
 import me.slavita.construction.common.utils.NumberFormatter
 import me.slavita.construction.common.utils.TimeFormatter
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.WHITE
 
 object Formatter {
     fun Long.toMoney(): String {

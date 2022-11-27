@@ -8,7 +8,8 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.utils.user
 import me.slavita.construction.world.ItemProperties
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.BOLD
 import org.bukkit.entity.Player
 
 class BlocksListMenu(player: Player, val structure: Structure) : MenuCommand(player) {

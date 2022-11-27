@@ -12,7 +12,6 @@ import me.slavita.construction.utils.userOrNull
 import org.bukkit.entity.Player
 import org.bukkit.event.EventPriority
 import org.bukkit.event.player.*
-import ru.cristalix.core.locate.ILocateService
 import java.util.concurrent.TimeUnit
 
 object PlayerEvents {

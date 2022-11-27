@@ -3,9 +3,7 @@ package me.slavita.construction.action.chat
 import Nightingale
 import me.func.atlas.Atlas
 import me.func.mod.reactive.ReactivePanel
-import me.func.mod.ui.menu.selection
 import me.func.protocol.data.color.GlowColor
-import me.func.protocol.data.emoji.Emoji
 import me.slavita.construction.action.command.menu.DailyMenu
 import me.slavita.construction.bank.Bank
 import me.slavita.construction.prepare.GuidePrepare

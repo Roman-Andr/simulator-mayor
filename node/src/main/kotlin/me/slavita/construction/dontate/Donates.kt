@@ -1,14 +1,12 @@
 package me.slavita.construction.dontate
 
 import me.func.protocol.data.color.GlowColor
-import me.func.protocol.data.emoji.Emoji
 import me.slavita.construction.booster.BoosterType
 import me.slavita.construction.dontate.ability.FlyAbility
 import me.slavita.construction.dontate.ability.NoLimitTeleportAbility
 import me.slavita.construction.dontate.ability.ShopTipsAbility
 import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.menu.ItemIcons
-import org.bukkit.ChatColor
 import org.bukkit.ChatColor.*
 import org.bukkit.inventory.ItemStack
 import java.util.concurrent.TimeUnit

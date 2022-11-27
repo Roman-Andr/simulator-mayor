@@ -8,7 +8,8 @@ import me.slavita.construction.dontate.BoosterPackDonate
 import me.slavita.construction.dontate.Donates
 import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.utils.user
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.BOLD
+import org.bukkit.ChatColor.GREEN
 import org.bukkit.entity.Player
 
 class BoosterPackMenu(player: Player) : MenuCommand(player) {

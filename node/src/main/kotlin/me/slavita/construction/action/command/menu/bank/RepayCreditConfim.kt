@@ -8,7 +8,8 @@ import me.slavita.construction.bank.Credit
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
 import me.slavita.construction.utils.user
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.WHITE
 import org.bukkit.entity.Player
 
 class RepayCreditConfim(player: Player, val credit: Credit) : MenuCommand(player) {

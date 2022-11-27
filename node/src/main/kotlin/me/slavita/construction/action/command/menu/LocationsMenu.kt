@@ -28,16 +28,20 @@ class LocationsMenu(player: Player) : MenuCommand(player) {
                         hint = "Выбрать"
                         backgroundColor = GlowColor.GREEN
                         onClick { _, _, _ ->
-                            ChangeCity(player, city).tryExecute(player.user.abilities.contains(Donates.NO_LIMIT_TELEPORT_DONATE.donate as Ability)).run {
-                                if (this < 0) player.killboard(
-                                    "${GREEN}Подождите ещё ${abs(this) / 20} ${
-                                        Humanize.plurals(
-                                            "секунду", "секунды", "секунд",
-                                            (abs(this) / 20).toInt()
-                                        )
-                                    }"
-                                )
-                            }
+                            ChangeCity(
+                                player,
+                                city
+                            ).tryExecute(player.user.abilities.contains(Donates.NO_LIMIT_TELEPORT_DONATE.donate as Ability))
+                                .run {
+                                    if (this < 0) player.killboard(
+                                        "${GREEN}Подождите ещё ${abs(this) / 20} ${
+                                            Humanize.plurals(
+                                                "секунду", "секунды", "секунд",
+                                                (abs(this) / 20).toInt()
+                                            )
+                                        }"
+                                    )
+                                }
                             Anime.close(player)
                         }
                     }

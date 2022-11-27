@@ -12,7 +12,6 @@ import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.utils.user
 import me.slavita.construction.worker.WorkerState
 import org.bukkit.ChatColor.*
-import org.bukkit.ChatColor.GREEN
 import org.bukkit.entity.Player
 
 class WorkerChoice(player: Player, val project: Project, val startProject: Boolean = true) :

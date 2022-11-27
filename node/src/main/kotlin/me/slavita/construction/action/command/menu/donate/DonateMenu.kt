@@ -14,7 +14,10 @@ import org.bukkit.entity.Player
 class DonateMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         player.user.run user@{
-            return Choicer(title = "${GOLD}${BOLD}Платные возможнсоти", description = "Кристалликов: ${player.user.criBalance.toCriMoney()}").apply {
+            return Choicer(
+                title = "${GOLD}${BOLD}Платные возможнсоти",
+                description = "Кристалликов: ${player.user.criBalance.toCriMoney()}"
+            ).apply {
                 storage = mutableListOf(
                     button {
                         item = ItemIcons.get("other", "new_booster_1")

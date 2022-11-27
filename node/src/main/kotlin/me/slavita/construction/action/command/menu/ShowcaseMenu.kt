@@ -13,8 +13,6 @@ import me.slavita.construction.utils.user
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
-import java.util.stream.Collectors
-import java.util.stream.Stream
 
 class ShowcaseMenu(player: Player, val menuName: String, val items: HashSet<Pair<ItemProperties, Long>>) :
     MenuCommand(player) {
