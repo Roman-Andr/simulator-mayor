@@ -37,10 +37,7 @@ TODO
 - Теги в чате и в табе
 - Связывание всего в экономику
 - Настройка экономики
-<details>
-    <summary>Концепт локаций</summary>
-    ![image](https://i.imgur.com/t3I3Brf.jpg)
-</details>
+![image](https://i.imgur.com/t3I3Brf.jpg)
 
 Кастомные менюшки:
 - Прокачка рабочего
