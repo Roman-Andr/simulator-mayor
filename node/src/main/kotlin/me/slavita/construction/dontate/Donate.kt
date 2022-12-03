@@ -10,7 +10,7 @@ import me.slavita.construction.utils.music.MusicExtension.playSound
 import me.slavita.construction.utils.music.MusicSound
 import org.bukkit.ChatColor.*
 
-abstract class Donate(val title: String, val description: String, val price: Int) {
+abstract class Donate(var title: String, var description: String, val price: Int) {
     fun purchase(user: User) {
         val player = user.player
 

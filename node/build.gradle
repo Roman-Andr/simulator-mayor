@@ -8,7 +8,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.4")
     implementation('org.jetbrains.kotlin:kotlin-reflect:1.7.22')
 
-    compileOnly("ru.cristalix.core:bukkit-api:1.0.16-SNAPSHOT")
+    compileOnly("ru.cristalix.core:bukkit-api:1.0.18.15-TEST")
     implementation("ru.cristalix:boards-bukkit-api:3.0.16")
 
     compileOnly("cristalix:dark-paper:21.02.03")

@@ -30,16 +30,6 @@ class DonateMenu(player: Player) : MenuCommand(player) {
                         }
                     },
                     button {
-                        item = ItemIcons.get("other", "human")
-                        title = "${GREEN}${BOLD}Наборы"
-                        hint = "Выбрать"
-                        description = "${GRAY}Паки\n${GRAY}бустеров"
-                        backgroundColor = GlowColor.GREEN_LIGHT
-                        onClick { _, _, _ ->
-                            BoosterPackMenu(player).closeAll(false).tryExecute()
-                        }
-                    },
-                    button {
                         item = ItemIcons.get("other", "cup")
                         title = "${AQUA}${BOLD}Улучшения"
                         hint = "Выбрать"
@@ -47,6 +37,26 @@ class DonateMenu(player: Player) : MenuCommand(player) {
                         backgroundColor = GlowColor.BLUE_LIGHT
                         onClick { _, _, _ ->
                             AbilitiesMenu(player).closeAll(false).tryExecute()
+                        }
+                    },
+                    button {
+                        item = ItemIcons.get("other", "bag1")
+                        title = "${GREEN}${BOLD}Монеты"
+                        hint = "Выбрать"
+                        description = "${GRAY}Пополнение\n${GRAY}баланса"
+                        backgroundColor = GlowColor.GREEN
+                        onClick { _, _, _ ->
+                            MoneyBuyMenu(player).closeAll(false).tryExecute()
+                        }
+                    },
+                    button {
+                        item = ItemIcons.get("other", "human")
+                        title = "${GREEN}${BOLD}Наборы"
+                        hint = "Выбрать"
+                        description = "${GRAY}Паки\n${GRAY}бустеров"
+                        backgroundColor = GlowColor.GREEN_LIGHT
+                        onClick { _, _, _ ->
+                            BoosterPackMenu(player).closeAll(false).tryExecute()
                         }
                     }
                 )

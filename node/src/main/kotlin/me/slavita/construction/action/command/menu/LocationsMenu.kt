@@ -15,7 +15,7 @@ import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
 import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
-import ru.cristalix.core.formatting.Formatting.fine
+import ru.cristalix.core.formatting.Formatting.error
 import kotlin.math.abs
 
 class LocationsMenu(player: Player) : MenuCommand(player) {
@@ -35,8 +35,8 @@ class LocationsMenu(player: Player) : MenuCommand(player) {
                             ).tryExecute(player.user.abilities.contains((Donates.NO_LIMIT_TELEPORT_DONATE.donate as AbilityDonate).ability))
                                 .run {
                                     if (this < 0) player.killboard(
-                                        fine(
-                                            "${GREEN}Подождите ещё ${(abs(this) / 20).toInt()} ${SECOND.get((abs(this) / 20).toInt())}"
+                                        error(
+                                            "Подождите ещё ${(abs(this) / 20).toInt()} ${SECOND.get((abs(this) / 20).toInt())}"
                                         )
                                     )
                                 }

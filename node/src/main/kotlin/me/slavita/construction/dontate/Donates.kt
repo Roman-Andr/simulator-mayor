@@ -223,5 +223,85 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
         ),
         ItemIcons.get("other", "achievements_rare", true),
         GlowColor.ORANGE_LIGHT
-    )
+    ),
+    MONEY_5_MINUTES(
+        MoneyDonate(
+            "${GOLD}${BOLD}%money%",
+            """
+                ${GREEN}При покупке:
+                  Добавит ${GOLD}%money% ${WHITE}к вашему балансу
+                  Оно равняется вашему доходу за ${GREEN}5 минутам
+                 
+                Нажмите чтобы купить за ${19.toCriMoney()}
+            """.trimIndent(),
+            19,
+            5 * 60
+        ),
+        ItemIcons.get("other", "coin"),
+        GlowColor.GREEN
+    ),
+    MONEY_10_MINUTES(
+        MoneyDonate(
+            "${GOLD}${BOLD}%money%",
+            """
+                ${GREEN}При покупке:
+                  Добавит ${GOLD}%money% ${WHITE}к вашему балансу
+                  Оно равняется вашему доходу за ${DARK_GREEN}10 минут
+                 
+                Нажмите чтобы купить за ${RED}${STRIKETHROUGH}38${WHITE} ${29.toCriMoney()}
+            """.trimIndent(),
+            29,
+            10 * 60
+        ),
+        ItemIcons.get("other", "coin2"),
+        GlowColor.GREEN
+    ),
+    MONEY_30_MINUTES(
+        MoneyDonate(
+            "${GOLD}${BOLD}%money%",
+            """
+                ${GREEN}При покупке:
+                  Добавит ${GOLD}%money% ${WHITE}к вашему балансу
+                  Оно равняется вашему доходу за ${GOLD}30 минут
+                 
+                Нажмите чтобы купить за ${RED}${STRIKETHROUGH}114${WHITE} ${99.toCriMoney()}
+            """.trimIndent(),
+            99,
+            30 * 60
+        ),
+        ItemIcons.get("other", "coin3"),
+        GlowColor.GREEN
+    ),
+    MONEY_1_HOURS(
+        MoneyDonate(
+            "${GOLD}${BOLD}%money%",
+            """
+                ${GREEN}При покупке:
+                  Добавит ${GOLD}%money% ${WHITE}к вашему балансу
+                  Оно равняется вашему доходу за ${RED}1 час
+                 
+                Нажмите чтобы купить за ${RED}${STRIKETHROUGH}228${WHITE} ${199.toCriMoney()}
+            """.trimIndent(),
+            199,
+            1 * 60 * 60
+        ),
+        ItemIcons.get("other", "coin4"),
+        GlowColor.GREEN
+    ),
+    MONEY_2_HOURS(
+        MoneyDonate(
+            "${GOLD}${BOLD}%money%",
+            """
+                ${GREEN}При покупке:
+                  Добавит ${GOLD}%money% ${WHITE}к вашему балансу
+                  Оно равняется вашему доходу за ${DARK_RED}2 часа
+                 
+                Нажмите чтобы купить за ${RED}${STRIKETHROUGH}456${WHITE} ${399.toCriMoney()}
+            """.trimIndent(),
+            399,
+            2 * 60 * 60
+        ),
+        ItemIcons.get("other", "coin5"),
+        GlowColor.GREEN
+    ),
 }
