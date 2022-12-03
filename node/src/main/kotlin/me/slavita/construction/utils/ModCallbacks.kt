@@ -9,6 +9,7 @@ import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor.*
+import ru.cristalix.core.formatting.Formatting.fine
 import ru.cristalix.core.realm.IRealmService
 import kotlin.math.pow
 
@@ -24,7 +25,7 @@ object ModCallbacks {
             val amount = buff.readInt()
             val digit = buff.readInt()
             val value = (amount * 10.0.pow(digit)).toLong()
-            player.killboard("${GREEN}Кредит на сумму ${value.toMoneyIcon()} ${GREEN}успешно взят")
+            player.killboard(fine("Кредит на сумму ${value.toMoneyIcon()} ${GREEN}успешно взят"))
             Bank.giveCredit(player.user, value)
         }
 

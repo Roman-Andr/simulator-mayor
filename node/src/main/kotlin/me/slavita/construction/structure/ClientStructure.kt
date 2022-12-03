@@ -1,17 +1,20 @@
 package me.slavita.construction.structure
 
-import implario.humanize.Humanize
 import me.func.mod.Anime
 import me.func.mod.ui.Glow
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.player.User
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureSender
+import me.slavita.construction.ui.HumanizableValues.SECOND
 import me.slavita.construction.utils.Cooldown
 import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
 import me.slavita.construction.utils.extensions.PlayerExtensions.swapItems
+import me.slavita.construction.utils.music.MusicExtension.playSound
+import me.slavita.construction.utils.music.MusicSound
 import me.slavita.construction.world.GameWorld
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.AQUA
+import ru.cristalix.core.formatting.Formatting.error
 
 class ClientStructure(
     world: GameWorld,
@@ -46,7 +49,7 @@ class ClientStructure(
             Pair("Информация об постройке", 0.7),
             Pair("Название: ${structure.name}", 0.7),
             Pair("", 0.5),
-            Pair("Прогресс: $blocksPlaced блоков из ${structure.blocksCount}", 0.5)
+            Pair("Прогресс: $blocksPlaced из ${structure.blocksCount} блоков", 0.5)
         )
     }
 
@@ -54,20 +57,15 @@ class ClientStructure(
         owner.player.inventory.itemInMainHand.apply {
             if (!currentBlock!!.equalsItem(this)) {
                 Glow.animate(owner.player, 0.2, GlowColor.RED)
-                owner.player.killboard("${RED}Неверный блок")
+                owner.player.playSound(MusicSound.DENY)
+                owner.player.killboard(error("Неверный блок"))
                 return
             }
 
             if (!cooldown.isExpired()) {
+                owner.player.playSound(MusicSound.DENY)
                 owner.player.killboard(
-                    "${AQUA}Вы сможете поставить блок через ${AQUA}${cooldown.timeLeft()} ${
-                        Humanize.plurals(
-                            "секунду",
-                            "секунды",
-                            "секунд",
-                            cooldown.timeLeft().toInt()
-                        )
-                    }"
+                    error("Вы сможете поставить блок через ${AQUA}${cooldown.timeLeft()} ${SECOND.get(cooldown.timeLeft())}")
                 )
                 return
             }
@@ -87,7 +85,8 @@ class ClientStructure(
 
                 if (!hasNext) {
                     Glow.animate(owner.player, 0.2, GlowColor.ORANGE)
-                    owner.player.killboard("${WHITE}В инвентаре нет нужного материала")
+                    owner.player.playSound(MusicSound.DENY)
+                    owner.player.killboard(error("В инвентаре нет нужного материала"))
                 }
                 return
             }

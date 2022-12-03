@@ -1,0 +1,27 @@
+city-hall:
+  - banner:
+    height: 8
+    weight: 35
+    offset: 2.5
+    content: "§aМэрия"
+    carve-size: 2.0
+    lines-size:
+      - 1.0
+speed-place:
+  - banner:
+    height: 7
+    weight: 30
+    offset: 1.0
+    content: "§bУскоритель"
+    carve-size: 2.0
+    lines-size:
+      - 0.4
+afk-zone:
+  - banner:
+    height: 8
+    weight: 42
+    offset: 4.0
+    content: "§cАФК-Зона"
+    carve-size: 2.0
+    lines-size:
+      - 2.0

@@ -4,7 +4,6 @@ import me.func.atlas.Atlas
 import me.slavita.construction.app
 import me.slavita.construction.player.City
 import me.slavita.construction.player.User
-import me.slavita.construction.ui.SpeedPlaces
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
 
@@ -22,7 +21,7 @@ object PlayerWorldPrepare : IPrepare {
                 player.hidePlayer(app, current.player)
                 current.hidePlayer(app, player)
             }
-            SpeedPlaces.glows.forEach { it.send(player) }
+            app.mainWorld.glows.forEach { it.send(player) }
             player.walkSpeed = statistics.speed
         }
     }

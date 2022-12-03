@@ -5,7 +5,6 @@ import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.choicer.Choicer
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
-import me.slavita.construction.action.command.menu.lootbbox.BuyLootboxMenu
 import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
 import me.slavita.construction.action.command.menu.worker.WorkerTeamMenu
 import me.slavita.construction.ui.menu.ItemIcons
@@ -37,7 +36,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         }
                     },
                     button {
-                        title = "${AQUA}${BOLD}Активные\n${AQUA}${BOLD}проекты"
+                        title = "${AQUA}${BOLD}Проекты"
                         hint = "Выбрать"
                         backgroundColor = GlowColor.ORANGE
                         item = ItemIcons.get("other", "book")

@@ -31,7 +31,7 @@ class DonateMenu(player: Player) : MenuCommand(player) {
                     },
                     button {
                         item = ItemIcons.get("other", "human")
-                        title = "${GREEN}${BOLD}Игровые наборы"
+                        title = "${GREEN}${BOLD}Наборы"
                         hint = "Выбрать"
                         description = "${GRAY}Паки\n${GRAY}бустеров"
                         backgroundColor = GlowColor.GREEN_LIGHT

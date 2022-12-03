@@ -20,11 +20,12 @@ import kotlin.reflect.KClass
 val Player.user
     get() = app.getUser(this)
 
-
 val Player.userOrNull
     get() = app.getUserOrNull(this.uniqueId)
 
 fun labels(key: String, map: WorldMeta = app.mainWorld.map) = map.getLabels(key)
+
+fun label(key: String, map: WorldMeta = app.mainWorld.map) = map.getLabel(key)
 
 fun Float.revert() = when {
     this >= 0 -> this - 180F

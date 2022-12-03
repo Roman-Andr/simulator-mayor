@@ -1,9 +1,9 @@
 package me.slavita.construction.worker
 
 import implario.humanize.Humanize
-import me.func.protocol.data.emoji.Emoji
 import me.slavita.construction.ui.Formatter.toLevel
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.GOLD
 import java.util.*
 
 class Worker(

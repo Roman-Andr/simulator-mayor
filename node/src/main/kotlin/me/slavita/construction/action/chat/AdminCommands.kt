@@ -10,10 +10,14 @@ import me.slavita.construction.prepare.GuidePrepare
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.ChatCommandUtils.opCommand
 import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
+import me.slavita.construction.utils.music.MusicExtension.playSound
+import me.slavita.construction.utils.music.MusicSound
 import me.slavita.construction.utils.user
 import org.bukkit.Bukkit
 import org.bukkit.Sound
 import org.bukkit.SoundCategory
+import ru.cristalix.core.formatting.Formatting.error
+import ru.cristalix.core.formatting.Formatting.fine
 import ru.cristalix.core.realm.IRealmService
 import ru.cristalix.core.transfer.ITransferService
 
@@ -56,14 +60,16 @@ object AdminCommands {
 
         opCommand("config") { player, args ->
             if (Atlas.find(args[0]).get(args[1]) != null)
-                player.killboard(Atlas.find(args[0]).get(args[1]).toString())
-            else
-                player.killboard("Конфиг или значение не найдены")
+                player.killboard(fine(Atlas.find(args[0]).get(args[1]).toString()))
+            else {
+                player.playSound(MusicSound.DENY)
+                player.killboard(error("Конфиг или значение не найдены"))
+            }
         }
 
         opCommand("refresh") { player, _ ->
             Atlas.update {
-                player.killboard("Конфигурация обновлена")
+                player.killboard(fine("Конфигурация обновлена"))
             }
         }
 
@@ -75,9 +81,13 @@ object AdminCommands {
             GuidePrepare.tryNext(player)
         }
 
+        opCommand("scheduler") { player, _ ->
+            player.killboard(fine("Число активных работников на сервере: ${Bukkit.server.scheduler.activeWorkers.size}"))
+            player.killboard(fine("Число задач: ${Bukkit.server.scheduler.pendingTasks.size}"))
+        }
+
         opCommand("kickAll") { _, _ ->
             //need test
-            println("here")
             val availableRealms =
                 IRealmService.get().typesAndRealms["SLVT"]!!.filter { it.realmId.id != IRealmService.get().currentRealmInfo.realmId.id }
             Bukkit.getOnlinePlayers().chunked(availableRealms.size).forEachIndexed { index, players ->

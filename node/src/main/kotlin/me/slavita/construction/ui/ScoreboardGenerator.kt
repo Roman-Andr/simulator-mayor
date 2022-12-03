@@ -15,12 +15,12 @@ object ScoreboardGenerator {
         TokenGroup(
             Token.builder()
                 .title("Монет")
-                .content { "${Emoji.COIN} ${GOLD}${player.user.statistics.money.toMoney()}" }
+                .content { "${Formatter.moneyIcon} ${GOLD}${player.user.statistics.money.toMoney()}" }
                 .build(),
             Token.builder()
                 .title("Доход")
                 .content {
-                    "${Emoji.DOLLAR} ${GREEN}${
+                    "${Formatter.incomeIcon} ${GREEN}${
                         player.user.income.applyBoosters(BoosterType.MONEY_BOOSTER).toMoney()
                     }/сек"
                 }

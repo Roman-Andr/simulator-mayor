@@ -2,6 +2,7 @@ package me.slavita.construction.world
 
 import me.func.MetaWorld
 import me.func.builder.MetaSubscriber
+import me.func.mod.reactive.ReactivePlace
 import me.func.unit.Building
 import me.func.world.WorldMeta
 import me.slavita.construction.app
@@ -12,6 +13,7 @@ import java.util.*
 
 class GameWorld(val map: WorldMeta) {
     private val blocks = hashMapOf<UUID, HashMap<V2i, HashSet<StructureBlock>>>()
+    val glows = hashSetOf<ReactivePlace>()
 
     init {
         MetaWorld.universe(

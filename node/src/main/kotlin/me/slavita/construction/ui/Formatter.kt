@@ -9,12 +9,20 @@ import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.WHITE
 
 object Formatter {
+    val moneyIcon = Emoji.COIN
+    val incomeIcon = Emoji.DOLLAR
+    val donateIcon = Emoji.DONATE
+
     fun Long.toMoney(): String {
         return NumberFormatter.toMoneyFormat(this)
     }
 
     fun Long.toMoneyIcon(): String {
-        return "${toMoney()} $WHITE${Emoji.DOLLAR}"
+        return "${toMoney()} $WHITE${moneyIcon}"
+    }
+
+    fun Long.toIncomeIcon(): String {
+        return "${toMoney()} $WHITE${incomeIcon}"
     }
 
     fun Int.toLevel(): String {
@@ -42,7 +50,7 @@ object Formatter {
     }
 
     fun Int.toCriMoney(): String {
-        return "${AQUA}$this ${Emoji.DONATE}"
+        return "${AQUA}$this $donateIcon"
     }
 
     fun Float.applyBoosters(vararg boosters: BoosterType): Float {

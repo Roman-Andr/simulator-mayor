@@ -3,10 +3,10 @@ package me.slavita.construction.action.command.menu.donate
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection
-import me.func.protocol.data.emoji.Emoji
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.dontate.BoosterDonate
 import me.slavita.construction.dontate.Donates
+import me.slavita.construction.ui.Formatter
 import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.*
@@ -17,7 +17,7 @@ class BoostersMenu(player: Player) : MenuCommand(player) {
         player.user.run user@{
             return selection {
                 title = "${GOLD}${BOLD}Бустеры"
-                vault = Emoji.DONATE
+                vault = Formatter.donateIcon
                 rows = 3
                 columns = 2
                 money = "Кристаллики: ${AQUA}${player.user.criBalance}"

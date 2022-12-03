@@ -27,6 +27,7 @@ class User(val uuid: UUID) {
     var watchableProject: Project? = null
     var income = 0L
     var criBalanceLastUpdate = 0L
+    val hall = CityHall(this)
     var criBalance: Int = 0
         get() {
             val now = System.currentTimeMillis()
@@ -42,7 +43,7 @@ class User(val uuid: UUID) {
 
     init {
         Bukkit.server.scheduler.scheduleSyncRepeatingTask(app, {
-            if (initialized) statistics.money += income
+            if (initialized && player.isOnline) statistics.money += income
         }, 0L, 20L)
     }
 

@@ -43,8 +43,8 @@ object BoardsManager {
     ) {
         val board = Boards.newBoard()
         board.addColumn("#", 10.0)
-        board.addColumn("Игрок", 150.0)
-        board.addColumn(value, 55.0)
+        board.addColumn("Игрок", 145.0)
+        board.addColumn(value, 60.0)
         board.title = title
         board.location = location.apply {
             yaw = BlockFace.WEST.toYaw()

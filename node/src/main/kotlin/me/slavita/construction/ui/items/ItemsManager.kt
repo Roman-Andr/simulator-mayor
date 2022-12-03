@@ -11,7 +11,6 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
-import org.bukkit.inventory.PlayerInventory
 import java.util.*
 
 object ItemsManager {
@@ -58,7 +57,6 @@ object ItemsManager {
     }
 
     private fun updatePlayerInventory(player: Player) {
-        player.inventory.clear()
         ITEMS.forEach {
             registerItem(player, it.item, it.action)
             player.inventory.setItem(it.inventoryId, it.item)

@@ -1,11 +1,14 @@
 package me.slavita.construction.ui
 
+import me.func.atlas.Atlas
 import me.func.mod.reactive.ReactivePlace
 import me.func.mod.ui.Glow
 import me.func.mod.util.after
 import me.func.mod.world.Banners
 import me.func.protocol.data.color.GlowColor
 import me.func.protocol.data.element.Banner
+import me.slavita.construction.app
+import me.slavita.construction.banner.BannerUtil.loadBanner
 import me.slavita.construction.utils.*
 import me.slavita.construction.utils.extensions.BlocksExtensions.toYaw
 import org.bukkit.block.BlockFace
@@ -14,30 +17,32 @@ import org.bukkit.entity.Player
 object SpeedPlaces {
 
     private val active = hashSetOf<Player>()
-    val glows = hashSetOf<ReactivePlace>()
 
     init {
-        labels("speed").forEach { place ->
+        labels("speed").forEach { label ->
             val texture = Texture.SPEED_BOOST.path()
-            val yaw = BlockFace.valueOf(place.tag.uppercase()).toYaw().revert()
-            val loc = place.yaw(yaw).toCenterLocation().apply { y = place.y }
+            val yaw = BlockFace.valueOf(label.tag.uppercase()).toYaw().revert()
+            val loc = label.yaw(yaw).toCenterLocation().apply { y = label.y }
             val vector = loc.direction.normalize()
-            val location = loc.clone().add(vector.multiply(-1.25)).toCenterLocation().apply { y = place.y }
+            val location = loc.clone().add(vector.multiply(-1.25)).toCenterLocation().apply { y = label.y }
 
-            val banner = Banner.builder()
-                .texture(texture)
-                .red(0)
-                .green(191)
-                .blue(255)
-                .weight(35)
-                .height(35)
-                .opacity(1.0)
-                .x(location.x)
-                .y(location.y + 0.01)
-                .z(location.z)
-                .yaw(yaw)
-                .pitch(-90F)
-                .build()
+            Atlas.find("city").getMapList("speed-place").forEach { banner ->
+                loadBanner(banner, label, true, 0.0)
+            }
+            Banners.add(
+                Banner.builder()
+                    .texture(texture)
+                    .color(GlowColor.BLUE_LIGHT)
+                    .weight(35)
+                    .height(35)
+                    .opacity(1.0)
+                    .x(location.x)
+                    .y(location.y + 0.01)
+                    .z(location.z)
+                    .yaw(yaw)
+                    .pitch(-90F)
+                    .build()
+            )
             val glow = ReactivePlace.builder()
                 .rgb(GlowColor.BLUE_MIDDLE)
                 .radius(1.5)
@@ -59,10 +64,7 @@ object SpeedPlaces {
                 .build().apply {
                     isConstant = true
                 }
-
-            Banners.add(banner)
-            glows.add(glow)
-
+            app.mainWorld.glows.add(glow)
         }
     }
 }

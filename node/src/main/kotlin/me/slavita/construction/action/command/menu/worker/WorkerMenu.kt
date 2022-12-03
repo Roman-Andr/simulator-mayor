@@ -1,6 +1,5 @@
 package me.slavita.construction.action.command.menu.worker
 
-import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.choicer

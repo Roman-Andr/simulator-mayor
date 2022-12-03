@@ -8,17 +8,18 @@ import me.slavita.construction.utils.CristalixUtil
 import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
 import me.slavita.construction.utils.user
 import org.bukkit.Bukkit
+import ru.cristalix.core.formatting.Formatting.fine
 import java.util.concurrent.TimeUnit
 
 object Boosters {
     init {
         Stronghold.addThanksConsumer { owner, player ->
             if (owner != null) {
-                owner.killboard("Вас поблагодарил игрок ${CristalixUtil.getDisplayName(owner)}")
+                owner.killboard(fine("Вас поблагодарил игрок ${CristalixUtil.getDisplayName(owner)}"))
                 owner.user.statistics.money += 100
             }
             if (player != null) {
-                player.killboard("Вы поблагодарили игрока ${CristalixUtil.getDisplayName(player)}")
+                player.killboard(fine("Вы поблагодарили игрока ${CristalixUtil.getDisplayName(player)}"))
                 player.user.statistics.money += 100
             }
         }

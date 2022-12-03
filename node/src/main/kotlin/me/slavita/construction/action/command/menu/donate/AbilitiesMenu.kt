@@ -3,6 +3,7 @@ package me.slavita.construction.action.command.menu.donate
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.choicer
+import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.dontate.AbilityDonate
 import me.slavita.construction.dontate.Donates
@@ -17,17 +18,22 @@ class AbilitiesMenu(player: Player) : MenuCommand(player) {
         player.user.run user@{
             return choicer {
                 title = "${AQUA}${BOLD}Улучшения"
-                description = "Кристалликов: ${player.user.criBalance.toCriMoney()}"
+                description = "Кристаллики: ${player.user.criBalance.toCriMoney()}"
                 storage = Donates.values().filter { it.donate is AbilityDonate }.map {
                     button {
                         item = it.displayItem
                         title = it.donate.title
-                        hover = it.donate.description
-                        hint = "Купить"
-                        description = "Купить за ${it.donate.price.toCriMoney()}"
-                        backgroundColor = it.backgroudColor
+                        if (player.user.abilities.contains((it.donate as AbilityDonate).ability)) {
+                            hint = "Куплено"
+                            backgroundColor = GlowColor.NEUTRAL
+                        } else {
+                            hint = "Купить"
+                            hover = it.donate.description
+                            backgroundColor = it.backgroudColor
+                        }
+                        description = "Цена: ${it.donate.price.toCriMoney()}"
                         onClick { _, _, _ ->
-                            it.donate.purchase(this@user)
+                            if (!player.user.abilities.contains(it.donate.ability)) it.donate.purchase(this@user)
                         }
                     }
                 }.toMutableList()

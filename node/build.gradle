@@ -6,7 +6,7 @@ dependencies {
     implementation(project(":common"))
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.4")
-    implementation('org.jetbrains.kotlin:kotlin-reflect:1.7.20')
+    implementation('org.jetbrains.kotlin:kotlin-reflect:1.7.22')
 
     compileOnly("ru.cristalix.core:bukkit-api:1.0.16-SNAPSHOT")
     implementation("ru.cristalix:boards-bukkit-api:3.0.16")

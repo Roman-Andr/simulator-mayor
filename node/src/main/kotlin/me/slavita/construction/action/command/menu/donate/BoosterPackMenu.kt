@@ -16,15 +16,15 @@ class BoosterPackMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         player.user.run user@{
             return choicer {
-                title = "${GREEN}${BOLD}Наборы"
-                description = "Кристалликов: ${player.user.criBalance.toCriMoney()}"
+                title = "${GREEN}${BOLD}Игровые Наборы"
+                description = "Кристаллики: ${player.user.criBalance.toCriMoney()}"
                 storage = Donates.values().filter { it.donate is BoosterPackDonate }.map {
                     button {
                         item = it.displayItem
                         title = it.donate.title
                         hover = it.donate.description
                         hint = "Купить"
-                        description = "Купить за ${it.donate.price.toCriMoney()}"
+                        description = "Цена: ${it.donate.price.toCriMoney()}"
                         backgroundColor = it.backgroudColor
                         onClick { _, _, _ ->
                             it.donate.purchase(this@user)

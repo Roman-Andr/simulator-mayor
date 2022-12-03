@@ -6,13 +6,18 @@ import me.slavita.construction.action.command.menu.project.ChoiceStructure
 import me.slavita.construction.app
 import me.slavita.construction.prepare.*
 import me.slavita.construction.structure.tools.CityStructureState
+import me.slavita.construction.ui.HumanizableValues.BLOCK
+import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
 import me.slavita.construction.utils.listener
+import me.slavita.construction.utils.music.MusicExtension.playSound
+import me.slavita.construction.utils.music.MusicSound
 import me.slavita.construction.utils.user
 import me.slavita.construction.utils.userOrNull
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.EventPriority
 import org.bukkit.event.player.*
+import ru.cristalix.core.formatting.Formatting.fine
 import java.util.concurrent.TimeUnit
 
 object PlayerEvents {
@@ -74,6 +79,8 @@ object PlayerEvents {
                 return@listener
             }
 
+            player.playSound(MusicSound.LEVEL_UP)
+            player.killboard(fine("Вы положили ${drop.itemStack.getAmount()} ${BLOCK.get(drop.itemStack.getAmount())}"))
             user.blocksStorage.addItem(drop.itemStack)
             drop.remove()
         }

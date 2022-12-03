@@ -7,12 +7,16 @@ import me.func.mod.ui.menu.selection
 import me.func.protocol.data.color.GlowColor
 import me.func.protocol.data.emoji.Emoji
 import me.slavita.construction.action.MenuCommand
+import me.slavita.construction.ui.Formatter
 import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
+import me.slavita.construction.utils.music.MusicExtension.playSound
+import me.slavita.construction.utils.music.MusicSound
 import me.slavita.construction.utils.user
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
+import ru.cristalix.core.formatting.Formatting.fine
 
 class ShowcaseMenu(player: Player, val menuName: String, val items: HashSet<Pair<ItemProperties, Long>>) :
     MenuCommand(player) {
@@ -20,7 +24,7 @@ class ShowcaseMenu(player: Player, val menuName: String, val items: HashSet<Pair
         player.user.run user@{
             return selection {
                 title = menuName
-                vault = Emoji.DOLLAR
+                vault = Formatter.moneyIcon
                 rows = 5
                 columns = 14
                 money = "Ваш Баланс ${player.user.statistics.money.toMoney()}"
@@ -36,7 +40,8 @@ class ShowcaseMenu(player: Player, val menuName: String, val items: HashSet<Pair
                         onLeftClick { _, _, _ ->
                             tryPurchase(123, {
                                 this@user.blocksStorage.addItem(emptyItem, 8)
-                                player.killboard("${GREEN}Вы успешно купили блоки")
+                                player.playSound(MusicSound.LEVEL_UP)
+                                player.killboard(fine("Вы успешно купили блоки"))
                                 this@selection.money = getBalance()
                                 Glow.animate(player, 0.3, GlowColor.GREEN)
                             })
@@ -44,7 +49,8 @@ class ShowcaseMenu(player: Player, val menuName: String, val items: HashSet<Pair
                         onRightClick { _, _, _ ->
                             tryPurchase(123, {
                                 this@user.blocksStorage.addItem(emptyItem, 32)
-                                player.killboard("${GREEN}Вы успешно купили блоки")
+                                player.playSound(MusicSound.LEVEL_UP)
+                                player.killboard(fine("Вы успешно купили блоки"))
                                 this@selection.money = getBalance()
                                 Glow.animate(player, 0.3, GlowColor.GREEN)
                             })

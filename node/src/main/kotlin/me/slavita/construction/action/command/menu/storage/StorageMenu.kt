@@ -8,11 +8,12 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
 import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
+import me.slavita.construction.utils.music.MusicExtension.playSound
+import me.slavita.construction.utils.music.MusicSound
 import me.slavita.construction.utils.user
-import me.slavita.construction.world.ItemProperties
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemStack
+import ru.cristalix.core.formatting.Formatting.error
 
 class StorageMenu(player: Player) : MenuCommand(player) {
     private val blocksStorage = player.user.blocksStorage
@@ -27,7 +28,8 @@ class StorageMenu(player: Player) : MenuCommand(player) {
                         hint = " "
                         onLeftClick { _, _, _ ->
                             if (check()) {
-                                player.killboard("Нет места")
+                                player.playSound(MusicSound.DENY)
+                                player.killboard(error("Нет места"))
                                 Anime.close(player)
                                 return@onLeftClick
                             }
@@ -40,7 +42,8 @@ class StorageMenu(player: Player) : MenuCommand(player) {
                         }
                         onRightClick { _, _, _ ->
                             if (check()) {
-                                player.killboard("Нет места")
+                                player.playSound(MusicSound.DENY)
+                                player.killboard(error("Нет места"))
                                 Anime.close(player)
                                 return@onRightClick
                             }

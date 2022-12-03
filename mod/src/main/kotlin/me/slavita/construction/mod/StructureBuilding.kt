@@ -37,21 +37,21 @@ object StructureBuilding {
 
     private val nextBlock: RectangleElement = rectangle {
 
-        align = Relative.BOTTOM
+        align = BOTTOM
         offset = V3(-105.0, -2.0)
         enabled = false
 
         +item {
-            align = Relative.BOTTOM
-            origin = Relative.BOTTOM_RIGHT
+            align = BOTTOM
+            origin = BOTTOM_RIGHT
             scale = V3(2.5, 2.5, 1.0)
             onHover {
                 hoverText = if (hovered) targetText else null
             }
         }
         +rectangle {
-            align = Relative.TOP_RIGHT
-            origin = Relative.BOTTOM_LEFT
+            align = TOP_RIGHT
+            origin = BOTTOM_LEFT
             size = V3(10.0, 10.0, 1.0)
             offset.x -= 5.0
             offset.y -= 25
@@ -60,8 +60,8 @@ object StructureBuilding {
             afterRender { GlStateManager.enableDepth() }
         }
         +text {
-            align = Relative.BOTTOM_RIGHT
-            origin = Relative.TOP_LEFT
+            align = BOTTOM_RIGHT
+            origin = TOP_LEFT
             size = V3(12.0, 12.0, 1.0)
             offset.x -= 18.0
             offset.y -= 9
@@ -73,7 +73,7 @@ object StructureBuilding {
     }
 
     private val markers: RectangleElement = rectangle {
-        align = Relative.BOTTOM
+        align = BOTTOM
         offset = V3(-80.0, -24.0)
     }
 

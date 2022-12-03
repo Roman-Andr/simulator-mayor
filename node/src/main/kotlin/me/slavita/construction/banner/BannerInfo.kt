@@ -17,5 +17,6 @@ class BannerInfo(
     val motionType: MotionType = MotionType.CONSTANT,
     val pitch: Float = 0.0F,
     val watchingOnPlayer: Boolean = false,
+    val carveSize: Double = 2.0,
 ) {
 }

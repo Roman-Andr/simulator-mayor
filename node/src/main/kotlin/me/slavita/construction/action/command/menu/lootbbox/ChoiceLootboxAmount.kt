@@ -15,8 +15,10 @@ import me.slavita.construction.utils.music.MusicSound
 import me.slavita.construction.utils.user
 import me.slavita.construction.worker.WorkerGenerator
 import me.slavita.construction.worker.WorkerRarity
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.BOLD
 import org.bukkit.entity.Player
+import ru.cristalix.core.formatting.Formatting.error
 
 class ChoiceLootboxAmount(player: Player, val rarity: WorkerRarity) : MenuCommand(player) {
     override fun getMenu(): Openable {
@@ -37,8 +39,8 @@ class ChoiceLootboxAmount(player: Player, val rarity: WorkerRarity) : MenuComman
                         onClick { _, _, _ ->
                             if (!player.user.canPurchase(rarity.price * it.first)) {
                                 Anime.close(player)
-                                player.killboard("${RED}Недостаточно средств!")
                                 player.playSound(MusicSound.DENY)
+                                player.killboard(error("Недостаточно средств!"))
                                 return@onClick
                             }
                             val workers = WorkerGenerator.generate(rarity, it.first)

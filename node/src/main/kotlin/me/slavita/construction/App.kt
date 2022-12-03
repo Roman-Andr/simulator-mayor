@@ -31,6 +31,7 @@ import me.slavita.construction.player.events.PhysicsDisabler
 import me.slavita.construction.player.events.PlayerEvents
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.BoardsManager
+import me.slavita.construction.ui.CityGlows
 import me.slavita.construction.ui.SpeedPlaces
 import me.slavita.construction.ui.items.ItemsManager
 import me.slavita.construction.utils.Config
@@ -45,8 +46,6 @@ import ru.cristalix.core.CoreApi
 import ru.cristalix.core.datasync.EntityDataParameters
 import ru.cristalix.core.invoice.IInvoiceService
 import ru.cristalix.core.invoice.InvoiceService
-import ru.cristalix.core.locate.ILocateService
-import ru.cristalix.core.locate.LocateService
 import ru.cristalix.core.network.ISocketClient
 import ru.cristalix.core.party.IPartyService
 import ru.cristalix.core.party.PartyService
@@ -93,7 +92,6 @@ class App : JavaPlugin() {
 
         CoreApi.get().run {
             registerService(ITransferService::class.java, TransferService(ISocketClient.get()))
-            registerService(ILocateService::class.java, LocateService(ISocketClient.get()))
             registerService(IPartyService::class.java, PartyService(ISocketClient.get()))
             registerService(IScoreboardService::class.java, ScoreboardService())
             registerService(IInvoiceService::class.java, InvoiceService(ISocketClient.get()))
@@ -147,6 +145,7 @@ class App : JavaPlugin() {
             NpcManager
             BoardsManager
             MarketsManager
+            CityGlows
         }
         Boosters
         MultiChats

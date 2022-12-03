@@ -196,7 +196,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
                   Активирует ${LIGHT_PURPLE}все глобальные бустеры
                   ${GOLD}на 1 час
                  
-                Нажмите чтобы купить за ${RED}${STRIKETHROUGH}868 ${799.toCriMoney()}
+                Нажмите чтобы купить за ${RED}${STRIKETHROUGH}868${WHITE} ${799.toCriMoney()}
             """.trimIndent(),
             799,
             1,
@@ -214,7 +214,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
                   Активирует ${LIGHT_PURPLE}все глобальные бустеры
                   ${GOLD}на 3 часа
                  
-                Нажмите чтобы купить за ${RED}${STRIKETHROUGH}2604 ${2099.toCriMoney()}
+                Нажмите чтобы купить за ${RED}${STRIKETHROUGH}2604${WHITE} ${2099.toCriMoney()}
             """.trimIndent(),
             2099,
             6,

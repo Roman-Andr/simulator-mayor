@@ -31,7 +31,7 @@ class WorkerStructure(
             Pair("Рабочих: ${workers.size}", 0.7),
             Pair("", 0.5),
             Pair("Скорость: ${workers.sumOf { it.blocksSpeed }} блоков в секунду", 0.5),
-            Pair("Прогресс: $blocksPlaced блоков из ${structure.blocksCount}", 0.5)
+            Pair("Прогресс: $blocksPlaced из ${structure.blocksCount} блоков", 0.5)
         )
     }
 

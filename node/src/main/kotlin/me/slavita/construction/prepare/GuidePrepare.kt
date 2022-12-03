@@ -51,7 +51,6 @@ object GuidePrepare : IPrepare {
         }
 
         dialog?.run {
-            println(user.statistics.trainStep)
             me.func.mod.ui.dialog.Dialog.dialog(player, this, entryPoint)
         }
     }
