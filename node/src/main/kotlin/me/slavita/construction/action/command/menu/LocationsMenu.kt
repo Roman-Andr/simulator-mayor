@@ -13,7 +13,8 @@ import me.slavita.construction.ui.HumanizableValues.SECOND
 import me.slavita.construction.utils.Texture
 import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
 import me.slavita.construction.utils.user
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.BOLD
 import org.bukkit.entity.Player
 import ru.cristalix.core.formatting.Formatting.error
 import kotlin.math.abs

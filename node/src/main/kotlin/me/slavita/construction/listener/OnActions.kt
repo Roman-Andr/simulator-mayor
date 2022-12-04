@@ -12,7 +12,7 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerMoveEvent
-import ru.cristalix.core.formatting.Formatting
+import ru.cristalix.core.formatting.Formatting.fine
 
 object OnActions {
     private val inZone = hashMapOf<Player, Boolean>()
@@ -26,7 +26,15 @@ object OnActions {
             }
 
             player.playSound(MusicSound.LEVEL_UP)
-            player.killboard(Formatting.fine("Вы положили ${drop.itemStack.getAmount()} ${HumanizableValues.BLOCK.get(drop.itemStack.getAmount())}"))
+            player.killboard(
+                fine(
+                    "Вы положили ${drop.itemStack.getAmount()} ${
+                        HumanizableValues.BLOCK.get(
+                            drop.itemStack.getAmount()
+                        )
+                    }"
+                )
+            )
             user.blocksStorage.addItem(drop.itemStack)
             drop.remove()
         }

@@ -31,7 +31,8 @@ object Storage {
         mod.registerHandler<BlockRightClick> {
             if (hand == EnumHand.OFF_HAND) return@registerHandler
             storages.forEach { storage ->
-                if (!position.add(facing.xOffset, facing.yOffset, facing.zOffset).inBox(storage.min, storage.max)) return@forEach
+                if (!position.add(facing.xOffset, facing.yOffset, facing.zOffset)
+                        .inBox(storage.min, storage.max)) return@forEach
 
                 val buffer = Unpooled.buffer()
                 UIEngine.clientApi.clientConnection().sendPayload("storage:open", buffer)

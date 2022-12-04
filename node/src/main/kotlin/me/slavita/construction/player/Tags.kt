@@ -3,13 +3,14 @@ package me.slavita.construction.player
 import me.slavita.construction.utils.colored
 
 enum class Tags(
-    val tag: String
+    val tag: String,
 ) {
     NONE(""),
 
     COSMONAUT("¨fb2cfaК¨ec27faо¨de21fbс¨cf1cfbм¨c016fcо¨b111fcн¨a30bfcа¨9406fdф¨8500fdт"),
-    BUILDER("Строитель".colored(
-    """
+    BUILDER(
+        "Строитель".colored(
+            """
         #fb0fed
         #f40dfb
         #de0bfc
@@ -19,32 +20,44 @@ enum class Tags(
         #8404fe
         #6c02fe
         #5400ff
-    """.trimIndent().split("\n"))),
-    MAYOR("Мэр".colored(
-        """
+    """.trimIndent().split("\n")
+        )
+    ),
+    MAYOR(
+        "Мэр".colored(
+            """
         #0ffb7e
         #08fdc0
         #00f6ff
-    """.trimIndent().split("\n"))),
-    BANKER("Банкир".colored(
-        """
+    """.trimIndent().split("\n")
+        )
+    ),
+    BANKER(
+        "Банкир".colored(
+            """
         #fdff29
         #ffed21
         #ffd819
         #ffc210
         #ffaa08
         #ff9000
-    """.trimIndent().split("\n"))),
-    LAWYER("Юрист".colored(
-        """
+    """.trimIndent().split("\n")
+        )
+    ),
+    LAWYER(
+        "Юрист".colored(
+            """
         #29ff79
         #1fff32
         #44ff15
         #82ff0a
         #c6ff00
-    """.trimIndent().split("\n"))),
-    BUSINESSMAN("Бизнесмен".colored(
-        """
+    """.trimIndent().split("\n")
+        )
+    ),
+    BUSINESSMAN(
+        "Бизнесмен".colored(
+            """
         #fafc1b
         #fcee18
         #fdde14
@@ -54,9 +67,12 @@ enum class Tags(
         #fe9807
         #ff8503
         #ff7200
-    """.trimIndent().split("\n"))),
-    DEVELOPER("Застройщик".colored(
-        """
+    """.trimIndent().split("\n")
+        )
+    ),
+    DEVELOPER(
+        "Застройщик".colored(
+            """
         #fc651b
         #fc7718
         #fd8a15
@@ -67,18 +83,24 @@ enum class Tags(
         #fef206
         #f4ff03
         #deff00
-    """.trimIndent().split("\n"))),
-    PIONEER("Пионер".colored(
-        """
+    """.trimIndent().split("\n")
+        )
+    ),
+    PIONEER(
+        "Пионер".colored(
+            """
         #4b6cb7
         #3f5ea3
         #34508d
         #2a4376
         #21355f
         #182848
-    """.trimIndent().split("\n"))),
-    COINER("Монетчик".colored(
-        """
+    """.trimIndent().split("\n")
+        )
+    ),
+    COINER(
+        "Монетчик".colored(
+            """
         #ffc837
         #ffbf30
         #ffb62a
@@ -87,9 +109,12 @@ enum class Tags(
         #ff9715
         #ff8c0f
         #ff8008
-    """.trimIndent().split("\n"))),
-    COLLECTOR("Собиратель".colored(
-        """
+    """.trimIndent().split("\n")
+        )
+    ),
+    COLLECTOR(
+        "Собиратель".colored(
+            """
         #c21500
         #c92500
         #d03500
@@ -100,9 +125,12 @@ enum class Tags(
         #f19700
         #f8ad00
         #ffc500
-    """.trimIndent().split("\n"))),
-    MASON("Каменьшик".colored(
-        """
+    """.trimIndent().split("\n")
+        )
+    ),
+    MASON(
+        "Каменьшик".colored(
+            """
         #292929
         #343434
         #3f3f3f
@@ -112,9 +140,12 @@ enum class Tags(
         #6a6a6a
         #757575
         #808080
-    """.trimIndent().split("\n"))),
-    WEIGHT("Авторитет".colored(
-        """
+    """.trimIndent().split("\n")
+        )
+    ),
+    WEIGHT(
+        "Авторитет".colored(
+            """
         #7545ff
         #5e40fa
         #473bf5
@@ -124,62 +155,83 @@ enum class Tags(
         #2b62dc
         #2a6ed3
         #2e79c5
-    """.trimIndent().split("\n"))),
-    DODGER("Хитрец".colored(
-        """
+    """.trimIndent().split("\n")
+        )
+    ),
+    DODGER(
+        "Хитрец".colored(
+            """
         #ff456d
         #f73c8b
         #ee35a9
         #e42fc6
         #d22ad9
         #a02ec5
-    """.trimIndent().split("\n"))),
-    HACKER("Хакер".colored(
-        """
+    """.trimIndent().split("\n")
+        )
+    ),
+    HACKER(
+        "Хакер".colored(
+            """
         #0a670e
         #0ba10d
         #10dd0a
         #34fa28
         #6dff5e
-    """.trimIndent().split("\n"))),
-    HUCKSTER("Барыга".colored(
-        """
+    """.trimIndent().split("\n")
+        )
+    ),
+    HUCKSTER(
+        "Барыга".colored(
+            """
         #0a670e
         #0b950e
         #0dc40b
         #12f609
         #40fb32
         #6dff5e
-    """.trimIndent().split("\n"))),
-    GRABBER("Хапуга".colored(
-        """
+    """.trimIndent().split("\n")
+        )
+    ),
+    GRABBER(
+        "Хапуга".colored(
+            """
         #0a670e
         #0b950e
         #0dc40b
         #12f609
         #40fb32
         #6dff5e
-    """.trimIndent().split("\n"))),
-    TREE("Дерево".colored(
-        """
+    """.trimIndent().split("\n")
+        )
+    ),
+    TREE(
+        "Дерево".colored(
+            """
         #0a670e
         #0b950e
         #0dc40b
         #12f609
         #40fb32
         #6dff5e
-    """.trimIndent().split("\n"))),
-    BRICK("Кирпич".colored(
-        """
+    """.trimIndent().split("\n")
+        )
+    ),
+    BRICK(
+        "Кирпич".colored(
+            """
         #0a670e
         #0b950e
         #0dc40b
         #12f609
         #40fb32
         #6dff5e
-    """.trimIndent().split("\n"))),
-    TRADER("Торговец".colored(
-        """
+    """.trimIndent().split("\n")
+        )
+    ),
+    TRADER(
+        "Торговец".colored(
+            """
         #1d976c
         #1fb47a
         #1fd285
@@ -188,9 +240,12 @@ enum class Tags(
         #5ef0a0
         #78f5ac
         #93f9b9
-    """.trimIndent().split("\n"))),
-    BUSY("Занятой".colored(
-        """
+    """.trimIndent().split("\n")
+        )
+    ),
+    BUSY(
+        "Занятой".colored(
+            """
         #f2709c
         #f47090
         #f77084
@@ -198,7 +253,9 @@ enum class Tags(
         #fb7871
         #fd8671
         #ff9472
-    """.trimIndent().split("\n"))),
+    """.trimIndent().split("\n")
+        )
+    ),
 
 
     /*

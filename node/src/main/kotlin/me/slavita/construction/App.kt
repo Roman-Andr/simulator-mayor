@@ -20,13 +20,13 @@ import me.func.world.WorldMeta
 import me.slavita.construction.action.chat.AdminCommands
 import me.slavita.construction.action.chat.UserCommands
 import me.slavita.construction.booster.Boosters
+import me.slavita.construction.listener.PlayerEvents
 import me.slavita.construction.market.MarketsManager
 import me.slavita.construction.multichat.MultiChats
 import me.slavita.construction.npc.NpcManager
 import me.slavita.construction.player.Data
 import me.slavita.construction.player.KensukeUser
 import me.slavita.construction.player.User
-import me.slavita.construction.listener.PlayerEvents
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.BoardsManager
 import me.slavita.construction.ui.CityGlows
