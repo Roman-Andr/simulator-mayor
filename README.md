@@ -110,7 +110,7 @@
   </details>
 - +Оптимизация мира(gameRules: tickSpeed...)
 - +Информация по работникам норм - инфо какие поля чё значат
-- +Теги в чате
+- +[Теги в чате](https://colordesigner.io/gradient-generator) ([Готовые градиенты](https://uigradients.com/))
 
 </details>
 
