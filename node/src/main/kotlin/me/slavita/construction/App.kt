@@ -38,6 +38,7 @@ import me.slavita.construction.utils.Config
 import me.slavita.construction.utils.ModCallbacks
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.ItemProperties
+import org.bukkit.Bukkit
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.WHITE
 import org.bukkit.entity.Player
@@ -46,6 +47,9 @@ import ru.cristalix.core.CoreApi
 import ru.cristalix.core.datasync.EntityDataParameters
 import ru.cristalix.core.invoice.IInvoiceService
 import ru.cristalix.core.invoice.InvoiceService
+import ru.cristalix.core.multichat.ChatMessage
+import ru.cristalix.core.multichat.IMultiChatService
+import ru.cristalix.core.multichat.MultiChatService
 import ru.cristalix.core.network.ISocketClient
 import ru.cristalix.core.party.IPartyService
 import ru.cristalix.core.party.PartyService
@@ -56,6 +60,7 @@ import ru.cristalix.core.scoreboard.ScoreboardService
 import ru.cristalix.core.transfer.ITransferService
 import ru.cristalix.core.transfer.TransferService
 import java.util.*
+
 
 lateinit var app: App
 
@@ -95,6 +100,16 @@ class App : JavaPlugin() {
             registerService(IPartyService::class.java, PartyService(ISocketClient.get()))
             registerService(IScoreboardService::class.java, ScoreboardService())
             registerService(IInvoiceService::class.java, InvoiceService(ISocketClient.get()))
+            registerService(IMultiChatService::class.java, MultiChatService(ISocketClient.get()))
+        }
+
+        IMultiChatService.get().apply {
+            setRealmTag("slvt")
+            addSingleChatHandler("global") { msg: ChatMessage ->
+                Bukkit.getOnlinePlayers().forEach { pl: Player? ->
+                    pl?.sendMessage(msg.components[0])
+                }
+            }
         }
 
         IRealmService.get().currentRealmInfo.apply {
@@ -134,11 +149,6 @@ class App : JavaPlugin() {
         Music.block(Category.MUSIC)
 
         Lock.realms("SLVT")
-
-        Nightingale
-            .subscribe("construction")
-            .useP2p()
-            .start()
 
         Stronghold.namespace("construction")
 
