@@ -21,6 +21,7 @@ object BoardsManager {
                     getString("boards.${it.tag}.field"),
                     getString("boards.${it.tag}.title"),
                     getString("boards.${it.tag}.value"),
+                    getString("boards.${it.tag}.fieldSize").toDouble(),
                     getString("boards.${it.tag}.color"),
                     when (getString("boards.${it.tag}.formatter")) {
                         "MoneyFormatter"      -> MoneyFormatter()
@@ -38,13 +39,14 @@ object BoardsManager {
         field: String,
         title: String,
         value: String,
+        fieldSize: Double,
         color: String,
         formatter: IFormatter,
     ) {
         val board = Boards.newBoard()
-        board.addColumn("#", 10.0)
-        board.addColumn("Игрок", 145.0)
-        board.addColumn(value, 60.0)
+        board.addColumn("#", 15.0)
+        board.addColumn("Игрок", 140.0)
+        board.addColumn(value, fieldSize)
         board.title = title
         board.location = location.apply {
             yaw = BlockFace.WEST.toYaw()

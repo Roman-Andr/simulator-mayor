@@ -1,11 +1,11 @@
 package me.slavita.construction.action.chat
 
-import Nightingale
 import me.func.atlas.Atlas
 import me.func.mod.reactive.ReactivePanel
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.command.menu.DailyMenu
 import me.slavita.construction.bank.Bank
+import me.slavita.construction.player.Tags
 import me.slavita.construction.prepare.GuidePrepare
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.ChatCommandUtils.opCommand
@@ -73,10 +73,6 @@ object AdminCommands {
             }
         }
 
-        opCommand("bc") { _, _ ->
-            Nightingale.broadcast("construction", "Всем привет!")
-        }
-
         opCommand("dialog") { player, _ ->
             GuidePrepare.tryNext(player)
         }
@@ -98,6 +94,14 @@ object AdminCommands {
             }
         }
 
+        opCommand("settag") { player, args ->
+            player.user.tag = Tags.valueOf(args[0].uppercase())
+        }
 
+        opCommand("tags") { player, _ ->
+            Tags.values().forEach {
+                player.sendMessage(it.tag)
+            }
+        }
     }
 }

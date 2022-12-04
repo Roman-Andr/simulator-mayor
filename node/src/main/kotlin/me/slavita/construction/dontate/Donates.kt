@@ -206,7 +206,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
     ),
     BEGINNER_PACK(
         BoosterPackDonate(
-            "${GREEN}${BOLD}Пак Новичёк",
+            "${GREEN}${BOLD}Новичёк",
             """
                 ${GREEN}При покупке:
                   Активирует ${LIGHT_PURPLE}все глобальные бустеры
@@ -224,7 +224,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
     ),
     EXPERT_PACK(
         BoosterPackDonate(
-            "${GOLD}${BOLD}Пак Эксперт",
+            "${GOLD}${BOLD}Эксперт",
             """
                 ${GREEN}При покупке:
                   Активирует ${LIGHT_PURPLE}все глобальные бустеры

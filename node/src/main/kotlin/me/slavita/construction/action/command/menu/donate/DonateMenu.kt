@@ -15,7 +15,7 @@ class DonateMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         player.user.run user@{
             return Choicer(
-                title = "${GOLD}${BOLD}Платные возможнсоти",
+                title = "${GOLD}${BOLD}Платные возможности",
                 description = "Кристалликов: ${player.user.criBalance.toCriMoney()}"
             ).apply {
                 storage = mutableListOf(

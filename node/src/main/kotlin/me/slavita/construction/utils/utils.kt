@@ -77,3 +77,14 @@ inline fun <reified T : Packet<*>> packetListener(player: Player, noinline handl
 }
 
 fun Location.yaw(yaw: Float) = apply { setYaw(yaw) }
+
+fun String.colored(colors: List<String>): String {
+    val result = this
+    val chars = result.chunked(1).toMutableList()
+    if (colors.size != result.toCharArray().size) return "ERROR"
+    colors.forEachIndexed { index, color ->
+        chars[index] = "¨" + color.replace("#", "") + chars[index]
+    }
+
+    return chars.joinToString("")
+}

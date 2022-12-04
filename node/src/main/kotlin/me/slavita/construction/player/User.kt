@@ -28,6 +28,7 @@ class User(val uuid: UUID) {
     var income = 0L
     var criBalanceLastUpdate = 0L
     val hall = CityHall(this)
+    var tag = Tags.NONE
     var criBalance: Int = 0
         get() {
             val now = System.currentTimeMillis()

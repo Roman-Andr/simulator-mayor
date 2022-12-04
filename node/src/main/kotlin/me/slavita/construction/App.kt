@@ -1,6 +1,5 @@
 package me.slavita.construction
 
-import Nightingale
 import dev.implario.bukkit.platform.Platforms
 import dev.implario.kensuke.Kensuke
 import dev.implario.kensuke.Scope
@@ -27,8 +26,7 @@ import me.slavita.construction.npc.NpcManager
 import me.slavita.construction.player.Data
 import me.slavita.construction.player.KensukeUser
 import me.slavita.construction.player.User
-import me.slavita.construction.player.events.PhysicsDisabler
-import me.slavita.construction.player.events.PlayerEvents
+import me.slavita.construction.listener.PlayerEvents
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.BoardsManager
 import me.slavita.construction.ui.CityGlows
@@ -105,9 +103,9 @@ class App : JavaPlugin() {
 
         IMultiChatService.get().apply {
             setRealmTag("slvt")
-            addSingleChatHandler("global") { msg: ChatMessage ->
-                Bukkit.getOnlinePlayers().forEach { pl: Player? ->
-                    pl?.sendMessage(msg.components[0])
+            addSingleChatHandler("construction") { message: ChatMessage ->
+                Bukkit.getOnlinePlayers().forEach { player ->
+                    player.sendMessage(*message.components.toMutableList().toTypedArray())
                 }
             }
         }
@@ -165,7 +163,6 @@ class App : JavaPlugin() {
         Structures
         ModCallbacks
         SpeedPlaces
-        PhysicsDisabler
         ItemsManager
         PlayerEvents
 

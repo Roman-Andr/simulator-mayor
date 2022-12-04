@@ -1,4 +1,4 @@
-package me.slavita.construction.player.events
+package me.slavita.construction.listener
 
 import com.destroystokyo.paper.event.player.PlayerAdvancementCriterionGrantEvent
 import dev.xdark.feder.EmptyChunkBiome
