@@ -42,13 +42,29 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
         ItemIcons.get("alpha", "islands"),
         GlowColor.ORANGE_LIGHT
     ),
-    BANK_LOYALTY_DONATE(
+    CREDIT_PERCENT_DONATE(
         AbilityDonate(
             "${GOLD}${BOLD}Лояльность\n${GOLD}${BOLD}банка",
             """
                 ${AQUA}Описание:
-                  Вам будет даваться больше ${GOLD}времени
-                  для погашения ${LIGHT_PURPLE}кредита
+                  Вам будут даваться ${LIGHT_PURPLE}кредиты
+                  ${GOLD}по меньшему проценту ${GRAY}3% -> ${GREEN}1%
+                
+                Нажмите чтобы купить за ${59.toCriMoney()}
+            """.trimIndent(),
+            59,
+            ShopTipsAbility
+        ),
+        ItemIcons.get("other", "stats"),
+        GlowColor.YELLOW
+    ),
+    CREDITS_LIMIT_DONATE(
+        AbilityDonate(
+            "${GOLD}${BOLD}Лояльность\n${GOLD}${BOLD}банка",
+            """
+                ${AQUA}Описание:
+                  Вы сможете взять
+                  больше кредитов ${GRAY}4 шт -> ${GREEN}7 шт
                 
                 Нажмите чтобы купить за ${59.toCriMoney()}
             """.trimIndent(),

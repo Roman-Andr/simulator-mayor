@@ -125,10 +125,11 @@ class App : JavaPlugin() {
         ModLoader.onJoining("construction-mod.jar")
 
         structureMap = MapLoader.load("construction", "structures")
-            .apply {
-                world.setGameRuleValue("disableElytraMovementCheck", "true")
-            }
-        mainWorld = GameWorld(MapLoader.load("construction", "main"))
+        mainWorld = GameWorld(MapLoader.load("construction", "main").apply {
+            world.setGameRuleValue("randomTickSpeed", "0")
+            world.setGameRuleValue("gameLoopFunction", "false")
+            world.setGameRuleValue("disableElytraMovementCheck", "true")
+        })
 
         Music.block(Category.MUSIC)
 
