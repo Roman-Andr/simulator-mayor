@@ -4,8 +4,10 @@ import me.func.atlas.Atlas
 import me.slavita.construction.app
 import me.slavita.construction.player.City
 import me.slavita.construction.player.User
+import net.minecraft.server.v1_12_R1.PacketPlayOutPlayerInfo
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer
 
 object PlayerWorldPrepare : IPrepare {
     override fun prepare(user: User) {
@@ -21,6 +23,25 @@ object PlayerWorldPrepare : IPrepare {
                 player.hidePlayer(app, current.player)
                 current.hidePlayer(app, player)
             }
+
+            Bukkit.getOnlinePlayers().forEach { current ->
+                player.hidePlayer(app, current.player)
+                (player as CraftPlayer).handle.playerConnection.sendPacket(
+                    PacketPlayOutPlayerInfo(
+                        PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER,
+                        (current as CraftPlayer).handle
+                    )
+                )
+                current.hidePlayer(app, player)
+                current.handle.playerConnection.sendPacket(
+                    PacketPlayOutPlayerInfo(
+                        PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER,
+                        (player as CraftPlayer).handle
+                    )
+                )
+            }
+
+
             app.mainWorld.glows.forEach { it.send(player) }
             player.walkSpeed = statistics.speed
         }
