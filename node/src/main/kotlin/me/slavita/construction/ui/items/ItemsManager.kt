@@ -57,9 +57,9 @@ object ItemsManager {
     }
 
     private fun updatePlayerInventory(player: Player) {
-        ITEMS.forEach {
-            registerItem(player, it.item, it.action)
-            player.inventory.setItem(it.inventoryId, it.item)
+        ITEMS.forEach { item ->
+            registerItem(player, item.item, item.action)
+            player.inventory.setItem(item.inventoryId, item.item)
         }
     }
 }

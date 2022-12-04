@@ -45,18 +45,18 @@ object OnActions {
                 }
 
                 if (watchableProject == null) {
-                    currentCity.projects.forEach {
-                        if (it.structure.box.contains(player.location)) {
-                            watchableProject = it
-                            it.onEnter()
+                    currentCity.projects.forEach { project ->
+                        if (project.structure.box.contains(player.location)) {
+                            watchableProject = project
+                            project.onEnter()
                             return@listener
                         }
                     }
 
-                    currentCity.cells.forEach {
-                        if (it.busy || !it.box.contains(player.location)) return@forEach
+                    currentCity.cells.forEach { cell ->
+                        if (cell.busy || !cell.box.contains(player.location)) return@forEach
 
-                        if (inZone[player] == false) ChoiceStructure(player, it).tryExecute()
+                        if (inZone[player] == false) ChoiceStructure(player, cell).tryExecute()
                         inZone[player] = true
                         return@listener
                     }

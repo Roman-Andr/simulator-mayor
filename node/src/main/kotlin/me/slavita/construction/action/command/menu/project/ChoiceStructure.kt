@@ -16,8 +16,8 @@ import org.bukkit.entity.Player
 class ChoiceStructure(player: Player, val cell: Cell) : MenuCommand(player) {
     override fun getMenu(): Openable {
         val structures = arrayListOf<ReactiveButton>()
-        Structures.structureGroups.forEach {
-            it.structures.forEach { structure ->
+        Structures.structureGroups.forEach { group ->
+            group.structures.forEach { structure ->
                 structures.add(
                     button {
                         title = structure.name

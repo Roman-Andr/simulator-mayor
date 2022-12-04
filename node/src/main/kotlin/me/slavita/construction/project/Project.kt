@@ -35,8 +35,8 @@ class Project(
             StructureState.BUILDING       -> structure.showVisual()
             StructureState.FINISHED       -> {
                 structure.claimed()
-                rewards.forEach {
-                    it.getReward(owner)
+                rewards.forEach { reward ->
+                    reward.getReward(owner)
                 }
                 structure.cityStructure!!.state = CityStructureState.FUNCTIONING
                 structure.cityStructure!!.startIncome()

@@ -6,8 +6,8 @@ import dev.xdark.clientapi.item.ItemStack
 object InventoryExtensions {
     fun InventoryPlayer.blocksCount(target: ItemStack): Int {
         var count = 0
-        (0..35).forEach {
-            val item = getStackInSlot(it) ?: return@forEach
+        (0..35).forEach { slotId ->
+            val item = getStackInSlot(slotId) ?: return@forEach
             if (item.item != null && item.item.id == target.item.id && item.metadata == target.metadata) count += item.count
         }
         return count
@@ -16,9 +16,9 @@ object InventoryExtensions {
     fun InventoryPlayer.hotbarEqualSlots(target: ItemStack): ArrayList<Int> {
         val list = arrayListOf<Int>()
 
-        (0..8).forEach {
-            val item = getStackInSlot(it) ?: return@forEach
-            if (item.item != null && item.item.id == target.item.id && item.metadata == target.metadata) list.add(it)
+        (0..8).forEach { slotId ->
+            val item = getStackInSlot(slotId) ?: return@forEach
+            if (item.item != null && item.item.id == target.item.id && item.metadata == target.metadata) list.add(slotId)
         }
 
         return list

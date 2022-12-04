@@ -101,10 +101,10 @@ class DropdownElement : CarvedRectangle() {
     }
 
     private fun animateAlpha() {
-        elements.children.forEach {
+        elements.children.forEach { element ->
             animate(0.05) {
-                it.color.alpha = 0.0
-                findText(it)!!.color.alpha = if (opened) 1.0 else 0.0
+                element.color.alpha = 0.0
+                findText(element)!!.color.alpha = if (opened) 1.0 else 0.0
             }
         }
         animate(0.08) {

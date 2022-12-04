@@ -141,8 +141,8 @@ object StructureBuilding {
                 lastMarkersSlots = this
 
                 markers.children.clear()
-                this.forEach {
-                    markers.addChild(createMarker(it))
+                this.forEach { slot ->
+                    markers.addChild(createMarker(slot))
                 }
             }
         }

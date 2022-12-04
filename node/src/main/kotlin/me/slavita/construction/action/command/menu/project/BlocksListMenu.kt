@@ -19,10 +19,10 @@ class BlocksListMenu(player: Player, val structure: Structure) : MenuCommand(pla
                 storage = mutableListOf<ReactiveButton>().apply {
                     hashSetOf<ItemProperties>().apply {
                         structure.box.forEachBukkit { this.add(ItemProperties.fromBlock(it)) }
-                    }.forEach {
+                    }.forEach { itemProps ->
                         add(button {
-                            hover = it.createItemStack(1).i18NDisplayName
-                            item = it.createItemStack(1)
+                            hover = itemProps.createItemStack(1).i18NDisplayName
+                            item = itemProps.createItemStack(1)
                         })
                     }
                 }

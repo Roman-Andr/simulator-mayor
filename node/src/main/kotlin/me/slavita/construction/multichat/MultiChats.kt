@@ -11,9 +11,9 @@ object MultiChats {
     private val chatList = arrayListOf<ModChat>()
 
     init {
-        ChatType.values().forEach {
-            ModChat(UUID.randomUUID(), it.title, it.symbol).apply {
-                MultiChat.createKey(it.key, this)
+        ChatType.values().forEach { chat ->
+            ModChat(UUID.randomUUID(), chat.title, chat.symbol).apply {
+                MultiChat.createKey(chat.key, this)
                 chatList.add(this)
             }
         }

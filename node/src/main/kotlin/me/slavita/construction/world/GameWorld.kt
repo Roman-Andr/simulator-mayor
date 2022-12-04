@@ -23,20 +23,20 @@ class GameWorld(val map: WorldMeta) {
                     val chunks = blocks[chunk.owner] ?: return@customModifier chunk
                     val blocks = chunks[V2i(chunk.chunk.locX, chunk.chunk.locZ)] ?: return@customModifier chunk
 
-                    blocks.forEach {
+                    blocks.forEach { block ->
                         chunk.modify(
-                            it.position,
-                            it.sourceCraftData
+                            block.position,
+                            block.sourceCraftData
                         )
                     }
 
                     chunk
                 }
-                .buildingLoader {
-                    val user = app.getUserOrNull(it) ?: return@buildingLoader arrayListOf()
+                .buildingLoader { building ->
+                    val user = app.getUserOrNull(building) ?: return@buildingLoader arrayListOf()
 
                     val buildings = arrayListOf<Building>()
-                    user.cities.map { it.cityStructures }.flatten().forEach { structure ->
+                    user.cities.map { city -> city.cityStructures }.flatten().forEach { structure ->
                         buildings.add(structure.building.apply {
                             show(user.player)
                         })

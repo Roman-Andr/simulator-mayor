@@ -87,9 +87,9 @@ object AdminCommands {
             val availableRealms =
                 IRealmService.get().typesAndRealms["SLVT"]!!.filter { it.realmId.id != IRealmService.get().currentRealmInfo.realmId.id }
             Bukkit.getOnlinePlayers().chunked(availableRealms.size).forEachIndexed { index, players ->
-                players.forEach {
+                players.forEach { player ->
                     //if (it.isOp) return@forEach
-                    ITransferService.get().transfer(it.uniqueId, availableRealms[index].realmId)
+                    ITransferService.get().transfer(player.uniqueId, availableRealms[index].realmId)
                 }
             }
         }
@@ -99,8 +99,8 @@ object AdminCommands {
         }
 
         opCommand("tags") { player, _ ->
-            Tags.values().forEach {
-                player.sendMessage(it.tag)
+            Tags.values().forEach { tag ->
+                player.sendMessage(tag.tag)
             }
         }
     }

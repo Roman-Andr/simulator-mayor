@@ -45,10 +45,10 @@ object Showcases {
     }
 
     private fun onClick(showcases: Array<ShowcaseData>?, position: BlockPos, facing: EnumFacing) {
-        showcases?.forEach {
-            if (!position.add(facing.xOffset, facing.yOffset, facing.zOffset).inBox(it.min, it.max)) return@forEach
+        showcases?.forEach { data ->
+            if (!position.add(facing.xOffset, facing.yOffset, facing.zOffset).inBox(data.min, data.max)) return@forEach
 
-            val buffer = Unpooled.buffer().writeInt(it.id)
+            val buffer = Unpooled.buffer().writeInt(data.id)
             clientApi.clientConnection().sendPayload("showcase:open", buffer)
 
             player.swingArm(EnumHand.MAIN_HAND)
