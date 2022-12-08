@@ -1,5 +1,6 @@
 package me.slavita.construction.listener
 
+import me.func.mod.conversation.ModTransfer
 import me.slavita.construction.action.command.menu.project.ChoiceStructure
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.ui.HumanizableValues
@@ -16,6 +17,7 @@ import ru.cristalix.core.formatting.Formatting.fine
 
 object OnActions {
     private val inZone = hashMapOf<Player, Boolean>()
+    private var storageEntered = false
 
     init {
         listener<PlayerDropItemEvent> {
@@ -50,6 +52,20 @@ object OnActions {
                     if (it.cell.box.contains(player.location) && it.state == CityStructureState.BROKEN) {
                         it.repair()
                     }
+                }
+
+                if (player.user.blocksStorage.inBox() && !storageEntered) {
+                    ModTransfer()
+                        .send("storage:show", player)
+                    println("Enter Storage")
+                    storageEntered = true
+                }
+
+                if (!player.user.blocksStorage.inBox() && storageEntered) {
+                    ModTransfer()
+                        .send("storage:hide", player)
+                    println("Leave Storage")
+                    storageEntered = false
                 }
 
                 if (watchableProject == null) {

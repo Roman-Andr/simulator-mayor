@@ -24,6 +24,7 @@ class WorkerTeamMenu(player: Player) : MenuCommand(player) {
                             worker.rarity.iconMaterial
                         )
                         title = worker.name
+                        hover = worker.toString()
                         hint = "Выбрать"
                         onClick { _, _, _ ->
                             WorkerUpgradeMenu(player, worker).closeAll(false).tryExecute()

@@ -153,7 +153,6 @@ class App : JavaPlugin() {
         Config.load {
             NpcManager
             BoardsManager
-            MarketsManager
             CityGlows
         }
         Boosters

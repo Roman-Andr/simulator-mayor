@@ -19,21 +19,21 @@ class WorkerMenu(player: Player) : MenuCommand(player) {
                 description = "Выбери нужный раздел"
                 storage = mutableListOf(
                     button {
-                        title = "${GOLD}${BOLD}Список\n${GOLD}${BOLD}работников"
-                        hint = "Выбрать"
-                        backgroundColor = GlowColor.BLUE
-                        item = ItemIcons.get("other", "guild_members")
-                        onClick { _, _, _ ->
-                            WorkerTeamMenu(player).closeAll(false).tryExecute()
-                        }
-                    },
-                    button {
                         title = "${GOLD}${BOLD}Покупка\n${GOLD}${BOLD}работников"
                         hint = "Выбрать"
                         backgroundColor = GlowColor.BLUE_LIGHT
                         item = ItemIcons.get("other", "guild_members_add")
                         onClick { _, _, _ ->
                             BuyLootboxMenu(player).closeAll(false).tryExecute()
+                        }
+                    },
+                    button {
+                        title = "${GOLD}${BOLD}Список\n${GOLD}${BOLD}работников"
+                        hint = "Выбрать"
+                        backgroundColor = GlowColor.BLUE
+                        item = ItemIcons.get("other", "guild_members")
+                        onClick { _, _, _ ->
+                            WorkerTeamMenu(player).closeAll(false).tryExecute()
                         }
                     }
                 )

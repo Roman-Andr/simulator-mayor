@@ -33,11 +33,11 @@ class City(val owner: User, id: String, val title: String) {
                 owner.player.killboard(
                     error(
                         """
-                    ${RED}Поломка!
-                      ${DARK_GRAY}Номер: ${GRAY}${it.cell.id}
-                      ${AQUA}Название: ${GOLD}${it.structure.name}
-                      ${GOLD}Локация: ${GREEN}$title
-                """.trimIndent()
+                            ${RED}Поломка!
+                            ${DARK_GRAY}Номер: ${GRAY}${it.cell.id}
+                            ${AQUA}Название: ${GOLD}${it.structure.name}
+                            ${GOLD}Локация: ${GREEN}$title
+                        """.trimIndent()
                     )
                 )
                 it.visual.update()

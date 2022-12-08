@@ -1,9 +1,7 @@
 package me.slavita.construction.market
 
-object MarketsManager {
-    val markets = mutableListOf<Market>()
+import java.util.*
 
-    init {
-        markets.add(Market())
-    }
+object MarketsManager {
+    val markets = hashMapOf<UUID, Market>()
 }

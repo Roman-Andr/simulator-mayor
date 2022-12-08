@@ -2,6 +2,8 @@ package me.slavita.construction.player
 
 import me.slavita.construction.app
 import me.slavita.construction.dontate.ability.Ability
+import me.slavita.construction.market.Market
+import me.slavita.construction.market.MarketsManager
 import me.slavita.construction.prepare.StoragePrepare
 import me.slavita.construction.project.Project
 import me.slavita.construction.storage.BlocksStorage
@@ -29,6 +31,11 @@ class User(val uuid: UUID) {
     var criBalanceLastUpdate = 0L
     val hall = CityHall(this)
     var tag = Tags.NONE
+    val showcaseUpdateTimeLast: Long
+        get() = 60 * 1000 - (System.currentTimeMillis() - showcaseLastTimeUpdate)
+    private var showcaseLastTimeUpdate: Long = 0L
+    private var showcaseLastTimeInterval: Long = 60 * 1000L
+
     var criBalance: Int = 0
         get() {
             val now = System.currentTimeMillis()
@@ -45,6 +52,12 @@ class User(val uuid: UUID) {
     init {
         Bukkit.server.scheduler.scheduleSyncRepeatingTask(app, {
             if (initialized && player.isOnline) statistics.money += income
+            if (System.currentTimeMillis() - showcaseLastTimeUpdate > showcaseLastTimeInterval) {
+                showcaseLastTimeUpdate = System.currentTimeMillis()
+                MarketsManager.markets[player.uniqueId]!!.instances!!.forEach {
+                    it.updatePrices()
+                }
+            }
         }, 0L, 20L)
     }
 

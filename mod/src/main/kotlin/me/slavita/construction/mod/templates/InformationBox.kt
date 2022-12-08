@@ -40,24 +40,14 @@ class InformationBox : CarvedRectangle() {
         color = Color(0, 0, 0, 0.0)
         +title
         +description
-
-        mod.registerHandler<GameLoop> {
-            UIEngine.clientApi.minecraft().mouseOver.pos?.run {
-                if (boxes.any { inBox(it.min, it.max) } && !turn) {
-                    title.content = boxes.find { inBox(it.min, it.max) }!!.title
-                    turn = true
-                    show()
-                }
-                if (!boxes.any { inBox(it.min, it.max) } && turn) {
-                    turn = false
-                    hide()
-                }
-            }
-        }
     }
 
     fun description(text: String) {
         description.content = text
+    }
+
+    fun title(text: String) {
+        title.content = text
     }
 
     fun show() {

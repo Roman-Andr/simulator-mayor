@@ -14,7 +14,7 @@ class Worker(
     val reliability: Int,
     val rapacity: WorkerRapacity,
 ) {
-    val uuid = UUID.randomUUID()
+    val uuid: UUID = UUID.randomUUID()
 
     val sellPrice: Long
         get() {
