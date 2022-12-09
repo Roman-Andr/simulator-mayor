@@ -21,6 +21,6 @@ object CristalixUtil {
         val color = if (context.color == null) "" else context.color
         val prefix =
             if (context.customProfile.chatPrefix != null) context.customProfile.chatPrefix else (group.prefixColor + group.prefix)
-        return ((if (prefix.isNotEmpty()) "$prefix §8§l| " else "") + group.nameColor) + color + name
+        return ((if (prefix.isNotEmpty()) "$prefix " else "") + group.nameColor) + color + name
     }
 }

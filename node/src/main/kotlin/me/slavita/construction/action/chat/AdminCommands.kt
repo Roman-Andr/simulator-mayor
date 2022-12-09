@@ -9,13 +9,12 @@ import me.slavita.construction.player.Tags
 import me.slavita.construction.prepare.GuidePrepare
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.ChatCommandUtils.opCommand
+import me.slavita.construction.utils.CristalixUtil
 import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
 import me.slavita.construction.utils.music.MusicExtension.playSound
 import me.slavita.construction.utils.music.MusicSound
 import me.slavita.construction.utils.user
-import org.bukkit.Bukkit
-import org.bukkit.Sound
-import org.bukkit.SoundCategory
+import org.bukkit.*
 import ru.cristalix.core.formatting.Formatting.error
 import ru.cristalix.core.formatting.Formatting.fine
 import ru.cristalix.core.realm.IRealmService
@@ -96,6 +95,7 @@ object AdminCommands {
 
         opCommand("settag") { player, args ->
             player.user.tag = Tags.valueOf(args[0].uppercase())
+            player.playerListName = "${CristalixUtil.getDisplayName(player)} ${ChatColor.GRAY}[${player.user.tag.tag}${ChatColor.GRAY}]"
         }
 
         opCommand("tags") { player, _ ->
