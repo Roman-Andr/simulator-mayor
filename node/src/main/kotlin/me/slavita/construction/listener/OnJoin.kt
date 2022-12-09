@@ -28,7 +28,6 @@ object OnJoin {
                         UIPrepare,
                         PlayerWorldPrepare,
                         ConnectionPrepare,
-                        MarketPrepare,
                         PermissionsPrepare,
                         ItemCallbacksPrepare,
                         ShowcasePrepare,

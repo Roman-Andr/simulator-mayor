@@ -28,8 +28,8 @@ class ChoiceLootboxAmount(player: Player, val rarity: WorkerRarity) : MenuComman
                 description = "Выберите необходимое количество лутбоксов",
                 storage = listOf(
                     Pair(1, "common_key"),
-                    Pair(1, "rare_key"),
-                    Pair(1, "mific_key")
+                    Pair(5, "rare_key"),
+                    Pair(10, "mific_key")
                 ).map {
                     button {
                         item = ItemIcons.get("other", it.second)

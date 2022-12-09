@@ -36,7 +36,7 @@ class InformationBox : CarvedRectangle() {
         size = V3(210.0, 40.0)
         align = BOTTOM
         origin = BOTTOM
-        offset.y -= 65.0
+        offset.y -= 68.0
         color = Color(0, 0, 0, 0.0)
         +title
         +description

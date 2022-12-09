@@ -23,7 +23,7 @@ class StorageMenu(player: Player) : MenuCommand(player) {
             storage = mutableListOf<ReactiveButton>().apply {
                 blocksStorage.blocks.forEach { entry ->
                     add(button {
-                        item = entry.value
+                        item = entry.key.createItemStack(1)
                         hover = getHover(entry.value.amount)
                         hint = " "
                         onLeftClick { _, _, _ ->
