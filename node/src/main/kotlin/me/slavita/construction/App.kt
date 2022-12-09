@@ -21,7 +21,6 @@ import me.slavita.construction.action.chat.AdminCommands
 import me.slavita.construction.action.chat.UserCommands
 import me.slavita.construction.booster.Boosters
 import me.slavita.construction.listener.PlayerEvents
-import me.slavita.construction.market.MarketsManager
 import me.slavita.construction.multichat.MultiChats
 import me.slavita.construction.npc.NpcManager
 import me.slavita.construction.player.Data

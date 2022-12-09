@@ -1,11 +1,7 @@
 package me.slavita.construction.mod.templates
 
-import dev.xdark.clientapi.event.lifecycle.GameLoop
 import me.func.protocol.data.color.GlowColor
-import me.slavita.construction.mod.mod
 import me.slavita.construction.mod.utils.extensions.ColorExtensions.toColor
-import me.slavita.construction.mod.utils.extensions.PositionExtensions.inBox
-import ru.cristalix.uiengine.UIEngine
 import ru.cristalix.uiengine.element.CarvedRectangle
 import ru.cristalix.uiengine.element.TextElement
 import ru.cristalix.uiengine.eventloop.animate
