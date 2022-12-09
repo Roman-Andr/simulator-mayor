@@ -26,6 +26,7 @@ object OnJoin {
                 player.user.run {
                     listOf(
                         UIPrepare,
+                        TagsPrepare,
                         PlayerWorldPrepare,
                         ConnectionPrepare,
                         PermissionsPrepare,

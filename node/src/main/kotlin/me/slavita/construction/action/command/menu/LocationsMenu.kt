@@ -10,7 +10,7 @@ import me.slavita.construction.action.command.ChangeCity
 import me.slavita.construction.dontate.AbilityDonate
 import me.slavita.construction.dontate.Donates
 import me.slavita.construction.ui.HumanizableValues.SECOND
-import me.slavita.construction.utils.Texture
+import me.slavita.construction.ui.Texture
 import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
 import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.AQUA

@@ -1,13 +1,18 @@
 package me.slavita.construction.action.chat
 
+import dev.implario.bukkit.item.ItemBuilder
 import me.func.atlas.Atlas
 import me.func.mod.reactive.ReactivePanel
+import me.func.mod.ui.menu.button
+import me.func.mod.ui.menu.selection
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.command.menu.DailyMenu
 import me.slavita.construction.bank.Bank
 import me.slavita.construction.player.Tags
 import me.slavita.construction.prepare.GuidePrepare
+import me.slavita.construction.prepare.TagsPrepare
 import me.slavita.construction.ui.Formatter.toMoneyIcon
+import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.utils.ChatCommandUtils.opCommand
 import me.slavita.construction.utils.CristalixUtil
 import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
@@ -95,7 +100,19 @@ object AdminCommands {
 
         opCommand("settag") { player, args ->
             player.user.tag = Tags.valueOf(args[0].uppercase())
-            player.playerListName = "${CristalixUtil.getDisplayName(player)} ${ChatColor.GRAY}[${player.user.tag.tag}${ChatColor.GRAY}]"
+            TagsPrepare.prepare(player.user)
+        }
+
+        opCommand("test") { player, _ ->
+            selection {
+                storage = mutableListOf(
+                    *Material.values().map {
+                        button {
+                            item = if (it.isItem) ItemBuilder(it).build() else ItemBuilder(Material.BARRIER).build()
+                        }
+                    }.toTypedArray()
+                )
+            }.open(player)
         }
 
         opCommand("tags") { player, _ ->

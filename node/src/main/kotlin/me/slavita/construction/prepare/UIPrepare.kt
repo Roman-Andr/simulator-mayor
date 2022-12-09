@@ -5,7 +5,7 @@ import me.func.protocol.ui.indicator.Indicators
 import me.slavita.construction.multichat.MultiChats
 import me.slavita.construction.player.User
 import me.slavita.construction.ui.ScoreboardGenerator
-import me.slavita.construction.utils.Texture
+import me.slavita.construction.ui.Texture
 
 object UIPrepare : IPrepare {
     override fun prepare(user: User) {

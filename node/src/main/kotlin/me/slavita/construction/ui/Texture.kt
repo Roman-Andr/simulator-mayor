@@ -1,4 +1,4 @@
-package me.slavita.construction.utils
+package me.slavita.construction.ui
 
 enum class Texture(val fileName: String) {
     SPEED_BOOST("speed-boost.png"),

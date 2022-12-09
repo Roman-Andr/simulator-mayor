@@ -26,6 +26,7 @@ object BannerUtil {
                 .x(label.toCenterLocation().x)
                 .y(label.y + banner["offset"] as Double)
                 .z(label.toCenterLocation().z)
+                .xray(0.0)
                 .apply {
                     if (withPitch) {
                         watchingOnPlayer(true)
