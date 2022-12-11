@@ -6,6 +6,7 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.dontate.BoosterPackDonate
 import me.slavita.construction.dontate.Donates
 import me.slavita.construction.ui.Formatter.toCriMoney
+import me.slavita.construction.utils.donateButton
 import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GREEN
@@ -18,7 +19,7 @@ class BoosterPackMenu(player: Player) : MenuCommand(player) {
                 title = "${GREEN}${BOLD}Игровые Наборы"
                 description = "Кристаллики: ${player.user.criBalance.toCriMoney()}"
                 storage =
-                    Donates.values().filter { it.donate is BoosterPackDonate }.map { donateButton(it) }.toMutableList()
+                    Donates.values().filter { it.donate is BoosterPackDonate }.map { donateButton(it, player) }.toMutableList()
             }
         }
     }

@@ -44,6 +44,15 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         onClick { _, _, _ ->
                             ActiveProjectsMenu(player).closeAll(false).tryExecute()
                         }
+                    },
+                    button {
+                        title = "${GRAY}${BOLD}Настройки"
+                        hint = "Выбрать"
+                        backgroundColor = GlowColor.NEUTRAL
+                        item = ItemIcons.get("skyblock", "is_settings")
+                        onClick { _, _, _ ->
+                            SettingsMenu(player).closeAll(false).tryExecute()
+                        }
                     }
                 )
             }
