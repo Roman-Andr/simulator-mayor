@@ -9,7 +9,7 @@ object TagsPrepare : IPrepare {
     override fun prepare(user: User) {
         user.player.apply {
             playerListName =
-                "${CristalixUtil.getDisplayName(this)}${if (user.tag != Tags.NONE) "${DARK_GRAY}[${user.tag.tag}${DARK_GRAY}]" else ""}"
+                "${CristalixUtil.getDisplayName(this)}${if (user.tag != Tags.NONE) " ${DARK_GRAY}[${user.tag.tag}${DARK_GRAY}]" else ""}"
         }
     }
 }

@@ -1,6 +1,5 @@
 package me.slavita.construction.action.command.menu.lootbbox
 
-import implario.humanize.Humanize
 import me.func.mod.Anime
 import me.func.mod.conversation.data.LootDrop
 import me.func.mod.ui.menu.Openable

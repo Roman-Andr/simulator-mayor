@@ -14,11 +14,11 @@ object Boosters {
     init {
         Stronghold.addThanksConsumer { owner, player ->
             if (owner != null) {
-                owner.accept("Вас поблагодарил игрок ${CristalixUtil.getDisplayName(owner)}")
+                owner.accept("Вас поблагодарили")
                 owner.user.statistics.money += 100
             }
             if (player != null) {
-                player.accept("Вы поблагодарили игрока ${CristalixUtil.getDisplayName(player)}")
+                player.accept("Вы поблагодарили")
                 player.user.statistics.money += 100
             }
         }

@@ -9,7 +9,6 @@ import me.slavita.construction.utils.sendPacket
 import net.minecraft.server.v1_12_R1.PacketPlayOutPlayerInfo
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer
 
 object PlayerWorldPrepare : IPrepare {
     override fun prepare(user: User) {

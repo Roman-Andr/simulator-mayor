@@ -16,7 +16,7 @@ class DonateMenu(player: Player) : MenuCommand(player) {
         player.user.run user@{
             return Choicer(
                 title = "${GOLD}${BOLD}Платные возможности",
-                description = "Кристалликов: ${player.user.criBalance.toCriMoney()}"
+                description = "Кристаллики: ${player.user.criBalance.toCriMoney()}"
             ).apply {
                 storage = mutableListOf(
                     button {

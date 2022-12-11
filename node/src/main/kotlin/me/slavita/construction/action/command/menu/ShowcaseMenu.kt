@@ -1,6 +1,5 @@
 package me.slavita.construction.action.command.menu
 
-import dev.implario.bukkit.item.ItemBuilder
 import me.func.mod.ui.Glow
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
@@ -17,7 +16,6 @@ import me.slavita.construction.utils.user
 import me.slavita.construction.utils.validate
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor.*
-import org.bukkit.Material
 import org.bukkit.entity.Player
 
 class ShowcaseMenu(player: Player, val showcase: Showcase) :

@@ -1,6 +1,5 @@
 package me.slavita.construction.worker
 
-import implario.humanize.Humanize
 import me.slavita.construction.ui.Formatter.toLevel
 import me.slavita.construction.ui.HumanizableValues
 import org.bukkit.ChatColor.AQUA
