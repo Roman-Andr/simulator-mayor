@@ -8,6 +8,7 @@ import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.choicer.Choicer
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.Formatter.toMoneyIcon
+import me.slavita.construction.ui.HumanizableValues
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.utils.PlayerExtensions.deny
 import me.slavita.construction.utils.user
@@ -30,7 +31,7 @@ class ChoiceLootboxAmount(player: Player, val rarity: WorkerRarity) : MenuComman
                 ).map {
                     button {
                         item = ItemIcons.get("other", it.second)
-                        title = "${it.first} ${Humanize.plurals("лутбокс", "лутбокса", "лутбоксов", it.first)}"
+                        title = "${it.first} ${HumanizableValues.LOOTBOX.get(it.first)}"
                         description = (rarity.price * it.first).toMoneyIcon()
                         hint = "Купить"
                         onClick { _, _, _ ->

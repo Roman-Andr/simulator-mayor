@@ -19,6 +19,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.Event
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
+import org.bukkit.scheduler.BukkitScheduler
 import org.bukkit.scheduler.BukkitTask
 import java.util.*
 import kotlin.reflect.KClass
@@ -113,7 +114,7 @@ fun log(message: String) {
 
 val routine = EventContext { true }.fork()
 
-val scheduler = Bukkit.getScheduler()
+val scheduler: BukkitScheduler = Bukkit.getScheduler()
 
 fun runTimerAsync(start: Long, every: Long, runnable: Runnable) =
     scheduler.runTaskTimerAsynchronously(app, runnable, start, every)
