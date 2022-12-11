@@ -1,6 +1,7 @@
 package me.slavita.construction.mod
 
 import dev.xdark.clientapi.event.block.BlockRightClick
+import dev.xdark.clientapi.event.input.RightClick
 import dev.xdark.clientapi.event.lifecycle.GameTickPost
 import dev.xdark.clientapi.event.render.RenderPass
 import dev.xdark.clientapi.item.ItemStack

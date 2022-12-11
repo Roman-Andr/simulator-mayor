@@ -22,7 +22,8 @@ class User(val uuid: UUID) {
     var currentCity: City = City(this, "1", "Незаданная", 0, true)
     val blocksStorage = BlocksStorage(this)
     val abilities = hashSetOf<Ability>()
-    var workers = hashSetOf<Worker>()
+    val workers
+        get() = data.workers
     var watchableProject: Project? = null
     var income = 0L
     var criBalanceLastUpdate = 0L
