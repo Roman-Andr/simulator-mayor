@@ -2,6 +2,8 @@ package me.slavita.construction.action.chat
 
 import dev.implario.bukkit.item.ItemBuilder
 import me.func.atlas.Atlas
+import me.func.mod.Anime
+import me.func.mod.Kit
 import me.func.mod.reactive.ReactivePanel
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection
@@ -12,14 +14,12 @@ import me.slavita.construction.player.Tags
 import me.slavita.construction.prepare.GuidePrepare
 import me.slavita.construction.prepare.TagsPrepare
 import me.slavita.construction.ui.Formatter.toMoneyIcon
-import me.slavita.construction.utils.ChatCommandUtils.opCommand
-import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
-import me.slavita.construction.utils.music.MusicExtension.playSound
-import me.slavita.construction.utils.music.MusicSound
+import me.slavita.construction.utils.PlayerExtensions.accept
+import me.slavita.construction.utils.PlayerExtensions.deny
+import me.slavita.construction.utils.PlayerExtensions.killboard
+import me.slavita.construction.utils.opCommand
 import me.slavita.construction.utils.user
 import org.bukkit.*
-import ru.cristalix.core.formatting.Formatting.error
-import ru.cristalix.core.formatting.Formatting.fine
 import ru.cristalix.core.realm.IRealmService
 import ru.cristalix.core.transfer.ITransferService
 
@@ -62,16 +62,15 @@ object AdminCommands {
 
         opCommand("config") { player, args ->
             if (Atlas.find(args[0]).get(args[1]) != null)
-                player.killboard(fine(Atlas.find(args[0]).get(args[1]).toString()))
+                player.accept(Atlas.find(args[0]).get(args[1]).toString())
             else {
-                player.playSound(MusicSound.DENY)
-                player.killboard(error("Конфиг или значение не найдены"))
+                player.deny("Конфиг или значение не найдены")
             }
         }
 
         opCommand("refresh") { player, _ ->
             Atlas.update {
-                player.killboard(fine("Конфигурация обновлена"))
+                player.accept("Конфигурация обновлена")
             }
         }
 
@@ -80,8 +79,8 @@ object AdminCommands {
         }
 
         opCommand("scheduler") { player, _ ->
-            player.killboard(fine("Число активных работников на сервере: ${Bukkit.server.scheduler.activeWorkers.size}"))
-            player.killboard(fine("Число задач: ${Bukkit.server.scheduler.pendingTasks.size}"))
+            player.accept("Число активных работников на сервере: ${Bukkit.server.scheduler.activeWorkers.size}")
+            player.accept("Число задач: ${Bukkit.server.scheduler.pendingTasks.size}")
         }
 
         opCommand("kickAll") { _, _ ->
@@ -117,6 +116,14 @@ object AdminCommands {
             Tags.values().forEach { tag ->
                 player.sendMessage(tag.tag)
             }
+        }
+
+        opCommand("construction:debug") { _, _ ->
+            Anime.include(Kit.DEBUG)
+        }
+
+        opCommand("currentcity") { player, _ ->
+            player.killboard(player.user.currentCity.title)
         }
     }
 }

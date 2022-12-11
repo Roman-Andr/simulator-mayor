@@ -7,8 +7,11 @@ import io.netty.channel.ChannelPromise
 import me.func.world.WorldMeta
 import me.slavita.construction.app
 import net.minecraft.server.v1_12_R1.Packet
+import org.apache.logging.log4j.util.BiConsumer
 import org.bukkit.Bukkit
 import org.bukkit.Location
+import org.bukkit.command.Command
+import org.bukkit.command.CommandSender
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
@@ -87,4 +90,17 @@ fun String.colored(colors: List<String>): String {
     }
 
     return chars.joinToString("")
+}
+
+fun opCommand(name: String, biConsumer: BiConsumer<Player, Array<out String>>) {
+    Bukkit.getCommandMap().register("anime", object : Command(name) {
+        override fun execute(sender: CommandSender, var2: String, agrs: Array<out String>): Boolean {
+            if (sender is Player && sender.isOp) biConsumer.accept(sender, agrs)
+            return true
+        }
+    })
+}
+
+fun log(message: String) {
+    println("[CONSTRUCTION] $message")
 }

@@ -1,7 +1,6 @@
 package me.slavita.construction.action.command.menu.donate
 
 import me.func.mod.ui.menu.Openable
-import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.choicer
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.dontate.BoosterPackDonate
@@ -18,19 +17,8 @@ class BoosterPackMenu(player: Player) : MenuCommand(player) {
             return choicer {
                 title = "${GREEN}${BOLD}Игровые Наборы"
                 description = "Кристаллики: ${player.user.criBalance.toCriMoney()}"
-                storage = Donates.values().filter { it.donate is BoosterPackDonate }.map {
-                    button {
-                        item = it.displayItem
-                        title = it.donate.title
-                        hover = it.donate.description
-                        hint = "Купить"
-                        description = "Цена: ${it.donate.price.toCriMoney()}"
-                        backgroundColor = it.backgroudColor
-                        onClick { _, _, _ ->
-                            it.donate.purchase(this@user)
-                        }
-                    }
-                }.toMutableList()
+                storage =
+                    Donates.values().filter { it.donate is BoosterPackDonate }.map { donateButton(it) }.toMutableList()
             }
         }
     }

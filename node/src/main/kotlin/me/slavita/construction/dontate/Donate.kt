@@ -1,13 +1,10 @@
 package me.slavita.construction.dontate
 
 import me.func.mod.Anime
-import me.func.mod.ui.Glow
 import me.func.mod.ui.menu.confirmation.Confirmation
-import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.player.User
 import me.slavita.construction.ui.HumanizableValues.CRI_MONEY
-import me.slavita.construction.utils.music.MusicExtension.playSound
-import me.slavita.construction.utils.music.MusicSound
+import me.slavita.construction.utils.PlayerExtensions.accept
 import org.bukkit.ChatColor.*
 
 abstract class Donate(var title: String, var description: String, val price: Int) {
@@ -16,10 +13,8 @@ abstract class Donate(var title: String, var description: String, val price: Int
 
         Confirmation("${BOLD}Купить \n$title\n${WHITE}${BOLD}за ${AQUA}${BOLD}$price ${AQUA}${CRI_MONEY.get(price)}") {
             Anime.close(player)
-            Glow.animate(player, 1.0, GlowColor.GREEN)
             purchaseSuccess(user)
-            user.player.playSound(MusicSound.LEVEL_UP)
-            Anime.killboardMessage(player, "${GREEN}Спасибо за покупку")
+            user.player.accept("${GREEN}Спасибо за покупку")
 //            IInvoiceService.get().bill(
 //                user.uuid,
 //                Invoice.builder()

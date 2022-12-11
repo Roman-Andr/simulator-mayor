@@ -1,9 +1,9 @@
 package me.slavita.construction.structure.instance
 
 import me.slavita.construction.app
-import me.slavita.construction.utils.extensions.BlocksExtensions.add
-import me.slavita.construction.utils.extensions.BlocksExtensions.toLocation
-import me.slavita.construction.utils.extensions.BlocksExtensions.unaryMinus
+import me.slavita.construction.utils.BlocksExtensions.add
+import me.slavita.construction.utils.BlocksExtensions.toLocation
+import me.slavita.construction.utils.BlocksExtensions.unaryMinus
 import me.slavita.construction.world.Box
 import me.slavita.construction.world.ItemProperties
 import me.slavita.construction.world.StructureBlock

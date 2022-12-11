@@ -1,19 +1,17 @@
 package me.slavita.construction.listener
 
 import me.func.mod.conversation.ModTransfer
+import me.slavita.construction.action.command.menu.city.BuyCityConfirm
 import me.slavita.construction.action.command.menu.project.ChoiceStructure
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.ui.HumanizableValues
-import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
+import me.slavita.construction.utils.PlayerExtensions.accept
 import me.slavita.construction.utils.listener
-import me.slavita.construction.utils.music.MusicExtension.playSound
-import me.slavita.construction.utils.music.MusicSound
 import me.slavita.construction.utils.user
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerMoveEvent
-import ru.cristalix.core.formatting.Formatting.fine
 
 object OnActions {
     private val inZone = hashMapOf<Player, Boolean>()
@@ -27,15 +25,12 @@ object OnActions {
                 return@listener
             }
 
-            player.playSound(MusicSound.LEVEL_UP)
-            player.killboard(
-                fine(
-                    "Вы положили ${drop.itemStack.getAmount()} ${
-                        HumanizableValues.BLOCK.get(
-                            drop.itemStack.getAmount()
-                        )
-                    }"
-                )
+            player.accept(
+                "Вы положили ${drop.itemStack.getAmount()} ${
+                    HumanizableValues.BLOCK.get(
+                        drop.itemStack.getAmount()
+                    )
+                }"
             )
             user.blocksStorage.addItem(drop.itemStack)
             drop.remove()
@@ -43,6 +38,18 @@ object OnActions {
 
         listener<PlayerMoveEvent> {
             player.user.run {
+                cities.forEach { city ->
+                    if (city.box.contains(player.location)) {
+                        if (currentCity.title != city.title && city.unlocked) {
+                            currentCity = city
+                            return@listener
+                        }
+                        if (!city.unlocked) {
+                            BuyCityConfirm(player, city, false).tryExecute()
+                            isCancelled = true
+                        }
+                    }
+                }
                 if (watchableProject != null && !watchableProject!!.structure.box.contains(player.location)) {
                     watchableProject!!.onLeave()
                     watchableProject = null

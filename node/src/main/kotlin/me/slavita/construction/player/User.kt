@@ -5,8 +5,7 @@ import me.slavita.construction.dontate.ability.Ability
 import me.slavita.construction.prepare.StoragePrepare
 import me.slavita.construction.project.Project
 import me.slavita.construction.storage.BlocksStorage
-import me.slavita.construction.utils.music.MusicExtension.playSound
-import me.slavita.construction.utils.music.MusicSound
+import me.slavita.construction.utils.PlayerExtensions.deny
 import me.slavita.construction.worker.Worker
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -19,8 +18,8 @@ class User(val uuid: UUID) {
     lateinit var data: Data
     val statistics
         get() = data.statistics
-    var cities = arrayOf<City>()
-    var currentCity: City = City(this, "1", "Незаданная")
+    var cities = hashSetOf<City>()
+    var currentCity: City = City(this, "1", "Незаданная", 0, true)
     val blocksStorage = BlocksStorage(this)
     val abilities = hashSetOf<Ability>()
     var workers = hashSetOf<Worker>()
@@ -52,7 +51,9 @@ class User(val uuid: UUID) {
     fun tryPurchase(
         cost: Long,
         acceptAction: () -> Unit,
-        denyAction: () -> Unit = { player.playSound(MusicSound.DENY) },
+        denyAction: () -> Unit = {
+            player.deny("Недостаточно денег!")
+        },
     ) {
         if (statistics.money >= cost) {
             statistics.money -= cost

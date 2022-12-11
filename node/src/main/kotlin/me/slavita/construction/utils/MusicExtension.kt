@@ -1,4 +1,4 @@
-package me.slavita.construction.utils.music
+package me.slavita.construction.utils
 
 import org.bukkit.entity.Player
 

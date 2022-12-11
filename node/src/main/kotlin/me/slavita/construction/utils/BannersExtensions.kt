@@ -1,4 +1,4 @@
-package me.slavita.construction.utils.extensions
+package me.slavita.construction.utils
 
 import me.func.mod.world.Banners
 import me.func.protocol.data.element.Banner

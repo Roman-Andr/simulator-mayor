@@ -1,4 +1,4 @@
-package me.slavita.construction.utils.extensions
+package me.slavita.construction.utils
 
 import net.minecraft.server.v1_12_R1.BlockPosition
 import org.bukkit.Location

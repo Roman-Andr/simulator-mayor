@@ -5,8 +5,8 @@ import me.slavita.construction.reward.Reward
 import me.slavita.construction.structure.BuildingStructure
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.structure.tools.StructureState
-import me.slavita.construction.utils.music.MusicExtension.playSound
-import me.slavita.construction.utils.music.MusicSound
+import me.slavita.construction.utils.MusicExtension.playSound
+import me.slavita.construction.utils.MusicSound
 
 class Project(
     val city: City,

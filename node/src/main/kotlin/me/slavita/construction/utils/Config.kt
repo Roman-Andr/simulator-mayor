@@ -1,7 +1,6 @@
 package me.slavita.construction.utils
 
 import me.func.atlas.Atlas
-import me.slavita.construction.utils.extensions.LoggerUtils.log
 
 object Config {
     fun load(after: () -> Unit) {

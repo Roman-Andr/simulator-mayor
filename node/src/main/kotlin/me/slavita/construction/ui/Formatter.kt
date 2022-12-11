@@ -5,8 +5,7 @@ import me.func.stronghold.util.withBoosters
 import me.slavita.construction.booster.BoosterType
 import me.slavita.construction.common.utils.NumberFormatter
 import me.slavita.construction.common.utils.TimeFormatter
-import org.bukkit.ChatColor.AQUA
-import org.bukkit.ChatColor.WHITE
+import org.bukkit.ChatColor.*
 
 object Formatter {
     val moneyIcon = Emoji.COIN
@@ -18,7 +17,7 @@ object Formatter {
     }
 
     fun Long.toMoneyIcon(): String {
-        return "${toMoney()} $WHITE${moneyIcon}"
+        return "$GOLD${toMoney()} $WHITE${moneyIcon}"
     }
 
     fun Long.toIncomeIcon(): String {

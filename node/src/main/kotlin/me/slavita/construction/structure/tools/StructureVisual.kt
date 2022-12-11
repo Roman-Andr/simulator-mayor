@@ -12,9 +12,10 @@ import me.func.protocol.world.marker.MarkerSign
 import me.slavita.construction.banner.BannerInfo
 import me.slavita.construction.banner.BannerUtil
 import me.slavita.construction.structure.BuildingStructure
-import me.slavita.construction.utils.extensions.BannersExtensions.hide
-import me.slavita.construction.utils.extensions.BannersExtensions.show
-import org.bukkit.ChatColor
+import me.slavita.construction.utils.BannersExtensions.hide
+import me.slavita.construction.utils.BannersExtensions.show
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.WHITE
 import org.bukkit.block.BlockFace
 
 class StructureVisual(val structure: BuildingStructure) {
@@ -99,7 +100,7 @@ class StructureVisual(val structure: BuildingStructure) {
         progressWorld!!.apply {
             progress = structure.blocksPlaced.toDouble() / structure.structure.blocksCount.toDouble()
             text =
-                "${ChatColor.WHITE}Поставлено блоков: ${ChatColor.WHITE}${structure.blocksPlaced} ${ChatColor.WHITE}из ${ChatColor.AQUA}${structure.structure.blocksCount}"
+                "${WHITE}Поставлено блоков: ${WHITE}${structure.blocksPlaced} ${WHITE}из ${AQUA}${structure.structure.blocksCount}"
         }
         infoBanners!!.toList().forEach { it ->
             Banners.content(owner.player, it, structure.getBannerInfo().joinToString("\n") { it.first })

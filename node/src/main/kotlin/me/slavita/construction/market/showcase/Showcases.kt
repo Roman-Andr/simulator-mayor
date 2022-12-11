@@ -4,7 +4,7 @@ import me.func.atlas.Atlas
 import me.func.mod.world.Banners
 import me.func.protocol.data.element.Banner
 import me.slavita.construction.app
-import me.slavita.construction.utils.extensions.BlocksExtensions.toYaw
+import me.slavita.construction.utils.BlocksExtensions.toYaw
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.block.BlockFace
 

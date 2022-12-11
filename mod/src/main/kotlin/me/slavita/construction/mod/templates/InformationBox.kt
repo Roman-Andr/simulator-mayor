@@ -36,6 +36,9 @@ class InformationBox : CarvedRectangle() {
         color = Color(0, 0, 0, 0.0)
         +title
         +description
+        title.color.alpha = 0.0
+        description.color.alpha = 0.0
+        color.alpha = 0.0
     }
 
     fun description(text: String) {

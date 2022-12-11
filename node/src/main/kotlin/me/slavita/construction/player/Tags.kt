@@ -7,7 +7,6 @@ enum class Tags(
 ) {
     NONE(""),
 
-    COSMONAUT("¨fb2cfaК¨ec27faо¨de21fbс¨cf1cfbм¨c016fcо¨b111fcн¨a30bfcа¨9406fdф¨8500fdт"),
     BUILDER(
         "Строитель".colored(
             """

@@ -12,17 +12,12 @@ import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer
 object PlayerWorldPrepare : IPrepare {
     override fun prepare(user: User) {
         user.apply {
-            cities = Atlas.find("locations").getMapList("locations").map { values ->
-                City(this, values["id"] as String, values["title"] as String)
-            }.toTypedArray()
-            currentCity = cities.firstOrNull { return@firstOrNull it.box.contains(player.location) } ?: cities[0]
+            cities.addAll(Atlas.find("locations").getMapList("locations").map { values ->
+                City(this, values["id"] as String, values["title"] as String, (values["price"] as Int).toLong(),values["id"] as String == "1")
+            }.toTypedArray())
+            currentCity = cities.firstOrNull { it.box.contains(player.location) }!!
             player.teleport(currentCity.getSpawn())
             player.gameMode = GameMode.ADVENTURE
-            for (current in Bukkit.getOnlinePlayers()) {
-                if (current == null) continue
-                player.hidePlayer(app, current.player)
-                current.hidePlayer(app, player)
-            }
 
             Bukkit.getOnlinePlayers().forEach { current ->
                 player.hidePlayer(app, current.player)
@@ -40,7 +35,6 @@ object PlayerWorldPrepare : IPrepare {
                     )
                 )
             }
-
 
             app.mainWorld.glows.forEach { it.send(player) }
             player.walkSpeed = statistics.speed

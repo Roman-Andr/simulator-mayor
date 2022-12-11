@@ -1,6 +1,5 @@
 package me.slavita.construction.action.command.menu.project
 
-import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection.Selection
@@ -15,17 +14,16 @@ import org.bukkit.entity.Player
 class BlocksListMenu(player: Player, val structure: Structure) : MenuCommand(player) {
     override fun getMenu(): Openable {
         player.user.run user@{
-            return Selection(title = "${AQUA}${BOLD}Список материалов", rows = 5, columns = 4,
-                storage = mutableListOf<ReactiveButton>().apply {
-                    hashSetOf<ItemProperties>().apply {
-                        structure.box.forEachBukkit { this.add(ItemProperties.fromBlock(it)) }
-                    }.forEach { itemProps ->
-                        add(button {
-                            hover = itemProps.createItemStack(1).i18NDisplayName
-                            item = itemProps.createItemStack(1)
-                        })
+            return Selection(title = "${AQUA}${BOLD}Список материалов", rows = 5, columns = 14,
+                storage = hashSetOf<ItemProperties>().apply {
+                    structure.box.forEachBukkit { this.add(ItemProperties.fromBlock(it)) }
+                }.map { itemProps ->
+                    button {
+                        item = itemProps.createItemStack(1)
+                        hover = itemProps.createItemStack(1).i18NDisplayName
+                        hint = " "
                     }
-                }
+                }.toMutableList()
             )
         }
     }

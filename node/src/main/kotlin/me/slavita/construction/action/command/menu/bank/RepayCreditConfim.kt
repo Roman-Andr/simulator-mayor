@@ -6,12 +6,11 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.bank.Bank
 import me.slavita.construction.bank.Credit
 import me.slavita.construction.ui.Formatter.toMoneyIcon
-import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
+import me.slavita.construction.utils.PlayerExtensions.accept
 import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.WHITE
 import org.bukkit.entity.Player
-import ru.cristalix.core.formatting.Formatting.fine
 
 class RepayCreditConfim(player: Player, val credit: Credit) : MenuCommand(player) {
     override fun getMenu(): Openable {
@@ -23,7 +22,7 @@ class RepayCreditConfim(player: Player, val credit: Credit) : MenuCommand(player
                 )
             ) {
                 Bank.repayCredit(this, credit.uuid) {
-                    player.killboard(fine("Кредит успешно погашен!"))
+                    player.accept("Кредит успешно погашен!")
                 }
             }
         }

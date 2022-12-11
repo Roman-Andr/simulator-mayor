@@ -27,7 +27,6 @@ object Showcases {
 
     init {
         UIEngine.overlayContext.addChild(infoZone.info)
-        infoZone.info.hide()
 
         mod.registerHandler<BlockRightClick> {
             if (hand == EnumHand.OFF_HAND) return@registerHandler

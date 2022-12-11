@@ -5,6 +5,7 @@ import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.choicer.Choicer
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
+import me.slavita.construction.action.command.menu.city.LocationsMenu
 import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
 import me.slavita.construction.action.command.menu.worker.WorkerTeamMenu
 import me.slavita.construction.ui.menu.ItemIcons

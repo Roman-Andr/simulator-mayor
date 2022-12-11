@@ -1,5 +1,6 @@
 package me.slavita.construction.action.command.menu
 
+import dev.implario.bukkit.item.ItemBuilder
 import me.func.mod.ui.Glow
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
@@ -11,14 +12,12 @@ import me.slavita.construction.market.showcase.Showcase
 import me.slavita.construction.ui.Formatter
 import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.ui.menu.ItemIcons
-import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
-import me.slavita.construction.utils.music.MusicExtension.playSound
-import me.slavita.construction.utils.music.MusicSound
+import me.slavita.construction.utils.PlayerExtensions.accept
 import me.slavita.construction.utils.user
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor.*
+import org.bukkit.Material
 import org.bukkit.entity.Player
-import ru.cristalix.core.formatting.Formatting.fine
 
 class ShowcaseMenu(player: Player, val showcase: Showcase) :
     MenuCommand(player) {
@@ -47,7 +46,7 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) :
                         infoButton.hover = getInfo()
                     }, 0L, 20L)
                     button {
-                        item = emptyItem
+                        item = if (emptyItem.getType().isItem) emptyItem else ItemBuilder(Material.BARRIER).build()
 //                            ${LanguageHelper.getItemDisplayName(emptyItem, player)}
                         hover = """
                             ${AQUA}Купить 8 шт за ${targetItem.second * 8} [ЛКМ]
@@ -58,8 +57,7 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) :
                             tryPurchase(targetItem.second * 8, {
                                 println(emptyItem.getType())
                                 this@user.blocksStorage.addItem(emptyItem, 8)
-                                player.playSound(MusicSound.LEVEL_UP)
-                                player.killboard(fine("Вы успешно купили блоки"))
+                                player.accept("Вы успешно купили блоки")
                                 this@selection.money = getBalance()
                                 Glow.animate(player, 0.3, GlowColor.GREEN)
                             })
@@ -67,8 +65,7 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) :
                         onRightClick { _, _, _ ->
                             tryPurchase(targetItem.second * 64, {
                                 this@user.blocksStorage.addItem(emptyItem, 32)
-                                player.playSound(MusicSound.LEVEL_UP)
-                                player.killboard(fine("Вы успешно купили блоки"))
+                                player.accept("Вы успешно купили блоки")
                                 this@selection.money = getBalance()
                                 Glow.animate(player, 0.3, GlowColor.GREEN)
                             })

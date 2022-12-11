@@ -7,7 +7,7 @@ import me.func.protocol.data.color.Tricolor
 import me.func.protocol.data.element.Banner
 import me.func.protocol.data.element.MotionType
 import me.func.world.Label
-import me.slavita.construction.utils.extensions.BlocksExtensions.toYaw
+import me.slavita.construction.utils.BlocksExtensions.toYaw
 import org.bukkit.Location
 import org.bukkit.block.BlockFace
 import org.bukkit.util.Vector

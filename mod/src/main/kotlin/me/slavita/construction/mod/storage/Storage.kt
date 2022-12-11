@@ -30,8 +30,6 @@ object Storage {
     init {
         UIEngine.overlayContext.addChild(infoZone.info)
         UIEngine.overlayContext.addChild(enterInfo)
-        infoZone.info.hide()
-        enterInfo.hide()
 
         mod.registerChannel("storage:initialize") {
             storages = Gson().fromJson(NetUtil.readUtf8(this), Array<StorageData>::class.java)

@@ -10,13 +10,10 @@ import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
-import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
-import me.slavita.construction.utils.music.MusicExtension.playSound
-import me.slavita.construction.utils.music.MusicSound
+import me.slavita.construction.utils.PlayerExtensions.deny
 import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
-import ru.cristalix.core.formatting.Formatting.error
 
 class CreditsListMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
@@ -38,8 +35,7 @@ class CreditsListMenu(player: Player) : MenuCommand(player) {
                                     if (this@user.statistics.money > value.needToGive) {
                                         RepayCreditConfim(player, value).tryExecute()
                                     } else {
-                                        player.playSound(MusicSound.DENY)
-                                        player.killboard(error("Не хватает денег для погашения кредита"))
+                                        player.deny("Не хватает денег для погашения кредита")
                                         Anime.close(player)
                                     }
                                 }

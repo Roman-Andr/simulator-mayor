@@ -7,6 +7,8 @@ import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection
 import me.func.mod.ui.menu.selection.Selection
 import me.slavita.construction.bank.Bank
+import me.slavita.construction.dontate.Donates
+import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
@@ -14,7 +16,7 @@ import me.slavita.construction.utils.user
 import org.bukkit.Material
 import org.bukkit.entity.Player
 
-abstract class MenuCommand(player: Player) : CooldownCommand(player, 1) {
+abstract class MenuCommand(player: Player, cooldown: Long = 1) : CooldownCommand(player, cooldown) {
     private var close = true
 
     protected abstract fun getMenu(): Openable
@@ -50,4 +52,16 @@ abstract class MenuCommand(player: Player) : CooldownCommand(player, 1) {
             hint = ""
             enabled = false
         }
+
+    fun donateButton(donate: Donates) = button {
+        item = donate.displayItem
+        title = donate.donate.title
+        hover = donate.donate.description
+        hint = "Купить"
+        description = "Цена: ${donate.donate.price.toCriMoney()}"
+        backgroundColor = donate.backgroudColor
+        onClick { _, _, _ ->
+            donate.donate.purchase(player.user)
+        }
+    }
 }
