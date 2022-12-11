@@ -45,23 +45,4 @@ abstract class MenuCommand(player: Player, cooldown: Long = 1) : CooldownCommand
                 }
             }"
         }
-
-    fun getEmptyButton(): ReactiveButton =
-        button {
-            material(Material.AIR)
-            hint = ""
-            enabled = false
-        }
-
-    fun donateButton(donate: Donates) = button {
-        item = donate.displayItem
-        title = donate.donate.title
-        hover = donate.donate.description
-        hint = "Купить"
-        description = "Цена: ${donate.donate.price.toCriMoney()}"
-        backgroundColor = donate.backgroudColor
-        onClick { _, _, _ ->
-            donate.donate.purchase(player.user)
-        }
-    }
 }

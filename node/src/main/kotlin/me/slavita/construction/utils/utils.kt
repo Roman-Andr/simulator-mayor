@@ -1,17 +1,22 @@
 package me.slavita.construction.utils
 
 import dev.implario.bukkit.event.EventContext
+import dev.implario.bukkit.item.ItemBuilder
 import dev.implario.bukkit.platform.Platforms
 import io.netty.channel.ChannelDuplexHandler
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelPromise
+import me.func.mod.ui.menu.button
 import me.func.world.WorldMeta
 import me.slavita.construction.app
+import me.slavita.construction.dontate.Donates
+import me.slavita.construction.ui.Formatter.toCriMoney
 import net.minecraft.server.v1_12_R1.EntityPlayer
 import net.minecraft.server.v1_12_R1.Packet
 import org.apache.logging.log4j.util.BiConsumer
 import org.bukkit.Bukkit
 import org.bukkit.Location
+import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer
@@ -19,6 +24,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.Event
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
+import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitScheduler
 import org.bukkit.scheduler.BukkitTask
 import java.util.*
@@ -125,3 +131,25 @@ fun runAsync(after: Long, runnable: Runnable): BukkitTask =
 fun Player.sendPacket(packet: Packet<*>) {
     (this as CraftPlayer).handle.playerConnection.networkManager.sendPacket(packet)
 }
+
+fun donateButton(donate: Donates, player: Player) = button {
+    item = donate.displayItem
+    title = donate.donate.title
+    hover = donate.donate.description
+    hint = "Купить"
+    description = "Цена: ${donate.donate.price.toCriMoney()}"
+    backgroundColor = donate.backgroudColor
+    onClick { _, _, _ ->
+        donate.donate.purchase(player.user)
+    }
+}
+
+fun getEmptyButton() = button {
+    material(Material.AIR)
+    hint = ""
+    enabled = false
+}
+
+fun Material.validate(): ItemStack = if (isItem) ItemBuilder(this).build() else ItemBuilder(Material.BARRIER).build()
+
+fun ItemStack.validate(): ItemStack = if (getType().isItem) ItemBuilder(getType()).build() else ItemBuilder(Material.BARRIER).build()

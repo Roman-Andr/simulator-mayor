@@ -19,6 +19,7 @@ import me.slavita.construction.utils.PlayerExtensions.deny
 import me.slavita.construction.utils.PlayerExtensions.killboard
 import me.slavita.construction.utils.opCommand
 import me.slavita.construction.utils.user
+import me.slavita.construction.utils.validate
 import org.bukkit.*
 import ru.cristalix.core.realm.IRealmService
 import ru.cristalix.core.transfer.ITransferService
@@ -105,7 +106,7 @@ object AdminCommands {
                 storage = mutableListOf(
                     *Material.values().map {
                         button {
-                            item = if (it.isItem) ItemBuilder(it).build() else ItemBuilder(Material.BARRIER).build()
+                            item = it.validate()
                         }
                     }.toTypedArray()
                 )

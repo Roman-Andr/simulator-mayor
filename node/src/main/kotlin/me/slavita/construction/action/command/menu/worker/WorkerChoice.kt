@@ -9,6 +9,7 @@ import me.slavita.construction.action.WorkerExecutor
 import me.slavita.construction.project.Project
 import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.utils.getEmptyButton
 import me.slavita.construction.utils.user
 import me.slavita.construction.worker.WorkerState
 import org.bukkit.ChatColor.*

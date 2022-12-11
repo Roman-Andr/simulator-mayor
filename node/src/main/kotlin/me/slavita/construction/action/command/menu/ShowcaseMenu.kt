@@ -14,6 +14,7 @@ import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.utils.PlayerExtensions.accept
 import me.slavita.construction.utils.user
+import me.slavita.construction.utils.validate
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor.*
 import org.bukkit.Material
@@ -46,7 +47,7 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) :
                         infoButton.hover = getInfo()
                     }, 0L, 20L)
                     button {
-                        item = if (emptyItem.getType().isItem) emptyItem else ItemBuilder(Material.BARRIER).build()
+                        item = emptyItem.validate()
 //                            ${LanguageHelper.getItemDisplayName(emptyItem, player)}
                         hover = """
                             ${AQUA}Купить 8 шт за ${targetItem.second * 8} [ЛКМ]
