@@ -1,11 +1,13 @@
 package me.slavita.construction.utils
 
+import dev.implario.bukkit.event.EventContext
 import dev.implario.bukkit.platform.Platforms
 import io.netty.channel.ChannelDuplexHandler
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelPromise
 import me.func.world.WorldMeta
 import me.slavita.construction.app
+import net.minecraft.server.v1_12_R1.EntityPlayer
 import net.minecraft.server.v1_12_R1.Packet
 import org.apache.logging.log4j.util.BiConsumer
 import org.bukkit.Bukkit
@@ -17,6 +19,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.Event
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
+import org.bukkit.scheduler.BukkitTask
 import java.util.*
 import kotlin.reflect.KClass
 
@@ -25,6 +28,9 @@ val Player.user
 
 val Player.userOrNull
     get() = app.getUserOrNull(this.uniqueId)
+
+val Player.handle: EntityPlayer
+    get() = (this as CraftPlayer).handle
 
 fun labels(key: String, map: WorldMeta = app.mainWorld.map) = map.getLabels(key)
 
@@ -103,4 +109,18 @@ fun opCommand(name: String, biConsumer: BiConsumer<Player, Array<out String>>) {
 
 fun log(message: String) {
     println("[CONSTRUCTION] $message")
+}
+
+val routine = EventContext { true }.fork()
+
+val scheduler = Bukkit.getScheduler()
+
+fun runTimerAsync(start: Long, every: Long, runnable: Runnable) =
+    scheduler.runTaskTimerAsynchronously(app, runnable, start, every)
+
+fun runAsync(after: Long, runnable: Runnable): BukkitTask =
+    scheduler.runTaskLaterAsynchronously(app, runnable, after)
+
+fun Player.sendPacket(packet: Packet<*>) {
+    (this as CraftPlayer).handle.playerConnection.networkManager.sendPacket(packet)
 }

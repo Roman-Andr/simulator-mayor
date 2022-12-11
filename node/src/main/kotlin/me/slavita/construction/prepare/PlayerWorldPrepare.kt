@@ -4,6 +4,8 @@ import me.func.atlas.Atlas
 import me.slavita.construction.app
 import me.slavita.construction.player.City
 import me.slavita.construction.player.User
+import me.slavita.construction.utils.handle
+import me.slavita.construction.utils.sendPacket
 import net.minecraft.server.v1_12_R1.PacketPlayOutPlayerInfo
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
@@ -21,17 +23,17 @@ object PlayerWorldPrepare : IPrepare {
 
             Bukkit.getOnlinePlayers().forEach { current ->
                 player.hidePlayer(app, current.player)
-                (player as CraftPlayer).handle.playerConnection.sendPacket(
+                player.sendPacket(
                     PacketPlayOutPlayerInfo(
                         PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER,
-                        (current as CraftPlayer).handle
+                        current.handle
                     )
                 )
                 current.hidePlayer(app, player)
-                current.handle.playerConnection.sendPacket(
+                current.sendPacket(
                     PacketPlayOutPlayerInfo(
                         PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER,
-                        (player as CraftPlayer).handle
+                        player.handle
                     )
                 )
             }

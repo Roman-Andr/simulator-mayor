@@ -4,6 +4,8 @@ import me.func.mod.util.after
 import me.slavita.construction.player.User
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureState
+import me.slavita.construction.utils.runAsync
+import me.slavita.construction.utils.scheduler
 import me.slavita.construction.worker.Worker
 import me.slavita.construction.world.GameWorld
 
@@ -43,7 +45,7 @@ class WorkerStructure(
 
     private fun build() {
         if (state != StructureState.BUILDING) return
-        after(delayTime) {
+        runAsync(delayTime) {
             if (workers.isNotEmpty()) {
                 placeCurrentBlock()
             }
