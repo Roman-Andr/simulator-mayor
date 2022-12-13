@@ -6,6 +6,7 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
+import me.slavita.construction.utils.mapM
 import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GREEN
@@ -15,7 +16,7 @@ class WorkerTeamMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         player.user.run user@{
             return getBaseSelection(MenuInfo("${GREEN}${BOLD}Ваши работники", StatsType.MONEY, 4, 4)).apply {
-                storage = workers.sortedByDescending { it.rarity }.map { worker ->
+                storage = workers.sortedByDescending { it.rarity }.mapM { worker ->
                     button {
                         item = ItemIcons.get(
                             worker.rarity.iconKey,
@@ -30,7 +31,7 @@ class WorkerTeamMenu(player: Player) : MenuCommand(player) {
                             WorkerUpgradeMenu(player, worker).closeAll(false).tryExecute()
                         }
                     }
-                }.toMutableList()
+                }
             }
         }
     }

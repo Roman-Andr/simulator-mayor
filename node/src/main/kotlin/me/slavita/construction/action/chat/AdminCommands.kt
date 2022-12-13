@@ -96,7 +96,7 @@ object AdminCommands {
         }
 
         opCommand("settag") { player, args ->
-            player.user.tag = Tags.valueOf(args[0].uppercase())
+            player.user.data.tag = Tags.valueOf(args[0].uppercase())
             TagsPrepare.prepare(player.user)
         }
 

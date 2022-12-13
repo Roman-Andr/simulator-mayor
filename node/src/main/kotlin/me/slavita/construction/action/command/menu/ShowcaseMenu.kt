@@ -12,6 +12,7 @@ import me.slavita.construction.ui.Formatter
 import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.utils.PlayerExtensions.accept
+import me.slavita.construction.utils.mapM
 import me.slavita.construction.utils.user
 import me.slavita.construction.utils.validate
 import org.bukkit.Bukkit
@@ -38,7 +39,7 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) :
                 rows = 5
                 columns = 14
                 money = "Ваш Баланс ${player.user.statistics.money.toMoney()}"
-                storage = showcase.properties.elements.map { targetItem ->
+                storage = showcase.properties.elements.mapM { targetItem ->
                     val emptyItem = targetItem.first.createItemStack(1)
                     if (lastTaskId != 0) Bukkit.server.scheduler.cancelTask(lastTaskId)
                     lastTaskId = Bukkit.server.scheduler.scheduleSyncRepeatingTask(app, {
@@ -53,24 +54,24 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) :
                         """.trimIndent()
                         hint = (if (canPurchase(targetItem.second * 8)) "$WHITE" else "$RED") + " "
                         onLeftClick { _, _, _ ->
-                            tryPurchase(targetItem.second * 8, {
+                            tryPurchase(targetItem.second * 8) {
                                 println(emptyItem.getType())
                                 this@user.blocksStorage.addItem(emptyItem, 8)
                                 player.accept("Вы успешно купили блоки")
                                 this@selection.money = getBalance()
                                 Glow.animate(player, 0.3, GlowColor.GREEN)
-                            })
+                            }
                         }
                         onRightClick { _, _, _ ->
-                            tryPurchase(targetItem.second * 64, {
+                            tryPurchase(targetItem.second * 64) {
                                 this@user.blocksStorage.addItem(emptyItem, 32)
                                 player.accept("Вы успешно купили блоки")
                                 this@selection.money = getBalance()
                                 Glow.animate(player, 0.3, GlowColor.GREEN)
-                            })
+                            }
                         }
                     }
-                }.toMutableList().apply { add(0, infoButton) }
+                }.apply { add(0, infoButton) }
             }
         }
     }

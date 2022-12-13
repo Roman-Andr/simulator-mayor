@@ -10,10 +10,10 @@ class UpgradeWorker(val user: Player, val worker: Worker) : CooldownCommand(user
     override fun execute() {
         user.user.apply user@{
             workers.find { it == worker }!!.apply {
-                this@user.tryPurchase(upgradePrice, {
+                this@user.tryPurchase(upgradePrice) {
                     levelUp()
                     player.accept("Вы успешно улучшили рабочего!")
-                })
+                }
             }
         }
     }

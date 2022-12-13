@@ -16,11 +16,11 @@ class CityHall(val user: User) {
     }
 
     fun upgrade() {
-        user.tryPurchase(upgradePrice, {
+        user.tryPurchase(upgradePrice) {
             user.income -= income
             level++
             user.income += income
             user.player.accept("Вы успешно улучшили Мэрию")
-        })
+        }
     }
 }

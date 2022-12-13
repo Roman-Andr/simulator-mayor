@@ -4,8 +4,9 @@ import me.slavita.construction.utils.colored
 
 enum class Tags(
     val tag: String,
+    val price: Long,
 ) {
-    NONE(""),
+    NONE("", 0),
 
     BUILDER(
         "Строитель".colored(
@@ -20,7 +21,8 @@ enum class Tags(
         #6c02fe
         #5400ff
     """.trimIndent().split("\n")
-        )
+        ),
+        1000
     ),
     MAYOR(
         "Мэр".colored(
@@ -29,7 +31,8 @@ enum class Tags(
         #08fdc0
         #00f6ff
     """.trimIndent().split("\n")
-        )
+        ),
+        2000
     ),
     BANKER(
         "Банкир".colored(
@@ -41,7 +44,8 @@ enum class Tags(
         #ffaa08
         #ff9000
     """.trimIndent().split("\n")
-        )
+        ),
+        3000
     ),
     LAWYER(
         "Юрист".colored(
@@ -52,7 +56,8 @@ enum class Tags(
         #82ff0a
         #c6ff00
     """.trimIndent().split("\n")
-        )
+        ),
+        4000
     ),
     BUSINESSMAN(
         "Бизнесмен".colored(
@@ -67,7 +72,8 @@ enum class Tags(
         #ff8503
         #ff7200
     """.trimIndent().split("\n")
-        )
+        ),
+        5000
     ),
     DEVELOPER(
         "Застройщик".colored(
@@ -83,7 +89,8 @@ enum class Tags(
         #f4ff03
         #deff00
     """.trimIndent().split("\n")
-        )
+        ),
+        6000
     ),
     PIONEER(
         "Пионер".colored(
@@ -95,7 +102,8 @@ enum class Tags(
         #21355f
         #182848
     """.trimIndent().split("\n")
-        )
+        ),
+        6000
     ),
     COINER(
         "Монетчик".colored(
@@ -109,7 +117,8 @@ enum class Tags(
         #ff8c0f
         #ff8008
     """.trimIndent().split("\n")
-        )
+        ),
+        7000
     ),
     COLLECTOR(
         "Собиратель".colored(
@@ -125,7 +134,8 @@ enum class Tags(
         #f8ad00
         #ffc500
     """.trimIndent().split("\n")
-        )
+        ),
+        8000
     ),
     MASON(
         "Каменьшик".colored(
@@ -140,7 +150,8 @@ enum class Tags(
         #757575
         #808080
     """.trimIndent().split("\n")
-        )
+        ),
+        9000
     ),
     WEIGHT(
         "Авторитет".colored(
@@ -155,7 +166,8 @@ enum class Tags(
         #2a6ed3
         #2e79c5
     """.trimIndent().split("\n")
-        )
+        ),
+        10000
     ),
     DODGER(
         "Хитрец".colored(
@@ -167,7 +179,8 @@ enum class Tags(
         #d22ad9
         #a02ec5
     """.trimIndent().split("\n")
-        )
+        ),
+        11000
     ),
     HACKER(
         "Хакер".colored(
@@ -178,7 +191,8 @@ enum class Tags(
         #34fa28
         #6dff5e
     """.trimIndent().split("\n")
-        )
+        ),
+        12000
     ),
     HUCKSTER(
         "Барыга".colored(
@@ -190,7 +204,8 @@ enum class Tags(
         #40fb32
         #6dff5e
     """.trimIndent().split("\n")
-        )
+        ),
+        13000
     ),
     GRABBER(
         "Хапуга".colored(
@@ -202,7 +217,8 @@ enum class Tags(
         #40fb32
         #6dff5e
     """.trimIndent().split("\n")
-        )
+        ),
+        14000
     ),
     TREE(
         "Дерево".colored(
@@ -214,7 +230,8 @@ enum class Tags(
         #40fb32
         #6dff5e
     """.trimIndent().split("\n")
-        )
+        ),
+        15000
     ),
     BRICK(
         "Кирпич".colored(
@@ -226,7 +243,8 @@ enum class Tags(
         #40fb32
         #6dff5e
     """.trimIndent().split("\n")
-        )
+        ),
+        16000
     ),
     TRADER(
         "Торговец".colored(
@@ -240,7 +258,8 @@ enum class Tags(
         #78f5ac
         #93f9b9
     """.trimIndent().split("\n")
-        )
+        ),
+        17000
     ),
     BUSY(
         "Занятой".colored(
@@ -253,31 +272,7 @@ enum class Tags(
         #fd8671
         #ff9472
     """.trimIndent().split("\n")
-        )
+        ),
+        18000
     ),
-
-
-    /*
-
-
-Мэр
-Банкир
-Юрист
-Бизнесмен
-Застройщик
-Пионер
-Монетчик
-Собиратель
-Каменьшик
-Авторитет
-Хитрец
-Хакер
-Барыга
-Хапуга
-Дерево
-Кирпич
-Торговец
-Занятой
-
-     */
 }

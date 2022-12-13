@@ -21,12 +21,12 @@ class BuyCityConfirm(player: Player, val city: City, val fromMenu: Boolean = tru
                     "${AQUA}за ${city.price.toMoneyIcon()}",
                 )
             ) {
-                player.user.tryPurchase(city.price, {
+                player.user.tryPurchase(city.price) {
                     city.unlocked = true
                     player.accept("Вы успешно купили локацию ${GOLD}${city.title}")
                     if (fromMenu) LocationsMenu(player).tryExecute()
                     else currentCity = city
-                })
+                }
             }
         }
     }
