@@ -1,11 +1,8 @@
 package me.slavita.construction.mod.utils
 
 import dev.xdark.clientapi.ClientApi
-import dev.xdark.clientapi.math.Vec3d
 import dev.xdark.clientapi.opengl.GlStateManager
-import dev.xdark.clientapi.render.BufferBuilder
 import dev.xdark.clientapi.render.DefaultVertexFormats
-import dev.xdark.clientapi.render.Tessellator
 import ru.cristalix.uiengine.UIEngine.clientApi
 import ru.cristalix.uiengine.utility.Color
 import ru.cristalix.uiengine.utility.V3
@@ -82,7 +79,8 @@ object Renderer {
         )
 
         bufferbuilder.pos(pos1.x, pos1.y, pos1.z).color(color.red, color.green, color.blue, 0).endVertex()
-        bufferbuilder.pos(pos2.x, pos2.y, pos2.z).color(color.red, color.green, color.blue, color.alpha.toInt()).endVertex()
+        bufferbuilder.pos(pos2.x, pos2.y, pos2.z).color(color.red, color.green, color.blue, color.alpha.toInt())
+            .endVertex()
 
         tessellator.draw()
         GlStateManager.glLineWidth(width)

@@ -1,14 +1,11 @@
 package me.slavita.construction.mod.utils
 
 import dev.xdark.clientapi.ClientApi
-import dev.xdark.clientapi.world.World
-import me.slavita.construction.mod.SpecialColor
-import me.slavita.construction.mod.utils.extensions.PositionExtensions.string
 import me.slavita.construction.mod.utils.extensions.PositionExtensions.withOffset
 import ru.cristalix.uiengine.UIEngine.clientApi
-import ru.cristalix.uiengine.utility.Color
 import ru.cristalix.uiengine.utility.V3
-import kotlin.math.*
+import kotlin.math.cos
+import kotlin.math.sin
 
 fun getWidth(string: String): Double = clientApi.fontRenderer().getStringWidth(string).toDouble()
 

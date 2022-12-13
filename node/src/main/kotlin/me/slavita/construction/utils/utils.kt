@@ -152,7 +152,8 @@ fun getEmptyButton() = button {
 
 fun Material.validate(): ItemStack = if (isItem) ItemBuilder(this).build() else ItemBuilder(Material.BARRIER).build()
 
-fun ItemStack.validate(): ItemStack = if (getType().isItem) ItemBuilder(getType()).build() else ItemBuilder(Material.BARRIER).build()
+fun ItemStack.validate(): ItemStack =
+    if (getType().isItem) ItemBuilder(getType()).build() else ItemBuilder(Material.BARRIER).build()
 
 inline fun <T, R> Array<out T>.mapM(transform: (T) -> R): MutableList<R> {
     return map(transform).toMutableList()

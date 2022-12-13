@@ -8,7 +8,6 @@ import me.slavita.construction.project.Project
 import me.slavita.construction.storage.BlocksStorage
 import me.slavita.construction.ui.Formatter.applyBoosters
 import me.slavita.construction.utils.PlayerExtensions.deny
-import me.slavita.construction.worker.Worker
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import ru.cristalix.core.invoice.IInvoiceService
@@ -52,7 +51,7 @@ class User(val uuid: UUID) {
 
     fun tryPurchase(
         cost: Long,
-        acceptAction: () -> Unit
+        acceptAction: () -> Unit,
     ) {
         if (statistics.money >= cost) {
             statistics.money -= cost

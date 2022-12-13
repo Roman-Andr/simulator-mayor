@@ -7,5 +7,5 @@ data class Data(
     var workers: HashSet<Worker> = hashSetOf(),
     var settings: SettingsData = SettingsData(),
     var tag: Tags = Tags.NONE,
-    var ownTags: HashSet<Tags> = hashSetOf()
+    var ownTags: HashSet<Tags> = hashSetOf(),
 )

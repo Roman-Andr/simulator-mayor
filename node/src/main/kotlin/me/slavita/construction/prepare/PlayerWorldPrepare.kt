@@ -14,7 +14,13 @@ object PlayerWorldPrepare : IPrepare {
     override fun prepare(user: User) {
         user.apply {
             cities.addAll(Atlas.find("locations").getMapList("locations").map { values ->
-                City(this, values["id"] as String, values["title"] as String, (values["price"] as Int).toLong(),values["id"] as String == "1")
+                City(
+                    this,
+                    values["id"] as String,
+                    values["title"] as String,
+                    (values["price"] as Int).toLong(),
+                    values["id"] as String == "1"
+                )
             }.toTypedArray())
             currentCity = cities.firstOrNull { it.box.contains(player.location) }!!
             player.teleport(currentCity.getSpawn())
