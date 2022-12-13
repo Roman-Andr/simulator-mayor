@@ -9,6 +9,7 @@ import me.slavita.construction.dontate.MoneyDonate
 import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.utils.donateButton
+import me.slavita.construction.utils.mapM
 import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GREEN
@@ -20,13 +21,13 @@ class MoneyBuyMenu(player: Player) : MenuCommand(player) {
             return choicer {
                 title = "${GREEN}${BOLD}Игровая валюта"
                 description = "Кристаллики: ${player.user.criBalance.toCriMoney()}"
-                storage = Donates.values().filter { it.donate is MoneyDonate }.map {
+                storage = Donates.values().filter { it.donate is MoneyDonate }.mapM {
                     val value = (this@user.income * (it.donate as MoneyDonate).skipTime).toMoney()
                     it.donate.title = it.donate.title.replace("%money%", value)
                     it.donate.description = it.donate.description.replace("%money%", value)
                     it.donate.incomeOnBuy = this@user.income
                     donateButton(it, player)
-                }.toMutableList()
+                }
             }
         }
     }

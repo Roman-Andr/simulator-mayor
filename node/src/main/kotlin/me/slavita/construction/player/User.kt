@@ -1,10 +1,12 @@
 package me.slavita.construction.player
 
 import me.slavita.construction.app
+import me.slavita.construction.booster.BoosterType
 import me.slavita.construction.dontate.ability.Ability
 import me.slavita.construction.prepare.StoragePrepare
 import me.slavita.construction.project.Project
 import me.slavita.construction.storage.BlocksStorage
+import me.slavita.construction.ui.Formatter.applyBoosters
 import me.slavita.construction.utils.PlayerExtensions.deny
 import me.slavita.construction.worker.Worker
 import org.bukkit.Bukkit
@@ -28,7 +30,6 @@ class User(val uuid: UUID) {
     var income = 0L
     var criBalanceLastUpdate = 0L
     val hall = CityHall(this)
-    var tag = Tags.NONE
 
     var criBalance: Int = 0
         get() {
@@ -45,22 +46,19 @@ class User(val uuid: UUID) {
 
     init {
         Bukkit.server.scheduler.scheduleSyncRepeatingTask(app, {
-            if (initialized && player.isOnline) statistics.money += income
+            if (initialized && player.isOnline) statistics.money += income.applyBoosters(BoosterType.MONEY_BOOSTER)
         }, 0L, 20L)
     }
 
     fun tryPurchase(
         cost: Long,
-        acceptAction: () -> Unit,
-        denyAction: () -> Unit = {
-            player.deny("Недостаточно денег!")
-        },
+        acceptAction: () -> Unit
     ) {
         if (statistics.money >= cost) {
             statistics.money -= cost
             acceptAction()
         } else {
-            denyAction()
+            player.deny("Недостаточно денег!")
         }
     }
 

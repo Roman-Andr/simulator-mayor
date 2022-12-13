@@ -19,15 +19,6 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
             return Choicer(title = "${GREEN}${BOLD}Меню", description = "Выбери нужный раздел").apply {
                 storage = mutableListOf(
                     button {
-                        title = "${AQUA}${BOLD}Работники"
-                        hint = "Выбрать"
-                        backgroundColor = GlowColor.BLUE
-                        item = ItemIcons.get("other", "guild_members")
-                        onClick { _, _, _ ->
-                            WorkerTeamMenu(player).closeAll(false).tryExecute()
-                        }
-                    },
-                    button {
                         title = "${GREEN}${BOLD}Локации"
                         hint = "Выбрать"
                         backgroundColor = GlowColor.GREEN
@@ -52,6 +43,15 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         item = ItemIcons.get("skyblock", "is_settings")
                         onClick { _, _, _ ->
                             SettingsMenu(player).closeAll(false).tryExecute()
+                        }
+                    },
+                    button {
+                        title = "${AQUA}${BOLD}Теги"
+                        hint = "Выбрать"
+                        backgroundColor = GlowColor.BLUE
+                        item = ItemIcons.get("other", "clothes")
+                        onClick { _, _, _ ->
+                            TagsMenu(player).tryExecute()
                         }
                     }
                 )
