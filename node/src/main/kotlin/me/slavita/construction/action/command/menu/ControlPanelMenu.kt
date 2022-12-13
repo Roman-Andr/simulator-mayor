@@ -19,15 +19,6 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
             return Choicer(title = "${GREEN}${BOLD}Меню", description = "Выбери нужный раздел").apply {
                 storage = mutableListOf(
                     button {
-                        title = "${GREEN}${BOLD}Локации"
-                        hint = "Выбрать"
-                        backgroundColor = GlowColor.GREEN
-                        item = ItemIcons.get("alpha", "islands")
-                        onClick { _, _, _ ->
-                            LocationsMenu(player).closeAll(false).tryExecute()
-                        }
-                    },
-                    button {
                         title = "${AQUA}${BOLD}Проекты"
                         hint = "Выбрать"
                         backgroundColor = GlowColor.ORANGE
@@ -37,12 +28,12 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         }
                     },
                     button {
-                        title = "${GRAY}${BOLD}Настройки"
+                        title = "${GREEN}${BOLD}Локации"
                         hint = "Выбрать"
-                        backgroundColor = GlowColor.NEUTRAL
-                        item = ItemIcons.get("skyblock", "is_settings")
+                        backgroundColor = GlowColor.GREEN
+                        item = ItemIcons.get("alpha", "islands")
                         onClick { _, _, _ ->
-                            SettingsMenu(player).closeAll(false).tryExecute()
+                            LocationsMenu(player).closeAll(false).tryExecute()
                         }
                     },
                     button {
@@ -52,6 +43,15 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         item = ItemIcons.get("other", "clothes")
                         onClick { _, _, _ ->
                             TagsMenu(player).tryExecute()
+                        }
+                    },
+                    button {
+                        title = "${GRAY}${BOLD}Настройки"
+                        hint = "Выбрать"
+                        backgroundColor = GlowColor.NEUTRAL
+                        item = ItemIcons.get("skyblock", "is_settings")
+                        onClick { _, _, _ ->
+                            SettingsMenu(player).closeAll(false).tryExecute()
                         }
                     }
                 )

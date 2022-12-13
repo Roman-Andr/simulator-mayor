@@ -20,13 +20,13 @@ class DonateMenu(player: Player) : MenuCommand(player) {
             ).apply {
                 storage = mutableListOf(
                     button {
-                        item = ItemIcons.get("other", "new_booster_1")
-                        title = "${GOLD}${BOLD}Бустеры"
-                        description = "${GRAY}Бустеры\n${GRAY}статистики"
+                        item = ItemIcons.get("other", "bag1")
+                        title = "${GREEN}${BOLD}Монеты"
                         hint = "Выбрать"
-                        backgroundColor = GlowColor.YELLOW_LIGHT
+                        description = "${GRAY}Пополнение\n${GRAY}баланса"
+                        backgroundColor = GlowColor.GREEN
                         onClick { _, _, _ ->
-                            BoostersMenu(player).closeAll(false).tryExecute()
+                            MoneyBuyMenu(player).closeAll(false).tryExecute()
                         }
                     },
                     button {
@@ -40,13 +40,13 @@ class DonateMenu(player: Player) : MenuCommand(player) {
                         }
                     },
                     button {
-                        item = ItemIcons.get("other", "bag1")
-                        title = "${GREEN}${BOLD}Монеты"
+                        item = ItemIcons.get("other", "new_booster_1")
+                        title = "${GOLD}${BOLD}Бустеры"
+                        description = "${GRAY}Бустеры\n${GRAY}статистики"
                         hint = "Выбрать"
-                        description = "${GRAY}Пополнение\n${GRAY}баланса"
-                        backgroundColor = GlowColor.GREEN
+                        backgroundColor = GlowColor.YELLOW_LIGHT
                         onClick { _, _, _ ->
-                            MoneyBuyMenu(player).closeAll(false).tryExecute()
+                            BoostersMenu(player).closeAll(false).tryExecute()
                         }
                     },
                     button {
