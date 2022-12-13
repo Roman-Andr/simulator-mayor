@@ -1,6 +1,5 @@
 package me.slavita.construction.mod
 
-import dev.xdark.clientapi.event.block.BlockRightClick
 import dev.xdark.clientapi.event.input.RightClick
 import dev.xdark.clientapi.event.lifecycle.GameTickPost
 import dev.xdark.clientapi.event.render.RenderPass
@@ -13,7 +12,7 @@ import me.slavita.construction.mod.utils.Renderer
 import me.slavita.construction.mod.utils.extensions.InventoryExtensions.blocksCount
 import me.slavita.construction.mod.utils.extensions.InventoryExtensions.handItemEquals
 import me.slavita.construction.mod.utils.extensions.InventoryExtensions.hotbarEqualSlots
-import me.slavita.construction.mod.utils.extensions.PositionExtensions.equalsV
+import me.slavita.construction.mod.utils.isLookingAt
 import org.lwjgl.input.Mouse
 import ru.cristalix.uiengine.UIEngine
 import ru.cristalix.uiengine.UIEngine.clientApi
@@ -116,13 +115,10 @@ object StructureBuilding {
             }
         }
 
-        mod.registerHandler<BlockRightClick> {
+        mod.registerHandler<RightClick> {
             if (currentBlockLocation == null || hand == EnumHand.OFF_HAND) return@registerHandler
-            if (!position.add(facing.xOffset, facing.yOffset, facing.zOffset)
-                    .equalsV(currentBlockLocation!!)
-            ) return@registerHandler
+            if (!clientApi.isLookingAt(currentBlockLocation!!)) return@registerHandler
             if (!player.inventory.handItemEquals(currentItem!!)) return@registerHandler
-
             clientApi.clientConnection().sendPayload("structure:place", Unpooled.buffer())
             player.swingArm(EnumHand.MAIN_HAND)
         }
