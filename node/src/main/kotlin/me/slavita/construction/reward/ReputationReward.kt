@@ -6,10 +6,10 @@ import me.slavita.construction.ui.Formatter.applyBoosters
 import me.slavita.construction.ui.Formatter.toReputation
 import me.slavita.construction.utils.PlayerExtensions.accept
 
-class ReputationReward(val reputation: Long) : Reward() {
+class ReputationReward(private val reputation: Long) : Reward() {
     override fun getReward(user: User) {
         val value = reputation.applyBoosters(BoosterType.REPUTATION_BOOSTER)
-        user.statistics.reputation += value
+        user.data.statistics.reputation += value
         user.player.accept("Вы получили ${value.toReputation() + " репутации"}")
     }
 

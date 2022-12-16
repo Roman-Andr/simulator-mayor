@@ -45,7 +45,7 @@ object PlayerWorldPrepare : IPrepare {
             }
 
             app.mainWorld.glows.forEach { it.send(player) }
-            player.walkSpeed = statistics.speed
+            player.walkSpeed = data.statistics.speed
         }
     }
 }

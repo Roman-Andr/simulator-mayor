@@ -6,10 +6,10 @@ import me.slavita.construction.ui.Formatter.applyBoosters
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.PlayerExtensions.accept
 
-class MoneyReward(val money: Long) : Reward() {
+class MoneyReward(private val money: Long) : Reward() {
     override fun getReward(user: User) {
         val value = money.applyBoosters(BoosterType.MONEY_BOOSTER)
-        user.statistics.money += value
+        user.data.statistics.money += value
         user.player.accept("Вы получили ${value.toMoneyIcon()}")
     }
 

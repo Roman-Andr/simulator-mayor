@@ -32,7 +32,7 @@ class CreditsListMenu(player: Player) : MenuCommand(player) {
                                     ${AQUA}Процент: ${value.percent}%
                                 """.trimIndent()
                                 onClick { _, _, _ ->
-                                    if (this@user.statistics.money > value.needToGive) {
+                                    if (this@user.data.statistics.money > value.needToGive) {
                                         RepayCreditConfim(player, value).tryExecute()
                                     } else {
                                         player.deny("Не хватает денег для погашения кредита")

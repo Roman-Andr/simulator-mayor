@@ -14,7 +14,7 @@ object ProjectGenerator {
     fun generateClient(owner: User, structure: Structure, cell: Cell): Project {
         return Project(
             owner.currentCity,
-            owner.statistics.totalProjects,
+            owner.data.statistics.totalProjects,
             ClientStructure(
                 app.mainWorld,
                 structure,
@@ -32,7 +32,7 @@ object ProjectGenerator {
     fun generateWorker(owner: User, structure: Structure, cell: Cell): Project {
         return Project(
             owner.currentCity,
-            owner.statistics.totalProjects,
+            owner.data.statistics.totalProjects,
             WorkerStructure(
                 app.mainWorld,
                 structure,

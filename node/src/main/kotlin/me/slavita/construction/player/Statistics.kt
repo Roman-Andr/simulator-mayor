@@ -9,6 +9,6 @@ class Statistics(
     var maxProjects: Int = 0,
     var speed: Float = 0.2F,
     var trainStep: Int = 0,
-    var nextDay: Int = 0,
+    var nextDay: Int = 1,
     var nextTakeDailyReward: Long = 0,
 )

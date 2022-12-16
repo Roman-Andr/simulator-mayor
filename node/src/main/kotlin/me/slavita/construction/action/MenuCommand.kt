@@ -34,8 +34,8 @@ abstract class MenuCommand(player: Player, cooldown: Long = 1) : CooldownCommand
             columns = info.columns
             money = "Ваш ${info.type.title} ${
                 when (info.type) {
-                    StatsType.MONEY  -> player.user.statistics.money.toMoney()
-                    StatsType.LEVEL  -> player.user.statistics.level
+                    StatsType.MONEY  -> player.user.data.statistics.money.toMoney()
+                    StatsType.LEVEL  -> player.user.data.statistics.level
                     StatsType.CREDIT -> Bank.playersData[player.uniqueId]!!.sumOf { it.creditValue }.toMoney()
                 }
             }"

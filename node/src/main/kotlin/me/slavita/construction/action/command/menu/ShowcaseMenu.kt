@@ -38,7 +38,7 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) :
                 vault = Formatter.moneyIcon
                 rows = 5
                 columns = 14
-                money = "Ваш Баланс ${player.user.statistics.money.toMoney()}"
+                money = "Ваш Баланс ${player.user.data.statistics.money.toMoney()}"
                 storage = showcase.properties.elements.mapM { targetItem ->
                     val emptyItem = targetItem.first.createItemStack(1)
                     if (lastTaskId != 0) Bukkit.server.scheduler.cancelTask(lastTaskId)
@@ -76,7 +76,7 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) :
         }
     }
 
-    private fun getBalance() = "Ваш Баланс ${player.user.statistics.money.toMoney()}"
+    private fun getBalance() = "Ваш Баланс ${player.user.data.statistics.money.toMoney()}"
 
     private fun getInfo() = """
         ${GREEN}Обновление цен через: ${GOLD}время

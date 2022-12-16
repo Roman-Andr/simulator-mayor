@@ -9,6 +9,7 @@ import me.func.mod.ui.menu.selection
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.command.menu.DailyMenu
 import me.slavita.construction.bank.Bank
+import me.slavita.construction.player.Statistics
 import me.slavita.construction.player.Tags
 import me.slavita.construction.prepare.GuidePrepare
 import me.slavita.construction.prepare.TagsPrepare
@@ -26,7 +27,7 @@ import ru.cristalix.core.transfer.ITransferService
 object AdminCommands {
     init {
         opCommand("setmoney") { player, args ->
-            player.user.statistics.money = args[0].toLong()
+            player.user.data.statistics.money = args[0].toLong()
         }
 
         opCommand("exp") { player, args ->
@@ -40,12 +41,12 @@ object AdminCommands {
         opCommand("panel") { player, _ ->
             listOf(
                 ReactivePanel.builder()
-                    .text("Монет ${player.user.statistics.money.toMoneyIcon()}")
+                    .text("Монет ${player.user.data.statistics.money.toMoneyIcon()}")
                     .color(GlowColor.ORANGE)
                     .progress(1.0)
                     .build(),
                 ReactivePanel.builder()
-                    .text("Опыт ${player.user.statistics.experience}")
+                    .text("Опыт ${player.user.data.statistics.experience}")
                     .color(GlowColor.BLUE)
                     .progress(1.0)
                     .build(),
@@ -124,6 +125,10 @@ object AdminCommands {
 
         opCommand("currentcity") { player, _ ->
             player.killboard(player.user.currentCity.title)
+        }
+
+        opCommand("statclear") { player, _ ->
+            player.user.data.statistics = Statistics()
         }
     }
 }

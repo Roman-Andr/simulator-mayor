@@ -17,8 +17,6 @@ class User(val uuid: UUID) {
     var initialized = false
     lateinit var player: Player
     lateinit var data: Data
-    val statistics
-        get() = data.statistics
     var cities = hashSetOf<City>()
     var currentCity: City = City(this, "1", "Незаданная", 0, true)
     val blocksStorage = BlocksStorage(this)
@@ -42,7 +40,7 @@ class User(val uuid: UUID) {
 
     init {
         Bukkit.server.scheduler.scheduleSyncRepeatingTask(app, {
-            if (initialized && player.isOnline) statistics.money += income.applyBoosters(BoosterType.MONEY_BOOSTER)
+            if (initialized && player.isOnline) data.statistics.money += income.applyBoosters(BoosterType.MONEY_BOOSTER)
         }, 0L, 20L)
     }
 
@@ -50,8 +48,8 @@ class User(val uuid: UUID) {
         cost: Long,
         acceptAction: () -> Unit,
     ) {
-        if (statistics.money >= cost) {
-            statistics.money -= cost
+        if (data.statistics.money >= cost) {
+            data.statistics.money -= cost
             acceptAction()
         } else {
             player.deny("Недостаточно денег!")
@@ -59,7 +57,7 @@ class User(val uuid: UUID) {
     }
 
     fun addExp(exp: Long) {
-        statistics.experience += exp
+        data.statistics.experience += exp
 //		if (exp / 10*2.0.pow(stats.level) > 0) {
 //			stats.level += (exp / 10).toInt()
 //			Anime.itemTitle(player, ItemIcons.get("other", "access"), "Новый уровень: ${stats.level}", "", 2.0)
@@ -68,7 +66,7 @@ class User(val uuid: UUID) {
     }
 
     fun canPurchase(cost: Long): Boolean {
-        return statistics.money >= cost
+        return data.statistics.money >= cost
     }
 
     fun changeCity(city: City) {
