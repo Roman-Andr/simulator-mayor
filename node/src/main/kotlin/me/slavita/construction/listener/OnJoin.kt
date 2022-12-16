@@ -35,7 +35,8 @@ object OnJoin {
                         BankAccountPrepare,
                         GuidePrepare,
                         StoragePrepare,
-                        AbilityPrepare
+                        AbilityPrepare,
+                        DailyRewardsPrepare,
                     ).forEach { it.prepare(this) }
                 }
             }
