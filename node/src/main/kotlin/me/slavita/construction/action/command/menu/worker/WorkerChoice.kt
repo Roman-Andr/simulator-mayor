@@ -46,7 +46,7 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
                 },
                 getEmptyButton()
             ).apply storage@{
-                workers.sortedByDescending { it.rarity }.forEach { worker ->
+                data.workers.sortedByDescending { it.rarity }.forEach { worker ->
                     this@storage.add(
                         button {
                             item = ItemIcons.get(

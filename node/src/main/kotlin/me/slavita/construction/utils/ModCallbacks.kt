@@ -24,11 +24,11 @@ object ModCallbacks {
             val amount = buff.readInt()
             val digit = buff.readInt()
             val value = (amount * 10.0.pow(digit)).toLong()
-            player.accept("Кредит на сумму ${value.toMoneyIcon()} ${GREEN}успешно взят")
+            player.accept("Кредит на сумму ${value.toMoneyIcon()} ${WHITE}успешно взят")
             Bank.giveCredit(player.user, value)
         }
 
-        app.server.scheduler.scheduleSyncRepeatingTask(
+        app.server.scheduler.runTaskTimerAsynchronously(
             app,
             {
                 Bukkit.getOnlinePlayers().forEach { player ->

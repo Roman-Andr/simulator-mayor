@@ -12,6 +12,6 @@ class OpenWorker(val user: User, vararg val workers: Worker) : CooldownCommand(u
             player,
             *(workers.map { LootDrop(it.rarity.getIcon(), it.name, it.rarity.dropRare) }).toTypedArray()
         )
-        user.workers.addAll(workers)
+        user.data.workers.addAll(workers)
     }
 }

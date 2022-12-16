@@ -9,7 +9,7 @@ import org.bukkit.entity.Player
 class UpgradeWorker(val user: Player, val worker: Worker) : CooldownCommand(user, 2) {
     override fun execute() {
         user.user.apply user@{
-            workers.find { it == worker }!!.apply {
+            data.workers.find { it == worker }!!.apply {
                 this@user.tryPurchase(upgradePrice) {
                     levelUp()
                     player.accept("Вы успешно улучшили рабочего!")

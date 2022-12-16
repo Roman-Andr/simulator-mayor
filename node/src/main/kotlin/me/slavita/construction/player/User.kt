@@ -2,7 +2,7 @@ package me.slavita.construction.player
 
 import me.slavita.construction.app
 import me.slavita.construction.booster.BoosterType
-import me.slavita.construction.dontate.ability.Ability
+import me.slavita.construction.dontate.Abilities
 import me.slavita.construction.prepare.StoragePrepare
 import me.slavita.construction.project.Project
 import me.slavita.construction.storage.BlocksStorage
@@ -22,9 +22,6 @@ class User(val uuid: UUID) {
     var cities = hashSetOf<City>()
     var currentCity: City = City(this, "1", "Незаданная", 0, true)
     val blocksStorage = BlocksStorage(this)
-    val abilities = hashSetOf<Ability>()
-    val workers
-        get() = data.workers
     var watchableProject: Project? = null
     var income = 0L
     var criBalanceLastUpdate = 0L
@@ -85,8 +82,8 @@ class User(val uuid: UUID) {
         city.projects.forEach { it.structure.visual.start() }
     }
 
-    fun addAbility(ability: Ability) {
-        abilities.add(ability)
-        ability.apply(this)
+    fun addAbility(ability: Abilities) {
+        data.abilities.add(ability)
+        ability.applyAction(this)
     }
 }

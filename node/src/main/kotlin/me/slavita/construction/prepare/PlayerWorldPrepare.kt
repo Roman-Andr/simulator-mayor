@@ -13,6 +13,7 @@ import org.bukkit.GameMode
 object PlayerWorldPrepare : IPrepare {
     override fun prepare(user: User) {
         user.apply {
+            cities.clear()
             cities.addAll(Atlas.find("locations").getMapList("locations").map { values ->
                 City(
                     this,

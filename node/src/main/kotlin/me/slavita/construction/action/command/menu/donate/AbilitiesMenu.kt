@@ -24,7 +24,7 @@ class AbilitiesMenu(player: Player) : MenuCommand(player) {
                     button {
                         item = it.displayItem
                         title = it.donate.title
-                        if (player.user.abilities.contains((it.donate as AbilityDonate).ability)) {
+                        if (player.user.data.abilities.contains((it.donate as AbilityDonate).ability)) {
                             hint = "Куплено"
                             backgroundColor = GlowColor.NEUTRAL
                         } else {
@@ -34,7 +34,7 @@ class AbilitiesMenu(player: Player) : MenuCommand(player) {
                         }
                         description = "Цена: ${it.donate.price.toCriMoney()}"
                         onClick { _, _, _ ->
-                            if (!player.user.abilities.contains(it.donate.ability)) it.donate.purchase(this@user)
+                            if (!player.user.data.abilities.contains(it.donate.ability)) it.donate.purchase(this@user)
                         }
                     }
                 }

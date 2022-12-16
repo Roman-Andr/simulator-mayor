@@ -16,7 +16,7 @@ class WorkerTeamMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         player.user.run user@{
             return getBaseSelection(MenuInfo("${GREEN}${BOLD}Ваши работники", StatsType.MONEY, 4, 4)).apply {
-                storage = workers.sortedByDescending { it.rarity }.mapM { worker ->
+                storage = this@user.data.workers.sortedByDescending { it.rarity }.mapM { worker ->
                     button {
                         item = ItemIcons.get(
                             worker.rarity.iconKey,

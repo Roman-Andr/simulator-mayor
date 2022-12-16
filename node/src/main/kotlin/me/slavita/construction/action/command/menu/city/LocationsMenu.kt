@@ -43,7 +43,7 @@ class LocationsMenu(player: Player) : MenuCommand(player) {
                                 ChangeCity(
                                     player,
                                     city
-                                ).tryExecute(player.user.abilities.contains((Donates.NO_LIMIT_TELEPORT_DONATE.donate as AbilityDonate).ability))
+                                ).tryExecute(player.user.data.abilities.contains((Donates.NO_LIMIT_TELEPORT_DONATE.donate as AbilityDonate).ability))
                                     .run {
                                         if (this < 0) player.deny(
                                             "Подождите ещё ${(abs(this) / 20).toInt()} ${SECOND.get((abs(this) / 20).toInt())}"
