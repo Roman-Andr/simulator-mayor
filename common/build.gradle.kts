@@ -3,4 +3,5 @@ plugins {
 }
 
 dependencies {
+    compileOnly("cristalix:microservice:20.11.04")
 }

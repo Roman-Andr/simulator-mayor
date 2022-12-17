@@ -1,0 +1,29 @@
+plugins {
+    id("com.github.johnrengelman.shadow")
+}
+
+dependencies {
+    compileOnly("cristalix:microservice:20.11.04")
+    compileOnly("me.func:service-api:2.0.0-SNAPSHOT")
+    implementation(project(":common"))
+
+    implementation("org.mongodb:mongodb-driver-async:3.12.11")
+    implementation("org.mongodb:mongodb-driver:3.12.11")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.4")
+
+    implementation("org.iq80.leveldb:leveldb:0.12")
+
+    implementation("org.json:json:20220924")
+}
+
+afterEvaluate {
+    jar {
+        manifest {
+            attributes "Main-Class": "me.slavita.construction.service.MainKt"
+        }
+        archiveBaseName.set("construction-service")
+        from configurations.runtimeClasspath.collect { it.directory ? it : zipTree(it) }
+        duplicatesStrategy DuplicatesStrategy.EXCLUDE
+    }
+}
