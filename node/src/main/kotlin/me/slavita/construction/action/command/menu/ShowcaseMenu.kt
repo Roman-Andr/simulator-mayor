@@ -12,7 +12,7 @@ import me.slavita.construction.ui.Formatter
 import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.utils.PlayerExtensions.accept
-import me.slavita.construction.utils.langutils.LanguageHelper
+import me.slavita.construction.utils.language.LanguageHelper
 import me.slavita.construction.utils.mapM
 import me.slavita.construction.utils.user
 import me.slavita.construction.utils.validate

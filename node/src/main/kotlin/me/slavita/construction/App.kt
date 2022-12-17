@@ -33,7 +33,7 @@ import me.slavita.construction.ui.SpeedPlaces
 import me.slavita.construction.ui.items.ItemsManager
 import me.slavita.construction.utils.Config
 import me.slavita.construction.utils.ModCallbacks
-import me.slavita.construction.utils.langutils.convert.EnumLang
+import me.slavita.construction.utils.language.EnumLang
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.Bukkit

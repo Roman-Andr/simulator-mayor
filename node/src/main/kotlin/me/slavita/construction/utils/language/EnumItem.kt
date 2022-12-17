@@ -1,6 +1,6 @@
-package me.slavita.construction.utils.langutils.convert
+package me.slavita.construction.utils.language
 
-import me.slavita.construction.utils.langutils.LanguageHelper.translateToLocal
+import me.slavita.construction.utils.language.LanguageHelper.translateToLocal
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta

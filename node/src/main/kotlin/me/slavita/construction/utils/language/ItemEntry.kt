@@ -1,4 +1,4 @@
-package me.slavita.construction.utils.langutils.convert
+package me.slavita.construction.utils.language
 
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack

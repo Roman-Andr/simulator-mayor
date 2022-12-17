@@ -1,10 +1,10 @@
-package me.slavita.construction.utils.langutils.convert
+package me.slavita.construction.utils.language
 
 import java.util.*
 
 enum class EnumEnchantmentLevel(
     val level: Int,
-    val unlocalizedName: String
+    val unlocalizedName: String,
 ) {
     LEVEL1(1, "enchantment.level.1"), LEVEL2(2, "enchantment.level.2"), LEVEL3(3, "enchantment.level.3"), LEVEL4(
         4,

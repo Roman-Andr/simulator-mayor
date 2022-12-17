@@ -1,18 +1,18 @@
-package me.slavita.construction.utils.langutils.convert
+package me.slavita.construction.utils.language
 
-import me.slavita.construction.utils.langutils.LanguageHelper.translateToLocal
+import me.slavita.construction.utils.language.LanguageHelper.translateToLocal
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.PotionMeta
 import org.bukkit.potion.PotionType
 import java.util.*
 
-enum class EnumPotionEffect (
+enum class EnumPotionEffect(
     val potionType: PotionType,
     val unlocalizedName: String,
     val unlocalizedSplashName: String,
     val unlocalizedLingeringName: String,
-    val unlocalizedArrowName: String
+    val unlocalizedArrowName: String,
 ) {
     UNCRAFTABLE(
         PotionType.UNCRAFTABLE,
@@ -190,7 +190,7 @@ enum class EnumPotionEffect (
 
         fun getLocalizedName(itemStack: ItemStack, locale: String?): String {
             return when (itemStack.getType()) {
-                Material.SPLASH_POTION -> translateToLocal(
+                Material.SPLASH_POTION    -> translateToLocal(
                     getUnlocalizedSplashName(
                         itemStack
                     ), locale!!
@@ -202,13 +202,13 @@ enum class EnumPotionEffect (
                     ), locale!!
                 )
 
-                Material.TIPPED_ARROW -> translateToLocal(
+                Material.TIPPED_ARROW     -> translateToLocal(
                     getUnlocalizedArrowName(
                         itemStack
                     ), locale!!
                 )
 
-                else -> translateToLocal(
+                else                      -> translateToLocal(
                     getUnlocalizedName(
                         itemStack
                     ), locale!!

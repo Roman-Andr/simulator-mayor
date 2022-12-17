@@ -1,6 +1,5 @@
-package me.slavita.construction.utils.langutils
+package me.slavita.construction.utils.language
 
-import me.slavita.construction.utils.langutils.convert.*
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Entity
@@ -18,7 +17,7 @@ object LanguageHelper {
     }
 
     fun getItemDisplayName(item: ItemStack, player: Player?): String {
-        return getItemDisplayName(item, LocaleHelper.getPlayerLanguage(player))
+        return getItemDisplayName(item, getPlayerLanguage(player))
     }
 
     fun getItemName(item: ItemStack, locale: String): String {
@@ -26,7 +25,8 @@ object LanguageHelper {
             Material.POTION,
             Material.SPLASH_POTION,
             Material.LINGERING_POTION,
-            Material.TIPPED_ARROW -> EnumPotionEffect.getLocalizedName(
+            Material.TIPPED_ARROW,
+            -> EnumPotionEffect.getLocalizedName(
                 item,
                 locale
             )
@@ -36,13 +36,13 @@ object LanguageHelper {
                 locale
             )
 
-            Material.SKULL_ITEM -> {
+            Material.SKULL_ITEM  -> {
                 if (item.getDurability().toInt() == 3) {
                     EnumItem.getPlayerSkullName(item, locale)
                 } else translateToLocal(getItemUnlocalizedName(item), locale)
             }
 
-            else -> translateToLocal(
+            else                 -> translateToLocal(
                 getItemUnlocalizedName(item),
                 locale
             )
@@ -50,11 +50,11 @@ object LanguageHelper {
     }
 
     fun getItemName(item: ItemStack, player: Player?): String {
-        return getItemName(item, LocaleHelper.getPlayerLanguage(player))
+        return getItemName(item, getPlayerLanguage(player))
     }
 
     fun getMetaName(material: Material, meta: Int, player: Player?): String {
-        return translateToLocal(getItemUnlocalizedName(material, meta), LocaleHelper.getPlayerLanguage(player))
+        return translateToLocal(getItemUnlocalizedName(material, meta), getPlayerLanguage(player))
     }
 
     fun getMetaName(material: Material, meta: Int, locale: String): String {
@@ -86,7 +86,7 @@ object LanguageHelper {
     }
 
     fun getEntityDisplayName(entity: Entity, player: Player?): String {
-        return getEntityDisplayName(entity, LocaleHelper.getPlayerLanguage(player))
+        return getEntityDisplayName(entity, getPlayerLanguage(player))
     }
 
     fun getEntityName(entity: Entity, locale: String): String {
@@ -94,7 +94,7 @@ object LanguageHelper {
     }
 
     fun getEntityName(entity: Entity, player: Player?): String {
-        return getEntityName(entity, LocaleHelper.getPlayerLanguage(player))
+        return getEntityName(entity, getPlayerLanguage(player))
     }
 
     fun getEntityName(entityType: EntityType, locale: String): String {
@@ -102,7 +102,7 @@ object LanguageHelper {
     }
 
     fun getEntityName(entityType: EntityType, player: Player?): String {
-        return getEntityName(entityType, LocaleHelper.getPlayerLanguage(player))
+        return getEntityName(entityType, getPlayerLanguage(player))
     }
 
     fun getEnchantmentLevelUnlocalizedName(level: Int): String {
@@ -111,7 +111,7 @@ object LanguageHelper {
     }
 
     fun getEnchantmentLevelName(level: Int, player: Player?): String {
-        return translateToLocal(getEnchantmentLevelUnlocalizedName(level), LocaleHelper.getPlayerLanguage(player))
+        return translateToLocal(getEnchantmentLevelUnlocalizedName(level), getPlayerLanguage(player))
     }
 
     fun getEnchantmentLevelName(level: Int, locale: String): String {
@@ -124,7 +124,7 @@ object LanguageHelper {
     }
 
     fun getEnchantmentName(enchantment: Enchantment, player: Player?): String {
-        return getEnchantmentName(enchantment, LocaleHelper.getPlayerLanguage(player))
+        return getEnchantmentName(enchantment, getPlayerLanguage(player))
     }
 
     fun getEnchantmentName(enchantment: Enchantment, locale: String): String {
@@ -132,7 +132,7 @@ object LanguageHelper {
     }
 
     fun getEnchantmentDisplayName(enchantment: Enchantment, level: Int, player: Player?): String {
-        return getEnchantmentDisplayName(enchantment, level, LocaleHelper.getPlayerLanguage(player))
+        return getEnchantmentDisplayName(enchantment, level, getPlayerLanguage(player))
     }
 
     fun getEnchantmentDisplayName(enchantment: Enchantment, level: Int, locale: String): String {
@@ -149,7 +149,6 @@ object LanguageHelper {
         return getEnchantmentDisplayName(entry.key, entry.value, player)
     }
 
-    @JvmStatic
     fun translateToLocal(unlocalizedName: String, locale: String): String {
         var result = EnumLang[locale.lowercase(Locale.getDefault())].map[unlocalizedName]
         if (result != null) return result else {
@@ -157,5 +156,9 @@ object LanguageHelper {
             if (result == null) result = EnumLang.RU_RU.map[unlocalizedName]
         }
         return result ?: unlocalizedName
+    }
+
+    fun getPlayerLanguage(player: Player?): String {
+        return player!!.locale
     }
 }

@@ -1,7 +1,6 @@
-package me.slavita.construction.utils.langutils.convert
+package me.slavita.construction.utils.language
 
 import java.io.BufferedReader
-import java.io.IOException
 import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets
 import java.util.*
@@ -152,7 +151,7 @@ enum class EnumLang(val locale: String, val map: MutableMap<String, String>) {
                         enumLang,
                         BufferedReader(
                             InputStreamReader(
-                                EnumLang::class.java.getResourceAsStream("/lang/" + enumLang.locale + ".lang"),
+                                EnumLang::class.java.getResourceAsStream("/lang/" + enumLang.locale + ".lang")!!,
                                 StandardCharsets.UTF_8
                             )
                         )
@@ -169,8 +168,7 @@ enum class EnumLang(val locale: String, val map: MutableMap<String, String>) {
             }
         }
 
-        @Throws(IOException::class)
-        fun readFile(enumLang: EnumLang, reader: BufferedReader) {
+        private fun readFile(enumLang: EnumLang, reader: BufferedReader) {
             var temp: String?
             var tempStringArr: Array<String>
             try {
@@ -183,6 +181,8 @@ enum class EnumLang(val locale: String, val map: MutableMap<String, String>) {
                     }
                     temp = reader.readLine()
                 }
+            } catch (e: Exception) {
+                e.printStackTrace()
             } finally {
                 reader.close()
             }
