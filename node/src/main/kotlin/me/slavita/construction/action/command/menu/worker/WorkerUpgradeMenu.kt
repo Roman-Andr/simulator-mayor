@@ -3,7 +3,7 @@ package me.slavita.construction.action.command.menu.worker
 import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
-import me.func.mod.ui.menu.choicer.Choicer
+import me.func.mod.ui.menu.choicer
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.UpgradeWorker
@@ -18,7 +18,8 @@ class WorkerUpgradeMenu(player: Player, val worker: Worker) : MenuCommand(player
     override fun getMenu(): Openable {
         player.user.run user@{
             var infoButton: ReactiveButton
-            return Choicer(title = "${GOLD}${BOLD}Улучшение рабочего").apply {
+            return choicer {
+                title = "${GOLD}${BOLD}Улучшение рабочего"
                 info = """
                     ${GOLD}${BOLD}Характеристики:
                       ${YELLOW}Имя ${DARK_GRAY}»

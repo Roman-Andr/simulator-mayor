@@ -4,7 +4,7 @@ import me.func.mod.Anime
 import me.func.mod.conversation.data.LootDrop
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
-import me.func.mod.ui.menu.choicer.Choicer
+import me.func.mod.ui.menu.choicer
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.ui.HumanizableValues
@@ -21,9 +21,9 @@ import org.bukkit.entity.Player
 class ChoiceLootboxAmount(player: Player, val rarity: WorkerRarity) : MenuCommand(player) {
     override fun getMenu(): Openable {
         player.user.run user@{
-            return Choicer(
-                title = "${AQUA}${BOLD}Купить лутбоксы",
-                description = "Выберите необходимое количество лутбоксов",
+            return choicer {
+                title = "${AQUA}${BOLD}Купить лутбоксы"
+                description = "Выберите необходимое количество лутбоксов"
                 storage = listOf(
                     Pair(1, "common_key"),
                     Pair(5, "rare_key"),
@@ -49,7 +49,7 @@ class ChoiceLootboxAmount(player: Player, val rarity: WorkerRarity) : MenuComman
                         }
                     }
                 }
-            )
+            }
         }
     }
 }

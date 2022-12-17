@@ -2,7 +2,7 @@ package me.slavita.construction.action.command.menu.donate
 
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
-import me.func.mod.ui.menu.choicer.Choicer
+import me.func.mod.ui.menu.choicer
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.Formatter.toCriMoney
@@ -14,10 +14,9 @@ import org.bukkit.entity.Player
 class DonateMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         player.user.run user@{
-            return Choicer(
-                title = "${GOLD}${BOLD}Платные возможности",
+            return choicer {
+                title = "${GOLD}${BOLD}Платные возможности"
                 description = "Кристаллики: ${player.user.criBalance.toCriMoney()}"
-            ).apply {
                 storage = mutableListOf(
                     button {
                         item = ItemIcons.get("other", "bag1")

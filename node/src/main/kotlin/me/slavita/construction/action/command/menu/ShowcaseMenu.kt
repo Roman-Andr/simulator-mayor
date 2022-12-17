@@ -49,7 +49,7 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) :
                     button {
                         item = emptyItem.validate()
                         hover = """
-                            ${LanguageHelper.getItemDisplayName(emptyItem, player)}
+                            ${GREEN}${LanguageHelper.getItemDisplayName(emptyItem, player)}
                             ${AQUA}Купить 8 шт за ${targetItem.second * 8} [ЛКМ]
                             ${AQUA}Купить 64 шт за ${targetItem.second * 64} [ПКМ]
                         """.trimIndent()

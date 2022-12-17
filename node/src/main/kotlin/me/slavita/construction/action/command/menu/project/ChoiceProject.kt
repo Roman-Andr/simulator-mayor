@@ -3,7 +3,7 @@ package me.slavita.construction.action.command.menu.project
 import me.func.mod.Anime
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
-import me.func.mod.ui.menu.choicer.Choicer
+import me.func.mod.ui.menu.choicer
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.menu.worker.WorkerChoice
 import me.slavita.construction.project.ProjectGenerator
@@ -18,10 +18,10 @@ import org.bukkit.entity.Player
 class ChoiceProject(player: Player, val structure: Structure, val cell: Cell) : MenuCommand(player) {
     override fun getMenu(): Openable {
         player.user.run user@{
-            return Choicer(
-                title = "${GOLD}${BOLD}Выбор проекта",
-                description = "Выберите тип проекта",
-                info = "В данном меню\nвам необходимо выбрать,\nкакой тип проекта\nвы хотите взять для постройки.",
+            return choicer {
+                title = "${GOLD}${BOLD}Выбор проекта"
+                description = "Выберите тип проекта"
+                info = "В данном меню\nвам необходимо выбрать,\nкакой тип проекта\nвы хотите взять для постройки."
                 storage = mutableListOf(
                     button {
                         title = "Лично"
@@ -51,7 +51,7 @@ class ChoiceProject(player: Player, val structure: Structure, val cell: Cell) : 
                         }
                     }
                 )
-            )
+            }
         }
     }
 }

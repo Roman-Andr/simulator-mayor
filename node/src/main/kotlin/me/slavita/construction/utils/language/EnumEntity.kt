@@ -4,7 +4,6 @@ import me.slavita.construction.utils.language.LanguageHelper.translateToLocal
 import org.bukkit.Bukkit
 import org.bukkit.entity.EntityType
 import org.bukkit.inventory.ItemStack
-import java.lang.reflect.InvocationTargetException
 import java.util.*
 
 enum class EnumEntity(val type: EntityType, val unlocalizedName: String) {
@@ -123,12 +122,10 @@ enum class EnumEntity(val type: EntityType, val unlocalizedName: String) {
     ILLUSIONER(EntityType.ILLUSIONER, "entity.IllusionIllager.name");
 
     companion object {
-        // Some entity subtypes are not included
-        private val lookup: MutableMap<EntityType?, EnumEntity> = HashMap()
+        private val lookup: HashMap<EntityType?, EnumEntity> = hashMapOf()
 
         init {
-            for (entity in EnumSet.allOf(EnumEntity::class.java))
-                lookup[entity.type] = entity
+            EnumSet.allOf(EnumEntity::class.java).forEach { lookup[it.type] = it }
         }
 
         operator fun get(entityType: EntityType?): EnumEntity? {
@@ -150,12 +147,6 @@ enum class EnumEntity(val type: EntityType, val unlocalizedName: String) {
             )
         }
 
-        @Throws(
-            ClassNotFoundException::class,
-            NoSuchMethodException::class,
-            InvocationTargetException::class,
-            IllegalAccessException::class
-        )
         fun getEntityType(egg: ItemStack?): EntityType {
             val nmsStack = Class.forName(
                 "org.bukkit.craftbukkit." + Bukkit.getServer().javaClass.getPackage().name.replace(

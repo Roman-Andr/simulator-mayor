@@ -2,7 +2,7 @@ package me.slavita.construction.action.command.menu
 
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
-import me.func.mod.ui.menu.choicer.Choicer
+import me.func.mod.ui.menu.choicer
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.menu.city.LocationsMenu
@@ -15,7 +15,9 @@ import org.bukkit.entity.Player
 class ControlPanelMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         player.user.run {
-            return Choicer(title = "${GREEN}${BOLD}Меню", description = "Выбери нужный раздел").apply {
+            return choicer {
+                title = "${GREEN}${BOLD}Меню"
+                description = "Выбери нужный раздел"
                 storage = mutableListOf(
                     button {
                         title = "${AQUA}${BOLD}Проекты"

@@ -8,9 +8,12 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
 import me.slavita.construction.utils.PlayerExtensions.deny
+import me.slavita.construction.utils.language.LanguageHelper
 import me.slavita.construction.utils.user
+import me.slavita.construction.world.ItemProperties
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemStack
 
 class StorageMenu(player: Player) : MenuCommand(player) {
     private val blocksStorage = player.user.blocksStorage
@@ -21,7 +24,7 @@ class StorageMenu(player: Player) : MenuCommand(player) {
                 blocksStorage.blocks.forEach { entry ->
                     add(button {
                         item = entry.key.createItemStack(1)
-                        hover = getHover(entry.value.amount)
+                        hover = getHover(entry)
                         hint = " "
                         onLeftClick { _, _, _ ->
                             if (check()) {
@@ -32,7 +35,7 @@ class StorageMenu(player: Player) : MenuCommand(player) {
                             blocksStorage.removeItem(entry.value, 64).apply {
                                 player.inventory.addItem(entry.key.createItemStack(this.first))
                                 if (this.second) StorageMenu(player).tryExecute() else {
-                                    hover = getHover(entry.value.amount)
+                                    hover = getHover(entry)
                                 }
                             }
                         }
@@ -45,7 +48,7 @@ class StorageMenu(player: Player) : MenuCommand(player) {
                             blocksStorage.removeItem(entry.value, entry.value.amount).apply {
                                 player.inventory.addItem(entry.key.createItemStack(this.first))
                                 if (this.second) StorageMenu(player).tryExecute() else {
-                                    hover = getHover(entry.value.amount)
+                                    hover = getHover(entry)
                                 }
                             }
                         }
@@ -55,10 +58,12 @@ class StorageMenu(player: Player) : MenuCommand(player) {
         }
     }
 
-    private fun getHover(amount: Int) = """
-        ${GREEN}На складе: ${BOLD}${amount} шт
-        ${GOLD}Взять [ЛКМ] ${BOLD}${if (amount >= 64) 64 else amount} шт
-        ${GOLD}Взять [ПКМ] ${BOLD}Всё - $amount шт
+    private fun getHover(entry: Map.Entry<ItemProperties, ItemStack>) = """
+        ${GREEN}${LanguageHelper.getItemDisplayName(entry.key.createItemStack(1), player)}
+        ${AQUA}На складе: ${BOLD}${entry.value.amount} шт
+        
+        ${GOLD}Взять [ЛКМ] ${BOLD}${if (entry.value.amount >= 64) 64 else entry.value.amount} шт
+        ${GOLD}Взять [ПКМ] ${BOLD}Всё - ${entry.value.amount} шт
     """.trimIndent()
 
     private fun check(): Boolean {

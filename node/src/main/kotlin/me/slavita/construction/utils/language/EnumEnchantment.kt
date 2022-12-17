@@ -51,11 +51,10 @@ enum class EnumEnchantment(val enchantment: Enchantment, val unlocalizedName: St
     );
 
     companion object {
-        private val lookup: MutableMap<Enchantment, EnumEnchantment> = HashMap()
+        private val lookup: HashMap<Enchantment, EnumEnchantment> = hashMapOf()
 
         init {
-            for (enchantment in EnumSet.allOf(EnumEnchantment::class.java))
-                lookup[enchantment.enchantment] = enchantment
+            EnumSet.allOf(EnumEnchantment::class.java).forEach { lookup[it.enchantment] = it }
         }
 
         operator fun get(enchantment: Enchantment): EnumEnchantment? {

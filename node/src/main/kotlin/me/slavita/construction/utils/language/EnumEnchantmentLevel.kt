@@ -17,11 +17,10 @@ enum class EnumEnchantmentLevel(
     LEVEL9(9, "enchantment.level.9"), LEVEL10(10, "enchantment.level.10");
 
     companion object {
-        private val lookup: MutableMap<Int, EnumEnchantmentLevel> = HashMap()
+        private val lookup: HashMap<Int, EnumEnchantmentLevel> = hashMapOf()
 
         init {
-            for (level in EnumSet.allOf(EnumEnchantmentLevel::class.java))
-                lookup[level.level] = level
+            EnumSet.allOf(EnumEnchantmentLevel::class.java).forEach { lookup[it.level] = it }
         }
 
         operator fun get(level: Int): EnumEnchantmentLevel? {

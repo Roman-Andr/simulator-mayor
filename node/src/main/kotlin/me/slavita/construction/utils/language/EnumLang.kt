@@ -133,10 +133,10 @@ enum class EnumLang(val locale: String, val map: MutableMap<String, String>) {
     ZH_CN("zh_cn", hashMapOf()), ZH_TW("zh_tw", hashMapOf());
 
     companion object {
-        private val lookup: MutableMap<String, EnumLang> = HashMap()
+        private val lookup: HashMap<String, EnumLang> = hashMapOf()
 
         init {
-            for (lang in EnumSet.allOf(EnumLang::class.java)) lookup[lang.locale] = lang
+            EnumSet.allOf(EnumLang::class.java).forEach { lookup[it.locale] = it }
         }
 
         operator fun get(locale: String): EnumLang {

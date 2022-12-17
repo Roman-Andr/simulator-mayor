@@ -3,7 +3,7 @@ package me.slavita.construction.action.command.menu
 import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
-import me.func.mod.ui.menu.choicer.Choicer
+import me.func.mod.ui.menu.choicer
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.prepare.TagsPrepare
@@ -15,10 +15,13 @@ import org.bukkit.entity.Player
 
 class SettingsMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
-        return Choicer(title = "${GREEN}${BOLD}Настройки", description = "Настройка игровых аспектов").apply {
+        return choicer {
+            title = "${GREEN}${BOLD}Настройки"
+            description = "Настройка игровых аспектов"
             storage = mutableListOf(
                 button {
                     title = "Показ тега"
+                    hint = "Выбрать"
                     updateButton(this)
                     onClick { _, _, button ->
                         player.user.data.settings.apply { this.tagShow = !this.tagShow }
@@ -33,11 +36,9 @@ class SettingsMenu(player: Player) : MenuCommand(player) {
     private fun updateButton(button: ReactiveButton) {
         button.apply {
             if (player.user.data.settings.tagShow) {
-                hint = "Выключить"
                 item = ItemIcons.get("other", "access")
                 backgroundColor = GlowColor.GREEN
             } else {
-                hint = "Включить"
                 item = ItemIcons.get("other", "cancel")
                 backgroundColor = GlowColor.NEUTRAL
             }

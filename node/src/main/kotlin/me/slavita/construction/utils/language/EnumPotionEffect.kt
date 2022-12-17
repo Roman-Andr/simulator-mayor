@@ -149,7 +149,7 @@ enum class EnumPotionEffect(
     );
 
     companion object {
-        private val lookup: MutableMap<PotionType, EnumPotionEffect> = HashMap()
+        private val lookup: HashMap<PotionType, EnumPotionEffect> = hashMapOf()
 
         init {
             for (effect in EnumSet.allOf(EnumPotionEffect::class.java))
