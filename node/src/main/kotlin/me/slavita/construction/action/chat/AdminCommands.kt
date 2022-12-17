@@ -17,6 +17,7 @@ import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.PlayerExtensions.accept
 import me.slavita.construction.utils.PlayerExtensions.deny
 import me.slavita.construction.utils.PlayerExtensions.killboard
+import me.slavita.construction.utils.langutils.LanguageHelper
 import me.slavita.construction.utils.opCommand
 import me.slavita.construction.utils.user
 import me.slavita.construction.utils.validate
@@ -129,6 +130,10 @@ object AdminCommands {
 
         opCommand("statclear") { player, _ ->
             player.user.data.statistics = Statistics()
+        }
+
+        opCommand("itemname") { player, _ ->
+            player.killboard(LanguageHelper.getItemDisplayName(player.inventory.itemInMainHand, player))
         }
     }
 }

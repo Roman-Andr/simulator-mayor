@@ -33,6 +33,7 @@ import me.slavita.construction.ui.SpeedPlaces
 import me.slavita.construction.ui.items.ItemsManager
 import me.slavita.construction.utils.Config
 import me.slavita.construction.utils.ModCallbacks
+import me.slavita.construction.utils.langutils.convert.EnumLang
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.Bukkit
@@ -165,6 +166,12 @@ class App : JavaPlugin() {
         PlayerEvents
 
         server.scheduler.scheduleSyncRepeatingTask(this, { pass++ }, 0, 1)
+
+        EnumLang.init()
+    }
+
+    override fun onDisable() {
+        EnumLang.clean()
     }
 
     fun getUserOrAdd(uuid: UUID) = getUserOrNull(uuid) ?: addUser(uuid)

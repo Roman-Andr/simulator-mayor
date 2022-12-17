@@ -12,6 +12,7 @@ import me.slavita.construction.ui.Formatter
 import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.utils.PlayerExtensions.accept
+import me.slavita.construction.utils.langutils.LanguageHelper
 import me.slavita.construction.utils.mapM
 import me.slavita.construction.utils.user
 import me.slavita.construction.utils.validate
@@ -47,8 +48,8 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) :
                     }, 0L, 20L)
                     button {
                         item = emptyItem.validate()
-//                            ${LanguageHelper.getItemDisplayName(emptyItem, player)}
                         hover = """
+                            ${LanguageHelper.getItemDisplayName(emptyItem, player)}
                             ${AQUA}Купить 8 шт за ${targetItem.second * 8} [ЛКМ]
                             ${AQUA}Купить 64 шт за ${targetItem.second * 64} [ПКМ]
                         """.trimIndent()
