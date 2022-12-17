@@ -54,7 +54,6 @@ object Storage {
                 clientApi.clientConnection().sendPayload("storage:open", buffer)
 
                 player.swingArm(EnumHand.MAIN_HAND)
-                println("Clicked Storage")
             }
         }
     }

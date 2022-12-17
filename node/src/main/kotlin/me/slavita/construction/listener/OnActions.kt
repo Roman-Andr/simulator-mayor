@@ -64,14 +64,12 @@ object OnActions {
                 if (player.user.blocksStorage.inBox() && !storageEntered) {
                     ModTransfer()
                         .send("storage:show", player)
-                    println("Enter Storage")
                     storageEntered = true
                 }
 
                 if (!player.user.blocksStorage.inBox() && storageEntered) {
                     ModTransfer()
                         .send("storage:hide", player)
-                    println("Leave Storage")
                     storageEntered = false
                 }
 

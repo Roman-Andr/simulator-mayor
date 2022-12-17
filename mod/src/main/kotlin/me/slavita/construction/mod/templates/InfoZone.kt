@@ -17,12 +17,10 @@ class InfoZone {
                     if (boxes.any { inBox(it.min, it.max) } && !turn) {
                         title(boxes.find { inBox(it.min, it.max) }!!.title)
                         turn = true
-                        println("show")
                         show()
                     }
                     if (!boxes.any { inBox(it.min, it.max) } && turn) {
                         turn = false
-                        println("hide")
                         hide()
                     }
                 }

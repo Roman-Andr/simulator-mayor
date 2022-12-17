@@ -56,7 +56,6 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) :
                         hint = (if (canPurchase(targetItem.second * 8)) "$WHITE" else "$RED") + " "
                         onLeftClick { _, _, _ ->
                             tryPurchase(targetItem.second * 8) {
-                                println(emptyItem.getType())
                                 this@user.blocksStorage.addItem(emptyItem, 8)
                                 player.accept("Вы успешно купили блоки")
                                 this@selection.money = getBalance()
