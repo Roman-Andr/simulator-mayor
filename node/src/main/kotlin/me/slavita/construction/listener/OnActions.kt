@@ -56,7 +56,7 @@ object OnActions {
                 }
 
                 currentCity.cityStructures.forEach {
-                    if (it.cell.box.contains(player.location) && it.state == CityStructureState.BROKEN) {
+                    if (it.playerCell.box.contains(player.location) && it.state == CityStructureState.BROKEN) {
                         it.repair()
                     }
                 }
@@ -82,7 +82,7 @@ object OnActions {
                         }
                     }
 
-                    currentCity.cells.forEach { cell ->
+                    currentCity.playerCells.forEach { cell ->
                         if (cell.busy || !cell.box.contains(player.location)) return@forEach
 
                         if (inZone[player] == false) ChoiceStructure(player, cell).tryExecute()

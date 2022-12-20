@@ -11,9 +11,9 @@ class WorkerStructure(
     world: GameWorld,
     structure: Structure,
     owner: User,
-    cell: Cell,
+    playerCell: PlayerCell,
     val workers: HashSet<Worker> = hashSetOf(),
-) : BuildingStructure(world, structure, owner, cell) {
+) : BuildingStructure(world, structure, owner, playerCell) {
     private val delayTime: Long
         get() {
             if (workers.isEmpty()) return 1

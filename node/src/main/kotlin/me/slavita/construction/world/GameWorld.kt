@@ -3,17 +3,29 @@ package me.slavita.construction.world
 import me.func.MetaWorld
 import me.func.builder.MetaSubscriber
 import me.func.mod.reactive.ReactivePlace
+import me.func.mod.util.after
 import me.func.unit.Building
 import me.func.world.WorldMeta
 import me.slavita.construction.app
 import me.slavita.construction.common.utils.V2i
+import me.slavita.construction.structure.Cell
+import me.slavita.construction.structure.PlayerCell
+import me.slavita.construction.utils.labels
+import me.slavita.construction.utils.runAsync
+import ru.cristalix.ChunkInterceptor
+import net.minecraft.server.v1_12_R1.Chunk
+import net.minecraft.server.v1_12_R1.EntityPlayer
+import net.minecraft.server.v1_12_R1.PacketPlayOutMapChunk
+import me.slavita.construction.utils.user
 import org.bukkit.Location
 import org.bukkit.entity.Player
+import kotlin.math.abs
 import java.util.*
 
 class GameWorld(val map: WorldMeta) {
     private val blocks = hashMapOf<UUID, HashMap<V2i, HashSet<StructureBlock>>>()
     val glows = hashSetOf<ReactivePlace>()
+    val cells = hashSetOf<Cell>()
 
     init {
         MetaWorld.universe(
@@ -36,14 +48,43 @@ class GameWorld(val map: WorldMeta) {
                     val user = app.getUserOrNull(building) ?: return@buildingLoader arrayListOf()
 
                     val buildings = arrayListOf<Building>()
-                    user.cities.map { city -> city.cityStructures }.flatten().forEach { structure ->
-                        buildings.add(structure.building.apply {
-                            show(user.player)
-                        })
+                    user.cities.forEach { city ->
+                        city.cityStructures.forEach { structure ->
+                            buildings.add(structure.building.apply {
+                                show(user.player)
+                            })
+                        }
+                        city.playerCells.forEach {
+                            buildings.add(it.cell.stubBuilding)
+                        }
                     }
                     buildings
                 }.build()
         )
+
+        after(1) {
+            labels("place").forEachIndexed { index, label ->
+                cells.add(Cell(index, label))
+            }
+        }
+
+        /*map.world.handle.chunkInterceptor = ChunkInterceptor { chunk: Chunk, flags: Int, receiver: EntityPlayer? ->
+            val player = receiver ?: return@ChunkInterceptor PacketPlayOutMapChunk(chunk, flags)
+
+            player.uniqueID.user.cities.forEach { city ->
+                city.playerCells.forEach {
+                    if ((abs(it.box.min.chunk.x - chunk.locX) <= 1 && abs(it.box.min.chunk.z - chunk.locZ) <= 1) ||
+                        (abs(it.box.max.chunk.x - chunk.locX) <= 1 && abs(it.box.max.chunk.z - chunk.locZ) <= 1)) {
+
+                        runAsync(3) {
+                            it.updateStub()
+                        }
+                    }
+                }
+            }
+
+            PacketPlayOutMapChunk(chunk, flags)
+        }*/
     }
 
     fun placeFakeBlock(player: Player, block: StructureBlock) {

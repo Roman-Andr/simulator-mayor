@@ -33,7 +33,7 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
                             Anime.close(player)
 
                             if (!startProject) return@onClick
-                            project.structure.cell.setBusy()
+                            project.structure.playerCell.setBusy()
                             (project.structure as WorkerStructure).workers.addAll(this@WorkerChoice.structure.workers)
                             project.start()
                             this@user.currentCity.addProject(project)

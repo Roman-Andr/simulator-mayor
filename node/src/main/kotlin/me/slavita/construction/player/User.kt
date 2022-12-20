@@ -8,6 +8,7 @@ import me.slavita.construction.project.Project
 import me.slavita.construction.storage.BlocksStorage
 import me.slavita.construction.ui.Formatter.applyBoosters
 import me.slavita.construction.utils.PlayerExtensions.deny
+import me.slavita.construction.utils.runAsync
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import ru.cristalix.core.invoice.IInvoiceService
@@ -76,6 +77,12 @@ class User(val uuid: UUID) {
         currentCity = city
 
         StoragePrepare.prepare(this)
+
+        currentCity.playerCells.forEach {
+            runAsync(30) {
+                it.updateStub()
+            }
+        }
 
         city.projects.forEach { it.structure.visual.start() }
     }

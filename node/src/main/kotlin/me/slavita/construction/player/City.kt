@@ -2,7 +2,7 @@ package me.slavita.construction.player
 
 import me.slavita.construction.app
 import me.slavita.construction.project.Project
-import me.slavita.construction.structure.Cell
+import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.structure.CityStructure
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.utils.PlayerExtensions.deny
@@ -13,12 +13,12 @@ import org.bukkit.ChatColor.*
 class City(val owner: User, id: String, val title: String, val price: Long, var unlocked: Boolean) {
     val projects = hashSetOf<Project>()
     val cityStructures = hashSetOf<CityStructure>()
-    val cells = hashSetOf<Cell>()
+    val playerCells = hashSetOf<PlayerCell>()
     val box = app.mainWorld.map.box("city", id)
 
     init {
-        labels("place").forEachIndexed { index, label ->
-            cells.add(Cell(this, index, label, false))
+        app.mainWorld.cells.forEach {
+            playerCells.add(PlayerCell(this, it, false))
         }
         Bukkit.server.scheduler.scheduleSyncRepeatingTask(app, {
             if (cityStructures.size == 0) return@scheduleSyncRepeatingTask
@@ -29,7 +29,7 @@ class City(val owner: User, id: String, val title: String, val price: Long, var 
                 owner.player.deny(
                     """
                         ${RED}Поломка!
-                        ${DARK_GRAY}Номер: ${GRAY}${it.cell.id}
+                        ${DARK_GRAY}Номер: ${GRAY}${it.playerCell.id}
                         ${AQUA}Название: ${GOLD}${it.structure.name}
                         ${GOLD}Локация: ${GREEN}$title
                     """.trimIndent()

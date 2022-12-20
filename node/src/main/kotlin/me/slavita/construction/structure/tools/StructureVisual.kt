@@ -28,7 +28,7 @@ class StructureVisual(val structure: BuildingStructure) {
     private val progressBar = StructureProgressBar(owner.player, structure.structure.blocksCount)
 
     val bannerLocation = structure.box.bottomCenter.clone().apply {
-        when (structure.cell.face) {
+        when (structure.playerCell.face) {
             BlockFace.EAST       -> x = structure.box.max.x
             BlockFace.NORTH      -> z = structure.box.min.z
             BlockFace.WEST       -> x = structure.box.min.x
@@ -69,7 +69,7 @@ class StructureVisual(val structure: BuildingStructure) {
         infoBanners = BannerUtil.createDual(
             BannerInfo(
                 bannerLocation,
-                structure.cell.face,
+                structure.playerCell.face,
                 structure.getBannerInfo(),
                 102,
                 80,
