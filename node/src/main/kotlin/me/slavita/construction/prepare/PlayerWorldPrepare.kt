@@ -23,6 +23,13 @@ object PlayerWorldPrepare : IPrepare {
                     values["id"] as String == "1"
                 )
             }.toTypedArray())
+
+            cities.forEach { city ->
+                city.playerCells.forEach {
+                    it.updateStub()
+                }
+            }
+
             currentCity = cities.firstOrNull { it.box.contains(player.location) }!!
             player.teleport(currentCity.getSpawn())
             player.gameMode = GameMode.ADVENTURE

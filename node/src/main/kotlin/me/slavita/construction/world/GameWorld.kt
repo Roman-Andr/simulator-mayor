@@ -3,10 +3,15 @@ package me.slavita.construction.world
 import me.func.MetaWorld
 import me.func.builder.MetaSubscriber
 import me.func.mod.reactive.ReactivePlace
+import me.func.mod.util.after
 import me.func.unit.Building
 import me.func.world.WorldMeta
 import me.slavita.construction.app
 import me.slavita.construction.common.utils.V2i
+import me.slavita.construction.structure.Cell
+import me.slavita.construction.structure.PlayerCell
+import me.slavita.construction.utils.labels
+import me.slavita.construction.utils.runAsync
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import java.util.*
@@ -14,6 +19,7 @@ import java.util.*
 class GameWorld(val map: WorldMeta) {
     private val blocks = hashMapOf<UUID, HashMap<V2i, HashSet<StructureBlock>>>()
     val glows = hashSetOf<ReactivePlace>()
+    val cells = hashSetOf<Cell>()
 
     init {
         MetaWorld.universe(
@@ -36,14 +42,22 @@ class GameWorld(val map: WorldMeta) {
                     val user = app.getUserOrNull(building) ?: return@buildingLoader arrayListOf()
 
                     val buildings = arrayListOf<Building>()
-                    user.cities.map { city -> city.cityStructures }.flatten().forEach { structure ->
-                        buildings.add(structure.building.apply {
-                            show(user.player)
-                        })
+                    user.cities.forEach { city ->
+                        city.cityStructures.forEach { structure ->
+                            buildings.add(structure.building.apply {
+                                show(user.player)
+                            })
+                        }
                     }
                     buildings
                 }.build()
         )
+
+        after(1) {
+            labels("place").forEachIndexed { index, label ->
+                cells.add(Cell(index, label))
+            }
+        }
     }
 
     fun placeFakeBlock(player: Player, block: StructureBlock) {
