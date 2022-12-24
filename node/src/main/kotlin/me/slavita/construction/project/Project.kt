@@ -1,12 +1,12 @@
 package me.slavita.construction.project
 
 import me.slavita.construction.player.City
+import me.slavita.construction.player.sound.Music.playSound
+import me.slavita.construction.player.sound.MusicSound
 import me.slavita.construction.reward.Reward
 import me.slavita.construction.structure.BuildingStructure
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.structure.tools.StructureState
-import me.slavita.construction.player.sound.Music.playSound
-import me.slavita.construction.player.sound.MusicSound
 
 class Project(
     val city: City,

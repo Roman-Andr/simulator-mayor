@@ -26,7 +26,7 @@ object LanguageHelper {
             Material.SPLASH_POTION,
             Material.LINGERING_POTION,
             Material.TIPPED_ARROW,
-            -> EnumPotionEffect.getLocalizedName(
+                                 -> EnumPotionEffect.getLocalizedName(
                 item,
                 locale
             )

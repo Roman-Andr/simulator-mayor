@@ -25,7 +25,7 @@ class LocationsMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         player.user.run user@{
             return choicer {
-                title = "${AQUA}${BOLD}Телепортация"    
+                title = "${AQUA}${BOLD}Телепортация"
                 description = "Перемещение между локациями"
                 storage = this@user.cities.sortedBy { it.price }.mapM { city ->
                     button {

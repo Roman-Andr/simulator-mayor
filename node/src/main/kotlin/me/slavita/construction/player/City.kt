@@ -2,11 +2,10 @@ package me.slavita.construction.player
 
 import me.slavita.construction.app
 import me.slavita.construction.project.Project
-import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.structure.CityStructure
+import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.utils.PlayerExtensions.deny
-import me.slavita.construction.utils.labels
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor.*
 
