@@ -3,6 +3,7 @@ package me.slavita.construction.listener
 import me.func.mod.conversation.ModTransfer
 import me.slavita.construction.action.command.menu.city.BuyCityConfirm
 import me.slavita.construction.action.command.menu.project.ChoiceStructure
+import me.slavita.construction.action.command.menu.project.ChoiceStructureGroup
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.ui.HumanizableValues
 import me.slavita.construction.utils.PlayerExtensions.accept
@@ -85,7 +86,7 @@ object OnActions {
                     currentCity.playerCells.forEach { cell ->
                         if (cell.busy || !cell.box.contains(player.location)) return@forEach
 
-                        if (inZone[player] == false) ChoiceStructure(player, cell).tryExecute()
+                        if (inZone[player] == false) ChoiceStructureGroup(player, cell).tryExecute()
                         inZone[player] = true
                         return@listener
                     }

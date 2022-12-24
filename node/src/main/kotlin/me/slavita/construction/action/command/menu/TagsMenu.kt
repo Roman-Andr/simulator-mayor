@@ -28,9 +28,11 @@ class TagsMenu(player: Player) : MenuCommand(player) {
                             item = ItemIcons.get("other", "pets1", data.tag == tag)
                             backgroundColor = if (data.tag != tag) GlowColor.GREEN else GlowColor.BLUE
                             onClick { _, _, _ ->
-                                data.tag = tag
-                                TagsPrepare.prepare(player.user)
-                                TagsMenu(player).tryExecute()
+                                if (data.tag != tag) {
+                                    data.tag = tag
+                                    TagsPrepare.prepare(player.user)
+                                    TagsMenu(player).tryExecute()
+                                }
                             }
                         } else {
                             hint = "Купить"

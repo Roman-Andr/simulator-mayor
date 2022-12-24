@@ -3,7 +3,8 @@ package me.slavita.construction.utils
 import me.func.mod.Anime
 import me.func.mod.ui.Glow
 import me.func.protocol.data.color.GlowColor
-import me.slavita.construction.utils.MusicExtension.playSound
+import me.slavita.construction.player.sound.MusicSound
+import me.slavita.construction.player.sound.Music.playSound
 import org.bukkit.entity.Player
 import org.bukkit.inventory.PlayerInventory
 import ru.cristalix.core.formatting.Formatting.error

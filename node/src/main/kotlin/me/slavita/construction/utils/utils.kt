@@ -1,5 +1,6 @@
 package me.slavita.construction.utils
 
+import com.github.kotlintelegrambot.entities.ChatId
 import dev.implario.bukkit.event.EventContext
 import dev.implario.bukkit.item.ItemBuilder
 import dev.implario.bukkit.platform.Platforms
@@ -117,8 +118,14 @@ fun opCommand(name: String, biConsumer: BiConsumer<Player, Array<out String>>) {
     })
 }
 
+fun logFormat(message: String) = "[CONSTRUCTION] $message"
+
 fun log(message: String) {
-    println("[CONSTRUCTION] $message")
+    println(logFormat(message))
+}
+
+fun logTg(message: String) {
+    app.bot.sendMessage(ChatId.fromId(app.chatId), logFormat(message))
 }
 
 val routine = EventContext { true }.fork()

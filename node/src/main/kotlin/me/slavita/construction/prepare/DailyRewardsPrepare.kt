@@ -10,9 +10,9 @@ object DailyRewardsPrepare : IPrepare {
         val nextTake = user.data.statistics.nextTakeDailyReward
         val now = System.currentTimeMillis()
         if (nextTake > now) return
-        if (user.data.statistics.nextDay == 7 || nextTake + DAY < now) user.data.statistics.nextDay = 0
         val nextDay = user.data.statistics.nextDay
-        user.data.statistics.nextDay = nextDay - 1
+        if (user.data.statistics.nextDay == 7 || nextTake + DAY < now) user.data.statistics.nextDay = 0
+        user.data.statistics.nextDay = 5
         DailyMenu(user.player).tryExecute()
     }
 }

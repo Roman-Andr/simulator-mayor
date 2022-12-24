@@ -7,10 +7,14 @@ import me.func.mod.reactive.ReactivePanel
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection
 import me.func.protocol.data.color.GlowColor
+import me.func.sound.Category
+import me.func.sound.Sound
 import me.slavita.construction.action.command.menu.DailyMenu
 import me.slavita.construction.bank.Bank
 import me.slavita.construction.player.Statistics
 import me.slavita.construction.player.Tags
+import me.slavita.construction.player.sound.Music.playSound
+import me.slavita.construction.player.sound.MusicSound
 import me.slavita.construction.prepare.GuidePrepare
 import me.slavita.construction.prepare.TagsPrepare
 import me.slavita.construction.ui.Formatter.toMoneyIcon
@@ -36,7 +40,13 @@ object AdminCommands {
         }
 
         opCommand("sound") { player, args ->
-            player.playSound(player.location, Sound.valueOf(args[0]), SoundCategory.MASTER, 1.0f, 1.0f)
+            Sound(args[0])
+                .category(Category.values()[args[1].toInt()])
+                .pitch(1.0f)
+                .volume(0.5f)
+                .location(player.location)
+                .repeating(false)
+                .send(player)
         }
 
         opCommand("panel") { player, _ ->

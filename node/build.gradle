@@ -30,6 +30,8 @@ dependencies {
     implementation("me.func:stronghold-protocol:1.1.1.RELEASE")
     implementation("me.func:lock-service:1.1.0.RELEASE")
     implementation("me.func:lock-service-protocol:1.1.0.RELEASE")
+
+    implementation("com.github.kotlin-telegram-bot.kotlin-telegram-bot:telegram:6.0.7")
 }
 
 tasks {

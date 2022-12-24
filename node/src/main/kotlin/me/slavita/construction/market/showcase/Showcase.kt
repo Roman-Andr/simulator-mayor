@@ -24,6 +24,6 @@ class Showcase(val properties: ShowcaseProperties) {
     }
 
     fun updatePrices() {
-        println("updating prices ${properties.name}")
+
     }
 }

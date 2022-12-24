@@ -28,6 +28,8 @@ object OnJoin {
                         UIPrepare,
                         TagsPrepare,
                         PlayerWorldPrepare,
+                        CitiesPrepare,
+                        TabPrepare,
                         ConnectionPrepare,
                         PermissionsPrepare,
                         ItemCallbacksPrepare,

@@ -19,14 +19,6 @@ class BuildingControlMenu(player: Player, val project: Project) : MenuCommand(pl
             return Selection(title = "${AQUA}${BOLD}Процесс постройки", rows = 3, columns = 3,
                 storage = mutableListOf(
                     button {
-                        title = "Информация"
-                        hint = "Выбрать"
-                        item = ItemIcons.get("skyblock", "spawn")
-                        onClick { _, _, _ ->
-                            BuildingInfoMenu(player, project).closeAll(false).tryExecute()
-                        }
-                    },
-                    button {
                         title = "Список материалов"
                         description = "Просмотреть список\nнеобходимых материалов"
                         hint = "Выбрать"

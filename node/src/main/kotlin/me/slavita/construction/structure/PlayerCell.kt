@@ -1,10 +1,6 @@
 package me.slavita.construction.structure
 
-import me.func.mod.util.after
-import me.func.unit.Building
-import me.slavita.construction.app
 import me.slavita.construction.player.City
-import me.slavita.construction.utils.runAsync
 
 class PlayerCell(val city: City, val cell: Cell, var busy: Boolean) {
 

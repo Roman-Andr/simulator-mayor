@@ -1,5 +1,7 @@
 package me.slavita.construction
 
+import com.github.kotlintelegrambot.bot
+import com.github.kotlintelegrambot.dispatch
 import dev.implario.bukkit.platform.Platforms
 import dev.implario.kensuke.Kensuke
 import dev.implario.kensuke.Scope
@@ -34,18 +36,14 @@ import me.slavita.construction.ui.items.ItemsManager
 import me.slavita.construction.utils.Config
 import me.slavita.construction.utils.ModCallbacks
 import me.slavita.construction.utils.language.EnumLang
-import me.slavita.construction.utils.user
+import me.slavita.construction.utils.logTg
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.ItemProperties
-import net.minecraft.server.v1_12_R1.Chunk
-import net.minecraft.server.v1_12_R1.EntityPlayer
-import net.minecraft.server.v1_12_R1.PacketPlayOutMapChunk
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.WHITE
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
-import ru.cristalix.ChunkInterceptor
 import ru.cristalix.core.CoreApi
 import ru.cristalix.core.datasync.EntityDataParameters
 import ru.cristalix.core.invoice.IInvoiceService
@@ -71,10 +69,15 @@ class App : JavaPlugin() {
 
     lateinit var structureMap: WorldMeta
     lateinit var mainWorld: GameWorld
+    val bot = bot {
+        token = System.getProperty("tg.token")
+        dispatch {}
+    }
+    val chatId = -1001654696542L
     private val users = hashMapOf<UUID, User>()
     val allBlocks = hashSetOf<ItemProperties>()
 
-    val statScope = Scope("construction-test", Data::class.java)
+    val statScope = Scope("construction-testt", Data::class.java)
     lateinit var kensuke: Kensuke
     lateinit var userManager: UserManager<KensukeUser>
 
@@ -170,9 +173,13 @@ class App : JavaPlugin() {
         ItemsManager
         PlayerEvents
 
+        EnumLang.init()
+
+        bot.startPolling()
+        logTg("Initialized on realm ${IRealmService.get().currentRealmInfo.realmId}")
+
         server.scheduler.scheduleSyncRepeatingTask(this, { pass++ }, 0, 1)
 
-        EnumLang.init()
     }
 
     override fun onDisable() {

@@ -11,7 +11,6 @@ import org.bukkit.entity.Player
 class DailyMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         player.user.run user@{
-            println(player.user.data.statistics.nextDay)
             return dailyReward {
                 taken = false
                 title = "Ежедневные награды"
