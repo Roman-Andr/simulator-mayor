@@ -33,6 +33,9 @@ import kotlin.reflect.KClass
 val Player.user
     get() = app.getUser(this)
 
+val UUID.user
+    get() = app.getUser(this)
+
 val Player.userOrNull
     get() = app.getUserOrNull(this.uniqueId)
 

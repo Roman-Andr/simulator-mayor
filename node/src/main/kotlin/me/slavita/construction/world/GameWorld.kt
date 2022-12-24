@@ -12,8 +12,14 @@ import me.slavita.construction.structure.Cell
 import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.utils.labels
 import me.slavita.construction.utils.runAsync
+import ru.cristalix.ChunkInterceptor
+import net.minecraft.server.v1_12_R1.Chunk
+import net.minecraft.server.v1_12_R1.EntityPlayer
+import net.minecraft.server.v1_12_R1.PacketPlayOutMapChunk
+import me.slavita.construction.utils.user
 import org.bukkit.Location
 import org.bukkit.entity.Player
+import kotlin.math.abs
 import java.util.*
 
 class GameWorld(val map: WorldMeta) {
@@ -48,6 +54,9 @@ class GameWorld(val map: WorldMeta) {
                                 show(user.player)
                             })
                         }
+                        city.playerCells.forEach {
+                            buildings.add(it.cell.stubBuilding)
+                        }
                     }
                     buildings
                 }.build()
@@ -58,6 +67,24 @@ class GameWorld(val map: WorldMeta) {
                 cells.add(Cell(index, label))
             }
         }
+
+        /*map.world.handle.chunkInterceptor = ChunkInterceptor { chunk: Chunk, flags: Int, receiver: EntityPlayer? ->
+            val player = receiver ?: return@ChunkInterceptor PacketPlayOutMapChunk(chunk, flags)
+
+            player.uniqueID.user.cities.forEach { city ->
+                city.playerCells.forEach {
+                    if ((abs(it.box.min.chunk.x - chunk.locX) <= 1 && abs(it.box.min.chunk.z - chunk.locZ) <= 1) ||
+                        (abs(it.box.max.chunk.x - chunk.locX) <= 1 && abs(it.box.max.chunk.z - chunk.locZ) <= 1)) {
+
+                        runAsync(3) {
+                            it.updateStub()
+                        }
+                    }
+                }
+            }
+
+            PacketPlayOutMapChunk(chunk, flags)
+        }*/
     }
 
     fun placeFakeBlock(player: Player, block: StructureBlock) {
