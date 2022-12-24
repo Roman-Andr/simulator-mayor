@@ -46,6 +46,7 @@ import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import ru.cristalix.core.CoreApi
 import ru.cristalix.core.datasync.EntityDataParameters
+import ru.cristalix.core.internal.BukkitInternals
 import ru.cristalix.core.invoice.IInvoiceService
 import ru.cristalix.core.invoice.InvoiceService
 import ru.cristalix.core.multichat.ChatMessage

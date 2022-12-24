@@ -7,7 +7,10 @@ import dev.implario.bukkit.platform.Platforms
 import io.netty.channel.ChannelDuplexHandler
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelPromise
+import me.func.mod.Anime
 import me.func.mod.ui.menu.button
+import me.func.mod.world.Banners
+import me.func.protocol.data.element.Banner
 import me.func.world.WorldMeta
 import me.slavita.construction.app
 import me.slavita.construction.dontate.Donates
@@ -26,6 +29,7 @@ import org.bukkit.event.Event
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.PlayerInventory
 import org.bukkit.scheduler.BukkitScheduler
 import org.bukkit.scheduler.BukkitTask
 import java.util.*
@@ -171,4 +175,24 @@ inline fun <T, R> Array<out T>.mapM(transform: (T) -> R): MutableList<R> {
 
 inline fun <T, R> Iterable<T>.mapM(transform: (T) -> R): MutableList<R> {
     return map(transform).toMutableList()
+}
+
+fun PlayerInventory.swapItems(firstIndex: Int, secondIndex: Int) {
+    val firstItem = getItem(firstIndex)
+    setItem(firstIndex, getItem(secondIndex))
+    setItem(secondIndex, firstItem)
+}
+
+fun Player.killboard(text: String) {
+    Anime.killboardMessage(this, text)
+}
+
+fun Banners.show(player: Player, pair: Pair<Banner, Banner>) {
+    show(player, pair.first)
+    show(player, pair.second)
+}
+
+fun Banners.hide(player: Player, pair: Pair<Banner, Banner>) {
+    hide(player, pair.first)
+    hide(player, pair.second)
 }

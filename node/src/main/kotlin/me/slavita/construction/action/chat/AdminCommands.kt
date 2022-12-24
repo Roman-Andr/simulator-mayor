@@ -18,8 +18,6 @@ import me.slavita.construction.prepare.TagsPrepare
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.PlayerExtensions.accept
 import me.slavita.construction.utils.PlayerExtensions.deny
-import me.slavita.construction.utils.PlayerExtensions.killboard
-import me.slavita.construction.utils.language.LanguageHelper
 import me.slavita.construction.utils.opCommand
 import me.slavita.construction.utils.user
 import me.slavita.construction.utils.validate
@@ -133,16 +131,8 @@ object AdminCommands {
             Anime.include(Kit.DEBUG)
         }
 
-        opCommand("currentcity") { player, _ ->
-            player.killboard(player.user.currentCity.title)
-        }
-
         opCommand("statclear") { player, _ ->
             player.user.data.statistics = Statistics()
-        }
-
-        opCommand("itemname") { player, _ ->
-            player.killboard(LanguageHelper.getItemDisplayName(player.inventory.itemInMainHand, player))
         }
     }
 }

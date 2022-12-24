@@ -9,7 +9,7 @@ import me.slavita.construction.structure.tools.StructureSender
 import me.slavita.construction.ui.HumanizableValues.SECOND
 import me.slavita.construction.utils.Cooldown
 import me.slavita.construction.utils.PlayerExtensions.deny
-import me.slavita.construction.utils.PlayerExtensions.swapItems
+import me.slavita.construction.utils.swapItems
 import me.slavita.construction.world.GameWorld
 import org.bukkit.ChatColor.AQUA
 

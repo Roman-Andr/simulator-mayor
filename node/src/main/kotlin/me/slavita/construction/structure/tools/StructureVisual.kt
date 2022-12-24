@@ -12,8 +12,8 @@ import me.func.protocol.world.marker.MarkerSign
 import me.slavita.construction.banner.BannerInfo
 import me.slavita.construction.banner.BannerUtil
 import me.slavita.construction.structure.BuildingStructure
-import me.slavita.construction.utils.BannersExtensions.hide
-import me.slavita.construction.utils.BannersExtensions.show
+import me.slavita.construction.utils.hide
+import me.slavita.construction.utils.show
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.WHITE
 import org.bukkit.block.BlockFace
