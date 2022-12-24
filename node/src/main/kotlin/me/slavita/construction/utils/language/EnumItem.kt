@@ -1055,10 +1055,12 @@ enum class EnumItem(val material: Material, val metadata: Int, val unlocalizedNa
         private val lookup: MutableMap<ItemEntry, EnumItem> = HashMap()
 
         init {
-            EnumSet.allOf(EnumItem::class.java).forEach { lookup[ItemEntry(
-                it.material,
-                it.metadata
-            )] = it }
+            EnumSet.allOf(EnumItem::class.java).forEach {
+                lookup[ItemEntry(
+                    it.material,
+                    it.metadata
+                )] = it
+            }
         }
 
         operator fun get(entry: ItemEntry): EnumItem? {
