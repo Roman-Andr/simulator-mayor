@@ -54,7 +54,6 @@ class WorkerStructure(
                         player.accept("Вы положили ${LanguageHelper.getItemDisplayName(item, player)}")
                     }
                 }
-                player.accept("Вы положили необходимые блоки")
             }
             .build().apply {
                 isConstant = true

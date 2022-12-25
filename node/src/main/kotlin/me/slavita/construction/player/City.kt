@@ -28,7 +28,7 @@ class City(val owner: User, id: String, val title: String, val price: Long, var 
                 owner.player.deny(
                     """
                         ${RED}Поломка!
-                        ${DARK_GRAY}Номер: ${GRAY}${it.playerCell.id}
+                        ${GRAY}Номер: ${GRAY}${it.playerCell.id}
                         ${AQUA}Название: ${GOLD}${it.structure.name}
                         ${GOLD}Локация: ${GREEN}$title
                     """.trimIndent()

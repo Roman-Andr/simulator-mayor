@@ -180,7 +180,6 @@ class App : JavaPlugin() {
         logTg("Initialized on realm ${IRealmService.get().currentRealmInfo.realmId}")
 
         server.scheduler.scheduleSyncRepeatingTask(this, { pass++ }, 0, 1)
-
     }
 
     override fun onDisable() {

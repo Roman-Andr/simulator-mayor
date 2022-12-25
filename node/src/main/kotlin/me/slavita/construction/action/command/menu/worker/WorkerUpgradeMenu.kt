@@ -20,32 +20,33 @@ class WorkerUpgradeMenu(player: Player, val worker: Worker) : MenuCommand(player
             var infoButton: ReactiveButton
             return choicer {
                 title = "${GOLD}${BOLD}Улучшение рабочего"
+                description = ""
                 info = """
                     ${GOLD}${BOLD}Характеристики:
-                      ${YELLOW}Имя ${DARK_GRAY}»
+                      ${YELLOW}Имя ${GRAY}»
                         ${WHITE}Наименование рабочего
                         ${WHITE}в вашей команде
                       
-                      ${DARK_GREEN}Редкость ${DARK_GRAY}»
+                      ${DARK_GREEN}Редкость ${GRAY}»
                         ${WHITE}Показывает на сколько
                         ${WHITE}характеристики рабочего хороши
                       
-                      ${GOLD}Уровень ${DARK_GRAY}»
+                      ${GOLD}Уровень ${GRAY}»
                         ${WHITE}Показывает уровень прокачки
                         ${WHITE}рабочего и влиет
                         ${WHITE}на все его характеристики
                       
-                      ${AQUA}Скорость ${DARK_GRAY}»
+                      ${AQUA}Скорость ${GRAY}»
                         ${WHITE}Количество блоков,
                         ${WHITE}которые ставит рабочий
                         ${WHITE}за секунду
                       
-                      ${GREEN}Надёжность ${DARK_GRAY}»
+                      ${GREEN}Надёжность ${GRAY}»
                         ${WHITE}Влияет на то, как часто
                         ${WHITE}будет ломаться здания,
                         ${WHITE}построенные этим рабочим
                       
-                      ${RED}Жадность ${DARK_GRAY}»
+                      ${RED}Жадность ${GRAY}»
                         ${WHITE}Влияет на награду
                         ${WHITE}за окончания постройки
                         ${WHITE}здания этим рабочим

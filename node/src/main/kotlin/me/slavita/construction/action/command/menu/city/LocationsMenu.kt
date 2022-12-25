@@ -42,12 +42,13 @@ class LocationsMenu(player: Player) : MenuCommand(player) {
                         }
                         onClick { _, _, _ ->
                             if (city.unlocked) {
+                                val ignore = player.user.data.abilities.contains((Donates.NO_LIMIT_TELEPORT_DONATE.donate as AbilityDonate).ability)
                                 ChangeCity(
                                     player,
                                     city
-                                ).tryExecute(player.user.data.abilities.contains((Donates.NO_LIMIT_TELEPORT_DONATE.donate as AbilityDonate).ability))
+                                ).tryExecute(ignore)
                                     .run {
-                                        if (this < 0) player.deny(
+                                        if (!ignore && this < 0) player.deny(
                                             "Подождите ещё ${(abs(this) / 20).toInt()} ${SECOND.get((abs(this) / 20).toInt())}"
                                         )
                                     }

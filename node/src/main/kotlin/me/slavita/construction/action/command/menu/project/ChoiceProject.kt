@@ -25,7 +25,7 @@ class ChoiceProject(player: Player, val structure: Structure, val playerCell: Pl
                 storage = mutableListOf(
                     button {
                         title = "Лично"
-                        description = "Вы сами будете\nстроить проект"
+                        description = "Строите вручную"
                         hint = "Выбрать"
                         item = ItemIcons.get("other", "human")
                         onClick { _, _, _ ->
@@ -40,7 +40,7 @@ class ChoiceProject(player: Player, val structure: Structure, val playerCell: Pl
                     },
                     button {
                         title = "Рабочие"
-                        description = "Проект будут \nстроить выбранные\nвами строители"
+                        description = "Проект строят\nстроители"
                         hint = "Выбрать"
                         item = ItemIcons.get("other", "myfriends")
                         onClick { _, _, _ ->

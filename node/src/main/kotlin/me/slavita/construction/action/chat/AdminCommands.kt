@@ -3,6 +3,7 @@ package me.slavita.construction.action.chat
 import me.func.atlas.Atlas
 import me.func.mod.Anime
 import me.func.mod.Kit
+import me.func.mod.reactive.ReactiveLine
 import me.func.mod.reactive.ReactivePanel
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection
@@ -133,6 +134,13 @@ object AdminCommands {
 
         opCommand("statclear") { player, _ ->
             player.user.data.statistics = Statistics()
+        }
+
+        opCommand("line") { player, _ ->
+            ReactiveLine.builder()
+                .to(player.user.currentCity.getSpawn()!!.toCenterLocation())
+                .build()
+                .send(player)
         }
     }
 }
