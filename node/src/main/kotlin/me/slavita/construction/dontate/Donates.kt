@@ -2,9 +2,6 @@ package me.slavita.construction.dontate
 
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.booster.BoosterType
-import me.slavita.construction.dontate.ability.FlyAbility
-import me.slavita.construction.dontate.ability.NoLimitTeleportAbility
-import me.slavita.construction.dontate.ability.ShopTipsAbility
 import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.menu.ItemIcons
 import org.bukkit.ChatColor.*
@@ -21,7 +18,8 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
                 
                 Нажмите чтобы купить за ${89.toCriMoney()}
             """.trimIndent(),
-            89, FlyAbility
+            89,
+            Abilities.FLY
         ),
         ItemIcons.get("other", "friend_game"),
         GlowColor.CIAN_LIGHT
@@ -37,7 +35,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
                 Нажмите чтобы купить за ${49.toCriMoney()}
             """.trimIndent(),
             49,
-            NoLimitTeleportAbility
+            Abilities.NO_LIMIT_TELEPORT
         ),
         ItemIcons.get("alpha", "islands"),
         GlowColor.ORANGE_LIGHT
@@ -53,7 +51,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
                 Нажмите чтобы купить за ${59.toCriMoney()}
             """.trimIndent(),
             59,
-            ShopTipsAbility
+            Abilities.CREDIT_PERCENT
         ),
         ItemIcons.get("other", "stats"),
         GlowColor.YELLOW
@@ -69,7 +67,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
                 Нажмите чтобы купить за ${59.toCriMoney()}
             """.trimIndent(),
             59,
-            ShopTipsAbility
+            Abilities.CREDITS_LIMIT
         ),
         ItemIcons.get("other", "guild_bank"),
         GlowColor.YELLOW
@@ -85,7 +83,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
                 Нажмите чтобы купить за ${69.toCriMoney()}
             """.trimIndent(),
             69,
-            ShopTipsAbility
+            Abilities.SHOP_TIPS
         ),
         ItemIcons.get("alpha", "home1"),
         GlowColor.GREEN

@@ -1,11 +1,7 @@
 package me.slavita.construction.mod.templates
 
-import dev.xdark.clientapi.event.lifecycle.GameLoop
 import me.func.protocol.data.color.GlowColor
-import me.slavita.construction.mod.mod
 import me.slavita.construction.mod.utils.extensions.ColorExtensions.toColor
-import me.slavita.construction.mod.utils.extensions.PositionExtensions.inBox
-import ru.cristalix.uiengine.UIEngine
 import ru.cristalix.uiengine.element.CarvedRectangle
 import ru.cristalix.uiengine.element.TextElement
 import ru.cristalix.uiengine.eventloop.animate
@@ -36,28 +32,21 @@ class InformationBox : CarvedRectangle() {
         size = V3(210.0, 40.0)
         align = BOTTOM
         origin = BOTTOM
-        offset.y -= 65.0
+        offset.y -= 75.0
         color = Color(0, 0, 0, 0.0)
         +title
         +description
-
-        mod.registerHandler<GameLoop> {
-            UIEngine.clientApi.minecraft().mouseOver.pos?.run {
-                if (boxes.any { inBox(it.min, it.max) } && !turn) {
-                    title.content = boxes.find { inBox(it.min, it.max) }!!.title
-                    turn = true
-                    show()
-                }
-                if (!boxes.any { inBox(it.min, it.max) } && turn) {
-                    turn = false
-                    hide()
-                }
-            }
-        }
+        title.color.alpha = 0.0
+        description.color.alpha = 0.0
+        color.alpha = 0.0
     }
 
     fun description(text: String) {
         description.content = text
+    }
+
+    fun title(text: String) {
+        title.content = text
     }
 
     fun show() {

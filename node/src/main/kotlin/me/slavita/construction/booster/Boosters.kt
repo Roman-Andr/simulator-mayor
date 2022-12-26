@@ -5,30 +5,29 @@ import me.func.stronghold.booster.BoosterGlobal
 import me.slavita.construction.player.User
 import me.slavita.construction.ui.Formatter.applyBoosters
 import me.slavita.construction.utils.CristalixUtil
-import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
+import me.slavita.construction.utils.PlayerExtensions.accept
 import me.slavita.construction.utils.user
 import org.bukkit.Bukkit
-import ru.cristalix.core.formatting.Formatting.fine
 import java.util.concurrent.TimeUnit
 
 object Boosters {
     init {
         Stronghold.addThanksConsumer { owner, player ->
             if (owner != null) {
-                owner.killboard(fine("Вас поблагодарил игрок ${CristalixUtil.getDisplayName(owner)}"))
-                owner.user.statistics.money += 100
+                owner.accept("Вас поблагодарили")
+                owner.user.data.statistics.money += 100
             }
             if (player != null) {
-                player.killboard(fine("Вы поблагодарили игрока ${CristalixUtil.getDisplayName(player)}"))
-                player.user.statistics.money += 100
+                player.accept("Вы поблагодарили")
+                player.user.data.statistics.money += 100
             }
         }
 
         Stronghold.onActivate {
             Bukkit.getOnlinePlayers().forEach { player ->
                 player.user.run {
-                    statistics.speed.apply { applyBoosters(BoosterType.SPEED_BOOSTER) }
-                    player?.walkSpeed = statistics.speed
+                    data.statistics.speed.apply { applyBoosters(BoosterType.SPEED_BOOSTER) }
+                    player?.walkSpeed = data.statistics.speed
                 }
             }
         }
@@ -36,10 +35,10 @@ object Boosters {
         Stronghold.onExpire {
             Bukkit.getOnlinePlayers().forEach { player ->
                 player.user.run {
-                    statistics.speed.apply {
+                    data.statistics.speed.apply {
                         applyBoosters(BoosterType.SPEED_BOOSTER)
                     }
-                    player?.walkSpeed = statistics.speed
+                    player?.walkSpeed = data.statistics.speed
                 }
             }
         }

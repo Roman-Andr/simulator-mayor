@@ -3,8 +3,8 @@ package me.slavita.construction.ui
 import me.func.atlas.Atlas
 import me.slavita.construction.app
 import me.slavita.construction.ui.format.*
+import me.slavita.construction.utils.BlocksExtensions.toYaw
 import me.slavita.construction.utils.CristalixUtil
-import me.slavita.construction.utils.extensions.BlocksExtensions.toYaw
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.block.BlockFace

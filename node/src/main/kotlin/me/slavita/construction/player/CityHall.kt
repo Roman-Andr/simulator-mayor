@@ -1,9 +1,7 @@
 package me.slavita.construction.player
 
-import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
-import me.slavita.construction.utils.music.MusicExtension.playSound
-import me.slavita.construction.utils.music.MusicSound
-import ru.cristalix.core.formatting.Formatting.fine
+import me.slavita.construction.utils.PlayerExtensions.accept
+import org.bukkit.ChatColor.GOLD
 
 class CityHall(val user: User) {
     var level: Int = 1
@@ -19,12 +17,11 @@ class CityHall(val user: User) {
     }
 
     fun upgrade() {
-        user.tryPurchase(upgradePrice, {
+        user.tryPurchase(upgradePrice) {
             user.income -= income
             level++
             user.income += income
-            user.player.playSound(MusicSound.LEVEL_UP)
-            user.player.killboard(fine("Вы успешно улучшили Мэрию"))
-        })
+            user.player.accept("Вы успешно улучшили ${GOLD}Мэрию")
+        }
     }
 }

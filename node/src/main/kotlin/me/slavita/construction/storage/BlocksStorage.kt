@@ -2,7 +2,7 @@ package me.slavita.construction.storage
 
 import me.func.mod.Anime
 import me.func.world.Box
-import me.slavita.construction.action.command.menu.storage.StorageMenu
+import me.slavita.construction.action.command.menu.StorageMenu
 import me.slavita.construction.player.User
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.inventory.ItemStack
@@ -14,7 +14,7 @@ class BlocksStorage(val owner: User) {
 
     init {
         Anime.createReader("storage:open") { player, _ ->
-            if (owner.uuid == player.uniqueId) StorageMenu(owner.player).tryExecute()
+            if (owner.uuid == player.uniqueId) StorageMenu(player).tryExecute()
         }
     }
 

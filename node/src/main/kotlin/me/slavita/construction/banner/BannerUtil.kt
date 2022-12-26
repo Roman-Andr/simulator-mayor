@@ -1,5 +1,6 @@
 package me.slavita.construction.banner
 
+import me.func.mod.reactive.ReactiveBanner
 import me.func.mod.world.Banners
 import me.func.mod.world.Banners.location
 import me.func.protocol.data.color.RGB
@@ -7,7 +8,7 @@ import me.func.protocol.data.color.Tricolor
 import me.func.protocol.data.element.Banner
 import me.func.protocol.data.element.MotionType
 import me.func.world.Label
-import me.slavita.construction.utils.extensions.BlocksExtensions.toYaw
+import me.slavita.construction.utils.BlocksExtensions.toYaw
 import org.bukkit.Location
 import org.bukkit.block.BlockFace
 import org.bukkit.util.Vector
@@ -17,7 +18,7 @@ object BannerUtil {
 
     fun loadBanner(banner: Map<*, *>, label: Label, withPitch: Boolean = false, opacity: Double = 0.45) {
         Banners.new(
-            Banner.builder()
+            ReactiveBanner.builder()
                 .weight(banner["weight"] as Int)
                 .height(banner["height"] as Int)
                 .content(banner["content"] as String)
@@ -26,6 +27,7 @@ object BannerUtil {
                 .x(label.toCenterLocation().x)
                 .y(label.y + banner["offset"] as Double)
                 .z(label.toCenterLocation().z)
+                .xray(0.0)
                 .apply {
                     if (withPitch) {
                         watchingOnPlayer(true)

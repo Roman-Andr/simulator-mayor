@@ -21,18 +21,19 @@ class WorkersBuildingMenu(player: Player, structure: WorkerStructure) : WorkerEx
                 rows = 3
                 columns = 3
                 storage = mutableListOf<ReactiveButton>().apply {
-                    workers.sortedBy { it.rarity }.sortedBy { structure.workers.contains(it) }.forEach { worker ->
-                        add(button {
-                            title = worker.name
-                            hint = getWorkerState(worker).title
-                            backgroundColor =
-                                if (structure.workers.contains(worker)) GlowColor.ORANGE else GlowColor.BLUE
-                            item = ItemIcons.get("skyblock", "spawn")
-                            onClick { _, _, button ->
-                                distributeWorker(worker, button)
-                            }
-                        })
-                    }
+                    this@user.data.workers.sortedBy { it.rarity }.sortedBy { structure.workers.contains(it) }
+                        .forEach { worker ->
+                            add(button {
+                                title = worker.name
+                                hint = getWorkerState(worker).title
+                                backgroundColor =
+                                    if (structure.workers.contains(worker)) GlowColor.ORANGE else GlowColor.BLUE
+                                item = ItemIcons.get("skyblock", "spawn")
+                                onClick { _, _, button ->
+                                    distributeWorker(worker, button)
+                                }
+                            })
+                        }
                 }
             }
         }

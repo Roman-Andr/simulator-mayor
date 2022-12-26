@@ -1,5 +1,7 @@
 locations:
   - id: "1"
     title: "Локация 1"
+    price: 100
   - id: "2"
     title: "Локация 2"
+    price: 200

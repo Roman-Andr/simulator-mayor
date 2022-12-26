@@ -2,7 +2,7 @@ package me.slavita.construction.action.command.menu.donate
 
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
-import me.func.mod.ui.menu.choicer.Choicer
+import me.func.mod.ui.menu.choicer
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.Formatter.toCriMoney
@@ -14,19 +14,18 @@ import org.bukkit.entity.Player
 class DonateMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         player.user.run user@{
-            return Choicer(
-                title = "${GOLD}${BOLD}Платные возможности",
-                description = "Кристалликов: ${player.user.criBalance.toCriMoney()}"
-            ).apply {
+            return choicer {
+                title = "${GOLD}${BOLD}Платные возможности"
+                description = "Кристаллики: ${player.user.criBalance.toCriMoney()}"
                 storage = mutableListOf(
                     button {
-                        item = ItemIcons.get("other", "new_booster_1")
-                        title = "${GOLD}${BOLD}Бустеры"
-                        description = "${GRAY}Бустеры\n${GRAY}статистики"
+                        item = ItemIcons.get("other", "bag1")
+                        title = "${GREEN}${BOLD}Монеты"
                         hint = "Выбрать"
-                        backgroundColor = GlowColor.YELLOW_LIGHT
+                        description = "${GRAY}Пополнение\n${GRAY}баланса"
+                        backgroundColor = GlowColor.GREEN
                         onClick { _, _, _ ->
-                            BoostersMenu(player).closeAll(false).tryExecute()
+                            MoneyBuyMenu(player).closeAll(false).tryExecute()
                         }
                     },
                     button {
@@ -40,13 +39,13 @@ class DonateMenu(player: Player) : MenuCommand(player) {
                         }
                     },
                     button {
-                        item = ItemIcons.get("other", "bag1")
-                        title = "${GREEN}${BOLD}Монеты"
+                        item = ItemIcons.get("other", "new_booster_1")
+                        title = "${GOLD}${BOLD}Бустеры"
+                        description = "${GRAY}Бустеры\n${GRAY}статистики"
                         hint = "Выбрать"
-                        description = "${GRAY}Пополнение\n${GRAY}баланса"
-                        backgroundColor = GlowColor.GREEN
+                        backgroundColor = GlowColor.YELLOW_LIGHT
                         onClick { _, _, _ ->
-                            MoneyBuyMenu(player).closeAll(false).tryExecute()
+                            BoostersMenu(player).closeAll(false).tryExecute()
                         }
                     },
                     button {

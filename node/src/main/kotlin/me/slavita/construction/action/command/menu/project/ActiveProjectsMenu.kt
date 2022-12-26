@@ -27,7 +27,7 @@ class ActiveProjectsMenu(player: Player) : MenuCommand(player) {
                                     item = ItemIcons.get("skyblock", "settings")
                                     title = "Проект #${it.id}"
                                     hover =
-"""Информация про проект:
+                                        """Информация про проект:
   ${AQUA}ID: ${it.id}
   ${AQUA}Награды:
   ${it.rewards.joinToString("\n  ") { it.toString() }}

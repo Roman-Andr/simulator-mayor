@@ -11,7 +11,7 @@ class KensukeUser(uuid: UUID, data: Data?, session: KensukeSession) : KensukeUse
     val user = app.getUserOrAdd(uuid)
 
     init {
-        user.data = data ?: Data()
+        if (!user.initialized) user.data = data ?: Data()
     }
 
     override fun setPlayer(player: Player?) {

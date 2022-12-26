@@ -11,7 +11,7 @@ import io.netty.buffer.Unpooled
 import me.slavita.construction.mod.mod
 import me.slavita.construction.mod.player
 import me.slavita.construction.mod.templates.BoxData
-import me.slavita.construction.mod.templates.info
+import me.slavita.construction.mod.templates.infoZone
 import me.slavita.construction.mod.utils.extensions.PositionExtensions.inBox
 import ru.cristalix.uiengine.UIEngine
 import ru.cristalix.uiengine.UIEngine.clientApi
@@ -19,15 +19,14 @@ import ru.cristalix.uiengine.utility.*
 
 object Showcases {
 
-    var showcases = arrayOf<ShowcaseData>()
+    private var showcases = arrayOf<ShowcaseData>()
 
-    private val info = info {
-        description("Открыть витрину")
+    private val infoZone = infoZone {
+        info.description("Открыть витрину")
     }
 
     init {
-        UIEngine.overlayContext.addChild(info)
-        info.hide()
+        UIEngine.overlayContext.addChild(infoZone.info)
 
         mod.registerHandler<BlockRightClick> {
             if (hand == EnumHand.OFF_HAND) return@registerHandler
@@ -40,7 +39,7 @@ object Showcases {
 
         mod.registerChannel("showcase:initialize") {
             showcases = Gson().fromJson(NetUtil.readUtf8(this), Array<ShowcaseData>::class.java)
-            info.boxes = showcases.map { BoxData(it.title, it.min, it.max) }.toTypedArray()
+            infoZone.info.boxes = showcases.map { BoxData(it.title, it.min, it.max) }.toTypedArray()
         }
     }
 

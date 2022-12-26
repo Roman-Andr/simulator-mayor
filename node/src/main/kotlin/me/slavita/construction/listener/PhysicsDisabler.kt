@@ -5,7 +5,7 @@ import dev.xdark.feder.EmptyChunkBiome
 import dev.xdark.feder.FixedChunkLight
 import me.func.mod.util.after
 import me.slavita.construction.utils.listener
-import org.bukkit.ChatColor.DARK_GRAY
+import org.bukkit.ChatColor
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.FallingBlock
 import org.bukkit.event.block.*
@@ -52,6 +52,6 @@ object PhysicsDisabler {
         listener<EntityChangeBlockEvent> { if (entity is FallingBlock) isCancelled = true }
         listener<FoodLevelChangeEvent> { foodLevel = 20 }
         listener<CreatureSpawnEvent> { isCancelled = spawnReason == CreatureSpawnEvent.SpawnReason.NATURAL }
-        listener<AsyncPlayerChatEvent> { format = "%1\$s ${DARK_GRAY}» §7%2\$s" }
+        listener<AsyncPlayerChatEvent> { format = "%1\$s ${ChatColor.GRAY}» §7%2\$s" }
     }
 }

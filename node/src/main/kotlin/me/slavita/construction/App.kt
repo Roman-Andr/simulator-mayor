@@ -1,5 +1,7 @@
 package me.slavita.construction
 
+import com.github.kotlintelegrambot.bot
+import com.github.kotlintelegrambot.dispatch
 import dev.implario.bukkit.platform.Platforms
 import dev.implario.kensuke.Kensuke
 import dev.implario.kensuke.Scope
@@ -21,7 +23,6 @@ import me.slavita.construction.action.chat.AdminCommands
 import me.slavita.construction.action.chat.UserCommands
 import me.slavita.construction.booster.Boosters
 import me.slavita.construction.listener.PlayerEvents
-import me.slavita.construction.market.MarketsManager
 import me.slavita.construction.multichat.MultiChats
 import me.slavita.construction.npc.NpcManager
 import me.slavita.construction.player.Data
@@ -34,6 +35,8 @@ import me.slavita.construction.ui.SpeedPlaces
 import me.slavita.construction.ui.items.ItemsManager
 import me.slavita.construction.utils.Config
 import me.slavita.construction.utils.ModCallbacks
+import me.slavita.construction.utils.language.EnumLang
+import me.slavita.construction.utils.logTg
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.Bukkit
@@ -43,6 +46,7 @@ import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import ru.cristalix.core.CoreApi
 import ru.cristalix.core.datasync.EntityDataParameters
+import ru.cristalix.core.internal.BukkitInternals
 import ru.cristalix.core.invoice.IInvoiceService
 import ru.cristalix.core.invoice.InvoiceService
 import ru.cristalix.core.multichat.ChatMessage
@@ -66,10 +70,15 @@ class App : JavaPlugin() {
 
     lateinit var structureMap: WorldMeta
     lateinit var mainWorld: GameWorld
+    val bot = bot {
+        token = System.getProperty("tg.token")
+        dispatch {}
+    }
+    val chatId = -1001654696542L
     private val users = hashMapOf<UUID, User>()
     val allBlocks = hashSetOf<ItemProperties>()
 
-    val statScope = Scope("construction-test", Data::class.java)
+    val statScope = Scope("construction-testt", Data::class.java)
     lateinit var kensuke: Kensuke
     lateinit var userManager: UserManager<KensukeUser>
 
@@ -91,7 +100,7 @@ class App : JavaPlugin() {
         EntityDataParameters.register()
         Platforms.set(PlatformDarkPaper())
 
-        Anime.include(Kit.STANDARD, Kit.EXPERIMENTAL, Kit.DIALOG, Kit.MULTI_CHAT, Kit.LOOTBOX, Kit.NPC, Kit.DEBUG)
+        Anime.include(Kit.STANDARD, Kit.EXPERIMENTAL, Kit.DIALOG, Kit.MULTI_CHAT, Kit.LOOTBOX, Kit.NPC)
 
         CoreApi.get().run {
             registerService(ITransferService::class.java, TransferService(ISocketClient.get()))
@@ -153,7 +162,6 @@ class App : JavaPlugin() {
         Config.load {
             NpcManager
             BoardsManager
-            MarketsManager
             CityGlows
         }
         Boosters
@@ -166,7 +174,16 @@ class App : JavaPlugin() {
         ItemsManager
         PlayerEvents
 
+        EnumLang.init()
+
+        bot.startPolling()
+        logTg("Initialized on realm ${IRealmService.get().currentRealmInfo.realmId}")
+
         server.scheduler.scheduleSyncRepeatingTask(this, { pass++ }, 0, 1)
+    }
+
+    override fun onDisable() {
+        EnumLang.clean()
     }
 
     fun getUserOrAdd(uuid: UUID) = getUserOrNull(uuid) ?: addUser(uuid)

@@ -7,6 +7,7 @@ import ru.cristalix.uiengine.UIEngine.clientApi
 import ru.cristalix.uiengine.utility.Color
 import ru.cristalix.uiengine.utility.V3
 
+
 object Renderer {
 
     fun renderBlockFrame(api: ClientApi, location: V3, color: Color, lineWidth: Float) {
@@ -55,6 +56,34 @@ object Renderer {
 
         tessellator.draw()
         GlStateManager.glLineWidth(lineWidth)
+        GlStateManager.enableBlend()
+        GlStateManager.enableTexture2D()
+    }
+
+    fun drawLine(pos1: V3, pos2: V3, color: Color, width: Float) {
+
+        val tessellator = clientApi.tessellator()
+        val bufferbuilder = tessellator.bufferBuilder
+        GlStateManager.disableTexture2D()
+        GlStateManager.disableBlend()
+        GlStateManager.glLineWidth(width)
+        bufferbuilder.begin(3, DefaultVertexFormats.POSITION_COLOR)
+
+        val player = clientApi.minecraft().renderViewEntity
+        val ticks = clientApi.minecraft().timer.renderPartialTicks
+
+        GlStateManager.translate(
+            -player.lastX - (player.x - player.lastX) * ticks,
+            -player.lastY - (player.y - player.lastY) * ticks + 0.0005,
+            -player.lastZ - (player.z - player.lastZ) * ticks,
+        )
+
+        bufferbuilder.pos(pos1.x, pos1.y, pos1.z).color(color.red, color.green, color.blue, 0).endVertex()
+        bufferbuilder.pos(pos2.x, pos2.y, pos2.z).color(color.red, color.green, color.blue, color.alpha.toInt())
+            .endVertex()
+
+        tessellator.draw()
+        GlStateManager.glLineWidth(width)
         GlStateManager.enableBlend()
         GlStateManager.enableTexture2D()
     }

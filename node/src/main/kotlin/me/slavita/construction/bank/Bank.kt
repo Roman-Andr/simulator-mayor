@@ -18,14 +18,14 @@ object Bank {
                 3.0
             )
         )
-        user.statistics.money += amount
+        user.data.statistics.money += amount
     }
 
     fun repayCredit(user: User, uuid: UUID, acceptAction: () -> Unit) {
         val credit = playersData[user.player.uniqueId]!!.find { it.uuid == uuid }
-        user.tryPurchase(credit!!.needToGive, {
+        user.tryPurchase(credit!!.needToGive) {
             playersData[user.player.uniqueId]!!.remove(credit)
             acceptAction()
-        })
+        }
     }
 }

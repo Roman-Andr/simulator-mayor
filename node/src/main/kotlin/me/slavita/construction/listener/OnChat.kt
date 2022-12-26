@@ -33,7 +33,7 @@ object OnChat {
 
         val displayName = IPermissionService.get().getPermissionContextDirect(player.uniqueId).toDisplayName()
         val chatColor = IPermissionService.get().getPermissionContextDirect(player.uniqueId).chatColor
-        val tag = player.user.tag
+        val tag = player.user.data.tag
 
         var coloredMessage = " "
         message.forEach {

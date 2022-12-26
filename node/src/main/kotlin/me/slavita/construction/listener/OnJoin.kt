@@ -26,7 +26,10 @@ object OnJoin {
                 player.user.run {
                     listOf(
                         UIPrepare,
+                        TagsPrepare,
                         PlayerWorldPrepare,
+                        CitiesPrepare,
+                        TabPrepare,
                         ConnectionPrepare,
                         PermissionsPrepare,
                         ItemCallbacksPrepare,
@@ -34,7 +37,8 @@ object OnJoin {
                         BankAccountPrepare,
                         GuidePrepare,
                         StoragePrepare,
-                        AbilityPrepare
+                        AbilityPrepare,
+                        DailyRewardsPrepare,
                     ).forEach { it.prepare(this) }
                 }
             }

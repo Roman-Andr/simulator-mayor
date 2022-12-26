@@ -6,24 +6,18 @@ import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.player.User
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureSender
-import me.slavita.construction.ui.HumanizableValues.SECOND
 import me.slavita.construction.utils.Cooldown
-import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
-import me.slavita.construction.utils.extensions.PlayerExtensions.swapItems
-import me.slavita.construction.utils.music.MusicExtension.playSound
-import me.slavita.construction.utils.music.MusicSound
+import me.slavita.construction.utils.PlayerExtensions.deny
+import me.slavita.construction.utils.swapItems
 import me.slavita.construction.world.GameWorld
-import org.bukkit.ChatColor.AQUA
-import ru.cristalix.core.formatting.Formatting.error
 
 class ClientStructure(
     world: GameWorld,
     structure: Structure,
     owner: User,
-    cell: Cell,
-) : BuildingStructure(world, structure, owner, cell) {
+    playerCell: PlayerCell,
+) : BuildingStructure(world, structure, owner, playerCell) {
     private val sender = StructureSender(owner.player)
-    private val cooldown = Cooldown(5, owner.player)
 
     override fun enterBuilding() {
         Anime.createReader("structure:place") { player, _ ->
@@ -40,7 +34,7 @@ class ClientStructure(
     }
 
     override fun blockPlaced() {
-        cooldown.start { if (!hidden) sender.sendCooldownExpired() }
+        if (currentBlock == null) return
         if (!hidden) sender.sendBlock(currentBlock!!, allocation)
     }
 
@@ -57,16 +51,7 @@ class ClientStructure(
         owner.player.inventory.itemInMainHand.apply {
             if (!currentBlock!!.equalsItem(this)) {
                 Glow.animate(owner.player, 0.2, GlowColor.RED)
-                owner.player.playSound(MusicSound.DENY)
-                owner.player.killboard(error("Неверный блок"))
-                return
-            }
-
-            if (!cooldown.isExpired()) {
-                owner.player.playSound(MusicSound.DENY)
-                owner.player.killboard(
-                    error("Вы сможете поставить блок через ${AQUA}${cooldown.timeLeft()} ${SECOND.get(cooldown.timeLeft())}")
-                )
+                owner.player.deny("Неверный блок")
                 return
             }
 
@@ -74,7 +59,7 @@ class ClientStructure(
             placeCurrentBlock()
             var hasNext = false
 
-            if (currentBlock!!.equalsItem(this)) return
+            if (currentBlock == null || currentBlock!!.equalsItem(this)) return
 
             owner.player.inventory.apply {
                 storageContents.forEachIndexed { index, item ->
@@ -85,8 +70,7 @@ class ClientStructure(
 
                 if (!hasNext) {
                     Glow.animate(owner.player, 0.2, GlowColor.ORANGE)
-                    owner.player.playSound(MusicSound.DENY)
-                    owner.player.killboard(error("В инвентаре нет нужного материала"))
+                    owner.player.deny("В инвентаре нет нужного материала")
                 }
                 return
             }

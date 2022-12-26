@@ -1,9 +1,9 @@
 package me.slavita.construction.structure.instance
 
 import me.slavita.construction.app
-import me.slavita.construction.utils.extensions.BlocksExtensions.add
-import me.slavita.construction.utils.extensions.BlocksExtensions.toLocation
-import me.slavita.construction.utils.extensions.BlocksExtensions.unaryMinus
+import me.slavita.construction.utils.BlocksExtensions.add
+import me.slavita.construction.utils.BlocksExtensions.toLocation
+import me.slavita.construction.utils.BlocksExtensions.unaryMinus
 import me.slavita.construction.world.Box
 import me.slavita.construction.world.ItemProperties
 import me.slavita.construction.world.StructureBlock
@@ -18,25 +18,22 @@ class Structure(val name: String, val box: Box) {
 
     val income = 100L
 
+    val blocks = hashMapOf<ItemProperties, Int>()
+
     init {
+
         box.forEachBukkit {
             if (it.type == Material.AIR) return@forEachBukkit
 
             blocksCount++
-            app.allBlocks.add(ItemProperties.fromBlock(it))
+            val item = ItemProperties.fromBlock(it)
+            app.allBlocks.add(item)
+            blocks[item] = blocks.getOrDefault(item, 0) + 1
         }
     }
 
     fun getNextBlock(position: BlockPosition): StructureBlock? {
         return getNextBlock(position.y * (box.dimensions.x * box.dimensions.z) + position.x * box.dimensions.z + position.z + 1)
-    }
-
-    fun getMaterials(): HashSet<Material> {
-        return hashSetOf<Material>().apply {
-            box.forEachBukkit {
-                this.add(it.type)
-            }
-        }
     }
 
     private fun getNextBlock(blocksPassed: Int): StructureBlock? {

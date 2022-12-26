@@ -4,8 +4,8 @@ import me.slavita.construction.player.User
 
 object AbilityPrepare : IPrepare {
     override fun prepare(user: User) {
-        user.abilities.forEach { ability ->
-            ability.apply(user)
+        user.data.abilities.forEach { ability ->
+            ability.applyAction(user)
         }
     }
 }

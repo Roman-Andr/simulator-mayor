@@ -1,7 +1,7 @@
 package me.slavita.construction.worker
 
-import implario.humanize.Humanize
 import me.slavita.construction.ui.Formatter.toLevel
+import me.slavita.construction.ui.HumanizableValues
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.GOLD
 import java.util.*
@@ -14,7 +14,7 @@ class Worker(
     val reliability: Int,
     val rapacity: WorkerRapacity,
 ) {
-    val uuid = UUID.randomUUID()
+    val uuid: UUID = UUID.randomUUID()
 
     val sellPrice: Long
         get() {
@@ -36,7 +36,7 @@ class Worker(
             ${AQUA}Имя: ${GOLD}$name
             ${AQUA}Редкость: ${GOLD}${rarity.title}
             ${AQUA}Уровень: ${level.toLevel()}
-            ${AQUA}Скорость: ${GOLD}$blocksSpeed ${Humanize.plurals("блок", "блока", "блоков", blocksSpeed)} в секунду
+            ${AQUA}Скорость: ${GOLD}$blocksSpeed ${HumanizableValues.BLOCK.get(blocksSpeed)} в секунду
             ${AQUA}Надёжность: ${GOLD}$reliability%
             ${AQUA}Жадность: ${GOLD}${rapacity.title}
         """.trimIndent()

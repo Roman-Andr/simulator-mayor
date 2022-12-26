@@ -5,11 +5,11 @@ import me.func.protocol.math.Position
 import me.slavita.construction.action.command.menu.project.BuildingControlMenu
 import me.slavita.construction.app
 import me.slavita.construction.bank.Bank
+import me.slavita.construction.reward.MoneyReward
 import me.slavita.construction.ui.Formatter.toMoneyIcon
-import me.slavita.construction.utils.extensions.PlayerExtensions.killboard
+import me.slavita.construction.utils.PlayerExtensions.accept
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor.*
-import ru.cristalix.core.formatting.Formatting.fine
 import ru.cristalix.core.realm.IRealmService
 import kotlin.math.pow
 
@@ -25,18 +25,22 @@ object ModCallbacks {
             val amount = buff.readInt()
             val digit = buff.readInt()
             val value = (amount * 10.0.pow(digit)).toLong()
-            player.killboard(fine("Кредит на сумму ${value.toMoneyIcon()} ${GREEN}успешно взят"))
+            player.accept("Кредит на сумму ${value.toMoneyIcon()} ${WHITE}успешно взят")
             Bank.giveCredit(player.user, value)
         }
 
-        app.server.scheduler.scheduleSyncRepeatingTask(
+        Anime.createReader("func:reward:click") { player, buf ->
+            MoneyReward(100).getReward(player.user)
+        }
+
+        app.server.scheduler.runTaskTimerAsynchronously(
             app,
             {
                 Bukkit.getOnlinePlayers().forEach { player ->
                     Anime.overlayText(
                         player,
                         Position.BOTTOM_RIGHT,
-                        "Онлайн ${DARK_GRAY}» $GOLD" + IRealmService.get()
+                        "Онлайн ${GRAY}» $GOLD" + IRealmService.get()
                             .getOnlineOnRealms("SLVT").toString()
                     )
                 }

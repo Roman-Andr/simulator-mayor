@@ -12,9 +12,10 @@ import me.func.protocol.world.marker.MarkerSign
 import me.slavita.construction.banner.BannerInfo
 import me.slavita.construction.banner.BannerUtil
 import me.slavita.construction.structure.BuildingStructure
-import me.slavita.construction.utils.extensions.BannersExtensions.hide
-import me.slavita.construction.utils.extensions.BannersExtensions.show
-import org.bukkit.ChatColor
+import me.slavita.construction.utils.hide
+import me.slavita.construction.utils.show
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.WHITE
 import org.bukkit.block.BlockFace
 
 class StructureVisual(val structure: BuildingStructure) {
@@ -26,8 +27,8 @@ class StructureVisual(val structure: BuildingStructure) {
     private val owner = structure.owner
     private val progressBar = StructureProgressBar(owner.player, structure.structure.blocksCount)
 
-    val bannerLocation = structure.box.bottomCenter.clone().apply {
-        when (structure.cell.face) {
+    private val bannerLocation = structure.box.bottomCenter.clone().apply {
+        when (structure.playerCell.face) {
             BlockFace.EAST       -> x = structure.box.max.x
             BlockFace.NORTH      -> z = structure.box.min.z
             BlockFace.WEST       -> x = structure.box.min.x
@@ -68,7 +69,7 @@ class StructureVisual(val structure: BuildingStructure) {
         infoBanners = BannerUtil.createDual(
             BannerInfo(
                 bannerLocation,
-                structure.cell.face,
+                structure.playerCell.face,
                 structure.getBannerInfo(),
                 102,
                 80,
@@ -99,7 +100,7 @@ class StructureVisual(val structure: BuildingStructure) {
         progressWorld!!.apply {
             progress = structure.blocksPlaced.toDouble() / structure.structure.blocksCount.toDouble()
             text =
-                "${ChatColor.WHITE}Поставлено блоков: ${ChatColor.WHITE}${structure.blocksPlaced} ${ChatColor.WHITE}из ${ChatColor.AQUA}${structure.structure.blocksCount}"
+                "${WHITE}Поставлено блоков: ${WHITE}${structure.blocksPlaced} ${WHITE}из ${AQUA}${structure.structure.blocksCount}"
         }
         infoBanners!!.toList().forEach { it ->
             Banners.content(owner.player, it, structure.getBannerInfo().joinToString("\n") { it.first })

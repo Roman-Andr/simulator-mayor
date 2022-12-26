@@ -3,7 +3,7 @@ package me.slavita.construction.action.command.menu.worker
 import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
-import me.func.mod.ui.menu.choicer.Choicer
+import me.func.mod.ui.menu.choicer
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.UpgradeWorker
@@ -18,33 +18,35 @@ class WorkerUpgradeMenu(player: Player, val worker: Worker) : MenuCommand(player
     override fun getMenu(): Openable {
         player.user.run user@{
             var infoButton: ReactiveButton
-            return Choicer(title = "${GOLD}${BOLD}Улучшение рабочего").apply {
+            return choicer {
+                title = "${GOLD}${BOLD}Улучшение рабочего"
+                description = ""
                 info = """
                     ${GOLD}${BOLD}Характеристики:
-                      ${YELLOW}Имя ${DARK_GRAY}»
+                      ${YELLOW}Имя ${GRAY}»
                         ${WHITE}Наименование рабочего
                         ${WHITE}в вашей команде
                       
-                      ${DARK_GREEN}Редкость ${DARK_GRAY}»
+                      ${DARK_GREEN}Редкость ${GRAY}»
                         ${WHITE}Показывает на сколько
                         ${WHITE}характеристики рабочего хороши
                       
-                      ${GOLD}Уровень ${DARK_GRAY}»
+                      ${GOLD}Уровень ${GRAY}»
                         ${WHITE}Показывает уровень прокачки
                         ${WHITE}рабочего и влиет
                         ${WHITE}на все его характеристики
                       
-                      ${AQUA}Скорость ${DARK_GRAY}»
+                      ${AQUA}Скорость ${GRAY}»
                         ${WHITE}Количество блоков,
                         ${WHITE}которые ставит рабочий
                         ${WHITE}за секунду
                       
-                      ${GREEN}Надёжность ${DARK_GRAY}»
+                      ${GREEN}Надёжность ${GRAY}»
                         ${WHITE}Влияет на то, как часто
                         ${WHITE}будет ломаться здания,
                         ${WHITE}построенные этим рабочим
                       
-                      ${RED}Жадность ${DARK_GRAY}»
+                      ${RED}Жадность ${GRAY}»
                         ${WHITE}Влияет на награду
                         ${WHITE}за окончания постройки
                         ${WHITE}здания этим рабочим

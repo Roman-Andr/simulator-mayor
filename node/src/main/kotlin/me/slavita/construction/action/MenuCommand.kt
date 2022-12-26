@@ -1,9 +1,7 @@
 package me.slavita.construction.action
 
 import me.func.mod.Anime
-import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
-import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection
 import me.func.mod.ui.menu.selection.Selection
 import me.slavita.construction.bank.Bank
@@ -11,10 +9,9 @@ import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
 import me.slavita.construction.utils.user
-import org.bukkit.Material
 import org.bukkit.entity.Player
 
-abstract class MenuCommand(player: Player) : CooldownCommand(player, 1) {
+abstract class MenuCommand(player: Player, cooldown: Long = 1) : CooldownCommand(player, cooldown) {
     private var close = true
 
     protected abstract fun getMenu(): Openable
@@ -37,17 +34,10 @@ abstract class MenuCommand(player: Player) : CooldownCommand(player, 1) {
             columns = info.columns
             money = "Ваш ${info.type.title} ${
                 when (info.type) {
-                    StatsType.MONEY  -> player.user.statistics.money.toMoney()
-                    StatsType.LEVEL  -> player.user.statistics.level
+                    StatsType.MONEY  -> player.user.data.statistics.money.toMoney()
+                    StatsType.LEVEL  -> player.user.data.statistics.level
                     StatsType.CREDIT -> Bank.playersData[player.uniqueId]!!.sumOf { it.creditValue }.toMoney()
                 }
             }"
-        }
-
-    fun getEmptyButton(): ReactiveButton =
-        button {
-            material(Material.AIR)
-            hint = ""
-            enabled = false
         }
 }

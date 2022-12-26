@@ -1,14 +1,14 @@
 package me.slavita.construction.player
 
 class Statistics(
-    var money: Long,
-    var level: Int,
-    var experience: Long,
-    var reputation: Double,
-    var totalProjects: Int,
-    var maxProjects: Int,
-    var speed: Float,
-    var trainStep: Int,
-) {
-    constructor() : this(10000000000, 1, 0, .0, 0, 0, 0.2F, 0)
-}
+    var money: Long = 0,
+    var level: Int = 1,
+    var experience: Long = 0,
+    var reputation: Double = 0.0,
+    var totalProjects: Int = 0,
+    var maxProjects: Int = 0,
+    var speed: Float = 0.2F,
+    var trainStep: Int = 0,
+    var nextDay: Int = 5,
+    var nextTakeDailyReward: Long = 0,
+)

@@ -9,8 +9,10 @@ import me.func.protocol.data.color.GlowColor
 import me.func.protocol.data.element.Banner
 import me.slavita.construction.app
 import me.slavita.construction.banner.BannerUtil.loadBanner
-import me.slavita.construction.utils.*
-import me.slavita.construction.utils.extensions.BlocksExtensions.toYaw
+import me.slavita.construction.utils.BlocksExtensions.toYaw
+import me.slavita.construction.utils.labels
+import me.slavita.construction.utils.revert
+import me.slavita.construction.utils.yaw
 import org.bukkit.block.BlockFace
 import org.bukkit.entity.Player
 
