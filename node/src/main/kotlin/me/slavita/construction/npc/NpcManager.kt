@@ -6,12 +6,9 @@ import me.func.mod.world.Npc.location
 import me.func.mod.world.Npc.onClick
 import me.func.mod.world.Npc.skin
 import me.func.protocol.world.npc.NpcBehaviour
-import me.slavita.construction.action.command.menu.ControlPanelMenu
-import me.slavita.construction.action.command.menu.DailyMenu
-import me.slavita.construction.action.command.menu.GuideDialog
+import me.slavita.construction.action.command.menu.*
 import me.slavita.construction.action.command.menu.bank.BankMainMenu
 import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
-import me.slavita.construction.action.command.menu.StorageMenu
 import me.slavita.construction.action.command.menu.worker.WorkerMenu
 import me.slavita.construction.app
 import me.slavita.construction.banner.BannerUtil.loadBanner

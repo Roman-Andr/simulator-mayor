@@ -19,7 +19,12 @@ class BlocksListMenu(player: Player, val structure: Structure) : MenuCommand(pla
                 storage = structure.blocks.keys.mapM { itemProps ->
                     button {
                         item = itemProps.createItemStack(1).validate()
-                        hover = "${GREEN}${LanguageHelper.getItemDisplayName(itemProps.createItemStack(1), player)} - ${structure.blocks[itemProps]}шт"
+                        hover = "${GREEN}${
+                            LanguageHelper.getItemDisplayName(
+                                itemProps.createItemStack(1),
+                                player
+                            )
+                        } - ${structure.blocks[itemProps]}шт"
                         hint = " "
                     }
                 }

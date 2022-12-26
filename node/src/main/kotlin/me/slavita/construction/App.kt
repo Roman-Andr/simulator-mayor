@@ -46,6 +46,7 @@ import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import ru.cristalix.core.CoreApi
 import ru.cristalix.core.datasync.EntityDataParameters
+import ru.cristalix.core.internal.BukkitInternals
 import ru.cristalix.core.invoice.IInvoiceService
 import ru.cristalix.core.invoice.InvoiceService
 import ru.cristalix.core.multichat.ChatMessage
@@ -179,7 +180,6 @@ class App : JavaPlugin() {
         logTg("Initialized on realm ${IRealmService.get().currentRealmInfo.realmId}")
 
         server.scheduler.scheduleSyncRepeatingTask(this, { pass++ }, 0, 1)
-
     }
 
     override fun onDisable() {

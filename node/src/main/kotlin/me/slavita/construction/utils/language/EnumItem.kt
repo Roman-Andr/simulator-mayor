@@ -1049,16 +1049,18 @@ enum class EnumItem(val material: Material, val metadata: Int, val unlocalizedNa
         Material.KNOWLEDGE_BOOK, "item.knowledgeBook.name"
     );
 
-    constructor(material: Material, unlocalizedName: String) : this(material, 0, unlocalizedName) {}
+    constructor(material: Material, unlocalizedName: String) : this(material, 0, unlocalizedName)
 
     companion object {
         private val lookup: MutableMap<ItemEntry, EnumItem> = HashMap()
 
         init {
-            EnumSet.allOf(EnumItem::class.java).forEach { lookup[ItemEntry(
-                it.material,
-                it.metadata
-            )] = it }
+            EnumSet.allOf(EnumItem::class.java).forEach {
+                lookup[ItemEntry(
+                    it.material,
+                    it.metadata
+                )] = it
+            }
         }
 
         operator fun get(entry: ItemEntry): EnumItem? {

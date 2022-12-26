@@ -1,5 +1,6 @@
 package me.slavita.construction.banner
 
+import me.func.mod.reactive.ReactiveBanner
 import me.func.mod.world.Banners
 import me.func.mod.world.Banners.location
 import me.func.protocol.data.color.RGB
@@ -17,7 +18,7 @@ object BannerUtil {
 
     fun loadBanner(banner: Map<*, *>, label: Label, withPitch: Boolean = false, opacity: Double = 0.45) {
         Banners.new(
-            Banner.builder()
+            ReactiveBanner.builder()
                 .weight(banner["weight"] as Int)
                 .height(banner["height"] as Int)
                 .content(banner["content"] as String)

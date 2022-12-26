@@ -5,7 +5,6 @@ import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.player.User
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureState
-import me.slavita.construction.utils.BlocksExtensions.withOffset
 import me.slavita.construction.utils.PlayerExtensions.accept
 import me.slavita.construction.utils.language.LanguageHelper
 import me.slavita.construction.utils.runAsync
@@ -55,7 +54,6 @@ class WorkerStructure(
                         player.accept("Вы положили ${LanguageHelper.getItemDisplayName(item, player)}")
                     }
                 }
-                player.accept("Вы положили необходимые блоки")
             }
             .build().apply {
                 isConstant = true

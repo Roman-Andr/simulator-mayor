@@ -28,6 +28,7 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
                     button {
                         item = ItemIcons.get("other", "access")
                         title = "${GREEN}Подтвердить"
+                        backgroundColor = GlowColor.GREEN
                         hint = "Готово"
                         onClick { _, _, _ ->
                             Anime.close(player)
@@ -45,6 +46,7 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
                         ${GREEN}Убрать
                         ${GREEN}выделение
                     """.trimIndent()
+                        backgroundColor = GlowColor.RED
                         hint = "Убрать"
                         onClick { _, _, _ ->
                             structure.workers.clear()

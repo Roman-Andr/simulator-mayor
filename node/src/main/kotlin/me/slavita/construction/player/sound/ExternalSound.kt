@@ -4,7 +4,7 @@ import me.func.sound.Category
 import me.func.sound.Sound
 import org.bukkit.entity.Player
 
-class ExternalSound(private val sound: String): SoundSource {
+class ExternalSound(private val sound: String) : SoundSource {
     override fun play(player: Player, volume: Float, pitch: Float) {
         Sound(Music.storageUrl + sound)
             .category(Category.MASTER)

@@ -40,7 +40,7 @@ object ModCallbacks {
                     Anime.overlayText(
                         player,
                         Position.BOTTOM_RIGHT,
-                        "Онлайн ${DARK_GRAY}» $GOLD" + IRealmService.get()
+                        "Онлайн ${GRAY}» $GOLD" + IRealmService.get()
                             .getOnlineOnRealms("SLVT").toString()
                     )
                 }

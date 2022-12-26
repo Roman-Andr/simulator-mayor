@@ -2,7 +2,6 @@ package me.slavita.construction.listener
 
 import me.func.mod.conversation.ModTransfer
 import me.slavita.construction.action.command.menu.city.BuyCityConfirm
-import me.slavita.construction.action.command.menu.project.ChoiceStructure
 import me.slavita.construction.action.command.menu.project.ChoiceStructureGroup
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.ui.HumanizableValues

@@ -2,11 +2,10 @@ package me.slavita.construction.player
 
 import me.slavita.construction.app
 import me.slavita.construction.project.Project
-import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.structure.CityStructure
+import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.utils.PlayerExtensions.deny
-import me.slavita.construction.utils.labels
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor.*
 
@@ -29,7 +28,7 @@ class City(val owner: User, id: String, val title: String, val price: Long, var 
                 owner.player.deny(
                     """
                         ${RED}Поломка!
-                        ${DARK_GRAY}Номер: ${GRAY}${it.playerCell.id}
+                        ${GRAY}Номер: ${GRAY}${it.playerCell.id}
                         ${AQUA}Название: ${GOLD}${it.structure.name}
                         ${GOLD}Локация: ${GREEN}$title
                     """.trimIndent()

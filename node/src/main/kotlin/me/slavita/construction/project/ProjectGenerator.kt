@@ -5,8 +5,8 @@ import me.slavita.construction.player.User
 import me.slavita.construction.reward.ExperienceReward
 import me.slavita.construction.reward.MoneyReward
 import me.slavita.construction.reward.ReputationReward
-import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.structure.ClientStructure
+import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.structure.instance.Structure
 
