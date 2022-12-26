@@ -66,7 +66,6 @@ abstract class BuildingStructure(
 
         world.placeFakeBlock(owner.player, currentBlock!!.withOffset(allocation))
         currentBlock = structure.getNextBlock(currentBlock!!.position)
-
         blockPlaced()
 
         blocksPlaced++

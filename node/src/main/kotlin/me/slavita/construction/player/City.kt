@@ -20,22 +20,26 @@ class City(val owner: User, id: String, val title: String, val price: Long, var 
             playerCells.add(PlayerCell(this, it, false))
         }
         Bukkit.server.scheduler.scheduleSyncRepeatingTask(app, {
-            if (cityStructures.size == 0) return@scheduleSyncRepeatingTask
-            cityStructures.shuffled().chunked(5)[0].forEach {
-                if (it.state == CityStructureState.BROKEN || it.state == CityStructureState.NOT_READY) return@scheduleSyncRepeatingTask
-                owner.income -= it.structure.income
-                it.state = CityStructureState.BROKEN
-                owner.player.deny(
-                    """
+            breakStructure()
+        }, 0L, 2 * 60 * 20L)
+    }
+
+    fun breakStructure() {
+        if (cityStructures.size == 0) return
+        cityStructures.shuffled().chunked(5)[0].forEach {
+            if (it.state == CityStructureState.BROKEN || it.state == CityStructureState.NOT_READY) return
+            owner.income -= it.structure.income
+            it.state = CityStructureState.BROKEN
+            owner.player.deny(
+                """
                         ${RED}Поломка!
                         ${GRAY}Номер: ${GRAY}${it.playerCell.id}
                         ${AQUA}Название: ${GOLD}${it.structure.name}
                         ${GOLD}Локация: ${GREEN}$title
                     """.trimIndent()
-                )
-                it.visual.update()
-            }
-        }, 0L, 2 * 60 * 20L)
+            )
+            it.visual.update()
+        }
     }
 
     fun addStructure(cityStructure: CityStructure): CityStructure {

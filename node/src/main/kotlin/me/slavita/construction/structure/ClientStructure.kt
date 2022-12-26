@@ -6,12 +6,10 @@ import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.player.User
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureSender
-import me.slavita.construction.ui.HumanizableValues.SECOND
 import me.slavita.construction.utils.Cooldown
 import me.slavita.construction.utils.PlayerExtensions.deny
 import me.slavita.construction.utils.swapItems
 import me.slavita.construction.world.GameWorld
-import org.bukkit.ChatColor.AQUA
 
 class ClientStructure(
     world: GameWorld,
@@ -36,6 +34,7 @@ class ClientStructure(
     }
 
     override fun blockPlaced() {
+        if (currentBlock == null) return
         if (!hidden) sender.sendBlock(currentBlock!!, allocation)
     }
 
@@ -60,7 +59,7 @@ class ClientStructure(
             placeCurrentBlock()
             var hasNext = false
 
-            if (currentBlock!!.equalsItem(this)) return
+            if (currentBlock == null || currentBlock!!.equalsItem(this)) return
 
             owner.player.inventory.apply {
                 storageContents.forEachIndexed { index, item ->

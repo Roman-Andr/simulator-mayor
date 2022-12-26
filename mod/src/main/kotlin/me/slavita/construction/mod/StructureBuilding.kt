@@ -30,7 +30,6 @@ object StructureBuilding {
     private var currentBlockLocation: V3? = null
     private var hoverText: String? = null
     private var targetText: String? = null
-    private var cooldownExpired = true
     private var frameColor = Color(0, 0, 0, 65.0)
     private var lastMarkersSlots = arrayOf<Int>()
     private var lineWidth = 3.5F
@@ -83,7 +82,6 @@ object StructureBuilding {
 
         mod.registerChannel("structure:currentBlock") {
             val position = V3(readDouble(), readDouble(), readDouble())
-            cooldownExpired = currentBlockLocation == null
             currentItem = ItemTools.read(this).apply { targetText = this.displayName }
 
             (nextBlock.children[0] as ItemElement).stack = currentItem
@@ -93,10 +91,6 @@ object StructureBuilding {
             lastMarkersSlots = arrayOf()
             markers.children.clear()
             nextBlock.enabled = true
-        }
-
-        mod.registerChannel("structure:cooldown") {
-            cooldownExpired = true
         }
 
         mod.registerChannel("structure:hide") {
@@ -129,7 +123,6 @@ object StructureBuilding {
             updateInfoIcon()
 
             val targetColor = if (!player.inventory.handItemEquals(currentItem!!)) SpecialColor.RED
-            else if (!cooldownExpired) SpecialColor.GOLD
             else SpecialColor.GREEN
             frameColor = targetColor.toColor()
 
