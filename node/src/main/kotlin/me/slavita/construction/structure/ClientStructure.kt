@@ -20,7 +20,6 @@ class ClientStructure(
     playerCell: PlayerCell,
 ) : BuildingStructure(world, structure, owner, playerCell) {
     private val sender = StructureSender(owner.player)
-    private val cooldown = Cooldown(5, owner.player)
 
     override fun enterBuilding() {
         Anime.createReader("structure:place") { player, _ ->
@@ -37,7 +36,6 @@ class ClientStructure(
     }
 
     override fun blockPlaced() {
-        cooldown.start { if (!hidden) sender.sendCooldownExpired() }
         if (!hidden) sender.sendBlock(currentBlock!!, allocation)
     }
 
@@ -55,11 +53,6 @@ class ClientStructure(
             if (!currentBlock!!.equalsItem(this)) {
                 Glow.animate(owner.player, 0.2, GlowColor.RED)
                 owner.player.deny("Неверный блок")
-                return
-            }
-
-            if (!cooldown.isExpired()) {
-                owner.player.deny("Вы сможете поставить блок через ${AQUA}${cooldown.timeLeft()} ${SECOND.get(cooldown.timeLeft())}")
                 return
             }
 
