@@ -6,7 +6,7 @@ import me.slavita.construction.structure.CityStructure
 import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.utils.PlayerExtensions.deny
-import org.bukkit.Bukkit
+import me.slavita.construction.utils.scheduler
 import org.bukkit.ChatColor.*
 
 class City(val owner: User, id: String, val title: String, val price: Long, var unlocked: Boolean) {
@@ -14,12 +14,13 @@ class City(val owner: User, id: String, val title: String, val price: Long, var 
     val cityStructures = hashSetOf<CityStructure>()
     val playerCells = hashSetOf<PlayerCell>()
     val box = app.mainWorld.map.box("city", id)
+    var taskId = 0
 
     init {
         app.mainWorld.cells.forEach {
             playerCells.add(PlayerCell(this, it, false))
         }
-        Bukkit.server.scheduler.scheduleSyncRepeatingTask(app, {
+        taskId = scheduler.scheduleSyncRepeatingTask(app, {
             breakStructure()
         }, 0L, 2 * 60 * 20L)
     }

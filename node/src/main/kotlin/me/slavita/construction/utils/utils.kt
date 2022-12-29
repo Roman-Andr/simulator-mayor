@@ -10,8 +10,6 @@ import io.netty.channel.ChannelPromise
 import me.func.mod.Anime
 import me.func.mod.ui.menu.button
 import me.func.mod.world.Banners
-import me.func.protocol.data.color.GlowColor
-import me.func.protocol.data.color.RGB
 import me.func.protocol.data.element.Banner
 import me.func.world.WorldMeta
 import me.slavita.construction.app
@@ -20,10 +18,12 @@ import me.slavita.construction.ui.Formatter.toCriMoney
 import net.minecraft.server.v1_12_R1.EntityPlayer
 import net.minecraft.server.v1_12_R1.Packet
 import org.apache.logging.log4j.util.BiConsumer
-import org.bukkit.ChatColor.*
 import org.bukkit.*
+import org.bukkit.ChatColor.*
+import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
+import org.bukkit.craftbukkit.v1_12_R1.block.CraftBlock
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
@@ -35,6 +35,7 @@ import org.bukkit.scheduler.BukkitScheduler
 import org.bukkit.scheduler.BukkitTask
 import java.util.*
 import kotlin.reflect.KClass
+
 
 val Player.user
     get() = app.getUser(this)
@@ -201,6 +202,7 @@ fun Banners.hide(player: Player, pair: Pair<Banner, Banner>) {
     hide(player, pair.first)
     hide(player, pair.second)
 }
+
 
 fun getWorkerInfo() = """
         ${GOLD}${BOLD}Характеристики:

@@ -68,13 +68,13 @@ class SwitchElement : RectangleElement() {
 
     private fun redraw() {
         container.children.clear()
-        text.forEachIndexed { index, s ->
+        text.forEachIndexed { index, symbol ->
             val entry = rectangle {
-                size = V3((getWidth(s) + 17.0) * scaleFactor, 19.0 * scaleFactor)
+                size = V3((getWidth(symbol) + 17.0) * scaleFactor, 19.0 * scaleFactor)
                 val title = +text {
                     align = CENTER
                     origin = CENTER
-                    content = s
+                    content = symbol
                     onMouseUp {
                         click(index, this@text)
                     }

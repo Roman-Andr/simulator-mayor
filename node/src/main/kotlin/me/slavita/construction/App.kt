@@ -28,6 +28,7 @@ import me.slavita.construction.npc.NpcManager
 import me.slavita.construction.player.Data
 import me.slavita.construction.player.KensukeUser
 import me.slavita.construction.player.User
+import me.slavita.construction.showcase.Showcases
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.BoardsManager
 import me.slavita.construction.ui.CityGlows
@@ -171,6 +172,7 @@ class App : JavaPlugin() {
         SpeedPlaces
         ItemsManager
         PlayerEvents
+        Showcases
 
         EnumLang.init()
 

@@ -5,6 +5,7 @@ import me.slavita.construction.app
 import me.slavita.construction.ui.format.*
 import me.slavita.construction.utils.BlocksExtensions.toYaw
 import me.slavita.construction.utils.CristalixUtil
+import me.slavita.construction.utils.scheduler
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.block.BlockFace
@@ -54,7 +55,7 @@ object BoardsManager {
         }
         Boards.addBoard(board)
 
-        Bukkit.server.scheduler.scheduleSyncRepeatingTask(app, {
+        scheduler.scheduleSyncRepeatingTask(app, {
             board.clearContent()
             app.kensuke.getLeaderboard(app.userManager, app.statScope, field, 10).thenAccept {
                 it.forEach { entry ->

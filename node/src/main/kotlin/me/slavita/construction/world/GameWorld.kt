@@ -46,8 +46,8 @@ class GameWorld(val map: WorldMeta) {
                                 show(user.player)
                             })
                         }
-                        city.playerCells.forEach {
-                            buildings.add(it.cell.stubBuilding)
+                        city.playerCells.forEach { playerCell ->
+                            buildings.add(playerCell.cell.stubBuilding)
                         }
                     }
                     buildings

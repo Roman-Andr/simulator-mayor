@@ -31,7 +31,7 @@ class WorkerStructure(
         }
 
     override fun enterBuilding() {
-        remainingBlocks = structure.blocks
+        remainingBlocks = structure.blocks.clone() as HashMap<ItemProperties, Int>
         claimGlow = ReactivePlace.builder()
             .rgb(GlowColor.GREEN_LIGHT)
             .radius(2.0)

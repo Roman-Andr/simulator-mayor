@@ -15,8 +15,8 @@ import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.ui.Formatter.applyBoosters
 import me.slavita.construction.utils.PlayerExtensions.deny
 import me.slavita.construction.utils.runAsync
+import me.slavita.construction.utils.scheduler
 import me.slavita.construction.utils.user
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import ru.cristalix.core.invoice.IInvoiceService
 import java.util.*
@@ -30,8 +30,9 @@ class User(val uuid: UUID) {
     val blocksStorage = BlocksStorage(this)
     var watchableProject: Project? = null
     var income = 0L
-    var criBalanceLastUpdate = 0L
     val hall = CityHall(this)
+    var taskId = 0
+    private var criBalanceLastUpdate = 0L
 
     var criBalance: Int = 0
         get() {
@@ -47,7 +48,7 @@ class User(val uuid: UUID) {
         }
 
     init {
-        Bukkit.server.scheduler.scheduleSyncRepeatingTask(app, {
+        taskId = scheduler.scheduleSyncRepeatingTask(app, {
             if (initialized && player.isOnline) data.statistics.money += income.applyBoosters(BoosterType.MONEY_BOOSTER)
         }, 0L, 20L)
     }
@@ -85,9 +86,9 @@ class User(val uuid: UUID) {
 
         StoragePrepare.prepare(this)
 
-        currentCity.playerCells.forEach {
+        currentCity.playerCells.forEach { stub ->
             runAsync(30) {
-                it.updateStub()
+                stub.updateStub()
             }
         }
 

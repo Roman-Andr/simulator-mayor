@@ -1,4 +1,4 @@
-package me.slavita.construction.market.showcase
+package me.slavita.construction.showcase
 
 import me.slavita.construction.world.ItemProperties
 

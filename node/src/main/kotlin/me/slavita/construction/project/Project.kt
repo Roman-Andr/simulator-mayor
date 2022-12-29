@@ -31,6 +31,7 @@ class Project(
 
     fun start() {
         structure.startBuilding(this)
+        owner.player.playSound(MusicSound.SUCCESS3)
     }
 
     fun onEnter() {

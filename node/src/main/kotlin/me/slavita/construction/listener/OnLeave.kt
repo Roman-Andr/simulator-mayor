@@ -2,9 +2,7 @@ package me.slavita.construction.listener
 
 import me.func.Lock
 import me.slavita.construction.app
-import me.slavita.construction.utils.handle
-import me.slavita.construction.utils.listener
-import me.slavita.construction.utils.sendPacket
+import me.slavita.construction.utils.*
 import net.minecraft.server.v1_12_R1.PacketPlayOutPlayerInfo
 import org.bukkit.Bukkit
 import org.bukkit.event.player.PlayerQuitEvent
@@ -23,6 +21,13 @@ object OnLeave {
                 )
             }
             Lock.lock("construction-${player.uniqueId}", 10, TimeUnit.SECONDS)
+            scheduler.cancelTask(player.user.taskId)
+            player.user.cities.forEach { city ->
+                scheduler.cancelTask(city.taskId)
+            }
+            player.user.data.showcases.forEach { showcase ->
+                scheduler.cancelTask(showcase.taskId)
+            }
         }
     }
 }

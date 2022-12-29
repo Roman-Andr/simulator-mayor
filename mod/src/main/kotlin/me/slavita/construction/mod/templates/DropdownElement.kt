@@ -113,8 +113,8 @@ class DropdownElement : CarvedRectangle() {
     }
 
     private fun findText(element: AbstractElement): TextElement? {
-        (element as Parent).children.forEach {
-            if (it is TextElement) return it
+        (element as Parent).children.forEach { child ->
+            if (child is TextElement) return child
         }
         return null
     }

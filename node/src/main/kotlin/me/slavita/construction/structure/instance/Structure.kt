@@ -21,7 +21,6 @@ class Structure(val name: String, val box: Box) {
     val blocks = hashMapOf<ItemProperties, Int>()
 
     init {
-
         box.forEachBukkit {
             if (it.type == Material.AIR) return@forEachBukkit
 

@@ -11,7 +11,7 @@ dependencies {
 
     implementation("implario:humanize:1.1.3")
 
-    implementation("me.func.visual-driver:visual-driver-protocol:3.2.59.TEST")
+    implementation("me.func.visual-driver:visual-driver-protocol:3.3.9.TEST")
 }
 
 mod {
