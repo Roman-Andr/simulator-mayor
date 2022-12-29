@@ -6,18 +6,12 @@ import me.func.mod.Kit
 import me.func.mod.conversation.ModTransfer
 import me.func.mod.reactive.ReactiveLine
 import me.func.mod.reactive.ReactivePanel
-import me.func.mod.ui.menu.button
-import me.func.mod.ui.menu.selection
 import me.func.protocol.data.color.GlowColor
-import me.func.sound.Category
-import me.func.sound.Sound
 import me.slavita.construction.action.command.menu.DailyMenu
 import me.slavita.construction.app
 import me.slavita.construction.bank.Bank
 import me.slavita.construction.player.Statistics
 import me.slavita.construction.player.Tags
-import me.slavita.construction.player.sound.Music
-import me.slavita.construction.player.sound.MusicSound
 import me.slavita.construction.prepare.GuidePrepare
 import me.slavita.construction.prepare.TagsPrepare
 import me.slavita.construction.ui.Formatter.toMoneyIcon
@@ -25,7 +19,6 @@ import me.slavita.construction.utils.*
 import me.slavita.construction.utils.PlayerExtensions.accept
 import me.slavita.construction.utils.PlayerExtensions.deny
 import org.bukkit.Bukkit
-import org.bukkit.Material
 import org.bukkit.craftbukkit.v1_12_R1.block.CraftBlock
 import ru.cristalix.core.display.messages.RadioMessage
 import ru.cristalix.core.realm.IRealmService
@@ -112,18 +105,6 @@ object AdminCommands {
         opCommand("settag") { player, args ->
             player.user.data.tag = Tags.valueOf(args[0].uppercase())
             TagsPrepare.prepare(player.user)
-        }
-
-        opCommand("test") { player, _ ->
-            selection {
-                storage = mutableListOf(
-                    *Material.values().map {
-                        button {
-                            item = it.validate()
-                        }
-                    }.toTypedArray()
-                )
-            }.open(player)
         }
 
         opCommand("tags") { player, _ ->

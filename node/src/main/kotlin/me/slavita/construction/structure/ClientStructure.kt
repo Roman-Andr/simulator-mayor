@@ -1,6 +1,5 @@
 package me.slavita.construction.structure
 
-import me.func.mod.Anime
 import me.func.mod.ui.Glow
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.player.User

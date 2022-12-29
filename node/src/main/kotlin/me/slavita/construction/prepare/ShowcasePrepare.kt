@@ -1,9 +1,9 @@
 package me.slavita.construction.prepare
 
 import me.func.mod.conversation.ModTransfer
+import me.slavita.construction.player.User
 import me.slavita.construction.showcase.Showcase
 import me.slavita.construction.showcase.Showcases
-import me.slavita.construction.player.User
 
 object ShowcasePrepare : IPrepare {
     override fun prepare(user: User) {

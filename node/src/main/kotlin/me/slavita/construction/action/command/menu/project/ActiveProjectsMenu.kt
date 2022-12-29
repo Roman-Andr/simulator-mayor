@@ -3,7 +3,6 @@ package me.slavita.construction.action.command.menu.project
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
 import me.slavita.construction.action.MenuCommand
-import me.slavita.construction.structure.ClientStructure
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType

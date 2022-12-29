@@ -7,8 +7,6 @@ import me.slavita.construction.reward.Reward
 import me.slavita.construction.structure.BuildingStructure
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.structure.tools.StructureState
-import me.slavita.construction.ui.Formatter.toLevel
-import me.slavita.construction.ui.HumanizableValues
 import org.bukkit.ChatColor
 
 class Project(

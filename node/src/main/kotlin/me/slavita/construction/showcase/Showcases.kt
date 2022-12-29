@@ -3,7 +3,6 @@ package me.slavita.construction.showcase
 import me.func.atlas.Atlas
 import me.func.mod.reactive.ReactiveBanner
 import me.func.mod.world.Banners
-import me.func.protocol.data.element.Banner
 import me.slavita.construction.app
 import me.slavita.construction.utils.BlocksExtensions.toYaw
 import me.slavita.construction.world.ItemProperties

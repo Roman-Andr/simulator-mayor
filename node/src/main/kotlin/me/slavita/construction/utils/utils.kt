@@ -15,15 +15,14 @@ import me.func.world.WorldMeta
 import me.slavita.construction.app
 import me.slavita.construction.dontate.Donates
 import me.slavita.construction.ui.Formatter.toCriMoney
-import net.minecraft.server.v1_12_R1.EntityPlayer
-import net.minecraft.server.v1_12_R1.Packet
+import net.minecraft.server.v1_12_R1.*
 import org.apache.logging.log4j.util.BiConsumer
-import org.bukkit.*
+import org.bukkit.Bukkit
 import org.bukkit.ChatColor.*
+import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
-import org.bukkit.craftbukkit.v1_12_R1.block.CraftBlock
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
@@ -202,7 +201,6 @@ fun Banners.hide(player: Player, pair: Pair<Banner, Banner>) {
     hide(player, pair.first)
     hide(player, pair.second)
 }
-
 
 fun getWorkerInfo() = """
         ${GOLD}${BOLD}Характеристики:
