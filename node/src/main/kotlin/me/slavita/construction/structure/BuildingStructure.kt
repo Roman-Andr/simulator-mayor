@@ -28,6 +28,8 @@ abstract class BuildingStructure(
 
     protected abstract fun blockPlaced()
 
+    protected abstract fun onFinish()
+
     protected abstract fun onShow()
 
     protected abstract fun onHide()
@@ -59,6 +61,7 @@ abstract class BuildingStructure(
         enterBuilding()
         currentProject = project
         visual.start()
+        owner.updatePosition()
     }
 
     fun placeCurrentBlock() {
@@ -81,6 +84,8 @@ abstract class BuildingStructure(
         deleteVisual()
         visual.finishShow()
         cityStructure = playerCell.city.addStructure(CityStructure(owner.player, structure, playerCell))
+        owner.updatePosition()
+        onFinish()
     }
 
     fun claimed() {

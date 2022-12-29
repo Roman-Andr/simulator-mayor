@@ -35,7 +35,7 @@ class BankMainMenu(player: Player) : MenuCommand(player) {
                         hint = "Выбрать"
                         item = ItemIcons.get("other", "quest_month")
                         onClick { _, _, _ ->
-                            CreditsListMenu(player).closeAll(false).tryExecute()
+                            CreditsListMenu(player).keepHistory().tryExecute()
                         }
                     }
                 )

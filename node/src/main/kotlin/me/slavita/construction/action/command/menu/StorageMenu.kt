@@ -1,14 +1,15 @@
 package me.slavita.construction.action.command.menu
 
 import me.func.mod.Anime
-import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
 import me.slavita.construction.utils.PlayerExtensions.deny
+import me.slavita.construction.utils.getStorageInfo
 import me.slavita.construction.utils.language.LanguageHelper
+import me.slavita.construction.utils.mapM
 import me.slavita.construction.utils.user
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.ChatColor.*
@@ -20,39 +21,38 @@ class StorageMenu(player: Player) : MenuCommand(player) {
 
     override fun getMenu(): Openable {
         return getBaseSelection(MenuInfo("${GREEN}${BOLD}Склад", StatsType.LEVEL, 5, 14)).apply {
-            storage = mutableListOf<ReactiveButton>().apply {
-                blocksStorage.blocks.forEach { entry ->
-                    add(button {
-                        item = entry.key.createItemStack(1)
-                        hover = getHover(entry)
-                        hint = " "
-                        onLeftClick { _, _, _ ->
-                            if (check()) {
-                                player.deny("Нет места")
-                                Anime.close(player)
-                                return@onLeftClick
-                            }
-                            blocksStorage.removeItem(entry.value, 64).apply {
-                                player.inventory.addItem(entry.key.createItemStack(this.first))
-                                if (this.second) StorageMenu(player).tryExecute() else {
-                                    hover = getHover(entry)
-                                }
+            storage = blocksStorage.blocks.mapM { entry ->
+                button {
+                    item = entry.key.createItemStack(1)
+                    hover = getHover(entry)
+                    info = getStorageInfo()
+                    hint = " "
+                    onLeftClick { _, _, _ ->
+                        if (check()) {
+                            player.deny("Нет места")
+                            Anime.close(player)
+                            return@onLeftClick
+                        }
+                        blocksStorage.removeItem(entry.value, 64).apply {
+                            player.inventory.addItem(entry.key.createItemStack(this.first))
+                            if (this.second) StorageMenu(player).tryExecute() else {
+                                hover = getHover(entry)
                             }
                         }
-                        onRightClick { _, _, _ ->
-                            if (check()) {
-                                player.deny("Нет места")
-                                Anime.close(player)
-                                return@onRightClick
-                            }
-                            blocksStorage.removeItem(entry.value, entry.value.amount).apply {
-                                player.inventory.addItem(entry.key.createItemStack(this.first))
-                                if (this.second) StorageMenu(player).tryExecute() else {
-                                    hover = getHover(entry)
-                                }
+                    }
+                    onRightClick { _, _, _ ->
+                        if (check()) {
+                            player.deny("Нет места")
+                            Anime.close(player)
+                            return@onRightClick
+                        }
+                        blocksStorage.removeItem(entry.value, entry.value.amount).apply {
+                            player.inventory.addItem(entry.key.createItemStack(this.first))
+                            if (this.second) StorageMenu(player).tryExecute() else {
+                                hover = getHover(entry)
                             }
                         }
-                    })
+                    }
                 }
             }
         }

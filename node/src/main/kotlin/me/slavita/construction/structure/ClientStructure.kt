@@ -6,7 +6,6 @@ import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.player.User
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureSender
-import me.slavita.construction.utils.Cooldown
 import me.slavita.construction.utils.PlayerExtensions.deny
 import me.slavita.construction.utils.swapItems
 import me.slavita.construction.world.GameWorld
@@ -19,11 +18,9 @@ class ClientStructure(
 ) : BuildingStructure(world, structure, owner, playerCell) {
     private val sender = StructureSender(owner.player)
 
-    override fun enterBuilding() {
-        Anime.createReader("structure:place") { player, _ ->
-            if (player.uniqueId == owner.uuid) tryPlaceBlock()
-        }
-    }
+    override fun enterBuilding() {}
+
+    override fun onFinish() {}
 
     override fun onShow() {
         sender.sendBlock(currentBlock!!, allocation)
@@ -47,7 +44,7 @@ class ClientStructure(
         )
     }
 
-    private fun tryPlaceBlock() {
+    fun tryPlaceBlock() {
         owner.player.inventory.itemInMainHand.apply {
             if (!currentBlock!!.equalsItem(this)) {
                 Glow.animate(owner.player, 0.2, GlowColor.RED)

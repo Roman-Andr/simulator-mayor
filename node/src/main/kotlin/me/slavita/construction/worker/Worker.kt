@@ -31,14 +31,12 @@ class Worker(
         blocksSpeed *= 2
     }
 
-    override fun toString(): String {
-        return """
-            ${AQUA}Имя: ${GOLD}$name
-            ${AQUA}Редкость: ${GOLD}${rarity.title}
-            ${AQUA}Уровень: ${level.toLevel()}
-            ${AQUA}Скорость: ${GOLD}$blocksSpeed ${HumanizableValues.BLOCK.get(blocksSpeed)} в секунду
-            ${AQUA}Надёжность: ${GOLD}$reliability%
-            ${AQUA}Жадность: ${GOLD}${rapacity.title}
-        """.trimIndent()
-    }
+    override fun toString() = """
+        ${AQUA}Имя: ${GOLD}$name
+        ${AQUA}Редкость: ${GOLD}${rarity.title}
+        ${AQUA}Уровень: ${level.toLevel()}
+        ${AQUA}Скорость: ${GOLD}$blocksSpeed ${HumanizableValues.BLOCK.get(blocksSpeed)} в секунду
+        ${AQUA}Надёжность: ${GOLD}$reliability%
+        ${AQUA}Жадность: ${GOLD}${rapacity.title}
+    """.trimIndent()
 }

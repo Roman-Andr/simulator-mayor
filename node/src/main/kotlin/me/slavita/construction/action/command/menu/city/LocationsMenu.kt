@@ -14,6 +14,7 @@ import me.slavita.construction.ui.HumanizableValues.SECOND
 import me.slavita.construction.ui.Texture
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.utils.PlayerExtensions.deny
+import me.slavita.construction.utils.getLocationsInfo
 import me.slavita.construction.utils.mapM
 import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.AQUA
@@ -27,6 +28,7 @@ class LocationsMenu(player: Player) : MenuCommand(player) {
             return choicer {
                 title = "${AQUA}${BOLD}Телепортация"
                 description = "Перемещение между локациями"
+                info = getLocationsInfo()
                 storage = this@user.cities.sortedBy { it.price }.mapM { city ->
                     button {
                         title = city.title
@@ -42,7 +44,8 @@ class LocationsMenu(player: Player) : MenuCommand(player) {
                         }
                         onClick { _, _, _ ->
                             if (city.unlocked) {
-                                val ignore = player.user.data.abilities.contains((Donates.NO_LIMIT_TELEPORT_DONATE.donate as AbilityDonate).ability)
+                                val ignore =
+                                    player.user.data.abilities.contains((Donates.NO_LIMIT_TELEPORT_DONATE.donate as AbilityDonate).ability)
                                 ChangeCity(
                                     player,
                                     city

@@ -10,6 +10,7 @@ import me.slavita.construction.project.Project
 import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.utils.getEmptyButton
+import me.slavita.construction.utils.getWorkerInfo
 import me.slavita.construction.utils.user
 import me.slavita.construction.worker.WorkerState
 import org.bukkit.ChatColor.*
@@ -21,6 +22,7 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
         player.user.run user@{
             return selection {
                 title = "${AQUA}${BOLD}Выбор строителей"
+                info = getWorkerInfo()
                 rows = 5
                 columns = 4
                 storage = mutableListOf(

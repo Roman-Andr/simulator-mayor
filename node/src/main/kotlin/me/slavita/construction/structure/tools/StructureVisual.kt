@@ -92,7 +92,6 @@ class StructureVisual(val structure: BuildingStructure) {
         Banners.show(owner.player, infoBanners!!)
 
         update()
-        hide()
     }
 
     fun update() {

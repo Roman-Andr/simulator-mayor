@@ -8,6 +8,7 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.dontate.AbilityDonate
 import me.slavita.construction.dontate.Donates
 import me.slavita.construction.ui.Formatter.toCriMoney
+import me.slavita.construction.utils.getDonateInfo
 import me.slavita.construction.utils.mapM
 import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.AQUA
@@ -19,6 +20,7 @@ class AbilitiesMenu(player: Player) : MenuCommand(player) {
         player.user.run user@{
             return choicer {
                 title = "${AQUA}${BOLD}Улучшения"
+                info = getDonateInfo()
                 description = "Кристаллики: ${player.user.criBalance.toCriMoney()}"
                 storage = Donates.values().filter { it.donate is AbilityDonate }.mapM {
                     button {

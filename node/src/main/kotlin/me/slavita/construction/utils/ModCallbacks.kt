@@ -6,6 +6,7 @@ import me.slavita.construction.action.command.menu.project.BuildingControlMenu
 import me.slavita.construction.app
 import me.slavita.construction.bank.Bank
 import me.slavita.construction.reward.MoneyReward
+import me.slavita.construction.structure.ClientStructure
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.PlayerExtensions.accept
 import org.bukkit.Bukkit
@@ -29,8 +30,14 @@ object ModCallbacks {
             Bank.giveCredit(player.user, value)
         }
 
-        Anime.createReader("func:reward:click") { player, buf ->
+        Anime.createReader("func:reward:click") { player, _ ->
             MoneyReward(100).getReward(player.user)
+        }
+
+        Anime.createReader("structure:place") { player, _ ->
+            Bukkit.getOnlinePlayers().forEach { owner ->
+                if (player == owner) (owner.user.watchableProject!!.structure as ClientStructure).tryPlaceBlock()
+            }
         }
 
         app.server.scheduler.runTaskTimerAsynchronously(
@@ -40,7 +47,7 @@ object ModCallbacks {
                     Anime.overlayText(
                         player,
                         Position.BOTTOM_RIGHT,
-                        "Онлайн ${GRAY}» $GOLD" + IRealmService.get()
+                        "Онлайн ${DARK_GRAY}» $GOLD" + IRealmService.get()
                             .getOnlineOnRealms("SLVT").toString()
                     )
                 }

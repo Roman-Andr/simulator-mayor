@@ -24,7 +24,7 @@ class BuildingControlMenu(player: Player, val project: Project) : MenuCommand(pl
                         hint = "Выбрать"
                         item = ItemIcons.get("skyblock", "info")
                         onClick { _, _, _ ->
-                            BlocksListMenu(player, project.structure.structure).closeAll(false).tryExecute()
+                            BlocksListMenu(player, project.structure.structure).keepHistory().tryExecute()
                         }
                     }).apply {
                     if (project.structure !is WorkerStructure) return@apply

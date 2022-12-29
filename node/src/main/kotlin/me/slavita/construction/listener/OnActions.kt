@@ -14,8 +14,8 @@ import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerMoveEvent
 
 object OnActions {
-    private val inZone = hashMapOf<Player, Boolean>()
-    private var storageEntered = false
+    val inZone = hashMapOf<Player, Boolean>()
+    var storageEntered = hashMapOf<Player, Boolean>()
 
     init {
         listener<PlayerDropItemEvent> {
@@ -37,62 +37,7 @@ object OnActions {
         }
 
         listener<PlayerMoveEvent> {
-            player.user.run {
-                cities.forEach { city ->
-                    if (city.box.contains(player.location)) {
-                        if (currentCity.title != city.title && city.unlocked) {
-                            currentCity = city
-                            return@listener
-                        }
-                        if (!city.unlocked) {
-                            BuyCityConfirm(player, city, false).tryExecute()
-                            isCancelled = true
-                        }
-                    }
-                }
-                if (watchableProject != null && !watchableProject!!.structure.box.contains(player.location)) {
-                    watchableProject!!.onLeave()
-                    watchableProject = null
-                }
-
-                currentCity.cityStructures.forEach {
-                    if (it.playerCell.box.contains(player.location) && it.state == CityStructureState.BROKEN) {
-                        it.repair()
-                    }
-                }
-
-                if (player.user.blocksStorage.inBox() && !storageEntered) {
-                    ModTransfer()
-                        .send("storage:show", player)
-                    storageEntered = true
-                }
-
-                if (!player.user.blocksStorage.inBox() && storageEntered) {
-                    ModTransfer()
-                        .send("storage:hide", player)
-                    storageEntered = false
-                }
-
-                if (watchableProject == null) {
-                    currentCity.projects.forEach { project ->
-                        if (project.structure.box.contains(player.location)) {
-                            watchableProject = project
-                            project.onEnter()
-                            return@listener
-                        }
-                    }
-
-                    currentCity.playerCells.forEach { cell ->
-                        if (cell.busy || !cell.box.contains(player.location)) return@forEach
-
-                        if (inZone[player] == false) ChoiceStructureGroup(player, cell).tryExecute()
-                        inZone[player] = true
-                        return@listener
-                    }
-
-                    inZone[player] = false
-                }
-            }
+            player.user.updatePosition()
         }
     }
 }

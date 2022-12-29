@@ -11,11 +11,9 @@ import me.slavita.construction.market.showcase.Showcase
 import me.slavita.construction.ui.Formatter
 import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.utils.*
 import me.slavita.construction.utils.PlayerExtensions.accept
 import me.slavita.construction.utils.language.LanguageHelper
-import me.slavita.construction.utils.mapM
-import me.slavita.construction.utils.user
-import me.slavita.construction.utils.validate
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
@@ -37,6 +35,7 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) :
             return selection {
                 title = showcase.properties.name
                 vault = Formatter.moneyIcon
+                info = getShowcaseInfo()
                 rows = 5
                 columns = 14
                 money = "Ваш Баланс ${player.user.data.statistics.money.toMoney()}"

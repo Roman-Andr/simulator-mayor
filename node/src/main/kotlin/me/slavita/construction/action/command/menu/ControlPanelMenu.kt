@@ -25,7 +25,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         backgroundColor = GlowColor.ORANGE
                         item = ItemIcons.get("other", "book")
                         onClick { _, _, _ ->
-                            ActiveProjectsMenu(player).closeAll(false).tryExecute()
+                            ActiveProjectsMenu(player).keepHistory().tryExecute()
                         }
                     },
                     button {
@@ -34,7 +34,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         backgroundColor = GlowColor.GREEN
                         item = ItemIcons.get("alpha", "islands")
                         onClick { _, _, _ ->
-                            LocationsMenu(player).closeAll(false).tryExecute()
+                            LocationsMenu(player).keepHistory().tryExecute()
                         }
                     },
                     button {
@@ -43,7 +43,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         backgroundColor = GlowColor.BLUE
                         item = ItemIcons.get("other", "clothes")
                         onClick { _, _, _ ->
-                            TagsMenu(player).tryExecute()
+                            TagsMenu(player).keepHistory().tryExecute()
                         }
                     },
                     button {
@@ -52,7 +52,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         backgroundColor = GlowColor.NEUTRAL
                         item = ItemIcons.get("skyblock", "is_settings")
                         onClick { _, _, _ ->
-                            SettingsMenu(player).closeAll(false).tryExecute()
+                            SettingsMenu(player).keepHistory().tryExecute()
                         }
                     }
                 )

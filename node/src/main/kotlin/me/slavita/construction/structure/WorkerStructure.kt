@@ -79,12 +79,18 @@ class WorkerStructure(
 
     override fun blockPlaced() {}
 
+    override fun onFinish() {
+        claimGlow!!.delete(setOf(owner.player))
+    }
+
     private fun build() {
+        if (state != StructureState.BUILDING) return
         val item = ItemProperties(currentBlock!!.type, currentBlock!!.data)
-        if (state != StructureState.BUILDING || blocksStorage.getOrDefault(item, 0) <= 0) return
+        if (blocksStorage.getOrDefault(item, 0) <= 0) return
         runAsync(delayTime) {
             if (workers.isNotEmpty()) {
-                remainingBlocks[item]?.minus(1)
+                remainingBlocks[item] = remainingBlocks[item]!! - 1
+                blocksStorage[item] = blocksStorage[item]!! - 1
                 placeCurrentBlock()
             }
             build()
