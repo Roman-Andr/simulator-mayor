@@ -5,6 +5,7 @@ import me.func.protocol.math.Position
 import me.slavita.construction.action.command.menu.project.BuildingControlMenu
 import me.slavita.construction.app
 import me.slavita.construction.bank.Bank
+import me.slavita.construction.common.utils.TimeFormatter
 import me.slavita.construction.reward.MoneyReward
 import me.slavita.construction.structure.ClientStructure
 import me.slavita.construction.ui.Formatter.toMoneyIcon
@@ -32,6 +33,7 @@ object ModCallbacks {
 
         Anime.createReader("func:reward:click") { player, _ ->
             MoneyReward(100).getReward(player.user)
+            player.user.updateDaily()
         }
 
         Anime.createReader("structure:place") { player, _ ->

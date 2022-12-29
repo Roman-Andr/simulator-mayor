@@ -5,6 +5,7 @@ import me.slavita.construction.action.command.menu.city.BuyCityConfirm
 import me.slavita.construction.action.command.menu.project.ChoiceStructureGroup
 import me.slavita.construction.app
 import me.slavita.construction.booster.BoosterType
+import me.slavita.construction.common.utils.TimeFormatter
 import me.slavita.construction.dontate.Abilities
 import me.slavita.construction.listener.OnActions
 import me.slavita.construction.prepare.StoragePrepare
@@ -46,12 +47,6 @@ class User(val uuid: UUID) {
             }
             return field
         }
-
-    init {
-        taskId = scheduler.scheduleSyncRepeatingTask(app, {
-            if (initialized && player.isOnline) data.statistics.money += income.applyBoosters(BoosterType.MONEY_BOOSTER)
-        }, 0L, 20L)
-    }
 
     fun tryPurchase(
         cost: Long,
@@ -164,5 +159,11 @@ class User(val uuid: UUID) {
             }
         }
         return false
+    }
+
+    fun updateDaily() {
+        val time = System.currentTimeMillis()
+        data.statistics.nextDay++
+        data.statistics.nextTakeDailyReward = time + 24 * 60 * 60 * 1000
     }
 }

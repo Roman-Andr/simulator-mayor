@@ -77,7 +77,7 @@ class App : JavaPlugin() {
     private val users = hashMapOf<UUID, User>()
     val allBlocks = hashSetOf<ItemProperties>()
 
-    val statScope = Scope("construction-testt", Data::class.java)
+    val statScope = Scope("construction-testtt", Data::class.java)
     lateinit var kensuke: Kensuke
     lateinit var userManager: UserManager<KensukeUser>
 

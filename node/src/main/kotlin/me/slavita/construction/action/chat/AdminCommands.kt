@@ -63,6 +63,10 @@ object AdminCommands {
             DailyMenu(player).tryExecute()
         }
 
+        opCommand("cleandaily") { player, _ ->
+            player.user.data.statistics.nextDay = 0
+        }
+
         opCommand("credit") { player, args ->
             Bank.giveCredit(player.user, args[0].toLong())
         }
