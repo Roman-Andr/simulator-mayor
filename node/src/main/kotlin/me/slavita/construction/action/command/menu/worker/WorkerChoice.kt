@@ -6,6 +6,7 @@ import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.WorkerExecutor
+import me.slavita.construction.action.command.menu.project.StartProject
 import me.slavita.construction.project.Project
 import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.ui.menu.ItemIcons
@@ -34,12 +35,8 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
                         hint = "Готово"
                         onClick { _, _, _ ->
                             Anime.close(player)
-
                             if (!startProject) return@onClick
-                            project.structure.playerCell.setBusy()
-                            (project.structure as WorkerStructure).workers.addAll(this@WorkerChoice.structure.workers)
-                            project.start()
-                            this@user.currentCity.addProject(project)
+                            StartProject(player.user, project, structure).tryExecute()
                         }
                     },
                     button {
