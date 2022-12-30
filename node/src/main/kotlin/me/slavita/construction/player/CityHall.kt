@@ -1,6 +1,6 @@
 package me.slavita.construction.player
 
-import me.slavita.construction.utils.PlayerExtensions.accept
+import me.slavita.construction.utils.accept
 import org.bukkit.ChatColor.GOLD
 
 class CityHall(val user: User) {

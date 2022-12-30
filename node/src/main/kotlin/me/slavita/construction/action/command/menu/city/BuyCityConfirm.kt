@@ -5,7 +5,7 @@ import me.func.mod.ui.menu.confirmation.Confirmation
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.player.City
 import me.slavita.construction.ui.Formatter.toMoneyIcon
-import me.slavita.construction.utils.PlayerExtensions.accept
+import me.slavita.construction.utils.accept
 import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.GOLD

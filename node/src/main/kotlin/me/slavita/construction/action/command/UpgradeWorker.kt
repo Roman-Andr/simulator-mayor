@@ -1,7 +1,7 @@
 package me.slavita.construction.action.command
 
 import me.slavita.construction.action.CooldownCommand
-import me.slavita.construction.utils.PlayerExtensions.accept
+import me.slavita.construction.utils.accept
 import me.slavita.construction.utils.user
 import me.slavita.construction.worker.Worker
 import org.bukkit.entity.Player

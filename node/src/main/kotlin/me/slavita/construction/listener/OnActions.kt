@@ -1,7 +1,8 @@
 package me.slavita.construction.listener
 
 import me.slavita.construction.ui.HumanizableValues
-import me.slavita.construction.utils.PlayerExtensions.accept
+import me.slavita.construction.utils.accept
+import me.slavita.construction.utils.language.LanguageHelper
 import me.slavita.construction.utils.listener
 import me.slavita.construction.utils.user
 import org.bukkit.Material
@@ -21,14 +22,19 @@ object OnActions {
                 return@listener
             }
 
+            val toAdd = user.blocksStorage.addItem(drop.itemStack)
             player.accept(
-                "Вы положили ${drop.itemStack.getAmount()} ${
-                    HumanizableValues.BLOCK.get(
-                        drop.itemStack.getAmount()
+                "Вы положили ${
+                    LanguageHelper.getItemDisplayName(
+                        drop.itemStack,
+                        player
                     )
+                }: ${drop.itemStack.getAmount() - toAdd} ${
+                    HumanizableValues.BLOCK.get(drop.itemStack.getAmount())
                 }"
             )
-            user.blocksStorage.addItem(drop.itemStack)
+            if (toAdd != 0) player.inventory.addItem(drop.itemStack.apply { setAmount(toAdd) })
+
             drop.remove()
         }
 

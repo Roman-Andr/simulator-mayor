@@ -3,20 +3,14 @@ package me.slavita.construction.player
 import me.func.mod.conversation.ModTransfer
 import me.slavita.construction.action.command.menu.city.BuyCityConfirm
 import me.slavita.construction.action.command.menu.project.ChoiceStructureGroup
-import me.slavita.construction.app
-import me.slavita.construction.booster.BoosterType
-import me.slavita.construction.common.utils.TimeFormatter
 import me.slavita.construction.dontate.Abilities
 import me.slavita.construction.listener.OnActions
 import me.slavita.construction.prepare.StoragePrepare
 import me.slavita.construction.project.Project
 import me.slavita.construction.storage.BlocksStorage
-import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.structure.tools.StructureState
-import me.slavita.construction.ui.Formatter.applyBoosters
-import me.slavita.construction.utils.PlayerExtensions.deny
+import me.slavita.construction.utils.deny
 import me.slavita.construction.utils.runAsync
-import me.slavita.construction.utils.scheduler
 import me.slavita.construction.utils.user
 import org.bukkit.entity.Player
 import ru.cristalix.core.invoice.IInvoiceService
@@ -33,6 +27,7 @@ class User(val uuid: UUID) {
     var income = 0L
     val hall = CityHall(this)
     var taskId = 0
+    var showcaseTaskId = 0
     private var criBalanceLastUpdate = 0L
 
     var criBalance: Int = 0
@@ -111,12 +106,6 @@ class User(val uuid: UUID) {
         if (watchableProject != null && !watchableProject!!.structure.box.contains(player.location)) {
             watchableProject!!.onLeave()
             watchableProject = null
-        }
-
-        currentCity.cityStructures.forEach {
-            if (it.playerCell.box.contains(player.location) && it.state == CityStructureState.BROKEN) {
-                it.repair()
-            }
         }
 
         if (player.user.blocksStorage.inBox() && !OnActions.storageEntered[player]!!) {

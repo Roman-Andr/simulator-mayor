@@ -6,7 +6,7 @@ import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.command.menu.city.CityHallMenu
 import me.slavita.construction.app
 import me.slavita.construction.banner.BannerUtil.loadBanner
-import me.slavita.construction.utils.PlayerExtensions.accept
+import me.slavita.construction.utils.accept
 import me.slavita.construction.utils.label
 
 object CityGlows {
@@ -19,9 +19,7 @@ object CityGlows {
                 ReactivePlace.builder()
                     .rgb(GlowColor.GREEN)
                     .radius(2.0)
-                    .x(label.toCenterLocation().x)
-                    .y(label.y - 2.50)
-                    .z(label.toCenterLocation().z)
+                    .location(label.toCenterLocation().apply { y -= 2.5 })
                     .onEntire { player ->
                         CityHallMenu(player).tryExecute()
                     }
@@ -38,9 +36,7 @@ object CityGlows {
                 ReactivePlace.builder()
                     .rgb(GlowColor.RED_LIGHT)
                     .radius(3.0)
-                    .x(label.toCenterLocation().x)
-                    .y(label.y - 2.50)
-                    .z(label.toCenterLocation().z)
+                    .location(label.toCenterLocation().apply { y -= 2.5 })
                     .onEntire { player ->
                         player.accept("Вы вошли в зону афк")
                     }

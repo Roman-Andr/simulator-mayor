@@ -2,7 +2,7 @@ package me.slavita.construction.action.command.menu.project
 
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
-import me.func.mod.ui.menu.selection.Selection
+import me.func.mod.ui.menu.selection
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.utils.language.LanguageHelper
@@ -15,7 +15,10 @@ import org.bukkit.entity.Player
 class BlocksListMenu(player: Player, val structure: Structure) : MenuCommand(player) {
     override fun getMenu(): Openable {
         player.user.run user@{
-            return Selection(title = "${AQUA}${BOLD}Список материалов", rows = 5, columns = 14,
+            return selection {
+                title = "${AQUA}${BOLD}Список материалов"
+                rows = 5
+                columns = 14
                 storage = structure.blocks.keys.mapM { itemProps ->
                     button {
                         item = itemProps.createItemStack(1).validate()
@@ -28,7 +31,7 @@ class BlocksListMenu(player: Player, val structure: Structure) : MenuCommand(pla
                         hint = " "
                     }
                 }
-            )
+            }
         }
     }
 }

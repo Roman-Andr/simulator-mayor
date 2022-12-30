@@ -1,6 +1,8 @@
 package me.slavita.construction.structure
 
 import me.slavita.construction.player.User
+import me.slavita.construction.player.sound.Music.playSound
+import me.slavita.construction.player.sound.MusicSound
 import me.slavita.construction.project.Project
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureState
@@ -66,6 +68,7 @@ abstract class BuildingStructure(
 
     fun placeCurrentBlock() {
         if (state != StructureState.BUILDING) return
+        owner.player.playSound(MusicSound.HINT)
 
         world.placeFakeBlock(owner.player, currentBlock!!.withOffset(allocation))
         currentBlock = structure.getNextBlock(currentBlock!!.position)

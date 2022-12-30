@@ -5,7 +5,7 @@ import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.player.User
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureSender
-import me.slavita.construction.utils.PlayerExtensions.deny
+import me.slavita.construction.utils.deny
 import me.slavita.construction.utils.swapItems
 import me.slavita.construction.world.GameWorld
 
@@ -45,6 +45,7 @@ class ClientStructure(
 
     fun tryPlaceBlock() {
         owner.player.inventory.itemInMainHand.apply {
+            if (currentBlock == null) return
             if (!currentBlock!!.equalsItem(this)) {
                 Glow.animate(owner.player, 0.2, GlowColor.RED)
                 owner.player.deny("Неверный блок")

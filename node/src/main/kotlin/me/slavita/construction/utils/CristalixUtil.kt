@@ -7,9 +7,8 @@ import ru.cristalix.core.permissions.IPermissionService
 import java.util.*
 
 object CristalixUtil {
-    fun getDisplayName(player: Player): String {
-        return getDisplayName(player.uniqueId)
-    }
+    val Player.cristalixName
+        get() = getDisplayName(this.uniqueId)
 
     fun getDisplayName(uuid: UUID): String {
         val name = IAccountService.get().getNameByUuid(uuid).get()

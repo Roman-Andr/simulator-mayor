@@ -2,7 +2,7 @@ package me.slavita.construction.action.command.menu.project
 
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
-import me.func.mod.ui.menu.selection.Selection
+import me.func.mod.ui.menu.selection
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.menu.worker.WorkerChoice
 import me.slavita.construction.project.Project
@@ -16,7 +16,10 @@ import org.bukkit.entity.Player
 class BuildingControlMenu(player: Player, val project: Project) : MenuCommand(player) {
     override fun getMenu(): Openable {
         player.user.run user@{
-            return Selection(title = "${AQUA}${BOLD}Процесс постройки", rows = 3, columns = 3,
+            return selection {
+                title = "${AQUA}${BOLD}Процесс постройки"
+                rows = 3
+                columns = 3
                 storage = mutableListOf(
                     button {
                         title = "Список материалов"
@@ -38,7 +41,7 @@ class BuildingControlMenu(player: Player, val project: Project) : MenuCommand(pl
                         }
                     })
                 }
-            )
+            }
         }
     }
 }

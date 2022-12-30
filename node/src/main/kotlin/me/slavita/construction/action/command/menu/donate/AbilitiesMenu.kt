@@ -20,8 +20,8 @@ class AbilitiesMenu(player: Player) : MenuCommand(player) {
         player.user.run user@{
             return choicer {
                 title = "${AQUA}${BOLD}Улучшения"
-                info = getDonateInfo()
                 description = "Кристаллики: ${player.user.criBalance.toCriMoney()}"
+                info = getDonateInfo()
                 storage = Donates.values().filter { it.donate is AbilityDonate }.mapM {
                     button {
                         item = it.displayItem

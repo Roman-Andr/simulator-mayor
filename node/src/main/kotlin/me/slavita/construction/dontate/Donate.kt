@@ -4,7 +4,7 @@ import me.func.mod.Anime
 import me.func.mod.ui.menu.confirmation.Confirmation
 import me.slavita.construction.player.User
 import me.slavita.construction.ui.HumanizableValues.CRI_MONEY
-import me.slavita.construction.utils.PlayerExtensions.accept
+import me.slavita.construction.utils.accept
 import org.bukkit.ChatColor.*
 
 abstract class Donate(var title: String, var description: String, val price: Int) {

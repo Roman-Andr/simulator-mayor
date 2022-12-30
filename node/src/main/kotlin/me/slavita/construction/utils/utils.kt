@@ -8,13 +8,25 @@ import io.netty.channel.ChannelDuplexHandler
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelPromise
 import me.func.mod.Anime
+import me.func.mod.ui.Glow
 import me.func.mod.ui.menu.button
+import me.func.mod.ui.menu.selection
+import me.func.mod.ui.menu.selection.Selection
 import me.func.mod.world.Banners
+import me.func.protocol.data.color.GlowColor
 import me.func.protocol.data.element.Banner
 import me.func.world.WorldMeta
 import me.slavita.construction.app
+import me.slavita.construction.bank.Bank
 import me.slavita.construction.dontate.Donates
+import me.slavita.construction.player.sound.Music.playSound
+import me.slavita.construction.player.sound.MusicSound
 import me.slavita.construction.ui.Formatter.toCriMoney
+import me.slavita.construction.ui.Formatter.toMoney
+import me.slavita.construction.ui.menu.MenuInfo
+import me.slavita.construction.ui.menu.StatsType
+import me.slavita.construction.utils.language.LanguageHelper
+import me.slavita.construction.world.ItemProperties
 import net.minecraft.server.v1_12_R1.*
 import org.apache.logging.log4j.util.BiConsumer
 import org.bukkit.Bukkit
@@ -32,6 +44,7 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.PlayerInventory
 import org.bukkit.scheduler.BukkitScheduler
 import org.bukkit.scheduler.BukkitTask
+import ru.cristalix.core.formatting.Formatting
 import java.util.*
 import kotlin.reflect.KClass
 
@@ -59,6 +72,7 @@ fun Float.revert() = when {
 
 object EmptyListener : Listener
 
+@Suppress("UNCHECKED_CAST")
 inline fun <reified T : Event> listener(
     priority: EventPriority = EventPriority.NORMAL,
     noinline handler: T.() -> Unit,
@@ -137,8 +151,11 @@ val routine = EventContext { true }.fork()
 
 val scheduler: BukkitScheduler = Bukkit.getScheduler()
 
-fun runTimerAsync(start: Long, every: Long, runnable: Runnable) =
+fun runTimerAsync(start: Long, every: Long, runnable: Runnable): BukkitTask =
     scheduler.runTaskTimerAsynchronously(app, runnable, start, every)
+
+fun runTimer(start: Long, every: Long, runnable: Runnable): Int =
+    scheduler.scheduleSyncRepeatingTask(app, runnable, start, every)
 
 fun runAsync(after: Long, runnable: Runnable): BukkitTask =
     scheduler.runTaskLaterAsynchronously(app, runnable, after)
@@ -270,3 +287,60 @@ fun getDonateInfo() = """
     ${GOLD}${BOLD}Платные возможности:
         Здесь вы можете купить необходимые улучшения за кристаллики
 """.trimIndent()
+
+fun getMenuInfo() = """
+    ${GOLD}${BOLD}Главное меню:
+        Здесь вы можете выбрать необходимый раздел
+""".trimIndent()
+
+fun blocksDeposit(
+    player: Player,
+    target: HashMap<ItemProperties, Int>,
+    storage: HashMap<ItemProperties, Int>,
+): Boolean {
+    var deposit = false
+    player.inventory.storageContents.forEachIndexed { index, item ->
+        if (item == null) return@forEachIndexed
+        val props = ItemProperties(item)
+        val value = target.getOrDefault(props, 0) - storage.getOrDefault(props, 0)
+        if (target.filter { it.value - storage.getOrDefault(it.key, 0) > 0 }.containsKey(props)) {
+            if (item.getAmount() > value) {
+                storage[props] = storage.getOrDefault(props, 0) + item.getAmount() - value
+                player.inventory.storageContents[index].setAmount(item.getAmount() - value)
+            } else {
+                storage[props] = storage.getOrDefault(props, 0) + item.getAmount()
+                player.inventory.remove(item)
+            }
+            deposit = true
+            player.accept("Вы положили ${LanguageHelper.getItemDisplayName(item, player)}")
+        }
+    }
+    return deposit
+}
+
+fun Player.deny(text: String) {
+    killboard(Formatting.error(text))
+    playSound(MusicSound.DENY)
+    Glow.animate(this, 0.4, GlowColor.RED)
+}
+
+fun Player.accept(text: String) {
+    killboard(Formatting.fine(text))
+    playSound(MusicSound.LEVEL_UP)
+    Glow.animate(this, 0.4, GlowColor.GREEN)
+}
+
+fun getBaseSelection(info: MenuInfo, player: Player): Selection =
+    selection {
+        title = info.title
+        vault = info.type.vault
+        rows = info.rows
+        columns = info.columns
+        money = "Ваш ${info.type.title} ${
+            when (info.type) {
+                StatsType.MONEY  -> player.user.data.statistics.money.toMoney()
+                StatsType.LEVEL  -> player.user.data.statistics.level
+                StatsType.CREDIT -> Bank.playersData[player.uniqueId]!!.sumOf { it.creditValue }.toMoney()
+            }
+        }"
+    }

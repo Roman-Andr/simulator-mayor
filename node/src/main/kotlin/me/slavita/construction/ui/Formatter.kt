@@ -8,9 +8,9 @@ import me.slavita.construction.common.utils.TimeFormatter
 import org.bukkit.ChatColor.*
 
 object Formatter {
-    val moneyIcon = Emoji.COIN
-    val incomeIcon = Emoji.DOLLAR
-    val donateIcon = Emoji.DONATE
+    const val moneyIcon = Emoji.COIN
+    const val incomeIcon = Emoji.DOLLAR
+    const val donateIcon = Emoji.DONATE
 
     fun Long.toMoney(): String {
         return NumberFormatter.toMoneyFormat(this)

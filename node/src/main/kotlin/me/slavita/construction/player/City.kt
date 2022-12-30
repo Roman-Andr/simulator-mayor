@@ -5,8 +5,8 @@ import me.slavita.construction.project.Project
 import me.slavita.construction.structure.CityStructure
 import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.structure.tools.CityStructureState
-import me.slavita.construction.utils.PlayerExtensions.deny
-import me.slavita.construction.utils.scheduler
+import me.slavita.construction.utils.deny
+import me.slavita.construction.utils.runTimer
 import org.bukkit.ChatColor.*
 
 class City(val owner: User, id: String, val title: String, val price: Long, var unlocked: Boolean) {
@@ -20,15 +20,15 @@ class City(val owner: User, id: String, val title: String, val price: Long, var 
         app.mainWorld.cells.forEach {
             playerCells.add(PlayerCell(this, it, false))
         }
-        taskId = scheduler.scheduleSyncRepeatingTask(app, {
+        taskId = runTimer(0, 2 * 60 * 20) {
             breakStructure()
-        }, 0L, 2 * 60 * 20L)
+        }
     }
 
     fun breakStructure() {
         if (cityStructures.size == 0) return
-        cityStructures.shuffled().chunked(5)[0].forEach {
-            if (it.state == CityStructureState.BROKEN || it.state == CityStructureState.NOT_READY) return
+        cityStructures.filter { it.state != CityStructureState.BROKEN && it.state != CityStructureState.NOT_READY }
+            .shuffled()[0].let {
             owner.income -= it.structure.income
             it.state = CityStructureState.BROKEN
             owner.player.deny(

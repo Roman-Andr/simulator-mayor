@@ -5,7 +5,8 @@ import me.slavita.construction.booster.BoosterType
 import me.slavita.construction.listener.OnActions
 import me.slavita.construction.player.User
 import me.slavita.construction.ui.Formatter.applyBoosters
-import me.slavita.construction.utils.scheduler
+import me.slavita.construction.utils.accept
+import me.slavita.construction.utils.runTimer
 import org.bukkit.GameMode
 
 object PlayerWorldPrepare : IPrepare {
@@ -20,9 +21,16 @@ object PlayerWorldPrepare : IPrepare {
             app.mainWorld.glows.forEach { it.send(player) }
             player.walkSpeed = data.statistics.speed
 
-            taskId = scheduler.scheduleSyncRepeatingTask(app, {
+            taskId = runTimer(0, 20) {
                 if (initialized && player.isOnline) data.statistics.money += income.applyBoosters(BoosterType.MONEY_BOOSTER)
-            }, 0L, 20L)
+            }
+
+            showcaseTaskId = runTimer(0, 10 * 20) {
+                data.showcases.forEach { showcase ->
+                    showcase.updatePrices()
+                }
+                player.accept("Цены обновлены!")
+            }
         }
     }
 }

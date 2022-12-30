@@ -48,9 +48,7 @@ object SpeedPlaces {
             val glow = ReactivePlace.builder()
                 .rgb(GlowColor.BLUE_MIDDLE)
                 .radius(1.5)
-                .x(loc.x)
-                .y(loc.y - 3.50)
-                .z(loc.z)
+                .location(loc.apply { y -= 3.5 })
                 .onEntire { player ->
                     if (active.contains(player)) return@onEntire
 

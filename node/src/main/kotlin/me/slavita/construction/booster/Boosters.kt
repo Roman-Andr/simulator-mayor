@@ -4,8 +4,8 @@ import me.func.stronghold.Stronghold
 import me.func.stronghold.booster.BoosterGlobal
 import me.slavita.construction.player.User
 import me.slavita.construction.ui.Formatter.applyBoosters
-import me.slavita.construction.utils.CristalixUtil
-import me.slavita.construction.utils.PlayerExtensions.accept
+import me.slavita.construction.utils.CristalixUtil.cristalixName
+import me.slavita.construction.utils.accept
 import me.slavita.construction.utils.user
 import org.bukkit.Bukkit
 import java.util.concurrent.TimeUnit
@@ -51,7 +51,7 @@ object Boosters {
                     .type(it.label)
                     .title(it.title)
                     .owner(user.player)
-                    .owner(CristalixUtil.getDisplayName(user.player))
+                    .owner(user.player.cristalixName)
                     .duration(time, unit)
                     .multiplier(1.25)
                     .maxStackable(4)

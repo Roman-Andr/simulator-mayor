@@ -1,7 +1,6 @@
 package me.slavita.construction.prepare
 
 import me.slavita.construction.action.command.menu.DailyMenu
-import me.slavita.construction.common.utils.TimeFormatter
 import me.slavita.construction.player.User
 
 object DailyRewardsPrepare : IPrepare {

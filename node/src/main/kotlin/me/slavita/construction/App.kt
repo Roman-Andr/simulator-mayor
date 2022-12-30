@@ -34,10 +34,8 @@ import me.slavita.construction.ui.BoardsManager
 import me.slavita.construction.ui.CityGlows
 import me.slavita.construction.ui.SpeedPlaces
 import me.slavita.construction.ui.items.ItemsManager
-import me.slavita.construction.utils.Config
-import me.slavita.construction.utils.ModCallbacks
+import me.slavita.construction.utils.*
 import me.slavita.construction.utils.language.EnumLang
-import me.slavita.construction.utils.logTg
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.Bukkit
@@ -77,7 +75,7 @@ class App : JavaPlugin() {
     private val users = hashMapOf<UUID, User>()
     val allBlocks = hashSetOf<ItemProperties>()
 
-    val statScope = Scope("construction-testtt", Data::class.java)
+    val statScope = Scope("construction-test-t", Data::class.java)
     lateinit var kensuke: Kensuke
     lateinit var userManager: UserManager<KensukeUser>
 
@@ -179,11 +177,12 @@ class App : JavaPlugin() {
         bot.startPolling()
         logTg("Initialized on realm ${IRealmService.get().currentRealmInfo.realmId}")
 
-        server.scheduler.scheduleSyncRepeatingTask(this, { pass++ }, 0, 1)
+        runTimer(0, 1) { pass++ }
     }
 
     override fun onDisable() {
         EnumLang.clean()
+        scheduler.cancelTask(BoardsManager.taskId)
     }
 
     fun getUserOrAdd(uuid: UUID) = getUserOrNull(uuid) ?: addUser(uuid)

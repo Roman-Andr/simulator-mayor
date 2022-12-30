@@ -8,7 +8,6 @@ import me.func.mod.reactive.ReactiveLine
 import me.func.mod.reactive.ReactivePanel
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.command.menu.DailyMenu
-import me.slavita.construction.app
 import me.slavita.construction.bank.Bank
 import me.slavita.construction.player.Statistics
 import me.slavita.construction.player.Tags
@@ -16,10 +15,7 @@ import me.slavita.construction.prepare.GuidePrepare
 import me.slavita.construction.prepare.TagsPrepare
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.*
-import me.slavita.construction.utils.PlayerExtensions.accept
-import me.slavita.construction.utils.PlayerExtensions.deny
 import org.bukkit.Bukkit
-import org.bukkit.craftbukkit.v1_12_R1.block.CraftBlock
 import ru.cristalix.core.display.messages.RadioMessage
 import ru.cristalix.core.realm.IRealmService
 import ru.cristalix.core.transfer.ITransferService

@@ -8,6 +8,7 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.menu.city.LocationsMenu
 import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
 import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.utils.getMenuInfo
 import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
@@ -18,6 +19,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
             return choicer {
                 title = "${GREEN}${BOLD}Меню"
                 description = "Выбери нужный раздел"
+                info = getMenuInfo()
                 storage = mutableListOf(
                     button {
                         title = "${AQUA}${BOLD}Проекты"

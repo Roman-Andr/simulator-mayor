@@ -5,7 +5,7 @@ import me.slavita.construction.app
 import me.slavita.construction.ui.format.*
 import me.slavita.construction.utils.BlocksExtensions.toYaw
 import me.slavita.construction.utils.CristalixUtil
-import me.slavita.construction.utils.scheduler
+import me.slavita.construction.utils.runTimer
 import org.bukkit.Location
 import org.bukkit.block.BlockFace
 import ru.cristalix.boards.bukkitapi.Boards
@@ -13,6 +13,8 @@ import java.util.*
 
 
 object BoardsManager {
+    var taskId = 0
+
     init {
         Atlas.find("boards").run {
             app.mainWorld.map.getLabels("board").forEach {
@@ -54,7 +56,7 @@ object BoardsManager {
         }
         Boards.addBoard(board)
 
-        scheduler.scheduleSyncRepeatingTask(app, {
+        taskId = runTimer(0L, 10 * 20) {
             board.clearContent()
             app.kensuke.getLeaderboard(app.userManager, app.statScope, field, 10).thenAccept {
                 it.forEach { entry ->
@@ -67,6 +69,6 @@ object BoardsManager {
                 }
                 board.updateContent()
             }
-        }, 0L, 10 * 20L)
+        }
     }
 }

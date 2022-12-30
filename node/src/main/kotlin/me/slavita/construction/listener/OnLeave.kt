@@ -22,11 +22,9 @@ object OnLeave {
             }
             Lock.lock("construction-${player.uniqueId}", 10, TimeUnit.SECONDS)
             scheduler.cancelTask(player.user.taskId)
+            scheduler.cancelTask(player.user.showcaseTaskId)
             player.user.cities.forEach { city ->
                 scheduler.cancelTask(city.taskId)
-            }
-            player.user.data.showcases.forEach { showcase ->
-                scheduler.cancelTask(showcase.taskId)
             }
         }
     }

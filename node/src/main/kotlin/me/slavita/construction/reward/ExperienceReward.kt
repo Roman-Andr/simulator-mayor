@@ -5,7 +5,7 @@ import me.slavita.construction.player.User
 import me.slavita.construction.ui.Formatter.applyBoosters
 import me.slavita.construction.ui.Formatter.toExp
 import me.slavita.construction.ui.Formatter.toMoney
-import me.slavita.construction.utils.PlayerExtensions.accept
+import me.slavita.construction.utils.accept
 
 class ExperienceReward(private val experience: Long) : Reward() {
     override fun getReward(user: User) {
