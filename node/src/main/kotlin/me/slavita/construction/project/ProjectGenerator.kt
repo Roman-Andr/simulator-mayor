@@ -15,35 +15,27 @@ object ProjectGenerator {
         return Project(
             owner.currentCity,
             owner.data.statistics.totalProjects,
-            ClientStructure(
-                app.mainWorld,
-                structure,
-                owner,
-                playerCell
-            ),
             listOf(
                 MoneyReward(100),
                 ExperienceReward(100),
                 ReputationReward(100),
             )
-        )
+        ).apply {
+            this.structure = ClientStructure(structure, playerCell)
+        }
     }
 
     fun generateWorker(owner: User, structure: Structure, playerCell: PlayerCell): Project {
         return Project(
             owner.currentCity,
             owner.data.statistics.totalProjects,
-            WorkerStructure(
-                app.mainWorld,
-                structure,
-                owner,
-                playerCell
-            ),
             listOf(
                 MoneyReward(300),
                 ExperienceReward(200),
                 ReputationReward(100),
             )
-        )
+        ).apply {
+            this.structure = WorkerStructure(structure, playerCell)
+        }
     }
 }

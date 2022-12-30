@@ -57,7 +57,7 @@ object BoardsManager {
 
         scheduler.scheduleSyncRepeatingTask(app, {
             board.clearContent()
-            app.kensuke.getLeaderboard(app.userManager, app.statScope, field, 10).thenAccept {
+            app.kensuke.getLeaderboard(app.userManager, app.dataScope, field, 10).thenAccept {
                 it.forEach { entry ->
                     board.addContent(
                         UUID.fromString(entry.data.session.userId),

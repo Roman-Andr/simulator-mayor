@@ -27,8 +27,8 @@ object OnJoin {
                     listOf(
                         UIPrepare,
                         TagsPrepare,
-                        PlayerWorldPrepare,
                         CitiesPrepare,
+                        PlayerWorldPrepare,
                         TabPrepare,
                         ConnectionPrepare,
                         PermissionsPrepare,

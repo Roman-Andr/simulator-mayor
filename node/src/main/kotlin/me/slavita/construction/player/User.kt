@@ -13,10 +13,14 @@ import me.slavita.construction.storage.BlocksStorage
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.ui.Formatter.applyBoosters
+import me.slavita.construction.utils.PlayerExtensions.accept
 import me.slavita.construction.utils.PlayerExtensions.deny
+import me.slavita.construction.utils.log
 import me.slavita.construction.utils.runAsync
 import me.slavita.construction.utils.scheduler
 import me.slavita.construction.utils.user
+import org.bukkit.Bukkit
+import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 import ru.cristalix.core.invoice.IInvoiceService
 import java.util.*
@@ -25,12 +29,11 @@ class User(val uuid: UUID) {
     var initialized = false
     lateinit var player: Player
     lateinit var data: Data
-    var cities = hashSetOf<City>()
-    var currentCity: City = City(this, "1", "Незаданная", 0, true)
+    lateinit var currentCity: City
     val blocksStorage = BlocksStorage(this)
     var watchableProject: Project? = null
     var income = 0L
-    val hall = CityHall(this)
+    val hall = CityHall()
     var taskId = 0
     private var criBalanceLastUpdate = 0L
 
@@ -40,7 +43,7 @@ class User(val uuid: UUID) {
 
             if (now - criBalanceLastUpdate > 1000 * 60) {
                 criBalanceLastUpdate = now
-                IInvoiceService.get().getBalanceData(player.uniqueId).thenAccept { data ->
+                IInvoiceService.get().getBalanceData(uuid).thenAccept { data ->
                     field = data.crystals + data.coins
                 }
             }
@@ -48,9 +51,22 @@ class User(val uuid: UUID) {
         }
 
     init {
-        taskId = scheduler.scheduleSyncRepeatingTask(app, {
+        log("New user created")
+        Bukkit.server.scheduler.scheduleSyncRepeatingTask(app, {
             if (initialized && player.isOnline) data.statistics.money += income.applyBoosters(BoosterType.MONEY_BOOSTER)
         }, 0L, 20L)
+        income += income
+    }
+
+    fun upgradeHall() {
+        data.hall.apply {
+            tryPurchase(upgradePrice) {
+                this@User.income -= income
+                data.hall.level++
+                this@User.income += income
+                player.accept("Вы успешно улучшили ${ChatColor.GOLD}Мэрию")
+            }
+        }
     }
 
     fun tryPurchase(
@@ -101,7 +117,7 @@ class User(val uuid: UUID) {
     }
 
     fun updatePosition(): Boolean {
-        cities.forEach { city ->
+        data.cities.forEach { city ->
             if (city.box.contains(player.location)) {
                 if (currentCity.title != city.title && city.unlocked) {
                     currentCity = city

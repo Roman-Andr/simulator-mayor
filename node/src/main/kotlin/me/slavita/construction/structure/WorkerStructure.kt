@@ -13,12 +13,10 @@ import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.ItemProperties
 
 class WorkerStructure(
-    world: GameWorld,
     structure: Structure,
-    owner: User,
     playerCell: PlayerCell,
     val workers: HashSet<Worker> = hashSetOf(),
-) : BuildingStructure(world, structure, owner, playerCell) {
+) : BuildingStructure(structure, playerCell) {
 
     private var remainingBlocks = hashMapOf<ItemProperties, Int>()
     private val blocksStorage = hashMapOf<ItemProperties, Int>()

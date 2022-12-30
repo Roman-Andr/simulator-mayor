@@ -17,6 +17,7 @@ import org.bukkit.entity.Player
 class CityHallMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         player.user.run user@{
+            val hall = this@user.data.hall
             return choicer {
                 title = "${GREEN}${BOLD}Мэрия"
                 description = "Управление мэрией"
@@ -34,7 +35,7 @@ class CityHallMenu(player: Player) : MenuCommand(player) {
                         """.trimIndent()
                         item = ItemIcons.get("other", "crafting")
                         onClick { _, _, _ ->
-                            hall.upgrade()
+                            this@user.upgradeHall()
                             Anime.close(player)
                         }
                     }

@@ -140,6 +140,11 @@ object AdminCommands {
             player.user.data.statistics = Statistics()
         }
 
+        opCommand("error") { player, _ ->
+            var nu: String? = null
+            player.killboard(nu!!)
+        }
+
         opCommand("line") { player, _ ->
             ReactiveLine.builder()
                 .to(player.user.currentCity.getSpawn()!!.toCenterLocation())

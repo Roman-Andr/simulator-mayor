@@ -17,7 +17,7 @@ import java.util.*
 class GameWorld(val map: WorldMeta) {
     private val blocks = hashMapOf<UUID, HashMap<V2i, HashSet<StructureBlock>>>()
     val glows = hashSetOf<ReactivePlace>()
-    val cells = hashSetOf<Cell>()
+    val cells = arrayListOf<Cell>()
 
     init {
         MetaWorld.universe(
@@ -40,7 +40,7 @@ class GameWorld(val map: WorldMeta) {
                     val user = app.getUserOrNull(building) ?: return@buildingLoader arrayListOf()
 
                     val buildings = arrayListOf<Building>()
-                    user.cities.forEach { city ->
+                    user.data.cities.forEach { city ->
                         city.cityStructures.forEach { structure ->
                             buildings.add(structure.building.apply {
                                 show(user.player)
@@ -88,6 +88,10 @@ class GameWorld(val map: WorldMeta) {
 
         val chunk = V2i(block.position.x / 16, block.position.z / 16)
         blocks.getOrPut(player.uniqueId) { hashMapOf() }.getOrPut(chunk) { hashSetOf() }.add(block)
+    }
+
+    fun clearBlocks(player: UUID) {
+        blocks[player]?.clear()
     }
 
     fun getNpcLabels() = map.labels("npc")

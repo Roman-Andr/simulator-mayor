@@ -1,18 +1,21 @@
 package me.slavita.construction.player
 
+import com.google.gson.*
+import com.google.gson.annotations.JsonAdapter
 import me.slavita.construction.app
 import me.slavita.construction.project.Project
-import me.slavita.construction.structure.CityStructure
-import me.slavita.construction.structure.PlayerCell
+import me.slavita.construction.project.ProjectDeserializer
+import me.slavita.construction.structure.*
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.utils.PlayerExtensions.deny
 import me.slavita.construction.utils.scheduler
 import org.bukkit.ChatColor.*
+import java.lang.reflect.Type
 
-class City(val owner: User, id: String, val title: String, val price: Long, var unlocked: Boolean) {
+class City(val owner: User, val id: String, val title: String, val price: Long, var unlocked: Boolean) {
     val projects = hashSetOf<Project>()
     val cityStructures = hashSetOf<CityStructure>()
-    val playerCells = hashSetOf<PlayerCell>()
+    val playerCells = arrayListOf<PlayerCell>()
     val box = app.mainWorld.map.box("city", id)
     var taskId = 0
 
@@ -57,4 +60,41 @@ class City(val owner: User, id: String, val title: String, val price: Long, var 
     }
 
     fun getSpawn() = box.getLabel("spawn")
+}
+
+class CitySerializer : JsonSerializer<City> {
+    override fun serialize(city: City, type: Type, context: JsonSerializationContext): JsonElement {
+        val json = JsonObject()
+        city.apply {
+            json.addProperty("id", id)
+            json.addProperty("title", title)
+            json.addProperty("price", price)
+            json.addProperty("unlocked", unlocked)
+            json.add("projects", context.serialize(projects))
+            //json.add("cityStructures", context.serialize(cityStructures))
+            json.add("playerCells", context.serialize(playerCells))
+        }
+        return json
+    }
+}
+
+class CityDeserializer(val owner: User) : JsonDeserializer<City> {
+    override fun deserialize(json: JsonElement, type: Type, context: JsonDeserializationContext) = json.asJsonObject.run {
+        City(owner, get("id").asString, get("title").asString, get("price").asLong, get("unlocked").asBoolean).apply {
+
+            val gson = GsonBuilder()
+                .registerTypeAdapter(PlayerCell::class.java, PlayerCellDeserializer(this))
+                .registerTypeAdapter(Project::class.java, ProjectDeserializer(this))
+                .create()
+
+            playerCells.clear()
+            get("playerCells").asJsonArray.forEach {
+                playerCells.add(gson.fromJson(it, PlayerCell::class.java))
+            }
+
+            get("projects").asJsonArray.forEach {
+                projects.add(gson.fromJson(it, Project::class.java))
+            }
+        }
+    }
 }

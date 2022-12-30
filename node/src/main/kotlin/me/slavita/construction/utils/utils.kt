@@ -33,6 +33,7 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.PlayerInventory
 import org.bukkit.scheduler.BukkitScheduler
 import org.bukkit.scheduler.BukkitTask
+import ru.cristalix.core.realm.IRealmService
 import java.util.*
 import kotlin.reflect.KClass
 
@@ -124,7 +125,7 @@ fun opCommand(name: String, biConsumer: BiConsumer<Player, Array<out String>>) {
     })
 }
 
-fun logFormat(message: String) = "[CONSTRUCTION] $message"
+fun logFormat(message: String) = "[${IRealmService.get().currentRealmInfo.realmId.realmName}] $message"
 
 fun log(message: String) {
     println(logFormat(message))

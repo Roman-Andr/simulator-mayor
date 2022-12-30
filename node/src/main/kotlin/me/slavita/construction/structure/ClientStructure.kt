@@ -11,11 +11,9 @@ import me.slavita.construction.utils.swapItems
 import me.slavita.construction.world.GameWorld
 
 class ClientStructure(
-    world: GameWorld,
     structure: Structure,
-    owner: User,
     playerCell: PlayerCell,
-) : BuildingStructure(world, structure, owner, playerCell) {
+) : BuildingStructure(structure, playerCell) {
     private val sender = StructureSender(owner.player)
 
     override fun enterBuilding() {}

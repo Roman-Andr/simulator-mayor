@@ -1,6 +1,9 @@
 package me.slavita.construction.structure
 
+import com.google.gson.*
+import me.slavita.construction.app
 import me.slavita.construction.player.City
+import java.lang.reflect.Type
 
 class PlayerCell(val city: City, val cell: Cell, var busy: Boolean) {
 
@@ -19,5 +22,24 @@ class PlayerCell(val city: City, val cell: Cell, var busy: Boolean) {
     fun setBusy() {
         busy = true
         cell.stubBuilding.hide(owner.player)
+    }
+}
+
+class PlayerCellSerializer : JsonSerializer<PlayerCell> {
+    override fun serialize(playerCell: PlayerCell, type: Type, context: JsonSerializationContext): JsonElement {
+        val json = JsonObject()
+
+        playerCell.run {
+            json.addProperty("cellId", id)
+            json.addProperty("busy", busy)
+        }
+
+        return json
+    }
+}
+
+class PlayerCellDeserializer(val city: City) : JsonDeserializer<PlayerCell> {
+    override fun deserialize(json: JsonElement, type: Type, context: JsonDeserializationContext) = json.asJsonObject.run {
+        PlayerCell(city, app.mainWorld.cells[get("cellId").asInt], get("busy").asBoolean)
     }
 }
