@@ -1,5 +1,6 @@
 package me.slavita.construction.player
 
+import me.func.mod.Anime
 import me.func.mod.conversation.ModTransfer
 import me.slavita.construction.action.command.menu.city.BuyCityConfirm
 import me.slavita.construction.action.command.menu.project.ChoiceStructureGroup
@@ -52,6 +53,7 @@ class User(val uuid: UUID) {
             acceptAction()
         } else {
             player.deny("Недостаточно денег!")
+            Anime.close(player)
         }
     }
 

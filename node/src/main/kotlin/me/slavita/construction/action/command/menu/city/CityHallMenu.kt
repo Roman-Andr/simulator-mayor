@@ -10,13 +10,12 @@ import me.slavita.construction.ui.Formatter.toIncomeIcon
 import me.slavita.construction.ui.Formatter.toLevel
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.ui.menu.ItemIcons
-import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 
 class CityHallMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
-        player.user.run user@{
+        user.run user@{
             return choicer {
                 title = "${GREEN}${BOLD}Мэрия"
                 description = "Управление мэрией"

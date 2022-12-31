@@ -30,7 +30,7 @@ class CityStructureVisual(val structure: CityStructure) {
         repairGlow = ReactivePlace.builder()
             .rgb(GlowColor.GREEN_LIGHT)
             .radius(2.0)
-            .location(structure.playerCell.box.min.apply { y -= 2.5 })
+            .location(structure.playerCell.box.min.clone().apply { y -= 2.5 })
             .onEntire { player ->
                 player.killboard("Почини")
                 blocksDeposit(player, structure.targetBlocks, structure.repairBlocks)

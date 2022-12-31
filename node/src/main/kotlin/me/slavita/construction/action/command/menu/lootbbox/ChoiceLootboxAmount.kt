@@ -18,7 +18,7 @@ import org.bukkit.entity.Player
 
 class ChoiceLootboxAmount(player: Player, val rarity: WorkerRarity) : MenuCommand(player) {
     override fun getMenu(): Openable {
-        player.user.run user@{
+        user.run user@{
             return choicer {
                 title = "${AQUA}${BOLD}Купить лутбоксы"
                 description = "Выберите необходимое количество лутбоксов"

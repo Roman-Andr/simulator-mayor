@@ -17,10 +17,10 @@ import org.bukkit.entity.Player
 
 class AbilitiesMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
-        player.user.run user@{
+        user.run user@{
             return choicer {
                 title = "${AQUA}${BOLD}Улучшения"
-                description = "Кристаллики: ${player.user.criBalance.toCriMoney()}"
+                description = "Кристаллики: ${criBalance.toCriMoney()}"
                 info = getDonateInfo()
                 storage = Donates.values().filter { it.donate is AbilityDonate }.mapM {
                     button {

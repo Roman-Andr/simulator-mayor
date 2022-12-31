@@ -24,7 +24,7 @@ object NumberFormatter {
     }
 
     fun toMoneyFormat(arg: Long): String {
-        BigInteger.valueOf(arg).apply {
+        BigInteger.valueOf(arg).run {
             val (key, value) = map.floorEntry(this) ?: return this.toString()
             val rounded = this.divide(key.divide(THOUSAND)).toInt() / 1000.0
 

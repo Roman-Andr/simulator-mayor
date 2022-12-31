@@ -14,13 +14,14 @@ import me.slavita.construction.action.command.menu.worker.WorkerMenu
 import me.slavita.construction.app
 import me.slavita.construction.banner.BannerUtil.loadBanner
 import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.utils.labels
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack
 import org.bukkit.inventory.EquipmentSlot
 import java.util.*
 import kotlin.reflect.full.primaryConstructor
 
 object NpcManager {
-    private val labels = app.mainWorld.getNpcLabels()
+    private val labels = labels("npc")
     val storageUrl = "https://storage.c7x.ru/${System.getProperty("storage.user")}/construction/skin/";
 
     init {

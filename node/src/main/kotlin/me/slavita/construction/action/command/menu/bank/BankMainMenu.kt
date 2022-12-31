@@ -13,7 +13,7 @@ import org.bukkit.entity.Player
 
 class BankMainMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
-        player.user.run user@{
+        user.run user@{
             return choicer {
                 title = "${GOLD}${BOLD}Банк"
                 description = "Выбери нужный раздел"

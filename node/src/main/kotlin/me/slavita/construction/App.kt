@@ -86,13 +86,9 @@ class App : JavaPlugin() {
 
     var pass = 0L
         private set
-    var started = 0L
-        private set
 
     override fun onEnable() {
         app = this
-
-        started = System.currentTimeMillis()
 
         EntityDataParameters.register()
         Platforms.set(PlatformDarkPaper())
@@ -107,7 +103,7 @@ class App : JavaPlugin() {
             registerService(IMultiChatService::class.java, MultiChatService(ISocketClient.get()))
         }
 
-        IMultiChatService.get().apply {
+        IMultiChatService.get().run {
             setRealmTag("slvt")
             addSingleChatHandler("construction") { message: ChatMessage ->
                 Bukkit.getOnlinePlayers().forEach { player ->
@@ -171,7 +167,6 @@ class App : JavaPlugin() {
         ItemsManager
         PlayerEvents
         Showcases
-
         EnumLang.init()
 
         bot.startPolling()

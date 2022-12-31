@@ -19,7 +19,7 @@ object CityGlows {
                 ReactivePlace.builder()
                     .rgb(GlowColor.GREEN)
                     .radius(2.0)
-                    .location(label.toCenterLocation().apply { y -= 2.5 })
+                    .location(label.toCenterLocation().clone().apply { y -= 2.5 })
                     .onEntire { player ->
                         CityHallMenu(player).tryExecute()
                     }
@@ -36,7 +36,7 @@ object CityGlows {
                 ReactivePlace.builder()
                     .rgb(GlowColor.RED_LIGHT)
                     .radius(3.0)
-                    .location(label.toCenterLocation().apply { y -= 2.5 })
+                    .location(label.toCenterLocation().clone().apply { y -= 2.5 })
                     .onEntire { player ->
                         player.accept("Вы вошли в зону афк")
                     }

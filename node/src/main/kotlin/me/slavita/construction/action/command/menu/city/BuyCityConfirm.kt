@@ -6,14 +6,13 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.player.City
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.accept
-import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.GOLD
 import org.bukkit.entity.Player
 
 class BuyCityConfirm(player: Player, val city: City, val fromMenu: Boolean = true) : MenuCommand(player, 10) {
     override fun getMenu(): Openable {
-        player.user.run user@{
+        user.run user@{
             return Confirmation(
                 text = listOf(
                     "${AQUA}Купить локацию",
@@ -21,7 +20,7 @@ class BuyCityConfirm(player: Player, val city: City, val fromMenu: Boolean = tru
                     "${AQUA}за ${city.price.toMoneyIcon()}",
                 )
             ) {
-                player.user.tryPurchase(city.price) {
+                tryPurchase(city.price) {
                     city.unlocked = true
                     player.accept("Вы успешно купили локацию ${GOLD}${city.title}")
                     if (fromMenu) LocationsMenu(player).tryExecute()

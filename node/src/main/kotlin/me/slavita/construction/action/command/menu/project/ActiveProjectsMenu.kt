@@ -6,17 +6,19 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
-import me.slavita.construction.utils.*
+import me.slavita.construction.utils.getBaseSelection
+import me.slavita.construction.utils.getProjectsInfo
+import me.slavita.construction.utils.mapM
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.entity.Player
 
 class ActiveProjectsMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
-        player.user.run {
+        user.run {
             return getBaseSelection(
                 MenuInfo("${AQUA}${BOLD}Ваши активные проекты", StatsType.MONEY, 4, 5),
-                player
+                user
             ).apply {
                 hint = ""
                 info = getProjectsInfo()

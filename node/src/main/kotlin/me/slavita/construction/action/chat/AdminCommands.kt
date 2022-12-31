@@ -82,7 +82,7 @@ object AdminCommands {
         }
 
         opCommand("dialog") { player, _ ->
-            GuidePrepare.tryNext(player)
+            GuidePrepare.tryNext(player.user)
         }
 
         opCommand("scheduler") { player, _ ->

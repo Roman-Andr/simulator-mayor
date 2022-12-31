@@ -7,14 +7,13 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.utils.language.LanguageHelper
 import me.slavita.construction.utils.mapM
-import me.slavita.construction.utils.user
 import me.slavita.construction.utils.validate
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 
 class BlocksListMenu(player: Player, val structure: Structure) : MenuCommand(player) {
     override fun getMenu(): Openable {
-        player.user.run user@{
+        user.run user@{
             return selection {
                 title = "${AQUA}${BOLD}Список материалов"
                 rows = 5

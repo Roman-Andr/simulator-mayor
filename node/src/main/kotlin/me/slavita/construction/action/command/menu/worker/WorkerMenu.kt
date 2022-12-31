@@ -8,13 +8,12 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.menu.lootbbox.BuyLootboxMenu
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.utils.getWorkerInfo
-import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 
 class WorkerMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
-        player.user.run user@{
+        user.run user@{
             return choicer {
                 title = "${GREEN}${BOLD}Рабочие"
                 description = "Выбери нужный раздел"

@@ -12,7 +12,6 @@ import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.utils.getEmptyButton
 import me.slavita.construction.utils.getWorkerInfo
-import me.slavita.construction.utils.user
 import me.slavita.construction.worker.WorkerState
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
@@ -20,7 +19,7 @@ import org.bukkit.entity.Player
 class WorkerChoice(player: Player, val project: Project, val startProject: Boolean = true) :
     WorkerExecutor(player, project.structure as WorkerStructure) {
     override fun getMenu(): Openable {
-        player.user.run user@{
+        user.run user@{
             return selection {
                 title = "${AQUA}${BOLD}Выбор строителей"
                 info = getWorkerInfo()
@@ -36,7 +35,7 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
                         onClick { _, _, _ ->
                             Anime.close(player)
                             if (!startProject) return@onClick
-                            StartProject(player.user, project, structure).tryExecute()
+                            StartProject(user, project, structure).tryExecute()
                         }
                     },
                     button {

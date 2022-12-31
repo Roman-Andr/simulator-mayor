@@ -21,7 +21,7 @@ import kotlin.math.abs
 
 class LocationsMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
-        player.user.run user@{
+        user.run user@{
             return choicer {
                 title = "${AQUA}${BOLD}Телепортация"
                 description = "Перемещение между локациями"
@@ -44,7 +44,7 @@ class LocationsMenu(player: Player) : MenuCommand(player) {
                                 val ignore =
                                     player.user.data.abilities.contains((Donates.NO_LIMIT_TELEPORT_DONATE.donate as AbilityDonate).ability)
                                 ChangeCity(
-                                    player,
+                                    user,
                                     city
                                 ).tryExecute(ignore)
                                     .run {

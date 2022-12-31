@@ -25,7 +25,7 @@ class BlocksStorage(val owner: User) {
         upgradePlace = ReactivePlace.builder()
             .rgb(GlowColor.GREEN_LIGHT)
             .radius(2.0)
-            .location(label("storage-upgrade")!!.toCenterLocation().apply { y -= 2.5 })
+            .location(label("storage-upgrade")!!.toCenterLocation().clone().apply { y -= 2.5 })
             .onEntire { player ->
                 player.accept("Хранилище")
             }

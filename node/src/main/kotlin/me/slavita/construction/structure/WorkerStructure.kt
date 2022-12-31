@@ -34,7 +34,7 @@ class WorkerStructure(
         claimGlow = ReactivePlace.builder()
             .rgb(GlowColor.GREEN_LIGHT)
             .radius(2.0)
-            .location(allocation.apply { y -= 2.5 })
+            .location(allocation.clone().apply { y -= 2.5 })
             .onEntire { player ->
                 if (blocksDeposit(player, remainingBlocks, blocksStorage)) build()
             }

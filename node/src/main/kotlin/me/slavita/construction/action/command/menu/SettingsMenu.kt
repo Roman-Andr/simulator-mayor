@@ -9,7 +9,6 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.prepare.TagsPrepare
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.utils.getSettingInfo
-import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GREEN
 import org.bukkit.entity.Player
@@ -26,9 +25,9 @@ class SettingsMenu(player: Player) : MenuCommand(player) {
                     hint = "Выбрать"
                     updateButton(this)
                     onClick { _, _, button ->
-                        player.user.data.settings.apply { this.tagShow = !this.tagShow }
+                        user.data.settings.apply { this.tagShow = !this.tagShow }
                         updateButton(button)
-                        TagsPrepare.prepare(player.user)
+                        TagsPrepare.prepare(user)
                     }
                 }
             )
@@ -37,7 +36,7 @@ class SettingsMenu(player: Player) : MenuCommand(player) {
 
     private fun updateButton(button: ReactiveButton) {
         button.apply {
-            if (player.user.data.settings.tagShow) {
+            if (user.data.settings.tagShow) {
                 item = ItemIcons.get("other", "access")
                 backgroundColor = GlowColor.GREEN
             } else {

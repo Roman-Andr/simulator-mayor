@@ -8,14 +8,13 @@ import me.slavita.construction.action.command.menu.worker.WorkerChoice
 import me.slavita.construction.project.Project
 import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.ui.menu.ItemIcons
-import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.entity.Player
 
 class BuildingControlMenu(player: Player, val project: Project) : MenuCommand(player) {
     override fun getMenu(): Openable {
-        player.user.run user@{
+        user.run user@{
             return selection {
                 title = "${AQUA}${BOLD}Процесс постройки"
                 rows = 3

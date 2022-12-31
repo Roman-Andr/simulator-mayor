@@ -4,6 +4,7 @@ import me.func.MetaWorld
 import me.func.builder.MetaSubscriber
 import me.func.mod.reactive.ReactivePlace
 import me.func.mod.util.after
+import me.func.mod.util.safe
 import me.func.unit.Building
 import me.func.world.WorldMeta
 import me.slavita.construction.app
@@ -15,9 +16,9 @@ import org.bukkit.entity.Player
 import java.util.*
 
 class GameWorld(val map: WorldMeta) {
-    private val blocks = hashMapOf<UUID, HashMap<V2i, HashSet<StructureBlock>>>()
     val glows = hashSetOf<ReactivePlace>()
     val cells = hashSetOf<Cell>()
+    private val blocks = hashMapOf<UUID, HashMap<V2i, HashSet<StructureBlock>>>()
 
     init {
         MetaWorld.universe(
@@ -54,7 +55,7 @@ class GameWorld(val map: WorldMeta) {
                 }.build()
         )
 
-        after(1) {
+        safe {
             labels("place").forEachIndexed { index, label ->
                 cells.add(Cell(index, label))
             }
@@ -89,6 +90,4 @@ class GameWorld(val map: WorldMeta) {
         val chunk = V2i(block.position.x / 16, block.position.z / 16)
         blocks.getOrPut(player.uniqueId) { hashMapOf() }.getOrPut(chunk) { hashSetOf() }.add(block)
     }
-
-    fun getNpcLabels() = map.labels("npc")
 }

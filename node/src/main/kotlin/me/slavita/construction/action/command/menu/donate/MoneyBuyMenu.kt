@@ -15,7 +15,7 @@ import org.bukkit.entity.Player
 
 class MoneyBuyMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
-        player.user.run user@{
+        user.run user@{
             return choicer {
                 title = "${GREEN}${BOLD}Игровая валюта"
                 info = getDonateInfo()

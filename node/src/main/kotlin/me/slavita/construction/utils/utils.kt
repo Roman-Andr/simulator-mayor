@@ -12,6 +12,7 @@ import me.func.mod.ui.Glow
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection
 import me.func.mod.ui.menu.selection.Selection
+import me.func.mod.util.after
 import me.func.mod.world.Banners
 import me.func.protocol.data.color.GlowColor
 import me.func.protocol.data.element.Banner
@@ -19,6 +20,7 @@ import me.func.world.WorldMeta
 import me.slavita.construction.app
 import me.slavita.construction.bank.Bank
 import me.slavita.construction.dontate.Donates
+import me.slavita.construction.player.User
 import me.slavita.construction.player.sound.Music.playSound
 import me.slavita.construction.player.sound.MusicSound
 import me.slavita.construction.ui.Formatter.toCriMoney
@@ -136,6 +138,8 @@ fun opCommand(name: String, biConsumer: BiConsumer<Player, Array<out String>>) {
         }
     })
 }
+
+fun safe(runnable: Runnable) { after(1, runnable) }
 
 fun logFormat(message: String) = "[CONSTRUCTION] $message"
 
@@ -330,7 +334,7 @@ fun Player.accept(text: String) {
     Glow.animate(this, 0.4, GlowColor.GREEN)
 }
 
-fun getBaseSelection(info: MenuInfo, player: Player): Selection =
+fun getBaseSelection(info: MenuInfo, user: User): Selection =
     selection {
         title = info.title
         vault = info.type.vault
@@ -338,9 +342,9 @@ fun getBaseSelection(info: MenuInfo, player: Player): Selection =
         columns = info.columns
         money = "Ваш ${info.type.title} ${
             when (info.type) {
-                StatsType.MONEY  -> player.user.data.statistics.money.toMoney()
-                StatsType.LEVEL  -> player.user.data.statistics.level
-                StatsType.CREDIT -> Bank.playersData[player.uniqueId]!!.sumOf { it.creditValue }.toMoney()
+                StatsType.MONEY  -> user.data.statistics.money.toMoney()
+                StatsType.LEVEL  -> user.data.statistics.level
+                StatsType.CREDIT -> Bank.playersData[user.player.uniqueId]!!.sumOf { it.creditValue }.toMoney()
             }
         }"
     }

@@ -10,7 +10,7 @@ object UserCommands {
         command("dialog") { player, args ->
             if (args[0] != Atlas.find("dialogs").getString("command-key")) return@command
 
-            GuidePrepare.tryNext(player)
+            GuidePrepare.tryNext(player.user)
         }
 
         command("break") { player, _ ->

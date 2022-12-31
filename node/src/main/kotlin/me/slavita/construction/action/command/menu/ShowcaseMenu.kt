@@ -33,14 +33,14 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) :
             hint = " "
         }
 
-        player.user.run user@{
+        user.run user@{
             return selection {
                 title = showcase.properties.name
                 vault = Formatter.moneyIcon
                 info = getShowcaseInfo()
                 rows = 5
                 columns = 14
-                money = "Ваш Баланс ${player.user.data.statistics.money.toMoney()}"
+                money = "Ваш Баланс ${user.data.statistics.money.toMoney()}"
                 storage = showcase.properties.elements.mapM { entry ->
                     val emptyItem = entry.item.createItemStack(1)
                     if (updateTaskId != 0) Bukkit.server.scheduler.cancelTask(updateTaskId)
@@ -73,7 +73,7 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) :
         }
     }
 
-    private fun getBalance() = "Ваш Баланс ${player.user.data.statistics.money.toMoney()}"
+    private fun getBalance() = "Ваш Баланс ${user.data.statistics.money.toMoney()}"
 
     private fun getInfo() = """
         ${GREEN}Обновление цен через: ${GOLD}${showcase.updateTime}
@@ -81,14 +81,14 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) :
 
     private fun buyBlocks(user: User, amount: Int, entry: ShowcaseProduct, selection: Selection) {
         if (!user.blocksStorage.hasSpace(amount)) {
-            player.accept("Недостаточно места на складе")
-            Anime.close(player)
+            user.player.accept("Недостаточно места на складе")
+            Anime.close(user.player)
             return
         }
         user.tryPurchase(entry.price * amount) {
             user.blocksStorage.addItem(entry.item.createItemStack(1), amount)
-            player.accept("Вы успешно купили блоки")
-            Glow.animate(player, 0.3, GlowColor.GREEN)
+            user.player.accept("Вы успешно купили блоки")
+            Glow.animate(user.player, 0.3, GlowColor.GREEN)
             selection.money = getBalance()
         }
     }

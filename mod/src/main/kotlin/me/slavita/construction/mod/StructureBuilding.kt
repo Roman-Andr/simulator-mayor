@@ -126,7 +126,7 @@ object StructureBuilding {
             else SpecialColor.GREEN
             frameColor = targetColor.toColor()
 
-            player.inventory.hotbarEqualSlots(currentItem!!).toTypedArray().apply {
+            player.inventory.hotbarEqualSlots(currentItem!!).toTypedArray().run {
                 if (this contentEquals lastMarkersSlots) return@registerHandler
                 lastMarkersSlots = this
 

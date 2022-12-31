@@ -10,14 +10,13 @@ import me.slavita.construction.project.ProjectGenerator
 import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.ui.menu.ItemIcons
-import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GOLD
 import org.bukkit.entity.Player
 
 class ChoiceProject(player: Player, val structure: Structure, val playerCell: PlayerCell) : MenuCommand(player) {
     override fun getMenu(): Openable {
-        player.user.run user@{
+        user.run user@{
             return choicer {
                 title = "${GOLD}${BOLD}Выбор проекта"
                 description = "Выберите тип проекта"

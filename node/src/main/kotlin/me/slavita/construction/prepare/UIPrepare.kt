@@ -12,7 +12,7 @@ object UIPrepare : IPrepare {
         user.player.setResourcePack("")
         Anime.hideIndicator(user.player, Indicators.HEALTH, Indicators.HUNGER, Indicators.EXP)
         MultiChats.sendPlayerChats(user.player)
-        ScoreboardGenerator.generate(user.player)
+        ScoreboardGenerator.generate(user)
         Texture.values().forEach {
             Anime.loadTexture(
                 user.player,

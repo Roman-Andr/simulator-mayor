@@ -4,6 +4,7 @@ import com.destroystokyo.paper.event.player.PlayerAdvancementCriterionGrantEvent
 import dev.xdark.feder.EmptyChunkBiome
 import dev.xdark.feder.FixedChunkLight
 import me.func.mod.util.after
+import me.func.mod.util.safe
 import me.slavita.construction.utils.listener
 import org.bukkit.ChatColor
 import org.bukkit.entity.EntityType
@@ -48,7 +49,7 @@ object PhysicsDisabler {
             chunk.biome = EmptyChunkBiome.INSTANCE
             chunk.emittedLight = FixedChunkLight((-1).toByte())
         }
-        listener<EntityDismountEvent> { if (dismounted.type === EntityType.BAT) after(1) { dismounted.remove() } }
+        listener<EntityDismountEvent> { if (dismounted.type === EntityType.BAT) safe { dismounted.remove() } }
         listener<EntityChangeBlockEvent> { if (entity is FallingBlock) isCancelled = true }
         listener<FoodLevelChangeEvent> { foodLevel = 20 }
         listener<CreatureSpawnEvent> { isCancelled = spawnReason == CreatureSpawnEvent.SpawnReason.NATURAL }

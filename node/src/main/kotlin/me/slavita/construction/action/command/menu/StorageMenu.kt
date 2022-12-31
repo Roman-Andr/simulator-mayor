@@ -18,7 +18,7 @@ class StorageMenu(player: Player) : MenuCommand(player) {
     private val blocksStorage = player.user.blocksStorage
 
     override fun getMenu(): Openable {
-        return getBaseSelection(MenuInfo("${GREEN}${BOLD}Склад", StatsType.LEVEL, 5, 14), player).apply {
+        return getBaseSelection(MenuInfo("${GREEN}${BOLD}Склад", StatsType.LEVEL, 5, 14), user).apply {
             storage = blocksStorage.blocks.mapM { entry ->
                 button {
                     item = entry.key.createItemStack(1)
@@ -37,7 +37,7 @@ class StorageMenu(player: Player) : MenuCommand(player) {
     }
 
     private fun getHover(entry: Map.Entry<ItemProperties, ItemStack>) = """
-        ${GREEN}${LanguageHelper.getItemDisplayName(entry.key.createItemStack(1), player)}
+        ${GREEN}${LanguageHelper.getItemDisplayName(entry.key.createItemStack(1), user.player)}
         ${AQUA}На складе: ${BOLD}${entry.value.amount} шт
         
         ${GOLD}Взять [ЛКМ] ${BOLD}${if (entry.value.amount >= 64) 64 else entry.value.amount} шт
@@ -45,14 +45,14 @@ class StorageMenu(player: Player) : MenuCommand(player) {
     """.trimIndent()
 
     private fun removeItems(amount: Int, entry: Map.Entry<ItemProperties, ItemStack>, button: ReactiveButton) {
-        if (player.inventory.firstEmpty() == -1) {
-            player.deny("Нет места")
-            Anime.close(player)
+        if (user.player.inventory.firstEmpty() == -1) {
+            user.player.deny("Нет места")
+            Anime.close(user.player)
             return
         }
-        blocksStorage.removeItem(entry.value, 64).apply {
-            player.inventory.addItem(entry.key.createItemStack(this.first))
-            if (this.second) StorageMenu(player).tryExecute() else {
+        blocksStorage.removeItem(entry.value, amount).apply {
+            user.player.inventory.addItem(entry.key.createItemStack(this.first))
+            if (this.second) StorageMenu(user.player).tryExecute() else {
                 button.hover = getHover(entry)
             }
         }

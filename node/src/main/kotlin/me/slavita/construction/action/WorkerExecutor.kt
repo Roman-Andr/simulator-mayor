@@ -4,7 +4,6 @@ import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.structure.WorkerStructure
-import me.slavita.construction.utils.user
 import me.slavita.construction.worker.Worker
 import me.slavita.construction.worker.WorkerState
 import org.bukkit.entity.Player
@@ -13,7 +12,7 @@ abstract class WorkerExecutor(player: Player, val structure: WorkerStructure) : 
     abstract override fun getMenu(): Openable
 
     protected fun distributeWorker(targetWorker: Worker, button: ReactiveButton) {
-        player.user.run {
+        user.run {
             when (getWorkerState(targetWorker)) {
                 WorkerState.FREE     -> {
                     structure.workers.add(targetWorker)
@@ -45,8 +44,8 @@ abstract class WorkerExecutor(player: Player, val structure: WorkerStructure) : 
     }
 
     protected fun getWorkerState(targetWorker: Worker): WorkerState {
-        val busyWorkers = player.user.data.workers.filter { worker ->
-            player.user.currentCity.projects.stream().anyMatch {
+        val busyWorkers = user.data.workers.filter { worker ->
+            user.currentCity.projects.stream().anyMatch {
                 when (it.structure is WorkerStructure) {
                     true -> it.structure.workers.contains(worker)
                     else -> {
