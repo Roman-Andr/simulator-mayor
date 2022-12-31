@@ -18,7 +18,7 @@ object BannerUtil {
 
     fun loadBanner(banner: Map<*, *>, label: Label, withPitch: Boolean = false, opacity: Double = 0.45) {
         Banners.new(
-            ReactiveBanner.builder()
+            Banner.builder()
                 .weight(banner["weight"] as Int)
                 .height(banner["height"] as Int)
                 .content(banner["content"] as String)
@@ -98,14 +98,12 @@ object BannerUtil {
 
     private fun create(info: BannerInfo): Banner {
         info.run {
-            return Banner.builder()
-                .motionType(motionType)
+            return ReactiveBanner.builder()
                 .weight(width)
                 .height(height)
                 .opacity(opacity)
-                .red(color.red)
-                .green(color.green)
-                .blue(color.blue)
+                .color(color)
+                .motionType(motionType)
                 .xray(0.0)
                 .carveSize(carveSize)
                 .apply {

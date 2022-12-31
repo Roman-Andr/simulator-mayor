@@ -8,6 +8,7 @@ import me.func.mod.world.Npc.skin
 import me.func.protocol.world.npc.NpcBehaviour
 import me.slavita.construction.action.command.menu.*
 import me.slavita.construction.action.command.menu.bank.BankMainMenu
+import me.slavita.construction.action.command.menu.city.LocationsMenu
 import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
 import me.slavita.construction.action.command.menu.worker.WorkerMenu
 import me.slavita.construction.app
@@ -20,6 +21,7 @@ import kotlin.reflect.full.primaryConstructor
 
 object NpcManager {
     private val labels = app.mainWorld.getNpcLabels()
+    val storageUrl = "https://storage.c7x.ru/${System.getProperty("storage.user")}/construction/skin/";
 
     init {
         Atlas.find("npc").getMapList("npc").forEach { values ->
@@ -41,7 +43,7 @@ object NpcManager {
                     name = title
                     when (skinType) {
                         "uuid" -> skin(UUID.fromString(skin))
-                        "url"  -> skin(skin)
+                        "url"  -> skin(storageUrl + skin)
                     }
                     behaviour = NpcBehaviour.STARE_AND_LOOK_AROUND
                     onClick {
@@ -53,6 +55,7 @@ object NpcManager {
                             "DailyMenu"          -> DailyMenu::class
                             "GuideDialog"        -> GuideDialog::class
                             "StorageMenu"        -> StorageMenu::class
+                            "LocationsMenu"      -> LocationsMenu::class
                             else                 -> ControlPanelMenu::class
                         }.primaryConstructor!!.call(it.player).tryExecute()
                     }

@@ -12,7 +12,7 @@ class DailyMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         player.user.run user@{
             return dailyReward {
-                taken = false
+                taken = data.statistics.nextTakeDailyReward > System.currentTimeMillis()
                 title = "Ежедневные награды"
                 currentDay = player.user.data.statistics.nextDay
                 storage = mutableListOf(

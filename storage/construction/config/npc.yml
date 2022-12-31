@@ -1,10 +1,10 @@
 npc:
   - title: "§aРаботники"
-    labelTag: "2"
-    skinType: "uuid"
-    skin: "307264a1-2c69-11e8-b5ea-1cb72caa35fd"
+    labelTag: "1"
+    skinType: "url"
+    skin: "workers.png"
     itemKey: "other"
-    itemValue: "stats"
+    itemValue: "myfriends"
     action: "WorkerMenu"
     banner:
       height: 16
@@ -15,44 +15,58 @@ npc:
       lines-size:
         - 0.5
         - 0.5
-  - title: "§aСклад"
-    labelTag: "3"
-    skinType: "uuid"
-    skin: "303c31eb-2c69-11e8-b5ea-1cb72caa35fd"
+  - title: "§aЕжедневные награды"
+    labelTag: "2"
+    skinType: "url"
+    skin: "daily.png"
     itemKey: "other"
-    itemValue: "stats"
-    action: "StorageMenu"
+    itemValue: "quests"
+    action: "DailyMenu"
     banner:
       height: 16
       weight: 42
       offset: 3.5
-      content: "§aХранение\n§aБлоков"
+      content: "§aЕжедневные\n§aНаграды"
       carve-size: 2.0
       lines-size:
         - 0.5
+        - 0.5
+  - title: "§aПроводник"
+    labelTag: "3"
+    skinType: "url"
+    skin: "locations.png"
+    itemKey: "alpha"
+    itemValue: "islands"
+    action: "LocationsMenu"
+    banner:
+      height: 8
+      weight: 42
+      offset: 3.0
+      content: "§6Локации"
+      carve-size: 2.0
+      lines-size:
         - 0.5
   - title: "§bАктивные проекты"
     labelTag: "4"
-    skinType: "uuid"
-    skin: "ba821208-6b64-11e9-8374-1cb72caa35fd"
+    skinType: "url"
+    skin: "projects.png"
     itemKey: "other"
-    itemValue: "stats"
+    itemValue: "book"
     action: "ActiveProjectsMenu"
     banner:
-      height: 16
+      height: 8
       weight: 42
-      offset: 3.5
-      content: "§bСписок\n§bПроектов"
+      offset: 3.0
+      content: "§6Проекты"
       carve-size: 2.0
       lines-size:
         - 0.5
-        - 0.5
   - title: "§6Банкир"
     labelTag: "5"
-    skinType: "uuid"
-    skin: "ba821208-6b64-11e9-8374-1cb72caa35fd"
+    skinType: "url"
+    skin: "banker.png"
     itemKey: "other"
-    itemValue: "stats"
+    itemValue: "coin3"
     action: "BankMainMenu"
     banner:
       height: 8
@@ -64,10 +78,10 @@ npc:
         - 0.5
   - title: "§aСтарина Джо"
     labelTag: "guide"
-    skinType: "uuid"
-    skin: "6326e7a1-8dd1-11e9-80c4-1cb72caa35fd"
+    skinType: "url"
+    skin: "guide.png"
     itemKey: "other"
-    itemValue: "stats"
+    itemValue: "search"
     action: "GuideDialog"
     banner:
       height: 8
