@@ -3,13 +3,13 @@ package me.slavita.construction.world
 import me.func.MetaWorld
 import me.func.builder.MetaSubscriber
 import me.func.mod.reactive.ReactivePlace
-import me.func.mod.util.safe
 import me.func.unit.Building
 import me.func.world.WorldMeta
 import me.slavita.construction.app
 import me.slavita.construction.common.utils.V2i
 import me.slavita.construction.structure.Cell
 import me.slavita.construction.utils.labels
+import me.slavita.construction.utils.safe
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import java.util.*

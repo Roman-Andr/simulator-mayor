@@ -25,10 +25,11 @@ object PlayerWorldPrepare : IPrepare {
                 if (initialized && player.isOnline) data.statistics.money += income.applyBoosters(BoosterType.MONEY_BOOSTER)
             }
 
-            showcaseTaskId = runTimer(0, 10 * 60 * 20) {
+            showcaseTaskId = runTimer(0, 5 * 60 * 20) {
                 data.showcases.forEach { showcase ->
                     showcase.updatePrices()
                 }
+                user.showcaseMenu?.updateButtons()
                 player.accept("Цены обновлены!")
             }
         }

@@ -2,6 +2,7 @@ package me.slavita.construction.player
 
 import me.func.mod.Anime
 import me.func.mod.conversation.ModTransfer
+import me.slavita.construction.action.command.menu.ShowcaseMenu
 import me.slavita.construction.action.command.menu.city.BuyCityConfirm
 import me.slavita.construction.action.command.menu.project.ChoiceStructureGroup
 import me.slavita.construction.dontate.Abilities
@@ -29,6 +30,8 @@ class User(val uuid: UUID) {
     val hall = CityHall(this)
     var taskId = 0
     var showcaseTaskId = 0
+    var showcaseMenuTaskId = 0
+    var showcaseMenu: ShowcaseMenu? = null
     private var criBalanceLastUpdate = 0L
 
     var criBalance: Int = 0

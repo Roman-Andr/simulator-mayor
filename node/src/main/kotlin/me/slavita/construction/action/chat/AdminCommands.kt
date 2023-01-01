@@ -86,8 +86,8 @@ object AdminCommands {
         }
 
         opCommand("scheduler") { player, _ ->
-            player.accept("Число активных работников на сервере: ${Bukkit.server.scheduler.activeWorkers.size}")
-            player.accept("Число задач: ${Bukkit.server.scheduler.pendingTasks.size}")
+            player.accept("Число активных работников на сервере: ${scheduler.activeWorkers.size}")
+            player.accept("Число задач: ${scheduler.pendingTasks.size}")
         }
 
         opCommand("kickAll") { _, _ ->

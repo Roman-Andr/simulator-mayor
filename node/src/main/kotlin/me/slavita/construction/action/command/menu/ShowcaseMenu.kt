@@ -1,6 +1,7 @@
 package me.slavita.construction.action.command.menu
 
 import me.func.mod.Anime
+import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.Glow
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
@@ -20,56 +21,29 @@ import org.bukkit.Bukkit
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 
-class ShowcaseMenu(player: Player, val showcase: Showcase) :
-    MenuCommand(player) {
-    companion object {
-        var updateTaskId = 0
+class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player) {
+    private val buttons = mutableListOf<ReactiveButton>()
+    private val infoButton = button {
+        item = ItemIcons.get("other", "info1")
+        hover = getInfo()
+        hint = " "
     }
+    private var selection = Selection()
 
     override fun getMenu(): Openable {
-        val infoButton = button {
-            item = ItemIcons.get("other", "info1")
-            hover = getInfo()
-            hint = " "
-        }
+        buttons.addAll(getButtons())
 
         user.run user@{
-            return selection {
+            selection = selection {
                 title = showcase.properties.name
                 vault = Formatter.moneyIcon
                 info = getShowcaseInfo()
                 rows = 5
                 columns = 14
                 money = "Ваш Баланс ${user.data.statistics.money.toMoney()}"
-                storage = showcase.properties.elements.mapM { entry ->
-                    val emptyItem = entry.item.createItemStack(1)
-                    if (updateTaskId != 0) Bukkit.server.scheduler.cancelTask(updateTaskId)
-                    updateTaskId = runTimer(0, 20) {
-                        infoButton.hover = getInfo()
-                    }
-                    button {
-                        item = emptyItem.validate()
-                        hover = """
-                            ${GREEN}${LanguageHelper.getItemDisplayName(emptyItem, player)}
-                            ${AQUA}Купить 8 шт за ${entry.price * 8} [ЛКМ]
-                            ${AQUA}Купить 64 шт за ${entry.price * 64} [ПКМ]
-                            На складе: ${BOLD}${
-                            player.user.blocksStorage.blocks.getOrDefault(
-                                entry.item,
-                                entry.item.createItemStack(0)
-                            ).getAmount()
-                        }
-                        """.trimIndent()
-                        hint = (if (canPurchase(entry.price * 8)) "$WHITE" else "$RED") + " "
-                        onLeftClick { _, _, _ ->
-                            buyBlocks(this@user, 8, entry, this@selection)
-                        }
-                        onRightClick { _, _, _ ->
-                            buyBlocks(this@user, 64, entry, this@selection)
-                        }
-                    }
-                }.apply { add(0, infoButton) }
+                storage = buttons
             }
+            return selection
         }
     }
 
@@ -81,7 +55,7 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) :
 
     private fun buyBlocks(user: User, amount: Int, entry: ShowcaseProduct, selection: Selection) {
         if (!user.blocksStorage.hasSpace(amount)) {
-            user.player.accept("Недостаточно места на складе")
+            user.player.deny("Недостаточно места на складе")
             Anime.close(user.player)
             return
         }
@@ -90,6 +64,49 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) :
             user.player.accept("Вы успешно купили блоки")
             Glow.animate(user.player, 0.3, GlowColor.GREEN)
             selection.money = getBalance()
+        }
+    }
+
+    private fun getButtons(): MutableList<ReactiveButton> {
+        return showcase.properties.elements.mapM { entry ->
+            val emptyItem = entry.item.createItemStack(1)
+            if (user.showcaseMenuTaskId != 0) scheduler.cancelTask(user.showcaseMenuTaskId)
+            user.showcaseMenuTaskId = runTimer(0, 20) {
+                infoButton.hover = getInfo()
+            }
+            button {
+                item = emptyItem.validate()
+                hover = """
+                    ${GREEN}${LanguageHelper.getItemDisplayName(emptyItem, user.player)}
+                    ${AQUA}Купить 8 шт за ${entry.price * 8} [ЛКМ]
+                    ${AQUA}Купить 64 шт за ${entry.price * 64} [ПКМ]
+                    На складе: ${BOLD}${
+                        user.blocksStorage.blocks.getOrDefault(
+                            entry.item,
+                            entry.item.createItemStack(0)
+                        ).getAmount()
+                    }
+                """.trimIndent()
+                hint = (if (user.canPurchase(entry.price * 8)) "$WHITE" else "$RED") + " "
+                onLeftClick { _, _, _ ->
+                    buyBlocks(user, 8, entry, selection)
+                    updateButtons()
+                }
+                onRightClick { _, _, _ ->
+                    buyBlocks(user, 64, entry, selection)
+                    updateButtons()
+                }
+            }
+        }.apply { add(0, infoButton) }
+    }
+
+    fun updateButtons() {
+        val newButtons = getButtons()
+        buttons.forEachIndexed { index, _ ->
+            buttons[index].apply {
+                onClick = newButtons[index].onClick
+                hover = newButtons[index].hover
+            }
         }
     }
 }

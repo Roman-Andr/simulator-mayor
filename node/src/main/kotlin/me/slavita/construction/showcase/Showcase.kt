@@ -5,23 +5,25 @@ import me.slavita.construction.action.command.menu.ShowcaseMenu
 import me.slavita.construction.app
 import me.slavita.construction.ui.Formatter.toTime
 import me.slavita.construction.utils.BlocksExtensions.toV3
+import me.slavita.construction.utils.user
 import kotlin.random.Random
 
 class Showcase(val properties: ShowcaseProperties) {
     val box
         get() = app.mainWorld.map.getBox("showcase", properties.id.toString())
     val updateTime
-        get() = (10000 - (System.currentTimeMillis() - lastUpdateTime)).toTime()
+        get() = (5 * 60 * 1000 - (System.currentTimeMillis() - lastUpdateTime)).toTime()
     private var lastUpdateTime = 0L
 
     fun init() {
         Anime.createReader("showcase:open") { player, buff ->
             if (buff.readInt() != properties.id) return@createReader
 
-            ShowcaseMenu(
+            player.user.showcaseMenu = ShowcaseMenu(
                 player,
                 this
-            ).tryExecute()
+            )
+            player.user.showcaseMenu!!.tryExecute()
         }
     }
 

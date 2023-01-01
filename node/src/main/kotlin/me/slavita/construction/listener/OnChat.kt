@@ -40,20 +40,14 @@ object OnChat {
             coloredMessage += chatColor + it
         }
 
-        val nameComponent = ComponentBuilder(displayName).create().first()
-        nameComponent.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/controls ${player.displayName}")
-        nameComponent.hoverEvent =
-            HoverEvent(HoverEvent.Action.SHOW_TEXT, ComponentBuilder("Быстрые действия с игроком").create())
-
-        val tagComponent = ComponentBuilder(if (tag.tag.isEmpty()) "" else " " + tag.tag).create().first()
-        tagComponent.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/settag ${tag.name}")
-        tagComponent.hoverEvent = HoverEvent(
-            HoverEvent.Action.SHOW_TEXT,
-            ComponentBuilder("${GREEN}Применить тэг ${RESET}${tag.tag} ${GRAY}[${GOLD}ПКМ${GRAY}]").create()
+        return arrayListOf(
+            ComponentBuilder(displayName).create().first().apply {
+                clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/controls ${player.displayName}")
+                hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, ComponentBuilder("Быстрые действия с игроком").create())
+            },
+            ComponentBuilder(if (tag.tag.isEmpty()) "" else " " + tag.tag).create().first(),
+            ComponentBuilder(" ${DARK_GRAY}»").create().first(),
+            ComponentBuilder(coloredMessage).create().first()
         )
-        val mergeComponent = ComponentBuilder(" §8»").create().first()
-        val messageComponent = ComponentBuilder(coloredMessage).create().first()
-
-        return arrayListOf(nameComponent, tagComponent, mergeComponent, messageComponent)
     }
 }
