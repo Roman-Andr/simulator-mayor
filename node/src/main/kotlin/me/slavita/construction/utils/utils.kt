@@ -151,7 +151,7 @@ fun logTg(message: String) {
     app.bot.sendMessage(ChatId.fromId(app.chatId), logFormat(message))
 }
 
-val routine = EventContext { true }.fork()
+val routine: EventContext = EventContext { true }.fork()
 
 val scheduler: BukkitScheduler = Bukkit.getScheduler()
 

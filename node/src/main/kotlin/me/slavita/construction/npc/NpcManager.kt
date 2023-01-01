@@ -11,7 +11,6 @@ import me.slavita.construction.action.command.menu.bank.BankMainMenu
 import me.slavita.construction.action.command.menu.city.LocationsMenu
 import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
 import me.slavita.construction.action.command.menu.worker.WorkerMenu
-import me.slavita.construction.app
 import me.slavita.construction.banner.BannerUtil.loadBanner
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.utils.labels

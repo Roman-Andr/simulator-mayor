@@ -3,7 +3,6 @@ package me.slavita.construction.world
 import me.func.MetaWorld
 import me.func.builder.MetaSubscriber
 import me.func.mod.reactive.ReactivePlace
-import me.func.mod.util.after
 import me.func.mod.util.safe
 import me.func.unit.Building
 import me.func.world.WorldMeta
