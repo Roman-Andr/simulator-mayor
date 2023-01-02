@@ -1,4 +1,4 @@
-package me.slavita.construction.common.network
+package me.slavita.construction.protocol
 
 import ru.cristalix.core.network.CorePackage
 

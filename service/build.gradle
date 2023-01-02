@@ -3,27 +3,34 @@ plugins {
 }
 
 dependencies {
-    compileOnly("cristalix:microservice:20.11.04")
+    compileOnly("ru.cristalix.core:microservice:1.0.12-3")
     compileOnly("me.func:service-api:2.0.0-SNAPSHOT")
-    implementation(project(":common"))
 
-    implementation("org.mongodb:mongodb-driver-async:3.12.11")
-    implementation("org.mongodb:mongodb-driver:3.12.11")
+    implementation(project(":protocol"))
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.4")
+    implementation("org.mongodb:mongodb-driver-async:3.7.1")
+    implementation("org.mongodb:mongodb-driver:3.7.1")
+
+    implementation("me.func:booster-api:live-SNAPSHOT")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.0")
 
     implementation("org.iq80.leveldb:leveldb:0.12")
 
-    implementation("org.json:json:20220924")
+    implementation("org.json:json:20211205")
+    implementation('io.netty:netty-all:4.1.84.Final')
+    implementation("com.google.code.gson:gson:2.9.0")
+    implementation('it.unimi.dsi:fastutil:8.5.11')
 }
 
-afterEvaluate {
-    jar {
+tasks {
+    build { dependsOn(shadowJar) }
+    jar { enabled = false }
+    shadowJar {
+        archiveFileName.set("construction-service.jar")
+        configurations = [project.configurations.compileClasspath]
         manifest {
-            attributes "Main-Class": "me.slavita.construction.service.MainKt"
+            attributes["Main-Class"] = "me.slavita.construction.service.MainKt"
+            attributes["Multi-Release"] = true
         }
-        archiveBaseName.set("construction-service")
-        from configurations.runtimeClasspath.collect { it.directory ? it : zipTree(it) }
-        duplicatesStrategy DuplicatesStrategy.EXCLUDE
     }
 }

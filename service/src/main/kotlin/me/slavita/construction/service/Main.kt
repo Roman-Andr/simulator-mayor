@@ -1,12 +1,11 @@
 package me.slavita.construction.service
 
 import me.func.serviceapi.runListener
-import me.slavita.construction.common.network.TestPackage
+import me.slavita.construction.protocol.TestPackage
 import ru.cristalix.core.microservice.MicroServicePlatform
 import ru.cristalix.core.microservice.MicroserviceBootstrap
 import ru.cristalix.core.network.Capability
 import ru.cristalix.core.network.ISocketClient
-import kotlin.concurrent.thread
 
 fun main() {
     MicroserviceBootstrap.bootstrap(MicroServicePlatform(2))
@@ -21,14 +20,7 @@ fun main() {
         )
 
         runListener<TestPackage> { realm, pckg ->
-            println("Get from ${realm.realmName} ${pckg.message}}")
-        }
-    }
-
-    thread(isDaemon = true) {
-        while (true) {
-            val line = readLine() ?: return@thread
-            println("Get: $line")
+            println("Get from ${realm.realmName} ${pckg.message}")
         }
     }
 }

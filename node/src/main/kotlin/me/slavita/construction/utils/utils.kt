@@ -27,8 +27,11 @@ import org.bukkit.event.Listener
 import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitScheduler
 import org.bukkit.scheduler.BukkitTask
+import ru.cristalix.core.network.ISocketClient
 import java.util.*
 import kotlin.reflect.KClass
+
+val socket = ISocketClient.get()
 
 val Player.user
     get() = app.getUser(this)

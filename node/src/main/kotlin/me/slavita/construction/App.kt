@@ -14,25 +14,23 @@ import me.func.mod.conversation.ModLoader
 import me.func.mod.util.after
 import me.func.sound.Category
 import me.func.sound.Music
-import me.func.stronghold.Stronghold
 import me.func.world.MapLoader
 import me.func.world.WorldMeta
 import me.slavita.construction.action.chat.AdminCommands
 import me.slavita.construction.action.chat.UserCommands
-import me.slavita.construction.booster.Boosters
 import me.slavita.construction.listener.PlayerEvents
 import me.slavita.construction.multichat.MultiChats
 import me.slavita.construction.npc.NpcManager
 import me.slavita.construction.player.Data
 import me.slavita.construction.player.KensukeUser
 import me.slavita.construction.player.User
+import me.slavita.construction.protocol.TestPackage
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.BoardsManager
 import me.slavita.construction.ui.CityGlows
 import me.slavita.construction.ui.SpeedPlaces
 import me.slavita.construction.ui.items.ItemsManager
-import me.slavita.construction.utils.Config
-import me.slavita.construction.utils.ModCallbacks
+import me.slavita.construction.utils.*
 import me.slavita.construction.utils.language.EnumLang
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.ItemProperties
@@ -48,7 +46,6 @@ import ru.cristalix.core.invoice.InvoiceService
 import ru.cristalix.core.multichat.ChatMessage
 import ru.cristalix.core.multichat.IMultiChatService
 import ru.cristalix.core.multichat.MultiChatService
-import ru.cristalix.core.network.ISocketClient
 import ru.cristalix.core.party.IPartyService
 import ru.cristalix.core.party.PartyService
 import ru.cristalix.core.realm.IRealmService
@@ -94,11 +91,11 @@ class App : JavaPlugin() {
         Anime.include(Kit.STANDARD, Kit.EXPERIMENTAL, Kit.DIALOG, Kit.MULTI_CHAT, Kit.LOOTBOX, Kit.NPC)
 
         CoreApi.get().run {
-            registerService(ITransferService::class.java, TransferService(ISocketClient.get()))
-            registerService(IPartyService::class.java, PartyService(ISocketClient.get()))
+            registerService(ITransferService::class.java, TransferService(socket))
+            registerService(IPartyService::class.java, PartyService(socket))
             registerService(IScoreboardService::class.java, ScoreboardService())
-            registerService(IInvoiceService::class.java, InvoiceService(ISocketClient.get()))
-            registerService(IMultiChatService::class.java, MultiChatService(ISocketClient.get()))
+            registerService(IInvoiceService::class.java, InvoiceService(socket))
+            registerService(IMultiChatService::class.java, MultiChatService(socket))
         }
 
         IMultiChatService.get().apply {
@@ -148,14 +145,14 @@ class App : JavaPlugin() {
 
         Lock.realms("SLVT")
 
-        Stronghold.namespace("construction")
+        //Stronghold.namespace("construction")
 
         Config.load {
             NpcManager
             BoardsManager
             CityGlows
         }
-        Boosters
+        //Boosters
         MultiChats
         UserCommands
         AdminCommands
@@ -166,6 +163,10 @@ class App : JavaPlugin() {
         PlayerEvents
 
         server.scheduler.scheduleSyncRepeatingTask(this, { pass++ }, 0, 1)
+
+        runTimerAsync(0, 20) {
+            socket.write(TestPackage("hello"))
+        }
 
         EnumLang.init()
     }

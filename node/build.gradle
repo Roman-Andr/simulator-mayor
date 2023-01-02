@@ -4,6 +4,7 @@ plugins {
 
 dependencies {
     implementation(project(":common"))
+    implementation(project(":protocol"))
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.4")
     implementation('org.jetbrains.kotlin:kotlin-reflect:1.7.22')
@@ -67,8 +68,8 @@ task config() {
 
 task upload() {
     dependsOn(tasks.build)
-    dependsOn(project(":mod").tasks.upload)
-    dependsOn(tasks.config)
+//    dependsOn(project(":mod").tasks.upload)
+//    dependsOn(tasks.config)
     doLast {
         ssh.run {
             session(remotes.webServer) {
