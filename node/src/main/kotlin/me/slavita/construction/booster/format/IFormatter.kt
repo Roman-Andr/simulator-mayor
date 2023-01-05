@@ -1,4 +1,4 @@
-package me.slavita.construction.ui.format
+package me.slavita.construction.booster.format
 
 import me.slavita.construction.player.Data
 

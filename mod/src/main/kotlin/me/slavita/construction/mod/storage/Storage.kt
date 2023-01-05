@@ -18,11 +18,11 @@ object Storage {
     var storages = arrayOf<StorageData>()
 
     private val infoZone = infoZone {
-        info.description("Открыть хранилище")
+        info.description("Открыть склад")
     }
 
     private val enterInfo = info {
-        title("Хранилище")
+        title("Склад")
         description("Положить на склад - выкинуть [Q]")
         offset.y += 40.0
     }

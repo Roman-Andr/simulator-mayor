@@ -5,6 +5,7 @@ import me.slavita.construction.utils.accept
 import me.slavita.construction.utils.language.LanguageHelper
 import me.slavita.construction.utils.listener
 import me.slavita.construction.utils.user
+import org.bukkit.ChatColor.*
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerDropItemEvent
@@ -24,7 +25,7 @@ object OnActions {
 
             val toAdd = user.blocksStorage.addItem(drop.itemStack)
             player.accept(
-                "Вы положили ${
+                "Вы положили ${GOLD}${
                     LanguageHelper.getItemDisplayName(
                         drop.itemStack,
                         player

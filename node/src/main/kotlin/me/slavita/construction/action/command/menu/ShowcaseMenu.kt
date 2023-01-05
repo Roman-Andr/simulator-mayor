@@ -80,6 +80,7 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player)
                     ${GREEN}${LanguageHelper.getItemDisplayName(emptyItem, user.player)}
                     ${AQUA}Купить 8 шт за ${entry.price * 8} [ЛКМ]
                     ${AQUA}Купить 64 шт за ${entry.price * 64} [ПКМ]
+                    
                     На складе: ${BOLD}${
                         user.blocksStorage.blocks.getOrDefault(
                             entry.item,

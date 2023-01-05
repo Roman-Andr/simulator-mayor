@@ -10,6 +10,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent
 import ru.cristalix.core.multichat.ChatMessage
 import ru.cristalix.core.multichat.IMultiChatService
 import ru.cristalix.core.permissions.IPermissionService
+import ru.cristalix.core.realm.IRealmService
 
 object OnChat {
     init {
@@ -47,7 +48,9 @@ object OnChat {
             },
             ComponentBuilder(if (tag.tag.isEmpty()) "" else " " + tag.tag).create().first(),
             ComponentBuilder(" ${DARK_GRAY}»").create().first(),
-            ComponentBuilder(coloredMessage).create().first()
+            ComponentBuilder(coloredMessage).create().first().apply {
+                hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, ComponentBuilder("Игрок пишет с сервера ${IRealmService.get().currentRealmInfo.realmId.realmName}").create())
+            }
         )
     }
 }

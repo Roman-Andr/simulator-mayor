@@ -1,10 +1,13 @@
 package me.slavita.construction.player
 
+import me.func.mod.ui.Alert.button
+import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.app
 import me.slavita.construction.project.Project
 import me.slavita.construction.structure.CityStructure
 import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.structure.tools.CityStructureState
+import me.slavita.construction.utils.Alert
 import me.slavita.construction.utils.deny
 import me.slavita.construction.utils.runTimer
 import org.bukkit.ChatColor.*
@@ -27,18 +30,28 @@ class City(val owner: User, id: String, val title: String, val price: Long, var 
 
     fun breakStructure() {
         if (cityStructures.size == 0) return
-        cityStructures.filter { it.state != CityStructureState.BROKEN && it.state != CityStructureState.NOT_READY }
-            .shuffled()[0].let {
+
+        val targetStructures = cityStructures.filter { it.state != CityStructureState.BROKEN && it.state != CityStructureState.NOT_READY }
+        if (targetStructures.isEmpty()) return
+        targetStructures.shuffled()[0].let {
             owner.income -= it.structure.income
             it.state = CityStructureState.BROKEN
-            owner.player.deny(
+
+            Alert.send(
+                owner.player,
                 """
-                        ${RED}Поломка!
-                        ${GRAY}Номер: ${GRAY}${it.playerCell.id}
-                        ${AQUA}Название: ${GOLD}${it.structure.name}
-                        ${GOLD}Локация: ${GREEN}$title
-                    """.trimIndent()
+                    ${RED}Поломка
+                    ${GRAY}Номер: ${GRAY}${it.playerCell.id}
+                    ${AQUA}Название: ${GOLD}${it.structure.name}
+                    ${GOLD}Локация: ${GREEN}$title
+                """.trimIndent(),
+                3000,
+                GlowColor.RED,
+                GlowColor.RED_MIDDLE,
+                null,
+                button("Понятно", "/ok", GlowColor.RED_LIGHT),
             )
+
             it.visual.update()
         }
     }

@@ -35,7 +35,7 @@ class ChoiceStructure(player: Player, val structureGroup: StructureGroup, val pl
                             } - ${GREEN}${block.value}шт\n"
                         }
                         onClick { _, _, _ ->
-                            ChoiceProject(player, structure, playerCell).tryExecute()
+                            ChoiceProject(player, structure, playerCell).keepHistory().tryExecute()
                         }
                     }
                 }

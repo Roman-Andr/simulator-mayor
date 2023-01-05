@@ -8,9 +8,9 @@ class CityHall(val user: User) {
     val upgradePrice
         get() = level * 1000L
     val income
-        get() = level * 1000L
+        get() = level * 100L
     val nextIncome
-        get() = (level + 1) * 1000L
+        get() = (level + 1) * 100L
 
     init {
         user.income += income

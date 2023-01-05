@@ -6,14 +6,18 @@ import me.func.mod.world.Npc.location
 import me.func.mod.world.Npc.onClick
 import me.func.mod.world.Npc.skin
 import me.func.protocol.world.npc.NpcBehaviour
-import me.slavita.construction.action.command.menu.*
 import me.slavita.construction.action.command.menu.bank.BankMainMenu
 import me.slavita.construction.action.command.menu.city.LocationsMenu
+import me.slavita.construction.action.command.menu.general.ControlPanelMenu
+import me.slavita.construction.action.command.menu.general.DailyMenu
+import me.slavita.construction.action.command.menu.general.GuideDialog
 import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
+import me.slavita.construction.action.command.menu.storage.StorageMenu
 import me.slavita.construction.action.command.menu.worker.WorkerMenu
 import me.slavita.construction.banner.BannerUtil.loadBanner
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.utils.labels
+import me.slavita.construction.utils.toUUID
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack
 import org.bukkit.inventory.EquipmentSlot
 import java.util.*
@@ -25,7 +29,6 @@ object NpcManager {
 
     init {
         Atlas.find("npc").getMapList("npc").forEach { values ->
-            val title = values["title"] as String
             val labelTag = values["labelTag"] as String
             val skinType = values["skinType"] as String
             val skin = values["skin"] as String
@@ -40,9 +43,9 @@ object NpcManager {
                     location(label.toCenterLocation().apply {
                         y = label.blockY.toDouble()
                     })
-                    name = title
+                    name = ""
                     when (skinType) {
-                        "uuid" -> skin(UUID.fromString(skin))
+                        "uuid" -> skin(skin.toUUID())
                         "url"  -> skin(storageUrl + skin)
                     }
                     behaviour = NpcBehaviour.STARE_AND_LOOK_AROUND

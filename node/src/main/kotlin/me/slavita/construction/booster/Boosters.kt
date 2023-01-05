@@ -4,8 +4,8 @@ import me.func.stronghold.Stronghold
 import me.func.stronghold.booster.BoosterGlobal
 import me.slavita.construction.player.User
 import me.slavita.construction.ui.Formatter.applyBoosters
-import me.slavita.construction.utils.CristalixUtil.cristalixName
 import me.slavita.construction.utils.accept
+import me.slavita.construction.utils.cristalixName
 import me.slavita.construction.utils.user
 import org.bukkit.Bukkit
 import java.util.concurrent.TimeUnit

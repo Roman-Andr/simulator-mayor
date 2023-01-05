@@ -75,14 +75,14 @@ class App : JavaPlugin() {
     private val users = hashMapOf<UUID, User>()
     val allBlocks = hashSetOf<ItemProperties>()
 
-    val statScope = Scope("construction-test-tt", Data::class.java)
+    val statScope = Scope("construction-test-ttttt", Data::class.java)
     lateinit var kensuke: Kensuke
     lateinit var userManager: UserManager<KensukeUser>
 
     val localStaff = hashSetOf(
         "e2543a0a-5799-11e9-8374-1cb72caa35fd",
         "ba821208-6b64-11e9-8374-1cb72caa35fd"
-    ).map { UUID.fromString(it) }
+    ).map { it.toUUID() }
 
     var pass = 0L
         private set
@@ -121,7 +121,7 @@ class App : JavaPlugin() {
 
             IScoreboardService.get().serverStatusBoard.displayName = "${WHITE}Тест #${AQUA}" + realmId.id
             after(20 * 10) {
-                ITransferService.get().transfer(UUID.fromString(System.getProperty("construction.user")), realmId)
+                ITransferService.get().transfer(System.getProperty("construction.user").toUUID(), realmId)
             }
         }
 

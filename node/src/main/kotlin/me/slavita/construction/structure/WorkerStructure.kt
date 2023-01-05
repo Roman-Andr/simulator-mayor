@@ -5,11 +5,13 @@ import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.player.User
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureState
-import me.slavita.construction.utils.blocksDeposit
+import me.slavita.construction.utils.accept
+import me.slavita.construction.utils.language.LanguageHelper
 import me.slavita.construction.utils.runAsync
 import me.slavita.construction.worker.Worker
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.ItemProperties
+import org.bukkit.entity.Player
 
 class WorkerStructure(
     world: GameWorld,
@@ -36,7 +38,7 @@ class WorkerStructure(
             .radius(2.0)
             .location(allocation.clone().apply { y -= 2.5 })
             .onEntire { player ->
-                if (blocksDeposit(player, remainingBlocks, blocksStorage)) build()
+                if (blocksDepositBuild(player, remainingBlocks, blocksStorage)) build()
             }
             .build().apply {
                 isConstant = true
@@ -78,5 +80,30 @@ class WorkerStructure(
             }
             build()
         }
+    }
+
+    private fun blocksDepositBuild(
+        player: Player,
+        target: HashMap<ItemProperties, Int>,
+        storage: HashMap<ItemProperties, Int>,
+    ): Boolean {
+        var deposit = false
+        player.inventory.storageContents.forEachIndexed { index, item ->
+            if (item == null) return@forEachIndexed
+            val props = ItemProperties(item)
+            val value = target.getOrDefault(props, 0) - storage.getOrDefault(props, 0)
+            if (target.filter { it.value - storage.getOrDefault(it.key, 0) > 0 }.containsKey(props)) {
+                if (item.getAmount() > value) {
+                    storage[props] = storage.getOrDefault(props, 0) + item.getAmount() - value
+                    player.inventory.storageContents[index].setAmount(item.getAmount() - value)
+                } else {
+                    storage[props] = storage.getOrDefault(props, 0) + item.getAmount()
+                    player.inventory.remove(item)
+                }
+                deposit = true
+                player.accept("Вы положили ${LanguageHelper.getItemDisplayName(item, player)}")
+            }
+        }
+        return deposit
     }
 }

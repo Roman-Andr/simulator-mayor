@@ -1,8 +1,8 @@
-package me.slavita.construction.ui.format
+package me.slavita.construction.booster.format
 
 import me.slavita.construction.player.Data
 
-class ReputationFormatter : IFormatter {
+object ReputationFormatter : IFormatter {
     override fun format(value: Data): String {
         return value.statistics.reputation.toString()
     }

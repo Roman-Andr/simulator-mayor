@@ -1,4 +1,4 @@
-package me.slavita.construction.action.command.menu
+package me.slavita.construction.action.command.menu.general
 
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button

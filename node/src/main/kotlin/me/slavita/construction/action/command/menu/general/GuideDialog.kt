@@ -1,4 +1,4 @@
-package me.slavita.construction.action.command.menu
+package me.slavita.construction.action.command.menu.general
 
 import me.slavita.construction.action.CooldownCommand
 import me.slavita.construction.player.User

@@ -1,4 +1,4 @@
-package me.slavita.construction.action.command.menu
+package me.slavita.construction.action.command.menu.general
 
 import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
@@ -6,21 +6,22 @@ import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection.Selection
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
+import me.slavita.construction.dontate.Donates
+import me.slavita.construction.dontate.TagDonate
 import me.slavita.construction.player.Tags
 import me.slavita.construction.prepare.TagsPrepare
+import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
-import me.slavita.construction.utils.getBaseSelection
-import me.slavita.construction.utils.getTagsInfo
-import me.slavita.construction.utils.mapM
+import me.slavita.construction.utils.*
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.entity.Player
 
-class TagsMenu(player: Player) : MenuCommand(player) {
+class TagsMenu(val player: Player) : MenuCommand(player) {
     private val buttons = mutableListOf<ReactiveButton>()
     private var selection = Selection()
 
@@ -48,7 +49,7 @@ class TagsMenu(player: Player) : MenuCommand(player) {
 
     private fun getButtons(): MutableList<ReactiveButton> {
         val data = user.data
-        return Tags.values().mapM { tag ->
+        return Tags.values().filter { !it.donate }.mapM { tag ->
             button {
                 title = if (tag.tag == "") "Пустой" else tag.tag
                 if (data.ownTags.contains(tag)) {
@@ -76,6 +77,31 @@ class TagsMenu(player: Player) : MenuCommand(player) {
                     }
                 }
             }
-        }
+        }.apply { addAll(Donates.values().filter { it.donate is TagDonate }.map {
+            button {
+                val tag = (it.donate as TagDonate).tag
+                item = ItemIcons.get("other", "pets1", data.tag == tag)
+                title = it.donate.tag.tag
+                if (!data.ownTags.contains(tag)) {
+                    hint = "Купить"
+                    hover = it.donate.description
+                    description = "Цена: ${it.donate.price.toCriMoney()}"
+                    backgroundColor = GlowColor.BLUE_MIDDLE
+                    onClick { _, _, _ ->
+                        it.donate.purchase(player.user)
+                    }
+                } else {
+                    hint = if (data.tag == tag) "Выбран" else "Выбрать"
+                    backgroundColor = if (data.tag == tag) GlowColor.BLUE_LIGHT else GlowColor.BLUE
+                    onClick { _, _, _ ->
+                        if (data.tag != tag) {
+                            data.tag = tag
+                            TagsPrepare.prepare(user)
+                            updateButtons()
+                        }
+                    }
+                }
+            }
+        }) }
     }
 }

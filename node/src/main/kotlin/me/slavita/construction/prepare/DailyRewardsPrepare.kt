@@ -1,6 +1,6 @@
 package me.slavita.construction.prepare
 
-import me.slavita.construction.action.command.menu.DailyMenu
+import me.slavita.construction.action.command.menu.general.DailyMenu
 import me.slavita.construction.player.User
 
 object DailyRewardsPrepare : IPrepare {

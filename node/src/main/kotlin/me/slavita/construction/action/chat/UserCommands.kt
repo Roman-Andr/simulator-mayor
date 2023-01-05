@@ -16,5 +16,7 @@ object UserCommands {
         command("break") { player, _ ->
             player.user.currentCity.breakStructure()
         }
+
+        command("ok") { _, _ -> }
     }
 }

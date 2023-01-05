@@ -7,12 +7,10 @@ import me.slavita.construction.utils.BlocksExtensions.toV3
 
 object StoragePrepare : IPrepare {
     override fun prepare(user: User) {
-        user.blocksStorage.upgradePlace!!.send(user.player)
-
         ModTransfer()
             .json(user.blocksStorage.boxes.map {
                 StorageClientData(
-                    "Хранилище",
+                    "Склад",
                     it.value.min.toV3(),
                     it.value.max.toV3()
                 )

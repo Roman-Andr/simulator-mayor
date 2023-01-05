@@ -5,6 +5,7 @@ import me.slavita.construction.utils.colored
 enum class Tags(
     val tag: String,
     val price: Long,
+    val donate: Boolean = false,
 ) {
     NONE("", 0),
 
@@ -244,7 +245,8 @@ enum class Tags(
         #6dff5e
     """.trimIndent().split("\n")
         ),
-        16000
+        16000,
+        true
     ),
     TRADER(
         "Торговец".colored(

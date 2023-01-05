@@ -27,6 +27,10 @@ class User(val uuid: UUID) {
     val blocksStorage = BlocksStorage(this)
     var watchableProject: Project? = null
     var income = 0L
+        set(value) {
+            if (initialized) data.statistics.lastIncome = value
+            field = value
+        }
     val hall = CityHall(this)
     var taskId = 0
     var showcaseTaskId = 0

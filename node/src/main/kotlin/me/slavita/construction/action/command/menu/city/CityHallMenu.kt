@@ -21,13 +21,13 @@ class CityHallMenu(player: Player) : MenuCommand(player) {
                 description = "Управление мэрией"
                 storage = mutableListOf(
                     button {
-                        title = "${AQUA}${BOLD}Улучшить"
+                        title = "${GOLD}${BOLD}Улучшить"
                         hint = "Улучшить"
                         backgroundColor = GlowColor.GREEN
                         hover = """
                             ${GREEN}При улучшении:
                               ${AQUA}Уровень: ${GRAY}${hall.level.toLevel()} ${BOLD}-> ${GREEN}${(hall.level + 1).toLevel()}
-                              ${GREEN}Доход: ${GRAY}${hall.income.toIncomeIcon()} ${BOLD}-> ${GOLD}${hall.nextIncome.toIncomeIcon()}
+                              ${GOLD}Доход: ${GRAY}${hall.income.toIncomeIcon()} ${BOLD}-> ${GOLD}${hall.nextIncome.toIncomeIcon()}
                             
                             ${BOLD}${WHITE}Стоимость: ${GREEN}${hall.upgradePrice.toMoneyIcon()}
                         """.trimIndent()

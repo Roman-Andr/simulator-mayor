@@ -25,9 +25,9 @@ import me.slavita.construction.player.sound.Music.playSound
 import me.slavita.construction.player.sound.MusicSound
 import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.Formatter.toMoney
+import me.slavita.construction.ui.HumanizableValues
 import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
-import me.slavita.construction.utils.language.LanguageHelper
 import me.slavita.construction.world.ItemProperties
 import net.minecraft.server.v1_12_R1.*
 import org.apache.logging.log4j.util.BiConsumer
@@ -46,7 +46,10 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.PlayerInventory
 import org.bukkit.scheduler.BukkitScheduler
 import org.bukkit.scheduler.BukkitTask
+import ru.cristalix.core.account.IAccountService
 import ru.cristalix.core.formatting.Formatting
+import ru.cristalix.core.permissions.IPermissionContext
+import ru.cristalix.core.permissions.IPermissionService
 import java.util.*
 import kotlin.reflect.KClass
 
@@ -139,17 +142,13 @@ fun opCommand(name: String, biConsumer: BiConsumer<Player, Array<out String>>) {
     })
 }
 
-fun safe(runnable: Runnable) { after(1, runnable) }
+fun safe(runnable: Runnable) = after(1, runnable)
 
 fun logFormat(message: String) = "[CONSTRUCTION] $message"
 
-fun log(message: String) {
-    println(logFormat(message))
-}
+fun log(message: String) = println(logFormat(message))
 
-fun logTg(message: String) {
-    app.bot.sendMessage(ChatId.fromId(app.chatId), logFormat(message))
-}
+fun logTg(message: String) = app.bot.sendMessage(ChatId.fromId(app.chatId), logFormat(message))
 
 val routine: EventContext = EventContext { true }.fork()
 
@@ -189,7 +188,7 @@ fun getEmptyButton() = button {
 fun Material.validate(): ItemStack = if (isItem) ItemBuilder(this).build() else ItemBuilder(Material.BARRIER).build()
 
 fun ItemStack.validate(): ItemStack =
-    if (getType().isItem) ItemBuilder(getType()).build() else ItemBuilder(Material.BARRIER).build()
+    if (getType().isItem) this else ItemBuilder(Material.BARRIER).build()
 
 inline fun <T, R> Array<out T>.mapM(transform: (T) -> R): MutableList<R> {
     return map(transform).toMutableList()
@@ -297,31 +296,6 @@ fun getMenuInfo() = """
         Здесь вы можете выбрать необходимый раздел
 """.trimIndent()
 
-fun blocksDeposit(
-    player: Player,
-    target: HashMap<ItemProperties, Int>,
-    storage: HashMap<ItemProperties, Int>,
-): Boolean {
-    var deposit = false
-    player.inventory.storageContents.forEachIndexed { index, item ->
-        if (item == null) return@forEachIndexed
-        val props = ItemProperties(item)
-        val value = target.getOrDefault(props, 0) - storage.getOrDefault(props, 0)
-        if (target.filter { it.value - storage.getOrDefault(it.key, 0) > 0 }.containsKey(props)) {
-            if (item.getAmount() > value) {
-                storage[props] = storage.getOrDefault(props, 0) + item.getAmount() - value
-                player.inventory.storageContents[index].setAmount(item.getAmount() - value)
-            } else {
-                storage[props] = storage.getOrDefault(props, 0) + item.getAmount()
-                player.inventory.remove(item)
-            }
-            deposit = true
-            player.accept("Вы положили ${LanguageHelper.getItemDisplayName(item, player)}")
-        }
-    }
-    return deposit
-}
-
 fun Player.deny(text: String) {
     killboard(Formatting.error(text))
     playSound(MusicSound.DENY)
@@ -333,6 +307,8 @@ fun Player.accept(text: String) {
     playSound(MusicSound.LEVEL_UP)
     Glow.animate(this, 0.4, GlowColor.GREEN)
 }
+
+fun String.toUUID(): UUID = UUID.fromString(this)
 
 fun getBaseSelection(info: MenuInfo, user: User): Selection =
     selection {
@@ -348,3 +324,22 @@ fun getBaseSelection(info: MenuInfo, user: User): Selection =
             }
         }"
     }
+
+val Player.cristalixName
+    get() = getDisplayName(this.uniqueId)
+
+val UUID.cristalixName
+    get() = getDisplayName(this)
+
+private fun getDisplayName(uuid: UUID): String {
+    val name = IAccountService.get().getNameByUuid(uuid).get()
+    return getDisplayNameFromContext(IPermissionService.get().getPermissionContextDirect(uuid), name)
+}
+
+private fun getDisplayNameFromContext(context: IPermissionContext, name: String): String {
+    val group = context.displayGroup
+    val color = if (context.color == null) "" else context.color
+    val prefix =
+        if (context.customProfile.chatPrefix != null) context.customProfile.chatPrefix else (group.prefixColor + group.prefix)
+    return ((if (prefix.isNotEmpty()) "$prefix " else "") + group.nameColor) + color + name
+}

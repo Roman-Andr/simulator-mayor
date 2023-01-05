@@ -2,10 +2,11 @@ package me.slavita.construction.ui
 
 import me.func.atlas.Atlas
 import me.slavita.construction.app
-import me.slavita.construction.ui.format.*
+import me.slavita.construction.booster.format.*
 import me.slavita.construction.utils.BlocksExtensions.toYaw
-import me.slavita.construction.utils.CristalixUtil
+import me.slavita.construction.utils.cristalixName
 import me.slavita.construction.utils.runTimer
+import me.slavita.construction.utils.toUUID
 import org.bukkit.Location
 import org.bukkit.block.BlockFace
 import ru.cristalix.boards.bukkitapi.Boards
@@ -26,10 +27,13 @@ object BoardsManager {
                     getString("boards.${it.tag}.fieldSize").toDouble(),
                     getString("boards.${it.tag}.color"),
                     when (getString("boards.${it.tag}.formatter")) {
-                        "MoneyFormatter"      -> MoneyFormatter()
-                        "ExpFormatter"        -> ExpFormatter()
-                        "ReputationFormatter" -> ReputationFormatter()
-                        else                  -> ExpFormatter()
+                        "MoneyFormatter"      -> MoneyFormatter
+                        "ExperienceFormatter" -> ExperienceFormatter
+                        "ProjectsFormatter"   -> ProjectsFormatter
+                        "ReputationFormatter" -> ReputationFormatter
+                        "BoosterFormatter"    -> BoosterFormatter
+                        "IncomeFormatter"     -> IncomeFormatter
+                        else                  -> EmptyFormatter
                     }
                 )
             }
@@ -63,7 +67,7 @@ object BoardsManager {
                     board.addContent(
                         UUID.fromString(entry.data.session.userId),
                         entry.position.toString(),
-                        CristalixUtil.getDisplayName(UUID.fromString(entry.data.session.userId)),
+                        entry.data.session.userId.toUUID().cristalixName,
                         "${color}${formatter.format(entry.data.user.data)}"
                     )
                 }

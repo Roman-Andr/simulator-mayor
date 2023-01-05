@@ -1,4 +1,4 @@
-package me.slavita.construction.action.command.menu
+package me.slavita.construction.action.command.menu.storage
 
 import me.func.mod.Anime
 import me.func.mod.reactive.ReactiveButton
@@ -18,7 +18,7 @@ class StorageMenu(player: Player) : MenuCommand(player) {
     private val blocksStorage = player.user.blocksStorage
 
     override fun getMenu(): Openable {
-        return getBaseSelection(MenuInfo("${GREEN}${BOLD}Склад", StatsType.LEVEL, 5, 14), user).apply {
+        return getBaseSelection(MenuInfo("${GREEN}${BOLD}Склад ${WHITE}(${blocksStorage.itemsCount}/${blocksStorage.limit})", StatsType.LEVEL, 5, 14), user).apply {
             storage = blocksStorage.blocks.mapM { entry ->
                 button {
                     item = entry.key.createItemStack(1)

@@ -7,7 +7,7 @@ import me.func.mod.conversation.ModTransfer
 import me.func.mod.reactive.ReactiveLine
 import me.func.mod.reactive.ReactivePanel
 import me.func.protocol.data.color.GlowColor
-import me.slavita.construction.action.command.menu.DailyMenu
+import me.slavita.construction.action.command.menu.general.DailyMenu
 import me.slavita.construction.bank.Bank
 import me.slavita.construction.player.Statistics
 import me.slavita.construction.player.Tags
@@ -57,10 +57,6 @@ object AdminCommands {
 
         opCommand("daily") { player, _ ->
             DailyMenu(player).tryExecute()
-        }
-
-        opCommand("cleandaily") { player, _ ->
-            player.user.data.statistics.nextDay = 0
         }
 
         opCommand("credit") { player, args ->
