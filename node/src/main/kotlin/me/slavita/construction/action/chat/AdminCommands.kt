@@ -8,13 +8,19 @@ import me.func.mod.reactive.ReactiveLine
 import me.func.mod.reactive.ReactivePanel
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.command.menu.general.DailyMenu
+import me.slavita.construction.app
 import me.slavita.construction.bank.Bank
 import me.slavita.construction.player.Statistics
 import me.slavita.construction.player.Tags
 import me.slavita.construction.prepare.GuidePrepare
 import me.slavita.construction.prepare.TagsPrepare
+import me.slavita.construction.project.Project
+import me.slavita.construction.project.ProjectGenerator
+import me.slavita.construction.structure.instance.Structure
+import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.*
+import me.slavita.construction.utils.BlocksExtensions.withOffset
 import org.bukkit.Bukkit
 import ru.cristalix.core.display.messages.RadioMessage
 import ru.cristalix.core.realm.IRealmService
@@ -24,6 +30,13 @@ object AdminCommands {
     init {
         opCommand("setmoney") { player, args ->
             player.user.data.statistics.money = args[0].toLong()
+        }
+
+        opCommand("freelance") { player, _ ->
+            player.teleport(app.mainWorld.freelanceCell.box.bottomCenter)
+            player.user.apply {
+                currentFreelance = ProjectGenerator.generateFreelance(this, Structures.structureGroups[0].structures.first { it.blocks.size == 1 })
+            }
         }
 
         opCommand("exp") { player, args ->

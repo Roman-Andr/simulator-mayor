@@ -3,6 +3,7 @@ package me.slavita.construction.structure
 import me.slavita.construction.player.User
 import me.slavita.construction.player.sound.Music.playSound
 import me.slavita.construction.player.sound.MusicSound
+import me.slavita.construction.project.FreelanceProject
 import me.slavita.construction.project.Project
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureState
@@ -18,7 +19,8 @@ abstract class BuildingStructure(
 ) {
     protected var currentBlock: StructureBlock? = null
     protected var hidden = false
-    private var currentProject: Project? = null
+    var currentProject: Project? = null
+        private set
     var cityStructure: CityStructure? = null
     var state = StructureState.NOT_STARTED
     var blocksPlaced = 0
@@ -70,7 +72,7 @@ abstract class BuildingStructure(
         if (state != StructureState.BUILDING) return
         owner.player.playSound(MusicSound.HINT)
 
-        world.placeFakeBlock(owner.player, currentBlock!!.withOffset(allocation))
+        world.placeFakeBlock(owner.player, currentBlock!!.withOffset(allocation), currentProject!! !is FreelanceProject)
         currentBlock = structure.getNextBlock(currentBlock!!.position)
         blockPlaced()
 
@@ -86,9 +88,9 @@ abstract class BuildingStructure(
         state = StructureState.FINISHED
         deleteVisual()
         visual.finishShow()
-        cityStructure = playerCell.city.addStructure(CityStructure(owner.player, structure, playerCell))
-        owner.updatePosition()
+        if (currentProject!! !is FreelanceProject) cityStructure = playerCell.city.addStructure(CityStructure(owner.player, structure, playerCell))
         onFinish()
+        owner.updatePosition()
     }
 
     fun claimed() {

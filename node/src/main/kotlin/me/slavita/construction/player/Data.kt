@@ -12,4 +12,5 @@ data class Data(
     var ownTags: HashSet<Tags> = hashSetOf(Tags.NONE),
     val abilities: HashSet<Abilities> = hashSetOf(),
     var showcases: HashSet<Showcase> = hashSetOf(),
+    var hasFreelance: Boolean = false,
 )

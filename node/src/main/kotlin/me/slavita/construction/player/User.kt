@@ -8,8 +8,11 @@ import me.slavita.construction.action.command.menu.project.ChoiceStructureGroup
 import me.slavita.construction.dontate.Abilities
 import me.slavita.construction.listener.OnActions
 import me.slavita.construction.prepare.StoragePrepare
+import me.slavita.construction.project.FreelanceProject
 import me.slavita.construction.project.Project
 import me.slavita.construction.storage.BlocksStorage
+import me.slavita.construction.structure.PlayerCell
+import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.utils.deny
 import me.slavita.construction.utils.runAsync
@@ -37,6 +40,13 @@ class User(val uuid: UUID) {
     var showcaseMenuTaskId = 0
     var showcaseMenu: ShowcaseMenu? = null
     private var criBalanceLastUpdate = 0L
+
+    lateinit var freelanceCell: PlayerCell
+    var currentFreelance: FreelanceProject? = null
+        set(value) {
+            data.hasFreelance = value != null
+            field = value
+        }
 
     var criBalance: Int = 0
         get() {
@@ -130,6 +140,12 @@ class User(val uuid: UUID) {
         }
 
         if (watchableProject == null) {
+            if (currentFreelance != null && freelanceCell.box.contains(player.location)) {
+                watchableProject = currentFreelance
+                watchableProject!!.onEnter()
+                return false
+            }
+
             currentCity.projects.forEach { project ->
                 if (project.structure.box.contains(player.location)) {
                     watchableProject = project
@@ -148,6 +164,11 @@ class User(val uuid: UUID) {
 
             OnActions.inZone[player] = false
         } else {
+            if (currentFreelance != null && freelanceCell.box.contains(player.location) && currentFreelance!!.structure.state == StructureState.FINISHED) {
+                watchableProject == null
+                currentFreelance!!.onEnter()
+            }
+
             currentCity.projects.filter { it.structure.state == StructureState.FINISHED }.forEach { project ->
                 if (project.structure.box.contains(player.location)) {
                     watchableProject = project

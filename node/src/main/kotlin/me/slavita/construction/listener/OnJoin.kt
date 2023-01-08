@@ -39,6 +39,7 @@ object OnJoin {
                         AbilityPrepare,
                         DailyRewardsPrepare,
                         ShowcasePrepare,
+                        WarningPrepare,
                     ).forEach { it.prepare(this) }
                 }
             }

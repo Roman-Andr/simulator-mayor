@@ -1,5 +1,6 @@
 package me.slavita.construction.project
 
+import me.slavita.construction.app
 import me.slavita.construction.player.City
 import me.slavita.construction.player.sound.Music.playSound
 import me.slavita.construction.player.sound.MusicSound
@@ -7,9 +8,11 @@ import me.slavita.construction.reward.Reward
 import me.slavita.construction.structure.BuildingStructure
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.structure.tools.StructureState
+import me.slavita.construction.utils.BlocksExtensions.unaryMinus
 import org.bukkit.ChatColor
+import org.bukkit.Material
 
-class Project(
+open class Project(
     val city: City,
     var id: Int,
     val structure: BuildingStructure,
@@ -32,24 +35,27 @@ class Project(
         owner.player.playSound(MusicSound.SUCCESS3)
     }
 
-    fun onEnter() {
+    open fun onEnter() {
         when (structure.state) {
             StructureState.BUILDING       -> structure.showVisual()
             StructureState.FINISHED       -> {
-                structure.claimed()
-                rewards.forEach { reward ->
-                    reward.getReward(owner)
-                }
+                finish()
                 structure.cityStructure!!.state = CityStructureState.FUNCTIONING
                 structure.cityStructure!!.startIncome()
                 city.finishProject(this@Project)
-                owner.player.playSound(MusicSound.UI_CLICK)
-                owner.data.statistics.totalProjects++
             }
 
-            StructureState.REWARD_CLAIMED -> {}
-            StructureState.NOT_STARTED    -> {}
+            else -> {}
         }
+    }
+
+    fun finish() {
+        structure.claimed()
+        rewards.forEach { reward ->
+            reward.getReward(owner)
+        }
+        owner.player.playSound(MusicSound.UI_CLICK)
+        owner.data.statistics.totalProjects++
     }
 
     fun onLeave() {

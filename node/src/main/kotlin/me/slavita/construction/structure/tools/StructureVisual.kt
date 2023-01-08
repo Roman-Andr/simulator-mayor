@@ -11,6 +11,7 @@ import me.func.protocol.world.marker.Marker
 import me.func.protocol.world.marker.MarkerSign
 import me.slavita.construction.banner.BannerInfo
 import me.slavita.construction.banner.BannerUtil
+import me.slavita.construction.project.FreelanceProject
 import me.slavita.construction.structure.BuildingStructure
 import me.slavita.construction.utils.hide
 import me.slavita.construction.utils.show

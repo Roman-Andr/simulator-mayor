@@ -19,7 +19,7 @@ class CityStructure(val owner: Player, val structure: Structure, val playerCell:
     var state = CityStructureState.NOT_READY
     val visual = CityStructureVisual(this)
     var repairBlocks: HashMap<ItemProperties, Int> = hashMapOf()
-    var targetBlocks: HashMap<ItemProperties, Int> = structure.blocks.clone() as HashMap<ItemProperties, Int>
+    var targetBlocks: HashMap<ItemProperties, Int> = HashMap(structure.blocks)
 
     init {
         building.allocate(playerCell.box.min.clone().add(11.0, 0.0, 11.0))

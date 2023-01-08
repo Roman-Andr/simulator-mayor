@@ -72,7 +72,7 @@ class App : JavaPlugin() {
         dispatch {}
     }
     val chatId = -1001654696542L
-    private val users = hashMapOf<UUID, User>()
+    val users = hashMapOf<UUID, User>()
     val allBlocks = hashSetOf<ItemProperties>()
 
     val statScope = Scope("construction-test-ttttt", Data::class.java)

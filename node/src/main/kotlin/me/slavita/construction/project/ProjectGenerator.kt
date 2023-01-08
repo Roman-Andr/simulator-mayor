@@ -46,4 +46,22 @@ object ProjectGenerator {
             )
         )
     }
+
+    fun generateFreelance(owner: User, structure: Structure): FreelanceProject {
+        return FreelanceProject(
+            owner.currentCity,
+            owner.data.statistics.totalProjects,
+            ClientStructure(
+                app.mainWorld,
+                structure,
+                owner,
+                owner.freelanceCell
+            ),
+            listOf(
+                MoneyReward(100),
+                ExperienceReward(100),
+                ReputationReward(100),
+            )
+        )
+    }
 }

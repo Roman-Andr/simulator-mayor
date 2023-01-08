@@ -114,7 +114,7 @@ class CityStructureVisual(val structure: CityStructure) {
                 Banners.show(structure.owner, redBanner!!)
                 Anime.marker(structure.owner, marker!!)
                 repairGlow!!.send(structure.owner)
-                structure.targetBlocks = structure.structure.blocks.clone() as HashMap<ItemProperties, Int>
+                structure.targetBlocks = HashMap(structure.structure.blocks)
             }
         }
     }

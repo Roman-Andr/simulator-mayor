@@ -41,6 +41,7 @@ object OnActions {
 
         listener<PlayerMoveEvent> {
             player.user.updatePosition()
+            if (player.user.currentFreelance != null && !player.user.freelanceCell.box.contains(to)) isCancelled = true
         }
     }
 }
