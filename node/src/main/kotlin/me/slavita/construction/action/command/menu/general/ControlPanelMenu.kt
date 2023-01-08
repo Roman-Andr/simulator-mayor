@@ -5,6 +5,7 @@ import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.choicer
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
+import me.slavita.construction.action.command.menu.achievements.AchievementsChoiceMenu
 import me.slavita.construction.action.command.menu.city.LocationsMenu
 import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
 import me.slavita.construction.ui.menu.ItemIcons
@@ -45,6 +46,15 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         item = ItemIcons.get("other", "clothes")
                         onClick { _, _, _ ->
                             TagsMenu(player).keepHistory().tryExecute()
+                        }
+                    },
+                    button {
+                        title = "${AQUA}${BOLD}Достижения"
+                        hint = "Выбрать"
+                        backgroundColor = GlowColor.BLUE
+                        item = ItemIcons.get("other", "achievements_many")
+                        onClick { _, _, _ ->
+                            AchievementsChoiceMenu(player).keepHistory().tryExecute()
                         }
                     },
                     button {

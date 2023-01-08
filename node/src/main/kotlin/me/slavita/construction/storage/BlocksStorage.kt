@@ -1,15 +1,12 @@
 package me.slavita.construction.storage
 
 import me.func.mod.Anime
-import me.func.mod.reactive.ReactivePlace
-import me.func.protocol.data.color.GlowColor
 import me.func.world.Box
 import me.slavita.construction.action.command.menu.storage.StorageMenu
-import me.slavita.construction.action.command.menu.storage.StorageUpgrade
 import me.slavita.construction.player.User
 import me.slavita.construction.utils.accept
-import me.slavita.construction.utils.label
 import me.slavita.construction.world.ItemProperties
+import org.bukkit.ChatColor.GOLD
 import org.bukkit.inventory.ItemStack
 
 class BlocksStorage(val owner: User) {
@@ -19,16 +16,16 @@ class BlocksStorage(val owner: User) {
     var level = 1
         set(value) {
             field = value
-            limit += 100*value
+            limit += 100 * value
         }
     var limit: Int = 100
         private set
     val nextLimit: Int
-        get() = limit + 100*(level + 1)
+        get() = limit + 100 * (level + 1)
     val itemsCount: Int
         get() = blocks.values.sumOf { it.getAmount() }
     val upgradePrice: Long
-        get() = level*1000L
+        get() = level * 1000L
 
     init {
         Anime.createReader("storage:open") { player, _ ->
@@ -37,6 +34,7 @@ class BlocksStorage(val owner: User) {
     }
 
     fun upgrade() {
+        owner.player.accept("Вы успешно улучшили ${GOLD}Склад")
         owner.tryPurchase(upgradePrice) {
             level++
         }

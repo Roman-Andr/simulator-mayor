@@ -68,7 +68,7 @@ class CityStructureVisual(val structure: CityStructure) {
     private fun blocksDepositRepair(
         player: Player,
         target: java.util.HashMap<ItemProperties, Int>,
-        storage: java.util.HashMap<ItemProperties, Int>
+        storage: java.util.HashMap<ItemProperties, Int>,
     ): Boolean {
         var deposit = false
         var toDeposit = 0

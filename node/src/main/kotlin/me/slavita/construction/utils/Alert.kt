@@ -19,7 +19,7 @@ object Alert {
         frontColor: RGB,
         backGroundColor: RGB,
         chatMessage: String?,
-        vararg buttons: NotificationButton
+        vararg buttons: NotificationButton,
     ) {
         NotificationData(
             UUID.randomUUID(),
@@ -38,7 +38,7 @@ object Alert {
         command: String,
         color: RGB,
         removeButton: Boolean = false,
-        removeNotification: Boolean = true
+        removeNotification: Boolean = true,
     ): NotificationButton =
         NotificationButton(message, color.toRGB(), command, removeButton, removeNotification)
 

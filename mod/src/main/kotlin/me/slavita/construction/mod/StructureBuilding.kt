@@ -7,6 +7,7 @@ import dev.xdark.clientapi.item.ItemStack
 import dev.xdark.clientapi.item.ItemTools
 import dev.xdark.clientapi.opengl.GlStateManager
 import dev.xdark.clientapi.util.EnumHand
+import dev.xdark.clientapi.util.ParticleType
 import io.netty.buffer.Unpooled
 import me.slavita.construction.mod.utils.Renderer
 import me.slavita.construction.mod.utils.extensions.InventoryExtensions.blocksCount
@@ -112,7 +113,16 @@ object StructureBuilding {
         mod.registerHandler<RightClick> {
             if (currentBlockLocation == null || hand == EnumHand.OFF_HAND) return@registerHandler
             if (!clientApi.isLookingAt(currentBlockLocation!!)) return@registerHandler
-            if (!player.inventory.handItemEquals(currentItem!!)) return@registerHandler
+            if (!player.inventory.handItemEquals(currentItem!!)) {
+                currentBlockLocation?.run {
+                    repeat(10) {
+                        clientApi.minecraft().particleManager.spawnEffectParticle(
+                            ParticleType.SMOKE_NORMAL, x + 0.5, y + 1.5, z + 0.5, 0.0, 0.0, 0.0, 1
+                        )
+                    }
+                }
+                return@registerHandler
+            }
             clientApi.clientConnection().sendPayload("structure:place", Unpooled.buffer())
             player.swingArm(EnumHand.MAIN_HAND)
         }

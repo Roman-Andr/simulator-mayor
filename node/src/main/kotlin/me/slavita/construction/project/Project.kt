@@ -1,6 +1,5 @@
 package me.slavita.construction.project
 
-import me.slavita.construction.app
 import me.slavita.construction.player.City
 import me.slavita.construction.player.sound.Music.playSound
 import me.slavita.construction.player.sound.MusicSound
@@ -8,9 +7,7 @@ import me.slavita.construction.reward.Reward
 import me.slavita.construction.structure.BuildingStructure
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.structure.tools.StructureState
-import me.slavita.construction.utils.BlocksExtensions.unaryMinus
 import org.bukkit.ChatColor
-import org.bukkit.Material
 
 open class Project(
     val city: City,
@@ -19,8 +16,6 @@ open class Project(
     val rewards: List<Reward>,
 ) {
     val owner = city.owner
-    val timeLast: Int
-        get() = 0
 
     init {
         var projectsCount = 0
@@ -37,15 +32,15 @@ open class Project(
 
     open fun onEnter() {
         when (structure.state) {
-            StructureState.BUILDING       -> structure.showVisual()
-            StructureState.FINISHED       -> {
+            StructureState.BUILDING -> structure.showVisual()
+            StructureState.FINISHED -> {
                 finish()
                 structure.cityStructure!!.state = CityStructureState.FUNCTIONING
                 structure.cityStructure!!.startIncome()
                 city.finishProject(this@Project)
             }
 
-            else -> {}
+            else                    -> {}
         }
     }
 

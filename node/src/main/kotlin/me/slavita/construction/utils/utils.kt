@@ -25,10 +25,8 @@ import me.slavita.construction.player.sound.Music.playSound
 import me.slavita.construction.player.sound.MusicSound
 import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.Formatter.toMoney
-import me.slavita.construction.ui.HumanizableValues
 import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
-import me.slavita.construction.world.ItemProperties
 import net.minecraft.server.v1_12_R1.*
 import org.apache.logging.log4j.util.BiConsumer
 import org.bukkit.Bukkit
@@ -38,6 +36,7 @@ import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer
+import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
 import org.bukkit.event.EventPriority
@@ -53,6 +52,8 @@ import ru.cristalix.core.permissions.IPermissionService
 import java.util.*
 import kotlin.reflect.KClass
 
+
+val STORAGE_URL = "https://storage.c7x.dev/${System.getenv("STORAGE_USER")}/construction"
 
 val Player.user
     get() = app.getUser(this)
@@ -142,7 +143,7 @@ fun opCommand(name: String, biConsumer: BiConsumer<Player, Array<out String>>) {
     })
 }
 
-fun safe(runnable: Runnable) = after(1, runnable)
+fun safe(action: () -> Unit) = after(1, action)
 
 fun logFormat(message: String) = "[CONSTRUCTION] $message"
 
@@ -185,8 +186,6 @@ fun getEmptyButton() = button {
     enabled = false
 }
 
-fun Material.validate(): ItemStack = if (isItem) ItemBuilder(this).build() else ItemBuilder(Material.BARRIER).build()
-
 fun ItemStack.validate(): ItemStack =
     if (getType().isItem) this else ItemBuilder(Material.BARRIER).build()
 
@@ -200,6 +199,10 @@ inline fun <T, R> Iterable<T>.mapM(transform: (T) -> R): MutableList<R> {
 
 inline fun <K, V, R> Map<out K, V>.mapM(transform: (Map.Entry<K, V>) -> R): MutableList<R> {
     return map(transform).toMutableList()
+}
+
+inline fun <T, R> Iterable<T>.mapIndexedM(transform: (index: Int, T) -> R): MutableList<R> {
+    return mapIndexed(transform).toMutableList()
 }
 
 fun PlayerInventory.swapItems(firstIndex: Int, secondIndex: Int) {

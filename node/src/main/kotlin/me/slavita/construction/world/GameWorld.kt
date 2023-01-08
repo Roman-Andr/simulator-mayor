@@ -3,16 +3,15 @@ package me.slavita.construction.world
 import me.func.MetaWorld
 import me.func.builder.MetaSubscriber
 import me.func.mod.reactive.ReactivePlace
-import me.func.mod.util.after
-import me.func.mod.util.safe
 import me.func.unit.Building
 import me.func.world.WorldMeta
 import me.slavita.construction.app
 import me.slavita.construction.common.utils.V2i
 import me.slavita.construction.structure.Cell
-import me.slavita.construction.utils.label
-import me.slavita.construction.utils.labels
+import me.slavita.construction.utils.*
+import net.minecraft.server.v1_12_R1.PacketPlayOutBlockChange
 import org.bukkit.Location
+import org.bukkit.World
 import org.bukkit.entity.Player
 import java.util.*
 
@@ -58,7 +57,7 @@ class GameWorld(val map: WorldMeta) {
                 }.build()
         )
 
-        after(1) {
+        safe {
             labels("place").forEachIndexed { index, label ->
                 cells.add(Cell(index, label))
             }

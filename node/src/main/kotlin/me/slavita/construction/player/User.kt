@@ -12,11 +12,11 @@ import me.slavita.construction.project.FreelanceProject
 import me.slavita.construction.project.Project
 import me.slavita.construction.storage.BlocksStorage
 import me.slavita.construction.structure.PlayerCell
-import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.utils.deny
 import me.slavita.construction.utils.runAsync
 import me.slavita.construction.utils.user
+import org.bukkit.Location
 import org.bukkit.entity.Player
 import ru.cristalix.core.invoice.IInvoiceService
 import java.util.*
@@ -39,6 +39,7 @@ class User(val uuid: UUID) {
     var showcaseTaskId = 0
     var showcaseMenuTaskId = 0
     var showcaseMenu: ShowcaseMenu? = null
+    var lastApprovedPosition: Location? = null
     private var criBalanceLastUpdate = 0L
 
     lateinit var freelanceCell: PlayerCell
@@ -117,8 +118,11 @@ class User(val uuid: UUID) {
                     return false
                 }
                 if (!city.unlocked) {
+                    player.teleport(lastApprovedPosition)
                     BuyCityConfirm(player, city, false).tryExecute()
                     return true
+                } else {
+                    lastApprovedPosition = player.location
                 }
             }
         }
@@ -165,7 +169,7 @@ class User(val uuid: UUID) {
             OnActions.inZone[player] = false
         } else {
             if (currentFreelance != null && freelanceCell.box.contains(player.location) && currentFreelance!!.structure.state == StructureState.FINISHED) {
-                watchableProject == null
+                watchableProject = null
                 currentFreelance!!.onEnter()
             }
 

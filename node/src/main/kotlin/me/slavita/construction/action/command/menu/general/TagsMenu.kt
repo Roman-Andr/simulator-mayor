@@ -77,31 +77,33 @@ class TagsMenu(val player: Player) : MenuCommand(player) {
                     }
                 }
             }
-        }.apply { addAll(Donates.values().filter { it.donate is TagDonate }.map {
-            button {
-                val tag = (it.donate as TagDonate).tag
-                item = ItemIcons.get("other", "pets1", data.tag == tag)
-                title = it.donate.tag.tag
-                if (!data.ownTags.contains(tag)) {
-                    hint = "Купить"
-                    hover = it.donate.description
-                    description = "Цена: ${it.donate.price.toCriMoney()}"
-                    backgroundColor = GlowColor.BLUE_MIDDLE
-                    onClick { _, _, _ ->
-                        it.donate.purchase(player.user)
-                    }
-                } else {
-                    hint = if (data.tag == tag) "Выбран" else "Выбрать"
-                    backgroundColor = if (data.tag == tag) GlowColor.BLUE_LIGHT else GlowColor.BLUE
-                    onClick { _, _, _ ->
-                        if (data.tag != tag) {
-                            data.tag = tag
-                            TagsPrepare.prepare(user)
-                            updateButtons()
+        }.apply {
+            addAll(Donates.values().filter { it.donate is TagDonate }.map {
+                button {
+                    val tag = (it.donate as TagDonate).tag
+                    item = ItemIcons.get("other", "pets1", data.tag == tag)
+                    title = it.donate.tag.tag
+                    if (!data.ownTags.contains(tag)) {
+                        hint = "Купить"
+                        hover = it.donate.description
+                        description = "Цена: ${it.donate.price.toCriMoney()}"
+                        backgroundColor = GlowColor.BLUE_MIDDLE
+                        onClick { _, _, _ ->
+                            it.donate.purchase(player.user)
+                        }
+                    } else {
+                        hint = if (data.tag == tag) "Выбран" else "Выбрать"
+                        backgroundColor = if (data.tag == tag) GlowColor.BLUE_LIGHT else GlowColor.BLUE
+                        onClick { _, _, _ ->
+                            if (data.tag != tag) {
+                                data.tag = tag
+                                TagsPrepare.prepare(user)
+                                updateButtons()
+                            }
                         }
                     }
                 }
-            }
-        }) }
+            })
+        }
     }
 }

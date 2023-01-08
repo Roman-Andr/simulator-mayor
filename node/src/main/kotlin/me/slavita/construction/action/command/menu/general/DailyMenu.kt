@@ -6,6 +6,7 @@ import me.func.mod.ui.menu.dailyReward
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.Formatter.toTime
 import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.utils.mapIndexedM
 import org.bukkit.entity.Player
 
 class DailyMenu(player: Player) : MenuCommand(player) {
@@ -21,7 +22,15 @@ class DailyMenu(player: Player) : MenuCommand(player) {
                     taken = false
                     currentDay = data.statistics.nextDay
                 }
-                storage = mutableListOf("info", "quest_day", "quest_day_booster", "quest_month", "quest_week", "achievements", "achievements_many").mapIndexed { index, icon ->
+                storage = mutableListOf(
+                    "info",
+                    "quest_day",
+                    "quest_day_booster",
+                    "quest_month",
+                    "quest_week",
+                    "achievements",
+                    "achievements_many"
+                ).mapIndexedM { index, icon ->
                     button {
                         item = ItemIcons.get("other", icon)
                         title = if (!rewardTaken) {
@@ -30,7 +39,7 @@ class DailyMenu(player: Player) : MenuCommand(player) {
                             if (index == data.statistics.nextDay) "Награда через ${(data.statistics.nextTakeDailyReward - System.currentTimeMillis()).toTime()}" else ""
                         }
                     }
-                }.toMutableList()
+                }
             }
         }
     }

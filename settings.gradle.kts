@@ -40,10 +40,8 @@ dependencyResolutionManagement {
         maven {
             url = uri("https://repo.c7x.dev/repository/maven-public/")
             credentials {
-                username = System.getenv("CRI_REPO_LOGIN") ?: System.getenv("CRI_ARC_REPO_LOGIN")
-                        ?: System.getenv("CRISTALIX_REPO_USERNAME")
-                password = System.getenv("CRI_REPO_PASSWORD") ?: System.getenv("CRI_ARC_REPO_PASSWORD")
-                        ?: System.getenv("CRISTALIX_REPO_PASSWORD")
+                username = "andrroman"
+                password = "DchLyPtCShgYvTZuhPlivp"
             }
         }
         maven { url = uri("https://jitpack.io") }

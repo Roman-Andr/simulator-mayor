@@ -19,7 +19,7 @@ object CityGlows {
         })
         loadGlow("afk-zone", GlowColor.RED_LIGHT, { player ->
             player.accept("Вы вошли в зону афк")
-        },{ player ->
+        }, { player ->
             player.accept("Вы вышли из зоны афк")
         })
         loadGlow("storage-upgrade", GlowColor.GREEN_LIGHT, { player ->
@@ -81,7 +81,13 @@ object CityGlows {
 //        }
     }
 
-    private fun loadGlow(labelName: String, color: RGB, onEnter: (player: Player) -> Unit, onLeave: (player: Player) -> Unit = {}, radius: Double = 2.0) {
+    private fun loadGlow(
+        labelName: String,
+        color: RGB,
+        onEnter: (player: Player) -> Unit,
+        onLeave: (player: Player) -> Unit = {},
+        radius: Double = 2.0,
+    ) {
         label(labelName)?.let { label ->
             Atlas.find("city").getMapList(labelName).forEach { banner ->
                 loadBanner(banner, label, true, 0.0)

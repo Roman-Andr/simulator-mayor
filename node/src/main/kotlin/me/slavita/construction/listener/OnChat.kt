@@ -4,7 +4,7 @@ import me.slavita.construction.utils.listener
 import me.slavita.construction.utils.user
 import net.md_5.bungee.api.chat.*
 import org.bukkit.Bukkit
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.DARK_GRAY
 import org.bukkit.entity.Player
 import org.bukkit.event.player.AsyncPlayerChatEvent
 import ru.cristalix.core.multichat.ChatMessage
@@ -44,12 +44,16 @@ object OnChat {
         return arrayListOf(
             ComponentBuilder(displayName).create().first().apply {
                 clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/controls ${player.displayName}")
-                hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, ComponentBuilder("Быстрые действия с игроком").create())
+                hoverEvent =
+                    HoverEvent(HoverEvent.Action.SHOW_TEXT, ComponentBuilder("Быстрые действия с игроком").create())
             },
             ComponentBuilder(if (tag.tag.isEmpty()) "" else " " + tag.tag).create().first(),
             ComponentBuilder(" ${DARK_GRAY}»").create().first(),
             ComponentBuilder(coloredMessage).create().first().apply {
-                hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, ComponentBuilder("Игрок пишет с сервера ${IRealmService.get().currentRealmInfo.realmId.realmName}").create())
+                hoverEvent = HoverEvent(
+                    HoverEvent.Action.SHOW_TEXT,
+                    ComponentBuilder("Игрок пишет с сервера ${IRealmService.get().currentRealmInfo.realmId.realmName}").create()
+                )
             }
         )
     }

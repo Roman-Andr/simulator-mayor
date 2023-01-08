@@ -16,16 +16,15 @@ import me.slavita.construction.action.command.menu.storage.StorageMenu
 import me.slavita.construction.action.command.menu.worker.WorkerMenu
 import me.slavita.construction.banner.BannerUtil.loadBanner
 import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.utils.STORAGE_URL
 import me.slavita.construction.utils.labels
 import me.slavita.construction.utils.toUUID
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack
 import org.bukkit.inventory.EquipmentSlot
-import java.util.*
 import kotlin.reflect.full.primaryConstructor
 
 object NpcManager {
     private val labels = labels("npc")
-    val storageUrl = "https://storage.c7x.ru/${System.getProperty("storage.user")}/construction/skin/";
 
     init {
         Atlas.find("npc").getMapList("npc").forEach { values ->
@@ -46,7 +45,7 @@ object NpcManager {
                     name = ""
                     when (skinType) {
                         "uuid" -> skin(skin.toUUID())
-                        "url"  -> skin(storageUrl + skin)
+                        "url"  -> skin("${STORAGE_URL}/skin/${skin}")
                     }
                     behaviour = NpcBehaviour.STARE_AND_LOOK_AROUND
                     onClick {

@@ -88,7 +88,8 @@ abstract class BuildingStructure(
         state = StructureState.FINISHED
         deleteVisual()
         visual.finishShow()
-        if (currentProject!! !is FreelanceProject) cityStructure = playerCell.city.addStructure(CityStructure(owner.player, structure, playerCell))
+        if (currentProject!! !is FreelanceProject) cityStructure =
+            playerCell.city.addStructure(CityStructure(owner.player, structure, playerCell))
         onFinish()
         owner.updatePosition()
     }

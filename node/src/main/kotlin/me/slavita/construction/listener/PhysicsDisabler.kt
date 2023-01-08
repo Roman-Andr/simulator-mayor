@@ -3,8 +3,8 @@ package me.slavita.construction.listener
 import com.destroystokyo.paper.event.player.PlayerAdvancementCriterionGrantEvent
 import dev.xdark.feder.EmptyChunkBiome
 import dev.xdark.feder.FixedChunkLight
-import me.func.mod.util.safe
 import me.slavita.construction.utils.listener
+import me.slavita.construction.utils.safe
 import org.bukkit.ChatColor.GRAY
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.FallingBlock

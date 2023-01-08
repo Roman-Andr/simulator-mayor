@@ -12,43 +12,43 @@ object Formatter {
     const val incomeIcon = Emoji.DOLLAR
     const val donateIcon = Emoji.DONATE
 
-    fun<T : Number> T.toMoney(): String {
+    fun <T : Number> T.toMoney(): String {
         return NumberFormatter.toMoneyFormat(this.toLong())
     }
 
-    fun<T : Number> T.toMoneyIcon(): String {
+    fun <T : Number> T.toMoneyIcon(): String {
         return "$GOLD${toMoney()} $WHITE${moneyIcon}"
     }
 
-    fun<T : Number> T.toIncomeIcon(): String {
+    fun <T : Number> T.toIncomeIcon(): String {
         return "${toMoney()} $WHITE${incomeIcon}"
     }
 
-    fun<T : Number> T.toLevel(): String {
+    fun <T : Number> T.toLevel(): String {
         return "${this.toInt()} $WHITE${Emoji.UP}"
     }
 
-    fun<T : Number> T.toExp(): String {
+    fun <T : Number> T.toExp(): String {
         return "${toMoney()} ${Emoji.EXP}"
     }
 
-    fun<T : Number> T.toReputation(): String {
+    fun <T : Number> T.toReputation(): String {
         return "${toMoney()} $WHITE${Emoji.RUBY}"
     }
 
-    fun<T : Number> T.toTimeIcon(): String {
+    fun <T : Number> T.toTimeIcon(): String {
         return "${toTime()} $WHITE${Emoji.TIME}"
     }
 
-    fun<T : Number> T.toTime(): String {
+    fun <T : Number> T.toTime(): String {
         return TimeFormatter.toTimeFormat(this.toLong())
     }
 
-    fun<T : Number> T.applyBoosters(vararg boosters: BoosterType): Long {
+    fun <T : Number> T.applyBoosters(vararg boosters: BoosterType): Long {
         return this.withBoosters(*boosters.map { it.label }.toTypedArray()).toLong()
     }
 
-    fun<T : Number> T.toCriMoney(): String {
+    fun <T : Number> T.toCriMoney(): String {
         return "${AQUA}${this.toInt()} $donateIcon"
     }
 }

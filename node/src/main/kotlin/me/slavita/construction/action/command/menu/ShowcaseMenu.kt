@@ -17,7 +17,6 @@ import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.utils.*
 import me.slavita.construction.utils.language.LanguageHelper
-import org.bukkit.Bukkit
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 
@@ -82,11 +81,11 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player)
                     ${AQUA}Купить 64 шт за ${entry.price * 64} [ПКМ]
                     
                     На складе: ${BOLD}${
-                        user.blocksStorage.blocks.getOrDefault(
-                            entry.item,
-                            entry.item.createItemStack(0)
-                        ).getAmount()
-                    }
+                    user.blocksStorage.blocks.getOrDefault(
+                        entry.item,
+                        entry.item.createItemStack(0)
+                    ).getAmount()
+                }
                 """.trimIndent()
                 hint = (if (user.canPurchase(entry.price * 8)) "$WHITE" else "$RED") + " "
                 onLeftClick { _, _, _ ->

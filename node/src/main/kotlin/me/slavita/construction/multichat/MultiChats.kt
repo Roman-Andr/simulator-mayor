@@ -1,8 +1,8 @@
 package me.slavita.construction.multichat
 
 import me.func.mod.ui.MultiChat
-import me.func.mod.util.safe
 import me.func.protocol.data.chat.ModChat
+import me.slavita.construction.utils.safe
 import org.bukkit.entity.Player
 import java.util.*
 

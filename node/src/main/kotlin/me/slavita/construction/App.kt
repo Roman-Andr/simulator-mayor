@@ -68,14 +68,14 @@ class App : JavaPlugin() {
     lateinit var structureMap: WorldMeta
     lateinit var mainWorld: GameWorld
     val bot = bot {
-        token = System.getProperty("tg.token")
+        token = System.getenv("TG_TOKEN")
         dispatch {}
     }
     val chatId = -1001654696542L
     val users = hashMapOf<UUID, User>()
     val allBlocks = hashSetOf<ItemProperties>()
 
-    val statScope = Scope("construction-test-ttttt", Data::class.java)
+    val statScope = Scope("construction-test", Data::class.java)
     lateinit var kensuke: Kensuke
     lateinit var userManager: UserManager<KensukeUser>
 
@@ -121,7 +121,7 @@ class App : JavaPlugin() {
 
             IScoreboardService.get().serverStatusBoard.displayName = "${WHITE}Тест #${AQUA}" + realmId.id
             after(20 * 10) {
-                ITransferService.get().transfer(System.getProperty("construction.user").toUUID(), realmId)
+                ITransferService.get().transfer(System.getenv("CONSTRUCTION_USER").toUUID(), realmId)
             }
         }
 

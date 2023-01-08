@@ -8,7 +8,6 @@ import me.slavita.construction.structure.CityStructure
 import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.utils.Alert
-import me.slavita.construction.utils.deny
 import me.slavita.construction.utils.runTimer
 import org.bukkit.ChatColor.*
 
@@ -31,7 +30,8 @@ class City(val owner: User, id: String, val title: String, val price: Long, var 
     fun breakStructure() {
         if (cityStructures.size == 0) return
 
-        val targetStructures = cityStructures.filter { it.state != CityStructureState.BROKEN && it.state != CityStructureState.NOT_READY }
+        val targetStructures =
+            cityStructures.filter { it.state != CityStructureState.BROKEN && it.state != CityStructureState.NOT_READY }
         if (targetStructures.isEmpty()) return
         targetStructures.shuffled()[0].let {
             owner.income -= it.structure.income

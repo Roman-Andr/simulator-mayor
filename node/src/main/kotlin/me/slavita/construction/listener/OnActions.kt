@@ -5,7 +5,7 @@ import me.slavita.construction.utils.accept
 import me.slavita.construction.utils.language.LanguageHelper
 import me.slavita.construction.utils.listener
 import me.slavita.construction.utils.user
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.GOLD
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerDropItemEvent

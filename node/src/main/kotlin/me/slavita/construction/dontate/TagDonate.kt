@@ -7,7 +7,7 @@ open class TagDonate(
     title: String,
     description: String,
     price: Int,
-    val tag: Tags
+    val tag: Tags,
 ) : Donate(title, description, price) {
     override fun purchaseSuccess(user: User) {
         user.data.ownTags.add(tag)
