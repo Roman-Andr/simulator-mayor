@@ -11,15 +11,22 @@ dependencies {
     implementation("org.mongodb:mongodb-driver-async:3.7.1")
     implementation("org.mongodb:mongodb-driver:3.7.1")
 
-    implementation("me.func:booster-api:live-SNAPSHOT")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.0")
+    implementation("io.netty:netty-all:4.1.84.Final")
+    implementation("com.google.code.gson:gson:2.8.6")
+    implementation("it.unimi.dsi:fastutil:8.5.11")
+    implementation("com.google.guava:guava:20.0")
 
-    implementation("org.iq80.leveldb:leveldb:0.12")
+}
 
-    implementation("org.json:json:20211205")
-    implementation('io.netty:netty-all:4.1.84.Final')
-    implementation("com.google.code.gson:gson:2.9.0")
-    implementation('it.unimi.dsi:fastutil:8.5.11')
+remotes {
+    webServer {
+        host = System.getenv("CRI_HOST")
+        user = System.getenv("CRI_HOST_USERNAME")
+        knownHosts = allowAnyHosts
+        identity = file(System.getenv("CRI_HOST_SSHKEY_PATH") ?: "key")
+        passphrase = System.getenv("CRI_HOST_PASSPHRASE")
+    }
 }
 
 tasks {
@@ -31,6 +38,17 @@ tasks {
         manifest {
             attributes["Main-Class"] = "me.slavita.construction.service.MainKt"
             attributes["Multi-Release"] = true
+        }
+    }
+}
+
+task upload {
+    dependsOn(tasks.shadowJar)
+    doLast {
+        ssh.run {
+            session(remotes.webServer) {
+                put from: project(":service").tasks.shadowJar.getArchiveFile().get().asFile.path, into: "/home/" + System.getenv("CRI_HOST_USERNAME") + "/construction/service/"
+            }
         }
     }
 }

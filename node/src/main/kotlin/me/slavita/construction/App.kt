@@ -24,7 +24,8 @@ import me.slavita.construction.npc.NpcManager
 import me.slavita.construction.player.Data
 import me.slavita.construction.player.KensukeUser
 import me.slavita.construction.player.User
-import me.slavita.construction.protocol.TestPackage
+import me.slavita.construction.protocol.GetUserPackage
+import me.slavita.construction.protocol.SaveUserPackage
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.BoardsManager
 import me.slavita.construction.ui.CityGlows
@@ -55,6 +56,7 @@ import ru.cristalix.core.scoreboard.ScoreboardService
 import ru.cristalix.core.transfer.ITransferService
 import ru.cristalix.core.transfer.TransferService
 import java.util.*
+import java.util.concurrent.TimeoutException
 
 
 lateinit var app: App
@@ -164,11 +166,46 @@ class App : JavaPlugin() {
 
         server.scheduler.scheduleSyncRepeatingTask(this, { pass++ }, 0, 1)
 
-        runTimerAsync(0, 20) {
-            socket.write(TestPackage("hello"))
+        after(300) {
+            get()
+        }
+
+        after(340) {
+            set("1")
+        }
+
+        after(380) {
+            get()
+        }
+
+        after(420) {
+            set("2")
+        }
+
+        after(460) {
+            get()
         }
 
         EnumLang.init()
+    }
+
+    fun set(data: String) {
+        try {
+            socket.write(SaveUserPackage("9fc1fb47-280b-40ba-9190-aa5d7eed7162", data))
+            println("set")
+        } catch(e: TimeoutException) {
+            println("timeout, try redo")
+        }
+    }
+
+    fun get() {
+        try {
+            socket.writeAndAwaitResponse<GetUserPackage>(GetUserPackage("9fc1fb47-280b-40ba-9190-aa5d7eed7162")).thenAccept {
+                println(it.data)
+            }
+        } catch(e: TimeoutException) {
+            println("timeout, try redo")
+        }
     }
 
     override fun onDisable() {
