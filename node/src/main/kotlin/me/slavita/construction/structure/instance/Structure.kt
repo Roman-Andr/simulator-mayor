@@ -11,32 +11,28 @@ import net.minecraft.server.v1_12_R1.BlockPosition
 import org.bukkit.Material
 import org.bukkit.World
 
-class Structure(val name: String, val box: Box) {
+class Structure(val id: Int, val name: String, val box: Box) {
     val world: World = box.min.world
     var blocksCount = 0
         private set
 
     val income = 100L
 
+    val blocks = hashMapOf<ItemProperties, Int>()
+
     init {
         box.forEachBukkit {
             if (it.type == Material.AIR) return@forEachBukkit
 
             blocksCount++
-            app.allBlocks.add(ItemProperties.fromBlock(it))
+            val item = ItemProperties.fromBlock(it)
+            app.allBlocks.add(item)
+            blocks[item] = blocks.getOrDefault(item, 0) + 1
         }
     }
 
     fun getNextBlock(position: BlockPosition): StructureBlock? {
         return getNextBlock(position.y * (box.dimensions.x * box.dimensions.z) + position.x * box.dimensions.z + position.z + 1)
-    }
-
-    fun getMaterials(): HashSet<Material> {
-        return hashSetOf<Material>().apply {
-            box.forEachBukkit {
-                this.add(it.type)
-            }
-        }
     }
 
     private fun getNextBlock(blocksPassed: Int): StructureBlock? {

@@ -27,16 +27,18 @@ object OnJoin {
                     listOf(
                         UIPrepare,
                         TagsPrepare,
+                        CitiesPrepare,
                         PlayerWorldPrepare,
+                        TabPrepare,
                         ConnectionPrepare,
                         PermissionsPrepare,
                         ItemCallbacksPrepare,
-                        ShowcasePrepare,
                         BankAccountPrepare,
                         GuidePrepare,
                         StoragePrepare,
                         AbilityPrepare,
                         DailyRewardsPrepare,
+                        ShowcasePrepare,
                     ).forEach { it.prepare(this) }
                 }
             }

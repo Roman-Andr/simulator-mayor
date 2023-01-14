@@ -7,15 +7,13 @@ import me.func.mod.ui.menu.selection
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.app
-import me.slavita.construction.market.showcase.Showcase
+import me.slavita.construction.showcase.Showcase
 import me.slavita.construction.ui.Formatter
 import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.utils.*
 import me.slavita.construction.utils.PlayerExtensions.accept
 import me.slavita.construction.utils.language.LanguageHelper
-import me.slavita.construction.utils.mapM
-import me.slavita.construction.utils.user
-import me.slavita.construction.utils.validate
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
@@ -23,7 +21,7 @@ import org.bukkit.entity.Player
 class ShowcaseMenu(player: Player, val showcase: Showcase) :
     MenuCommand(player) {
     companion object {
-        var lastTaskId = 0
+        var updateTaskId = 0
     }
 
     override fun getMenu(): Openable {
@@ -37,13 +35,14 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) :
             return selection {
                 title = showcase.properties.name
                 vault = Formatter.moneyIcon
+                info = getShowcaseInfo()
                 rows = 5
                 columns = 14
                 money = "Ваш Баланс ${player.user.data.statistics.money.toMoney()}"
                 storage = showcase.properties.elements.mapM { targetItem ->
                     val emptyItem = targetItem.first.createItemStack(1)
-                    if (lastTaskId != 0) Bukkit.server.scheduler.cancelTask(lastTaskId)
-                    lastTaskId = Bukkit.server.scheduler.scheduleSyncRepeatingTask(app, {
+                    if (updateTaskId != 0) Bukkit.server.scheduler.cancelTask(updateTaskId)
+                    updateTaskId = scheduler.scheduleSyncRepeatingTask(app, {
                         infoButton.hover = getInfo()
                     }, 0L, 20L)
                     button {
@@ -79,6 +78,6 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) :
     private fun getBalance() = "Ваш Баланс ${player.user.data.statistics.money.toMoney()}"
 
     private fun getInfo() = """
-        ${GREEN}Обновление цен через: ${GOLD}время
+        ${GREEN}Обновление цен через: ${GOLD}${showcase.updateTime}
     """.trimIndent()
 }

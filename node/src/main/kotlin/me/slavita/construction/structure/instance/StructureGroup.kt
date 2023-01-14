@@ -6,7 +6,7 @@ import org.bukkit.Location
 import ru.cristalix.core.math.V3
 
 class StructureGroup(val name: String, labelId: String, count: Int) {
-    val structures = arrayListOf<Structure>()
+    val structures = hashSetOf<Structure>()
     private val dimensions: V3 = V3(25.0, 50.0, 25.0)
 
     init {
@@ -22,7 +22,11 @@ class StructureGroup(val name: String, labelId: String, count: Int) {
                 startZ - dimensions.z + 2
             )
             val maxLocation = Location(app.structureMap.world, startX - 1, startY - 1, startZ - 1)
-            structures.add(Structure(name, Box(minLocation, maxLocation)))
+
+            val id = Structures.structures.size
+            val structure = Structure(id, name, Box(minLocation, maxLocation))
+            structures.add(structure)
+            Structures.structures.add(structure)
 
             startX -= dimensions.x + 1
         }

@@ -8,6 +8,7 @@ import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.prepare.TagsPrepare
 import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.utils.getSettingInfo
 import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GREEN
@@ -18,6 +19,7 @@ class SettingsMenu(player: Player) : MenuCommand(player) {
         return choicer {
             title = "${GREEN}${BOLD}Настройки"
             description = "Настройка игровых аспектов"
+            info = getSettingInfo()
             storage = mutableListOf(
                 button {
                     title = "Показ тега"

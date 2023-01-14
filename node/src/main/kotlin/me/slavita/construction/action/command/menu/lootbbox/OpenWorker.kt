@@ -10,7 +10,7 @@ class OpenWorker(val user: User, vararg val workers: Worker) : CooldownCommand(u
     override fun execute() {
         Anime.openLootBox(
             player,
-            *(workers.map { LootDrop(it.rarity.getIcon(), it.name, it.rarity.dropRare) }).toTypedArray()
+            *(workers.map { LootDrop(it.rarity.getIcon(), it.toString(), it.rarity.dropRare) }).toTypedArray()
         )
         user.data.workers.addAll(workers)
     }

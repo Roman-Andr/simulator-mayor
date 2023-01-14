@@ -1,5 +1,8 @@
 package me.slavita.construction
 
+import com.github.kotlintelegrambot.bot
+import com.github.kotlintelegrambot.dispatch
+import com.google.gson.GsonBuilder
 import dev.implario.bukkit.platform.Platforms
 import dev.implario.kensuke.Kensuke
 import dev.implario.kensuke.Scope
@@ -26,6 +29,11 @@ import me.slavita.construction.player.KensukeUser
 import me.slavita.construction.player.User
 import me.slavita.construction.protocol.GetUserPackage
 import me.slavita.construction.protocol.SaveUserPackage
+import me.slavita.construction.player.*
+import me.slavita.construction.project.Project
+import me.slavita.construction.project.ProjectSerializer
+import me.slavita.construction.showcase.Showcases
+import me.slavita.construction.structure.*
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.BoardsManager
 import me.slavita.construction.ui.CityGlows
@@ -58,17 +66,21 @@ import ru.cristalix.core.transfer.TransferService
 import java.util.*
 import java.util.concurrent.TimeoutException
 
-
 lateinit var app: App
 
 class App : JavaPlugin() {
 
     lateinit var structureMap: WorldMeta
     lateinit var mainWorld: GameWorld
+    val bot = bot {
+        token = System.getProperty("tg.token")
+        dispatch {}
+    }
+    val chatId = -1001654696542L
     private val users = hashMapOf<UUID, User>()
     val allBlocks = hashSetOf<ItemProperties>()
 
-    val statScope = Scope("construction-test", Data::class.java)
+    val dataScope = Scope("construction-testtttttttttt", Data::class.java)
     lateinit var kensuke: Kensuke
     lateinit var userManager: UserManager<KensukeUser>
 
@@ -123,14 +135,29 @@ class App : JavaPlugin() {
         }
 
         userManager = BukkitUserManager(
-            listOf(statScope),
-            { session, context -> KensukeUser(context.uuid, context.getData(statScope), session) },
-            { user, context -> context.store(statScope, user.user.data) }
+            listOf(dataScope),
+            { session, context -> run {
+                log("load data")
+                KensukeUser(context.uuid, context.getRawData(dataScope), session)
+            }},
+            { user, context -> run {
+                log("store data")
+                context.store(dataScope, user.user.data)
+            }}
         )
 
         kensuke = BukkitKensuke.setup(this)
-        kensuke.addGlobalUserManager(userManager)
-        kensuke.globalRealm = "SLVT-0"
+        kensuke.apply {
+            addGlobalUserManager(userManager)
+            globalRealm = "SLVT-0"
+            gson = GsonBuilder()
+                .registerTypeAdapter(PlayerCell::class.java, PlayerCellSerializer())
+                .registerTypeAdapter(WorkerStructure::class.java, BuildingStructureSerializer())
+                .registerTypeAdapter(ClientStructure::class.java, BuildingStructureSerializer())
+                .registerTypeAdapter(Project::class.java, ProjectSerializer())
+                .registerTypeAdapter(City::class.java, CitySerializer())
+                .create()
+        }
         userManager.isOptional = true
 
         ModLoader.loadAll("mods")
@@ -147,14 +174,14 @@ class App : JavaPlugin() {
 
         Lock.realms("SLVT")
 
-        //Stronghold.namespace("construction")
+        Stronghold.namespace("construction")
 
         Config.load {
             NpcManager
             BoardsManager
             CityGlows
         }
-        //Boosters
+        Boosters
         MultiChats
         UserCommands
         AdminCommands
@@ -163,8 +190,7 @@ class App : JavaPlugin() {
         SpeedPlaces
         ItemsManager
         PlayerEvents
-
-        server.scheduler.scheduleSyncRepeatingTask(this, { pass++ }, 0, 1)
+        Showcases
 
         after(300) {
             get()
@@ -187,6 +213,11 @@ class App : JavaPlugin() {
         }
 
         EnumLang.init()
+
+        bot.startPolling()
+        logTg("Realm Initialized")
+
+        server.scheduler.scheduleSyncRepeatingTask(this, { pass++ }, 0, 1)
     }
 
     fun set(data: String) {

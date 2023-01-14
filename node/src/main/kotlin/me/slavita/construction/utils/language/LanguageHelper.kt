@@ -26,7 +26,7 @@ object LanguageHelper {
             Material.SPLASH_POTION,
             Material.LINGERING_POTION,
             Material.TIPPED_ARROW,
-            -> EnumPotionEffect.getLocalizedName(
+                                 -> EnumPotionEffect.getLocalizedName(
                 item,
                 locale
             )
@@ -62,23 +62,23 @@ object LanguageHelper {
     }
 
     fun getItemUnlocalizedName(item: ItemStack): String {
-        val enumItem = EnumItem.get(ItemEntry.from(item))
-        return if (enumItem != null) enumItem.unlocalizedName else item.getType().name
+        val enumItem = EnumItem[ItemEntry.from(item)]
+        return enumItem?.unlocalizedName ?: item.getType().name
     }
 
     fun getItemUnlocalizedName(material: Material, meta: Int): String {
-        val enumItem = EnumItem.get(ItemEntry.from(material, meta))
-        return if (enumItem != null) enumItem.unlocalizedName else material.name
+        val enumItem = EnumItem[ItemEntry.from(material, meta)]
+        return enumItem?.unlocalizedName ?: material.name
     }
 
     fun getEntityUnlocalizedName(entity: Entity): String {
-        val enumEntity = EnumEntity.get(entity.type)
-        return if (enumEntity != null) enumEntity.unlocalizedName else entity.type.toString()
+        val enumEntity = EnumEntity[entity.type]
+        return enumEntity?.unlocalizedName ?: entity.type.toString()
     }
 
     fun getEntityUnlocalizedName(entityType: EntityType): String {
         val enumEntity = EnumEntity.get(entityType)
-        return if (enumEntity != null) enumEntity.unlocalizedName else entityType.toString()
+        return enumEntity?.unlocalizedName ?: entityType.toString()
     }
 
     fun getEntityDisplayName(entity: Entity, locale: String): String {
@@ -106,8 +106,8 @@ object LanguageHelper {
     }
 
     fun getEnchantmentLevelUnlocalizedName(level: Int): String {
-        val enumEnchLevel = EnumEnchantmentLevel.get(level)
-        return if (enumEnchLevel != null) enumEnchLevel.unlocalizedName else Integer.toString(level)
+        val enumEnchLevel = EnumEnchantmentLevel[level]
+        return enumEnchLevel?.unlocalizedName ?: level.toString()
     }
 
     fun getEnchantmentLevelName(level: Int, player: Player?): String {
@@ -119,8 +119,8 @@ object LanguageHelper {
     }
 
     fun getEnchantmentUnlocalizedName(enchantment: Enchantment): String {
-        val enumEnch = EnumEnchantment.get(enchantment)
-        return if (enumEnch != null) enumEnch.unlocalizedName else enchantment.name
+        val enumEnch = EnumEnchantment[enchantment]
+        return enumEnch?.unlocalizedName ?: enchantment.name
     }
 
     fun getEnchantmentName(enchantment: Enchantment, player: Player?): String {
@@ -138,7 +138,7 @@ object LanguageHelper {
     fun getEnchantmentDisplayName(enchantment: Enchantment, level: Int, locale: String): String {
         val name = getEnchantmentName(enchantment, locale)
         val enchLevel = getEnchantmentLevelName(level, locale)
-        return name + if (enchLevel.length > 0) " $enchLevel" else ""
+        return name + if (enchLevel.isNotEmpty()) " $enchLevel" else ""
     }
 
     fun getEnchantmentDisplayName(entry: Map.Entry<Enchantment, Int>, locale: String): String {

@@ -6,27 +6,19 @@ import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.player.User
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureSender
-import me.slavita.construction.ui.HumanizableValues.SECOND
-import me.slavita.construction.utils.Cooldown
 import me.slavita.construction.utils.PlayerExtensions.deny
-import me.slavita.construction.utils.PlayerExtensions.swapItems
+import me.slavita.construction.utils.swapItems
 import me.slavita.construction.world.GameWorld
-import org.bukkit.ChatColor.AQUA
 
 class ClientStructure(
-    world: GameWorld,
     structure: Structure,
-    owner: User,
-    cell: Cell,
-) : BuildingStructure(world, structure, owner, cell) {
+    playerCell: PlayerCell,
+) : BuildingStructure(structure, playerCell) {
     private val sender = StructureSender(owner.player)
-    private val cooldown = Cooldown(5, owner.player)
 
-    override fun enterBuilding() {
-        Anime.createReader("structure:place") { player, _ ->
-            if (player.uniqueId == owner.uuid) tryPlaceBlock()
-        }
-    }
+    override fun enterBuilding() {}
+
+    override fun onFinish() {}
 
     override fun onShow() {
         sender.sendBlock(currentBlock!!, allocation)
@@ -37,7 +29,7 @@ class ClientStructure(
     }
 
     override fun blockPlaced() {
-        cooldown.start { if (!hidden) sender.sendCooldownExpired() }
+        if (currentBlock == null) return
         if (!hidden) sender.sendBlock(currentBlock!!, allocation)
     }
 
@@ -50,7 +42,7 @@ class ClientStructure(
         )
     }
 
-    private fun tryPlaceBlock() {
+    fun tryPlaceBlock() {
         owner.player.inventory.itemInMainHand.apply {
             if (!currentBlock!!.equalsItem(this)) {
                 Glow.animate(owner.player, 0.2, GlowColor.RED)
@@ -58,16 +50,11 @@ class ClientStructure(
                 return
             }
 
-            if (!cooldown.isExpired()) {
-                owner.player.deny("Вы сможете поставить блок через ${AQUA}${cooldown.timeLeft()} ${SECOND.get(cooldown.timeLeft())}")
-                return
-            }
-
             setAmount(getAmount() - 1)
             placeCurrentBlock()
             var hasNext = false
 
-            if (currentBlock!!.equalsItem(this)) return
+            if (currentBlock == null || currentBlock!!.equalsItem(this)) return
 
             owner.player.inventory.apply {
                 storageContents.forEachIndexed { index, item ->

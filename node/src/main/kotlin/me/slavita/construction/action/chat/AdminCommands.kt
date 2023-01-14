@@ -3,25 +3,31 @@ package me.slavita.construction.action.chat
 import me.func.atlas.Atlas
 import me.func.mod.Anime
 import me.func.mod.Kit
+import me.func.mod.conversation.ModTransfer
+import me.func.mod.reactive.ReactiveLine
 import me.func.mod.reactive.ReactivePanel
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection
 import me.func.protocol.data.color.GlowColor
+import me.func.sound.Category
+import me.func.sound.Sound
 import me.slavita.construction.action.command.menu.DailyMenu
+import me.slavita.construction.app
 import me.slavita.construction.bank.Bank
 import me.slavita.construction.player.Statistics
 import me.slavita.construction.player.Tags
+import me.slavita.construction.player.sound.Music
+import me.slavita.construction.player.sound.MusicSound
 import me.slavita.construction.prepare.GuidePrepare
 import me.slavita.construction.prepare.TagsPrepare
 import me.slavita.construction.ui.Formatter.toMoneyIcon
+import me.slavita.construction.utils.*
 import me.slavita.construction.utils.PlayerExtensions.accept
 import me.slavita.construction.utils.PlayerExtensions.deny
-import me.slavita.construction.utils.PlayerExtensions.killboard
-import me.slavita.construction.utils.language.LanguageHelper
-import me.slavita.construction.utils.opCommand
-import me.slavita.construction.utils.user
-import me.slavita.construction.utils.validate
-import org.bukkit.*
+import org.bukkit.Bukkit
+import org.bukkit.Material
+import org.bukkit.craftbukkit.v1_12_R1.block.CraftBlock
+import ru.cristalix.core.display.messages.RadioMessage
 import ru.cristalix.core.realm.IRealmService
 import ru.cristalix.core.transfer.ITransferService
 
@@ -36,7 +42,13 @@ object AdminCommands {
         }
 
         opCommand("sound") { player, args ->
-            player.playSound(player.location, Sound.valueOf(args[0]), SoundCategory.MASTER, 1.0f, 1.0f)
+            ModTransfer()
+                .byteArray(*RadioMessage.serialize(RadioMessage(true, "")))
+                .send("ilyafx:radio", player)
+            ModTransfer()
+                .byteArray(*RadioMessage.serialize(RadioMessage(true, args[0])))
+                .send("ilyafx:radio", player)
+            println(args[0])
         }
 
         opCommand("panel") { player, _ ->
@@ -124,16 +136,20 @@ object AdminCommands {
             Anime.include(Kit.DEBUG)
         }
 
-        opCommand("currentcity") { player, _ ->
-            player.killboard(player.user.currentCity.title)
-        }
-
         opCommand("statclear") { player, _ ->
             player.user.data.statistics = Statistics()
         }
 
-        opCommand("itemname") { player, _ ->
-            player.killboard(LanguageHelper.getItemDisplayName(player.inventory.itemInMainHand, player))
+        opCommand("error") { player, _ ->
+            var nu: String? = null
+            player.killboard(nu!!)
+        }
+
+        opCommand("line") { player, _ ->
+            ReactiveLine.builder()
+                .to(player.user.currentCity.getSpawn()!!.toCenterLocation())
+                .build()
+                .send(player)
         }
     }
 }

@@ -1,6 +1,8 @@
 package me.slavita.construction.structure.instance
 
 object Structures {
+    val structures = arrayListOf<Structure>()
+
     val structureGroups = arrayOf(
         StructureGroup("Дом 1", "1", 10),
         StructureGroup("Дом 2", "2", 10),

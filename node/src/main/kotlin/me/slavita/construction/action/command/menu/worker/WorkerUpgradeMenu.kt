@@ -9,6 +9,7 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.UpgradeWorker
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.utils.getWorkerInfo
 import me.slavita.construction.utils.user
 import me.slavita.construction.worker.Worker
 import org.bukkit.ChatColor.*
@@ -20,36 +21,8 @@ class WorkerUpgradeMenu(player: Player, val worker: Worker) : MenuCommand(player
             var infoButton: ReactiveButton
             return choicer {
                 title = "${GOLD}${BOLD}Улучшение рабочего"
-                info = """
-                    ${GOLD}${BOLD}Характеристики:
-                      ${YELLOW}Имя ${DARK_GRAY}»
-                        ${WHITE}Наименование рабочего
-                        ${WHITE}в вашей команде
-                      
-                      ${DARK_GREEN}Редкость ${DARK_GRAY}»
-                        ${WHITE}Показывает на сколько
-                        ${WHITE}характеристики рабочего хороши
-                      
-                      ${GOLD}Уровень ${DARK_GRAY}»
-                        ${WHITE}Показывает уровень прокачки
-                        ${WHITE}рабочего и влиет
-                        ${WHITE}на все его характеристики
-                      
-                      ${AQUA}Скорость ${DARK_GRAY}»
-                        ${WHITE}Количество блоков,
-                        ${WHITE}которые ставит рабочий
-                        ${WHITE}за секунду
-                      
-                      ${GREEN}Надёжность ${DARK_GRAY}»
-                        ${WHITE}Влияет на то, как часто
-                        ${WHITE}будет ломаться здания,
-                        ${WHITE}построенные этим рабочим
-                      
-                      ${RED}Жадность ${DARK_GRAY}»
-                        ${WHITE}Влияет на награду
-                        ${WHITE}за окончания постройки
-                        ${WHITE}здания этим рабочим
-                """.trimIndent()
+                description = ""
+                info = getWorkerInfo()
                 storage = mutableListOf(
                     button {
                         item = ItemIcons.get("other", "info1")

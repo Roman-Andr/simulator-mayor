@@ -21,8 +21,8 @@ abstract class MenuCommand(player: Player, cooldown: Long = 1) : CooldownCommand
         getMenu().open(player)
     }
 
-    fun closeAll(close: Boolean): MenuCommand {
-        this.close = close
+    fun keepHistory(): MenuCommand {
+        this.close = false
         return this
     }
 

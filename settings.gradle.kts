@@ -22,6 +22,7 @@ pluginManagement {
                         ?: System.getenv("CRISTALIX_REPO_PASSWORD")
             }
         }
+        maven { url = uri("https://jitpack.io") }
     }
 
     includeBuild("bundler")
@@ -45,6 +46,7 @@ dependencyResolutionManagement {
                         ?: System.getenv("CRISTALIX_REPO_PASSWORD")
             }
         }
+        maven { url = uri("https://jitpack.io") }
     }
 }
 

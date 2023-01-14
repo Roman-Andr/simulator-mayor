@@ -10,6 +10,7 @@ import me.slavita.construction.project.Project
 import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.utils.getEmptyButton
+import me.slavita.construction.utils.getWorkerInfo
 import me.slavita.construction.utils.user
 import me.slavita.construction.worker.WorkerState
 import org.bukkit.ChatColor.*
@@ -21,6 +22,7 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
         player.user.run user@{
             return selection {
                 title = "${AQUA}${BOLD}Выбор строителей"
+                info = getWorkerInfo()
                 rows = 5
                 columns = 4
                 storage = mutableListOf(
@@ -28,12 +30,13 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
                     button {
                         item = ItemIcons.get("other", "access")
                         title = "${GREEN}Подтвердить"
+                        backgroundColor = GlowColor.GREEN
                         hint = "Готово"
                         onClick { _, _, _ ->
                             Anime.close(player)
 
                             if (!startProject) return@onClick
-                            project.structure.cell.setBusy()
+                            project.structure.playerCell.setBusy()
                             (project.structure as WorkerStructure).workers.addAll(this@WorkerChoice.structure.workers)
                             project.start()
                             this@user.currentCity.addProject(project)
@@ -45,6 +48,7 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
                         ${GREEN}Убрать
                         ${GREEN}выделение
                     """.trimIndent()
+                        backgroundColor = GlowColor.RED
                         hint = "Убрать"
                         onClick { _, _, _ ->
                             structure.workers.clear()
