@@ -14,11 +14,11 @@ import kotlin.math.pow
 
 object ModCallbacks {
     init {
-        Anime.createReader("menu:open") { player, _ ->
-            if (player.user.watchableProject != null) {
-                BuildingControlMenu(player, player.user.watchableProject!!).tryExecute()
-            }
-        }
+//        Anime.createReader("menu:open") { player, _ ->
+//            if (player.user.watchableProject != null) {
+//                BuildingControlMenu(player, player.user.watchableProject!!).tryExecute()
+//            }
+//        }
 
         Anime.createReader("bank:submit") { player, buff ->
             val amount = buff.readInt()

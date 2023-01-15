@@ -182,6 +182,15 @@ fun opCommand(name: String, biConsumer: BiConsumer<Player, Array<out String>>) {
     })
 }
 
+fun command(name: String, biConsumer: BiConsumer<Player, Array<out String>>) {
+    Bukkit.getCommandMap().register("construction", object : Command(name) {
+        override fun execute(sender: CommandSender, var2: String, agrs: Array<out String>): Boolean {
+            if (sender is Player) biConsumer.accept(sender, agrs)
+            return true
+        }
+    })
+}
+
 fun safe(action: () -> Unit) = after(1, action)
 
 fun logFormat(message: String) = "[CONSTRUCTION] $message"

@@ -20,9 +20,9 @@ class WorkerStructure(
     world: GameWorld,
     structure: Structure,
     owner: User,
-    playerCell: PlayerCell,
+    cell: PlayerCell,
     val workers: HashSet<Worker> = hashSetOf(),
-) : BuildingStructure(world, structure, owner, playerCell) {
+) : BuildingStructure(world, structure, owner, cell) {
 
     private var remainingBlocks = hashMapOf<ItemProperties, Int>()
     private val blocksStorage = hashMapOf<ItemProperties, Int>()

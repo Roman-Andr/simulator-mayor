@@ -17,8 +17,8 @@ class ClientStructure(
     world: GameWorld,
     structure: Structure,
     owner: User,
-    playerCell: PlayerCell,
-) : BuildingStructure(world, structure, owner, playerCell) {
+    cell: PlayerCell,
+) : BuildingStructure(world, structure, owner, cell) {
     private val sender = StructureSender(owner.player)
 
     override fun enterBuilding() {}

@@ -16,7 +16,7 @@ import org.bukkit.entity.Player
 class ChoiceStructure(
     player: Player,
     val structureGroup: StructureGroup,
-    val playerCell: PlayerCell,
+    cell: PlayerCell,
     val action: (structure: Structure) -> Unit,
 ) :
     MenuCommand(player) {

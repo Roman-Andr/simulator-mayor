@@ -1,7 +1,7 @@
 package me.slavita.construction.showcase
 
 import me.func.mod.Anime
-import me.slavita.construction.action.command.menu.ShowcaseMenu
+import me.slavita.construction.action.command.menu.city.ShowcaseMenu
 import me.slavita.construction.app
 import me.slavita.construction.ui.Formatter.toTime
 import me.slavita.construction.utils.toV3
