@@ -8,14 +8,19 @@ import io.netty.channel.ChannelDuplexHandler
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelPromise
 import me.func.mod.Anime
+import me.func.mod.reactive.ReactiveBanner
 import me.func.mod.ui.Glow
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection
 import me.func.mod.ui.menu.selection.Selection
 import me.func.mod.util.after
 import me.func.mod.world.Banners
+import me.func.mod.world.Banners.location
 import me.func.protocol.data.color.GlowColor
+import me.func.protocol.data.color.RGB
+import me.func.protocol.data.color.Tricolor
 import me.func.protocol.data.element.Banner
+import me.func.protocol.data.element.MotionType
 import me.func.world.WorldMeta
 import me.slavita.construction.app
 import me.slavita.construction.bank.Bank
@@ -23,20 +28,21 @@ import me.slavita.construction.dontate.Donates
 import me.slavita.construction.player.User
 import me.slavita.construction.player.sound.Music.playSound
 import me.slavita.construction.player.sound.MusicSound
+import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
 import net.minecraft.server.v1_12_R1.*
 import org.apache.logging.log4j.util.BiConsumer
-import org.bukkit.Bukkit
+import org.bukkit.*
 import org.bukkit.ChatColor.*
-import org.bukkit.Location
 import org.bukkit.Material
+import org.bukkit.World
+import org.bukkit.block.BlockFace
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer
-import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
 import org.bukkit.event.EventPriority
@@ -45,8 +51,10 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.PlayerInventory
 import org.bukkit.scheduler.BukkitScheduler
 import org.bukkit.scheduler.BukkitTask
+import org.bukkit.util.Vector
 import ru.cristalix.core.account.IAccountService
 import ru.cristalix.core.formatting.Formatting
+import ru.cristalix.core.math.V3
 import ru.cristalix.core.permissions.IPermissionContext
 import ru.cristalix.core.permissions.IPermissionService
 import java.util.*
@@ -58,14 +66,45 @@ val STORAGE_URL = "https://storage.c7x.dev/${System.getenv("STORAGE_USER")}/cons
 val Player.user
     get() = app.getUser(this)
 
-val UUID.user
-    get() = app.getUser(this)
+val Player.cristalixName
+    get() = getDisplayName(this.uniqueId)
 
 val Player.userOrNull
     get() = app.getUserOrNull(this.uniqueId)
 
 val Player.handle: EntityPlayer
     get() = (this as CraftPlayer).handle
+
+fun Player.deny(text: String) {
+    killboard(Formatting.error(text))
+    playSound(MusicSound.DENY)
+    Glow.animate(this, 0.4, GlowColor.RED)
+}
+
+fun Player.accept(text: String) {
+    killboard(Formatting.fine(text))
+    playSound(MusicSound.LEVEL_UP)
+    Glow.animate(this, 0.4, GlowColor.GREEN)
+}
+
+fun Player.sendPacket(packet: Packet<*>) {
+    (this as CraftPlayer).handle.playerConnection.networkManager.sendPacket(packet)
+}
+
+fun Player.killboard(text: String) {
+    Anime.killboardMessage(this, text)
+}
+
+val UUID.user
+    get() = app.getUser(this)
+
+val UUID.cristalixName
+    get() = getDisplayName(this)
+
+private fun getDisplayName(uuid: UUID): String {
+    val name = IAccountService.get().getNameByUuid(uuid).get()
+    return getDisplayNameFromContext(IPermissionService.get().getPermissionContextDirect(uuid), name)
+}
 
 fun labels(key: String, map: WorldMeta = app.mainWorld.map) = map.getLabels(key)
 
@@ -164,10 +203,6 @@ fun runTimer(start: Long, every: Long, runnable: Runnable): Int =
 fun runAsync(after: Long, runnable: Runnable): BukkitTask =
     scheduler.runTaskLaterAsynchronously(app, runnable, after)
 
-fun Player.sendPacket(packet: Packet<*>) {
-    (this as CraftPlayer).handle.playerConnection.networkManager.sendPacket(packet)
-}
-
 fun donateButton(donate: Donates, player: Player) = button {
     item = donate.displayItem
     title = donate.donate.title
@@ -209,10 +244,6 @@ fun PlayerInventory.swapItems(firstIndex: Int, secondIndex: Int) {
     val firstItem = getItem(firstIndex)
     setItem(firstIndex, getItem(secondIndex))
     setItem(secondIndex, firstItem)
-}
-
-fun Player.killboard(text: String) {
-    Anime.killboardMessage(this, text)
 }
 
 fun Banners.show(player: Player, pair: Pair<Banner, Banner>) {
@@ -299,17 +330,11 @@ fun getMenuInfo() = """
         Здесь вы можете выбрать необходимый раздел
 """.trimIndent()
 
-fun Player.deny(text: String) {
-    killboard(Formatting.error(text))
-    playSound(MusicSound.DENY)
-    Glow.animate(this, 0.4, GlowColor.RED)
-}
-
-fun Player.accept(text: String) {
-    killboard(Formatting.fine(text))
-    playSound(MusicSound.LEVEL_UP)
-    Glow.animate(this, 0.4, GlowColor.GREEN)
-}
+fun getAchievementsInfo() = """
+    ${GOLD}${BOLD}Достижения:
+        Здесь вы можете посмотреть все достижения,
+        а также те, которые вы получили
+""".trimIndent()
 
 fun String.toUUID(): UUID = UUID.fromString(this)
 
@@ -328,21 +353,189 @@ fun getBaseSelection(info: MenuInfo, user: User): Selection =
         }"
     }
 
-val Player.cristalixName
-    get() = getDisplayName(this.uniqueId)
-
-val UUID.cristalixName
-    get() = getDisplayName(this)
-
-private fun getDisplayName(uuid: UUID): String {
-    val name = IAccountService.get().getNameByUuid(uuid).get()
-    return getDisplayNameFromContext(IPermissionService.get().getPermissionContextDirect(uuid), name)
-}
-
 private fun getDisplayNameFromContext(context: IPermissionContext, name: String): String {
     val group = context.displayGroup
     val color = if (context.color == null) "" else context.color
     val prefix =
         if (context.customProfile.chatPrefix != null) context.customProfile.chatPrefix else (group.prefixColor + group.prefix)
     return ((if (prefix.isNotEmpty()) "$prefix " else "") + group.nameColor) + color + name
+}
+
+fun Location.toPosition(): BlockPosition = BlockPosition(x, y, z)
+
+fun Location.toV3(): V3 = V3(x, y, z)
+
+operator fun Location.unaryMinus(): Location = Location(world, -x, -y, -z, yaw, pitch)
+
+fun BlockPosition.toLocation(world: World): Location =
+    Location(world, this.x.toDouble(), this.y.toDouble(), this.z.toDouble())
+
+fun BlockPosition.add(position: Location): BlockPosition = this.add(position.x, position.y, position.z)
+
+operator fun BlockPosition.minus(additionalPosition: Location): BlockPosition = BlockPosition(
+    this.x - additionalPosition.x,
+    this.y - additionalPosition.y,
+    this.z - additionalPosition.z
+)
+
+fun BlockFace.toYaw(): Float = when (this) {
+    BlockFace.EAST       -> -90
+    BlockFace.WEST       -> 90
+    BlockFace.SOUTH      -> 0
+    BlockFace.NORTH      -> 180
+    BlockFace.NORTH_WEST -> 135
+    BlockFace.NORTH_EAST -> -135
+    BlockFace.SOUTH_WEST -> 45
+    BlockFace.SOUTH_EAST -> -45
+    else                 -> 0
+}.toFloat()
+
+fun getFaceCenter(cell: PlayerCell) = cell.box.bottomCenter.clone().apply {
+    when (cell.face) {
+        BlockFace.EAST       -> x = cell.box.max.x
+        BlockFace.NORTH      -> z = cell.box.min.z
+        BlockFace.WEST       -> x = cell.box.min.x
+        BlockFace.SOUTH      -> z = cell.box.max.z
+        BlockFace.NORTH_EAST -> {
+            x = cell.box.max.x
+            z = cell.box.min.z
+        }
+
+        BlockFace.NORTH_WEST -> {
+            x = cell.box.min.x
+            z = cell.box.min.z
+        }
+
+        BlockFace.SOUTH_EAST -> {
+            x = cell.box.max.x
+            z = cell.box.max.z
+        }
+
+        BlockFace.SOUTH_WEST -> {
+            x = cell.box.min.x
+            z = cell.box.max.z
+        }
+
+        else                 -> throw IllegalArgumentException("Incorrect structure face")
+    }
+}
+
+private const val OFFSET = 0.52
+
+fun loadBanner(banner: Map<*, *>, location: Location, withPitch: Boolean = false, opacity: Double = 0.45) {
+    Banners.new(
+        loadBannerFromConfig(banner, location, withPitch, opacity)
+    )
+}
+
+fun loadBannerFromConfig(
+    banner: Map<*, *>,
+    location: Location,
+    withPitch: Boolean = false,
+    opacity: Double = 0.45,
+) =
+    Banner.builder()
+        .weight(banner["weight"] as Int)
+        .height(banner["height"] as Int)
+        .content(banner["content"] as String)
+        .carveSize(banner["carve-size"] as Double)
+        .opacity(opacity)
+        .x(location.toCenterLocation().x)
+        .y(location.y + banner["offset"] as Double)
+        .z(location.toCenterLocation().z)
+        .xray(0.0)
+        .apply {
+            if (withPitch) {
+                watchingOnPlayer(true)
+            } else {
+                watchingOnPlayerWithoutPitch(true)
+            }
+            (banner["lines-size"] as List<*>).forEachIndexed { index, value ->
+                this.resizeLine(index, value as Double)
+            }
+        }
+        .build()
+
+fun createFloorBanner(location: Location, color: RGB): Banner {
+    return createBanner(
+        BannerInfo(
+            location,
+            BlockFace.UP,
+            listOf(),
+            16 * 23,
+            16 * 23,
+            color,
+            0.24,
+            MotionType.CONSTANT,
+            -90.0F
+        )
+    )
+}
+
+fun createDual(info: BannerInfo): Pair<Banner, Banner> {
+    info.run {
+        return Pair(
+            createBanner(BannerInfo(source, blockFace, content, width, height, color, opacity, motionType, pitch)),
+            createBanner(
+                BannerInfo(
+                    Location(
+                        source.world,
+                        source.x + blockFace.modX,
+                        source.y,
+                        source.z + blockFace.modZ
+                    ), blockFace.oppositeFace, content, width, height, color, opacity, motionType, pitch
+                )
+            )
+        )
+    }
+}
+
+fun createRectangle(center: Location, radius: Double, color: Tricolor, width: Int, height: Int): HashSet<Banner> {
+    val banners = hashSetOf<Banner>()
+    listOf(BlockFace.NORTH, BlockFace.WEST, BlockFace.SOUTH, BlockFace.EAST).forEach {
+        banners.addAll(
+            createDual(
+                BannerInfo(
+                    center.clone().add(it.modX * radius, 0.0, it.modZ * radius),
+                    it,
+                    listOf(),
+                    width * 16,
+                    height * 16,
+                    color,
+                    0.25
+                )
+            ).toList()
+        )
+    }
+    return banners
+}
+
+private fun createBanner(info: BannerInfo): Banner {
+    info.run {
+        return ReactiveBanner.builder()
+            .weight(width)
+            .height(height)
+            .opacity(opacity)
+            .color(color)
+            .motionType(motionType)
+            .xray(0.0)
+            .carveSize(carveSize)
+            .apply {
+                content(content.joinToString("\n") { it.first })
+                content.forEachIndexed { index, value ->
+                    resizeLine(index, value.second)
+                }
+            }
+            .watchingOnPlayer(watchingOnPlayer)
+            .build()
+            .apply {
+                location(
+                    source.clone().add(Vector(OFFSET * blockFace.modX, -0.5 + height / 16, OFFSET * blockFace.modZ))
+                        .apply {
+                            setYaw(blockFace.toYaw())
+                            setPitch(info.pitch)
+                        }
+                )
+            }
+    }
 }

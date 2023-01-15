@@ -1,7 +1,7 @@
 package me.slavita.construction.world
 
-import me.slavita.construction.utils.BlocksExtensions.add
-import me.slavita.construction.utils.BlocksExtensions.toPosition
+import me.slavita.construction.utils.add
+import me.slavita.construction.utils.toPosition
 import net.minecraft.server.v1_12_R1.BlockPosition
 import net.minecraft.server.v1_12_R1.IBlockData
 import org.bukkit.Location

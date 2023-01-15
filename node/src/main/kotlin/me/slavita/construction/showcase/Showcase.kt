@@ -4,7 +4,7 @@ import me.func.mod.Anime
 import me.slavita.construction.action.command.menu.ShowcaseMenu
 import me.slavita.construction.app
 import me.slavita.construction.ui.Formatter.toTime
-import me.slavita.construction.utils.BlocksExtensions.toV3
+import me.slavita.construction.utils.toV3
 import me.slavita.construction.utils.user
 import kotlin.random.Random
 

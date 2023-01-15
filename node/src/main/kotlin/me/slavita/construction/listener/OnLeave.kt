@@ -4,7 +4,6 @@ import me.func.Lock
 import me.func.mod.util.after
 import me.slavita.construction.app
 import me.slavita.construction.utils.*
-import net.minecraft.server.v1_12_R1.PacketPlayOutBlockChange
 import net.minecraft.server.v1_12_R1.PacketPlayOutPlayerInfo
 import org.bukkit.Bukkit
 import org.bukkit.event.player.PlayerQuitEvent

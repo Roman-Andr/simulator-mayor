@@ -59,15 +59,19 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player)
             return
         }
         user.tryPurchase(entry.price * amount) {
-            user.blocksStorage.addItem(entry.item.createItemStack(1), amount)
             user.player.accept("Вы успешно купили блоки")
+            if (user.player.inventory.firstEmpty() == -1) {
+                user.blocksStorage.addItem(entry.item.createItemStack(1), amount)
+            } else {
+                user.player.inventory.addItem(entry.item.createItemStack(amount))
+            }
             Glow.animate(user.player, 0.3, GlowColor.GREEN)
             selection.money = getBalance()
         }
     }
 
     private fun getButtons(): MutableList<ReactiveButton> {
-        return showcase.properties.elements.mapM { entry ->
+        return showcase.properties.elements.sortedBy { it.item.type.id }.mapM { entry ->
             val emptyItem = entry.item.createItemStack(1)
             if (user.showcaseMenuTaskId != 0) scheduler.cancelTask(user.showcaseMenuTaskId)
             user.showcaseMenuTaskId = runTimer(0, 20) {

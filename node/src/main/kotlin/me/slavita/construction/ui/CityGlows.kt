@@ -7,7 +7,7 @@ import me.func.protocol.data.color.RGB
 import me.slavita.construction.action.command.menu.city.CityHallMenu
 import me.slavita.construction.action.command.menu.storage.StorageUpgrade
 import me.slavita.construction.app
-import me.slavita.construction.banner.BannerUtil.loadBanner
+import me.slavita.construction.utils.loadBanner
 import me.slavita.construction.utils.accept
 import me.slavita.construction.utils.label
 import org.bukkit.entity.Player
@@ -25,60 +25,6 @@ object CityGlows {
         loadGlow("storage-upgrade", GlowColor.GREEN_LIGHT, { player ->
             StorageUpgrade(player).tryExecute()
         })
-//        label("city-hall")?.let { label ->
-//            Atlas.find("city").getMapList("city-hall").forEach { banner ->
-//                loadBanner(banner, label, true, 0.0)
-//            }
-//            app.mainWorld.glows.add(
-//                ReactivePlace.builder()
-//                    .rgb(GlowColor.GREEN)
-//                    .radius(2.0)
-//                    .location(label.toCenterLocation().clone().apply { y -= 2.5 })
-//                    .onEntire { player ->
-//                        CityHallMenu(player).tryExecute()
-//                    }
-//                    .build().apply {
-//                        isConstant = true
-//                    }
-//            )
-//        }
-//        label("afk-zone")?.let { label ->
-//            Atlas.find("city").getMapList("afk-zone").forEach { banner ->
-//                loadBanner(banner, label, true, 0.0)
-//            }
-//            app.mainWorld.glows.add(
-//                ReactivePlace.builder()
-//                    .rgb(GlowColor.RED_LIGHT)
-//                    .radius(3.0)
-//                    .location(label.toCenterLocation().clone().apply { y -= 2.5 })
-//                    .onEntire { player ->
-//                        player.accept("Вы вошли в зону афк")
-//                    }
-//                    .onLeave { player ->
-//                        player.accept("Вы вышли из зоны афк")
-//                    }
-//                    .build().apply {
-//                        isConstant = true
-//                    }
-//            )
-//        }
-//        label("storage-upgrade")?.let { label ->
-//            Atlas.find("city").getMapList("storage-upgrade").forEach { banner ->
-//                loadBanner(banner, label, true, 0.0)
-//            }
-//            app.mainWorld.glows.add(
-//                ReactivePlace.builder()
-//                    .rgb(GlowColor.GREEN_LIGHT)
-//                    .radius(2.0)
-//                    .location(label.toCenterLocation().clone().apply { y -= 2.5 })
-//                    .onEntire { player ->
-//                        StorageUpgrade(player).tryExecute()
-//                    }
-//                    .build().apply {
-//                        isConstant = true
-//                    }
-//            )
-//        }
     }
 
     private fun loadGlow(

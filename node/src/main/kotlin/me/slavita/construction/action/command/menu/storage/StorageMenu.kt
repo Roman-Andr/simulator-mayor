@@ -55,7 +55,7 @@ class StorageMenu(player: Player) : MenuCommand(player) {
 
     private fun removeItems(amount: Int, entry: Map.Entry<ItemProperties, ItemStack>, button: ReactiveButton) {
         if (user.player.inventory.firstEmpty() == -1) {
-            user.player.deny("Нет места")
+            user.player.deny("Нет места в инвентаре")
             Anime.close(user.player)
             return
         }

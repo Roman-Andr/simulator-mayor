@@ -4,6 +4,7 @@ import me.func.mod.Anime
 import me.func.mod.conversation.ModTransfer
 import me.slavita.construction.action.command.menu.ShowcaseMenu
 import me.slavita.construction.action.command.menu.city.BuyCityConfirm
+import me.slavita.construction.action.command.menu.project.ChoiceProject
 import me.slavita.construction.action.command.menu.project.ChoiceStructureGroup
 import me.slavita.construction.dontate.Abilities
 import me.slavita.construction.listener.OnActions
@@ -161,7 +162,9 @@ class User(val uuid: UUID) {
             currentCity.playerCells.forEach { cell ->
                 if (cell.busy || !cell.box.contains(player.location)) return@forEach
 
-                if (OnActions.inZone[player] == false) ChoiceStructureGroup(player, cell).tryExecute()
+                if (OnActions.inZone[player] == false) ChoiceStructureGroup(player, cell) { structure ->
+                    ChoiceProject(player, structure, cell).keepHistory().tryExecute()
+                }.tryExecute()
                 OnActions.inZone[player] = true
                 return false
             }

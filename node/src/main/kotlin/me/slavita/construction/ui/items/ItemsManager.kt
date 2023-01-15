@@ -3,6 +3,7 @@ package me.slavita.construction.ui.items
 import dev.implario.bukkit.item.ItemBuilder
 import me.slavita.construction.action.command.menu.donate.DonateMenu
 import me.slavita.construction.action.command.menu.general.ControlPanelMenu
+import me.slavita.construction.utils.killboard
 import me.slavita.construction.utils.listener
 import org.bukkit.ChatColor.*
 import org.bukkit.Material
@@ -35,6 +36,15 @@ object ItemsManager {
             DonateMenu(it).tryExecute()
         }
     )
+    val freelanceCancel = ActionableItem(
+        8, ItemBuilder(Material.CLAY_BALL)
+            .text("${GOLD}${BOLD}Выйти")
+            .nbt("other", "cancel")
+            .build()
+    )
+    { player ->
+        player.killboard("Выходим...")
+    }
 
     init {
         listener<PlayerInteractEvent> {
@@ -52,14 +62,15 @@ object ItemsManager {
         updatePlayerInventory(player)
     }
 
-    private fun registerItem(player: Player, item: ItemStack, action: (player: Player) -> Unit) {
-        actions[player.uniqueId]!![item] = action
+    private fun registerItem(player: Player, item: ActionableItem) {
+        actions[player.uniqueId]!![item.item] = item.action
     }
 
     private fun updatePlayerInventory(player: Player) {
         ITEMS.forEach { item ->
-            registerItem(player, item.item, item.action)
+            registerItem(player, item)
             player.inventory.setItem(item.inventoryId, item.item)
         }
+        registerItem(player, freelanceCancel)
     }
 }

@@ -5,7 +5,8 @@ import me.slavita.construction.player.City
 import me.slavita.construction.reward.Reward
 import me.slavita.construction.structure.BuildingStructure
 import me.slavita.construction.structure.tools.StructureState
-import me.slavita.construction.utils.BlocksExtensions.unaryMinus
+import me.slavita.construction.ui.items.ItemsManager
+import me.slavita.construction.utils.unaryMinus
 import org.bukkit.Material
 
 class FreelanceProject(
@@ -24,6 +25,7 @@ class FreelanceProject(
             structure.structure.blocks.forEach { (item, count) ->
                 addItem(item.createItemStack(count))
             }
+            setItem(ItemsManager.freelanceCancel.inventoryId, ItemsManager.freelanceCancel.item)
         }
     }
 
@@ -45,6 +47,7 @@ class FreelanceProject(
                     app.mainWorld.placeFakeBlock(owner.player, emptyBlock, false)
                 }
                 owner.watchableProject = null
+                owner.player.inventory.clear()
                 owner.player.inventory.storageContents = playerInventory
 
                 finish()

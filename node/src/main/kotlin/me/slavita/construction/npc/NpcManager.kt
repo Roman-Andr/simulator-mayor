@@ -14,8 +14,8 @@ import me.slavita.construction.action.command.menu.general.GuideDialog
 import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
 import me.slavita.construction.action.command.menu.storage.StorageMenu
 import me.slavita.construction.action.command.menu.worker.WorkerMenu
-import me.slavita.construction.banner.BannerUtil.loadBanner
 import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.utils.loadBanner
 import me.slavita.construction.utils.STORAGE_URL
 import me.slavita.construction.utils.labels
 import me.slavita.construction.utils.toUUID

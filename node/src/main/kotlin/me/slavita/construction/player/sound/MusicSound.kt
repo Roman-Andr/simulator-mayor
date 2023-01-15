@@ -11,7 +11,7 @@ enum class MusicSound(
     UI_CLICK(MinecraftSound(Sound.UI_BUTTON_CLICK), 1F, 1F),
     LEVEL_UP(MinecraftSound(Sound.ENTITY_EXPERIENCE_ORB_PICKUP), 1F, 1F),
     DENY(MinecraftSound(Sound.ENTITY_VILLAGER_NO), 1F, 1F),
-    HINT(ExternalSound("hint.mp3"), 1F, 1F),
+    HINT(ExternalSound("tap.mp3"), 1F, 1F),
     SUCCESS3(ExternalSound("success-3.mp3"), 1F, 1F);
 
     fun playSound(player: Player) {

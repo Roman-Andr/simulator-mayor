@@ -26,7 +26,7 @@ object ScoreboardGenerator {
                 .build(),
             Token.builder()
                 .title("Репутация")
-                .content { "${Emoji.RUBY} ${LIGHT_PURPLE}${user.data.statistics.reputation}" }
+                .content { "${Emoji.RUBY} ${LIGHT_PURPLE}${user.data.statistics.reputation.toMoney()}" }
                 .build(),
             Token.builder()
                 .title("Кристаллики")

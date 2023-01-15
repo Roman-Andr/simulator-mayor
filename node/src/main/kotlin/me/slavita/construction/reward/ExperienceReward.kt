@@ -1,5 +1,6 @@
 package me.slavita.construction.reward
 
+import me.func.mod.Anime
 import me.slavita.construction.booster.BoosterType
 import me.slavita.construction.player.User
 import me.slavita.construction.ui.Formatter.applyBoosters
@@ -12,6 +13,7 @@ class ExperienceReward(private val experience: Long) : Reward {
         val value = experience.applyBoosters(BoosterType.EXP_BOOSTER)
         user.addExp(value)
         user.player.accept("Вы получили ${value.toMoney() + " опыта"}")
+        Anime.cursorMessage(user.player, value.toExp())
     }
 
     override fun toString(): String {

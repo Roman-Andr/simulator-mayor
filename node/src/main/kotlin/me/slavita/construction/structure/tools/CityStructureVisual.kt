@@ -7,10 +7,11 @@ import me.func.protocol.data.color.GlowColor
 import me.func.protocol.data.element.Banner
 import me.func.protocol.world.marker.Marker
 import me.func.protocol.world.marker.MarkerSign
-import me.slavita.construction.banner.BannerUtil
 import me.slavita.construction.structure.CityStructure
 import me.slavita.construction.ui.HumanizableValues
+import me.slavita.construction.utils.*
 import me.slavita.construction.utils.accept
+import me.slavita.construction.utils.getFaceCenter
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.ChatColor
 import org.bukkit.entity.Player
@@ -21,8 +22,8 @@ class CityStructureVisual(val structure: CityStructure) {
     private var marker: Marker? = null
 
     init {
-        val center = structure.playerCell.box.center
-        redBanner = BannerUtil.createFloorBanner(
+        val center = structure.cell.box.center
+        redBanner = createFloorBanner(
             center.clone().apply {
                 y = structure.box.min.y - 22.49
                 z = structure.box.min.z
@@ -32,20 +33,14 @@ class CityStructureVisual(val structure: CityStructure) {
         repairGlow = ReactivePlace.builder()
             .rgb(GlowColor.GREEN_LIGHT)
             .radius(2.0)
-            .location(structure.playerCell.box.min.clone().apply { y -= 2.5 })
+            .location(getFaceCenter(structure.cell).clone().apply { y -= 2.5 })
             .onEntire { player ->
-                debug()
-
                 if (blocksDepositRepair(player, structure.targetBlocks, structure.repairBlocks)) {
-                    println("depositing...")
-
                     structure.repairBlocks.forEach {
                         if (structure.targetBlocks[it.key]!! <= 0) structure.targetBlocks.remove(it.key)
                     }
 
-                    debug()
                     if (structure.targetBlocks.isEmpty()) {
-                        println("repairing...")
                         structure.repair()
                     }
                 }
@@ -53,22 +48,10 @@ class CityStructureVisual(val structure: CityStructure) {
             .build()
     }
 
-    fun debug() {
-        println("repair")
-        structure.repairBlocks.values.forEach {
-            println("$it")
-        }
-        println("target")
-        structure.targetBlocks.values.forEach {
-            println("$it")
-        }
-        println("")
-    }
-
     private fun blocksDepositRepair(
         player: Player,
-        target: java.util.HashMap<ItemProperties, Int>,
-        storage: java.util.HashMap<ItemProperties, Int>,
+        target: HashMap<ItemProperties, Int>,
+        storage: HashMap<ItemProperties, Int>,
     ): Boolean {
         var deposit = false
         var toDeposit = 0

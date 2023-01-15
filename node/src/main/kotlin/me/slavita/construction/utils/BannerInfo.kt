@@ -1,4 +1,4 @@
-package me.slavita.construction.banner
+package me.slavita.construction.utils
 
 import me.func.protocol.data.color.GlowColor
 import me.func.protocol.data.color.RGB
