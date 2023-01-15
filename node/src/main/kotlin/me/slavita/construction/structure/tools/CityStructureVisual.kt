@@ -1,5 +1,6 @@
 package me.slavita.construction.structure.tools
 
+import me.func.atlas.Atlas
 import me.func.mod.Anime
 import me.func.mod.reactive.ReactivePlace
 import me.func.mod.world.Banners
@@ -19,6 +20,7 @@ import org.bukkit.entity.Player
 class CityStructureVisual(val structure: CityStructure) {
     private var redBanner: Banner? = null
     private var repairGlow: ReactivePlace? = null
+    private var repairBanner: Banner? = null
     private var marker: Marker? = null
 
     init {
@@ -46,6 +48,11 @@ class CityStructureVisual(val structure: CityStructure) {
                 }
             }
             .build()
+        repairBanner = loadBannerFromConfig(
+            Atlas.find("city").getMapList("claim-banner").first(),
+            getFaceCenter(structure.cell),
+            opacity = 0.0
+        )
     }
 
     private fun blocksDepositRepair(
@@ -91,12 +98,14 @@ class CityStructureVisual(val structure: CityStructure) {
                 Banners.hide(structure.owner, redBanner!!)
                 Anime.removeMarker(structure.owner, marker!!)
                 repairGlow!!.delete(setOf(structure.owner))
+                Banners.hide(structure.owner, repairBanner!!)
             }
 
             CityStructureState.BROKEN      -> {
                 Banners.show(structure.owner, redBanner!!)
                 Anime.marker(structure.owner, marker!!)
                 repairGlow!!.send(structure.owner)
+                Banners.show(structure.owner, repairBanner!!)
                 structure.targetBlocks = HashMap(structure.structure.blocks)
             }
         }

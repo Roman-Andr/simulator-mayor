@@ -136,7 +136,7 @@ object AdminCommands {
 
         opCommand("line") { player, _ ->
             ReactiveLine.builder()
-                .to(player.user.currentCity.getSpawn()!!.toCenterLocation())
+                .to(player.user.currentCity.getSpawn())
                 .build()
                 .send(player)
         }

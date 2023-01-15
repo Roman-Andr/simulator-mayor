@@ -11,6 +11,7 @@ import me.slavita.construction.utils.Alert.button
 import me.slavita.construction.utils.runTimer
 import me.slavita.construction.utils.toYaw
 import org.bukkit.ChatColor.*
+import org.bukkit.Location
 import org.bukkit.block.BlockFace
 
 class City(val owner: User, id: String, val title: String, val price: Long, var unlocked: Boolean) {
@@ -71,5 +72,8 @@ class City(val owner: User, id: String, val title: String, val price: Long, var 
         projects.remove(project)
     }
 
-    fun getSpawn() = box.getLabel("spawn")?.apply { yaw = BlockFace.EAST.toYaw() }?.toCenterLocation()
+    fun getSpawn(): Location = box.getLabel("spawn")!!.toCenterLocation().apply {
+        yaw = BlockFace.EAST.toYaw()
+        y -= 0.5
+    }
 }
