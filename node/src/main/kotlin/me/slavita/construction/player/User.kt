@@ -1,5 +1,7 @@
 package me.slavita.construction.player
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import me.func.mod.conversation.ModTransfer
 import me.slavita.construction.action.command.menu.city.BuyCityConfirm
 import me.slavita.construction.action.command.menu.project.ChoiceStructureGroup
@@ -26,16 +28,13 @@ import ru.cristalix.core.invoice.IInvoiceService
 import java.util.*
 
 class User(val uuid: UUID) {
-    var initialized = false
-    lateinit var player: Player
-    lateinit var data: Data
-    lateinit var currentCity: City
+    val player = Bukkit.getPlayer(uuid)!!
+    var currentCity: City = data.cities.first()
     val blocksStorage = BlocksStorage(this)
     var watchableProject: Project? = null
     var income = 0L
-    val hall = CityHall()
-    var taskId = 0
     private var criBalanceLastUpdate = 0L
+    lateinit var data: Data
 
     var criBalance: Int = 0
         get() {
@@ -50,11 +49,13 @@ class User(val uuid: UUID) {
             return field
         }
 
-    init {
-        log("New user created")
-        Bukkit.server.scheduler.scheduleSyncRepeatingTask(app, {
-            if (initialized && player.isOnline) data.statistics.money += income.applyBoosters(BoosterType.MONEY_BOOSTER)
-        }, 0L, 20L)
+    fun initialize(data: String?) {
+        this.data = if (data == null) Data(this)
+        else GsonBuilder()
+            .registerTypeAdapter(City::class.java, CityDeserializer(this))
+            .create()
+            .fromJson(data, Data::class.java)
+
         income += income
     }
 
@@ -90,9 +91,7 @@ class User(val uuid: UUID) {
 //		}
     }
 
-    fun canPurchase(cost: Long): Boolean {
-        return data.statistics.money >= cost
-    }
+    fun canPurchase(cost: Long) = data.statistics.money >= cost
 
     fun changeCity(city: City) {
         currentCity.projects.forEach { it.structure.deleteVisual() }
@@ -116,7 +115,7 @@ class User(val uuid: UUID) {
         ability.applyAction(this)
     }
 
-    fun updatePosition(): Boolean {
+    fun updatePosition(): Boolean { //todo: rewrite it
         data.cities.forEach { city ->
             if (city.box.contains(player.location)) {
                 if (currentCity.title != city.title && city.unlocked) {

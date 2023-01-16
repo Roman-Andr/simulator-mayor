@@ -4,11 +4,6 @@ import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.dispatch
 import com.google.gson.GsonBuilder
 import dev.implario.bukkit.platform.Platforms
-import dev.implario.kensuke.Kensuke
-import dev.implario.kensuke.Scope
-import dev.implario.kensuke.UserManager
-import dev.implario.kensuke.impl.bukkit.BukkitKensuke
-import dev.implario.kensuke.impl.bukkit.BukkitUserManager
 import dev.implario.platform.impl.darkpaper.PlatformDarkPaper
 import me.func.Lock
 import me.func.mod.Anime
@@ -17,15 +12,17 @@ import me.func.mod.conversation.ModLoader
 import me.func.mod.util.after
 import me.func.sound.Category
 import me.func.sound.Music
+import me.func.stronghold.Stronghold
 import me.func.world.MapLoader
 import me.func.world.WorldMeta
 import me.slavita.construction.action.chat.AdminCommands
 import me.slavita.construction.action.chat.UserCommands
+import me.slavita.construction.booster.BoosterType
+import me.slavita.construction.booster.Boosters
+import me.slavita.construction.listener.LoadUserEvent
 import me.slavita.construction.listener.PlayerEvents
 import me.slavita.construction.multichat.MultiChats
 import me.slavita.construction.npc.NpcManager
-import me.slavita.construction.player.Data
-import me.slavita.construction.player.KensukeUser
 import me.slavita.construction.player.User
 import me.slavita.construction.protocol.GetUserPackage
 import me.slavita.construction.protocol.SaveUserPackage
@@ -37,9 +34,12 @@ import me.slavita.construction.structure.*
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.BoardsManager
 import me.slavita.construction.ui.CityGlows
+import me.slavita.construction.ui.Formatter.applyBoosters
 import me.slavita.construction.ui.SpeedPlaces
 import me.slavita.construction.ui.items.ItemsManager
 import me.slavita.construction.utils.*
+import me.slavita.construction.utils.PlayerExtensions.accept
+import me.slavita.construction.utils.PlayerExtensions.deny
 import me.slavita.construction.utils.language.EnumLang
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.ItemProperties
@@ -64,6 +64,7 @@ import ru.cristalix.core.scoreboard.ScoreboardService
 import ru.cristalix.core.transfer.ITransferService
 import ru.cristalix.core.transfer.TransferService
 import java.util.*
+import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
 lateinit var app: App
@@ -77,17 +78,22 @@ class App : JavaPlugin() {
         dispatch {}
     }
     val chatId = -1001654696542L
-    private val users = hashMapOf<UUID, User>()
+    val users = hashMapOf<UUID, User>()
     val allBlocks = hashSetOf<ItemProperties>()
-
-    val dataScope = Scope("construction-testtttttttttt", Data::class.java)
-    lateinit var kensuke: Kensuke
-    lateinit var userManager: UserManager<KensukeUser>
+    val failed = hashSetOf<Player>()
 
     val localStaff = hashSetOf(
         "e2543a0a-5799-11e9-8374-1cb72caa35fd",
         "ba821208-6b64-11e9-8374-1cb72caa35fd"
     ).map { UUID.fromString(it) }
+
+    val gson = GsonBuilder()
+        .registerTypeAdapter(PlayerCell::class.java, PlayerCellSerializer())
+        .registerTypeAdapter(WorkerStructure::class.java, BuildingStructureSerializer())
+        .registerTypeAdapter(ClientStructure::class.java, BuildingStructureSerializer())
+        .registerTypeAdapter(Project::class.java, ProjectSerializer())
+        .registerTypeAdapter(City::class.java, CitySerializer())
+        .create()
 
     var pass = 0L
         private set
@@ -129,36 +135,10 @@ class App : JavaPlugin() {
             extraSlots = 15
 
             IScoreboardService.get().serverStatusBoard.displayName = "${WHITE}Тест #${AQUA}" + realmId.id
-            after(20 * 10) {
+            after(20 * 4) {
                 ITransferService.get().transfer(UUID.fromString(System.getProperty("construction.user")), realmId)
             }
         }
-
-        userManager = BukkitUserManager(
-            listOf(dataScope),
-            { session, context -> run {
-                log("load data")
-                KensukeUser(context.uuid, context.getRawData(dataScope), session)
-            }},
-            { user, context -> run {
-                log("store data")
-                context.store(dataScope, user.user.data)
-            }}
-        )
-
-        kensuke = BukkitKensuke.setup(this)
-        kensuke.apply {
-            addGlobalUserManager(userManager)
-            globalRealm = "SLVT-0"
-            gson = GsonBuilder()
-                .registerTypeAdapter(PlayerCell::class.java, PlayerCellSerializer())
-                .registerTypeAdapter(WorkerStructure::class.java, BuildingStructureSerializer())
-                .registerTypeAdapter(ClientStructure::class.java, BuildingStructureSerializer())
-                .registerTypeAdapter(Project::class.java, ProjectSerializer())
-                .registerTypeAdapter(City::class.java, CitySerializer())
-                .create()
-        }
-        userManager.isOptional = true
 
         ModLoader.loadAll("mods")
         ModLoader.onJoining("construction-mod.jar")
@@ -192,50 +172,34 @@ class App : JavaPlugin() {
         PlayerEvents
         Showcases
 
-        after(300) {
-            get()
-        }
-
-        after(340) {
-            set("1")
-        }
-
-        after(380) {
-            get()
-        }
-
-        after(420) {
-            set("2")
-        }
-
-        after(460) {
-            get()
-        }
-
         EnumLang.init()
 
         bot.startPolling()
         logTg("Realm Initialized")
 
-        server.scheduler.scheduleSyncRepeatingTask(this, { pass++ }, 0, 1)
-    }
+        scheduler.run {
+            scheduleSyncRepeatingTask(app, { pass++ }, 0, 1)
+            scheduleSyncRepeatingTask(app, {
+               failed.forEach {
+                   tryLoadUser(it, true)
+               }
+            }, 0, 40)
 
-    fun set(data: String) {
-        try {
-            socket.write(SaveUserPackage("9fc1fb47-280b-40ba-9190-aa5d7eed7162", data))
-            println("set")
-        } catch(e: TimeoutException) {
-            println("timeout, try redo")
-        }
-    }
-
-    fun get() {
-        try {
-            socket.writeAndAwaitResponse<GetUserPackage>(GetUserPackage("9fc1fb47-280b-40ba-9190-aa5d7eed7162")).thenAccept {
-                println(it.data)
+            coroutineForAll(20L) {
+                data.statistics.money += income.applyBoosters(BoosterType.MONEY_BOOSTER)
             }
-        } catch(e: TimeoutException) {
-            println("timeout, try redo")
+
+            coroutineForAll(10 * 20L) {
+                data.showcases.forEach {
+                    it.updatePrices()
+                }
+            }
+
+            coroutineForAll(2 * 60 * 20L) {
+                data.cities.forEach {
+                    it.breakStructure()
+                }
+            }
         }
     }
 
@@ -243,20 +207,42 @@ class App : JavaPlugin() {
         EnumLang.clean()
     }
 
-    fun getUserOrAdd(uuid: UUID) = getUserOrNull(uuid) ?: addUser(uuid)
-
-    fun addUser(uuid: UUID): User {
-        users[uuid] = User(uuid)
-        return getUser(uuid)
-    }
-
-    fun addUser(player: Player) = addUser(player.uniqueId)
-
     fun getUserOrNull(uuid: UUID) = users[uuid]
-
-    fun hasUser(player: Player) = getUserOrNull(player.uniqueId) != null
 
     fun getUser(uuid: UUID) = users[uuid]!!
 
     fun getUser(player: Player) = getUser(player.uniqueId)
+
+    fun unloadUser(player: Player) = users.remove(player.uniqueId)
+
+    fun saveUser(player: Player) = try {
+        socket.write(SaveUserPackage(player.uniqueId.toString(), gson.toJson(player.user.data)))
+    } catch(e: TimeoutException) {
+        //todo: ?
+    }
+
+    fun tryLoadUser(player: Player, silent: Boolean) {
+        val uuid = player.uniqueId
+        try {
+            println("try load user")
+            LoadUserEvent(cacheUser(uuid)).callEvent()
+            failed.remove(player)
+            if (!silent) player.accept("Данные успешно загружены")
+        } catch (e: TimeoutException) {
+            println("user load timeout")
+            player.deny("Не удалось загрузить ваши данные\nПовторная загрузка данных...")
+            if (!failed.contains(player)) failed.add(player)
+        }
+    }
+
+    private fun cacheUser(uuid: UUID): User {
+        val raw = getRawUser(uuid)
+        println("got raw data")
+        val user = User(uuid).apply { initialize(raw) }
+        println("user initialized")
+        users[uuid] = user
+        return user
+    }
+
+    private fun getRawUser(uuid: UUID) = socket.writeAndAwaitResponse<GetUserPackage>(GetUserPackage(uuid.toString()))[3, TimeUnit.SECONDS].data
 }

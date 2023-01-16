@@ -32,16 +32,17 @@ fun main() {
     )
 
     socketClient.apply {
-        capabilities(GetUserPackage::class)
-        capabilities(SaveUserPackage::class)
+        capabilities(
+            GetUserPackage::class,
+            SaveUserPackage::class,
+        )
 
         runListener<GetUserPackage> { realm, pckg ->
             println("GetUserPackage: ${realm.realmName}")
             pckg.run {
                 db.collection.find(Document().append("_id", uuid)).forEach ({
                     data = it.getString("data")
-                    forward(realm, this)
-                }) { _, _ -> }
+                }) { _, _ -> forward(realm, this)}
             }
         }
 

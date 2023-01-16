@@ -55,19 +55,19 @@ object BoardsManager {
         }
         Boards.addBoard(board)
 
-        scheduler.scheduleSyncRepeatingTask(app, {
-            board.clearContent()
-            app.kensuke.getLeaderboard(app.userManager, app.dataScope, field, 10).thenAccept {
-                it.forEach { entry ->
-                    board.addContent(
-                        UUID.fromString(entry.data.session.userId),
-                        entry.position.toString(),
-                        CristalixUtil.getDisplayName(UUID.fromString(entry.data.session.userId)),
-                        "${color}${formatter.format(entry.data.user.data)}"
-                    )
-                }
-                board.updateContent()
-            }
-        }, 0L, 10 * 20L)
+//        scheduler.scheduleSyncRepeatingTask(app, {
+//            board.clearContent()
+//            app.kensuke.getLeaderboard(app.userManager, app.dataScope, field, 10).thenAccept {
+//                it.forEach { entry ->
+//                    board.addContent(
+//                        UUID.fromString(entry.data.session.userId),
+//                        entry.position.toString(),
+//                        CristalixUtil.getDisplayName(UUID.fromString(entry.data.session.userId)),
+//                        "${color}${formatter.format(entry.data.user.data)}"
+//                    )
+//                }
+//                board.updateContent()
+//            }
+//        }, 0L, 10 * 20L)
     }
 }

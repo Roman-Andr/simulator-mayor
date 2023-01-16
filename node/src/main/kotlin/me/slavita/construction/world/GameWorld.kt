@@ -10,6 +10,7 @@ import me.slavita.construction.app
 import me.slavita.construction.common.utils.V2i
 import me.slavita.construction.structure.Cell
 import me.slavita.construction.utils.labels
+import me.slavita.construction.utils.nextTick
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import java.util.*
@@ -54,7 +55,7 @@ class GameWorld(val map: WorldMeta) {
                 }.build()
         )
 
-        after(1) {
+        nextTick {
             labels("place").forEachIndexed { index, label ->
                 cells.add(Cell(index, label))
             }

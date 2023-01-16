@@ -17,15 +17,11 @@ class City(val owner: User, val id: String, val title: String, val price: Long, 
     val cityStructures = hashSetOf<CityStructure>()
     val playerCells = arrayListOf<PlayerCell>()
     val box = app.mainWorld.map.box("city", id)
-    var taskId = 0
 
     init {
         app.mainWorld.cells.forEach {
             playerCells.add(PlayerCell(this, it, false))
         }
-        taskId = scheduler.scheduleSyncRepeatingTask(app, {
-            breakStructure()
-        }, 0L, 2 * 60 * 20L)
     }
 
     fun breakStructure() {

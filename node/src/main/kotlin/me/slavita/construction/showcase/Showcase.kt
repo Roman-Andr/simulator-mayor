@@ -10,7 +10,6 @@ import me.slavita.construction.utils.scheduler
 class Showcase(val properties: ShowcaseProperties) {
     val box
         get() = app.mainWorld.map.getBox("showcase", properties.id.toString())
-    var taskId = 0
     val updateTime
         get() = TimeFormatter.toTimeFormat(10000 - (System.currentTimeMillis() - lastUpdateTime))
     private var lastUpdateTime = 0L
@@ -24,16 +23,13 @@ class Showcase(val properties: ShowcaseProperties) {
                 this
             ).tryExecute()
         }
-        taskId = scheduler.scheduleSyncRepeatingTask(app, {
-            updatePrices()
-        }, 0L, 10 * 20L)
     }
 
     fun getData(): ShowcaseClientData {
         return ShowcaseClientData(properties.id, properties.name, box.min.toV3(), box.max.toV3())
     }
 
-    private fun updatePrices() {
+    fun updatePrices() {
         lastUpdateTime = System.currentTimeMillis()
     }
 }

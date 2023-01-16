@@ -20,18 +20,16 @@ object OnLeave {
                     )
                 )
             }
-            runAsync(20) {
-                app.users.remove(player.user.uuid)
-                app.mainWorld.clearBlocks(player.uniqueId)
+
+            if (player.userOrNull != null) {
+                app.run {
+                    saveUser(player)
+                    unloadUser(player)
+                    mainWorld.clearBlocks(player.uniqueId)
+                }
             }
+
             Lock.lock("construction-${player.uniqueId}", 10, TimeUnit.SECONDS)
-            scheduler.cancelTask(player.user.taskId)
-            player.user.data.cities.forEach { city ->
-                scheduler.cancelTask(city.taskId)
-            }
-            player.user.data.showcases.forEach { showcase ->
-                scheduler.cancelTask(showcase.taskId)
-            }
         }
     }
 }

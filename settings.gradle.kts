@@ -59,5 +59,3 @@ include(
     ":mod",
     ":node",
 )
-include("protocol")
-include("protocol")

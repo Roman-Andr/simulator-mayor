@@ -10,6 +10,7 @@ import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.structure.tools.StructureVisual
 import me.slavita.construction.utils.log
+import me.slavita.construction.utils.nextTick
 import me.slavita.construction.worker.Worker
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.StructureBlock
@@ -147,7 +148,7 @@ class BuildingStructureDeserializer(val project: Project) : JsonDeserializer<Bui
         when(type) {
             WorkerStructure::class.java -> {
                 WorkerStructure(structure, playerCell).apply {
-                    after(1) {
+                    nextTick {
                         get("workers").asJsonArray.forEach { id ->
                             val workerUuid = UUID.fromString(id.asString)
                             workers.add(project.owner.data.workers.first { it.uuid == workerUuid })

@@ -8,6 +8,7 @@ import me.slavita.construction.ui.HumanizableValues
 import me.slavita.construction.utils.PlayerExtensions.accept
 import me.slavita.construction.utils.listener
 import me.slavita.construction.utils.user
+import me.slavita.construction.utils.userOrNull
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerDropItemEvent
@@ -19,7 +20,7 @@ object OnActions {
 
     init {
         listener<PlayerDropItemEvent> {
-            val user = player.user
+            val user = player.userOrNull ?: return@listener
             if (!user.blocksStorage.inBox() || itemDrop.itemStack.getType() == Material.CLAY_BALL) {
                 isCancelled = true
                 return@listener
@@ -37,7 +38,7 @@ object OnActions {
         }
 
         listener<PlayerMoveEvent> {
-            player.user.updatePosition()
+            player.userOrNull?.updatePosition()
         }
     }
 }

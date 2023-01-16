@@ -7,6 +7,9 @@ import dev.implario.bukkit.platform.Platforms
 import io.netty.channel.ChannelDuplexHandler
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelPromise
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import me.func.mod.Anime
 import me.func.mod.ui.menu.button
 import me.func.mod.world.Banners
@@ -14,6 +17,7 @@ import me.func.protocol.data.element.Banner
 import me.func.world.WorldMeta
 import me.slavita.construction.app
 import me.slavita.construction.dontate.Donates
+import me.slavita.construction.player.User
 import me.slavita.construction.ui.Formatter.toCriMoney
 import net.minecraft.server.v1_12_R1.EntityPlayer
 import net.minecraft.server.v1_12_R1.Packet
@@ -36,8 +40,9 @@ import org.bukkit.scheduler.BukkitTask
 import ru.cristalix.core.network.ISocketClient
 import ru.cristalix.core.realm.IRealmService
 import java.util.*
+import java.util.function.Consumer
+import java.util.function.Supplier
 import kotlin.reflect.KClass
-
 
 val socket = ISocketClient.get()
 
@@ -48,10 +53,26 @@ val UUID.user
     get() = app.getUser(this)
 
 val Player.userOrNull
-    get() = app.getUserOrNull(this.uniqueId)
+    get() = app.getUserOrNull(uniqueId)
 
 val Player.handle: EntityPlayer
     get() = (this as CraftPlayer).handle
+
+val scheduler: BukkitScheduler = Bukkit.getScheduler()
+
+fun nextTick(runnable: Runnable) {
+    Bukkit.getScheduler().runTask(Platforms.getPlugin(), runnable)
+}
+
+fun coroutine(block: suspend CoroutineScope.() -> Unit) = CoroutineScope(Dispatchers.IO).launch { block() }
+
+fun coroutineForAll(every: Long, task: User.() -> Unit) {
+    scheduler.scheduleSyncRepeatingTask(app, {
+        app.users.forEach { (_, user) ->
+            task.invoke(user)
+        }
+    }, 0L, every)
+}
 
 fun labels(key: String, map: WorldMeta = app.mainWorld.map) = map.getLabels(key)
 
@@ -139,8 +160,6 @@ fun logTg(message: String) {
 }
 
 val routine = EventContext { true }.fork()
-
-val scheduler: BukkitScheduler = Bukkit.getScheduler()
 
 fun runTimerAsync(start: Long, every: Long, runnable: Runnable) =
     scheduler.runTaskTimerAsynchronously(app, runnable, start, every)

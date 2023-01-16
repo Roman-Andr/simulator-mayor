@@ -8,14 +8,14 @@ dependencies {
 
     implementation(project(":protocol"))
 
-    implementation("org.mongodb:mongodb-driver-async:3.7.1")
-    implementation("org.mongodb:mongodb-driver:3.7.1")
+    implementation('org.mongodb:mongodb-driver-async:3.12.11')
+    implementation('org.mongodb:mongodb-driver:3.12.11')
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.0")
-    implementation("io.netty:netty-all:4.1.84.Final")
-    implementation("com.google.code.gson:gson:2.8.6")
+    implementation('org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.4')
+    implementation('io.netty:netty-all:4.1.86.Final')
+    implementation('com.google.code.gson:gson:2.10.1')
     implementation("it.unimi.dsi:fastutil:8.5.11")
-    implementation("com.google.guava:guava:20.0")
+    implementation('com.google.guava:guava:23.0')
 
 }
 
@@ -51,4 +51,8 @@ task upload {
             }
         }
     }
+}
+
+repositories {
+    mavenCentral()
 }
