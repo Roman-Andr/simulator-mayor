@@ -33,7 +33,7 @@ import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.BoardsManager
 import me.slavita.construction.ui.CityGlows
 import me.slavita.construction.ui.SpeedPlaces
-import me.slavita.construction.ui.items.ItemsManager
+import me.slavita.construction.ui.ItemsManager
 import me.slavita.construction.utils.*
 import me.slavita.construction.utils.language.EnumLang
 import me.slavita.construction.world.GameWorld
@@ -47,6 +47,8 @@ import ru.cristalix.core.CoreApi
 import ru.cristalix.core.datasync.EntityDataParameters
 import ru.cristalix.core.invoice.IInvoiceService
 import ru.cristalix.core.invoice.InvoiceService
+import ru.cristalix.core.keyboard.IKeyService
+import ru.cristalix.core.keyboard.KeyService
 import ru.cristalix.core.multichat.ChatMessage
 import ru.cristalix.core.multichat.IMultiChatService
 import ru.cristalix.core.multichat.MultiChatService
@@ -101,6 +103,7 @@ class App : JavaPlugin() {
             registerService(IScoreboardService::class.java, ScoreboardService())
             registerService(IInvoiceService::class.java, InvoiceService(ISocketClient.get()))
             registerService(IMultiChatService::class.java, MultiChatService(ISocketClient.get()))
+            registerService(IKeyService::class.java, KeyService(app))
         }
 
         IMultiChatService.get().run {

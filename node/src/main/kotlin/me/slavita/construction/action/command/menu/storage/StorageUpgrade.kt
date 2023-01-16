@@ -19,7 +19,7 @@ class StorageUpgrade(val player: Player) : MenuCommand(player) {
             description = "Управление складом"
             storage = mutableListOf(
                 button {
-                    title = "${AQUA}${BOLD}Улучшить"
+                    title = "${GREEN}${BOLD}Улучшить"
                     hint = "Улучшить"
                     backgroundColor = GlowColor.GREEN
                     hover = """
@@ -29,7 +29,7 @@ class StorageUpgrade(val player: Player) : MenuCommand(player) {
                             
                             ${BOLD}${WHITE}Стоимость: ${GREEN}${user.blocksStorage.upgradePrice.toMoneyIcon()}
                         """.trimIndent()
-                    item = ItemIcons.get("other", "crafting")
+                    item = ItemIcons.get("other", "anvil")
                     onClick { _, _, _ ->
                         user.blocksStorage.upgrade()
                         Anime.close(player)

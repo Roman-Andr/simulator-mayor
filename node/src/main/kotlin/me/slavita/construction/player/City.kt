@@ -52,7 +52,7 @@ class City(val owner: User, id: String, val title: String, val price: Long, var 
                 GlowColor.RED,
                 GlowColor.RED_MIDDLE,
                 null,
-                button("Понятно", "/ok", GlowColor.RED_LIGHT),
+                button("Понятно", "/ok", GlowColor.GREEN),
             )
 
             it.visual.update()

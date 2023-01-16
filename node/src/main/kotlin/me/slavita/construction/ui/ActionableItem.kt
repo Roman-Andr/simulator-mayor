@@ -1,4 +1,4 @@
-package me.slavita.construction.ui.items
+package me.slavita.construction.ui
 
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack

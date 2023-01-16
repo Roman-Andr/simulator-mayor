@@ -5,7 +5,7 @@ import me.slavita.construction.player.City
 import me.slavita.construction.reward.Reward
 import me.slavita.construction.structure.BuildingStructure
 import me.slavita.construction.structure.tools.StructureState
-import me.slavita.construction.ui.items.ItemsManager
+import me.slavita.construction.ui.ItemsManager
 import me.slavita.construction.utils.unaryMinus
 import org.bukkit.Material
 

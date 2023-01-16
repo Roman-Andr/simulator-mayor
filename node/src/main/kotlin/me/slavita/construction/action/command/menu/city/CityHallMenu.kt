@@ -31,7 +31,7 @@ class CityHallMenu(player: Player) : MenuCommand(player) {
                             
                             ${BOLD}${WHITE}Стоимость: ${GREEN}${hall.upgradePrice.toMoneyIcon()}
                         """.trimIndent()
-                        item = ItemIcons.get("other", "crafting")
+                        item = ItemIcons.get("other", "anvil")
                         onClick { _, _, _ ->
                             hall.upgrade()
                             Anime.close(player)

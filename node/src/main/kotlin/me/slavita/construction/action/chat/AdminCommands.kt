@@ -30,19 +30,6 @@ object AdminCommands {
             player.user.data.statistics.money = args[0].toLong()
         }
 
-        opCommand("freelance") { player, _ ->
-            player.teleport(app.mainWorld.freelanceCell.box.bottomCenter)
-            player.user.apply {
-                ChoiceStructureGroup(player, freelanceCell) { structure ->
-                    currentFreelance = ProjectGenerator.generateFreelance(
-                        this,
-                        structure
-                    )
-                    Anime.close(player)
-                }.tryExecute()
-            }
-        }
-
         opCommand("exp") { player, args ->
             player.user.addExp(args[0].toLong())
         }

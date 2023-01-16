@@ -1,6 +1,7 @@
 package me.slavita.construction.action.chat
 
 import me.func.atlas.Atlas
+import me.func.mod.Anime
 import me.slavita.construction.action.command.menu.achievements.AchievementsChoiceMenu
 import me.slavita.construction.action.command.menu.city.CityHallMenu
 import me.slavita.construction.action.command.menu.city.LocationsMenu
@@ -8,10 +9,15 @@ import me.slavita.construction.action.command.menu.donate.DonateMenu
 import me.slavita.construction.action.command.menu.general.SettingsMenu
 import me.slavita.construction.action.command.menu.general.TagsMenu
 import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
+import me.slavita.construction.action.command.menu.project.ChoiceStructureGroup
+import me.slavita.construction.action.command.menu.project.StartFreelanceProject
 import me.slavita.construction.action.command.menu.storage.StorageMenu
 import me.slavita.construction.action.command.menu.worker.WorkerMenu
+import me.slavita.construction.app
 import me.slavita.construction.prepare.GuidePrepare
+import me.slavita.construction.project.ProjectGenerator
 import me.slavita.construction.utils.command
+import me.slavita.construction.utils.opCommand
 import me.slavita.construction.utils.user
 import org.bukkit.entity.Player
 import ru.cristalix.core.keyboard.IKeyService
@@ -34,7 +40,7 @@ object UserCommands {
 
         /* Быстрый доступ */
 
-        listen("projects", Key.P) { player ->
+        listen("projects", Key.K) { player ->
             ActiveProjectsMenu(player).tryExecute()
         }
 
@@ -50,24 +56,28 @@ object UserCommands {
             AchievementsChoiceMenu(player).tryExecute()
         }
 
-        listen("settings", Key.N) { player, ->
+        listen("settings", null) { player, ->
             SettingsMenu(player).tryExecute()
         }
 
-        listen("workers", Key.J) { player, ->
+        listen("workers", Key.M) { player, ->
             WorkerMenu(player).tryExecute()
         }
 
-        listen("storage", Key.O) { player, ->
+        listen("storage", null) { player, ->
             StorageMenu(player).tryExecute()
         }
 
-        listen("cityhall", Key.I) { player, ->
+        listen("cityhall", null) { player, ->
             CityHallMenu(player).tryExecute()
         }
 
-        listen("donate", Key.M) { player, ->
+        listen("donate", null) { player, ->
             DonateMenu(player).tryExecute()
+        }
+
+        listen("freelance", null) { player ->
+            StartFreelanceProject(player)
         }
     }
 
