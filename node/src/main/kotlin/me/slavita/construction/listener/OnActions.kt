@@ -13,10 +13,11 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerMoveEvent
+import java.util.*
 
 object OnActions {
-    val inZone = hashMapOf<Player, Boolean>()
-    var storageEntered = hashMapOf<Player, Boolean>()
+    val inZone = hashMapOf<UUID, Boolean>()
+    var storageEntered = hashMapOf<UUID, Boolean>()
 
     init {
         listener<PlayerDropItemEvent> {

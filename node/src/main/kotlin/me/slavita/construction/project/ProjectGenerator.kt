@@ -22,6 +22,7 @@ object ProjectGenerator {
             )
         ).apply {
             this.structure = ClientStructure(structure, playerCell)
+            initialize()
         }
     }
 
@@ -36,6 +37,7 @@ object ProjectGenerator {
             )
         ).apply {
             this.structure = WorkerStructure(structure, playerCell)
+            initialize()
         }
     }
 }

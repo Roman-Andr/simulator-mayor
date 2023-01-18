@@ -3,6 +3,7 @@ package me.slavita.construction.player
 import me.func.atlas.Atlas
 import me.slavita.construction.dontate.Abilities
 import me.slavita.construction.showcase.Showcase
+import me.slavita.construction.showcase.Showcases
 import me.slavita.construction.worker.Worker
 
 class Data(@Transient val user: User) {
@@ -13,7 +14,6 @@ class Data(@Transient val user: User) {
     val ownTags: HashSet<Tags> = hashSetOf(Tags.NONE)
     val abilities: HashSet<Abilities> = hashSetOf()
     val hall: CityHall = CityHall()
-    var showcases: HashSet<Showcase> = hashSetOf()
     val cities: HashSet<City> = Atlas.find("locations").getMapList("locations").map { values ->
         City(
             user,

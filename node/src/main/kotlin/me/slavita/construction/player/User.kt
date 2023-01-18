@@ -11,7 +11,10 @@ import me.slavita.construction.dontate.Abilities
 import me.slavita.construction.listener.OnActions
 import me.slavita.construction.prepare.StoragePrepare
 import me.slavita.construction.project.Project
+import me.slavita.construction.showcase.Showcase
+import me.slavita.construction.showcase.Showcases
 import me.slavita.construction.storage.BlocksStorage
+import me.slavita.construction.structure.PlayerCellDeserializer
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.ui.Formatter.applyBoosters
@@ -29,12 +32,13 @@ import java.util.*
 
 class User(val uuid: UUID) {
     val player = Bukkit.getPlayer(uuid)!!
-    var currentCity: City = data.cities.first()
     val blocksStorage = BlocksStorage(this)
     var watchableProject: Project? = null
     var income = 0L
+    val showcases: HashSet<Showcase> = Showcases.showcases.map { Showcase(it) }.toHashSet()
     private var criBalanceLastUpdate = 0L
     lateinit var data: Data
+    lateinit var currentCity: City
 
     var criBalance: Int = 0
         get() {
@@ -55,6 +59,8 @@ class User(val uuid: UUID) {
             .registerTypeAdapter(City::class.java, CityDeserializer(this))
             .create()
             .fromJson(data, Data::class.java)
+
+        currentCity = this.data.cities.first()
 
         income += income
     }
@@ -139,16 +145,14 @@ class User(val uuid: UUID) {
             }
         }
 
-        if (player.user.blocksStorage.inBox() && !OnActions.storageEntered[player]!!) {
-            ModTransfer()
-                .send("storage:show", player)
-            OnActions.storageEntered[player] = true
+        if (player.user.blocksStorage.inBox() && !OnActions.storageEntered[player.uniqueId]!!) {
+            ModTransfer().send("storage:show", player)
+            OnActions.storageEntered[player.uniqueId] = true
         }
 
-        if (!player.user.blocksStorage.inBox() && OnActions.storageEntered[player]!!) {
-            ModTransfer()
-                .send("storage:hide", player)
-            OnActions.storageEntered[player] = false
+        if (!player.user.blocksStorage.inBox() && OnActions.storageEntered[player.uniqueId]!!) {
+            ModTransfer().send("storage:hide", player)
+            OnActions.storageEntered[player.uniqueId] = false
         }
 
         if (watchableProject == null) {
@@ -156,6 +160,8 @@ class User(val uuid: UUID) {
                 if (project.structure.box.contains(player.location)) {
                     watchableProject = project
                     project.onEnter()
+                    println(project.structure.playerCell.busy)
+                    println(project.structure.playerCell.id)
                     return false
                 }
             }
@@ -163,12 +169,12 @@ class User(val uuid: UUID) {
             currentCity.playerCells.forEach { cell ->
                 if (cell.busy || !cell.box.contains(player.location)) return@forEach
 
-                if (OnActions.inZone[player] == false) ChoiceStructureGroup(player, cell).tryExecute()
-                OnActions.inZone[player] = true
+                if (OnActions.inZone[player.uniqueId] == false) ChoiceStructureGroup(player, cell).tryExecute()
+                OnActions.inZone[player.uniqueId] = true
                 return false
             }
 
-            OnActions.inZone[player] = false
+            OnActions.inZone[player.uniqueId] = false
         } else {
             currentCity.projects.filter { it.structure.state == StructureState.FINISHED }.forEach { project ->
                 if (project.structure.box.contains(player.location)) {

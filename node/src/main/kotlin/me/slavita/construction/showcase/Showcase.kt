@@ -10,9 +10,6 @@ import me.slavita.construction.utils.scheduler
 class Showcase(val properties: ShowcaseProperties) {
     val box
         get() = app.mainWorld.map.getBox("showcase", properties.id.toString())
-    val updateTime
-        get() = TimeFormatter.toTimeFormat(10000 - (System.currentTimeMillis() - lastUpdateTime))
-    private var lastUpdateTime = 0L
 
     fun init() {
         Anime.createReader("showcase:open") { player, buff ->
@@ -25,11 +22,5 @@ class Showcase(val properties: ShowcaseProperties) {
         }
     }
 
-    fun getData(): ShowcaseClientData {
-        return ShowcaseClientData(properties.id, properties.name, box.min.toV3(), box.max.toV3())
-    }
-
-    fun updatePrices() {
-        lastUpdateTime = System.currentTimeMillis()
-    }
+    fun getData() = ShowcaseClientData(properties.id, properties.name, box.min.toV3(), box.max.toV3())
 }

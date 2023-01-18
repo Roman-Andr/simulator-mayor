@@ -84,7 +84,8 @@ class App : JavaPlugin() {
 
     val localStaff = hashSetOf(
         "e2543a0a-5799-11e9-8374-1cb72caa35fd",
-        "ba821208-6b64-11e9-8374-1cb72caa35fd"
+        "ba821208-6b64-11e9-8374-1cb72caa35fd",
+        "f83a7e5d-9361-11e9-80c4-1cb72caa35fd",
     ).map { UUID.fromString(it) }
 
     val gson = GsonBuilder()
@@ -181,7 +182,7 @@ class App : JavaPlugin() {
             scheduleSyncRepeatingTask(app, { pass++ }, 0, 1)
             scheduleSyncRepeatingTask(app, {
                failed.forEach {
-                   tryLoadUser(it, true)
+                   tryLoadUser(it, false)
                }
             }, 0, 40)
 
@@ -190,8 +191,8 @@ class App : JavaPlugin() {
             }
 
             coroutineForAll(10 * 20L) {
-                data.showcases.forEach {
-                    it.updatePrices()
+                showcases.forEach {
+                    it.properties.updatePrices()
                 }
             }
 
@@ -216,12 +217,15 @@ class App : JavaPlugin() {
     fun unloadUser(player: Player) = users.remove(player.uniqueId)
 
     fun saveUser(player: Player) = try {
-        socket.write(SaveUserPackage(player.uniqueId.toString(), gson.toJson(player.user.data)))
+        val json = gson.toJson(player.user.data)
+        println(json)
+        socket.write(SaveUserPackage(player.uniqueId.toString(), json))
     } catch(e: TimeoutException) {
         //todo: ?
     }
 
     fun tryLoadUser(player: Player, silent: Boolean) {
+        if (!player.isOnline) return
         val uuid = player.uniqueId
         try {
             println("try load user")

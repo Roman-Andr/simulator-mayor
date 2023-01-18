@@ -7,11 +7,10 @@ import me.slavita.construction.player.User
 
 object ShowcasePrepare : IPrepare {
     override fun prepare(user: User) {
-        if (user.data.showcases.isEmpty()) user.data.showcases = Showcases.showcases.map { Showcase(it) }.toHashSet()
-        user.data.showcases.forEach { it.init() }
+        user.showcases.forEach { it.init() }
 
         ModTransfer()
-            .json(user.data.showcases.map(Showcase::getData).toTypedArray())
+            .json(user.showcases.map(Showcase::getData).toTypedArray())
             .send("showcase:initialize", user.player)
     }
 }

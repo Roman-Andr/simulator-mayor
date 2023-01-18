@@ -78,6 +78,6 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) :
     private fun getBalance() = "Ваш Баланс ${player.user.data.statistics.money.toMoney()}"
 
     private fun getInfo() = """
-        ${GREEN}Обновление цен через: ${GOLD}${showcase.updateTime}
+        ${GREEN}Обновление цен через: ${GOLD}${showcase.properties.updateTime}
     """.trimIndent()
 }

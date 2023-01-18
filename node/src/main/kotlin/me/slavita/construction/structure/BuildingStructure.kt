@@ -11,6 +11,7 @@ import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.structure.tools.StructureVisual
 import me.slavita.construction.utils.log
 import me.slavita.construction.utils.nextTick
+import me.slavita.construction.utils.runAsync
 import me.slavita.construction.worker.Worker
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.StructureBlock
@@ -77,9 +78,11 @@ abstract class BuildingStructure(
         currentBlock = structure.getFirstBlock()
 
         repeat(blocksPlaced) {
+            app.mainWorld.placeFakeBlock(owner.player, currentBlock!!.withOffset(allocation))
             currentBlock = structure.getNextBlock(currentBlock!!.position)
         }
 
+        visual.update()
         currentProject = project
         owner.updatePosition()
     }
@@ -118,8 +121,12 @@ class BuildingStructureSerializer : JsonSerializer<BuildingStructure> {
     override fun serialize(buildingStructure: BuildingStructure, type: Type, context: JsonSerializationContext): JsonElement {
         val json = JsonObject()
 
-        log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
         buildingStructure.run {
+            json.addProperty("type", when (buildingStructure) {
+                is ClientStructure -> "client"
+                is WorkerStructure -> "worker"
+                else -> throw JsonParseException("Unknown structure type!")
+            })
             json.addProperty("structureId", structure.id)
             json.addProperty("playerCellId", playerCell.id)
             json.addProperty("blocksPlaced", blocksPlaced)
@@ -143,10 +150,9 @@ class BuildingStructureDeserializer(val project: Project) : JsonDeserializer<Bui
         val structure = Structures.structures[get("structureId").asInt]
         val playerCell = project.city.playerCells[get("playerCellId").asInt]
         val blocksPlaced = get("blocksPlaced").asInt
-        val state = context.deserialize<StructureState>(get("blocksPlaced"), StructureState::class.java)
 
-        when(type) {
-            WorkerStructure::class.java -> {
+        when (get("type").asString) {
+            "Structure" -> {
                 WorkerStructure(structure, playerCell).apply {
                     nextTick {
                         get("workers").asJsonArray.forEach { id ->
@@ -156,16 +162,17 @@ class BuildingStructureDeserializer(val project: Project) : JsonDeserializer<Bui
                     }
                 }
             }
-            ClientStructure::class.java -> ClientStructure(structure, playerCell)
+            "client" -> ClientStructure(structure, playerCell)
             else -> throw JsonParseException("Unknown structure type!")
         }.apply {
             this@apply.currentProject = project
-            when(state) {
-                StructureState.BUILDING -> continueBuilding(project)
-                StructureState.FINISHED -> finishBuilding()
+            this@apply.blocksPlaced = blocksPlaced
+            visual.start()
+            when (StructureState.valueOf(get("state").asString)) {
+                StructureState.BUILDING -> runAsync(200) { continueBuilding(project) }
+                StructureState.FINISHED -> nextTick { finishBuilding() }
                 else -> this@apply.state = state
             }
-            this@apply.blocksPlaced = blocksPlaced
         }
     }
 }

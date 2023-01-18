@@ -12,7 +12,7 @@ object OnJoin {
     init {
         listener<PlayerJoinEvent> event@{
             nextTick {
-                coroutine { app.tryLoadUser(player, false) }
+                coroutine { app.tryLoadUser(player, true) }
             }
         }
 

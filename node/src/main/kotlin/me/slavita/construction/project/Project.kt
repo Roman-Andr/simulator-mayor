@@ -22,7 +22,7 @@ class Project(
     val timeLast: Int //todo: use this
         get() = 0
 
-    init {
+    fun initialize() {
         var projectsCount = 0
         owner.data.cities.forEach {
             projectsCount += it.projects.size

@@ -3,19 +3,23 @@ package me.slavita.construction.prepare
 import me.slavita.construction.app
 import me.slavita.construction.listener.OnActions
 import me.slavita.construction.player.User
+import me.slavita.construction.utils.nextTick
 import org.bukkit.GameMode
 
 object PlayerWorldPrepare : IPrepare {
     override fun prepare(user: User) {
         user.apply {
-            player.gameMode = GameMode.ADVENTURE
-            player.teleport(currentCity.getSpawn())
-
-            OnActions.inZone[user.player] = false
-            OnActions.storageEntered[user.player] = false
+            OnActions.inZone[user.player.uniqueId] = false
+            OnActions.storageEntered[user.player.uniqueId] = false
 
             app.mainWorld.glows.forEach { it.send(player) }
-            player.walkSpeed = data.statistics.speed
+            nextTick {
+                player.apply {
+                    gameMode = GameMode.ADVENTURE
+                    walkSpeed = data.statistics.speed
+                    teleport(currentCity.getSpawn())
+                }
+            }
         }
     }
 }

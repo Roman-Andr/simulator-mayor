@@ -20,7 +20,7 @@ class City(val owner: User, val id: String, val title: String, val price: Long, 
 
     init {
         app.mainWorld.cells.forEach {
-            playerCells.add(PlayerCell(this, it, false))
+            if (box.contains(it.box.min)) playerCells.add(PlayerCell(this, it, false))
         }
     }
 

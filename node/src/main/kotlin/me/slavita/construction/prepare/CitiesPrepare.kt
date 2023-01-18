@@ -11,7 +11,7 @@ object CitiesPrepare : IPrepare {
             currentCity = data.cities.firstOrNull { it.box.contains(player.location) }!!
 
             currentCity.playerCells.forEach {
-                runAsync(30) {
+                runAsync(200) {
                     it.updateStub()
                 }
             }
