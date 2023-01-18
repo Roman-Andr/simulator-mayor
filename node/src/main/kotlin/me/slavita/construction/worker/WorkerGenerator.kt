@@ -5,9 +5,10 @@ import kotlin.random.Random
 
 object WorkerGenerator {
     private val names = Atlas.find("worker").getList("names")
+    val workers = Atlas.find("worker").getMapList("rapacity")
 
     fun generate(rarity: WorkerRarity, amount: Int): MutableList<Worker> {
-        val values = Atlas.find("worker").getMapList("rapacity").random().values
+        val values = workers.random().values
         val rapacity = WorkerRapacity(
             values.elementAt(0) as String,
             values.elementAt(1) as Double,

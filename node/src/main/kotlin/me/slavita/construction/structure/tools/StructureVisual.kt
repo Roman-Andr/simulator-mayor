@@ -9,14 +9,10 @@ import me.func.protocol.data.element.Banner
 import me.func.protocol.math.Position
 import me.func.protocol.world.marker.Marker
 import me.func.protocol.world.marker.MarkerSign
-import me.slavita.construction.banner.BannerInfo
-import me.slavita.construction.banner.BannerUtil
 import me.slavita.construction.structure.BuildingStructure
-import me.slavita.construction.utils.hide
-import me.slavita.construction.utils.show
+import me.slavita.construction.utils.*
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.WHITE
-import org.bukkit.block.BlockFace
 
 class StructureVisual(val structure: BuildingStructure) {
 
@@ -27,49 +23,21 @@ class StructureVisual(val structure: BuildingStructure) {
     private val owner = structure.owner
     private val progressBar = StructureProgressBar(owner.player, structure.structure.blocksCount)
 
-    private val bannerLocation = structure.box.bottomCenter.clone().apply {
-        when (structure.playerCell.face) {
-            BlockFace.EAST       -> x = structure.box.max.x
-            BlockFace.NORTH      -> z = structure.box.min.z
-            BlockFace.WEST       -> x = structure.box.min.x
-            BlockFace.SOUTH      -> z = structure.box.max.z
-            BlockFace.NORTH_EAST -> {
-                x = structure.box.max.x
-                z = structure.box.min.z
-            }
-
-            BlockFace.NORTH_WEST -> {
-                x = structure.box.min.x
-                z = structure.box.min.z
-            }
-
-            BlockFace.SOUTH_EAST -> {
-                x = structure.box.max.x
-                z = structure.box.max.z
-            }
-
-            BlockFace.SOUTH_WEST -> {
-                x = structure.box.min.x
-                z = structure.box.max.z
-            }
-
-            else                 -> throw IllegalArgumentException("Incorrect structure face")
-        }
-    }
+    private val bannerLocation = getFaceCenter(structure.cell)
 
     fun start() {
         val center = structure.box.center
-        floorBanner = BannerUtil.createFloorBanner(
+        floorBanner = createFloorBanner(
             center.clone().apply {
                 y = structure.allocation.y - 22.49
                 z = structure.allocation.z
             }, GlowColor.BLUE
         )
 
-        infoBanners = BannerUtil.createDual(
+        infoBanners = createDual(
             BannerInfo(
                 bannerLocation,
-                structure.playerCell.face,
+                structure.cell.face,
                 structure.getBannerInfo(),
                 102,
                 80,
@@ -92,7 +60,6 @@ class StructureVisual(val structure: BuildingStructure) {
         Banners.show(owner.player, infoBanners!!)
 
         update()
-        hide()
     }
 
     fun update() {

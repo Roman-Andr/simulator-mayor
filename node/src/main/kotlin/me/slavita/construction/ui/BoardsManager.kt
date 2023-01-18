@@ -2,10 +2,8 @@ package me.slavita.construction.ui
 
 import me.func.atlas.Atlas
 import me.slavita.construction.app
-import me.slavita.construction.ui.format.*
-import me.slavita.construction.utils.BlocksExtensions.toYaw
-import me.slavita.construction.utils.CristalixUtil
-import org.bukkit.Bukkit
+import me.slavita.construction.booster.format.*
+import me.slavita.construction.utils.*
 import org.bukkit.Location
 import org.bukkit.block.BlockFace
 import ru.cristalix.boards.bukkitapi.Boards
@@ -13,6 +11,8 @@ import java.util.*
 
 
 object BoardsManager {
+    var taskId = 0
+
     init {
         Atlas.find("boards").run {
             app.mainWorld.map.getLabels("board").forEach {
@@ -24,10 +24,13 @@ object BoardsManager {
                     getString("boards.${it.tag}.fieldSize").toDouble(),
                     getString("boards.${it.tag}.color"),
                     when (getString("boards.${it.tag}.formatter")) {
-                        "MoneyFormatter"      -> MoneyFormatter()
-                        "ExpFormatter"        -> ExpFormatter()
-                        "ReputationFormatter" -> ReputationFormatter()
-                        else                  -> ExpFormatter()
+                        "MoneyFormatter"      -> MoneyFormatter
+                        "ExperienceFormatter" -> ExperienceFormatter
+                        "ProjectsFormatter"   -> ProjectsFormatter
+                        "ReputationFormatter" -> ReputationFormatter
+                        "BoosterFormatter"    -> BoosterFormatter
+                        "IncomeFormatter"     -> IncomeFormatter
+                        else                  -> EmptyFormatter
                     }
                 )
             }
@@ -54,19 +57,19 @@ object BoardsManager {
         }
         Boards.addBoard(board)
 
-        Bukkit.server.scheduler.scheduleSyncRepeatingTask(app, {
+        taskId = runTimer(0L, 10 * 20) {
             board.clearContent()
             app.kensuke.getLeaderboard(app.userManager, app.statScope, field, 10).thenAccept {
                 it.forEach { entry ->
                     board.addContent(
                         UUID.fromString(entry.data.session.userId),
                         entry.position.toString(),
-                        CristalixUtil.getDisplayName(UUID.fromString(entry.data.session.userId)),
+                        entry.data.session.userId.toUUID().cristalixName,
                         "${color}${formatter.format(entry.data.user.data)}"
                     )
                 }
                 board.updateContent()
             }
-        }, 0L, 10 * 20L)
+        }
     }
 }

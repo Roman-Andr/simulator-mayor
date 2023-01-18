@@ -3,21 +3,24 @@ package me.slavita.construction.world
 import me.func.MetaWorld
 import me.func.builder.MetaSubscriber
 import me.func.mod.reactive.ReactivePlace
-import me.func.mod.util.after
 import me.func.unit.Building
 import me.func.world.WorldMeta
 import me.slavita.construction.app
 import me.slavita.construction.common.utils.V2i
 import me.slavita.construction.structure.Cell
+import me.slavita.construction.utils.label
 import me.slavita.construction.utils.labels
+import me.slavita.construction.utils.safe
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import java.util.*
 
 class GameWorld(val map: WorldMeta) {
-    private val blocks = hashMapOf<UUID, HashMap<V2i, HashSet<StructureBlock>>>()
     val glows = hashSetOf<ReactivePlace>()
     val cells = hashSetOf<Cell>()
+    lateinit var freelanceCell: Cell
+    val emptyBlock = StructureBlock(map.world.getBlockAt(0, 0, 0))
+    private val blocks = hashMapOf<UUID, HashMap<V2i, HashSet<StructureBlock>>>()
 
     init {
         MetaWorld.universe(
@@ -46,18 +49,19 @@ class GameWorld(val map: WorldMeta) {
                                 show(user.player)
                             })
                         }
-                        city.playerCells.forEach {
-                            buildings.add(it.cell.stubBuilding)
+                        city.playerCells.forEach { playerCell ->
+                            buildings.add(playerCell.cell.stubBuilding)
                         }
                     }
                     buildings
                 }.build()
         )
 
-        after(1) {
+        safe {
             labels("place").forEachIndexed { index, label ->
                 cells.add(Cell(index, label))
             }
+            freelanceCell = Cell(0, label("freelance")!!)
         }
 
         /*map.world.handle.chunkInterceptor = ChunkInterceptor { chunk: Chunk, flags: Int, receiver: EntityPlayer? ->
@@ -79,16 +83,16 @@ class GameWorld(val map: WorldMeta) {
         }*/
     }
 
-    fun placeFakeBlock(player: Player, block: StructureBlock) {
+    fun placeFakeBlock(player: Player, block: StructureBlock, save: Boolean = true) {
         player.sendBlockChange(
             Location(map.world, block.position.x.toDouble(), block.position.y.toDouble(), block.position.z.toDouble()),
             block.type,
             block.sourceData
         )
 
-        val chunk = V2i(block.position.x / 16, block.position.z / 16)
-        blocks.getOrPut(player.uniqueId) { hashMapOf() }.getOrPut(chunk) { hashSetOf() }.add(block)
+        if (save) {
+            val chunk = V2i(block.position.x / 16, block.position.z / 16)
+            blocks.getOrPut(player.uniqueId) { hashMapOf() }.getOrPut(chunk) { hashSetOf() }.add(block)
+        }
     }
-
-    fun getNpcLabels() = map.labels("npc")
 }

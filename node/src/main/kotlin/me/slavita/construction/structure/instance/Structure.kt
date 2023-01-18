@@ -1,9 +1,9 @@
 package me.slavita.construction.structure.instance
 
 import me.slavita.construction.app
-import me.slavita.construction.utils.BlocksExtensions.add
-import me.slavita.construction.utils.BlocksExtensions.toLocation
-import me.slavita.construction.utils.BlocksExtensions.unaryMinus
+import me.slavita.construction.utils.add
+import me.slavita.construction.utils.toLocation
+import me.slavita.construction.utils.unaryMinus
 import me.slavita.construction.world.Box
 import me.slavita.construction.world.ItemProperties
 import me.slavita.construction.world.StructureBlock
@@ -21,7 +21,6 @@ class Structure(val name: String, val box: Box) {
     val blocks = hashMapOf<ItemProperties, Int>()
 
     init {
-
         box.forEachBukkit {
             if (it.type == Material.AIR) return@forEachBukkit
 

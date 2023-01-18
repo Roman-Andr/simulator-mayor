@@ -8,11 +8,8 @@ import me.func.mod.world.Banners
 import me.func.protocol.data.color.GlowColor
 import me.func.protocol.data.element.Banner
 import me.slavita.construction.app
-import me.slavita.construction.banner.BannerUtil.loadBanner
-import me.slavita.construction.utils.BlocksExtensions.toYaw
-import me.slavita.construction.utils.labels
-import me.slavita.construction.utils.revert
-import me.slavita.construction.utils.yaw
+import me.slavita.construction.utils.*
+import me.slavita.construction.utils.loadBanner
 import org.bukkit.block.BlockFace
 import org.bukkit.entity.Player
 
@@ -48,9 +45,7 @@ object SpeedPlaces {
             val glow = ReactivePlace.builder()
                 .rgb(GlowColor.BLUE_MIDDLE)
                 .radius(1.5)
-                .x(loc.x)
-                .y(loc.y - 3.50)
-                .z(loc.z)
+                .location(loc.clone().apply { y -= 3.5 })
                 .onEntire { player ->
                     if (active.contains(player)) return@onEntire
 

@@ -8,7 +8,7 @@ object TimeFormatter {
         val hour: Long = duration / (1000 * 60 * 60) % 24
         var answer = ""
         if (hour != 0L) answer += "${hour}ч "
-        if (minute != 0L) answer += "${hour}м "
+        if (minute != 0L) answer += "${minute}м "
         if (second != 0L || (hour == 0L && minute == 0L)) answer += "${second}с"
         return answer
     }

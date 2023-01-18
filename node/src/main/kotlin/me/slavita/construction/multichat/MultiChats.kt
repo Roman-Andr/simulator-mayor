@@ -1,8 +1,8 @@
 package me.slavita.construction.multichat
 
 import me.func.mod.ui.MultiChat
-import me.func.mod.util.after
 import me.func.protocol.data.chat.ModChat
+import me.slavita.construction.utils.safe
 import org.bukkit.entity.Player
 import java.util.*
 
@@ -19,7 +19,7 @@ object MultiChats {
         }
     }
 
-    fun sendPlayerChats(player: Player) = after(1) { MultiChat.sendChats(player, *chatList.toTypedArray()) }
+    fun sendPlayerChats(player: Player) = safe { MultiChat.sendChats(player, *chatList.toTypedArray()) }
 
     fun removePlayerChats(player: Player) = MultiChat.removeChats(player, *chatList.toTypedArray())
 

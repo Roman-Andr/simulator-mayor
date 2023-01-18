@@ -8,51 +8,47 @@ import me.slavita.construction.common.utils.TimeFormatter
 import org.bukkit.ChatColor.*
 
 object Formatter {
-    val moneyIcon = Emoji.COIN
-    val incomeIcon = Emoji.DOLLAR
-    val donateIcon = Emoji.DONATE
+    const val moneyIcon = Emoji.COIN
+    const val incomeIcon = Emoji.DOLLAR
+    const val donateIcon = Emoji.DONATE
 
-    fun Long.toMoney(): String {
-        return NumberFormatter.toMoneyFormat(this)
+    fun <T : Number> T.toMoney(): String {
+        return NumberFormatter.toMoneyFormat(this.toLong())
     }
 
-    fun Long.toMoneyIcon(): String {
+    fun <T : Number> T.toMoneyIcon(): String {
         return "$GOLD${toMoney()} $WHITE${moneyIcon}"
     }
 
-    fun Long.toIncomeIcon(): String {
+    fun <T : Number> T.toIncomeIcon(): String {
         return "${toMoney()} $WHITE${incomeIcon}"
     }
 
-    fun Int.toLevel(): String {
-        return "$this $WHITE${Emoji.UP}"
+    fun <T : Number> T.toLevel(): String {
+        return "${this.toInt()} $WHITE${Emoji.UP}"
     }
 
-    fun Long.toExp(): String {
+    fun <T : Number> T.toExp(): String {
         return "${toMoney()} ${Emoji.EXP}"
     }
 
-    fun Long.toReputation(): String {
+    fun <T : Number> T.toReputation(): String {
         return "${toMoney()} $WHITE${Emoji.RUBY}"
     }
 
-    fun Long.toTimeIcon(): String {
+    fun <T : Number> T.toTimeIcon(): String {
         return "${toTime()} $WHITE${Emoji.TIME}"
     }
 
-    fun Long.toTime(): String {
-        return TimeFormatter.toTimeFormat(this)
+    fun <T : Number> T.toTime(): String {
+        return TimeFormatter.toTimeFormat(this.toLong())
     }
 
-    fun Long.applyBoosters(vararg boosters: BoosterType): Long {
+    fun <T : Number> T.applyBoosters(vararg boosters: BoosterType): Long {
         return this.withBoosters(*boosters.map { it.label }.toTypedArray()).toLong()
     }
 
-    fun Int.toCriMoney(): String {
-        return "${AQUA}$this $donateIcon"
-    }
-
-    fun Float.applyBoosters(vararg boosters: BoosterType): Float {
-        return this.withBoosters(*boosters.map { it.label }.toTypedArray()).toFloat()
+    fun <T : Number> T.toCriMoney(): String {
+        return "${AQUA}${this.toInt()} $donateIcon"
     }
 }

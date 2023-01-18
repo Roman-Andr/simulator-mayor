@@ -6,24 +6,25 @@ import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.player.User
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureSender
-import me.slavita.construction.utils.Cooldown
-import me.slavita.construction.utils.PlayerExtensions.deny
+import me.slavita.construction.ui.Formatter.toMoneyIcon
+import me.slavita.construction.ui.Formatter.toReputation
+import me.slavita.construction.utils.cursor
+import me.slavita.construction.utils.deny
 import me.slavita.construction.utils.swapItems
 import me.slavita.construction.world.GameWorld
+import kotlin.random.Random
 
 class ClientStructure(
     world: GameWorld,
     structure: Structure,
     owner: User,
-    playerCell: PlayerCell,
-) : BuildingStructure(world, structure, owner, playerCell) {
+    cell: PlayerCell,
+) : BuildingStructure(world, structure, owner, cell) {
     private val sender = StructureSender(owner.player)
 
-    override fun enterBuilding() {
-        Anime.createReader("structure:place") { player, _ ->
-            if (player.uniqueId == owner.uuid) tryPlaceBlock()
-        }
-    }
+    override fun enterBuilding() {}
+
+    override fun onFinish() {}
 
     override fun onShow() {
         sender.sendBlock(currentBlock!!, allocation)
@@ -47,8 +48,22 @@ class ClientStructure(
         )
     }
 
-    private fun tryPlaceBlock() {
+    fun tryPlaceBlock() {
+        when (Random.nextInt(100)) {
+            in 0..5  -> {
+                val reputation = (owner.data.statistics.reputation / 100)
+                owner.player.cursor(reputation.toReputation())
+                owner.data.statistics.reputation += reputation
+            }
+
+            in 0..10 -> {
+                val money = owner.data.statistics.money / 100
+                owner.player.cursor(money.toMoneyIcon())
+                owner.data.statistics.money += money
+            }
+        }
         owner.player.inventory.itemInMainHand.apply {
+            if (currentBlock == null) return
             if (!currentBlock!!.equalsItem(this)) {
                 Glow.animate(owner.player, 0.2, GlowColor.RED)
                 owner.player.deny("Неверный блок")

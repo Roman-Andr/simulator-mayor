@@ -15,7 +15,7 @@ object Config {
             "locations",
             "city",
         ).map {
-            "https://storage.c7x.dev/${System.getProperty("storage.user")}/construction/config/$it.yml"
+            "${STORAGE_URL}/config/$it.yml"
         }
 
         Atlas.config(configs).forEach { file ->

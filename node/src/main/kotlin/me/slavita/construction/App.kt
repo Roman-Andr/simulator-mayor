@@ -28,15 +28,14 @@ import me.slavita.construction.npc.NpcManager
 import me.slavita.construction.player.Data
 import me.slavita.construction.player.KensukeUser
 import me.slavita.construction.player.User
+import me.slavita.construction.showcase.Showcases
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.BoardsManager
 import me.slavita.construction.ui.CityGlows
 import me.slavita.construction.ui.SpeedPlaces
-import me.slavita.construction.ui.items.ItemsManager
-import me.slavita.construction.utils.Config
-import me.slavita.construction.utils.ModCallbacks
+import me.slavita.construction.ui.ItemsManager
+import me.slavita.construction.utils.*
 import me.slavita.construction.utils.language.EnumLang
-import me.slavita.construction.utils.logTg
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.Bukkit
@@ -46,9 +45,10 @@ import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import ru.cristalix.core.CoreApi
 import ru.cristalix.core.datasync.EntityDataParameters
-import ru.cristalix.core.internal.BukkitInternals
 import ru.cristalix.core.invoice.IInvoiceService
 import ru.cristalix.core.invoice.InvoiceService
+import ru.cristalix.core.keyboard.IKeyService
+import ru.cristalix.core.keyboard.KeyService
 import ru.cristalix.core.multichat.ChatMessage
 import ru.cristalix.core.multichat.IMultiChatService
 import ru.cristalix.core.multichat.MultiChatService
@@ -63,7 +63,6 @@ import ru.cristalix.core.transfer.ITransferService
 import ru.cristalix.core.transfer.TransferService
 import java.util.*
 
-
 lateinit var app: App
 
 class App : JavaPlugin() {
@@ -71,31 +70,27 @@ class App : JavaPlugin() {
     lateinit var structureMap: WorldMeta
     lateinit var mainWorld: GameWorld
     val bot = bot {
-        token = System.getProperty("tg.token")
+        token = System.getenv("TG_TOKEN")
         dispatch {}
     }
     val chatId = -1001654696542L
-    private val users = hashMapOf<UUID, User>()
+    val users = hashMapOf<UUID, User>()
     val allBlocks = hashSetOf<ItemProperties>()
 
-    val statScope = Scope("construction-testt", Data::class.java)
+    val statScope = Scope("construction--test", Data::class.java)
     lateinit var kensuke: Kensuke
     lateinit var userManager: UserManager<KensukeUser>
 
     val localStaff = hashSetOf(
         "e2543a0a-5799-11e9-8374-1cb72caa35fd",
         "ba821208-6b64-11e9-8374-1cb72caa35fd"
-    ).map { UUID.fromString(it) }
+    ).map { it.toUUID() }
 
     var pass = 0L
-        private set
-    var started = 0L
         private set
 
     override fun onEnable() {
         app = this
-
-        started = System.currentTimeMillis()
 
         EntityDataParameters.register()
         Platforms.set(PlatformDarkPaper())
@@ -108,9 +103,10 @@ class App : JavaPlugin() {
             registerService(IScoreboardService::class.java, ScoreboardService())
             registerService(IInvoiceService::class.java, InvoiceService(ISocketClient.get()))
             registerService(IMultiChatService::class.java, MultiChatService(ISocketClient.get()))
+            registerService(IKeyService::class.java, KeyService(app))
         }
 
-        IMultiChatService.get().apply {
+        IMultiChatService.get().run {
             setRealmTag("slvt")
             addSingleChatHandler("construction") { message: ChatMessage ->
                 Bukkit.getOnlinePlayers().forEach { player ->
@@ -128,7 +124,7 @@ class App : JavaPlugin() {
 
             IScoreboardService.get().serverStatusBoard.displayName = "${WHITE}Тест #${AQUA}" + realmId.id
             after(20 * 10) {
-                ITransferService.get().transfer(UUID.fromString(System.getProperty("construction.user")), realmId)
+                ITransferService.get().transfer(System.getenv("CONSTRUCTION_USER").toUUID(), realmId)
             }
         }
 
@@ -173,17 +169,18 @@ class App : JavaPlugin() {
         SpeedPlaces
         ItemsManager
         PlayerEvents
-
+        Showcases
         EnumLang.init()
 
         bot.startPolling()
         logTg("Initialized on realm ${IRealmService.get().currentRealmInfo.realmId}")
 
-        server.scheduler.scheduleSyncRepeatingTask(this, { pass++ }, 0, 1)
+        runTimer(0, 1) { pass++ }
     }
 
     override fun onDisable() {
         EnumLang.clean()
+        scheduler.cancelTask(BoardsManager.taskId)
     }
 
     fun getUserOrAdd(uuid: UUID) = getUserOrNull(uuid) ?: addUser(uuid)

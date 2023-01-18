@@ -1,9 +1,36 @@
+trash:
+  - banner:
+    height: 8
+    weight: 35
+    offset: 2.5
+    content: "§cМусорка"
+    carve-size: 2.0
+    lines-size:
+      - 1.0
 city-hall:
   - banner:
     height: 8
     weight: 35
     offset: 2.5
     content: "§aМэрия"
+    carve-size: 2.0
+    lines-size:
+      - 1.0
+claim-banner:
+  - banner:
+    height: 8
+    weight: 35
+    offset: 2.5
+    content: "§6Отдать блоки"
+    carve-size: 2.0
+    lines-size:
+      - 1.0
+storage-upgrade:
+  - banner:
+    height: 8
+    weight: 35
+    offset: 2.5
+    content: "§aСклад"
     carve-size: 2.0
     lines-size:
       - 1.0

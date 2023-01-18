@@ -1,11 +1,11 @@
 package me.slavita.construction.action
 
 import me.slavita.construction.app
-import org.bukkit.entity.Player
+import me.slavita.construction.player.User
 import java.util.*
 import kotlin.reflect.KClass
 
-abstract class CooldownCommand(val player: Player, private var cooldown: Long) : Command {
+abstract class CooldownCommand(open val user: User, open val cooldown: Long) : Command {
     companion object {
         private val playerCooldown = HashMap<UUID, HashMap<KClass<CooldownCommand>, Long>>()
     }
@@ -13,9 +13,9 @@ abstract class CooldownCommand(val player: Player, private var cooldown: Long) :
     protected abstract fun execute()
 
     override fun tryExecute(ignore: Boolean): Long {
-        val lastTime = playerCooldown.getOrPut(player.uniqueId) { HashMap() }.getOrDefault(javaClass.kotlin, 0)
+        val lastTime = playerCooldown.getOrPut(user.player.uniqueId) { HashMap() }.getOrDefault(javaClass.kotlin, 0)
         if (app.pass - lastTime > cooldown || ignore) {
-            playerCooldown[player.uniqueId]!![javaClass.kotlin] = app.pass
+            playerCooldown[user.player.uniqueId]!![javaClass.kotlin] = app.pass
             execute()
         }
         return app.pass - lastTime - cooldown

@@ -1,43 +1,60 @@
 package me.slavita.construction.player
 
+import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.app
 import me.slavita.construction.project.Project
 import me.slavita.construction.structure.CityStructure
 import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.structure.tools.CityStructureState
-import me.slavita.construction.utils.PlayerExtensions.deny
-import org.bukkit.Bukkit
+import me.slavita.construction.utils.Alert
+import me.slavita.construction.utils.Alert.button
+import me.slavita.construction.utils.runTimer
+import me.slavita.construction.utils.toYaw
 import org.bukkit.ChatColor.*
+import org.bukkit.Location
+import org.bukkit.block.BlockFace
 
 class City(val owner: User, id: String, val title: String, val price: Long, var unlocked: Boolean) {
     val projects = hashSetOf<Project>()
     val cityStructures = hashSetOf<CityStructure>()
     val playerCells = hashSetOf<PlayerCell>()
     val box = app.mainWorld.map.box("city", id)
+    var taskId = 0
 
     init {
         app.mainWorld.cells.forEach {
             playerCells.add(PlayerCell(this, it, false))
         }
-        Bukkit.server.scheduler.scheduleSyncRepeatingTask(app, {
+        taskId = runTimer(0, 2 * 60 * 20) {
             breakStructure()
-        }, 0L, 2 * 60 * 20L)
+        }
     }
 
     fun breakStructure() {
         if (cityStructures.size == 0) return
-        cityStructures.shuffled().chunked(5)[0].forEach {
-            if (it.state == CityStructureState.BROKEN || it.state == CityStructureState.NOT_READY) return
+
+        val targetStructures =
+            cityStructures.filter { it.state != CityStructureState.BROKEN && it.state != CityStructureState.NOT_READY }
+        if (targetStructures.isEmpty()) return
+        targetStructures.shuffled()[0].let {
             owner.income -= it.structure.income
             it.state = CityStructureState.BROKEN
-            owner.player.deny(
+
+            Alert.send(
+                owner.player,
                 """
-                        ${RED}Поломка!
-                        ${GRAY}Номер: ${GRAY}${it.playerCell.id}
-                        ${AQUA}Название: ${GOLD}${it.structure.name}
-                        ${GOLD}Локация: ${GREEN}$title
-                    """.trimIndent()
+                    ${RED}Поломка
+                    ${GRAY}Номер: ${GRAY}${it.cell.id}
+                    ${AQUA}Название: ${GOLD}${it.structure.name}
+                    ${GOLD}Локация: ${GREEN}$title
+                """.trimIndent(),
+                5000,
+                GlowColor.RED,
+                GlowColor.RED_MIDDLE,
+                null,
+                button("Понятно", "/ok", GlowColor.GREEN),
             )
+
             it.visual.update()
         }
     }
@@ -55,5 +72,8 @@ class City(val owner: User, id: String, val title: String, val price: Long, var 
         projects.remove(project)
     }
 
-    fun getSpawn() = box.getLabel("spawn")
+    fun getSpawn(): Location = box.getLabel("spawn")!!.toCenterLocation().apply {
+        yaw = BlockFace.EAST.toYaw()
+        y -= 0.5
+    }
 }

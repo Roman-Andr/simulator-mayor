@@ -1,6 +1,9 @@
 package me.slavita.construction.structure
 
 import me.slavita.construction.player.User
+import me.slavita.construction.player.sound.Music.playSound
+import me.slavita.construction.player.sound.MusicSound
+import me.slavita.construction.project.FreelanceProject
 import me.slavita.construction.project.Project
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureState
@@ -12,21 +15,24 @@ abstract class BuildingStructure(
     val world: GameWorld,
     val structure: Structure,
     val owner: User,
-    val playerCell: PlayerCell,
+    val cell: PlayerCell,
 ) {
     protected var currentBlock: StructureBlock? = null
     protected var hidden = false
-    private var currentProject: Project? = null
+    var currentProject: Project? = null
+        private set
     var cityStructure: CityStructure? = null
     var state = StructureState.NOT_STARTED
     var blocksPlaced = 0
-    val box = playerCell.box
+    val box = cell.box
     val allocation = box.min
     val visual = StructureVisual(this)
 
     protected abstract fun enterBuilding()
 
     protected abstract fun blockPlaced()
+
+    protected abstract fun onFinish()
 
     protected abstract fun onShow()
 
@@ -59,12 +65,14 @@ abstract class BuildingStructure(
         enterBuilding()
         currentProject = project
         visual.start()
+        owner.updatePosition()
     }
 
     fun placeCurrentBlock() {
         if (state != StructureState.BUILDING) return
+        owner.player.playSound(MusicSound.HINT)
 
-        world.placeFakeBlock(owner.player, currentBlock!!.withOffset(allocation))
+        world.placeFakeBlock(owner.player, currentBlock!!.withOffset(allocation), currentProject!! !is FreelanceProject)
         currentBlock = structure.getNextBlock(currentBlock!!.position)
         blockPlaced()
 
@@ -80,7 +88,10 @@ abstract class BuildingStructure(
         state = StructureState.FINISHED
         deleteVisual()
         visual.finishShow()
-        cityStructure = playerCell.city.addStructure(CityStructure(owner.player, structure, playerCell))
+        if (currentProject!! !is FreelanceProject) cityStructure =
+            cell.city.addStructure(CityStructure(owner.player, structure, cell))
+        onFinish()
+        owner.updatePosition()
     }
 
     fun claimed() {

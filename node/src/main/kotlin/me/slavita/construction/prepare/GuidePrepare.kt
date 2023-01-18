@@ -3,8 +3,6 @@ package me.slavita.construction.prepare
 import me.func.atlas.Atlas
 import me.func.protocol.ui.dialog.*
 import me.slavita.construction.player.User
-import me.slavita.construction.utils.user
-import org.bukkit.entity.Player
 
 object GuidePrepare : IPrepare {
     var dialog: Dialog? = null
@@ -38,9 +36,7 @@ object GuidePrepare : IPrepare {
         }
     }
 
-    fun tryNext(player: Player) {
-        val user = player.user
-
+    fun tryNext(user: User) {
         val entryPoint: String = if (
             false
         ) {
@@ -51,7 +47,7 @@ object GuidePrepare : IPrepare {
         }
 
         dialog?.run {
-            me.func.mod.ui.dialog.Dialog.dialog(player, this, entryPoint)
+            me.func.mod.ui.dialog.Dialog.dialog(user.player, this, entryPoint)
         }
     }
 }

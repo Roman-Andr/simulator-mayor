@@ -7,16 +7,15 @@ import me.slavita.construction.reward.Reward
 import me.slavita.construction.structure.BuildingStructure
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.structure.tools.StructureState
+import org.bukkit.ChatColor
 
-class Project(
+open class Project(
     val city: City,
     var id: Int,
     val structure: BuildingStructure,
     val rewards: List<Reward>,
 ) {
     val owner = city.owner
-    val timeLast: Int
-        get() = 0
 
     init {
         var projectsCount = 0
@@ -28,26 +27,30 @@ class Project(
 
     fun start() {
         structure.startBuilding(this)
+        owner.player.playSound(MusicSound.SUCCESS3)
     }
 
-    fun onEnter() {
+    open fun onEnter() {
         when (structure.state) {
-            StructureState.BUILDING       -> structure.showVisual()
-            StructureState.FINISHED       -> {
-                structure.claimed()
-                rewards.forEach { reward ->
-                    reward.getReward(owner)
-                }
+            StructureState.BUILDING -> structure.showVisual()
+            StructureState.FINISHED -> {
+                finish()
                 structure.cityStructure!!.state = CityStructureState.FUNCTIONING
                 structure.cityStructure!!.startIncome()
                 city.finishProject(this@Project)
-                owner.player.playSound(MusicSound.UI_CLICK)
-                owner.data.statistics.totalProjects++
             }
 
-            StructureState.REWARD_CLAIMED -> {}
-            StructureState.NOT_STARTED    -> {}
+            else                    -> {}
         }
+    }
+
+    fun finish() {
+        structure.claimed()
+        rewards.forEach { reward ->
+            reward.getReward(owner)
+        }
+        owner.player.playSound(MusicSound.UI_CLICK)
+        owner.data.statistics.totalProjects++
     }
 
     fun onLeave() {
@@ -56,4 +59,11 @@ class Project(
             else                    -> {}
         }
     }
+
+    override fun toString() = """
+        Информация про проект:
+          ${ChatColor.AQUA}ID: ${id}
+          ${ChatColor.AQUA}Награды:
+          ${rewards.joinToString("\n  ") { it.toString() }}
+    """.trimIndent()
 }

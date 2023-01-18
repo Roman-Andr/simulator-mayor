@@ -6,15 +6,14 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.bank.Bank
 import me.slavita.construction.bank.Credit
 import me.slavita.construction.ui.Formatter.toMoneyIcon
-import me.slavita.construction.utils.PlayerExtensions.accept
-import me.slavita.construction.utils.user
+import me.slavita.construction.utils.accept
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.WHITE
 import org.bukkit.entity.Player
 
 class RepayCreditConfim(player: Player, val credit: Credit) : MenuCommand(player) {
     override fun getMenu(): Openable {
-        player.user.run user@{
+        user.run user@{
             return Confirmation(
                 text = listOf(
                     "${AQUA}Погасить кредит",

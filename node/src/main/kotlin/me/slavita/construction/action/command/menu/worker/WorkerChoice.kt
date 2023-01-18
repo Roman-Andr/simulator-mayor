@@ -6,11 +6,12 @@ import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.WorkerExecutor
+import me.slavita.construction.action.command.menu.project.StartProject
 import me.slavita.construction.project.Project
 import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.utils.getEmptyButton
-import me.slavita.construction.utils.user
+import me.slavita.construction.utils.getWorkerInfo
 import me.slavita.construction.worker.WorkerState
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
@@ -18,9 +19,10 @@ import org.bukkit.entity.Player
 class WorkerChoice(player: Player, val project: Project, val startProject: Boolean = true) :
     WorkerExecutor(player, project.structure as WorkerStructure) {
     override fun getMenu(): Openable {
-        player.user.run user@{
+        user.run user@{
             return selection {
                 title = "${AQUA}${BOLD}Выбор строителей"
+                info = getWorkerInfo()
                 rows = 5
                 columns = 4
                 storage = mutableListOf(
@@ -32,12 +34,8 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
                         hint = "Готово"
                         onClick { _, _, _ ->
                             Anime.close(player)
-
                             if (!startProject) return@onClick
-                            project.structure.playerCell.setBusy()
-                            (project.structure as WorkerStructure).workers.addAll(this@WorkerChoice.structure.workers)
-                            project.start()
-                            this@user.currentCity.addProject(project)
+                            StartProject(user, project, structure).tryExecute()
                         }
                     },
                     button {

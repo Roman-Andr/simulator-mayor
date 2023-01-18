@@ -9,48 +9,19 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.UpgradeWorker
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.ui.menu.ItemIcons
-import me.slavita.construction.utils.user
+import me.slavita.construction.utils.getWorkerInfo
 import me.slavita.construction.worker.Worker
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 
 class WorkerUpgradeMenu(player: Player, val worker: Worker) : MenuCommand(player) {
     override fun getMenu(): Openable {
-        player.user.run user@{
+        user.run user@{
             var infoButton: ReactiveButton
             return choicer {
                 title = "${GOLD}${BOLD}Улучшение рабочего"
                 description = ""
-                info = """
-                    ${GOLD}${BOLD}Характеристики:
-                      ${YELLOW}Имя ${GRAY}»
-                        ${WHITE}Наименование рабочего
-                        ${WHITE}в вашей команде
-                      
-                      ${DARK_GREEN}Редкость ${GRAY}»
-                        ${WHITE}Показывает на сколько
-                        ${WHITE}характеристики рабочего хороши
-                      
-                      ${GOLD}Уровень ${GRAY}»
-                        ${WHITE}Показывает уровень прокачки
-                        ${WHITE}рабочего и влиет
-                        ${WHITE}на все его характеристики
-                      
-                      ${AQUA}Скорость ${GRAY}»
-                        ${WHITE}Количество блоков,
-                        ${WHITE}которые ставит рабочий
-                        ${WHITE}за секунду
-                      
-                      ${GREEN}Надёжность ${GRAY}»
-                        ${WHITE}Влияет на то, как часто
-                        ${WHITE}будет ломаться здания,
-                        ${WHITE}построенные этим рабочим
-                      
-                      ${RED}Жадность ${GRAY}»
-                        ${WHITE}Влияет на награду
-                        ${WHITE}за окончания постройки
-                        ${WHITE}здания этим рабочим
-                """.trimIndent()
+                info = getWorkerInfo()
                 storage = mutableListOf(
                     button {
                         item = ItemIcons.get("other", "info1")
@@ -65,7 +36,7 @@ class WorkerUpgradeMenu(player: Player, val worker: Worker) : MenuCommand(player
                         hint = "Улучшить"
                         backgroundColor = GlowColor.GREEN
                         onClick { _, _, button ->
-                            UpgradeWorker(player, worker).tryExecute()
+                            UpgradeWorker(user, worker).tryExecute()
                             button.hover = getUpgradeHover()
                             infoButton.hover = worker.toString()
                         }

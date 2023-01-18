@@ -6,9 +6,10 @@ class Statistics(
     var experience: Long = 0,
     var reputation: Double = 0.0,
     var totalProjects: Int = 0,
-    var maxProjects: Int = 0,
     var speed: Float = 0.2F,
     var trainStep: Int = 0,
-    var nextDay: Int = 5,
+    var nextDay: Int = 0,
     var nextTakeDailyReward: Long = 0,
+    var totalBoosters: Long = 0,
+    var lastIncome: Long = 0,
 )

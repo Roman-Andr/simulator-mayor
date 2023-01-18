@@ -2,6 +2,7 @@ package me.slavita.construction.dontate
 
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.booster.BoosterType
+import me.slavita.construction.player.Tags
 import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.menu.ItemIcons
 import org.bukkit.ChatColor.*
@@ -317,5 +318,20 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
         ),
         ItemIcons.get("other", "coin5"),
         GlowColor.GREEN
+    ),
+    TAG_1(
+        TagDonate(
+            "${GOLD}${BOLD}Тег ${Tags.BRICK.tag}",
+            """
+                ${GREEN}При покупке:
+                  Добавит к вашим ${GOLD}тегам ${WHITE}тег ${Tags.BRICK.tag}
+                 
+                Нажмите чтобы купить за ${19.toCriMoney()}
+            """.trimIndent(),
+            19,
+            Tags.BRICK
+        ),
+        ItemIcons.get("other", "clothes"),
+        GlowColor.BLUE_MIDDLE
     ),
 }

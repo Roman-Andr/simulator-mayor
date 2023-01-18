@@ -2,8 +2,8 @@ package me.slavita.construction.reward
 
 import me.slavita.construction.player.User
 
-abstract class Reward {
-    abstract fun getReward(user: User)
+interface Reward {
+    fun getReward(user: User)
 
-    abstract override fun toString(): String
+    override fun toString(): String
 }

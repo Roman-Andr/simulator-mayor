@@ -1,15 +1,23 @@
 package me.slavita.construction.player
 
-import me.slavita.construction.app
-import me.slavita.construction.booster.BoosterType
+import me.func.mod.Anime
+import me.func.mod.conversation.ModTransfer
+import me.slavita.construction.action.command.menu.city.ShowcaseMenu
+import me.slavita.construction.action.command.menu.city.BuyCityConfirm
+import me.slavita.construction.action.command.menu.project.ChoiceProject
+import me.slavita.construction.action.command.menu.project.ChoiceStructureGroup
 import me.slavita.construction.dontate.Abilities
+import me.slavita.construction.listener.OnActions
 import me.slavita.construction.prepare.StoragePrepare
+import me.slavita.construction.project.FreelanceProject
 import me.slavita.construction.project.Project
 import me.slavita.construction.storage.BlocksStorage
-import me.slavita.construction.ui.Formatter.applyBoosters
-import me.slavita.construction.utils.PlayerExtensions.deny
+import me.slavita.construction.structure.PlayerCell
+import me.slavita.construction.structure.tools.StructureState
+import me.slavita.construction.utils.deny
 import me.slavita.construction.utils.runAsync
-import org.bukkit.Bukkit
+import me.slavita.construction.utils.user
+import org.bukkit.Location
 import org.bukkit.entity.Player
 import ru.cristalix.core.invoice.IInvoiceService
 import java.util.*
@@ -23,8 +31,25 @@ class User(val uuid: UUID) {
     val blocksStorage = BlocksStorage(this)
     var watchableProject: Project? = null
     var income = 0L
-    var criBalanceLastUpdate = 0L
+        set(value) {
+            if (initialized) data.statistics.lastIncome = value
+            field = value
+        }
     val hall = CityHall(this)
+    var taskId = 0
+    var showcaseTaskId = 0
+    var showcaseMenuTaskId = 0
+    var showcaseMenu: ShowcaseMenu? = null
+    var lastApprovedPosition: Location? = null
+    private var criBalanceLastUpdate = 0L
+    var inTrashZone = false
+
+    lateinit var freelanceCell: PlayerCell
+    var currentFreelance: FreelanceProject? = null
+        set(value) {
+            data.hasFreelance = value != null
+            field = value
+        }
 
     var criBalance: Int = 0
         get() {
@@ -39,12 +64,6 @@ class User(val uuid: UUID) {
             return field
         }
 
-    init {
-        Bukkit.server.scheduler.scheduleSyncRepeatingTask(app, {
-            if (initialized && player.isOnline) data.statistics.money += income.applyBoosters(BoosterType.MONEY_BOOSTER)
-        }, 0L, 20L)
-    }
-
     fun tryPurchase(
         cost: Long,
         acceptAction: () -> Unit,
@@ -54,6 +73,7 @@ class User(val uuid: UUID) {
             acceptAction()
         } else {
             player.deny("Недостаточно денег!")
+            Anime.close(player)
         }
     }
 
@@ -78,9 +98,9 @@ class User(val uuid: UUID) {
 
         StoragePrepare.prepare(this)
 
-        currentCity.playerCells.forEach {
+        currentCity.playerCells.forEach { stub ->
             runAsync(30) {
-                it.updateStub()
+                stub.updateStub()
             }
         }
 
@@ -90,5 +110,87 @@ class User(val uuid: UUID) {
     fun addAbility(ability: Abilities) {
         data.abilities.add(ability)
         ability.applyAction(this)
+    }
+
+    fun updatePosition(): Boolean {
+        cities.forEach { city ->
+            if (city.box.contains(player.location)) {
+                if (currentCity.title != city.title && city.unlocked) {
+                    currentCity = city
+                    return false
+                }
+                if (!city.unlocked) {
+                    player.teleport(lastApprovedPosition)
+                    BuyCityConfirm(player, city, false).tryExecute()
+                    return true
+                } else {
+                    lastApprovedPosition = player.location
+                }
+            }
+        }
+        if (watchableProject != null && !watchableProject!!.structure.box.contains(player.location)) {
+            watchableProject!!.onLeave()
+            watchableProject = null
+        }
+
+        if (player.user.blocksStorage.inBox() && !OnActions.storageEntered[player]!!) {
+            ModTransfer()
+                .send("storage:show", player)
+            OnActions.storageEntered[player] = true
+        }
+
+        if (!player.user.blocksStorage.inBox() && OnActions.storageEntered[player]!!) {
+            ModTransfer()
+                .send("storage:hide", player)
+            OnActions.storageEntered[player] = false
+        }
+
+        if (watchableProject == null) {
+            if (currentFreelance != null && freelanceCell.box.contains(player.location)) {
+                watchableProject = currentFreelance
+                watchableProject!!.onEnter()
+                return false
+            }
+
+            currentCity.projects.forEach { project ->
+                if (project.structure.box.contains(player.location)) {
+                    watchableProject = project
+                    project.onEnter()
+                    return false
+                }
+            }
+
+            currentCity.playerCells.forEach { cell ->
+                if (cell.busy || !cell.box.contains(player.location)) return@forEach
+
+                if (OnActions.inZone[player] == false) ChoiceStructureGroup(player, cell) { structure ->
+                    ChoiceProject(player, structure, cell).keepHistory().tryExecute()
+                }.tryExecute()
+                OnActions.inZone[player] = true
+                return false
+            }
+
+            OnActions.inZone[player] = false
+        } else {
+            if (currentFreelance != null && freelanceCell.box.contains(player.location) && currentFreelance!!.structure.state == StructureState.FINISHED) {
+                watchableProject = null
+                currentFreelance!!.onEnter()
+            }
+
+            currentCity.projects.filter { it.structure.state == StructureState.FINISHED }.forEach { project ->
+                if (project.structure.box.contains(player.location)) {
+                    watchableProject = project
+                    project.onEnter()
+                    return false
+                }
+            }
+        }
+        return false
+    }
+
+    fun updateDaily() {
+        val time = System.currentTimeMillis()
+        data.statistics.nextDay++
+        data.statistics.nextTakeDailyReward = time + 24 * 60 * 60 * 1000
     }
 }

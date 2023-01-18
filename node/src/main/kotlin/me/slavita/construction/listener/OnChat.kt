@@ -4,12 +4,13 @@ import me.slavita.construction.utils.listener
 import me.slavita.construction.utils.user
 import net.md_5.bungee.api.chat.*
 import org.bukkit.Bukkit
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.DARK_GRAY
 import org.bukkit.entity.Player
 import org.bukkit.event.player.AsyncPlayerChatEvent
 import ru.cristalix.core.multichat.ChatMessage
 import ru.cristalix.core.multichat.IMultiChatService
 import ru.cristalix.core.permissions.IPermissionService
+import ru.cristalix.core.realm.IRealmService
 
 object OnChat {
     init {
@@ -40,20 +41,20 @@ object OnChat {
             coloredMessage += chatColor + it
         }
 
-        val nameComponent = ComponentBuilder(displayName).create().first()
-        nameComponent.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/controls ${player.displayName}")
-        nameComponent.hoverEvent =
-            HoverEvent(HoverEvent.Action.SHOW_TEXT, ComponentBuilder("Быстрые действия с игроком").create())
-
-        val tagComponent = ComponentBuilder(if (tag.tag.isEmpty()) "" else " " + tag.tag).create().first()
-        tagComponent.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/settag ${tag.name}")
-        tagComponent.hoverEvent = HoverEvent(
-            HoverEvent.Action.SHOW_TEXT,
-            ComponentBuilder("${GREEN}Применить тэг ${RESET}${tag.tag} ${GRAY}[${GOLD}ПКМ${GRAY}]").create()
+        return arrayListOf(
+            ComponentBuilder(displayName).create().first().apply {
+                clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/controls ${player.displayName}")
+                hoverEvent =
+                    HoverEvent(HoverEvent.Action.SHOW_TEXT, ComponentBuilder("Быстрые действия с игроком").create())
+            },
+            ComponentBuilder(if (tag.tag.isEmpty()) "" else " " + tag.tag).create().first(),
+            ComponentBuilder(" ${DARK_GRAY}»").create().first(),
+            ComponentBuilder(coloredMessage).create().first().apply {
+                hoverEvent = HoverEvent(
+                    HoverEvent.Action.SHOW_TEXT,
+                    ComponentBuilder("Игрок пишет с сервера ${IRealmService.get().currentRealmInfo.realmId.realmName}").create()
+                )
+            }
         )
-        val mergeComponent = ComponentBuilder(" §8»").create().first()
-        val messageComponent = ComponentBuilder(coloredMessage).create().first()
-
-        return arrayListOf(nameComponent, tagComponent, mergeComponent, messageComponent)
     }
 }

@@ -33,12 +33,13 @@ object OnJoin {
                         ConnectionPrepare,
                         PermissionsPrepare,
                         ItemCallbacksPrepare,
-                        ShowcasePrepare,
                         BankAccountPrepare,
                         GuidePrepare,
                         StoragePrepare,
                         AbilityPrepare,
                         DailyRewardsPrepare,
+                        ShowcasePrepare,
+                        WarningPrepare,
                     ).forEach { it.prepare(this) }
                 }
             }

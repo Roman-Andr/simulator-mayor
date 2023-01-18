@@ -4,6 +4,7 @@ banner:
   content: "\n§bВитрина §8[§6ПКМ§8]"
   lines-size:
     - 0.9
+    - 0.9
 showcases:
   - id: 1
     title: '§a§lМагазин "Напильник"'

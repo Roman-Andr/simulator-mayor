@@ -8,18 +8,17 @@ import me.slavita.construction.dontate.Donates
 import me.slavita.construction.dontate.MoneyDonate
 import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.Formatter.toMoney
-import me.slavita.construction.utils.donateButton
-import me.slavita.construction.utils.mapM
-import me.slavita.construction.utils.user
+import me.slavita.construction.utils.*
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GREEN
 import org.bukkit.entity.Player
 
 class MoneyBuyMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
-        player.user.run user@{
+        user.run user@{
             return choicer {
                 title = "${GREEN}${BOLD}Игровая валюта"
+                info = getDonateInfo()
                 description = "Кристаллики: ${player.user.criBalance.toCriMoney()}"
                 storage = Donates.values().filter { it.donate is MoneyDonate }.mapM {
                     val value = (this@user.income * (it.donate as MoneyDonate).skipTime).toMoney()

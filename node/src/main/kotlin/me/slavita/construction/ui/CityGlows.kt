@@ -3,49 +3,60 @@ package me.slavita.construction.ui
 import me.func.atlas.Atlas
 import me.func.mod.reactive.ReactivePlace
 import me.func.protocol.data.color.GlowColor
+import me.func.protocol.data.color.RGB
 import me.slavita.construction.action.command.menu.city.CityHallMenu
+import me.slavita.construction.action.command.menu.storage.StorageUpgrade
 import me.slavita.construction.app
-import me.slavita.construction.banner.BannerUtil.loadBanner
-import me.slavita.construction.utils.PlayerExtensions.accept
-import me.slavita.construction.utils.label
+import me.slavita.construction.utils.*
+import org.bukkit.entity.Player
 
 object CityGlows {
     init {
-        label("city-hall")?.let { label ->
-            Atlas.find("city").getMapList("city-hall").forEach { banner ->
+        loadGlow("city-hall", GlowColor.GREEN, { player ->
+            CityHallMenu(player).tryExecute()
+        })
+        loadGlow("afk-zone", GlowColor.RED_LIGHT, { player ->
+            player.accept("Вы вошли в зону афк")
+        }, { player ->
+            player.accept("Вы вышли из зоны афк")
+        })
+        loadGlow("storage-upgrade", GlowColor.GREEN_LIGHT, { player ->
+            StorageUpgrade(player).tryExecute()
+        })
+        loadGlow("trash", GlowColor.NEUTRAL_LIGHT, { player ->
+            player.accept("""
+                Здесь находится мусорка
+                Выкиньте блоки, чтобы удалить их
+            """.trimIndent())
+            player.user.inTrashZone = true
+        }, { player ->
+            player.user.inTrashZone = false
+        })
+    }
+
+    private fun loadGlow(
+        labelName: String,
+        color: RGB,
+        onEnter: (player: Player) -> Unit,
+        onLeave: (player: Player) -> Unit = {},
+        radius: Double = 2.0,
+    ) {
+        label(labelName)?.let { label ->
+            Atlas.find("city").getMapList(labelName).forEach { banner ->
                 loadBanner(banner, label, true, 0.0)
             }
             app.mainWorld.glows.add(
                 ReactivePlace.builder()
-                    .rgb(GlowColor.GREEN)
-                    .radius(2.0)
-                    .x(label.toCenterLocation().x)
-                    .y(label.y - 2.50)
-                    .z(label.toCenterLocation().z)
+                    .rgb(color)
+                    .radius(radius)
+                    .location(label.toCenterLocation().clone().apply { y -= 2.5 })
                     .onEntire { player ->
-                        CityHallMenu(player).tryExecute()
-                    }
-                    .build().apply {
-                        isConstant = true
-                    }
-            )
-        }
-        label("afk-zone")?.let { label ->
-            Atlas.find("city").getMapList("afk-zone").forEach { banner ->
-                loadBanner(banner, label, true, 0.0)
-            }
-            app.mainWorld.glows.add(
-                ReactivePlace.builder()
-                    .rgb(GlowColor.RED_LIGHT)
-                    .radius(3.0)
-                    .x(label.toCenterLocation().x)
-                    .y(label.y - 2.50)
-                    .z(label.toCenterLocation().z)
-                    .onEntire { player ->
-                        player.accept("Вы вошли в зону афк")
+                        if (player.location.distance(label) > 3) return@onEntire
+                        onEnter(player)
                     }
                     .onLeave { player ->
-                        player.accept("Вы вышли из зоны афк")
+                        if (player.location.distance(label) > 3) return@onLeave
+                        onLeave(player)
                     }
                     .build().apply {
                         isConstant = true

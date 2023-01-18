@@ -6,6 +6,7 @@ import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.choicer
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.utils.getBankInfo
 import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GOLD
@@ -13,10 +14,11 @@ import org.bukkit.entity.Player
 
 class BankMainMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
-        player.user.run user@{
+        user.run user@{
             return choicer {
                 title = "${GOLD}${BOLD}Банк"
                 description = "Выбери нужный раздел"
+                info = getBankInfo()
                 storage = mutableListOf(
                     button {
                         title = "Взять кредит"
@@ -35,7 +37,7 @@ class BankMainMenu(player: Player) : MenuCommand(player) {
                         hint = "Выбрать"
                         item = ItemIcons.get("other", "quest_month")
                         onClick { _, _, _ ->
-                            CreditsListMenu(player).closeAll(false).tryExecute()
+                            CreditsListMenu(player).keepHistory().tryExecute()
                         }
                     }
                 )

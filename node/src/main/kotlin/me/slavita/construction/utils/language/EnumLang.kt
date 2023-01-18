@@ -163,7 +163,7 @@ enum class EnumLang(val locale: String, val map: MutableMap<String, String>) {
         }
 
         fun clean() {
-            for (enumLang in values()) {
+            values().forEach { enumLang ->
                 enumLang.map.clear()
             }
         }

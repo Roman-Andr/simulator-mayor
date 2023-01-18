@@ -7,16 +7,17 @@ import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.menu.ItemIcons
-import me.slavita.construction.utils.user
+import me.slavita.construction.utils.getDonateInfo
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 
 class DonateMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
-        player.user.run user@{
+        user.run user@{
             return choicer {
                 title = "${GOLD}${BOLD}Платные возможности"
-                description = "Кристаллики: ${player.user.criBalance.toCriMoney()}"
+                info = getDonateInfo()
+                description = "Кристаллики: ${criBalance.toCriMoney()}"
                 storage = mutableListOf(
                     button {
                         item = ItemIcons.get("other", "bag1")
@@ -25,7 +26,7 @@ class DonateMenu(player: Player) : MenuCommand(player) {
                         description = "${GRAY}Пополнение\n${GRAY}баланса"
                         backgroundColor = GlowColor.GREEN
                         onClick { _, _, _ ->
-                            MoneyBuyMenu(player).closeAll(false).tryExecute()
+                            MoneyBuyMenu(player).keepHistory().tryExecute()
                         }
                     },
                     button {
@@ -35,7 +36,7 @@ class DonateMenu(player: Player) : MenuCommand(player) {
                         description = "${GRAY}Удобства\n${GRAY}для игры"
                         backgroundColor = GlowColor.BLUE_LIGHT
                         onClick { _, _, _ ->
-                            AbilitiesMenu(player).closeAll(false).tryExecute()
+                            AbilitiesMenu(player).keepHistory().tryExecute()
                         }
                     },
                     button {
@@ -45,7 +46,7 @@ class DonateMenu(player: Player) : MenuCommand(player) {
                         hint = "Выбрать"
                         backgroundColor = GlowColor.YELLOW_LIGHT
                         onClick { _, _, _ ->
-                            BoostersMenu(player).closeAll(false).tryExecute()
+                            BoostersMenu(player).keepHistory().tryExecute()
                         }
                     },
                     button {
@@ -55,7 +56,7 @@ class DonateMenu(player: Player) : MenuCommand(player) {
                         description = "${GRAY}Паки\n${GRAY}бустеров"
                         backgroundColor = GlowColor.GREEN_LIGHT
                         onClick { _, _, _ ->
-                            BoosterPackMenu(player).closeAll(false).tryExecute()
+                            BoosterPackMenu(player).keepHistory().tryExecute()
                         }
                     }
                 )

@@ -8,6 +8,7 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.dontate.AbilityDonate
 import me.slavita.construction.dontate.Donates
 import me.slavita.construction.ui.Formatter.toCriMoney
+import me.slavita.construction.utils.getDonateInfo
 import me.slavita.construction.utils.mapM
 import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.AQUA
@@ -16,10 +17,11 @@ import org.bukkit.entity.Player
 
 class AbilitiesMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
-        player.user.run user@{
+        user.run user@{
             return choicer {
                 title = "${AQUA}${BOLD}Улучшения"
-                description = "Кристаллики: ${player.user.criBalance.toCriMoney()}"
+                description = "Кристаллики: ${criBalance.toCriMoney()}"
+                info = getDonateInfo()
                 storage = Donates.values().filter { it.donate is AbilityDonate }.mapM {
                     button {
                         item = it.displayItem

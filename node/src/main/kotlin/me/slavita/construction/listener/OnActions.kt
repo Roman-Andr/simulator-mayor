@@ -1,98 +1,55 @@
 package me.slavita.construction.listener
 
-import me.func.mod.conversation.ModTransfer
-import me.slavita.construction.action.command.menu.city.BuyCityConfirm
-import me.slavita.construction.action.command.menu.project.ChoiceStructureGroup
-import me.slavita.construction.structure.tools.CityStructureState
-import me.slavita.construction.ui.HumanizableValues
-import me.slavita.construction.utils.PlayerExtensions.accept
-import me.slavita.construction.utils.listener
-import me.slavita.construction.utils.user
+import me.slavita.construction.ui.HumanizableValues.*
+import me.slavita.construction.utils.*
+import me.slavita.construction.utils.language.LanguageHelper
+import org.bukkit.ChatColor.GOLD
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerMoveEvent
 
 object OnActions {
-    private val inZone = hashMapOf<Player, Boolean>()
-    private var storageEntered = false
+    val inZone = hashMapOf<Player, Boolean>()
+    var storageEntered = hashMapOf<Player, Boolean>()
 
     init {
         listener<PlayerDropItemEvent> {
             val user = player.user
+            if (user.inTrashZone) {
+                drop.remove()
+                return@listener
+            }
+
             if (!user.blocksStorage.inBox() || itemDrop.itemStack.getType() == Material.CLAY_BALL) {
                 isCancelled = true
                 return@listener
             }
 
-            player.accept(
-                "Вы положили ${drop.itemStack.getAmount()} ${
-                    HumanizableValues.BLOCK.get(
-                        drop.itemStack.getAmount()
-                    )
-                }"
-            )
-            user.blocksStorage.addItem(drop.itemStack)
+            val toAdd = user.blocksStorage.addItem(drop.itemStack)
+            val depositBlocks = drop.itemStack.getAmount() - toAdd
+            if (depositBlocks > 0) {
+                player.accept(
+                    "Вы положили ${GOLD}${
+                        LanguageHelper.getItemDisplayName(
+                            drop.itemStack,
+                            player
+                        )
+                    }: ${BLOCK.get(depositBlocks)}"
+                )
+            } else {
+                player.deny("Нехватает места на складе!")
+            }
+            if (toAdd != 0) {
+                player.inventory.addItem(drop.itemStack.apply { setAmount(toAdd) })
+            }
+
             drop.remove()
         }
 
         listener<PlayerMoveEvent> {
-            player.user.run {
-                cities.forEach { city ->
-                    if (city.box.contains(player.location)) {
-                        if (currentCity.title != city.title && city.unlocked) {
-                            currentCity = city
-                            return@listener
-                        }
-                        if (!city.unlocked) {
-                            BuyCityConfirm(player, city, false).tryExecute()
-                            isCancelled = true
-                        }
-                    }
-                }
-                if (watchableProject != null && !watchableProject!!.structure.box.contains(player.location)) {
-                    watchableProject!!.onLeave()
-                    watchableProject = null
-                }
-
-                currentCity.cityStructures.forEach {
-                    if (it.playerCell.box.contains(player.location) && it.state == CityStructureState.BROKEN) {
-                        it.repair()
-                    }
-                }
-
-                if (player.user.blocksStorage.inBox() && !storageEntered) {
-                    ModTransfer()
-                        .send("storage:show", player)
-                    storageEntered = true
-                }
-
-                if (!player.user.blocksStorage.inBox() && storageEntered) {
-                    ModTransfer()
-                        .send("storage:hide", player)
-                    storageEntered = false
-                }
-
-                if (watchableProject == null) {
-                    currentCity.projects.forEach { project ->
-                        if (project.structure.box.contains(player.location)) {
-                            watchableProject = project
-                            project.onEnter()
-                            return@listener
-                        }
-                    }
-
-                    currentCity.playerCells.forEach { cell ->
-                        if (cell.busy || !cell.box.contains(player.location)) return@forEach
-
-                        if (inZone[player] == false) ChoiceStructureGroup(player, cell).tryExecute()
-                        inZone[player] = true
-                        return@listener
-                    }
-
-                    inZone[player] = false
-                }
-            }
+            player.user.updatePosition()
+            if (player.user.currentFreelance != null && !player.user.freelanceCell.box.contains(to)) isCancelled = true
         }
     }
 }
