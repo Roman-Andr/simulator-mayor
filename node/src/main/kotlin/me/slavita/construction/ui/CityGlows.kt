@@ -24,10 +24,12 @@ object CityGlows {
             StorageUpgrade(player).tryExecute()
         })
         loadGlow("trash", GlowColor.NEUTRAL_LIGHT, { player ->
-            player.accept("""
+            player.accept(
+                """
                 Здесь находится мусорка
                 Выкиньте блоки, чтобы удалить их
-            """.trimIndent())
+            """.trimIndent()
+            )
             player.user.inTrashZone = true
         }, { player ->
             player.user.inTrashZone = false

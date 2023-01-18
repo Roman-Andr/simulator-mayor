@@ -14,11 +14,8 @@ import me.slavita.construction.action.command.menu.general.GuideDialog
 import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
 import me.slavita.construction.action.command.menu.storage.StorageMenu
 import me.slavita.construction.action.command.menu.worker.WorkerMenu
-import me.slavita.construction.ui.menu.ItemIcons
-import me.slavita.construction.utils.loadBanner
-import me.slavita.construction.utils.STORAGE_URL
-import me.slavita.construction.utils.labels
-import me.slavita.construction.utils.toUUID
+import me.slavita.construction.ui.menu.Icons
+import me.slavita.construction.utils.*
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack
 import org.bukkit.inventory.EquipmentSlot
 import kotlin.reflect.full.primaryConstructor
@@ -61,7 +58,7 @@ object NpcManager {
                             else                 -> ControlPanelMenu::class
                         }.primaryConstructor!!.call(it.player).tryExecute()
                     }
-                }.slot(EquipmentSlot.HAND, CraftItemStack.asNMSCopy(ItemIcons.get(itemKey, itemValue)))
+                }.slot(EquipmentSlot.HAND, CraftItemStack.asNMSCopy(Icons.get(itemKey, itemValue)))
             }
         }
     }

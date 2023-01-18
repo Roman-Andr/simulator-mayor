@@ -7,7 +7,7 @@ import me.func.mod.ui.menu.choicer
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.prepare.TagsPrepare
-import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.getSettingInfo
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GREEN
@@ -37,10 +37,10 @@ class SettingsMenu(player: Player) : MenuCommand(player) {
     private fun updateButton(button: ReactiveButton) {
         button.apply {
             if (user.data.settings.tagShow) {
-                item = ItemIcons.get("other", "access")
+                item = Icons.get("other", "access")
                 backgroundColor = GlowColor.GREEN
             } else {
-                item = ItemIcons.get("other", "cancel")
+                item = Icons.get("other", "cancel")
                 backgroundColor = GlowColor.NEUTRAL
             }
         }

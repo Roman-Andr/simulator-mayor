@@ -9,7 +9,6 @@ import me.func.protocol.data.color.GlowColor
 import me.func.protocol.data.element.Banner
 import me.slavita.construction.app
 import me.slavita.construction.utils.*
-import me.slavita.construction.utils.loadBanner
 import org.bukkit.block.BlockFace
 import org.bukkit.entity.Player
 

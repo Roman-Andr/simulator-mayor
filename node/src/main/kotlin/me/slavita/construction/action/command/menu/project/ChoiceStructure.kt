@@ -7,7 +7,7 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.instance.StructureGroup
-import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.getStructuresInfo
 import me.slavita.construction.utils.language.LanguageHelper
 import me.slavita.construction.utils.mapM
@@ -32,7 +32,7 @@ class ChoiceStructure(
                     button {
                         title = structure.name
                         hint = "Выбрать"
-                        item = ItemIcons.get("skyblock", "spawn")
+                        item = Icons.get("skyblock", "spawn")
                         hover = ""
                         structure.blocks.toList().sortedBy { it.second }.toMap().forEach { block ->
                             hover += "${GOLD}${

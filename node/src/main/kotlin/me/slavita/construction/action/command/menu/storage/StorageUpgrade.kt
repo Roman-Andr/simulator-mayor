@@ -8,7 +8,7 @@ import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.Formatter.toLevel
 import me.slavita.construction.ui.Formatter.toMoneyIcon
-import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.ui.menu.Icons
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 
@@ -29,7 +29,7 @@ class StorageUpgrade(val player: Player) : MenuCommand(player) {
                             
                             ${BOLD}${WHITE}Стоимость: ${GREEN}${user.blocksStorage.upgradePrice.toMoneyIcon()}
                         """.trimIndent()
-                    item = ItemIcons.get("other", "anvil")
+                    item = Icons.get("other", "anvil")
                     onClick { _, _, _ ->
                         user.blocksStorage.upgrade()
                         Anime.close(player)

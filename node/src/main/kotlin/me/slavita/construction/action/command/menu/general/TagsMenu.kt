@@ -13,7 +13,7 @@ import me.slavita.construction.prepare.TagsPrepare
 import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.ui.Formatter.toMoneyIcon
-import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
 import me.slavita.construction.utils.*
@@ -54,7 +54,7 @@ class TagsMenu(val player: Player) : MenuCommand(player) {
                 title = if (tag.tag == "") "Пустой" else tag.tag
                 if (data.ownTags.contains(tag)) {
                     hint = if (data.tag == tag) "Выбран" else "Выбрать"
-                    item = ItemIcons.get("other", "pets1", data.tag == tag)
+                    item = Icons.get("other", "pets1", data.tag == tag)
                     backgroundColor = if (user.data.tag != tag) GlowColor.GREEN else GlowColor.BLUE
                     onClick { _, _, _ ->
                         if (data.tag != tag) {
@@ -65,7 +65,7 @@ class TagsMenu(val player: Player) : MenuCommand(player) {
                     }
                 } else {
                     hint = "Купить"
-                    item = ItemIcons.get("other", "lock")
+                    item = Icons.get("other", "lock")
                     backgroundColor = GlowColor.NEUTRAL
                     description = tag.price.toMoneyIcon()
                     onClick { _, _, _ ->
@@ -81,7 +81,7 @@ class TagsMenu(val player: Player) : MenuCommand(player) {
             addAll(Donates.values().filter { it.donate is TagDonate }.map {
                 button {
                     val tag = (it.donate as TagDonate).tag
-                    item = ItemIcons.get("other", "pets1", data.tag == tag)
+                    item = Icons.get("other", "pets1", data.tag == tag)
                     title = it.donate.tag.tag
                     if (!data.ownTags.contains(tag)) {
                         hint = "Купить"

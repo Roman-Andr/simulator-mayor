@@ -4,7 +4,7 @@ import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.booster.BoosterType
 import me.slavita.construction.player.Tags
 import me.slavita.construction.ui.Formatter.toCriMoney
-import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.ui.menu.Icons
 import org.bukkit.ChatColor.*
 import org.bukkit.inventory.ItemStack
 import java.util.concurrent.TimeUnit
@@ -22,7 +22,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             89,
             Abilities.FLY
         ),
-        ItemIcons.get("other", "friend_game"),
+        Icons.get("other", "friend_game"),
         GlowColor.CIAN_LIGHT
     ),
     NO_LIMIT_TELEPORT_DONATE(
@@ -38,7 +38,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             49,
             Abilities.NO_LIMIT_TELEPORT
         ),
-        ItemIcons.get("alpha", "islands"),
+        Icons.get("alpha", "islands"),
         GlowColor.ORANGE_LIGHT
     ),
     CREDIT_PERCENT_DONATE(
@@ -54,7 +54,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             59,
             Abilities.CREDIT_PERCENT
         ),
-        ItemIcons.get("other", "stats"),
+        Icons.get("other", "stats"),
         GlowColor.YELLOW
     ),
     CREDITS_LIMIT_DONATE(
@@ -70,7 +70,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             59,
             Abilities.CREDITS_LIMIT
         ),
-        ItemIcons.get("other", "guild_bank"),
+        Icons.get("other", "guild_bank"),
         GlowColor.YELLOW
     ),
     CHEAPEST_SHOPS_DONATE(
@@ -86,7 +86,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             69,
             Abilities.SHOP_TIPS
         ),
-        ItemIcons.get("alpha", "home1"),
+        Icons.get("alpha", "home1"),
         GlowColor.GREEN
     ),
     LUCK_BOOSTER(
@@ -105,7 +105,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             TimeUnit.MINUTES,
             BoosterType.LUCK_BOOSTER
         ),
-        ItemIcons.get("other", "new_booster_2"),
+        Icons.get("other", "new_booster_2"),
         GlowColor.ORANGE_LIGHT
     ),
     REPUTATION_BOOSTER(
@@ -124,7 +124,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             TimeUnit.MINUTES,
             BoosterType.REPUTATION_BOOSTER
         ),
-        ItemIcons.get("other", "new_booster_2", true),
+        Icons.get("other", "new_booster_2", true),
         GlowColor.PURPLE_LIGHT
     ),
     INCOME_BOOSTER(
@@ -143,7 +143,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             TimeUnit.MINUTES,
             BoosterType.INCOME_BOOSTER
         ),
-        ItemIcons.get("other", "new_booster_1"),
+        Icons.get("other", "new_booster_1"),
         GlowColor.GREEN_LIGHT
     ),
     MONEY_BOOSTER(
@@ -162,7 +162,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             TimeUnit.MINUTES,
             BoosterType.MONEY_BOOSTER
         ),
-        ItemIcons.get("other", "new_booster_1", true),
+        Icons.get("other", "new_booster_1", true),
         GlowColor.YELLOW
     ),
     SPEED_BOOSTER(
@@ -181,7 +181,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             TimeUnit.MINUTES,
             BoosterType.SPEED_BOOSTER
         ),
-        ItemIcons.get("other", "achievements_many_rare"),
+        Icons.get("other", "achievements_many_rare"),
         GlowColor.CIAN
     ),
     EXP_BOOSTER(
@@ -200,7 +200,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             TimeUnit.MINUTES,
             BoosterType.EXP_BOOSTER
         ),
-        ItemIcons.get("other", "achievements_many_rare", true),
+        Icons.get("other", "achievements_many_rare", true),
         GlowColor.CIAN_LIGHT
     ),
     BEGINNER_PACK(
@@ -218,7 +218,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             TimeUnit.HOURS,
             *BoosterType.values()
         ),
-        ItemIcons.get("other", "achievements"),
+        Icons.get("other", "achievements"),
         GlowColor.GREEN_LIGHT
     ),
     EXPERT_PACK(
@@ -236,7 +236,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             TimeUnit.HOURS,
             *BoosterType.values()
         ),
-        ItemIcons.get("other", "achievements_rare", true),
+        Icons.get("other", "achievements_rare", true),
         GlowColor.ORANGE_LIGHT
     ),
     MONEY_5_MINUTES(
@@ -252,7 +252,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             19,
             5 * 60
         ),
-        ItemIcons.get("other", "coin"),
+        Icons.get("other", "coin"),
         GlowColor.GREEN
     ),
     MONEY_10_MINUTES(
@@ -268,7 +268,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             29,
             10 * 60
         ),
-        ItemIcons.get("other", "coin2"),
+        Icons.get("other", "coin2"),
         GlowColor.GREEN
     ),
     MONEY_30_MINUTES(
@@ -284,7 +284,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             99,
             30 * 60
         ),
-        ItemIcons.get("other", "coin3"),
+        Icons.get("other", "coin3"),
         GlowColor.GREEN
     ),
     MONEY_1_HOURS(
@@ -300,7 +300,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             199,
             1 * 60 * 60
         ),
-        ItemIcons.get("other", "coin4"),
+        Icons.get("other", "coin4"),
         GlowColor.GREEN
     ),
     MONEY_2_HOURS(
@@ -316,7 +316,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             399,
             2 * 60 * 60
         ),
-        ItemIcons.get("other", "coin5"),
+        Icons.get("other", "coin5"),
         GlowColor.GREEN
     ),
     TAG_1(
@@ -331,7 +331,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             19,
             Tags.BRICK
         ),
-        ItemIcons.get("other", "clothes"),
+        Icons.get("other", "clothes"),
         GlowColor.BLUE_MIDDLE
     ),
 }

@@ -1,7 +1,7 @@
 package me.slavita.construction.worker
 
 import me.slavita.construction.ui.Formatter.toLevel
-import me.slavita.construction.ui.HumanizableValues.*
+import me.slavita.construction.ui.HumanizableValues.BLOCK
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.GOLD
 import java.util.*

@@ -7,7 +7,7 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.instance.Structures
-import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.getStructuresInfo
 import me.slavita.construction.utils.mapM
 import org.bukkit.ChatColor.BOLD
@@ -30,7 +30,7 @@ class ChoiceStructureGroup(
                     button {
                         title = group.name
                         hint = "Выбрать"
-                        item = ItemIcons.get("skyblock", "spawn")
+                        item = Icons.get("skyblock", "spawn")
                         onClick { _, _, _ ->
                             ChoiceStructure(player, group, cell) { structure ->
                                 action(structure)

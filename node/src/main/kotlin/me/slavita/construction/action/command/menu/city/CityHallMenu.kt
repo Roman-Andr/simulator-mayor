@@ -9,7 +9,7 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.Formatter.toIncomeIcon
 import me.slavita.construction.ui.Formatter.toLevel
 import me.slavita.construction.ui.Formatter.toMoneyIcon
-import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.getCityHallInfo
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
@@ -33,7 +33,7 @@ class CityHallMenu(player: Player) : MenuCommand(player) {
                             
                             ${BOLD}${WHITE}Стоимость: ${GREEN}${hall.upgradePrice.toMoneyIcon()}
                         """.trimIndent()
-                        item = ItemIcons.get("other", "anvil")
+                        item = Icons.get("other", "anvil")
                         onClick { _, _, _ ->
                             hall.upgrade()
                             Anime.close(player)

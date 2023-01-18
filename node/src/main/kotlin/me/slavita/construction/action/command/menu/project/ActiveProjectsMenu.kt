@@ -3,7 +3,7 @@ package me.slavita.construction.action.command.menu.project
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
 import me.slavita.construction.action.MenuCommand
-import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
 import me.slavita.construction.utils.getBaseSelection
@@ -24,7 +24,7 @@ class ActiveProjectsMenu(player: Player) : MenuCommand(player) {
                 info = getProjectsInfo()
                 storage = cities.flatMap { it.projects }.mapM {
                     button {
-                        item = ItemIcons.get("skyblock", "settings")
+                        item = Icons.get("skyblock", "settings")
                         title = "Проект #${it.id}"
                         hover = it.toString()
                         hint = " "

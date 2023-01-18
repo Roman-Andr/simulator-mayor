@@ -5,7 +5,7 @@ import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.choicer
 import me.slavita.construction.action.MenuCommand
-import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.getBankInfo
 import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.BOLD
@@ -24,7 +24,7 @@ class BankMainMenu(player: Player) : MenuCommand(player) {
                         title = "Взять кредит"
                         description = "Нажмите для\nвзятия кредита"
                         hint = "Выбрать"
-                        item = ItemIcons.get("other", "add")
+                        item = Icons.get("other", "add")
                         onClick { _, _, _ ->
                             ModTransfer()
                                 .integer((player.user.data.statistics.money).toString().length)
@@ -35,7 +35,7 @@ class BankMainMenu(player: Player) : MenuCommand(player) {
                         title = "Мои кредиты"
                         description = "Нажмите для\nпросмотра ваших\nкредитов"
                         hint = "Выбрать"
-                        item = ItemIcons.get("other", "quest_month")
+                        item = Icons.get("other", "quest_month")
                         onClick { _, _, _ ->
                             CreditsListMenu(player).keepHistory().tryExecute()
                         }

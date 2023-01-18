@@ -9,7 +9,7 @@ import me.slavita.construction.action.WorkerExecutor
 import me.slavita.construction.action.command.menu.project.StartProject
 import me.slavita.construction.project.Project
 import me.slavita.construction.structure.WorkerStructure
-import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.getEmptyButton
 import me.slavita.construction.utils.getWorkerInfo
 import me.slavita.construction.worker.WorkerState
@@ -28,7 +28,7 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
                 storage = mutableListOf(
                     getEmptyButton(),
                     button {
-                        item = ItemIcons.get("other", "access")
+                        item = Icons.get("other", "access")
                         title = "${GREEN}Подтвердить"
                         backgroundColor = GlowColor.GREEN
                         hint = "Готово"
@@ -39,7 +39,7 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
                         }
                     },
                     button {
-                        item = ItemIcons.get("other", "reload")
+                        item = Icons.get("other", "reload")
                         title = """
                         ${GREEN}Убрать
                         ${GREEN}выделение
@@ -56,7 +56,7 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
                     this@user.data.workers.sortedByDescending { it.rarity }.forEach { worker ->
                         this@storage.add(
                             button {
-                                item = ItemIcons.get(
+                                item = Icons.get(
                                     worker.rarity.iconKey,
                                     worker.rarity.iconValue,
                                     false,
