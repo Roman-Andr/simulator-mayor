@@ -8,6 +8,7 @@ import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.utils.getStructuresInfo
 import me.slavita.construction.utils.mapM
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GOLD
@@ -22,6 +23,7 @@ class ChoiceStructureGroup(
         user.run user@{
             return selection {
                 title = "${GOLD}${BOLD}Выбор здания"
+                info = getStructuresInfo()
                 rows = 5
                 columns = 4
                 storage = Structures.structureGroups.mapM { group ->

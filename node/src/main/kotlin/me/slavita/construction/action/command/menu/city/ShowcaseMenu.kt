@@ -14,7 +14,6 @@ import me.slavita.construction.showcase.Showcase
 import me.slavita.construction.showcase.ShowcaseProduct
 import me.slavita.construction.ui.Formatter
 import me.slavita.construction.ui.Formatter.toMoney
-import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.utils.*
 import me.slavita.construction.utils.language.LanguageHelper
 import org.bukkit.ChatColor.*
@@ -22,11 +21,6 @@ import org.bukkit.entity.Player
 
 class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player) {
     private val buttons = mutableListOf<ReactiveButton>()
-    private val infoButton = button {
-        item = ItemIcons.get("other", "info1")
-        hover = getInfo()
-        hint = " "
-    }
     private var selection = Selection()
 
     override fun getMenu(): Openable {
@@ -46,27 +40,27 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player)
         }
     }
 
-    private fun getBalance() = "Ваш Баланс ${user.data.statistics.money.toMoney()}"
+    private fun getTitle() = """
+        ${showcase.properties.name} ${GREEN}Обновление цен через: ${GOLD}${showcase.updateTime}
+    """.trimIndent()
 
-    private fun getInfo() = """
-        ${GREEN}Обновление цен через: ${GOLD}${showcase.updateTime}
+    private fun getMoney() = """
+        Ваш Баланс ${user.data.statistics.money.toMoney()}
     """.trimIndent()
 
     private fun buyBlocks(user: User, amount: Int, entry: ShowcaseProduct, selection: Selection) {
-        if (!user.blocksStorage.hasSpace(amount)) {
-            user.player.deny("Недостаточно места на складе")
+        val hasSpace = user.player.inventory.firstEmpty() != -1
+        if (!hasSpace && !user.blocksStorage.hasSpace(amount)) {
+            user.player.deny("Нехватает места на складе!")
             Anime.close(user.player)
             return
         }
         user.tryPurchase(entry.price * amount) {
             user.player.accept("Вы успешно купили блоки")
-            if (user.player.inventory.firstEmpty() == -1) {
-                user.blocksStorage.addItem(entry.item.createItemStack(1), amount)
-            } else {
-                user.player.inventory.addItem(entry.item.createItemStack(amount))
-            }
+            if (hasSpace) user.player.inventory.addItem(entry.item.createItemStack(amount))
+            else user.blocksStorage.addItem(entry.item.createItemStack(1), amount)
             Glow.animate(user.player, 0.3, GlowColor.GREEN)
-            selection.money = getBalance()
+            selection.money = getMoney()
         }
     }
 
@@ -75,7 +69,7 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player)
             val emptyItem = entry.item.createItemStack(1)
             if (user.showcaseMenuTaskId != 0) scheduler.cancelTask(user.showcaseMenuTaskId)
             user.showcaseMenuTaskId = runTimer(0, 20) {
-                infoButton.hover = getInfo()
+                selection.title = getTitle()
             }
             button {
                 item = emptyItem.validate()
@@ -101,7 +95,7 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player)
                     updateButtons()
                 }
             }
-        }.apply { add(0, infoButton) }
+        }
     }
 
     fun updateButtons() {

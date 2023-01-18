@@ -42,6 +42,7 @@ class User(val uuid: UUID) {
     var showcaseMenu: ShowcaseMenu? = null
     var lastApprovedPosition: Location? = null
     private var criBalanceLastUpdate = 0L
+    var inTrashZone = false
 
     lateinit var freelanceCell: PlayerCell
     var currentFreelance: FreelanceProject? = null

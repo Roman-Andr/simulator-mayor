@@ -77,7 +77,7 @@ object UserCommands {
         }
 
         listen("freelance", null) { player ->
-            StartFreelanceProject(player)
+            StartFreelanceProject(player).tryExecute()
         }
     }
 

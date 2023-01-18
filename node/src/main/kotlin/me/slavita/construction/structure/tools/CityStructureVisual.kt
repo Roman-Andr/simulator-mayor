@@ -9,12 +9,12 @@ import me.func.protocol.data.element.Banner
 import me.func.protocol.world.marker.Marker
 import me.func.protocol.world.marker.MarkerSign
 import me.slavita.construction.structure.CityStructure
-import me.slavita.construction.ui.HumanizableValues
+import me.slavita.construction.ui.HumanizableValues.*
 import me.slavita.construction.utils.*
 import me.slavita.construction.utils.accept
 import me.slavita.construction.utils.getFaceCenter
 import me.slavita.construction.world.ItemProperties
-import org.bukkit.ChatColor
+import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 
 class CityStructureVisual(val structure: CityStructure) {
@@ -83,7 +83,7 @@ class CityStructureVisual(val structure: CityStructure) {
                 deposit = true
             }
         }
-        if (deposit) player.accept("Вы положили ${ChatColor.GOLD}$toDeposit ${HumanizableValues.BLOCK.get(toDeposit)}")
+        if (deposit) player.accept("Вы положили ${GOLD}${BLOCK.get(toDeposit)}")
         return deposit
     }
 

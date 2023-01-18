@@ -49,7 +49,7 @@ class LocationsMenu(player: Player) : MenuCommand(player) {
                                 ).tryExecute(ignore)
                                     .run {
                                         if (!ignore && this < 0) player.deny(
-                                            "Подождите ещё ${(abs(this) / 20).toInt()} ${SECOND.get((abs(this) / 20).toInt())}"
+                                            "Подождите ещё ${SECOND.get((abs(this) / 20).toInt())}"
                                         )
                                     }
                                 Anime.close(player)

@@ -21,6 +21,7 @@ class StorageMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         selection = selection {
             title = "${GREEN}${BOLD}Склад"
+            info = getStorageInfo()
             rows = 5
             columns = 14
             money = getFreeSpace()
@@ -28,7 +29,6 @@ class StorageMenu(player: Player) : MenuCommand(player) {
                 button {
                     item = entry.key.createItemStack(1)
                     hover = getHover(entry)
-                    info = getStorageInfo()
                     hint = " "
                     onLeftClick { _, _, _ ->
                         removeItems(64, entry, this)

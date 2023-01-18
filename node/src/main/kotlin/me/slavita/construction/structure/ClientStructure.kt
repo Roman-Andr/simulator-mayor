@@ -8,6 +8,7 @@ import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureSender
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.ui.Formatter.toReputation
+import me.slavita.construction.utils.cursor
 import me.slavita.construction.utils.deny
 import me.slavita.construction.utils.swapItems
 import me.slavita.construction.world.GameWorld
@@ -51,13 +52,13 @@ class ClientStructure(
         when (Random.nextInt(100)) {
             in 0..5  -> {
                 val reputation = (owner.data.statistics.reputation / 100)
-                Anime.cursorMessage(owner.player, reputation.toReputation())
+                owner.player.cursor(reputation.toReputation())
                 owner.data.statistics.reputation += reputation
             }
 
             in 0..10 -> {
                 val money = owner.data.statistics.money / 100
-                Anime.cursorMessage(owner.player, money.toMoneyIcon())
+                owner.player.cursor(money.toMoneyIcon())
                 owner.data.statistics.money += money
             }
         }

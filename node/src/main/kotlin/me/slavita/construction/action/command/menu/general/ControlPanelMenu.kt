@@ -129,7 +129,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         """.trimIndent()
                         item = ItemIcons.get("skyblock", "info")
                         onClick { _, _, _ ->
-                            if (user.currentFreelance != null) StartFreelanceProject(player).tryExecute()
+                            if (user.currentFreelance == null) StartFreelanceProject(player).tryExecute()
                         }
                     }
                 )

@@ -6,13 +6,14 @@ import me.slavita.construction.player.User
 import me.slavita.construction.ui.Formatter.applyBoosters
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.accept
+import me.slavita.construction.utils.cursor
 
 class MoneyReward(private val money: Long) : Reward {
     override fun getReward(user: User) {
         val value = money.applyBoosters(BoosterType.MONEY_BOOSTER)
         user.data.statistics.money += value
         user.player.accept("Вы получили ${value.toMoneyIcon()}")
-        Anime.cursorMessage(user.player, value.toMoneyIcon())
+        user.player.cursor(value.toMoneyIcon())
     }
 
     override fun toString(): String {

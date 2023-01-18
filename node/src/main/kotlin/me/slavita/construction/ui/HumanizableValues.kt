@@ -9,6 +9,6 @@ enum class HumanizableValues(val oneValue: String, val twoValue: String, val fiv
     BLOCK("блок", "блока", "блоков");
 
     fun get(value: Number): String {
-        return Humanize.plurals(oneValue, twoValue, fiveValue, value.toInt())
+        return "$value ${Humanize.plurals(oneValue, twoValue, fiveValue, value.toInt())}"
     }
 }

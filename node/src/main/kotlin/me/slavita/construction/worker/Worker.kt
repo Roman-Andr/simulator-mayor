@@ -1,7 +1,7 @@
 package me.slavita.construction.worker
 
 import me.slavita.construction.ui.Formatter.toLevel
-import me.slavita.construction.ui.HumanizableValues
+import me.slavita.construction.ui.HumanizableValues.*
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.GOLD
 import java.util.*
@@ -35,7 +35,7 @@ class Worker(
         ${AQUA}Имя: ${GOLD}$name
         ${AQUA}Редкость: ${GOLD}${rarity.title}
         ${AQUA}Уровень: ${level.toLevel()}
-        ${AQUA}Скорость: ${GOLD}$blocksSpeed ${HumanizableValues.BLOCK.get(blocksSpeed)} в секунду
+        ${AQUA}Скорость: ${GOLD}${BLOCK.get(blocksSpeed)} в секунду
         ${AQUA}Надёжность: ${GOLD}$reliability%
         ${AQUA}Жадность: ${GOLD}${rapacity.title}
     """.trimIndent()
