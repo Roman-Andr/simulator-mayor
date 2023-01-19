@@ -163,7 +163,7 @@ class User(val uuid: UUID) {
             currentCity.playerCells.forEach { cell ->
                 if (cell.busy || !cell.box.contains(player.location)) return@forEach
 
-                if (OnActions.inZone[player] == false) ChoiceStructureGroup(player, cell) { structure ->
+                if (OnActions.inZone[player] == false) ChoiceStructureGroup(player) { structure ->
                     ChoiceProject(player, structure, cell).keepHistory().tryExecute()
                 }.tryExecute()
                 OnActions.inZone[player] = true

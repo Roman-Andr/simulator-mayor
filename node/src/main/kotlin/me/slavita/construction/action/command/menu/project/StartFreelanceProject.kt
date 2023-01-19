@@ -12,7 +12,7 @@ class StartFreelanceProject(val player: Player) :
     override fun execute() {
         user.run {
             player.teleport(app.mainWorld.freelanceCell.box.bottomCenter)
-            ChoiceStructureGroup(player, freelanceCell) { structure ->
+            ChoiceStructureGroup(player) { structure ->
                 currentFreelance = ProjectGenerator.generateFreelance(
                     this,
                     structure

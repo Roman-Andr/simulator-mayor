@@ -1,4 +1,4 @@
-package me.slavita.construction.action.command.menu.storage
+package me.slavita.construction.action.command.menu.city
 
 import me.func.mod.Anime
 import me.func.mod.reactive.ReactiveButton
@@ -21,7 +21,7 @@ class StorageMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         selection = selection {
             title = "${GREEN}${BOLD}Склад"
-            info = getStorageInfo()
+            info = STORAGE_INFO
             rows = 5
             columns = 14
             money = getFreeSpace()

@@ -7,7 +7,7 @@ import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.achievements.AchievementType
 import me.slavita.construction.ui.menu.Icons
-import me.slavita.construction.utils.getAchievementsInfo
+import me.slavita.construction.utils.ACHIEVEMENTS_INFO
 import me.slavita.construction.utils.mapM
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GREEN
@@ -17,7 +17,7 @@ class AchievementsMenu(player: Player, val type: AchievementType) : MenuCommand(
     override fun getMenu(): Openable {
         return selection {
             title = type.title
-            info = getAchievementsInfo()
+            info = ACHIEVEMENTS_INFO
             rows = 4
             columns = 3
 

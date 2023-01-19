@@ -30,22 +30,18 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player)
             selection = selection {
                 title = showcase.properties.name
                 vault = Formatter.moneyIcon
-                info = getShowcaseInfo()
+                info = SHOWCASE_INFO
                 rows = 5
                 columns = 14
-                money = "Ваш Баланс ${user.data.statistics.money.toMoney()}"
+                money = getMoney()
                 storage = buttons
             }
             return selection
         }
     }
 
-    private fun getTitle() = """
-        ${showcase.properties.name} ${GREEN}Обновление цен через: ${GOLD}${showcase.updateTime}
-    """.trimIndent()
-
     private fun getMoney() = """
-        Ваш Баланс ${user.data.statistics.money.toMoney()}
+        ${GREEN}Обновление цен через: ${GOLD}${showcase.updateTime}     Ваш Баланс ${user.data.statistics.money.toMoney()}
     """.trimIndent()
 
     private fun buyBlocks(user: User, amount: Int, entry: ShowcaseProduct, selection: Selection) {
@@ -69,7 +65,7 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player)
             val emptyItem = entry.item.createItemStack(1)
             if (user.showcaseMenuTaskId != 0) scheduler.cancelTask(user.showcaseMenuTaskId)
             user.showcaseMenuTaskId = runTimer(0, 20) {
-                selection.title = getTitle()
+                selection.title = getMoney()
             }
             button {
                 item = emptyItem.validate()

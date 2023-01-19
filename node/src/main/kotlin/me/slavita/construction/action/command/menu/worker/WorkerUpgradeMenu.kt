@@ -9,7 +9,7 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.UpgradeWorker
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.ui.menu.Icons
-import me.slavita.construction.utils.getWorkerInfo
+import me.slavita.construction.utils.WORKER_INFO
 import me.slavita.construction.worker.Worker
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
@@ -21,7 +21,7 @@ class WorkerUpgradeMenu(player: Player, val worker: Worker) : MenuCommand(player
             return choicer {
                 title = "${GOLD}${BOLD}Улучшение рабочего"
                 description = ""
-                info = getWorkerInfo()
+                info = WORKER_INFO
                 storage = mutableListOf(
                     button {
                         item = Icons.get("other", "info1")

@@ -2,7 +2,7 @@ package me.slavita.construction.storage
 
 import me.func.mod.Anime
 import me.func.world.Box
-import me.slavita.construction.action.command.menu.storage.StorageMenu
+import me.slavita.construction.action.command.menu.city.StorageMenu
 import me.slavita.construction.player.User
 import me.slavita.construction.utils.accept
 import me.slavita.construction.world.ItemProperties

@@ -5,7 +5,7 @@ import me.func.mod.reactive.ReactivePlace
 import me.func.protocol.data.color.GlowColor
 import me.func.protocol.data.color.RGB
 import me.slavita.construction.action.command.menu.city.CityHallMenu
-import me.slavita.construction.action.command.menu.storage.StorageUpgrade
+import me.slavita.construction.action.command.menu.city.StorageUpgrade
 import me.slavita.construction.app
 import me.slavita.construction.utils.*
 import org.bukkit.entity.Player

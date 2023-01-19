@@ -8,7 +8,7 @@ import me.slavita.construction.dontate.BoosterDonate
 import me.slavita.construction.dontate.Donates
 import me.slavita.construction.ui.Formatter
 import me.slavita.construction.ui.Formatter.toCriMoney
-import me.slavita.construction.utils.getDonateInfo
+import me.slavita.construction.utils.DONATE_INFO
 import me.slavita.construction.utils.mapM
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
@@ -18,7 +18,7 @@ class BoostersMenu(player: Player) : MenuCommand(player) {
         user.run user@{
             return selection {
                 title = "${GOLD}${BOLD}Бустеры"
-                info = getDonateInfo()
+                info = DONATE_INFO
                 vault = Formatter.donateIcon
                 rows = 3
                 columns = 2

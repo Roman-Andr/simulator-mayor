@@ -9,10 +9,10 @@ import me.slavita.construction.action.command.menu.city.CityHallMenu
 import me.slavita.construction.action.command.menu.city.LocationsMenu
 import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
 import me.slavita.construction.action.command.menu.project.StartFreelanceProject
-import me.slavita.construction.action.command.menu.storage.StorageUpgrade
+import me.slavita.construction.action.command.menu.city.StorageUpgrade
 import me.slavita.construction.action.command.menu.worker.WorkerMenu
 import me.slavita.construction.ui.menu.Icons
-import me.slavita.construction.utils.getMenuInfo
+import me.slavita.construction.utils.*
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 
@@ -23,15 +23,11 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                 title = "${GREEN}${BOLD}Меню"
                 rows = 4
                 columns = 4
-                info = getMenuInfo()
+                info = MENU_INFO
                 storage = mutableListOf(
                     button {
                         title = "${GREEN}${BOLD}Проекты"
-                        description = "${YELLOW}▶ Выбрать"
-                        hint = "Выбрать"
-                        hover = """
-                            ${DARK_GRAY}Быстрый доступ: /projects (K)
-                        """.trimIndent()
+                        hover = PROJECTS_MENU
                         item = Icons.get("other", "book")
                         onClick { _, _, _ ->
                             ActiveProjectsMenu(player).keepHistory().tryExecute()
@@ -39,23 +35,23 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                     },
                     button {
                         title = "${GREEN}${BOLD}Локации"
-                        description = "${YELLOW}▶ Выбрать"
-                        hint = "Выбрать"
-                        hover = """
-                            ${DARK_GRAY}Быстрый доступ: /locations (L)
-                        """.trimIndent()
+                        hover = LOCATIONS_MENU
                         item = Icons.get("alpha", "islands")
                         onClick { _, _, _ ->
                             LocationsMenu(player).keepHistory().tryExecute()
                         }
                     },
                     button {
+                        title = "${GREEN}${BOLD}Работники"
+                        hover = WORKERS_MENU
+                        item = Icons.get("other", "guild_members")
+                        onClick { _, _, _ ->
+                            WorkerMenu(player).keepHistory().tryExecute()
+                        }
+                    },
+                    button {
                         title = "${GREEN}${BOLD}Теги"
-                        description = "${YELLOW}▶ Выбрать"
-                        hint = "Выбрать"
-                        hover = """
-                            ${DARK_GRAY}Быстрый доступ: /tags
-                        """.trimIndent()
+                        hover = TAGS_MENU
                         item = Icons.get("other", "clothes")
                         onClick { _, _, _ ->
                             TagsMenu(player).keepHistory().tryExecute()
@@ -63,47 +59,15 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                     },
                     button {
                         title = "${GREEN}${BOLD}Достижения"
-                        description = "${YELLOW}▶ Выбрать"
-                        hint = "Выбрать"
-                        hover = """
-                            ${DARK_GRAY}Быстрый доступ: /achievements
-                        """.trimIndent()
+                        hover = ACHIEVEMENTS_MENU
                         item = Icons.get("other", "achievements_many")
                         onClick { _, _, _ ->
                             AchievementsChoiceMenu(player).keepHistory().tryExecute()
                         }
                     },
                     button {
-                        title = "$GREEN${BOLD}Настройки"
-                        description = "${YELLOW}▶ Выбрать"
-                        hint = "Выбрать"
-                        hover = """
-                            ${DARK_GRAY}Быстрый доступ: /settings
-                        """.trimIndent()
-                        item = Icons.get("skyblock", "is_settings")
-                        onClick { _, _, _ ->
-                            SettingsMenu(player).keepHistory().tryExecute()
-                        }
-                    },
-                    button {
-                        title = "${GREEN}${BOLD}Работники"
-                        description = "${YELLOW}▶ Выбрать"
-                        hint = "Выбрать"
-                        hover = """
-                            ${DARK_GRAY}Быстрый доступ: /workers (M)
-                        """.trimIndent()
-                        item = Icons.get("other", "guild_members")
-                        onClick { _, _, _ ->
-                            WorkerMenu(player).keepHistory().tryExecute()
-                        }
-                    },
-                    button {
                         title = "${GREEN}${BOLD}Склад"
-                        description = "${YELLOW}▶ Выбрать"
-                        hint = "Выбрать"
-                        hover = """
-                            ${DARK_GRAY}Быстрый доступ: /storage
-                        """.trimIndent()
+                        hover = STORAGE_MENU
                         item = Icons.get("other", "stock")
                         onClick { _, _, _ ->
                             StorageUpgrade(player).keepHistory().tryExecute()
@@ -111,11 +75,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                     },
                     button {
                         title = "${GREEN}${BOLD}Мэрия"
-                        description = "${YELLOW}▶ Выбрать"
-                        hint = "Выбрать"
-                        hover = """
-                            ${DARK_GRAY}Быстрый доступ: /cityhall
-                        """.trimIndent()
+                        hover = CITY_HALL_MENU
                         item = Icons.get("other", "guild_bank")
                         onClick { _, _, _ ->
                             CityHallMenu(player).keepHistory().tryExecute()
@@ -123,17 +83,32 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                     },
                     button {
                         title = "${GOLD}${BOLD}Фриланс"
-                        description = "${YELLOW}▶ Выбрать"
-                        hint = "Выбрать"
-                        hover = """
-                            ${DARK_GRAY}Быстрый доступ: /freelance
-                        """.trimIndent()
-                        item = Icons.get("skyblock", "info")
+                        hover = FREELANCE_MENU
+                        item = Icons.get("other", "socmedia")
                         onClick { _, _, _ ->
                             if (user.currentFreelance == null) StartFreelanceProject(player).tryExecute()
                         }
+                    },
+                    button {
+                        title = "${GOLD}${BOLD}Ежедневные\n${GOLD}${BOLD}награды"
+                        hover = REWARDS_MENU
+                        item = Icons.get("skyblock", "info")
+                        onClick { _, _, _ ->
+                            DailyMenu(player).tryExecute()
+                        }
+                    },
+                    button {
+                        title = "${DARK_GRAY}${BOLD}Настройки"
+                        hover = SETTINGS_MENU
+                        item = Icons.get("skyblock", "is_settings")
+                        onClick { _, _, _ ->
+                            SettingsMenu(player).keepHistory().tryExecute()
+                        }
                     }
-                )
+                ).onEach { button ->
+                    button.description = "${YELLOW}▶ Выбрать"
+                    button.hint = "Выбрать"
+                }
             }
         }
     }

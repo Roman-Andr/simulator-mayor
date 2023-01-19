@@ -23,8 +23,7 @@ import me.slavita.construction.action.chat.AdminCommands
 import me.slavita.construction.action.chat.UserCommands
 import me.slavita.construction.booster.Boosters
 import me.slavita.construction.listener.PlayerEvents
-import me.slavita.construction.multichat.MultiChats
-import me.slavita.construction.npc.NpcManager
+import me.slavita.construction.utils.NpcManager
 import me.slavita.construction.player.Data
 import me.slavita.construction.player.KensukeUser
 import me.slavita.construction.player.User
@@ -92,7 +91,7 @@ class App : JavaPlugin() {
         EntityDataParameters.register()
         Platforms.set(PlatformDarkPaper())
 
-        Anime.include(Kit.STANDARD, Kit.EXPERIMENTAL, Kit.DIALOG, Kit.MULTI_CHAT, Kit.LOOTBOX, Kit.NPC)
+        Anime.include(Kit.STANDARD, Kit.EXPERIMENTAL, Kit.DIALOG, Kit.LOOTBOX, Kit.NPC)
 
         CoreApi.get().run {
             registerService(ITransferService::class.java, TransferService(ISocketClient.get()))
@@ -158,7 +157,6 @@ class App : JavaPlugin() {
             CityGlows
         }
         Boosters
-        MultiChats
         UserCommands
         AdminCommands
         Structures

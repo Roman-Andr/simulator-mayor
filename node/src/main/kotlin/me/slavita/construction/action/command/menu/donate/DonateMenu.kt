@@ -7,7 +7,7 @@ import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.menu.Icons
-import me.slavita.construction.utils.getDonateInfo
+import me.slavita.construction.utils.DONATE_INFO
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 
@@ -16,7 +16,7 @@ class DonateMenu(player: Player) : MenuCommand(player) {
         user.run user@{
             return choicer {
                 title = "${GOLD}${BOLD}Платные возможности"
-                info = getDonateInfo()
+                info = DONATE_INFO
                 description = "Кристаллики: ${criBalance.toCriMoney()}"
                 storage = mutableListOf(
                     button {

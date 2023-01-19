@@ -13,7 +13,7 @@ class ExperienceReward(private val experience: Long) : Reward {
         val value = experience.applyBoosters(BoosterType.EXP_BOOSTER)
         user.addExp(value)
         user.player.accept("Вы получили ${value.toMoney() + " опыта"}")
-        user.player.cursor(value.toExp())
+        user.player.cursor("+${value.toExp()}")
     }
 
     override fun toString(): String {

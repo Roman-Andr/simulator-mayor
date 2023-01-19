@@ -6,7 +6,7 @@ import me.func.mod.ui.menu.choicer
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.menu.Icons
-import me.slavita.construction.utils.getWorkerInfo
+import me.slavita.construction.utils.WORKER_INFO
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 
@@ -16,7 +16,7 @@ class WorkerMenu(player: Player) : MenuCommand(player) {
             return choicer {
                 title = "${GREEN}${BOLD}Рабочие"
                 description = "Выбери нужный раздел"
-                info = getWorkerInfo()
+                info = WORKER_INFO
                 storage = mutableListOf(
                     button {
                         title = "${GOLD}${BOLD}Покупка\n${GOLD}${BOLD}работников"

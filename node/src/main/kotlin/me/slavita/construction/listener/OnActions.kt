@@ -16,12 +16,16 @@ object OnActions {
     init {
         listener<PlayerDropItemEvent> {
             val user = player.user
+            if (itemDrop.itemStack.getType() == Material.CLAY_BALL) {
+                isCancelled = true
+                return@listener
+            }
             if (user.inTrashZone) {
                 drop.remove()
                 return@listener
             }
 
-            if (!user.blocksStorage.inBox() || itemDrop.itemStack.getType() == Material.CLAY_BALL) {
+            if (!user.blocksStorage.inBox()) {
                 isCancelled = true
                 return@listener
             }

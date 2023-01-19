@@ -16,7 +16,6 @@ import org.bukkit.entity.Player
 
 class ChoiceStructureGroup(
     player: Player,
-    val cell: PlayerCell,
     val action: (group: Structure) -> Unit,
 ) : MenuCommand(player) {
     override fun getMenu(): Openable {
@@ -32,7 +31,7 @@ class ChoiceStructureGroup(
                         hint = "Выбрать"
                         item = Icons.get("skyblock", "spawn")
                         onClick { _, _, _ ->
-                            ChoiceStructure(player, group, cell) { structure ->
+                            ChoiceStructure(player, group) { structure ->
                                 action(structure)
                             }.tryExecute()
                         }

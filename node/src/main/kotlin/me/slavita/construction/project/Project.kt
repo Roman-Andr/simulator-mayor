@@ -7,7 +7,7 @@ import me.slavita.construction.reward.Reward
 import me.slavita.construction.structure.BuildingStructure
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.structure.tools.StructureState
-import org.bukkit.ChatColor
+import org.bukkit.ChatColor.*
 
 open class Project(
     val city: City,
@@ -61,9 +61,9 @@ open class Project(
     }
 
     override fun toString() = """
-        Информация про проект:
-          ${ChatColor.AQUA}ID: ${id}
-          ${ChatColor.AQUA}Награды:
-          ${rewards.joinToString("\n  ") { it.toString() }}
-    """.trimIndent()
+Информация про проект:
+  ${AQUA}ID: $id
+  ${AQUA}Награды:
+  ${rewards.joinToString("\n  ") { it.toString() }}
+""".trimIndent()
 }

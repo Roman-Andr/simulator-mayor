@@ -6,7 +6,7 @@ import me.func.mod.ui.menu.dailyReward
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.Formatter.toTime
 import me.slavita.construction.ui.menu.Icons
-import me.slavita.construction.utils.getDailyInfo
+import me.slavita.construction.utils.REWARDS_INFO
 import me.slavita.construction.utils.mapIndexedM
 import org.bukkit.entity.Player
 
@@ -15,7 +15,7 @@ class DailyMenu(player: Player) : MenuCommand(player) {
         user.run user@{
             return dailyReward {
                 title = "Ежедневные награды"
-                info = getDailyInfo()
+                info = REWARDS_INFO
                 val rewardTaken = data.statistics.nextTakeDailyReward > System.currentTimeMillis()
                 if (rewardTaken) {
                     taken = true

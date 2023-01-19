@@ -10,7 +10,7 @@ import me.slavita.construction.ui.Formatter.toIncomeIcon
 import me.slavita.construction.ui.Formatter.toLevel
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.ui.menu.Icons
-import me.slavita.construction.utils.getCityHallInfo
+import me.slavita.construction.utils.CITY_HALL_INFO
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 
@@ -20,7 +20,7 @@ class CityHallMenu(player: Player) : MenuCommand(player) {
             return choicer {
                 title = "${GREEN}${BOLD}Мэрия"
                 description = "Управление мэрией"
-                info = getCityHallInfo()
+                info = CITY_HALL_INFO
                 storage = mutableListOf(
                     button {
                         title = "${GOLD}${BOLD}Улучшить"

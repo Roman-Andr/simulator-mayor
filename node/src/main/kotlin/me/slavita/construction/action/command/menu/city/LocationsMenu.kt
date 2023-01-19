@@ -25,7 +25,7 @@ class LocationsMenu(player: Player) : MenuCommand(player) {
             return choicer {
                 title = "${AQUA}${BOLD}Телепортация"
                 description = "Перемещение между локациями"
-                info = getLocationsInfo()
+                info = LOCATIONS_INFO
                 storage = this@user.cities.sortedBy { it.price }.mapM { city ->
                     button {
                         title = city.title

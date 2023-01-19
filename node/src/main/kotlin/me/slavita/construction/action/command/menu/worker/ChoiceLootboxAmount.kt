@@ -22,7 +22,7 @@ class ChoiceLootboxAmount(player: Player, val rarity: WorkerRarity) : MenuComman
             return choicer {
                 title = "${AQUA}${BOLD}Купить лутбоксы"
                 description = "Выберите необходимое количество лутбоксов"
-                info = getWorkerInfo()
+                info = WORKER_INFO
                 storage = listOf(
                     Pair(1, "common_key"),
                     Pair(5, "rare_key"),
