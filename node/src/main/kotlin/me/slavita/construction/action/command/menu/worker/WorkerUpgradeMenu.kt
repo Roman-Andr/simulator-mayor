@@ -9,6 +9,7 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.UpgradeWorker
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.utils.click
 import me.slavita.construction.utils.getWorkerInfo
 import me.slavita.construction.utils.user
 import me.slavita.construction.worker.Worker
@@ -36,7 +37,7 @@ class WorkerUpgradeMenu(player: Player, val worker: Worker) : MenuCommand(player
                         hover = getUpgradeHover()
                         hint = "Улучшить"
                         backgroundColor = GlowColor.GREEN
-                        onClick { _, _, button ->
+                        click { _, _, button ->
                             UpgradeWorker(player, worker).tryExecute()
                             button.hover = getUpgradeHover()
                             infoButton.hover = worker.toString()
@@ -48,7 +49,7 @@ class WorkerUpgradeMenu(player: Player, val worker: Worker) : MenuCommand(player
                         hover = getSellHover()
                         hint = "Продать"
                         backgroundColor = GlowColor.RED
-                        onClick { _, _, button ->
+                        click { _, _, button ->
                             WorkerSellConfirm(player, worker).tryExecute()
                             button.hover = getSellHover()
                             infoButton.hover = worker.toString()

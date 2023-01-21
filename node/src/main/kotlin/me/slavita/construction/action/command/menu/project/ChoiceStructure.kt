@@ -7,6 +7,7 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.structure.instance.StructureGroup
 import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.utils.click
 import me.slavita.construction.utils.language.LanguageHelper
 import me.slavita.construction.utils.mapM
 import me.slavita.construction.utils.user
@@ -35,7 +36,7 @@ class ChoiceStructure(player: Player, val structureGroup: StructureGroup, val pl
                                 )
                             } - ${GREEN}${block.value}шт\n"
                         }
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             ChoiceProject(player, structure, playerCell).tryExecute()
                         }
                     }

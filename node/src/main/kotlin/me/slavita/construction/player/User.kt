@@ -14,6 +14,7 @@ import me.slavita.construction.project.Project
 import me.slavita.construction.showcase.Showcase
 import me.slavita.construction.showcase.Showcases
 import me.slavita.construction.storage.BlocksStorage
+import me.slavita.construction.storage.BlocksStorageDeserializer
 import me.slavita.construction.structure.PlayerCellDeserializer
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.structure.tools.StructureState
@@ -32,7 +33,6 @@ import java.util.*
 
 class User(val uuid: UUID) {
     val player = Bukkit.getPlayer(uuid)!!
-    val blocksStorage = BlocksStorage(this)
     var watchableProject: Project? = null
     var income = 0L
     val showcases: HashSet<Showcase> = Showcases.showcases.map { Showcase(it) }.toHashSet()
@@ -57,6 +57,7 @@ class User(val uuid: UUID) {
         this.data = if (data == null) Data(this)
         else GsonBuilder()
             .registerTypeAdapter(City::class.java, CityDeserializer(this))
+            .registerTypeAdapter(BlocksStorage::class.java, BlocksStorageDeserializer(this))
             .create()
             .fromJson(data, Data::class.java)
 
@@ -80,8 +81,8 @@ class User(val uuid: UUID) {
         cost: Long,
         acceptAction: () -> Unit,
     ) {
-        if (data.statistics.money >= cost) {
-            data.statistics.money -= cost
+        if (data.money >= cost) {
+            data.money -= cost
             acceptAction()
         } else {
             player.deny("Недостаточно денег!")
@@ -89,7 +90,7 @@ class User(val uuid: UUID) {
     }
 
     fun addExp(exp: Long) {
-        data.statistics.experience += exp
+        data.experience += exp
 //		if (exp / 10*2.0.pow(stats.level) > 0) {
 //			stats.level += (exp / 10).toInt()
 //			Anime.itemTitle(player, ItemIcons.get("other", "access"), "Новый уровень: ${stats.level}", "", 2.0)
@@ -97,7 +98,7 @@ class User(val uuid: UUID) {
 //		}
     }
 
-    fun canPurchase(cost: Long) = data.statistics.money >= cost
+    fun canPurchase(cost: Long) = data.money >= cost
 
     fun changeCity(city: City) {
         currentCity.projects.forEach { it.structure.deleteVisual() }
@@ -145,12 +146,12 @@ class User(val uuid: UUID) {
             }
         }
 
-        if (player.user.blocksStorage.inBox() && !OnActions.storageEntered[player.uniqueId]!!) {
+        if (player.user.data.blocksStorage.inBox() && !OnActions.storageEntered[player.uniqueId]!!) {
             ModTransfer().send("storage:show", player)
             OnActions.storageEntered[player.uniqueId] = true
         }
 
-        if (!player.user.blocksStorage.inBox() && OnActions.storageEntered[player.uniqueId]!!) {
+        if (!player.user.data.blocksStorage.inBox() && OnActions.storageEntered[player.uniqueId]!!) {
             ModTransfer().send("storage:hide", player)
             OnActions.storageEntered[player.uniqueId] = false
         }

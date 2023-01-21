@@ -4,6 +4,6 @@ import me.slavita.construction.player.Data
 
 class ProjectsFormatter : IFormatter {
     override fun format(value: Data): String {
-        return value.statistics.totalProjects.toString()
+        return value.totalProjects.toString()
     }
 }

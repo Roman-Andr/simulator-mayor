@@ -169,7 +169,7 @@ class BuildingStructureDeserializer(val project: Project) : JsonDeserializer<Bui
             this@apply.blocksPlaced = blocksPlaced
             visual.start()
             when (StructureState.valueOf(get("state").asString)) {
-                StructureState.BUILDING -> runAsync(200) { continueBuilding(project) }
+                StructureState.BUILDING -> runAsync(100) { continueBuilding(project) }
                 StructureState.FINISHED -> nextTick { finishBuilding() }
                 else -> this@apply.state = state
             }

@@ -14,7 +14,7 @@ object ProjectGenerator {
     fun generateClient(owner: User, structure: Structure, playerCell: PlayerCell): Project {
         return Project(
             owner.currentCity,
-            owner.data.statistics.totalProjects,
+            owner.data.totalProjects,
             listOf(
                 MoneyReward(100),
                 ExperienceReward(100),
@@ -29,7 +29,7 @@ object ProjectGenerator {
     fun generateWorker(owner: User, structure: Structure, playerCell: PlayerCell): Project {
         return Project(
             owner.currentCity,
-            owner.data.statistics.totalProjects,
+            owner.data.totalProjects,
             listOf(
                 MoneyReward(300),
                 ExperienceReward(200),

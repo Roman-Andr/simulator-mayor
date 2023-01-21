@@ -4,6 +4,6 @@ import me.slavita.construction.player.Data
 
 class ExpFormatter : IFormatter {
     override fun format(value: Data): String {
-        return value.statistics.experience.toString()
+        return value.experience.toString()
     }
 }

@@ -4,6 +4,7 @@ import me.func.atlas.Atlas
 import me.func.mod.world.Npc
 import me.func.mod.world.Npc.location
 import me.func.mod.world.Npc.onClick
+import me.slavita.construction.utils.*
 import me.func.mod.world.Npc.skin
 import me.func.protocol.world.npc.NpcBehaviour
 import me.slavita.construction.action.command.menu.*

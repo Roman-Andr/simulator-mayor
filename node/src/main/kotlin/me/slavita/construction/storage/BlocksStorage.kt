@@ -1,14 +1,22 @@
 package me.slavita.construction.storage
 
+import com.google.gson.*
 import me.func.mod.Anime
 import me.func.world.Box
 import me.slavita.construction.action.command.menu.StorageMenu
+import me.slavita.construction.app
+import me.slavita.construction.player.City
 import me.slavita.construction.player.User
+import me.slavita.construction.project.Project
+import me.slavita.construction.project.ProjectDeserializer
+import me.slavita.construction.structure.PlayerCell
+import me.slavita.construction.structure.PlayerCellDeserializer
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.inventory.ItemStack
+import java.lang.reflect.Type
 
 class BlocksStorage(val owner: User) {
-    val blocks = hashMapOf<ItemProperties, ItemStack>()
+    val blocks = hashMapOf<ItemProperties, Int>()
     val boxes: MutableMap<String?, Box>
         get() = owner.currentCity.box.getBoxes("storagep")
 
@@ -24,30 +32,46 @@ class BlocksStorage(val owner: User) {
 
     fun addItem(itemStack: ItemStack, amount: Int) {
         val itemProperties = ItemProperties(itemStack)
-        blocks.getOrPut(itemProperties) { itemProperties.createItemStack(0) }.apply {
-            this.amount += amount
-        }
+        blocks.getOrPut(itemProperties) { 0 }
+        blocks[itemProperties] = blocks[itemProperties]!!.plus(amount)
     }
 
-    fun getAmount(itemStack: ItemStack): Int {
-        blocks.entries.find { it.value == ItemProperties(itemStack) }.let {
-            if (it == null) return -1
-            return it.value.amount
-        }
-    }
 
-    fun removeItem(itemStack: ItemStack, amount: Int): Pair<Int, Boolean> {
-        var removed = false
-        val itemProperties = ItemProperties(itemStack)
-        val newAmount = blocks[itemProperties]?.apply {
-            this.amount -= amount
-        }?.amount!!
+    fun removeItem(itemProperties: ItemProperties, amount: Int): Pair<Int, Boolean> {
+        blocks[itemProperties] = blocks[itemProperties]!!.minus(amount)
+        val newAmount = blocks[itemProperties]!!
 
         if (newAmount <= 0) {
-            removed = true
             blocks.remove(itemProperties)
-            return Pair(amount + newAmount, removed)
+            return Pair(amount + newAmount, true)
         }
-        return Pair(amount, removed)
+        return Pair(amount, false)
+    }
+}
+
+class BlocksStorageSerializer : JsonSerializer<BlocksStorage> {
+    override fun serialize(blocksStorage: BlocksStorage, type: Type, context: JsonSerializationContext): JsonElement {
+        val json = JsonArray()
+        blocksStorage.run {
+            blocks.forEach { item, amonut ->
+                json.add(JsonObject().apply {
+                    add("item", context.serialize(item))
+                    addProperty("amount", amonut)
+                })
+            }
+        }
+        return json
+    }
+}
+
+class BlocksStorageDeserializer(val owner: User) : JsonDeserializer<BlocksStorage> {
+    override fun deserialize(json: JsonElement, type: Type, context: JsonDeserializationContext) = json.asJsonArray.run {
+        val storage = BlocksStorage(owner)
+        forEach {
+            it.asJsonObject.run {
+                storage.blocks[context.deserialize(get("item"), ItemProperties::class.java)] = get("amount").asInt
+            }
+        }
+        storage
     }
 }

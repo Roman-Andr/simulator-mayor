@@ -29,7 +29,10 @@ import me.slavita.construction.protocol.SaveUserPackage
 import me.slavita.construction.player.*
 import me.slavita.construction.project.Project
 import me.slavita.construction.project.ProjectSerializer
+import me.slavita.construction.protocol.UserSavedPackage
 import me.slavita.construction.showcase.Showcases
+import me.slavita.construction.storage.BlocksStorage
+import me.slavita.construction.storage.BlocksStorageSerializer
 import me.slavita.construction.structure.*
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.BoardsManager
@@ -80,7 +83,6 @@ class App : JavaPlugin() {
     val chatId = -1001654696542L
     val users = hashMapOf<UUID, User>()
     val allBlocks = hashSetOf<ItemProperties>()
-    val failed = hashSetOf<Player>()
 
     val localStaff = hashSetOf(
         "e2543a0a-5799-11e9-8374-1cb72caa35fd",
@@ -88,18 +90,22 @@ class App : JavaPlugin() {
         "f83a7e5d-9361-11e9-80c4-1cb72caa35fd",
     ).map { UUID.fromString(it) }
 
-    val gson = GsonBuilder()
-        .registerTypeAdapter(PlayerCell::class.java, PlayerCellSerializer())
-        .registerTypeAdapter(WorkerStructure::class.java, BuildingStructureSerializer())
-        .registerTypeAdapter(ClientStructure::class.java, BuildingStructureSerializer())
-        .registerTypeAdapter(Project::class.java, ProjectSerializer())
-        .registerTypeAdapter(City::class.java, CitySerializer())
-        .create()
-
     var pass = 0L
         private set
     var started = 0L
         private set
+
+    private val failedLoad = hashSetOf<Player>()
+    private val failedSave = hashSetOf<SaveUserPackage>()
+
+    private val gsonSerializer = GsonBuilder()
+        .registerTypeAdapter(PlayerCell::class.java, PlayerCellSerializer())
+        .registerTypeAdapter(WorkerStructure::class.java, BuildingStructureSerializer())
+        .registerTypeAdapter(ClientStructure::class.java, BuildingStructureSerializer())
+        .registerTypeAdapter(Project::class.java, ProjectSerializer())
+        .registerTypeAdapter(BlocksStorage::class.java, BlocksStorageSerializer())
+        .registerTypeAdapter(City::class.java, CitySerializer())
+        .create()
 
     override fun onEnable() {
         app = this
@@ -180,14 +186,17 @@ class App : JavaPlugin() {
 
         scheduler.run {
             scheduleSyncRepeatingTask(app, { pass++ }, 0, 1)
-            scheduleSyncRepeatingTask(app, {
-               failed.forEach {
-                   tryLoadUser(it, false)
-               }
-            }, 0, 40)
+            runTimerAsync(0, 120) {
+                failedLoad.forEach {
+                    tryLoadUser(it, false)
+                }
+                failedSave.forEach {
+                   trySaveUser(it)
+                }
+            }
 
             coroutineForAll(20L) {
-                data.statistics.money += income.applyBoosters(BoosterType.MONEY_BOOSTER)
+                data.money += income.applyBoosters(BoosterType.MONEY_BOOSTER)
             }
 
             coroutineForAll(10 * 20L) {
@@ -216,26 +225,43 @@ class App : JavaPlugin() {
 
     fun unloadUser(player: Player) = users.remove(player.uniqueId)
 
-    fun saveUser(player: Player) = try {
-        val json = gson.toJson(player.user.data)
-        println(json)
-        socket.write(SaveUserPackage(player.uniqueId.toString(), json))
-    } catch(e: TimeoutException) {
-        //todo: ?
+    fun unloadUser(uuid: UUID) = users.remove(uuid)
+
+    fun trySaveUser(player: Player) = runAsync {
+        val pckg = SaveUserPackage(player.uniqueId.toString(), gsonSerializer.toJson(player.user.data))
+        try {
+            socket.writeAndAwaitResponse<UserSavedPackage>(pckg)[5, TimeUnit.SECONDS]
+            println("user saved")
+            unloadUser(player)
+        } catch(e: TimeoutException) {
+            println("user save timeout")
+            failedSave.add(pckg)
+        }
     }
 
-    fun tryLoadUser(player: Player, silent: Boolean) {
-        if (!player.isOnline) return
+    private fun trySaveUser(pckg: SaveUserPackage) = runAsync {
+        try {
+            socket.writeAndAwaitResponse<UserSavedPackage>(pckg)[5, TimeUnit.SECONDS]
+            println("user saved")
+            failedSave.remove(pckg)
+            unloadUser(UUID.fromString(pckg.uuid))
+        } catch(e: TimeoutException) {
+            println("user save timeout")
+        }
+    }
+
+    fun tryLoadUser(player: Player, silent: Boolean) = runAsync {
+        if (!player.isOnline) return@runAsync
         val uuid = player.uniqueId
         try {
             println("try load user")
             LoadUserEvent(cacheUser(uuid)).callEvent()
-            failed.remove(player)
+            failedLoad.remove(player)
             if (!silent) player.accept("Данные успешно загружены")
         } catch (e: TimeoutException) {
             println("user load timeout")
             player.deny("Не удалось загрузить ваши данные\nПовторная загрузка данных...")
-            if (!failed.contains(player)) failed.add(player)
+            if (!failedLoad.contains(player)) failedLoad.add(player)
         }
     }
 
@@ -248,5 +274,6 @@ class App : JavaPlugin() {
         return user
     }
 
-    private fun getRawUser(uuid: UUID) = socket.writeAndAwaitResponse<GetUserPackage>(GetUserPackage(uuid.toString()))[3, TimeUnit.SECONDS].data
+    private fun getRawUser(uuid: UUID) =
+        socket.writeAndAwaitResponse<GetUserPackage>(GetUserPackage(uuid.toString()))[5, TimeUnit.SECONDS].data
 }

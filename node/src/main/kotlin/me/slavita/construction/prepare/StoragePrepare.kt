@@ -8,7 +8,7 @@ import me.slavita.construction.utils.BlocksExtensions.toV3
 object StoragePrepare : IPrepare {
     override fun prepare(user: User) {
         ModTransfer()
-            .json(user.blocksStorage.boxes.map {
+            .json(user.data.blocksStorage.boxes.map {
                 StorageClientData(
                     "Хранилище",
                     it.value.min.toV3(),

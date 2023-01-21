@@ -6,9 +6,7 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
-import me.slavita.construction.utils.getWorkerInfo
-import me.slavita.construction.utils.mapM
-import me.slavita.construction.utils.user
+import me.slavita.construction.utils.*
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GREEN
 import org.bukkit.entity.Player
@@ -29,7 +27,7 @@ class WorkerTeamMenu(player: Player) : MenuCommand(player) {
                         title = worker.name
                         hover = worker.toString()
                         hint = "Выбрать"
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             WorkerUpgradeMenu(player, worker).keepHistory().tryExecute()
                         }
                     }

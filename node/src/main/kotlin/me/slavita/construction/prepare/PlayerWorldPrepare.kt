@@ -16,7 +16,7 @@ object PlayerWorldPrepare : IPrepare {
             nextTick {
                 player.apply {
                     gameMode = GameMode.ADVENTURE
-                    walkSpeed = data.statistics.speed
+                    walkSpeed = data.speed
                     teleport(currentCity.getSpawn())
                 }
             }

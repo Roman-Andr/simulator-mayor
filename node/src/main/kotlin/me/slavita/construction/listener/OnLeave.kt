@@ -23,8 +23,7 @@ object OnLeave {
 
             if (player.userOrNull != null) {
                 app.run {
-                    saveUser(player)
-                    unloadUser(player)
+                    trySaveUser(player)
                     mainWorld.clearBlocks(player.uniqueId)
                 }
             }

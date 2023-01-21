@@ -11,6 +11,7 @@ import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
 import me.slavita.construction.utils.PlayerExtensions.deny
+import me.slavita.construction.utils.click
 import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
@@ -31,8 +32,8 @@ class CreditsListMenu(player: Player) : MenuCommand(player) {
                                     ${AQUA}К отдаче: ${value.needToGive.toMoney()}
                                     ${AQUA}Процент: ${value.percent}%
                                 """.trimIndent()
-                                onClick { _, _, _ ->
-                                    if (this@user.data.statistics.money > value.needToGive) {
+                                click { _, _, _ ->
+                                    if (this@user.data.money > value.needToGive) {
                                         RepayCreditConfim(player, value).tryExecute()
                                     } else {
                                         player.deny("Не хватает денег для погашения кредита")

@@ -38,7 +38,7 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) :
                 info = getShowcaseInfo()
                 rows = 5
                 columns = 14
-                money = "Ваш Баланс ${player.user.data.statistics.money.toMoney()}"
+                money = "Ваш Баланс ${player.user.data.money.toMoney()}"
                 storage = showcase.properties.elements.mapM { targetItem ->
                     val emptyItem = targetItem.first.createItemStack(1)
                     if (updateTaskId != 0) Bukkit.server.scheduler.cancelTask(updateTaskId)
@@ -55,7 +55,7 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) :
                         hint = (if (canPurchase(targetItem.second * 8)) "$WHITE" else "$RED") + " "
                         onLeftClick { _, _, _ ->
                             tryPurchase(targetItem.second * 8) {
-                                this@user.blocksStorage.addItem(emptyItem, 8)
+                                this@user.data.blocksStorage.addItem(emptyItem, 8)
                                 player.accept("Вы успешно купили блоки")
                                 this@selection.money = getBalance()
                                 Glow.animate(player, 0.3, GlowColor.GREEN)
@@ -63,7 +63,7 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) :
                         }
                         onRightClick { _, _, _ ->
                             tryPurchase(targetItem.second * 64) {
-                                this@user.blocksStorage.addItem(emptyItem, 32)
+                                this@user.data.blocksStorage.addItem(emptyItem, 32)
                                 player.accept("Вы успешно купили блоки")
                                 this@selection.money = getBalance()
                                 Glow.animate(player, 0.3, GlowColor.GREEN)
@@ -75,7 +75,7 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) :
         }
     }
 
-    private fun getBalance() = "Ваш Баланс ${player.user.data.statistics.money.toMoney()}"
+    private fun getBalance() = "Ваш Баланс ${player.user.data.money.toMoney()}"
 
     private fun getInfo() = """
         ${GREEN}Обновление цен через: ${GOLD}${showcase.properties.updateTime}

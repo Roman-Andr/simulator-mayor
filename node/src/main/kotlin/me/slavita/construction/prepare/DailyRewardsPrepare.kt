@@ -7,12 +7,12 @@ object DailyRewardsPrepare : IPrepare {
     private const val DAY = 24 * 60 * 60 * 1000
 
     override fun prepare(user: User) {
-        val nextTake = user.data.statistics.nextTakeDailyReward
+        val nextTake = user.data.nextTakeDailyReward
         val now = System.currentTimeMillis()
         if (nextTake > now) return
-        val nextDay = user.data.statistics.nextDay
-        if (user.data.statistics.nextDay == 7 || nextTake + DAY < now) user.data.statistics.nextDay = 0
-        user.data.statistics.nextDay = 5
+        val nextDay = user.data.nextDay
+        if (user.data.nextDay == 7 || nextTake + DAY < now) user.data.nextDay = 0
+        user.data.nextDay = 5
         DailyMenu(user.player).tryExecute()
     }
 }

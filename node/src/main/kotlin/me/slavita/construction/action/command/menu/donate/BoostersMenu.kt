@@ -8,9 +8,7 @@ import me.slavita.construction.dontate.BoosterDonate
 import me.slavita.construction.dontate.Donates
 import me.slavita.construction.ui.Formatter
 import me.slavita.construction.ui.Formatter.toCriMoney
-import me.slavita.construction.utils.getDonateInfo
-import me.slavita.construction.utils.mapM
-import me.slavita.construction.utils.user
+import me.slavita.construction.utils.*
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 
@@ -32,7 +30,7 @@ class BoostersMenu(player: Player) : MenuCommand(player) {
                         description = "Цена: ${it.donate.price.toCriMoney()}"
                         hint = "Купить"
                         backgroundColor = it.backgroudColor
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             it.donate.purchase(this@user)
                         }
                     }

@@ -11,10 +11,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import me.func.mod.Anime
+import me.func.mod.reactive.ButtonClickHandler
+import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.button
 import me.func.mod.world.Banners
 import me.func.protocol.data.element.Banner
 import me.func.world.WorldMeta
+import me.slavita.construction.action.command.menu.ButtonCommand
 import me.slavita.construction.app
 import me.slavita.construction.dontate.Donates
 import me.slavita.construction.player.User
@@ -27,7 +30,6 @@ import org.bukkit.ChatColor.*
 import org.bukkit.Material
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
-import org.bukkit.craftbukkit.v1_12_R1.block.CraftBlock
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
@@ -40,8 +42,6 @@ import org.bukkit.scheduler.BukkitTask
 import ru.cristalix.core.network.ISocketClient
 import ru.cristalix.core.realm.IRealmService
 import java.util.*
-import java.util.function.Consumer
-import java.util.function.Supplier
 import kotlin.reflect.KClass
 
 val socket = ISocketClient.get()
@@ -59,6 +59,14 @@ val Player.handle: EntityPlayer
     get() = (this as CraftPlayer).handle
 
 val scheduler: BukkitScheduler = Bukkit.getScheduler()
+
+fun ReactiveButton.click(click: ButtonClickHandler) = apply {
+    onClick = ButtonClickHandler { player, index, button ->
+        ButtonCommand(player) {
+            click.handle(player, index, button)
+        }.tryExecute()
+    }
+}
 
 fun nextTick(runnable: Runnable) {
     Bukkit.getScheduler().runTask(Platforms.getPlugin(), runnable)
@@ -161,11 +169,14 @@ fun logTg(message: String) {
 
 val routine = EventContext { true }.fork()
 
-fun runTimerAsync(start: Long, every: Long, runnable: Runnable) =
+fun runTimerAsync(start: Long, every: Long, runnable: Runnable): BukkitTask =
     scheduler.runTaskTimerAsynchronously(app, runnable, start, every)
 
 fun runAsync(after: Long, runnable: Runnable): BukkitTask =
     scheduler.runTaskLaterAsynchronously(app, runnable, after)
+
+fun runAsync(runnable: Runnable): BukkitTask =
+    scheduler.runTaskLaterAsynchronously(app, runnable, 0)
 
 fun Player.sendPacket(packet: Packet<*>) {
     (this as CraftPlayer).handle.playerConnection.networkManager.sendPacket(packet)
@@ -178,7 +189,7 @@ fun donateButton(donate: Donates, player: Player) = button {
     hint = "Купить"
     description = "Цена: ${donate.donate.price.toCriMoney()}"
     backgroundColor = donate.backgroudColor
-    onClick { _, _, _ ->
+    click { _, _, _ ->
         donate.donate.purchase(player.user)
     }
 }

@@ -9,9 +9,7 @@ import me.slavita.construction.action.WorkerExecutor
 import me.slavita.construction.project.Project
 import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.ui.menu.ItemIcons
-import me.slavita.construction.utils.getEmptyButton
-import me.slavita.construction.utils.getWorkerInfo
-import me.slavita.construction.utils.user
+import me.slavita.construction.utils.*
 import me.slavita.construction.worker.WorkerState
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
@@ -32,10 +30,10 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
                         title = "${GREEN}Подтвердить"
                         backgroundColor = GlowColor.GREEN
                         hint = "Готово"
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             Anime.close(player)
 
-                            if (!startProject) return@onClick
+                            if (!startProject) return@click
                             project.structure.playerCell.setBusy()
                             (project.structure as WorkerStructure).workers.addAll(this@WorkerChoice.structure.workers)
                             project.start()
@@ -50,7 +48,7 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
                     """.trimIndent()
                         backgroundColor = GlowColor.RED
                         hint = "Убрать"
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             structure.workers.clear()
                             WorkerChoice(player, project).tryExecute()
                         }
@@ -75,7 +73,7 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
                                         WorkerState.BUSY     -> GlowColor.NEUTRAL
                                         WorkerState.FREE     -> GlowColor.BLUE
                                     }
-                                onClick { _, _, button ->
+                                click { _, _, button ->
                                     distributeWorker(worker, button)
                                 }
                             }

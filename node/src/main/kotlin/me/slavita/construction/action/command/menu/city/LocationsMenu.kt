@@ -13,10 +13,8 @@ import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.ui.HumanizableValues.SECOND
 import me.slavita.construction.ui.Texture
 import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.utils.*
 import me.slavita.construction.utils.PlayerExtensions.deny
-import me.slavita.construction.utils.getLocationsInfo
-import me.slavita.construction.utils.mapM
-import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.entity.Player
@@ -42,7 +40,7 @@ class LocationsMenu(player: Player) : MenuCommand(player) {
                             description = city.price.toMoneyIcon()
                             backgroundColor = GlowColor.NEUTRAL
                         }
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             if (city.unlocked) {
                                 val ignore =
                                     player.user.data.abilities.contains((Donates.NO_LIMIT_TELEPORT_DONATE.donate as AbilityDonate).ability)

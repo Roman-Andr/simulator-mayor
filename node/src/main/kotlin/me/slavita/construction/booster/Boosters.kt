@@ -15,19 +15,19 @@ object Boosters {
         Stronghold.addThanksConsumer { owner, player ->
             if (owner != null) {
                 owner.accept("Вас поблагодарили")
-                owner.user.data.statistics.money += 100
+                owner.user.data.money += 100
             }
             if (player != null) {
                 player.accept("Вы поблагодарили")
-                player.user.data.statistics.money += 100
+                player.user.data.money += 100
             }
         }
 
         Stronghold.onActivate {
             Bukkit.getOnlinePlayers().forEach { player ->
                 player.user.run {
-                    data.statistics.speed.apply { applyBoosters(BoosterType.SPEED_BOOSTER) }
-                    player?.walkSpeed = data.statistics.speed
+                    data.speed.apply { applyBoosters(BoosterType.SPEED_BOOSTER) }
+                    player?.walkSpeed = data.speed
                 }
             }
         }
@@ -35,10 +35,10 @@ object Boosters {
         Stronghold.onExpire {
             Bukkit.getOnlinePlayers().forEach { player ->
                 player.user.run {
-                    data.statistics.speed.apply {
+                    data.speed.apply {
                         applyBoosters(BoosterType.SPEED_BOOSTER)
                     }
-                    player?.walkSpeed = data.statistics.speed
+                    player?.walkSpeed = data.speed
                 }
             }
         }

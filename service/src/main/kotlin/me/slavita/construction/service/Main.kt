@@ -9,6 +9,7 @@ import me.func.serviceapi.mongo.MongoAdapter
 import me.func.serviceapi.runListener
 import me.slavita.construction.protocol.GetUserPackage
 import me.slavita.construction.protocol.SaveUserPackage
+import me.slavita.construction.protocol.UserSavedPackage
 import org.bson.BSON
 import org.bson.BasicBSONObject
 import org.bson.BsonDocument
@@ -42,7 +43,10 @@ fun main() {
             pckg.run {
                 db.collection.find(Document().append("_id", uuid)).forEach ({
                     data = it.getString("data")
-                }) { _, _ -> forward(realm, this)}
+                }) { _, _ ->
+                    println("got user")
+                    forward(realm, this)
+                }
             }
         }
 
@@ -53,7 +57,10 @@ fun main() {
                     Document().append("_id", uuid),
                     Document().append("\$set", Document().append("data", data)),
                     UpdateOptions().upsert(true)
-                ) { _, _ -> }
+                ) { _, _ ->
+                    println("user saved")
+                    forward(realm, UserSavedPackage())
+                }
             }
         }
     }

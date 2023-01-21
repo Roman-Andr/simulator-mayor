@@ -10,6 +10,7 @@ import me.slavita.construction.project.ProjectGenerator
 import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.utils.click
 import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GOLD
@@ -28,7 +29,7 @@ class ChoiceProject(player: Player, val structure: Structure, val playerCell: Pl
                         description = "Строите вручную"
                         hint = "Выбрать"
                         item = ItemIcons.get("other", "human")
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             playerCell.setBusy()
                             val project = ProjectGenerator.generateClient(this@user, structure, playerCell)
 
@@ -43,7 +44,7 @@ class ChoiceProject(player: Player, val structure: Structure, val playerCell: Pl
                         description = "Проект строят\nстроители"
                         hint = "Выбрать"
                         item = ItemIcons.get("other", "myfriends")
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             WorkerChoice(
                                 player,
                                 ProjectGenerator.generateWorker(this@user, structure, playerCell)

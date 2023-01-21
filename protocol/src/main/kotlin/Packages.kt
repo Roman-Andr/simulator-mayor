@@ -12,3 +12,5 @@ data class SaveUserPackage(
     val uuid: String,
     val data: String,
 ) : CorePackage()
+
+class UserSavedPackage : CorePackage()

@@ -22,7 +22,7 @@ object OnActions {
     init {
         listener<PlayerDropItemEvent> {
             val user = player.userOrNull ?: return@listener
-            if (!user.blocksStorage.inBox() || itemDrop.itemStack.getType() == Material.CLAY_BALL) {
+            if (!user.data.blocksStorage.inBox() || itemDrop.itemStack.getType() == Material.CLAY_BALL) {
                 isCancelled = true
                 return@listener
             }
@@ -34,7 +34,7 @@ object OnActions {
                     )
                 }"
             )
-            user.blocksStorage.addItem(drop.itemStack)
+            user.data.blocksStorage.addItem(drop.itemStack)
             drop.remove()
         }
 

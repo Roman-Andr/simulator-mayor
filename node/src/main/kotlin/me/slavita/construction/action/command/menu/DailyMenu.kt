@@ -14,7 +14,7 @@ class DailyMenu(player: Player) : MenuCommand(player) {
             return dailyReward {
                 taken = false
                 title = "Ежедневные награды"
-                currentDay = player.user.data.statistics.nextDay
+                currentDay = player.user.data.nextDay
                 storage = mutableListOf(
                     button {
                         item = ItemIcons.get("other", "info")

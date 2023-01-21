@@ -17,7 +17,7 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
 class StorageMenu(player: Player) : MenuCommand(player) {
-    private val blocksStorage = player.user.blocksStorage
+    private val blocksStorage = player.user.data.blocksStorage
 
     override fun getMenu(): Openable {
         return getBaseSelection(MenuInfo("${GREEN}${BOLD}Склад", StatsType.LEVEL, 5, 14)).apply {
@@ -33,7 +33,7 @@ class StorageMenu(player: Player) : MenuCommand(player) {
                             Anime.close(player)
                             return@onLeftClick
                         }
-                        blocksStorage.removeItem(entry.value, 64).apply {
+                        blocksStorage.removeItem(entry.key, 64).apply {
                             player.inventory.addItem(entry.key.createItemStack(this.first))
                             if (this.second) StorageMenu(player).tryExecute() else {
                                 hover = getHover(entry)
@@ -46,7 +46,7 @@ class StorageMenu(player: Player) : MenuCommand(player) {
                             Anime.close(player)
                             return@onRightClick
                         }
-                        blocksStorage.removeItem(entry.value, entry.value.amount).apply {
+                        blocksStorage.removeItem(entry.key, entry.value).apply {
                             player.inventory.addItem(entry.key.createItemStack(this.first))
                             if (this.second) StorageMenu(player).tryExecute() else {
                                 hover = getHover(entry)
@@ -58,12 +58,12 @@ class StorageMenu(player: Player) : MenuCommand(player) {
         }
     }
 
-    private fun getHover(entry: Map.Entry<ItemProperties, ItemStack>) = """
+    private fun getHover(entry: Map.Entry<ItemProperties, Int>) = """
         ${GREEN}${LanguageHelper.getItemDisplayName(entry.key.createItemStack(1), player)}
-        ${AQUA}На складе: ${BOLD}${entry.value.amount} шт
+        ${AQUA}На складе: ${BOLD}${entry.value} шт
         
-        ${GOLD}Взять [ЛКМ] ${BOLD}${if (entry.value.amount >= 64) 64 else entry.value.amount} шт
-        ${GOLD}Взять [ПКМ] ${BOLD}Всё - ${entry.value.amount} шт
+        ${GOLD}Взять [ЛКМ] ${BOLD}${if (entry.value >= 64) 64 else entry.value} шт
+        ${GOLD}Взять [ПКМ] ${BOLD}Всё - ${entry.value} шт
     """.trimIndent()
 
     private fun check(): Boolean {

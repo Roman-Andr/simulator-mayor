@@ -10,9 +10,7 @@ import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
-import me.slavita.construction.utils.getTagsInfo
-import me.slavita.construction.utils.mapM
-import me.slavita.construction.utils.user
+import me.slavita.construction.utils.*
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.entity.Player
@@ -29,7 +27,7 @@ class TagsMenu(player: Player) : MenuCommand(player) {
                             hint = if (data.tag == tag) "Выбран" else "Выбрать"
                             item = ItemIcons.get("other", "pets1", data.tag == tag)
                             backgroundColor = if (data.tag != tag) GlowColor.GREEN else GlowColor.BLUE
-                            onClick { _, _, _ ->
+                            click { _, _, _ ->
                                 if (data.tag != tag) {
                                     data.tag = tag
                                     TagsPrepare.prepare(player.user)
@@ -41,7 +39,7 @@ class TagsMenu(player: Player) : MenuCommand(player) {
                             item = ItemIcons.get("other", "lock")
                             backgroundColor = GlowColor.NEUTRAL
                             description = tag.price.toMoneyIcon()
-                            onClick { _, _, _ ->
+                            click { _, _, _ ->
                                 player.user.tryPurchase(tag.price) {
                                     data.ownTags.add(tag)
                                 }
