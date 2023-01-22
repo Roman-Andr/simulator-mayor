@@ -29,7 +29,7 @@ class TagsMenu(val player: Player) : MenuCommand(player) {
         buttons.addAll(getButtons())
 
         selection = getBaseSelection(MenuInfo("${AQUA}${BOLD}Меню тегов", StatsType.MONEY, 4, 4), user).apply {
-            info = getTagsInfo()
+            info = TAGS_INFO
             storage = buttons
         }
         return selection

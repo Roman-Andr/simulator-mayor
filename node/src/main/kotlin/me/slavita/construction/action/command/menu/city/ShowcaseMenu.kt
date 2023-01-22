@@ -65,7 +65,7 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player)
             val emptyItem = entry.item.createItemStack(1)
             if (user.showcaseMenuTaskId != 0) scheduler.cancelTask(user.showcaseMenuTaskId)
             user.showcaseMenuTaskId = runTimer(0, 20) {
-                selection.title = getMoney()
+                selection.money = getMoney()
             }
             button {
                 item = emptyItem.validate()

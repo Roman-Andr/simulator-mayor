@@ -18,18 +18,19 @@ object SpeedPlaces {
 
     init {
         labels("speed").forEach { label ->
-            val texture = Texture.SPEED_BOOST.path()
             val yaw = BlockFace.valueOf(label.tag.uppercase()).toYaw().revert()
             val loc = label.yaw(yaw).toCenterLocation().apply { y = label.y }
-            val vector = loc.direction.normalize()
-            val location = loc.clone().add(vector.multiply(-1.25)).toCenterLocation().apply { y = label.y }
+            val location = loc.clone()
+                .add(loc.direction.normalize().multiply(-1.25))
+                .toCenterLocation()
+                .apply { y = label.y }
 
             Atlas.find("city").getMapList("speed-place").forEach { banner ->
                 loadBanner(banner, label, true, 0.0)
             }
             Banners.add(
                 Banner.builder()
-                    .texture(texture)
+                    .texture(Texture.SPEED_BOOST.path())
                     .color(GlowColor.BLUE_LIGHT)
                     .weight(35)
                     .height(35)
