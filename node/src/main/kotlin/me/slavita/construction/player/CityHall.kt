@@ -1,9 +1,6 @@
 package me.slavita.construction.player
 
-import me.slavita.construction.utils.accept
-import org.bukkit.ChatColor.GOLD
-
-class CityHall(val user: User) {
+class CityHall {
     var level: Int = 1
     val upgradePrice
         get() = level * 1000L
@@ -11,17 +8,4 @@ class CityHall(val user: User) {
         get() = level * 100L
     val nextIncome
         get() = (level + 1) * 100L
-
-    init {
-        user.income += income
-    }
-
-    fun upgrade() {
-        user.tryPurchase(upgradePrice) {
-            user.income -= income
-            level++
-            user.income += income
-            user.player.accept("Вы успешно улучшили ${GOLD}Мэрию")
-        }
-    }
 }

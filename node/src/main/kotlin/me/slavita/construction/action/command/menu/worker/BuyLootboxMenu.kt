@@ -6,6 +6,7 @@ import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.choicer
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.Formatter.toMoneyIcon
+import me.slavita.construction.utils.click
 import me.slavita.construction.utils.getWorkerInfo
 import me.slavita.construction.worker.WorkerRarity
 import org.bukkit.ChatColor.AQUA
@@ -27,7 +28,7 @@ class BuyLootboxMenu(player: Player) : MenuCommand(player) {
                             description = rarity.description + "\n\n${rarity.price.toMoneyIcon()}"
                             hint = "Выбрать"
                             backgroundColor = rarity.color
-                            onClick { _, _, _ ->
+                            click { _, _, _ ->
                                 ChoiceLootboxAmount(player, rarity).keepHistory().tryExecute()
                             }
                         })

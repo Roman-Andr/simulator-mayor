@@ -54,6 +54,7 @@ rootProject.name = "construction"
 
 include(
     ":common",
+    ":protocol",
     ":service",
     ":mod",
     ":node",

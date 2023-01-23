@@ -7,22 +7,26 @@ import me.slavita.construction.reward.Reward
 import me.slavita.construction.structure.BuildingStructure
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.structure.tools.StructureState
+import me.slavita.construction.ui.Formatter.toLevel
+import me.slavita.construction.ui.HumanizableValues
 import org.bukkit.ChatColor
 
 open class Project(
     val city: City,
     var id: Int,
-    val structure: BuildingStructure,
     val rewards: List<Reward>,
 ) {
+    lateinit var structure: BuildingStructure
     val owner = city.owner
+    val timeLast: Int //todo: use this
+        get() = 0
 
-    init {
+    fun initialize() {
         var projectsCount = 0
-        owner.cities.forEach {
+        owner.data.cities.forEach {
             projectsCount += it.projects.size
         }
-        id = owner.data.statistics.totalProjects + projectsCount
+        id = owner.data.totalProjects + projectsCount
     }
 
     fun start() {
@@ -66,4 +70,32 @@ open class Project(
           ${ChatColor.AQUA}Награды:
           ${rewards.joinToString("\n  ") { it.toString() }}
     """.trimIndent()
+}
+
+class ProjectSerializer : JsonSerializer<Project> {
+    override fun serialize(project: Project, type: Type, context: JsonSerializationContext): JsonElement {
+        val json = JsonObject()
+
+        project.run {
+            json.addProperty("id", id)
+            json.add("structure", context.serialize(structure))
+            json.add("rewards", context.serialize(rewards))
+        }
+
+        return json
+    }
+}
+
+class ProjectDeserializer(val city: City) : JsonDeserializer<Project> {
+    override fun deserialize(json: JsonElement, type: Type, context: JsonDeserializationContext) = json.asJsonObject.run {
+        val project = Project(city, get("id").asInt, context.deserialize(get("rewards"), List::class.java))
+
+        val gson = GsonBuilder()
+            .registerTypeAdapter(BuildingStructure::class.java, BuildingStructureDeserializer(project))
+            .create()
+
+        project.structure = gson.fromJson(get("structure"), BuildingStructure::class.java)
+
+        project
+    }
 }

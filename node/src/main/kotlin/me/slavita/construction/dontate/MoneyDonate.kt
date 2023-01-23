@@ -11,6 +11,6 @@ open class MoneyDonate(
     var incomeOnBuy: Long = 0
 
     override fun purchaseSuccess(user: User) {
-        user.data.statistics.money += (incomeOnBuy * skipTime)
+        user.data.money += (incomeOnBuy * skipTime)
     }
 }

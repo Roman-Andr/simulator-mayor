@@ -4,6 +4,7 @@ import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.confirmation.Confirmation
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.Formatter.toMoneyIcon
+import me.slavita.construction.utils.user
 import me.slavita.construction.worker.Worker
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.WHITE
@@ -20,7 +21,7 @@ class WorkerSellConfirm(player: Player, val worker: Worker) : MenuCommand(player
                 )
             ) { player ->
                 data.workers.remove(worker)
-                data.statistics.money += worker.sellPrice
+                data.money += worker.sellPrice
                 WorkerTeamMenu(player).tryExecute()
             }
         }

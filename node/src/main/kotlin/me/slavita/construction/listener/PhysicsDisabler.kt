@@ -4,6 +4,7 @@ import com.destroystokyo.paper.event.player.PlayerAdvancementCriterionGrantEvent
 import dev.xdark.feder.EmptyChunkBiome
 import dev.xdark.feder.FixedChunkLight
 import me.slavita.construction.utils.listener
+import me.slavita.construction.utils.nextTick
 import me.slavita.construction.utils.safe
 import org.bukkit.ChatColor.GRAY
 import org.bukkit.entity.EntityType

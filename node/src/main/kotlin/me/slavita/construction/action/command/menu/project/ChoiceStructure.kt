@@ -8,6 +8,7 @@ import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.instance.StructureGroup
 import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.utils.click
 import me.slavita.construction.utils.language.LanguageHelper
 import me.slavita.construction.utils.mapM
 import org.bukkit.ChatColor.*
@@ -40,7 +41,7 @@ class ChoiceStructure(
                                 )
                             } - ${GREEN}${block.value}шт\n"
                         }
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             action(structure)
                         }
                     }

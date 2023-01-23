@@ -7,6 +7,7 @@ import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.utils.click
 import me.slavita.construction.utils.getDonateInfo
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
@@ -25,7 +26,7 @@ class DonateMenu(player: Player) : MenuCommand(player) {
                         hint = "Выбрать"
                         description = "${GRAY}Пополнение\n${GRAY}баланса"
                         backgroundColor = GlowColor.GREEN
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             MoneyBuyMenu(player).keepHistory().tryExecute()
                         }
                     },
@@ -35,7 +36,7 @@ class DonateMenu(player: Player) : MenuCommand(player) {
                         hint = "Выбрать"
                         description = "${GRAY}Удобства\n${GRAY}для игры"
                         backgroundColor = GlowColor.BLUE_LIGHT
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             AbilitiesMenu(player).keepHistory().tryExecute()
                         }
                     },
@@ -45,7 +46,7 @@ class DonateMenu(player: Player) : MenuCommand(player) {
                         description = "${GRAY}Бустеры\n${GRAY}статистики"
                         hint = "Выбрать"
                         backgroundColor = GlowColor.YELLOW_LIGHT
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             BoostersMenu(player).keepHistory().tryExecute()
                         }
                     },
@@ -55,7 +56,7 @@ class DonateMenu(player: Player) : MenuCommand(player) {
                         hint = "Выбрать"
                         description = "${GRAY}Паки\n${GRAY}бустеров"
                         backgroundColor = GlowColor.GREEN_LIGHT
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             BoosterPackMenu(player).keepHistory().tryExecute()
                         }
                     }

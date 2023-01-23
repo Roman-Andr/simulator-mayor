@@ -6,6 +6,7 @@ import me.func.mod.ui.menu.choicer
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.utils.click
 import me.slavita.construction.utils.getWorkerInfo
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
@@ -23,7 +24,7 @@ class WorkerMenu(player: Player) : MenuCommand(player) {
                         hint = "Выбрать"
                         backgroundColor = GlowColor.BLUE_LIGHT
                         item = ItemIcons.get("other", "guild_members_add")
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             BuyLootboxMenu(player).keepHistory().tryExecute()
                         }
                     },
@@ -32,7 +33,7 @@ class WorkerMenu(player: Player) : MenuCommand(player) {
                         hint = "Выбрать"
                         backgroundColor = GlowColor.BLUE
                         item = ItemIcons.get("other", "guild_members")
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             WorkerTeamMenu(player).keepHistory().tryExecute()
                         }
                     }

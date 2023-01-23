@@ -14,7 +14,7 @@ object ScoreboardGenerator {
         TokenGroup(
             Token.builder()
                 .title("Монет")
-                .content { "${Formatter.moneyIcon} ${GOLD}${user.data.statistics.money.toMoney()}" }
+                .content { "${Formatter.moneyIcon} ${GOLD}${user.data.money.toMoney()}" }
                 .build(),
             Token.builder()
                 .title("Доход")
@@ -26,7 +26,7 @@ object ScoreboardGenerator {
                 .build(),
             Token.builder()
                 .title("Репутация")
-                .content { "${Emoji.RUBY} ${LIGHT_PURPLE}${user.data.statistics.reputation.toMoney()}" }
+                .content { "${Emoji.RUBY} ${LIGHT_PURPLE}${user.data.reputation.toMoney()}" }
                 .build(),
             Token.builder()
                 .title("Кристаллики")

@@ -10,7 +10,7 @@ import org.bukkit.ChatColor.GOLD
 import org.bukkit.inventory.ItemStack
 
 class BlocksStorage(val owner: User) {
-    val blocks = hashMapOf<ItemProperties, ItemStack>()
+    val blocks = hashMapOf<ItemProperties, Int>()
     val boxes: MutableMap<String?, Box>
         get() = owner.currentCity.box.getBoxes("storagep")
     var level = 1
@@ -57,26 +57,49 @@ class BlocksStorage(val owner: User) {
         }
 
         val itemProperties = ItemProperties(itemStack)
-        blocks.getOrPut(itemProperties) { itemProperties.createItemStack(0) }.apply {
-            this.amount += amountToAdd
-        }
-        return returnedAmount
+        blocks.getOrPut(itemProperties) { 0 }
+        blocks[itemProperties] = blocks[itemProperties]!!.plus(amount)
     }
 
     fun hasSpace(amount: Int): Boolean {
         return limit - itemsCount >= amount
     }
 
-    fun removeItem(itemStack: ItemStack, amount: Int): Pair<Int, Boolean> {
-        val itemProperties = ItemProperties(itemStack)
-        val newAmount = blocks[itemProperties]?.apply {
-            this.amount -= amount
-        }?.amount!!
+    fun removeItem(itemProperties: ItemProperties, amount: Int): Pair<Int, Boolean> {
+        blocks[itemProperties] = blocks[itemProperties]!!.minus(amount)
+        val newAmount = blocks[itemProperties]!!
 
         if (newAmount <= 0) {
             blocks.remove(itemProperties)
             return Pair(amount + newAmount, true)
         }
         return Pair(amount, false)
+    }
+}
+
+class BlocksStorageSerializer : JsonSerializer<BlocksStorage> {
+    override fun serialize(blocksStorage: BlocksStorage, type: Type, context: JsonSerializationContext): JsonElement {
+        val json = JsonArray()
+        blocksStorage.run {
+            blocks.forEach { item, amonut ->
+                json.add(JsonObject().apply {
+                    add("item", context.serialize(item))
+                    addProperty("amount", amonut)
+                })
+            }
+        }
+        return json
+    }
+}
+
+class BlocksStorageDeserializer(val owner: User) : JsonDeserializer<BlocksStorage> {
+    override fun deserialize(json: JsonElement, type: Type, context: JsonDeserializationContext) = json.asJsonArray.run {
+        val storage = BlocksStorage(owner)
+        forEach {
+            it.asJsonObject.run {
+                storage.blocks[context.deserialize(get("item"), ItemProperties::class.java)] = get("amount").asInt
+            }
+        }
+        storage
     }
 }

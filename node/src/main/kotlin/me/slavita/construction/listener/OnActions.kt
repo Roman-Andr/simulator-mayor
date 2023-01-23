@@ -5,20 +5,21 @@ import me.slavita.construction.utils.accept
 import me.slavita.construction.utils.language.LanguageHelper
 import me.slavita.construction.utils.listener
 import me.slavita.construction.utils.user
-import org.bukkit.ChatColor.GOLD
+import me.slavita.construction.utils.userOrNull
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerMoveEvent
+import java.util.*
 
 object OnActions {
-    val inZone = hashMapOf<Player, Boolean>()
-    var storageEntered = hashMapOf<Player, Boolean>()
+    val inZone = hashMapOf<UUID, Boolean>()
+    var storageEntered = hashMapOf<UUID, Boolean>()
 
     init {
         listener<PlayerDropItemEvent> {
-            val user = player.user
-            if (!user.blocksStorage.inBox() || itemDrop.itemStack.getType() == Material.CLAY_BALL) {
+            val user = player.userOrNull ?: return@listener
+            if (!user.data.blocksStorage.inBox() || itemDrop.itemStack.getType() == Material.CLAY_BALL) {
                 isCancelled = true
                 return@listener
             }
@@ -39,9 +40,10 @@ object OnActions {
             drop.remove()
         }
 
-        listener<PlayerMoveEvent> {
-            player.user.updatePosition()
-            if (player.user.currentFreelance != null && !player.user.freelanceCell.box.contains(to)) isCancelled = true
+        listener<PlayerMoveEvent> {isCancelled = true
+            if (player.userOrNull == null) isCancelled = true
+            else if (player.user.currentFreelance != null && !player.user.freelanceCell.box.contains(to)) isCancelled = true
+            else player.user.updatePosition()
         }
     }
 }

@@ -14,11 +14,9 @@ import me.slavita.construction.world.GameWorld
 import kotlin.random.Random
 
 class ClientStructure(
-    world: GameWorld,
     structure: Structure,
-    owner: User,
     cell: PlayerCell,
-) : BuildingStructure(world, structure, owner, cell) {
+) : BuildingStructure(structure, cell) {
     private val sender = StructureSender(owner.player)
 
     override fun enterBuilding() {}

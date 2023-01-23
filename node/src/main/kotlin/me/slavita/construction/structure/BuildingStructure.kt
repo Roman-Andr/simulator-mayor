@@ -1,9 +1,6 @@
 package me.slavita.construction.structure
 
 import me.slavita.construction.player.User
-import me.slavita.construction.player.sound.Music.playSound
-import me.slavita.construction.player.sound.MusicSound
-import me.slavita.construction.project.FreelanceProject
 import me.slavita.construction.project.Project
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureState
@@ -12,15 +9,13 @@ import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.StructureBlock
 
 abstract class BuildingStructure(
-    val world: GameWorld,
     val structure: Structure,
-    val owner: User,
     val cell: PlayerCell,
 ) {
     protected var currentBlock: StructureBlock? = null
     protected var hidden = false
     var currentProject: Project? = null
-        private set
+    val owner = playerCell.owner
     var cityStructure: CityStructure? = null
     var state = StructureState.NOT_STARTED
     var blocksPlaced = 0
@@ -68,11 +63,25 @@ abstract class BuildingStructure(
         owner.updatePosition()
     }
 
+    fun continueBuilding(project: Project) {
+        state = StructureState.BUILDING
+        currentBlock = structure.getFirstBlock()
+
+        repeat(blocksPlaced) {
+            app.mainWorld.placeFakeBlock(owner.player, currentBlock!!.withOffset(allocation))
+            currentBlock = structure.getNextBlock(currentBlock!!.position)
+        }
+
+        visual.update()
+        currentProject = project
+        owner.updatePosition()
+    }
+
     fun placeCurrentBlock() {
         if (state != StructureState.BUILDING) return
         owner.player.playSound(MusicSound.HINT)
 
-        world.placeFakeBlock(owner.player, currentBlock!!.withOffset(allocation), currentProject!! !is FreelanceProject)
+        app.mainWorld.placeFakeBlock(owner.player, currentBlock!!.withOffset(allocation), currentProject!! !is FreelanceProject)
         currentBlock = structure.getNextBlock(currentBlock!!.position)
         blockPlaced()
 
@@ -84,7 +93,7 @@ abstract class BuildingStructure(
         }
     }
 
-    private fun finishBuilding() {
+    fun finishBuilding() {
         state = StructureState.FINISHED
         deleteVisual()
         visual.finishShow()
@@ -97,5 +106,65 @@ abstract class BuildingStructure(
     fun claimed() {
         visual.hideFinish()
         state = StructureState.REWARD_CLAIMED
+    }
+}
+
+class BuildingStructureSerializer : JsonSerializer<BuildingStructure> {
+    override fun serialize(buildingStructure: BuildingStructure, type: Type, context: JsonSerializationContext): JsonElement {
+        val json = JsonObject()
+
+        buildingStructure.run {
+            json.addProperty("type", when (buildingStructure) {
+                is ClientStructure -> "client"
+                is WorkerStructure -> "worker"
+                else -> throw JsonParseException("Unknown structure type!")
+            })
+            json.addProperty("structureId", structure.id)
+            json.addProperty("playerCellId", playerCell.id)
+            json.addProperty("blocksPlaced", blocksPlaced)
+            json.add("state", context.serialize(state))
+
+            if (type == WorkerStructure::class.java) {
+                buildingStructure as WorkerStructure
+
+                val workers = JsonArray()
+                buildingStructure.workers.forEach { workers.add(it.uuid.toString()) }
+                json.add("workers", workers)
+            }
+        }
+
+        return json
+    }
+}
+
+class BuildingStructureDeserializer(val project: Project) : JsonDeserializer<BuildingStructure> {
+    override fun deserialize(json: JsonElement, type: Type, context: JsonDeserializationContext) = json.asJsonObject.run {
+        val structure = Structures.structures[get("structureId").asInt]
+        val playerCell = project.city.playerCells[get("playerCellId").asInt]
+        val blocksPlaced = get("blocksPlaced").asInt
+
+        when (get("type").asString) {
+            "Structure" -> {
+                WorkerStructure(structure, playerCell).apply {
+                    nextTick {
+                        get("workers").asJsonArray.forEach { id ->
+                            val workerUuid = UUID.fromString(id.asString)
+                            workers.add(project.owner.data.workers.first { it.uuid == workerUuid })
+                        }
+                    }
+                }
+            }
+            "client" -> ClientStructure(structure, playerCell)
+            else -> throw JsonParseException("Unknown structure type!")
+        }.apply {
+            this@apply.currentProject = project
+            this@apply.blocksPlaced = blocksPlaced
+            visual.start()
+            when (StructureState.valueOf(get("state").asString)) {
+                StructureState.BUILDING -> runAsync(100) { continueBuilding(project) }
+                StructureState.FINISHED -> nextTick { finishBuilding() }
+                else -> this@apply.state = state
+            }
+        }
     }
 }

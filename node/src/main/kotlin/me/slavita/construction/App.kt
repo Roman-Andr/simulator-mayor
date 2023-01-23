@@ -34,8 +34,10 @@ import me.slavita.construction.ui.BoardsManager
 import me.slavita.construction.ui.CityGlows
 import me.slavita.construction.ui.SpeedPlaces
 import me.slavita.construction.ui.items.ItemsManager
-import me.slavita.construction.utils.*
+import me.slavita.construction.utils.Config
+import me.slavita.construction.utils.ModCallbacks
 import me.slavita.construction.utils.language.EnumLang
+import me.slavita.construction.utils.logTg
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.Bukkit
@@ -75,17 +77,26 @@ class App : JavaPlugin() {
     val users = hashMapOf<UUID, User>()
     val allBlocks = hashSetOf<ItemProperties>()
 
-    val statScope = Scope("construction--test", Data::class.java)
-    lateinit var kensuke: Kensuke
-    lateinit var userManager: UserManager<KensukeUser>
-
     val localStaff = hashSetOf(
         "e2543a0a-5799-11e9-8374-1cb72caa35fd",
-        "ba821208-6b64-11e9-8374-1cb72caa35fd"
+        "f83a7e5d-9361-11e9-80c4-1cb72caa35fd",
+        "ba821208-6b64-11e9-8374-1cb72caa35fd",
     ).map { it.toUUID() }
 
     var pass = 0L
         private set
+
+    private val failedLoad = hashSetOf<Player>()
+    private val failedSave = hashSetOf<SaveUserPackage>()
+
+    private val gsonSerializer = GsonBuilder()
+        .registerTypeAdapter(PlayerCell::class.java, PlayerCellSerializer())
+        .registerTypeAdapter(WorkerStructure::class.java, BuildingStructureSerializer())
+        .registerTypeAdapter(ClientStructure::class.java, BuildingStructureSerializer())
+        .registerTypeAdapter(Project::class.java, ProjectSerializer())
+        .registerTypeAdapter(BlocksStorage::class.java, BlocksStorageSerializer())
+        .registerTypeAdapter(City::class.java, CitySerializer())
+        .create()
 
     override fun onEnable() {
         app = this
@@ -96,11 +107,11 @@ class App : JavaPlugin() {
         Anime.include(Kit.STANDARD, Kit.EXPERIMENTAL, Kit.DIALOG, Kit.MULTI_CHAT, Kit.LOOTBOX, Kit.NPC)
 
         CoreApi.get().run {
-            registerService(ITransferService::class.java, TransferService(ISocketClient.get()))
-            registerService(IPartyService::class.java, PartyService(ISocketClient.get()))
+            registerService(ITransferService::class.java, TransferService(socket))
+            registerService(IPartyService::class.java, PartyService(socket))
             registerService(IScoreboardService::class.java, ScoreboardService())
-            registerService(IInvoiceService::class.java, InvoiceService(ISocketClient.get()))
-            registerService(IMultiChatService::class.java, MultiChatService(ISocketClient.get()))
+            registerService(IInvoiceService::class.java, InvoiceService(socket))
+            registerService(IMultiChatService::class.java, MultiChatService(socket))
         }
 
         IMultiChatService.get().run {
@@ -120,31 +131,23 @@ class App : JavaPlugin() {
             extraSlots = 15
 
             IScoreboardService.get().serverStatusBoard.displayName = "${WHITE}Тест #${AQUA}" + realmId.id
-            after(20 * 10) {
+            after(20 * 4) {
                 ITransferService.get().transfer(System.getenv("CONSTRUCTION_USER").toUUID(), realmId)
             }
         }
-
-        userManager = BukkitUserManager(
-            listOf(statScope),
-            { session, context -> KensukeUser(context.uuid, context.getData(statScope), session) },
-            { user, context -> context.store(statScope, user.user.data) }
-        )
-
-        kensuke = BukkitKensuke.setup(this)
-        kensuke.addGlobalUserManager(userManager)
-        kensuke.globalRealm = "SLVT-0"
-        userManager.isOptional = true
 
         ModLoader.loadAll("mods")
         ModLoader.onJoining("construction-mod.jar")
 
         structureMap = MapLoader.load("construction", "structures")
-        mainWorld = GameWorld(MapLoader.load("construction", "main").apply {
-            world.setGameRuleValue("randomTickSpeed", "0")
-            world.setGameRuleValue("gameLoopFunction", "false")
-            world.setGameRuleValue("disableElytraMovementCheck", "true")
-        })
+        val map = MapLoader.load("construction", "main")
+        nextTick {
+            GameWorld(map.apply {
+                world.setGameRuleValue("randomTickSpeed", "0")
+                world.setGameRuleValue("gameLoopFunction", "false")
+                world.setGameRuleValue("disableElytraMovementCheck", "true")
+            })
+        }
 
         Music.block(Category.MUSIC)
 
@@ -154,46 +157,124 @@ class App : JavaPlugin() {
 
         Config.load {
             NpcManager
-            BoardsManager
             CityGlows
         }
+
         Boosters
         MultiChats
         UserCommands
         AdminCommands
         Structures
         ModCallbacks
-        SpeedPlaces
         ItemsManager
         PlayerEvents
-        Showcases
+
         EnumLang.init()
 
         bot.startPolling()
-        logTg("Initialized on realm ${IRealmService.get().currentRealmInfo.realmId}")
+        logTg("Realm Initialized")
+
+        scheduler.run {
+            runTimerAsync(0, 120) {
+                failedLoad.forEach {
+                    tryLoadUser(it, false)
+                }
+                failedSave.forEach {
+                    trySaveUser(it)
+                }
+            }
+
+            runTimerAsync(10 * 20, 2 * 60 * 20) {
+                Leaderboards.load()
+            }
+
+            coroutineForAll(20) {
+                data.money += income.applyBoosters(BoosterType.MONEY_BOOSTER)
+            }
+
+            coroutineForAll(10 * 20) {
+                showcases.forEach {
+                    it.properties.updatePrices()
+                }
+            }
+
+            coroutineForAll(2 * 60 * 20) {
+                data.cities.forEach {
+                    it.breakStructure()
+                }
+            }
+        }
 
         runTimer(0, 1) { pass++ }
     }
 
     override fun onDisable() {
         EnumLang.clean()
-        scheduler.cancelTask(BoardsManager.taskId)
     }
-
-    fun getUserOrAdd(uuid: UUID) = getUserOrNull(uuid) ?: addUser(uuid)
-
-    fun addUser(uuid: UUID): User {
-        users[uuid] = User(uuid)
-        return getUser(uuid)
-    }
-
-    fun addUser(player: Player) = addUser(player.uniqueId)
 
     fun getUserOrNull(uuid: UUID) = users[uuid]
-
-    fun hasUser(player: Player) = getUserOrNull(player.uniqueId) != null
 
     fun getUser(uuid: UUID) = users[uuid]!!
 
     fun getUser(player: Player) = getUser(player.uniqueId)
+
+    fun unloadUser(player: Player) = users.remove(player.uniqueId)
+
+    fun unloadUser(uuid: UUID) = users.remove(uuid)
+
+    fun trySaveUser(player: Player) = runAsync {
+        trySaveUser(player.user.run {
+            data.inventory.clear()
+            player.inventory.storageContents.forEachIndexed { index, item ->
+                if (item != null) data.inventory.add(SlotItem(item, index, item.getAmount()))
+            }
+            player.inventory.clear()
+
+            SaveUserPackage(
+                uuid.toString(),
+                gsonSerializer.toJson(data),
+                data.experience,
+                data.totalProjects.toLong()
+            )
+        })
+    }
+
+    private fun trySaveUser(pckg: SaveUserPackage) = runAsync {
+        try {
+            socket.writeAndAwaitResponse<SaveUserPackage>(pckg)[5, TimeUnit.SECONDS]
+            println("user saved")
+            failedSave.remove(pckg)
+            unloadUser(UUID.fromString(pckg.uuid))
+        } catch(e: TimeoutException) {
+            println("user save timeout")
+            failedSave.add(pckg)
+        }
+    }
+
+    fun tryLoadUser(player: Player, silent: Boolean) = runAsync {
+        if (!player.isOnline) return@runAsync
+        val uuid = player.uniqueId
+        try {
+            println("try load user")
+            LoadUserEvent(cacheUser(uuid)).callEvent()
+            failedLoad.remove(player)
+            if (!silent) player.accept("Данные успешно загружены")
+        } catch (e: TimeoutException) {
+            println("user load timeout")
+            player.deny("Не удалось загрузить ваши данные\nПовторная загрузка данных...")
+            if (!failedLoad.contains(player)) failedLoad.add(player)
+        }
+    }
+
+    private fun cacheUser(uuid: UUID): User {
+        val raw = getRawUser(uuid)
+        println("got raw data")
+        val user = User(uuid).apply { initialize(raw) }
+        println("user initialized")
+        users[uuid] = user
+        return user
+    }
+
+    private fun getRawUser(uuid: UUID) =
+        socket.writeAndAwaitResponse<GetUserPackage>(GetUserPackage(uuid.toString()))[5, TimeUnit.SECONDS].data
 }

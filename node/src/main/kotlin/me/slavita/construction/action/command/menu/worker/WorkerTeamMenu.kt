@@ -6,6 +6,7 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.menu.ItemIcons
 import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
+import me.slavita.construction.utils.*
 import me.slavita.construction.utils.getBaseSelection
 import me.slavita.construction.utils.getWorkerInfo
 import me.slavita.construction.utils.mapM
@@ -29,7 +30,7 @@ class WorkerTeamMenu(player: Player) : MenuCommand(player) {
                         title = worker.name
                         hover = worker.toString()
                         hint = "Выбрать"
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             WorkerUpgradeMenu(player, worker).keepHistory().tryExecute()
                         }
                     }

@@ -9,6 +9,8 @@ import me.slavita.construction.action.command.menu.achievements.AchievementsChoi
 import me.slavita.construction.action.command.menu.city.LocationsMenu
 import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
 import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.utils.click
+import me.slavita.construction.utils.user
 import me.slavita.construction.utils.getMenuInfo
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
@@ -26,7 +28,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         hint = "Выбрать"
                         backgroundColor = GlowColor.ORANGE
                         item = ItemIcons.get("other", "book")
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             ActiveProjectsMenu(player).keepHistory().tryExecute()
                         }
                     },
@@ -35,7 +37,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         hint = "Выбрать"
                         backgroundColor = GlowColor.GREEN
                         item = ItemIcons.get("alpha", "islands")
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             LocationsMenu(player).keepHistory().tryExecute()
                         }
                     },
@@ -44,7 +46,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         hint = "Выбрать"
                         backgroundColor = GlowColor.BLUE
                         item = ItemIcons.get("other", "clothes")
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             TagsMenu(player).keepHistory().tryExecute()
                         }
                     },
@@ -53,7 +55,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         hint = "Выбрать"
                         backgroundColor = GlowColor.BLUE
                         item = ItemIcons.get("other", "achievements_many")
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             AchievementsChoiceMenu(player).keepHistory().tryExecute()
                         }
                     },
@@ -62,7 +64,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         hint = "Выбрать"
                         backgroundColor = GlowColor.NEUTRAL
                         item = ItemIcons.get("skyblock", "is_settings")
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             SettingsMenu(player).keepHistory().tryExecute()
                         }
                     }

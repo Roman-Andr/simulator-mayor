@@ -22,7 +22,7 @@ class ActiveProjectsMenu(player: Player) : MenuCommand(player) {
             ).apply {
                 hint = ""
                 info = getProjectsInfo()
-                storage = cities.flatMap { it.projects }.mapM {
+                storage = this@run.data.cities.flatMap { it.projects }.mapM {
                     button {
                         item = ItemIcons.get("skyblock", "settings")
                         title = "Проект #${it.id}"

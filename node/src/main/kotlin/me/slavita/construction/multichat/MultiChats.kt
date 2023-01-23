@@ -3,6 +3,7 @@ package me.slavita.construction.multichat
 import me.func.mod.ui.MultiChat
 import me.func.protocol.data.chat.ModChat
 import me.slavita.construction.utils.safe
+import me.slavita.construction.utils.nextTick
 import org.bukkit.entity.Player
 import java.util.*
 

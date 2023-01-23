@@ -24,16 +24,15 @@ object OnLeave {
                     )
                 )
             }
-            Lock.lock("construction-${player.uniqueId}", 10, TimeUnit.SECONDS)
-            scheduler.cancelTask(player.user.taskId)
-            scheduler.cancelTask(player.user.showcaseTaskId)
-            player.user.cities.forEach { city ->
-                scheduler.cancelTask(city.taskId)
+
+            if (player.userOrNull != null) {
+                app.run {
+                    trySaveUser(player)
+                    mainWorld.clearBlocks(player.uniqueId)
+                }
             }
 
-            after(5) {
-                app.users.remove(player.uniqueId)
-            }
+            Lock.lock("construction-${player.uniqueId}", 10, TimeUnit.SECONDS)
         }
     }
 }

@@ -18,7 +18,7 @@ object Bank {
                 3.0
             )
         )
-        user.data.statistics.money += amount
+        user.data.money += amount
     }
 
     fun repayCredit(user: User, uuid: UUID, acceptAction: () -> Unit) {

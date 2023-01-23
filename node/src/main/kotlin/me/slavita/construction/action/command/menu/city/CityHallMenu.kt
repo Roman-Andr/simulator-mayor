@@ -10,12 +10,14 @@ import me.slavita.construction.ui.Formatter.toIncomeIcon
 import me.slavita.construction.ui.Formatter.toLevel
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 
 class CityHallMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         user.run user@{
+            val hall = this@user.data.hall
             return choicer {
                 title = "${GREEN}${BOLD}Мэрия"
                 description = "Управление мэрией"
@@ -32,8 +34,8 @@ class CityHallMenu(player: Player) : MenuCommand(player) {
                             ${BOLD}${WHITE}Стоимость: ${GREEN}${hall.upgradePrice.toMoneyIcon()}
                         """.trimIndent()
                         item = ItemIcons.get("other", "crafting")
-                        onClick { _, _, _ ->
-                            hall.upgrade()
+                        click { _, _, _ ->
+                            this@user.upgradeHall()
                             Anime.close(player)
                         }
                     }

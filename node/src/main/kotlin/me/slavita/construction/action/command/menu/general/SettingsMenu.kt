@@ -8,6 +8,7 @@ import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.prepare.TagsPrepare
 import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.utils.click
 import me.slavita.construction.utils.getSettingInfo
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GREEN
@@ -24,7 +25,7 @@ class SettingsMenu(player: Player) : MenuCommand(player) {
                     title = "Показ тега"
                     hint = "Выбрать"
                     updateButton(this)
-                    onClick { _, _, button ->
+                    click { _, _, button ->
                         user.data.settings.apply { this.tagShow = !this.tagShow }
                         updateButton(button)
                         TagsPrepare.prepare(user)

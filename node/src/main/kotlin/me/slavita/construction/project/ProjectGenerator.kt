@@ -14,37 +14,31 @@ object ProjectGenerator {
     fun generateClient(owner: User, structure: Structure, playerCell: PlayerCell): Project {
         return Project(
             owner.currentCity,
-            owner.data.statistics.totalProjects,
-            ClientStructure(
-                app.mainWorld,
-                structure,
-                owner,
-                playerCell
-            ),
+            owner.data.totalProjects,
             listOf(
                 MoneyReward(100),
                 ExperienceReward(100),
                 ReputationReward(100),
             )
-        )
+        ).apply {
+            this.structure = ClientStructure(structure, playerCell)
+            initialize()
+        }
     }
 
     fun generateWorker(owner: User, structure: Structure, playerCell: PlayerCell): Project {
         return Project(
             owner.currentCity,
-            owner.data.statistics.totalProjects,
-            WorkerStructure(
-                app.mainWorld,
-                structure,
-                owner,
-                playerCell
-            ),
+            owner.data.totalProjects,
             listOf(
                 MoneyReward(300),
                 ExperienceReward(200),
                 ReputationReward(100),
             )
-        )
+        ).apply {
+            this.structure = WorkerStructure(structure, playerCell)
+            initialize()
+        }
     }
 
     fun generateFreelance(owner: User, structure: Structure): FreelanceProject {

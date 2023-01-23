@@ -1,28 +1,22 @@
 package me.slavita.construction.structure
 
-import me.func.atlas.Atlas
 import me.func.mod.reactive.ReactivePlace
-import me.func.mod.world.Banners
 import me.func.protocol.data.color.GlowColor
-import me.func.protocol.data.element.Banner
 import me.slavita.construction.player.User
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureState
-import me.slavita.construction.utils.*
-import me.slavita.construction.utils.loadBannerFromConfig
+import me.slavita.construction.utils.PlayerExtensions.accept
 import me.slavita.construction.utils.language.LanguageHelper
+import me.slavita.construction.utils.runAsync
 import me.slavita.construction.worker.Worker
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.ItemProperties
-import org.bukkit.entity.Player
 
 class WorkerStructure(
-    world: GameWorld,
     structure: Structure,
-    owner: User,
     cell: PlayerCell,
     val workers: HashSet<Worker> = hashSetOf(),
-) : BuildingStructure(world, structure, owner, cell) {
+) : BuildingStructure(structure, cell) {
 
     private var remainingBlocks = hashMapOf<ItemProperties, Int>()
     private val blocksStorage = hashMapOf<ItemProperties, Int>()

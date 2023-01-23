@@ -7,9 +7,14 @@ import dev.implario.bukkit.platform.Platforms
 import io.netty.channel.ChannelDuplexHandler
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelPromise
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import me.func.mod.Anime
 import me.func.mod.reactive.ReactiveBanner
 import me.func.mod.ui.Glow
+import me.func.mod.reactive.ButtonClickHandler
+import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection
 import me.func.mod.ui.menu.selection.Selection
@@ -22,13 +27,11 @@ import me.func.protocol.data.color.Tricolor
 import me.func.protocol.data.element.Banner
 import me.func.protocol.data.element.MotionType
 import me.func.world.WorldMeta
+import me.slavita.construction.action.command.menu.ButtonCommand
 import me.slavita.construction.app
 import me.slavita.construction.bank.Bank
 import me.slavita.construction.dontate.Donates
 import me.slavita.construction.player.User
-import me.slavita.construction.player.sound.Music.playSound
-import me.slavita.construction.player.sound.MusicSound
-import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.ui.menu.MenuInfo
@@ -57,9 +60,12 @@ import ru.cristalix.core.formatting.Formatting
 import ru.cristalix.core.math.V3
 import ru.cristalix.core.permissions.IPermissionContext
 import ru.cristalix.core.permissions.IPermissionService
+import ru.cristalix.core.network.ISocketClient
+import ru.cristalix.core.realm.IRealmService
 import java.util.*
 import kotlin.reflect.KClass
 
+val socket = ISocketClient.get()
 
 val STORAGE_URL = "https://storage.c7x.dev/${System.getenv("STORAGE_USER")}/construction"
 
@@ -70,10 +76,34 @@ val Player.cristalixName
     get() = getDisplayName(this.uniqueId)
 
 val Player.userOrNull
-    get() = app.getUserOrNull(this.uniqueId)
+    get() = app.getUserOrNull(uniqueId)
 
 val Player.handle: EntityPlayer
     get() = (this as CraftPlayer).handle
+
+val scheduler: BukkitScheduler = Bukkit.getScheduler()
+
+fun ReactiveButton.click(click: ButtonClickHandler) = apply {
+    onClick = ButtonClickHandler { player, index, button ->
+        ButtonCommand(player) {
+            click.handle(player, index, button)
+        }.tryExecute()
+    }
+}
+
+fun nextTick(runnable: Runnable) {
+    Bukkit.getScheduler().runTask(Platforms.getPlugin(), runnable)
+}
+
+fun coroutine(block: suspend CoroutineScope.() -> Unit) = CoroutineScope(Dispatchers.IO).launch { block() }
+
+fun coroutineForAll(every: Long, task: User.() -> Unit) {
+    scheduler.scheduleSyncRepeatingTask(app, {
+        app.users.forEach { (_, user) ->
+            task.invoke(user)
+        }
+    }, 0L, every)
+}
 
 fun Player.deny(text: String) {
     killboard(Formatting.error(text))
@@ -109,6 +139,8 @@ private fun getDisplayName(uuid: UUID): String {
 fun labels(key: String, map: WorldMeta = app.mainWorld.map) = map.getLabels(key)
 
 fun label(key: String, map: WorldMeta = app.mainWorld.map) = map.getLabel(key)
+
+fun label(key: String, tag: String, map: WorldMeta = app.mainWorld.map) = map.getLabel(key, tag)
 
 fun Float.revert() = when {
     this >= 0 -> this - 180F
@@ -193,15 +225,13 @@ fun command(name: String, biConsumer: BiConsumer<Player, Array<out String>>) {
 
 fun safe(action: () -> Unit) = after(1, action)
 
-fun logFormat(message: String) = "[CONSTRUCTION] $message"
+fun logFormat(message: String) = "[${IRealmService.get().currentRealmInfo.realmId.realmName}] $message"
 
 fun log(message: String) = println(logFormat(message))
 
 fun logTg(message: String) = app.bot.sendMessage(ChatId.fromId(app.chatId), logFormat(message))
 
 val routine: EventContext = EventContext { true }.fork()
-
-val scheduler: BukkitScheduler = Bukkit.getScheduler()
 
 fun runTimerAsync(start: Long, every: Long, runnable: Runnable): BukkitTask =
     scheduler.runTaskTimerAsynchronously(app, runnable, start, every)
@@ -219,7 +249,7 @@ fun donateButton(donate: Donates, player: Player) = button {
     hint = "Купить"
     description = "Цена: ${donate.donate.price.toCriMoney()}"
     backgroundColor = donate.backgroudColor
-    onClick { _, _, _ ->
+    click { _, _, _ ->
         donate.donate.purchase(player.user)
     }
 }

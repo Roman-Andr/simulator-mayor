@@ -10,7 +10,7 @@ import me.slavita.construction.utils.accept
 class MoneyReward(private val money: Long) : Reward {
     override fun getReward(user: User) {
         val value = money.applyBoosters(BoosterType.MONEY_BOOSTER)
-        user.data.statistics.money += value
+        user.data.money += value
         user.player.accept("Вы получили ${value.toMoneyIcon()}")
         Anime.cursorMessage(user.player, value.toMoneyIcon())
     }

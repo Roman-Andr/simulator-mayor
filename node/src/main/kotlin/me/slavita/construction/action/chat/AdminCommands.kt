@@ -11,6 +11,7 @@ import me.slavita.construction.action.command.menu.general.DailyMenu
 import me.slavita.construction.action.command.menu.project.ChoiceStructureGroup
 import me.slavita.construction.app
 import me.slavita.construction.bank.Bank
+import me.slavita.construction.player.Data
 import me.slavita.construction.player.Statistics
 import me.slavita.construction.player.Tags
 import me.slavita.construction.prepare.GuidePrepare
@@ -27,7 +28,7 @@ import ru.cristalix.core.transfer.ITransferService
 object AdminCommands {
     init {
         opCommand("setmoney") { player, args ->
-            player.user.data.statistics.money = args[0].toLong()
+            player.user.data.money = args[0].toLong()
         }
 
         opCommand("freelance") { player, _ ->
@@ -60,12 +61,12 @@ object AdminCommands {
         opCommand("panel") { player, _ ->
             listOf(
                 ReactivePanel.builder()
-                    .text("Монет ${player.user.data.statistics.money.toMoneyIcon()}")
+                    .text("Монет ${player.user.data.money.toMoneyIcon()}")
                     .color(GlowColor.ORANGE)
                     .progress(1.0)
                     .build(),
                 ReactivePanel.builder()
-                    .text("Опыт ${player.user.data.statistics.experience}")
+                    .text("Опыт ${player.user.data.experience}")
                     .color(GlowColor.BLUE)
                     .progress(1.0)
                     .build(),
@@ -131,7 +132,12 @@ object AdminCommands {
         }
 
         opCommand("statclear") { player, _ ->
-            player.user.data.statistics = Statistics()
+            player.user.data = Data(player.user)
+        }
+
+        opCommand("error") { player, _ ->
+            var nu: String? = null
+            player.killboard(nu!!)
         }
 
         opCommand("line") { player, _ ->

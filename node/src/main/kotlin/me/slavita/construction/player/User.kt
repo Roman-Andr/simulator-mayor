@@ -1,49 +1,37 @@
 package me.slavita.construction.player
 
-import me.func.mod.Anime
 import me.func.mod.conversation.ModTransfer
-import me.slavita.construction.action.command.menu.city.ShowcaseMenu
 import me.slavita.construction.action.command.menu.city.BuyCityConfirm
-import me.slavita.construction.action.command.menu.project.ChoiceProject
 import me.slavita.construction.action.command.menu.project.ChoiceStructureGroup
+import me.slavita.construction.app
+import me.slavita.construction.booster.BoosterType
 import me.slavita.construction.dontate.Abilities
 import me.slavita.construction.listener.OnActions
 import me.slavita.construction.prepare.StoragePrepare
-import me.slavita.construction.project.FreelanceProject
 import me.slavita.construction.project.Project
 import me.slavita.construction.storage.BlocksStorage
-import me.slavita.construction.structure.PlayerCell
+import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.structure.tools.StructureState
-import me.slavita.construction.utils.deny
+import me.slavita.construction.ui.Formatter.applyBoosters
+import me.slavita.construction.utils.PlayerExtensions.deny
 import me.slavita.construction.utils.runAsync
+import me.slavita.construction.utils.scheduler
 import me.slavita.construction.utils.user
-import org.bukkit.Location
 import org.bukkit.entity.Player
 import ru.cristalix.core.invoice.IInvoiceService
 import java.util.*
 
 class User(val uuid: UUID) {
-    var initialized = false
-    lateinit var player: Player
-    lateinit var data: Data
-    var cities = hashSetOf<City>()
-    var currentCity: City = City(this, "1", "Незаданная", 0, true)
-    val blocksStorage = BlocksStorage(this)
+    val player = Bukkit.getPlayer(uuid)!!
     var watchableProject: Project? = null
     var income = 0L
-        set(value) {
-            if (initialized) data.statistics.lastIncome = value
-            field = value
-        }
-    val hall = CityHall(this)
-    var taskId = 0
-    var showcaseTaskId = 0
-    var showcaseMenuTaskId = 0
-    var showcaseMenu: ShowcaseMenu? = null
-    var lastApprovedPosition: Location? = null
+    val showcases: HashSet<Showcase> = Showcases.showcases.map { Showcase(it) }.toHashSet()
     private var criBalanceLastUpdate = 0L
 
+    lateinit var data: Data
+    lateinit var currentCity: City
     lateinit var freelanceCell: PlayerCell
+
     var currentFreelance: FreelanceProject? = null
         set(value) {
             data.hasFreelance = value != null
@@ -56,28 +44,51 @@ class User(val uuid: UUID) {
 
             if (now - criBalanceLastUpdate > 1000 * 60) {
                 criBalanceLastUpdate = now
-                IInvoiceService.get().getBalanceData(player.uniqueId).thenAccept { data ->
+                IInvoiceService.get().getBalanceData(uuid).thenAccept { data ->
                     field = data.crystals + data.coins
                 }
             }
             return field
         }
 
+    fun initialize(data: String?) {
+        this.data = if (data == null) Data(this)
+        else GsonBuilder()
+            .registerTypeAdapter(City::class.java, CityDeserializer(this))
+            .registerTypeAdapter(BlocksStorage::class.java, BlocksStorageDeserializer(this))
+            .create()
+            .fromJson(data, Data::class.java)
+
+        currentCity = this.data.cities.first()
+
+        income += income
+    }
+
+    fun upgradeHall() {
+        data.hall.apply {
+            tryPurchase(upgradePrice) {
+                this@User.income -= income
+                data.hall.level++
+                this@User.income += income
+                player.accept("Вы успешно улучшили ${ChatColor.GOLD}Мэрию")
+            }
+        }
+    }
+
     fun tryPurchase(
         cost: Long,
         acceptAction: () -> Unit,
     ) {
-        if (data.statistics.money >= cost) {
-            data.statistics.money -= cost
+        if (data.money >= cost) {
+            data.money -= cost
             acceptAction()
         } else {
             player.deny("Недостаточно денег!")
-            Anime.close(player)
         }
     }
 
     fun addExp(exp: Long) {
-        data.statistics.experience += exp
+        data.experience += exp
 //		if (exp / 10*2.0.pow(stats.level) > 0) {
 //			stats.level += (exp / 10).toInt()
 //			Anime.itemTitle(player, ItemIcons.get("other", "access"), "Новый уровень: ${stats.level}", "", 2.0)
@@ -85,9 +96,7 @@ class User(val uuid: UUID) {
 //		}
     }
 
-    fun canPurchase(cost: Long): Boolean {
-        return data.statistics.money >= cost
-    }
+    fun canPurchase(cost: Long) = data.money >= cost
 
     fun changeCity(city: City) {
         currentCity.projects.forEach { it.structure.deleteVisual() }
@@ -111,8 +120,8 @@ class User(val uuid: UUID) {
         ability.applyAction(this)
     }
 
-    fun updatePosition(): Boolean {
-        cities.forEach { city ->
+    fun updatePosition(): Boolean { //todo: rewrite it
+        data.cities.forEach { city ->
             if (city.box.contains(player.location)) {
                 if (currentCity.title != city.title && city.unlocked) {
                     currentCity = city
@@ -132,16 +141,20 @@ class User(val uuid: UUID) {
             watchableProject = null
         }
 
-        if (player.user.blocksStorage.inBox() && !OnActions.storageEntered[player]!!) {
-            ModTransfer()
-                .send("storage:show", player)
-            OnActions.storageEntered[player] = true
+        currentCity.cityStructures.forEach {
+            if (it.playerCell.box.contains(player.location) && it.state == CityStructureState.BROKEN) {
+                it.repair()
+            }
         }
 
-        if (!player.user.blocksStorage.inBox() && OnActions.storageEntered[player]!!) {
-            ModTransfer()
-                .send("storage:hide", player)
-            OnActions.storageEntered[player] = false
+        if (player.user.data.blocksStorage.inBox() && !OnActions.storageEntered[player.uniqueId]!!) {
+            ModTransfer().send("storage:show", player)
+            OnActions.storageEntered[player.uniqueId] = true
+        }
+
+        if (!player.user.data.blocksStorage.inBox() && OnActions.storageEntered[player.uniqueId]!!) {
+            ModTransfer().send("storage:hide", player)
+            OnActions.storageEntered[player.uniqueId] = false
         }
 
         if (watchableProject == null) {
@@ -165,11 +178,11 @@ class User(val uuid: UUID) {
                 if (OnActions.inZone[player] == false) ChoiceStructureGroup(player, cell) { structure ->
                     ChoiceProject(player, structure, cell).keepHistory().tryExecute()
                 }.tryExecute()
-                OnActions.inZone[player] = true
+                OnActions.inZone[player.uniqueId] = true
                 return false
             }
 
-            OnActions.inZone[player] = false
+            OnActions.inZone[player.uniqueId] = false
         } else {
             if (currentFreelance != null && freelanceCell.box.contains(player.location) && currentFreelance!!.structure.state == StructureState.FINISHED) {
                 watchableProject = null

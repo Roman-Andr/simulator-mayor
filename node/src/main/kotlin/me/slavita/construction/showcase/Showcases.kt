@@ -8,7 +8,7 @@ import me.slavita.construction.utils.toYaw
 import org.bukkit.block.BlockFace
 
 object Showcases {
-    val showcases = hashSetOf<ShowcaseProperties>()
+    val showcases = arrayListOf<ShowcaseProperties>()
 
     init {
         val materials = app.allBlocks

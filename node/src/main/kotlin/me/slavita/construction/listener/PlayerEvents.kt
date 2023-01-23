@@ -7,5 +7,6 @@ object PlayerEvents {
         OnLeave
         OnChat
         OnActions
+        OnUserLoad
     }
 }

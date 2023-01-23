@@ -40,10 +40,10 @@ object GuidePrepare : IPrepare {
         val entryPoint: String = if (
             false
         ) {
-            "${user.data.statistics.trainStep}-not_complete"
+            "${user.data.trainStep}-not_complete"
         } else {
-            user.data.statistics.trainStep++
-            user.data.statistics.trainStep.toString()
+            user.data.trainStep++
+            user.data.trainStep.toString()
         }
 
         dialog?.run {
