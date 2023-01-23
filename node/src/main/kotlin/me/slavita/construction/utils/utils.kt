@@ -86,6 +86,8 @@ fun labels(key: String, map: WorldMeta = app.mainWorld.map) = map.getLabels(key)
 
 fun label(key: String, map: WorldMeta = app.mainWorld.map) = map.getLabel(key)
 
+fun label(key: String, tag: String, map: WorldMeta = app.mainWorld.map) = map.getLabel(key, tag)
+
 fun Float.revert() = when {
     this >= 0 -> this - 180F
     else      -> this + 180F

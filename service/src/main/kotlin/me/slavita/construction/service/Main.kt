@@ -1,26 +1,15 @@
 package me.slavita.construction.service
 
-import com.google.gson.Gson
-import com.mongodb.Block
-import com.mongodb.async.SingleResultCallback
 import com.mongodb.client.model.*
-import com.mongodb.client.result.UpdateResult
+import com.mongodb.client.model.Projections.include
 import me.func.serviceapi.mongo.MongoAdapter
 import me.func.serviceapi.runListener
-import me.slavita.construction.protocol.GetUserPackage
-import me.slavita.construction.protocol.SaveUserPackage
-import me.slavita.construction.protocol.UserSavedPackage
-import org.bson.BSON
-import org.bson.BasicBSONObject
-import org.bson.BsonDocument
-import org.bson.BsonValue
+import me.slavita.construction.protocol.*
 import org.bson.Document
-import org.bson.conversions.Bson
-import ru.cristalix.core.GlobalSerializers
 import ru.cristalix.core.microservice.MicroServicePlatform
 import ru.cristalix.core.microservice.MicroserviceBootstrap
 import ru.cristalix.core.network.ISocketClient
-import java.util.ArrayList
+import kotlin.collections.ArrayList
 
 fun main() {
     MicroserviceBootstrap.bootstrap(MicroServicePlatform(2))
@@ -32,10 +21,25 @@ fun main() {
         System.getenv("MONGO_COLLECTION")
     )
 
+    fun getTop(field: String, after: ArrayList<LeaderboardItem>.() -> Unit) {
+        val response = arrayListOf<LeaderboardItem>()
+        db.collection
+            .find()
+            .projection(include(field))
+            .sort(Document().append(field, 1))
+            .limit(10)
+            .forEach({
+                response.add(LeaderboardItem(it.getString("_id"), it.getLong(field)))
+            }) { _, _ ->
+                after(response)
+            }
+    }
+
     socketClient.apply {
         capabilities(
             GetUserPackage::class,
             SaveUserPackage::class,
+            GetLeaderboardPackage::class,
         )
 
         runListener<GetUserPackage> { realm, pckg ->
@@ -50,16 +54,36 @@ fun main() {
             }
         }
 
+        runListener<GetLeaderboardPackage> { realm, pckg ->
+            println("GetLeaderboardPackage: ${realm.realmName}")
+            pckg.run {
+                var responses = 0
+                getTop("experience") {
+                    experience = this
+                    if (++responses == 2) forward(realm, pckg)
+                }
+                getTop("projects") {
+                    projects = this
+                    if (++responses == 2) forward(realm, pckg)
+                }
+            }
+        }
+
         runListener<SaveUserPackage> { realm, pckg ->
             println("SaveUserPackage: ${realm.realmName}")
             pckg.run {
                 db.collection.updateOne(
                     Document().append("_id", uuid),
-                    Document().append("\$set", Document().append("data", data)),
+                    Document().append("\$set",
+                        Document()
+                            .append("data", data)
+                            .append("experience", experience)
+                            .append("projects", projects)
+                    ),
                     UpdateOptions().upsert(true)
                 ) { _, _ ->
                     println("user saved")
-                    forward(realm, UserSavedPackage())
+                    forward(realm, SaveUserPackage(uuid))
                 }
             }
         }

@@ -6,13 +6,15 @@ import me.slavita.construction.showcase.Showcase
 import me.slavita.construction.showcase.Showcases
 import me.slavita.construction.storage.BlocksStorage
 import me.slavita.construction.worker.Worker
+import me.slavita.construction.world.ItemProperties
+import me.slavita.construction.world.SlotItem
 
 class Data(@Transient val user: User) {
 
     var money: Long = 0
     var level: Int = 1
     var experience: Long = 0
-    var reputation: Double = 0.0
+    var reputation: Long = 0
     var totalProjects: Int = 0
     var maxProjects: Int = 0
     var speed: Float = 0.2F
@@ -20,6 +22,7 @@ class Data(@Transient val user: User) {
     var nextDay: Int = 5
     var nextTakeDailyReward: Long = 0
 
+    val inventory: HashSet<SlotItem> = hashSetOf()
     val workers: HashSet<Worker> = hashSetOf()
     val settings: SettingsData = SettingsData()
     var tag: Tags = Tags.NONE

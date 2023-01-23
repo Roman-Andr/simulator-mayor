@@ -4,7 +4,6 @@ import me.slavita.construction.player.Data
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 
 class MoneyFormatter : IFormatter {
-    override fun format(value: Data): String {
-        return value.money.toMoneyIcon().toString()
-    }
+    override fun format(value: Data) = value.money.toMoneyIcon()
+    override fun format(value: Long) = value.toMoneyIcon()
 }

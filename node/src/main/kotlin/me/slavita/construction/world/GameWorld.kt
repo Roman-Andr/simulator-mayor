@@ -3,14 +3,15 @@ package me.slavita.construction.world
 import me.func.MetaWorld
 import me.func.builder.MetaSubscriber
 import me.func.mod.reactive.ReactivePlace
-import me.func.mod.util.after
 import me.func.unit.Building
 import me.func.world.WorldMeta
 import me.slavita.construction.app
 import me.slavita.construction.common.utils.V2i
+import me.slavita.construction.showcase.Showcases
 import me.slavita.construction.structure.Cell
+import me.slavita.construction.ui.Leaderboards
+import me.slavita.construction.ui.SpeedPlaces
 import me.slavita.construction.utils.labels
-import me.slavita.construction.utils.nextTick
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import java.util.*
@@ -21,6 +22,8 @@ class GameWorld(val map: WorldMeta) {
     val cells = arrayListOf<Cell>()
 
     init {
+        app.mainWorld = this
+
         MetaWorld.universe(
             map.world,
             *MetaSubscriber()
@@ -55,11 +58,14 @@ class GameWorld(val map: WorldMeta) {
                 }.build()
         )
 
-        nextTick {
-            labels("place").forEachIndexed { index, label ->
-                cells.add(Cell(index, label))
-            }
+
+        labels("place").forEachIndexed { index, label ->
+            cells.add(Cell(index, label))
         }
+
+        Leaderboards
+        SpeedPlaces
+        Showcases
 
         /*map.world.handle.chunkInterceptor = ChunkInterceptor { chunk: Chunk, flags: Int, receiver: EntityPlayer? ->
             val player = receiver ?: return@ChunkInterceptor PacketPlayOutMapChunk(chunk, flags)

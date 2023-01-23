@@ -161,8 +161,6 @@ class User(val uuid: UUID) {
                 if (project.structure.box.contains(player.location)) {
                     watchableProject = project
                     project.onEnter()
-                    println(project.structure.playerCell.busy)
-                    println(project.structure.playerCell.id)
                     return false
                 }
             }

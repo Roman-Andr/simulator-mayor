@@ -24,21 +24,16 @@ import me.slavita.construction.listener.PlayerEvents
 import me.slavita.construction.multichat.MultiChats
 import me.slavita.construction.npc.NpcManager
 import me.slavita.construction.player.User
-import me.slavita.construction.protocol.GetUserPackage
-import me.slavita.construction.protocol.SaveUserPackage
 import me.slavita.construction.player.*
 import me.slavita.construction.project.Project
 import me.slavita.construction.project.ProjectSerializer
-import me.slavita.construction.protocol.UserSavedPackage
-import me.slavita.construction.showcase.Showcases
+import me.slavita.construction.protocol.*
 import me.slavita.construction.storage.BlocksStorage
 import me.slavita.construction.storage.BlocksStorageSerializer
 import me.slavita.construction.structure.*
 import me.slavita.construction.structure.instance.Structures
-import me.slavita.construction.ui.BoardsManager
-import me.slavita.construction.ui.CityGlows
+import me.slavita.construction.ui.*
 import me.slavita.construction.ui.Formatter.applyBoosters
-import me.slavita.construction.ui.SpeedPlaces
 import me.slavita.construction.ui.items.ItemsManager
 import me.slavita.construction.utils.*
 import me.slavita.construction.utils.PlayerExtensions.accept
@@ -46,6 +41,7 @@ import me.slavita.construction.utils.PlayerExtensions.deny
 import me.slavita.construction.utils.language.EnumLang
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.ItemProperties
+import me.slavita.construction.world.SlotItem
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.WHITE
@@ -151,11 +147,14 @@ class App : JavaPlugin() {
         ModLoader.onJoining("construction-mod.jar")
 
         structureMap = MapLoader.load("construction", "structures")
-        mainWorld = GameWorld(MapLoader.load("construction", "main").apply {
-            world.setGameRuleValue("randomTickSpeed", "0")
-            world.setGameRuleValue("gameLoopFunction", "false")
-            world.setGameRuleValue("disableElytraMovementCheck", "true")
-        })
+        val map = MapLoader.load("construction", "main")
+        nextTick {
+            GameWorld(map.apply {
+                world.setGameRuleValue("randomTickSpeed", "0")
+                world.setGameRuleValue("gameLoopFunction", "false")
+                world.setGameRuleValue("disableElytraMovementCheck", "true")
+            })
+        }
 
         Music.block(Category.MUSIC)
 
@@ -165,19 +164,17 @@ class App : JavaPlugin() {
 
         Config.load {
             NpcManager
-            BoardsManager
             CityGlows
         }
+
         Boosters
         MultiChats
         UserCommands
         AdminCommands
         Structures
         ModCallbacks
-        SpeedPlaces
         ItemsManager
         PlayerEvents
-        Showcases
 
         EnumLang.init()
 
@@ -191,21 +188,25 @@ class App : JavaPlugin() {
                     tryLoadUser(it, false)
                 }
                 failedSave.forEach {
-                   trySaveUser(it)
+                    trySaveUser(it)
                 }
             }
 
-            coroutineForAll(20L) {
+            runTimerAsync(10 * 20, 2 * 60 * 20) {
+                Leaderboards.load()
+            }
+
+            coroutineForAll(20) {
                 data.money += income.applyBoosters(BoosterType.MONEY_BOOSTER)
             }
 
-            coroutineForAll(10 * 20L) {
+            coroutineForAll(10 * 20) {
                 showcases.forEach {
                     it.properties.updatePrices()
                 }
             }
 
-            coroutineForAll(2 * 60 * 20L) {
+            coroutineForAll(2 * 60 * 20) {
                 data.cities.forEach {
                     it.breakStructure()
                 }
@@ -228,25 +229,31 @@ class App : JavaPlugin() {
     fun unloadUser(uuid: UUID) = users.remove(uuid)
 
     fun trySaveUser(player: Player) = runAsync {
-        val pckg = SaveUserPackage(player.uniqueId.toString(), gsonSerializer.toJson(player.user.data))
-        try {
-            socket.writeAndAwaitResponse<UserSavedPackage>(pckg)[5, TimeUnit.SECONDS]
-            println("user saved")
-            unloadUser(player)
-        } catch(e: TimeoutException) {
-            println("user save timeout")
-            failedSave.add(pckg)
-        }
+        trySaveUser(player.user.run {
+            data.inventory.clear()
+            player.inventory.storageContents.forEachIndexed { index, item ->
+                if (item != null) data.inventory.add(SlotItem(item, index, item.getAmount()))
+            }
+            player.inventory.clear()
+
+            SaveUserPackage(
+                uuid.toString(),
+                gsonSerializer.toJson(data),
+                data.experience,
+                data.totalProjects.toLong()
+            )
+        })
     }
 
     private fun trySaveUser(pckg: SaveUserPackage) = runAsync {
         try {
-            socket.writeAndAwaitResponse<UserSavedPackage>(pckg)[5, TimeUnit.SECONDS]
+            socket.writeAndAwaitResponse<SaveUserPackage>(pckg)[5, TimeUnit.SECONDS]
             println("user saved")
             failedSave.remove(pckg)
             unloadUser(UUID.fromString(pckg.uuid))
         } catch(e: TimeoutException) {
             println("user save timeout")
+            failedSave.add(pckg)
         }
     }
 

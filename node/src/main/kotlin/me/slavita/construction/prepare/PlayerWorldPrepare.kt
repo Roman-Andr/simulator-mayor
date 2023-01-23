@@ -9,6 +9,9 @@ import org.bukkit.GameMode
 object PlayerWorldPrepare : IPrepare {
     override fun prepare(user: User) {
         user.apply {
+            user.data.inventory.forEach {
+                player.inventory.setItem(it.slot, it.createItemStack(it.amount))
+            }
             OnActions.inZone[user.player.uniqueId] = false
             OnActions.storageEntered[user.player.uniqueId] = false
 
