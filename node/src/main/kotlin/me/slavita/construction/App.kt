@@ -2,6 +2,7 @@ package me.slavita.construction
 
 import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.dispatch
+import com.google.gson.GsonBuilder
 import dev.implario.bukkit.platform.Platforms
 import dev.implario.kensuke.Kensuke
 import dev.implario.kensuke.Scope
@@ -26,18 +27,15 @@ import me.slavita.construction.listener.PlayerEvents
 import me.slavita.construction.multichat.MultiChats
 import me.slavita.construction.npc.NpcManager
 import me.slavita.construction.player.Data
-import me.slavita.construction.player.KensukeUser
 import me.slavita.construction.player.User
 import me.slavita.construction.showcase.Showcases
+import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.structure.instance.Structures
-import me.slavita.construction.ui.BoardsManager
 import me.slavita.construction.ui.CityGlows
 import me.slavita.construction.ui.SpeedPlaces
 import me.slavita.construction.ui.items.ItemsManager
-import me.slavita.construction.utils.Config
-import me.slavita.construction.utils.ModCallbacks
+import me.slavita.construction.utils.*
 import me.slavita.construction.utils.language.EnumLang
-import me.slavita.construction.utils.logTg
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.Bukkit
@@ -62,6 +60,7 @@ import ru.cristalix.core.scoreboard.ScoreboardService
 import ru.cristalix.core.transfer.ITransferService
 import ru.cristalix.core.transfer.TransferService
 import java.util.*
+import kotlin.collections.forEach
 
 lateinit var app: App
 
@@ -202,6 +201,14 @@ class App : JavaPlugin() {
                 data.cities.forEach {
                     it.breakStructure()
                 }
+            }
+
+            coroutineForAll(5 * 60 * 20) {
+                data.showcases.forEach { showcase ->
+                    showcase.updatePrices()
+                }
+                showcaseMenu?.updateButtons()
+                player.accept("Цены обновлены!")
             }
         }
 

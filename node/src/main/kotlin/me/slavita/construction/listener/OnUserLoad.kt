@@ -21,6 +21,7 @@ object OnUserLoad {
                 AbilityPrepare,
                 DailyRewardsPrepare,
                 ShowcasePrepare,
+                WarningPrepare,
             ).forEach { it.prepare(user) }
         }
     }
