@@ -13,10 +13,7 @@ import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.ui.HumanizableValues.SECOND
 import me.slavita.construction.ui.Texture
 import me.slavita.construction.ui.menu.ItemIcons
-import me.slavita.construction.utils.PlayerExtensions.deny
-import me.slavita.construction.utils.getLocationsInfo
-import me.slavita.construction.utils.mapM
-import me.slavita.construction.utils.user
+import me.slavita.construction.utils.*
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.entity.Player
@@ -28,8 +25,8 @@ class LocationsMenu(player: Player) : MenuCommand(player) {
             return choicer {
                 title = "${AQUA}${BOLD}Телепортация"
                 description = "Перемещение между локациями"
-                info = getLocationsInfo()
-                storage = this@user.data.cities.sortedBy { it.price }.mapM { city ->
+                info = LOCATIONS_INFO
+                storage = this@uses.data.cities.sortedBy { it.price }.mapM { city ->
                     button {
                         title = city.title
                         if (city.unlocked) {
@@ -37,7 +34,7 @@ class LocationsMenu(player: Player) : MenuCommand(player) {
                             hint = "Выбрать"
                             backgroundColor = GlowColor.GREEN
                         } else {
-                            item = ItemIcons.get("other", "lock")
+                            item = Icons.get("other", "lock")
                             hint = "Купить"
                             description = city.price.toMoneyIcon()
                             backgroundColor = GlowColor.NEUTRAL
@@ -52,7 +49,7 @@ class LocationsMenu(player: Player) : MenuCommand(player) {
                                 ).tryExecute(ignore)
                                     .run {
                                         if (!ignore && this < 0) player.deny(
-                                            "Подождите ещё ${(abs(this) / 20).toInt()} ${SECOND.get((abs(this) / 20).toInt())}"
+                                            "Подождите ещё ${SECOND.get((abs(this) / 20).toInt())}"
                                         )
                                     }
                                 Anime.close(player)

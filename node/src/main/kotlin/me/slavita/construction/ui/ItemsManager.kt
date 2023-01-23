@@ -1,4 +1,4 @@
-package me.slavita.construction.ui.items
+package me.slavita.construction.ui
 
 import dev.implario.bukkit.item.ItemBuilder
 import me.slavita.construction.action.command.menu.donate.DonateMenu
@@ -20,7 +20,7 @@ object ItemsManager {
         ActionableItem(
             7, ItemBuilder(Material.CLAY_BALL)
                 .text("${GREEN}${BOLD}Меню")
-                .nbt("other", "info")
+                .nbt("skyblock", "collections")
                 .build()
         )
         {

@@ -6,9 +6,8 @@ import me.func.mod.ui.menu.choicer
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.Formatter.toCriMoney
-import me.slavita.construction.ui.menu.ItemIcons
-import me.slavita.construction.utils.click
-import me.slavita.construction.utils.getDonateInfo
+import me.slavita.construction.ui.menu.Icons
+import me.slavita.construction.utils.DONATE_INFO
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 
@@ -17,11 +16,11 @@ class DonateMenu(player: Player) : MenuCommand(player) {
         user.run user@{
             return choicer {
                 title = "${GOLD}${BOLD}Платные возможности"
-                info = getDonateInfo()
+                info = DONATE_INFO
                 description = "Кристаллики: ${criBalance.toCriMoney()}"
                 storage = mutableListOf(
                     button {
-                        item = ItemIcons.get("other", "bag1")
+                        item = Icons.get("other", "bag1")
                         title = "${GREEN}${BOLD}Монеты"
                         hint = "Выбрать"
                         description = "${GRAY}Пополнение\n${GRAY}баланса"
@@ -31,7 +30,7 @@ class DonateMenu(player: Player) : MenuCommand(player) {
                         }
                     },
                     button {
-                        item = ItemIcons.get("other", "cup")
+                        item = Icons.get("other", "cup")
                         title = "${AQUA}${BOLD}Улучшения"
                         hint = "Выбрать"
                         description = "${GRAY}Удобства\n${GRAY}для игры"
@@ -41,7 +40,7 @@ class DonateMenu(player: Player) : MenuCommand(player) {
                         }
                     },
                     button {
-                        item = ItemIcons.get("other", "new_booster_1")
+                        item = Icons.get("other", "new_booster_1")
                         title = "${GOLD}${BOLD}Бустеры"
                         description = "${GRAY}Бустеры\n${GRAY}статистики"
                         hint = "Выбрать"
@@ -51,7 +50,7 @@ class DonateMenu(player: Player) : MenuCommand(player) {
                         }
                     },
                     button {
-                        item = ItemIcons.get("other", "human")
+                        item = Icons.get("other", "human")
                         title = "${GREEN}${BOLD}Наборы"
                         hint = "Выбрать"
                         description = "${GRAY}Паки\n${GRAY}бустеров"
@@ -65,3 +64,4 @@ class DonateMenu(player: Player) : MenuCommand(player) {
         }
     }
 }
+

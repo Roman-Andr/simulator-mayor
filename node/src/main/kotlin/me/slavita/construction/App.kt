@@ -24,16 +24,13 @@ import me.slavita.construction.action.chat.AdminCommands
 import me.slavita.construction.action.chat.UserCommands
 import me.slavita.construction.booster.Boosters
 import me.slavita.construction.listener.PlayerEvents
-import me.slavita.construction.multichat.MultiChats
-import me.slavita.construction.npc.NpcManager
+import me.slavita.construction.utils.NpcManager
 import me.slavita.construction.player.Data
 import me.slavita.construction.player.User
 import me.slavita.construction.showcase.Showcases
 import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.structure.instance.Structures
-import me.slavita.construction.ui.CityGlows
-import me.slavita.construction.ui.SpeedPlaces
-import me.slavita.construction.ui.items.ItemsManager
+import me.slavita.construction.ui.*
 import me.slavita.construction.utils.*
 import me.slavita.construction.utils.language.EnumLang
 import me.slavita.construction.world.GameWorld
@@ -47,6 +44,8 @@ import ru.cristalix.core.CoreApi
 import ru.cristalix.core.datasync.EntityDataParameters
 import ru.cristalix.core.invoice.IInvoiceService
 import ru.cristalix.core.invoice.InvoiceService
+import ru.cristalix.core.keyboard.IKeyService
+import ru.cristalix.core.keyboard.KeyService
 import ru.cristalix.core.multichat.ChatMessage
 import ru.cristalix.core.multichat.IMultiChatService
 import ru.cristalix.core.multichat.MultiChatService
@@ -103,14 +102,14 @@ class App : JavaPlugin() {
         EntityDataParameters.register()
         Platforms.set(PlatformDarkPaper())
 
-        Anime.include(Kit.STANDARD, Kit.EXPERIMENTAL, Kit.DIALOG, Kit.MULTI_CHAT, Kit.LOOTBOX, Kit.NPC)
+        Anime.include(Kit.STANDARD, Kit.EXPERIMENTAL, Kit.DIALOG, Kit.LOOTBOX, Kit.NPC)
 
         CoreApi.get().run {
             registerService(ITransferService::class.java, TransferService(socket))
             registerService(IPartyService::class.java, PartyService(socket))
             registerService(IScoreboardService::class.java, ScoreboardService())
-            registerService(IInvoiceService::class.java, InvoiceService(socket))
             registerService(IMultiChatService::class.java, MultiChatService(socket))
+            registerService(IKeyService::class.java, KeyService(app))
         }
 
         IMultiChatService.get().run {
@@ -160,7 +159,6 @@ class App : JavaPlugin() {
         }
 
         Boosters
-        MultiChats
         UserCommands
         AdminCommands
         Structures

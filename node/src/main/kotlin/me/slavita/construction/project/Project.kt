@@ -7,6 +7,7 @@ import me.slavita.construction.reward.Reward
 import me.slavita.construction.structure.BuildingStructure
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.structure.tools.StructureState
+import org.bukkit.ChatColor.*
 import me.slavita.construction.ui.Formatter.toLevel
 import me.slavita.construction.ui.HumanizableValues
 import org.bukkit.ChatColor
@@ -54,7 +55,7 @@ open class Project(
             reward.getReward(owner)
         }
         owner.player.playSound(MusicSound.UI_CLICK)
-        owner.data.statistics.totalProjects++
+        owner.data.totalProjects++
     }
 
     fun onLeave() {
@@ -65,11 +66,11 @@ open class Project(
     }
 
     override fun toString() = """
-        Информация про проект:
-          ${ChatColor.AQUA}ID: ${id}
-          ${ChatColor.AQUA}Награды:
-          ${rewards.joinToString("\n  ") { it.toString() }}
-    """.trimIndent()
+Информация про проект:
+  ${AQUA}ID: $id
+  ${AQUA}Награды:
+  ${rewards.joinToString("\n  ") { it.toString() }}
+""".trimIndent()
 }
 
 class ProjectSerializer : JsonSerializer<Project> {

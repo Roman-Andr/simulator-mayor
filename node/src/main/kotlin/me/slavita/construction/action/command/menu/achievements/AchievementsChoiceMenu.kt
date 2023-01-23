@@ -5,8 +5,8 @@ import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.choicer
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.achievements.AchievementType
-import me.slavita.construction.ui.menu.ItemIcons
-import me.slavita.construction.utils.getAchievementsInfo
+import me.slavita.construction.ui.menu.Icons
+import me.slavita.construction.utils.ACHIEVEMENTS_INFO
 import me.slavita.construction.utils.mapM
 import org.bukkit.entity.Player
 
@@ -15,11 +15,11 @@ class AchievementsChoiceMenu(val player: Player) : MenuCommand(player) {
         return choicer {
             title = "Достижения"
             description = "Выбери нужный раздел"
-            info = getAchievementsInfo()
+            info = ACHIEVEMENTS_INFO
             storage = AchievementType.values().mapM {
                 button {
                     title = it.title
-                    item = ItemIcons.get(it.itemKey, it.itemValue)
+                    item = Icons.get(it.itemKey, it.itemValue)
                     hint = "Выбрать"
                     onClick { _, _, _ ->
                         AchievementsMenu(player, it).keepHistory().tryExecute()

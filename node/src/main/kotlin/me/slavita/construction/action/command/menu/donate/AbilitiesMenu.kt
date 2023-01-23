@@ -19,7 +19,7 @@ class AbilitiesMenu(player: Player) : MenuCommand(player) {
             return choicer {
                 title = "${AQUA}${BOLD}Улучшения"
                 description = "Кристаллики: ${criBalance.toCriMoney()}"
-                info = getDonateInfo()
+                info = DONATE_INFO
                 storage = Donates.values().filter { it.donate is AbilityDonate }.mapM {
                     button {
                         item = it.displayItem

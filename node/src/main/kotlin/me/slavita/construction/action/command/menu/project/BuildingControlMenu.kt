@@ -7,8 +7,7 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.menu.worker.WorkerChoice
 import me.slavita.construction.project.Project
 import me.slavita.construction.structure.WorkerStructure
-import me.slavita.construction.ui.menu.ItemIcons
-import me.slavita.construction.utils.user
+import me.slavita.construction.ui.menu.Icons
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.entity.Player
@@ -25,7 +24,7 @@ class BuildingControlMenu(player: Player, val project: Project) : MenuCommand(pl
                         title = "Список материалов"
                         description = "Просмотреть список\nнеобходимых материалов"
                         hint = "Выбрать"
-                        item = ItemIcons.get("skyblock", "info")
+                        item = Icons.get("skyblock", "info")
                         click { _, _, _ ->
                             BlocksListMenu(player, project.structure.structure).keepHistory().tryExecute()
                         }
@@ -35,7 +34,7 @@ class BuildingControlMenu(player: Player, val project: Project) : MenuCommand(pl
                         title = "Строители"
                         description = "Просмотреть выбранных\nстроителей"
                         hint = "Выбрать"
-                        item = ItemIcons.get("other", "myfriends")
+                        item = Icons.get("other", "myfriends")
                         click { _, _, _ ->
                             WorkerChoice(player, project, false).tryExecute()
                         }
@@ -45,3 +44,4 @@ class BuildingControlMenu(player: Player, val project: Project) : MenuCommand(pl
         }
     }
 }
+

@@ -1,13 +1,15 @@
 package me.slavita.construction.structure
 
-import me.func.mod.Anime
 import me.func.mod.ui.Glow
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.player.User
+import me.slavita.construction.reward.MoneyReward
+import me.slavita.construction.reward.ReputationReward
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureSender
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.ui.Formatter.toReputation
+import me.slavita.construction.utils.cursor
 import me.slavita.construction.utils.deny
 import me.slavita.construction.utils.swapItems
 import me.slavita.construction.world.GameWorld
@@ -47,18 +49,10 @@ class ClientStructure(
 
     fun tryPlaceBlock() {
         when (Random.nextInt(100)) {
-            in 0..5  -> {
-                val reputation = (owner.data.statistics.reputation / 100)
-                Anime.cursorMessage(owner.player, reputation.toReputation())
-                owner.data.statistics.reputation += reputation
-            }
-
-            in 0..10 -> {
-                val money = owner.data.statistics.money / 100
-                Anime.cursorMessage(owner.player, money.toMoneyIcon())
-                owner.data.statistics.money += money
-            }
+            in 0..5  -> ReputationReward((owner.data.statistics.reputation / 100).toLong()).getReward(owner)
+            in 0..10 -> MoneyReward(owner.data.statistics.money / 100).getReward(owner)
         }
+
         owner.player.inventory.itemInMainHand.apply {
             if (currentBlock == null) return
             if (!currentBlock!!.equalsItem(this)) {

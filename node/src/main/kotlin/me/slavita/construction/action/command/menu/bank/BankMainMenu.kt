@@ -18,15 +18,16 @@ class BankMainMenu(player: Player) : MenuCommand(player) {
             return choicer {
                 title = "${GOLD}${BOLD}Банк"
                 description = "Выбери нужный раздел"
+                info = BANK_INFO
                 storage = mutableListOf(
                     button {
                         title = "Взять кредит"
                         description = "Нажмите для\nвзятия кредита"
                         hint = "Выбрать"
-                        item = ItemIcons.get("other", "add")
+                        item = Icons.get("other", "add")
                         click { _, _, _ ->
                             ModTransfer()
-                                .integer((player.user.data.money).toString().length)
+                                .integer((player.user.data.statistics.money).toString().length)
                                 .send("bank:open", player)
                         }
                     },
@@ -34,7 +35,7 @@ class BankMainMenu(player: Player) : MenuCommand(player) {
                         title = "Мои кредиты"
                         description = "Нажмите для\nпросмотра ваших\nкредитов"
                         hint = "Выбрать"
-                        item = ItemIcons.get("other", "quest_month")
+                        item = Icons.get("other", "quest_month")
                         click { _, _, _ ->
                             CreditsListMenu(player).keepHistory().tryExecute()
                         }

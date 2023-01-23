@@ -8,9 +8,8 @@ import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.UpgradeWorker
 import me.slavita.construction.ui.Formatter.toMoneyIcon
-import me.slavita.construction.ui.menu.ItemIcons
-import me.slavita.construction.utils.click
-import me.slavita.construction.utils.getWorkerInfo
+import me.slavita.construction.ui.menu.Icons
+import me.slavita.construction.utils.WORKER_INFO
 import me.slavita.construction.worker.Worker
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
@@ -22,16 +21,16 @@ class WorkerUpgradeMenu(player: Player, val worker: Worker) : MenuCommand(player
             return choicer {
                 title = "${GOLD}${BOLD}Улучшение рабочего"
                 description = ""
-                info = getWorkerInfo()
+                info = WORKER_INFO
                 storage = mutableListOf(
                     button {
-                        item = ItemIcons.get("other", "info1")
+                        item = Icons.get("other", "info1")
                         title = "Информация"
                         hover = worker.toString()
                         hint = ""
                     }.apply { infoButton = this },
                     button {
-                        item = ItemIcons.get("other", "add")
+                        item = Icons.get("other", "add")
                         title = "Улучшить"
                         hover = getUpgradeHover()
                         hint = "Улучшить"
@@ -43,7 +42,7 @@ class WorkerUpgradeMenu(player: Player, val worker: Worker) : MenuCommand(player
                         }
                     },
                     button {
-                        item = ItemIcons.get("other", "reload")
+                        item = Icons.get("other", "reload")
                         title = "Продать"
                         hover = getSellHover()
                         hint = "Продать"
@@ -67,3 +66,4 @@ class WorkerUpgradeMenu(player: Player, val worker: Worker) : MenuCommand(player
         return "${AQUA}Продать за ${GREEN}${worker.sellPrice.toMoneyIcon()}"
     }
 }
+

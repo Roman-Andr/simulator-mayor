@@ -125,6 +125,10 @@ fun Player.killboard(text: String) {
     Anime.killboardMessage(this, text)
 }
 
+fun Player.cursor(text: String) {
+    Anime.cursorMessage(this, text)
+}
+
 val UUID.user
     get() = app.getUser(this)
 
@@ -294,86 +298,6 @@ fun Banners.hide(player: Player, pair: Pair<Banner, Banner>) {
     hide(player, pair.first)
     hide(player, pair.second)
 }
-
-fun getWorkerInfo() = """
-        ${GOLD}${BOLD}Характеристики:
-          ${YELLOW}Имя ${GRAY}»
-            ${WHITE}Наименование рабочего
-            ${WHITE}в вашей команде
-          
-          ${DARK_GREEN}Редкость ${GRAY}»
-            ${WHITE}Показывает на сколько
-            ${WHITE}характеристики рабочего хороши
-          
-          ${GOLD}Уровень ${GRAY}»
-            ${WHITE}Показывает уровень прокачки
-            ${WHITE}рабочего и влиет
-            ${WHITE}на все его характеристики
-          
-          ${AQUA}Скорость ${GRAY}»
-            ${WHITE}Количество блоков,
-            ${WHITE}которые ставит рабочий
-            ${WHITE}за секунду
-          
-          ${GREEN}Надёжность ${GRAY}»
-            ${WHITE}Влияет на то, как часто
-            ${WHITE}будет ломаться здания,
-            ${WHITE}построенные этим рабочим
-          
-          ${RED}Жадность ${GRAY}»
-            ${WHITE}Влияет на награду
-            ${WHITE}за окончания постройки
-            ${WHITE}здания этим рабочим
-    """.trimIndent()
-
-fun getShowcaseInfo() = """
-    ${GOLD}${BOLD}Магазин:
-        Обновление цен происходит во всех магазинах раз в определённое время
-        Каждый раз цены меняются на случаенные в промежутке
-        Чтобы получить блоки по самой выгодной цене необходимо найти соответствующий магазин
-""".trimIndent()
-
-fun getProjectsInfo() = """
-    ${GOLD}${BOLD}Проекты:
-        Каждый проект соответствует определённой стройке
-""".trimIndent()
-
-fun getStorageInfo() = """
-    ${GOLD}${BOLD}Склад:
-        Здесь хранятся ваши блоки, купленные в магазине
-        Вы также можете класть сюда другие ваши блоки
-""".trimIndent()
-
-fun getLocationsInfo() = """
-    ${GOLD}${BOLD}Локации:
-        Вы можете перемещаться между открытыми локациями
-""".trimIndent()
-
-fun getSettingInfo() = """
-    ${GOLD}${BOLD}Настройки:
-        Вы можете включить или выключить необходимые опции игры
-""".trimIndent()
-
-fun getTagsInfo() = """
-    ${GOLD}${BOLD}Теги:
-        Тег это надпись после вашего ника, которая показывается в чате и табе игры
-""".trimIndent()
-
-fun getDonateInfo() = """
-    ${GOLD}${BOLD}Платные возможности:
-        Здесь вы можете купить необходимые улучшения за кристаллики
-""".trimIndent()
-
-fun getMenuInfo() = """
-    ${GOLD}${BOLD}Главное меню:
-        Здесь вы можете выбрать необходимый раздел
-""".trimIndent()
-
-fun getAchievementsInfo() = """
-    ${GOLD}${BOLD}Достижения:
-        Здесь вы можете посмотреть все достижения,
-        а также те, которые вы получили
-""".trimIndent()
 
 fun String.toUUID(): UUID = UUID.fromString(this)
 

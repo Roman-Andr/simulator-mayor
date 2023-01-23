@@ -2,7 +2,6 @@ package me.slavita.construction.utils
 
 import me.func.mod.Anime
 import me.func.protocol.math.Position
-import me.slavita.construction.action.command.menu.project.BuildingControlMenu
 import me.slavita.construction.bank.Bank
 import me.slavita.construction.reward.MoneyReward
 import me.slavita.construction.structure.ClientStructure

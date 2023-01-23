@@ -2,6 +2,8 @@ package me.slavita.construction.player
 
 import me.func.mod.conversation.ModTransfer
 import me.slavita.construction.action.command.menu.city.BuyCityConfirm
+import me.slavita.construction.action.command.menu.city.ShowcaseMenu
+import me.slavita.construction.action.command.menu.project.ChoiceProject
 import me.slavita.construction.action.command.menu.project.ChoiceStructureGroup
 import me.slavita.construction.app
 import me.slavita.construction.booster.BoosterType
@@ -27,6 +29,7 @@ class User(val uuid: UUID) {
     var income = 0L
     val showcases: HashSet<Showcase> = Showcases.showcases.map { Showcase(it) }.toHashSet()
     private var criBalanceLastUpdate = 0L
+    var inTrashZone = false
 
     lateinit var data: Data
     lateinit var currentCity: City
@@ -175,7 +178,7 @@ class User(val uuid: UUID) {
             currentCity.playerCells.forEach { cell ->
                 if (cell.busy || !cell.box.contains(player.location)) return@forEach
 
-                if (OnActions.inZone[player] == false) ChoiceStructureGroup(player, cell) { structure ->
+                if (OnActions.inZone[player] == false) ChoiceStructureGroup(player) { structure ->
                     ChoiceProject(player, structure, cell).keepHistory().tryExecute()
                 }.tryExecute()
                 OnActions.inZone[player.uniqueId] = true

@@ -11,7 +11,7 @@ abstract class Donate(var title: String, var description: String, val price: Int
     fun purchase(user: User) {
         val player = user.player
 
-        Confirmation("${BOLD}Купить \n$title\n${WHITE}${BOLD}за ${AQUA}${BOLD}$price ${AQUA}${CRI_MONEY.get(price)}") {
+        Confirmation("${BOLD}Купить \n$title\n${WHITE}${BOLD}за ${AQUA}${BOLD}${CRI_MONEY.get(price)}") {
             Anime.close(player)
             purchaseSuccess(user)
             user.player.accept("${GREEN}Спасибо за покупку")

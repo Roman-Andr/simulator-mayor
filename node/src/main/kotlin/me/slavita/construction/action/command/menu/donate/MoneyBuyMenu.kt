@@ -18,7 +18,7 @@ class MoneyBuyMenu(player: Player) : MenuCommand(player) {
         user.run user@{
             return choicer {
                 title = "${GREEN}${BOLD}Игровая валюта"
-                info = getDonateInfo()
+                info = DONATE_INFO
                 description = "Кристаллики: ${player.user.criBalance.toCriMoney()}"
                 storage = Donates.values().filter { it.donate is MoneyDonate }.mapM {
                     val value = (this@user.income * (it.donate as MoneyDonate).skipTime).toMoney()

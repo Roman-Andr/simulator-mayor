@@ -6,8 +6,8 @@ import me.func.mod.ui.menu.selection
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.achievements.AchievementType
-import me.slavita.construction.ui.menu.ItemIcons
-import me.slavita.construction.utils.getAchievementsInfo
+import me.slavita.construction.ui.menu.Icons
+import me.slavita.construction.utils.ACHIEVEMENTS_INFO
 import me.slavita.construction.utils.mapM
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GREEN
@@ -17,7 +17,7 @@ class AchievementsMenu(player: Player, val type: AchievementType) : MenuCommand(
     override fun getMenu(): Openable {
         return selection {
             title = type.title
-            info = getAchievementsInfo()
+            info = ACHIEVEMENTS_INFO
             rows = 4
             columns = 3
 
@@ -25,7 +25,7 @@ class AchievementsMenu(player: Player, val type: AchievementType) : MenuCommand(
             storage = (1..50).mapM { value ->
                 button {
                     title = "${BOLD}${GREEN}${type.title} #$value"
-                    item = ItemIcons.get(type.itemKey, type.itemValue)
+                    item = Icons.get(type.itemKey, type.itemValue)
                     backgroundColor = if (value < level) GlowColor.GREEN else GlowColor.BLUE
                     description = type.placeholder.replace("%value%", type.formula(value).toString())
                     hint = ""

@@ -7,9 +7,7 @@ import me.func.mod.ui.menu.selection
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.WorkerExecutor
 import me.slavita.construction.structure.WorkerStructure
-import me.slavita.construction.ui.menu.ItemIcons
-import me.slavita.construction.utils.click
-import me.slavita.construction.utils.user
+import me.slavita.construction.ui.menu.Icons
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.entity.Player
@@ -29,7 +27,7 @@ class WorkersBuildingMenu(player: Player, structure: WorkerStructure) : WorkerEx
                                 hint = getWorkerState(worker).title
                                 backgroundColor =
                                     if (structure.workers.contains(worker)) GlowColor.ORANGE else GlowColor.BLUE
-                                item = ItemIcons.get("skyblock", "spawn")
+                                item = Icons.get("skyblock", "spawn")
                                 click { _, _, button ->
                                     distributeWorker(worker, button)
                                 }
@@ -40,4 +38,3 @@ class WorkersBuildingMenu(player: Player, structure: WorkerStructure) : WorkerEx
         }
     }
 }
-
