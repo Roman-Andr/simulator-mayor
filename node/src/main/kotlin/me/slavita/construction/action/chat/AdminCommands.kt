@@ -12,6 +12,7 @@ import me.slavita.construction.bank.Bank
 import me.slavita.construction.player.Data
 import me.slavita.construction.player.Tags
 import me.slavita.construction.prepare.GuidePrepare
+import me.slavita.construction.prepare.IRegistrable
 import me.slavita.construction.prepare.TagsPrepare
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.ui.achievements.AchievementType
@@ -21,8 +22,8 @@ import ru.cristalix.core.display.messages.RadioMessage
 import ru.cristalix.core.realm.IRealmService
 import ru.cristalix.core.transfer.ITransferService
 
-object AdminCommands {
-    init {
+object AdminCommands : IRegistrable {
+    override fun register() {
         opCommand("setmoney") { player, args ->
             player.user.data.money = args[0].toLong()
         }

@@ -22,7 +22,7 @@ object Config {
                 log("Loaded config ${it.fileName}")
                 loaded++
                 if (loaded == configs.size) {
-                    println("loaded")
+                    println("loaded config")
                     action()
                 }
             }

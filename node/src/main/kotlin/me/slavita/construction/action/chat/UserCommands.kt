@@ -13,14 +13,15 @@ import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
 import me.slavita.construction.action.command.menu.project.StartFreelanceProject
 import me.slavita.construction.action.command.menu.worker.WorkerMenu
 import me.slavita.construction.prepare.GuidePrepare
+import me.slavita.construction.prepare.IRegistrable
 import me.slavita.construction.utils.command
 import me.slavita.construction.utils.user
 import org.bukkit.entity.Player
 import ru.cristalix.core.keyboard.IKeyService
 import ru.cristalix.core.keyboard.Key
 
-object UserCommands {
-    init {
+object UserCommands : IRegistrable {
+    override fun register() {
         command("dialog") { player, args ->
             if (args[0] != Atlas.find("dialogs").getString("command-key")) return@command
 

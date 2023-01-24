@@ -3,6 +3,7 @@ package me.slavita.construction.ui
 import dev.implario.bukkit.item.ItemBuilder
 import me.slavita.construction.action.command.menu.donate.DonateMenu
 import me.slavita.construction.action.command.menu.general.ControlPanelMenu
+import me.slavita.construction.prepare.IRegistrable
 import me.slavita.construction.utils.killboard
 import me.slavita.construction.utils.listener
 import org.bukkit.ChatColor.*
@@ -14,7 +15,7 @@ import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
 import java.util.*
 
-object ItemsManager {
+object ItemsManager : IRegistrable {
     private val actions = hashMapOf<UUID, HashMap<ItemStack, (player: Player) -> Unit>>()
     private val ITEMS = listOf(
         ActionableItem(
@@ -46,7 +47,7 @@ object ItemsManager {
         player.killboard("Выходим...")
     }
 
-    init {
+    override fun register() {
         listener<PlayerInteractEvent> {
             if (action == Action.PHYSICAL) return@listener
             val execute = actions[player.uniqueId]?.get(item) ?: return@listener

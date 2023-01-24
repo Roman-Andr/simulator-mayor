@@ -7,11 +7,12 @@ import me.func.protocol.data.color.RGB
 import me.slavita.construction.action.command.menu.city.CityHallMenu
 import me.slavita.construction.action.command.menu.city.StorageUpgrade
 import me.slavita.construction.app
+import me.slavita.construction.prepare.IRegistrable
 import me.slavita.construction.utils.*
 import org.bukkit.entity.Player
 
-object CityGlows {
-    init {
+object CityGlows : IRegistrable {
+    override fun register() {
         loadGlow("city-hall", GlowColor.GREEN, { player ->
             CityHallMenu(player).tryExecute()
         })

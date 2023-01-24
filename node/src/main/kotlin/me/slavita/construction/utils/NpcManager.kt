@@ -14,17 +14,17 @@ import me.slavita.construction.action.command.menu.general.DailyMenu
 import me.slavita.construction.action.command.menu.general.GuideDialog
 import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
 import me.slavita.construction.action.command.menu.worker.WorkerMenu
+import me.slavita.construction.prepare.IRegistrable
 import me.slavita.construction.ui.menu.Icons
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack
 import org.bukkit.inventory.EquipmentSlot
 import kotlin.reflect.full.primaryConstructor
 
-object NpcManager {
+object NpcManager : IRegistrable {
     private val labels = labels("npc")
 
-    init {
+    override fun register() {
         Atlas.find("npc").getMapList("npc").forEach { values ->
-            println("loaded npc")
             val labelTag = values["labelTag"] as String
             val skinType = values["skinType"] as String
             val skin = values["skin"] as String

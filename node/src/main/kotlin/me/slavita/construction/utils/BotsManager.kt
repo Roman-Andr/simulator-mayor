@@ -33,9 +33,9 @@ object BotsManager {
         tg.startPolling()
         runBlocking {
             delay(1000)
-            logVk("Initialized on realm ${IRealmService.get().currentRealmInfo.realmId}")
-            logDs("Initialized on realm ${IRealmService.get().currentRealmInfo.realmId}")
-            logTg("Initialized on realm ${IRealmService.get().currentRealmInfo.realmId}")
+            logVk("Initialized")
+            logDs("Initialized")
+            logTg("Initialized")
         }
     }
 }

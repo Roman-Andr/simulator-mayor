@@ -22,6 +22,7 @@ import me.slavita.construction.listener.PlayerEvents
 import me.slavita.construction.player.City
 import me.slavita.construction.player.CitySerializer
 import me.slavita.construction.player.User
+import me.slavita.construction.prepare.IRegistrable
 import me.slavita.construction.project.Project
 import me.slavita.construction.project.ProjectSerializer
 import me.slavita.construction.protocol.GetUserPackage
@@ -154,19 +155,16 @@ class App : JavaPlugin() {
 
         Stronghold.namespace("construction")
 
-        Config.load {
-            println("config")
-            NpcManager
-            CityGlows
-        }
+        listOf(
+            Boosters,
+            UserCommands,
+            AdminCommands,
+            ModCallbacks,
+            ItemsManager,
+            PlayerEvents,
+        ).forEach { it.register() }
 
-        Boosters
-        UserCommands
-        AdminCommands
         Structures
-        ModCallbacks
-        ItemsManager
-        PlayerEvents
 
         EnumLang.init()
 
@@ -221,8 +219,6 @@ class App : JavaPlugin() {
     fun getUser(uuid: UUID) = users[uuid]!!
 
     fun getUser(player: Player) = getUser(player.uniqueId)
-
-    fun unloadUser(player: Player) = users.remove(player.uniqueId)
 
     fun unloadUser(uuid: UUID) = users.remove(uuid)
 

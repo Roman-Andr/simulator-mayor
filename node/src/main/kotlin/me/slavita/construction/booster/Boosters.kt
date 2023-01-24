@@ -3,6 +3,7 @@ package me.slavita.construction.booster
 import me.func.stronghold.Stronghold
 import me.func.stronghold.booster.BoosterGlobal
 import me.slavita.construction.player.User
+import me.slavita.construction.prepare.IRegistrable
 import me.slavita.construction.ui.Formatter.applyBoosters
 import me.slavita.construction.utils.accept
 import me.slavita.construction.utils.cristalixName
@@ -10,8 +11,8 @@ import me.slavita.construction.utils.user
 import org.bukkit.Bukkit
 import java.util.concurrent.TimeUnit
 
-object Boosters {
-    init {
+object Boosters : IRegistrable {
+    override fun register() {
         Stronghold.addThanksConsumer { owner, player ->
             if (owner != null) {
                 owner.accept("Вас поблагодарили")

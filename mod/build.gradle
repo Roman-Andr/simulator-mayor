@@ -37,7 +37,7 @@ tasks.register("upload") {
     doLast {
         ssh.run {
             session(remotes.webServer) {
-                put from: layout.buildDirectory.file("libs/construction-mod.jar").get().asFile, into: "/home/" + System.getenv("CRI_HOST_USERNAME") + "/construction/mods/"
+                put from: layout.buildDirectory.file("libs/construction-mod.jar").get().asFile, into: "/home/" + System.getenv("CRI_HOST_USERNAME") + "/construction/server/mods/"
             }
         }
     }

@@ -19,6 +19,7 @@ class FreelanceProject(
     val playerInventory = owner.player.inventory.storageContents.clone()
 
     init {
+        this.structure = structure
         start()
         owner.player.inventory.run {
             clear()

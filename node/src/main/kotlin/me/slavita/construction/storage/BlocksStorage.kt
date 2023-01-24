@@ -36,8 +36,8 @@ class BlocksStorage(val owner: User) {
     }
 
     fun upgrade() {
-        owner.player.accept("Вы успешно улучшили ${GOLD}Склад")
         owner.tryPurchase(upgradePrice) {
+            owner.player.accept("Вы успешно улучшили ${GOLD}Склад")
             level++
         }
     }

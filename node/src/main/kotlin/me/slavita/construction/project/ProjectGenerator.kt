@@ -53,11 +53,6 @@ object ProjectGenerator {
                 ExperienceReward(100),
                 ReputationReward(100),
             )
-        ).apply {
-            this.structure = ClientStructure(
-                structure,
-                owner.freelanceCell
-            )
-        }
+        )
     }
 }

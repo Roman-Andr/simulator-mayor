@@ -9,6 +9,7 @@ import org.bukkit.GameMode
 object PlayerWorldPrepare : IPrepare {
     override fun prepare(user: User) {
         user.apply {
+            player.inventory.clear()
             user.data.inventory.forEach {
                 player.inventory.setItem(it.slot, it.createItemStack(it.amount))
             }

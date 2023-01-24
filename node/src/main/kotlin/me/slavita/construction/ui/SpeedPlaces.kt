@@ -8,15 +8,16 @@ import me.func.mod.world.Banners
 import me.func.protocol.data.color.GlowColor
 import me.func.protocol.data.element.Banner
 import me.slavita.construction.app
+import me.slavita.construction.prepare.IRegistrable
 import me.slavita.construction.utils.*
 import org.bukkit.block.BlockFace
 import org.bukkit.entity.Player
 
-object SpeedPlaces {
+object SpeedPlaces : IRegistrable {
 
     private val active = hashSetOf<Player>()
 
-    init {
+    override fun register() {
         labels("speed").forEach { label ->
             val yaw = BlockFace.valueOf(label.tag.uppercase()).toYaw().revert()
             val loc = label.yaw(yaw).toCenterLocation().apply { y = label.y }
