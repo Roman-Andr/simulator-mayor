@@ -2,7 +2,7 @@ package me.slavita.construction.structure
 
 import com.google.gson.*
 import me.slavita.construction.app
-import me.slavita.construction.player.City
+import me.slavita.construction.city.City
 import java.lang.reflect.Type
 
 class PlayerCell(val city: City, val cell: Cell, var busy: Boolean) {

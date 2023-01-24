@@ -5,7 +5,7 @@ import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
 import me.slavita.construction.action.MenuCommand
-import me.slavita.construction.bank.Bank
+import me.slavita.construction.city.bank.Bank
 import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.ui.menu.StatsType

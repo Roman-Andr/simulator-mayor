@@ -1,4 +1,4 @@
-package me.slavita.construction.player
+package me.slavita.construction.city
 
 class CityHall {
     var level: Int = 1

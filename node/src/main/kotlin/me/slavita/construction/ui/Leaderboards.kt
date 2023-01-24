@@ -4,6 +4,7 @@ import me.slavita.construction.booster.format.ExperienceFormatter
 import me.slavita.construction.booster.format.ReputationFormatter
 import me.slavita.construction.prepare.IRegistrable
 import me.slavita.construction.protocol.GetLeaderboardPackage
+import me.slavita.construction.utils.log
 import me.slavita.construction.utils.runAsync
 import me.slavita.construction.utils.socket
 import java.util.concurrent.TimeUnit
@@ -22,10 +23,10 @@ object Leaderboards : IRegistrable {
             socket.writeAndAwaitResponse<GetLeaderboardPackage>(GetLeaderboardPackage())[5, TimeUnit.SECONDS].run {
                 experienceLeaderboard.update(experience)
                 projectsLeaderboard.update(projects)
-                println("leaderboard loaded")
+                log("leaderboard loaded")
             }
         } catch (e: TimeoutException) {
-            println("leaderboard load timeout")
+            log("leaderboard load timeout")
         }
     }
 }

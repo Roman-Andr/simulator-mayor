@@ -1,7 +1,7 @@
 package me.slavita.construction.project
 
 import com.google.gson.*
-import me.slavita.construction.player.City
+import me.slavita.construction.city.City
 import me.slavita.construction.player.sound.MusicSound
 import me.slavita.construction.reward.Reward
 import me.slavita.construction.structure.BuildingStructure

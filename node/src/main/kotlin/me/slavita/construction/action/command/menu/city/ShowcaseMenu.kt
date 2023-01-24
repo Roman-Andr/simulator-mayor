@@ -10,8 +10,8 @@ import me.func.mod.ui.menu.selection.Selection
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.player.User
-import me.slavita.construction.showcase.Showcase
-import me.slavita.construction.showcase.ShowcaseProduct
+import me.slavita.construction.city.showcase.Showcase
+import me.slavita.construction.city.showcase.ShowcaseProduct
 import me.slavita.construction.ui.Formatter
 import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.utils.*

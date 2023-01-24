@@ -7,11 +7,11 @@ import me.func.unit.Building
 import me.func.world.WorldMeta
 import me.slavita.construction.app
 import me.slavita.construction.common.utils.V2i
-import me.slavita.construction.showcase.Showcases
+import me.slavita.construction.city.showcase.Showcases
 import me.slavita.construction.structure.Cell
-import me.slavita.construction.ui.CityGlows
+import me.slavita.construction.city.CityGlows
 import me.slavita.construction.ui.Leaderboards
-import me.slavita.construction.ui.SpeedPlaces
+import me.slavita.construction.city.SpeedPlaces
 import me.slavita.construction.utils.*
 import org.bukkit.Location
 import org.bukkit.entity.Player
@@ -69,19 +69,14 @@ class GameWorld(val map: WorldMeta) {
         freelanceCell = Cell(0, label("freelance")!!)
 
         Config.load {
-            listOf(
+            register(
                 NpcManager,
                 CityGlows,
-            ).forEach {
-                it.register()
-            }
+                SpeedPlaces,
+                Showcases,
+                Leaderboards
+            )
         }
-
-        listOf(
-            Leaderboards,
-            SpeedPlaces,
-            Showcases,
-        ).forEach { it.register() }
 
         /*map.world.handle.chunkInterceptor = ChunkInterceptor { chunk: Chunk, flags: Int, receiver: EntityPlayer? ->
             val player = receiver ?: return@ChunkInterceptor PacketPlayOutMapChunk(chunk, flags)

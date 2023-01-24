@@ -3,6 +3,7 @@ package me.slavita.construction.listener
 import com.destroystokyo.paper.event.player.PlayerAdvancementCriterionGrantEvent
 import dev.xdark.feder.EmptyChunkBiome
 import dev.xdark.feder.FixedChunkLight
+import me.slavita.construction.prepare.IRegistrable
 import me.slavita.construction.utils.listener
 import me.slavita.construction.utils.safe
 import org.bukkit.ChatColor.GRAY
@@ -17,9 +18,8 @@ import org.bukkit.event.world.ChunkLoadEvent
 import org.bukkit.event.world.StructureGrowEvent
 import org.spigotmc.event.entity.EntityDismountEvent
 
-object PhysicsDisabler {
-
-    init {
+object PhysicsDisabler : IRegistrable {
+    override fun register() {
         listOf(
             BlockPlaceEvent::class,
             CraftItemEvent::class,

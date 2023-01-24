@@ -1,7 +1,5 @@
 package me.slavita.construction.structure.instance
 
-import me.slavita.construction.prepare.IRegistrable
-
 object Structures {
     val structures = arrayListOf<Structure>()
 

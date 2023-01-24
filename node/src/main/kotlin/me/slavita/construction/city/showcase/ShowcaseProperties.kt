@@ -1,4 +1,4 @@
-package me.slavita.construction.showcase
+package me.slavita.construction.city.showcase
 
 import me.slavita.construction.common.utils.TimeFormatter
 import kotlin.random.Random

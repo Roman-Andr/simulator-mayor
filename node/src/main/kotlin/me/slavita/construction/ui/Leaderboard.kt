@@ -2,9 +2,7 @@ package me.slavita.construction.ui
 
 import me.slavita.construction.booster.format.IFormatter
 import me.slavita.construction.protocol.LeaderboardItem
-import me.slavita.construction.utils.cristalixName
-import me.slavita.construction.utils.label
-import me.slavita.construction.utils.toYaw
+import me.slavita.construction.utils.*
 import org.bukkit.block.BlockFace
 import ru.cristalix.boards.bukkitapi.Boards
 import java.util.*
@@ -36,7 +34,7 @@ class Leaderboard(
     fun update(values: ArrayList<LeaderboardItem>) {
         board.clearContent()
         values.forEachIndexed { index, value ->
-            val uuid = UUID.fromString(value.uuid)
+            val uuid = value.uuid.toUUID()
             board.addContent(
                 uuid,
                 (index + 1).toString(),

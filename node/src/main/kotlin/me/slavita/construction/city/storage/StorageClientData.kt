@@ -1,9 +1,8 @@
-package me.slavita.construction.showcase
+package me.slavita.construction.city.storage
 
 import ru.cristalix.core.math.V3
 
-data class ShowcaseClientData(
-    val id: Int,
+data class StorageClientData(
     val title: String,
     val min: V3,
     val max: V3,

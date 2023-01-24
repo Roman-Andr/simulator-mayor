@@ -1,4 +1,4 @@
-package me.slavita.construction.showcase
+package me.slavita.construction.city.showcase
 
 import me.func.atlas.Atlas
 import me.func.mod.reactive.ReactiveBanner

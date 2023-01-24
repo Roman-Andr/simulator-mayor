@@ -8,7 +8,7 @@ import me.func.mod.reactive.ReactiveLine
 import me.func.mod.reactive.ReactivePanel
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.command.menu.general.DailyMenu
-import me.slavita.construction.bank.Bank
+import me.slavita.construction.city.bank.Bank
 import me.slavita.construction.player.Data
 import me.slavita.construction.player.Tags
 import me.slavita.construction.prepare.GuidePrepare
@@ -39,7 +39,7 @@ object AdminCommands : IRegistrable {
             ModTransfer()
                 .byteArray(*RadioMessage.serialize(RadioMessage(true, args[0])))
                 .send("ilyafx:radio", player)
-            println(args[0])
+            log(args[0])
         }
 
         opCommand("panel") { player, _ ->
@@ -133,7 +133,7 @@ object AdminCommands : IRegistrable {
 
         opCommand("achievement") { _, _ ->
             repeat(49) {
-                println(AchievementType.PROJECTS.formula(it + 1))
+                log(AchievementType.PROJECTS.formula(it + 1))
             }
         }
     }

@@ -1,4 +1,4 @@
-package me.slavita.construction.ui
+package me.slavita.construction.city
 
 import me.func.atlas.Atlas
 import me.func.mod.reactive.ReactivePlace

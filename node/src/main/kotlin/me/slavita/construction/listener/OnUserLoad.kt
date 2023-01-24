@@ -3,8 +3,8 @@ package me.slavita.construction.listener
 import me.slavita.construction.prepare.*
 import me.slavita.construction.utils.listener
 
-object OnUserLoad {
-    init {
+object OnUserLoad : IRegistrable {
+    override fun register() {
         listener<LoadUserEvent> {
             listOf(
                 UIPrepare,

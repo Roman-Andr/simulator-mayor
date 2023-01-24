@@ -17,21 +17,18 @@ import me.slavita.construction.action.chat.AdminCommands
 import me.slavita.construction.action.chat.UserCommands
 import me.slavita.construction.booster.BoosterType
 import me.slavita.construction.booster.Boosters
-import me.slavita.construction.listener.LoadUserEvent
-import me.slavita.construction.listener.PlayerEvents
-import me.slavita.construction.player.City
-import me.slavita.construction.player.CitySerializer
+import me.slavita.construction.city.City
+import me.slavita.construction.city.CitySerializer
 import me.slavita.construction.player.User
-import me.slavita.construction.prepare.IRegistrable
 import me.slavita.construction.project.Project
 import me.slavita.construction.project.ProjectSerializer
 import me.slavita.construction.protocol.GetUserPackage
 import me.slavita.construction.protocol.SaveUserPackage
-import me.slavita.construction.storage.BlocksStorage
-import me.slavita.construction.storage.BlocksStorageSerializer
+import me.slavita.construction.city.storage.BlocksStorage
+import me.slavita.construction.city.storage.BlocksStorageSerializer
+import me.slavita.construction.listener.*
 import me.slavita.construction.structure.*
 import me.slavita.construction.structure.instance.Structures
-import me.slavita.construction.ui.CityGlows
 import me.slavita.construction.ui.Formatter.applyBoosters
 import me.slavita.construction.ui.ItemsManager
 import me.slavita.construction.ui.Leaderboards
@@ -155,14 +152,19 @@ class App : JavaPlugin() {
 
         Stronghold.namespace("construction")
 
-        listOf(
+        register(
             Boosters,
             UserCommands,
             AdminCommands,
             ModCallbacks,
             ItemsManager,
-            PlayerEvents,
-        ).forEach { it.register() }
+            PhysicsDisabler,
+            OnJoin,
+            OnLeave,
+            OnChat,
+            OnActions,
+            OnUserLoad,
+        )
 
         Structures
 
@@ -242,11 +244,11 @@ class App : JavaPlugin() {
     private fun trySaveUser(pckg: SaveUserPackage) = runAsync {
         try {
             socket.writeAndAwaitResponse<SaveUserPackage>(pckg)[5, TimeUnit.SECONDS]
-            println("user saved")
+            log("user saved")
             failedSave.remove(pckg)
             unloadUser(pckg.uuid.toUUID())
         } catch (e: TimeoutException) {
-            println("user save timeout")
+            log("user save timeout")
             failedSave.add(pckg)
         }
     }
@@ -255,12 +257,12 @@ class App : JavaPlugin() {
         if (!player.isOnline) return@runAsync
         val uuid = player.uniqueId
         try {
-            println("try load user")
+            log("try load user")
             LoadUserEvent(cacheUser(uuid)).callEvent()
             failedLoad.remove(player)
             if (!silent) player.accept("Данные успешно загружены")
         } catch (e: TimeoutException) {
-            println("user load timeout")
+            log("user load timeout")
             player.deny("Не удалось загрузить ваши данные\nПовторная загрузка данных...")
             if (!failedLoad.contains(player)) failedLoad.add(player)
         }
@@ -268,9 +270,9 @@ class App : JavaPlugin() {
 
     private fun cacheUser(uuid: UUID): User {
         val raw = getRawUser(uuid)
-        println("got raw data")
+        log("got raw data")
         val user = User(uuid).apply { initialize(raw) }
-        println("user initialized")
+        log("user initialized")
         users[uuid] = user
         return user
     }

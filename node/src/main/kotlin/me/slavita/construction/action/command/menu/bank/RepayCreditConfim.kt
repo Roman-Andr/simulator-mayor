@@ -3,8 +3,8 @@ package me.slavita.construction.action.command.menu.bank
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.confirmation.Confirmation
 import me.slavita.construction.action.MenuCommand
-import me.slavita.construction.bank.Bank
-import me.slavita.construction.bank.Credit
+import me.slavita.construction.city.bank.Bank
+import me.slavita.construction.city.bank.Credit
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.accept
 import org.bukkit.ChatColor.AQUA

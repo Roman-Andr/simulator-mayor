@@ -1,6 +1,8 @@
 package me.slavita.construction.listener
 
+import me.slavita.construction.prepare.IRegistrable
 import me.slavita.construction.utils.listener
+import me.slavita.construction.utils.log
 import me.slavita.construction.utils.user
 import net.md_5.bungee.api.chat.*
 import org.bukkit.Bukkit
@@ -12,11 +14,11 @@ import ru.cristalix.core.multichat.IMultiChatService
 import ru.cristalix.core.permissions.IPermissionService
 import ru.cristalix.core.realm.IRealmService
 
-object OnChat {
-    init {
+object OnChat : IRegistrable {
+    override fun register() {
         listener<AsyncPlayerChatEvent> {
             isCancelled = true
-            println("<" + player.displayName + ">: " + message)
+            log("<" + player.displayName + ">: " + message)
 
             Bukkit.getOnlinePlayers().forEach {
                 it.sendMessage(*getComponents(player, message).toTypedArray())

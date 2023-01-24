@@ -1,4 +1,4 @@
-package me.slavita.construction.storage
+package me.slavita.construction.city.storage
 
 import com.google.gson.*
 import me.func.mod.Anime

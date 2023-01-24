@@ -27,10 +27,11 @@ import me.func.protocol.data.element.MotionType
 import me.func.world.WorldMeta
 import me.slavita.construction.action.command.menu.ButtonCommand
 import me.slavita.construction.app
-import me.slavita.construction.bank.Bank
+import me.slavita.construction.city.bank.Bank
 import me.slavita.construction.dontate.Donates
 import me.slavita.construction.player.User
 import me.slavita.construction.player.sound.MusicSound
+import me.slavita.construction.prepare.IRegistrable
 import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.Formatter.toMoney
@@ -240,7 +241,7 @@ fun safe(action: () -> Unit) = after(1, action)
 
 fun logFormat(message: String) = "[${IRealmService.get().currentRealmInfo.realmId.realmName}] $message"
 
-fun log(message: String) = println(logFormat(message))
+fun<T> log(message: T) = println(logFormat(message.toString()))
 
 fun logTg(text: String) = tg.sendMessage(ChatId.fromId(app.chatId), logFormat(text))
 
@@ -529,3 +530,5 @@ private fun createBanner(info: BannerInfo): Banner {
             }
     }
 }
+
+fun register(vararg registers: IRegistrable) = registers.forEach { it.register() }

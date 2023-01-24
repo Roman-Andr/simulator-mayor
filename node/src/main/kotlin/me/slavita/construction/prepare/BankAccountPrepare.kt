@@ -1,6 +1,6 @@
 package me.slavita.construction.prepare
 
-import me.slavita.construction.bank.Bank
+import me.slavita.construction.city.bank.Bank
 import me.slavita.construction.player.User
 
 object BankAccountPrepare : IPrepare {

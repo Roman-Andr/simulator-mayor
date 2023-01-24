@@ -3,6 +3,7 @@ package me.slavita.construction.structure
 import me.func.unit.Building
 import me.func.world.Label
 import me.slavita.construction.app
+import me.slavita.construction.utils.log
 import me.slavita.construction.world.Box
 import org.bukkit.block.BlockFace
 import java.util.*
@@ -12,7 +13,7 @@ class Cell(val id: Int, label: Label) {
     val face: BlockFace = try {
         BlockFace.valueOf(label.tag.uppercase())
     } catch (exception: Exception) {
-        println("Illegal label: $label")
+        log("Illegal label: $label")
         BlockFace.WEST
     }
 

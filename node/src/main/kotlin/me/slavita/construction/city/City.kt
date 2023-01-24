@@ -1,8 +1,9 @@
-package me.slavita.construction.player
+package me.slavita.construction.city
 
 import com.google.gson.*
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.app
+import me.slavita.construction.player.User
 import me.slavita.construction.project.Project
 import me.slavita.construction.project.ProjectDeserializer
 import me.slavita.construction.structure.CityStructure

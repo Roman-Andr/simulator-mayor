@@ -1,4 +1,4 @@
-package me.slavita.construction.ui
+package me.slavita.construction.city
 
 import me.func.atlas.Atlas
 import me.func.mod.reactive.ReactivePlace
@@ -9,6 +9,7 @@ import me.func.protocol.data.color.GlowColor
 import me.func.protocol.data.element.Banner
 import me.slavita.construction.app
 import me.slavita.construction.prepare.IRegistrable
+import me.slavita.construction.ui.Texture
 import me.slavita.construction.utils.*
 import org.bukkit.block.BlockFace
 import org.bukkit.entity.Player

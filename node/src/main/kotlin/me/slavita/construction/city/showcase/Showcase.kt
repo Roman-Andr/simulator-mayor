@@ -1,4 +1,4 @@
-package me.slavita.construction.showcase
+package me.slavita.construction.city.showcase
 
 import me.func.mod.Anime
 import me.slavita.construction.action.command.menu.city.ShowcaseMenu

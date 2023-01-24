@@ -1,4 +1,4 @@
-package me.slavita.construction.bank
+package me.slavita.construction.city.bank
 
 import me.slavita.construction.player.User
 import java.util.*

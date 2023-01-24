@@ -1,5 +1,6 @@
 package me.slavita.construction.listener
 
+import me.slavita.construction.prepare.IRegistrable
 import me.slavita.construction.ui.HumanizableValues.BLOCK
 import me.slavita.construction.utils.*
 import me.slavita.construction.utils.language.LanguageHelper
@@ -9,11 +10,11 @@ import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerMoveEvent
 import java.util.*
 
-object OnActions {
+object OnActions : IRegistrable {
     val inZone = hashMapOf<UUID, Boolean>()
     var storageEntered = hashMapOf<UUID, Boolean>()
 
-    init {
+        override fun register() {
         listener<PlayerDropItemEvent> {
             val user = player.user
             if (itemDrop.itemStack.getType() == Material.CLAY_BALL) {
