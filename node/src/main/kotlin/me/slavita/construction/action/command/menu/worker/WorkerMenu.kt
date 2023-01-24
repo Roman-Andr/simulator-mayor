@@ -5,8 +5,9 @@ import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.choicer
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
-import me.slavita.construction.ui.menu.ItemIcons
-import me.slavita.construction.utils.getWorkerInfo
+import me.slavita.construction.ui.menu.Icons
+import me.slavita.construction.utils.WORKER_INFO
+import me.slavita.construction.utils.click
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 

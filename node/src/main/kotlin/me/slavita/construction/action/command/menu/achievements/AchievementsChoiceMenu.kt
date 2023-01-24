@@ -7,6 +7,7 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.achievements.AchievementType
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.ACHIEVEMENTS_INFO
+import me.slavita.construction.utils.click
 import me.slavita.construction.utils.mapM
 import org.bukkit.entity.Player
 
@@ -21,7 +22,7 @@ class AchievementsChoiceMenu(val player: Player) : MenuCommand(player) {
                     title = it.title
                     item = Icons.get(it.itemKey, it.itemValue)
                     hint = "Выбрать"
-                    onClick { _, _, _ ->
+                    click { _, _, _ ->
                         AchievementsMenu(player, it).keepHistory().tryExecute()
                     }
                 }

@@ -11,6 +11,7 @@ import me.slavita.construction.project.Project
 import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.WORKER_INFO
+import me.slavita.construction.utils.click
 import me.slavita.construction.utils.getEmptyButton
 import me.slavita.construction.worker.WorkerState
 import org.bukkit.ChatColor.*

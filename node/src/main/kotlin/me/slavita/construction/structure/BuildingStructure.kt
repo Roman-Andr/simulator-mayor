@@ -1,12 +1,17 @@
 package me.slavita.construction.structure
 
-import me.slavita.construction.player.User
+import com.google.gson.*
+import me.slavita.construction.app
+import me.slavita.construction.player.sound.MusicSound
+import me.slavita.construction.project.FreelanceProject
 import me.slavita.construction.project.Project
 import me.slavita.construction.structure.instance.Structure
+import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.structure.tools.StructureVisual
-import me.slavita.construction.world.GameWorld
+import me.slavita.construction.utils.*
 import me.slavita.construction.world.StructureBlock
+import java.lang.reflect.Type
 
 abstract class BuildingStructure(
     val structure: Structure,
@@ -15,7 +20,7 @@ abstract class BuildingStructure(
     protected var currentBlock: StructureBlock? = null
     protected var hidden = false
     var currentProject: Project? = null
-    val owner = playerCell.owner
+    val owner = cell.owner
     var cityStructure: CityStructure? = null
     var state = StructureState.NOT_STARTED
     var blocksPlaced = 0
@@ -81,7 +86,11 @@ abstract class BuildingStructure(
         if (state != StructureState.BUILDING) return
         owner.player.playSound(MusicSound.HINT)
 
-        app.mainWorld.placeFakeBlock(owner.player, currentBlock!!.withOffset(allocation), currentProject!! !is FreelanceProject)
+        app.mainWorld.placeFakeBlock(
+            owner.player,
+            currentBlock!!.withOffset(allocation),
+            currentProject!! !is FreelanceProject
+        )
         currentBlock = structure.getNextBlock(currentBlock!!.position)
         blockPlaced()
 
@@ -110,17 +119,23 @@ abstract class BuildingStructure(
 }
 
 class BuildingStructureSerializer : JsonSerializer<BuildingStructure> {
-    override fun serialize(buildingStructure: BuildingStructure, type: Type, context: JsonSerializationContext): JsonElement {
+    override fun serialize(
+        buildingStructure: BuildingStructure,
+        type: Type,
+        context: JsonSerializationContext,
+    ): JsonElement {
         val json = JsonObject()
 
         buildingStructure.run {
-            json.addProperty("type", when (buildingStructure) {
-                is ClientStructure -> "client"
-                is WorkerStructure -> "worker"
-                else -> throw JsonParseException("Unknown structure type!")
-            })
+            json.addProperty(
+                "type", when (buildingStructure) {
+                    is ClientStructure -> "client"
+                    is WorkerStructure -> "worker"
+                    else               -> throw JsonParseException("Unknown structure type!")
+                }
+            )
             json.addProperty("structureId", structure.id)
-            json.addProperty("playerCellId", playerCell.id)
+            json.addProperty("playerCellId", cell.id)
             json.addProperty("blocksPlaced", blocksPlaced)
             json.add("state", context.serialize(state))
 
@@ -138,33 +153,35 @@ class BuildingStructureSerializer : JsonSerializer<BuildingStructure> {
 }
 
 class BuildingStructureDeserializer(val project: Project) : JsonDeserializer<BuildingStructure> {
-    override fun deserialize(json: JsonElement, type: Type, context: JsonDeserializationContext) = json.asJsonObject.run {
-        val structure = Structures.structures[get("structureId").asInt]
-        val playerCell = project.city.playerCells[get("playerCellId").asInt]
-        val blocksPlaced = get("blocksPlaced").asInt
+    override fun deserialize(json: JsonElement, type: Type, context: JsonDeserializationContext) =
+        json.asJsonObject.run {
+            val structure = Structures.structures[get("structureId").asInt]
+            val playerCell = project.city.playerCells[get("playerCellId").asInt]
+            val blocksPlaced = get("blocksPlaced").asInt
 
-        when (get("type").asString) {
-            "Structure" -> {
-                WorkerStructure(structure, playerCell).apply {
-                    nextTick {
-                        get("workers").asJsonArray.forEach { id ->
-                            val workerUuid = UUID.fromString(id.asString)
-                            workers.add(project.owner.data.workers.first { it.uuid == workerUuid })
+            when (get("type").asString) {
+                "Structure" -> {
+                    WorkerStructure(structure, playerCell).apply {
+                        nextTick {
+                            get("workers").asJsonArray.forEach { id ->
+                                val workerUuid = id.asString.toUUID()
+                                workers.add(project.owner.data.workers.first { it.uuid == workerUuid })
+                            }
                         }
                     }
                 }
-            }
-            "client" -> ClientStructure(structure, playerCell)
-            else -> throw JsonParseException("Unknown structure type!")
-        }.apply {
-            this@apply.currentProject = project
-            this@apply.blocksPlaced = blocksPlaced
-            visual.start()
-            when (StructureState.valueOf(get("state").asString)) {
-                StructureState.BUILDING -> runAsync(100) { continueBuilding(project) }
-                StructureState.FINISHED -> nextTick { finishBuilding() }
-                else -> this@apply.state = state
+
+                "client"    -> ClientStructure(structure, playerCell)
+                else        -> throw JsonParseException("Unknown structure type!")
+            }.apply {
+                this@apply.currentProject = project
+                this@apply.blocksPlaced = blocksPlaced
+                visual.start()
+                when (StructureState.valueOf(get("state").asString)) {
+                    StructureState.BUILDING -> runAsync(100) { continueBuilding(project) }
+                    StructureState.FINISHED -> nextTick { finishBuilding() }
+                    else                    -> this@apply.state = state
+                }
             }
         }
-    }
 }

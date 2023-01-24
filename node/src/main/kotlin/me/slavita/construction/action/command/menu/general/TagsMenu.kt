@@ -14,7 +14,6 @@ import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.ui.menu.Icons
-import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
 import me.slavita.construction.utils.*
 import org.bukkit.ChatColor.AQUA
@@ -28,7 +27,7 @@ class TagsMenu(val player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         buttons.addAll(getButtons())
 
-        selection = getBaseSelection(MenuInfo("${AQUA}${BOLD}Меню тегов", StatsType.MONEY, 4, 4), user).apply {
+        selection = getBaseSelection(user, "${AQUA}${BOLD}Меню тегов", StatsType.MONEY, 4, 4).apply {
             info = TAGS_INFO
             storage = buttons
         }
@@ -56,7 +55,7 @@ class TagsMenu(val player: Player) : MenuCommand(player) {
                     hint = if (data.tag == tag) "Выбран" else "Выбрать"
                     item = Icons.get("other", "pets1", data.tag == tag)
                     backgroundColor = if (user.data.tag != tag) GlowColor.GREEN else GlowColor.BLUE
-                    onClick { _, _, _ ->
+                    click { _, _, _ ->
                         if (data.tag != tag) {
                             data.tag = tag
                             TagsPrepare.prepare(user)
@@ -68,10 +67,10 @@ class TagsMenu(val player: Player) : MenuCommand(player) {
                     item = Icons.get("other", "lock")
                     backgroundColor = GlowColor.NEUTRAL
                     description = tag.price.toMoneyIcon()
-                    onClick { _, _, _ ->
+                    click { _, _, _ ->
                         user.tryPurchase(tag.price) {
                             data.ownTags.add(tag)
-                            selection.money = "Ваш баланс ${user.data.statistics.money.toMoney()}"
+                            selection.money = "Ваш баланс ${user.data.money.toMoney()}"
                         }
                         updateButtons()
                     }
@@ -88,13 +87,13 @@ class TagsMenu(val player: Player) : MenuCommand(player) {
                         hover = it.donate.description
                         description = "Цена: ${it.donate.price.toCriMoney()}"
                         backgroundColor = GlowColor.BLUE_MIDDLE
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             it.donate.purchase(player.user)
                         }
                     } else {
                         hint = if (data.tag == tag) "Выбран" else "Выбрать"
                         backgroundColor = if (data.tag == tag) GlowColor.BLUE_LIGHT else GlowColor.BLUE
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             if (data.tag != tag) {
                                 data.tag = tag
                                 TagsPrepare.prepare(user)

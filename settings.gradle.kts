@@ -3,6 +3,8 @@
 pluginManagement {
     repositories {
         gradlePluginPortal()
+        google()
+        mavenLocal()
         mavenCentral()
         maven {
             url = uri("https://repo.c7x.dev/repository/maven-public/")
@@ -28,7 +30,7 @@ pluginManagement {
     includeBuild("bundler")
 
     plugins {
-        kotlin("jvm") version "1.7.22"
+        kotlin("jvm") version "1.8.0"
         id("com.github.johnrengelman.shadow") version "7.1.2"
         id("org.hidetake.ssh") version "2.10.1"
     }

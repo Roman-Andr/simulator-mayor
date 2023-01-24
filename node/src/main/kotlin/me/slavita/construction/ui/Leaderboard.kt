@@ -1,12 +1,10 @@
 package me.slavita.construction.ui
 
-import me.slavita.construction.app
+import me.slavita.construction.booster.format.IFormatter
 import me.slavita.construction.protocol.LeaderboardItem
-import me.slavita.construction.ui.format.IFormatter
-import me.slavita.construction.utils.BlocksExtensions.toYaw
-import me.slavita.construction.utils.CristalixUtil
+import me.slavita.construction.utils.cristalixName
 import me.slavita.construction.utils.label
-import org.bukkit.Location
+import me.slavita.construction.utils.toYaw
 import org.bukkit.block.BlockFace
 import ru.cristalix.boards.bukkitapi.Boards
 import java.util.*
@@ -17,7 +15,7 @@ class Leaderboard(
     value: String,
     fieldSize: Double,
     val color: String,
-    val formatter: IFormatter
+    val formatter: IFormatter,
 ) {
     val board = Boards.newBoard()
 
@@ -42,7 +40,7 @@ class Leaderboard(
             board.addContent(
                 uuid,
                 (index + 1).toString(),
-                CristalixUtil.getDisplayName(uuid),
+                uuid.cristalixName,
                 "${color}${formatter.format(value.value)}"
             )
         }

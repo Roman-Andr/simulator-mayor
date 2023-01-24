@@ -6,7 +6,9 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.dontate.BoosterPackDonate
 import me.slavita.construction.dontate.Donates
 import me.slavita.construction.ui.Formatter.toCriMoney
-import me.slavita.construction.utils.*
+import me.slavita.construction.utils.DONATE_INFO
+import me.slavita.construction.utils.donateButton
+import me.slavita.construction.utils.mapM
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GREEN
 import org.bukkit.entity.Player

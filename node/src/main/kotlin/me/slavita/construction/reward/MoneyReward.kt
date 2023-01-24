@@ -6,7 +6,7 @@ import me.slavita.construction.ui.Formatter.applyBoosters
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.accept
 import me.slavita.construction.utils.cursor
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.GOLD
 
 class MoneyReward(private val money: Long) : Reward {
     override fun getReward(user: User) {

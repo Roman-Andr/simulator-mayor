@@ -7,6 +7,7 @@ import me.func.mod.ui.menu.choicer
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.WORKER_INFO
+import me.slavita.construction.utils.click
 import me.slavita.construction.worker.WorkerRarity
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD

@@ -7,9 +7,9 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.menu.achievements.AchievementsChoiceMenu
 import me.slavita.construction.action.command.menu.city.CityHallMenu
 import me.slavita.construction.action.command.menu.city.LocationsMenu
+import me.slavita.construction.action.command.menu.city.StorageUpgrade
 import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
 import me.slavita.construction.action.command.menu.project.StartFreelanceProject
-import me.slavita.construction.action.command.menu.city.StorageUpgrade
 import me.slavita.construction.action.command.menu.worker.WorkerMenu
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.*
@@ -29,7 +29,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         title = "${GREEN}${BOLD}Проекты"
                         hover = PROJECTS_MENU
                         item = Icons.get("other", "book")
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             ActiveProjectsMenu(player).keepHistory().tryExecute()
                         }
                     },
@@ -37,7 +37,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         title = "${GREEN}${BOLD}Локации"
                         hover = LOCATIONS_MENU
                         item = Icons.get("alpha", "islands")
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             LocationsMenu(player).keepHistory().tryExecute()
                         }
                     },
@@ -45,7 +45,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         title = "${GREEN}${BOLD}Работники"
                         hover = WORKERS_MENU
                         item = Icons.get("other", "guild_members")
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             WorkerMenu(player).keepHistory().tryExecute()
                         }
                     },
@@ -53,7 +53,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         title = "${GREEN}${BOLD}Теги"
                         hover = TAGS_MENU
                         item = Icons.get("other", "clothes")
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             TagsMenu(player).keepHistory().tryExecute()
                         }
                     },
@@ -61,7 +61,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         title = "${GREEN}${BOLD}Достижения"
                         hover = ACHIEVEMENTS_MENU
                         item = Icons.get("other", "achievements_many")
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             AchievementsChoiceMenu(player).keepHistory().tryExecute()
                         }
                     },
@@ -69,7 +69,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         title = "${GREEN}${BOLD}Склад"
                         hover = STORAGE_MENU
                         item = Icons.get("other", "stock")
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             StorageUpgrade(player).keepHistory().tryExecute()
                         }
                     },
@@ -77,7 +77,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         title = "${GREEN}${BOLD}Мэрия"
                         hover = CITY_HALL_MENU
                         item = Icons.get("other", "guild_bank")
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             CityHallMenu(player).keepHistory().tryExecute()
                         }
                     },
@@ -85,7 +85,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         title = "${GOLD}${BOLD}Фриланс"
                         hover = FREELANCE_MENU
                         item = Icons.get("other", "socmedia")
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             if (user.currentFreelance == null) StartFreelanceProject(player).tryExecute()
                         }
                     },
@@ -93,7 +93,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         title = "${GOLD}${BOLD}Ежедневные\n${GOLD}${BOLD}награды"
                         hover = REWARDS_MENU
                         item = Icons.get("skyblock", "info")
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             DailyMenu(player).tryExecute()
                         }
                     },
@@ -101,7 +101,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         title = "${DARK_GRAY}${BOLD}Настройки"
                         hover = SETTINGS_MENU
                         item = Icons.get("skyblock", "is_settings")
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             SettingsMenu(player).keepHistory().tryExecute()
                         }
                     }

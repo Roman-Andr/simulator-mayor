@@ -4,13 +4,13 @@ import me.func.atlas.Atlas
 import me.slavita.construction.action.command.menu.achievements.AchievementsChoiceMenu
 import me.slavita.construction.action.command.menu.city.CityHallMenu
 import me.slavita.construction.action.command.menu.city.LocationsMenu
+import me.slavita.construction.action.command.menu.city.StorageMenu
 import me.slavita.construction.action.command.menu.donate.DonateMenu
 import me.slavita.construction.action.command.menu.general.DailyMenu
 import me.slavita.construction.action.command.menu.general.SettingsMenu
 import me.slavita.construction.action.command.menu.general.TagsMenu
 import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
 import me.slavita.construction.action.command.menu.project.StartFreelanceProject
-import me.slavita.construction.action.command.menu.city.StorageMenu
 import me.slavita.construction.action.command.menu.worker.WorkerMenu
 import me.slavita.construction.prepare.GuidePrepare
 import me.slavita.construction.utils.command

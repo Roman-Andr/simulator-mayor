@@ -16,13 +16,13 @@ class DailyMenu(player: Player) : MenuCommand(player) {
             return dailyReward {
                 title = "Ежедневные награды"
                 info = REWARDS_INFO
-                val rewardTaken = data.statistics.nextTakeDailyReward > System.currentTimeMillis()
+                val rewardTaken = data.nextTakeDailyReward > System.currentTimeMillis()
                 if (rewardTaken) {
                     taken = true
-                    currentDay = data.statistics.nextDay - 1
+                    currentDay = data.nextDay - 1
                 } else {
                     taken = false
-                    currentDay = data.statistics.nextDay
+                    currentDay = data.nextDay
                 }
                 storage = mutableListOf(
                     "info",
@@ -36,9 +36,9 @@ class DailyMenu(player: Player) : MenuCommand(player) {
                     button {
                         item = Icons.get("other", icon)
                         title = if (!rewardTaken) {
-                            if (index == data.statistics.nextDay) "Получить ежедневную награду" else ""
+                            if (index == data.nextDay) "Получить ежедневную награду" else ""
                         } else {
-                            if (index == data.statistics.nextDay) "Награда через ${(data.statistics.nextTakeDailyReward - System.currentTimeMillis()).toTime()}" else ""
+                            if (index == data.nextDay) "Награда через ${(data.nextTakeDailyReward - System.currentTimeMillis()).toTime()}" else ""
                         }
                     }
                 }

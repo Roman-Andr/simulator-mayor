@@ -8,6 +8,7 @@ import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.WorkerExecutor
 import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.ui.menu.Icons
+import me.slavita.construction.utils.click
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.entity.Player

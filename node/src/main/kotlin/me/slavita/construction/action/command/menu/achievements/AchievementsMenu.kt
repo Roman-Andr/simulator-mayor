@@ -28,7 +28,7 @@ class AchievementsMenu(player: Player, val type: AchievementType) : MenuCommand(
                     item = Icons.get(type.itemKey, type.itemValue)
                     backgroundColor = if (value < level) GlowColor.GREEN else GlowColor.BLUE
                     description = type.placeholder.replace("%value%", type.formula(value).toString())
-                    hint = ""
+                    hint = null
                 }
             }
         }

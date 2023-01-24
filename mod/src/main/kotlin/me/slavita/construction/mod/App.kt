@@ -19,7 +19,6 @@ class App : KotlinMod() {
         player = clientApi.minecraft().player
 
         StructureBuilding
-        KeysManager
         Showcases
         CreditTaking
         Storage

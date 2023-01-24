@@ -1,7 +1,7 @@
 package me.slavita.construction.service
 
-import com.mongodb.client.model.*
 import com.mongodb.client.model.Projections.include
+import com.mongodb.client.model.UpdateOptions
 import me.func.serviceapi.mongo.MongoAdapter
 import me.func.serviceapi.runListener
 import me.slavita.construction.protocol.*
@@ -9,9 +9,12 @@ import org.bson.Document
 import ru.cristalix.core.microservice.MicroServicePlatform
 import ru.cristalix.core.microservice.MicroserviceBootstrap
 import ru.cristalix.core.network.ISocketClient
-import kotlin.collections.ArrayList
+import java.util.logging.Level
+import java.util.logging.Logger
 
 fun main() {
+    Logger.getLogger("JULLogger").level = Level.OFF
+
     MicroserviceBootstrap.bootstrap(MicroServicePlatform(2))
     val socketClient = ISocketClient.get()
 
@@ -20,6 +23,7 @@ fun main() {
         System.getenv("MONGO_DB"),
         System.getenv("MONGO_COLLECTION")
     )
+
 
     fun getTop(field: String, after: ArrayList<LeaderboardItem>.() -> Unit) {
         val response = arrayListOf<LeaderboardItem>()
@@ -42,10 +46,10 @@ fun main() {
             GetLeaderboardPackage::class,
         )
 
-        runListener<GetUserPackage> { realm, pckg ->
+        runListener<GetUserPackage> { realm, packet ->
             println("GetUserPackage: ${realm.realmName}")
-            pckg.run {
-                db.collection.find(Document().append("_id", uuid)).forEach ({
+            packet.run {
+                db.collection.find(Document().append("_id", uuid)).forEach({
                     data = it.getString("data")
                 }) { _, _ ->
                     println("got user")
@@ -54,27 +58,28 @@ fun main() {
             }
         }
 
-        runListener<GetLeaderboardPackage> { realm, pckg ->
+        runListener<GetLeaderboardPackage> { realm, packet ->
             println("GetLeaderboardPackage: ${realm.realmName}")
-            pckg.run {
+            packet.run {
                 var responses = 0
                 getTop("experience") {
                     experience = this
-                    if (++responses == 2) forward(realm, pckg)
+                    if (++responses == 2) forward(realm, packet)
                 }
                 getTop("projects") {
                     projects = this
-                    if (++responses == 2) forward(realm, pckg)
+                    if (++responses == 2) forward(realm, packet)
                 }
             }
         }
 
-        runListener<SaveUserPackage> { realm, pckg ->
+        runListener<SaveUserPackage> { realm, packet ->
             println("SaveUserPackage: ${realm.realmName}")
-            pckg.run {
+            packet.run {
                 db.collection.updateOne(
                     Document().append("_id", uuid),
-                    Document().append("\$set",
+                    Document().append(
+                        "\$set",
                         Document()
                             .append("data", data)
                             .append("experience", experience)

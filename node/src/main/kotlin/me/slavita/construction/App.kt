@@ -1,14 +1,7 @@
 package me.slavita.construction
 
-import com.github.kotlintelegrambot.bot
-import com.github.kotlintelegrambot.dispatch
 import com.google.gson.GsonBuilder
 import dev.implario.bukkit.platform.Platforms
-import dev.implario.kensuke.Kensuke
-import dev.implario.kensuke.Scope
-import dev.implario.kensuke.UserManager
-import dev.implario.kensuke.impl.bukkit.BukkitKensuke
-import dev.implario.kensuke.impl.bukkit.BukkitUserManager
 import dev.implario.platform.impl.darkpaper.PlatformDarkPaper
 import me.func.Lock
 import me.func.mod.Anime
@@ -22,19 +15,30 @@ import me.func.world.MapLoader
 import me.func.world.WorldMeta
 import me.slavita.construction.action.chat.AdminCommands
 import me.slavita.construction.action.chat.UserCommands
+import me.slavita.construction.booster.BoosterType
 import me.slavita.construction.booster.Boosters
+import me.slavita.construction.listener.LoadUserEvent
 import me.slavita.construction.listener.PlayerEvents
-import me.slavita.construction.utils.NpcManager
-import me.slavita.construction.player.Data
+import me.slavita.construction.player.City
+import me.slavita.construction.player.CitySerializer
 import me.slavita.construction.player.User
-import me.slavita.construction.showcase.Showcases
-import me.slavita.construction.structure.PlayerCell
+import me.slavita.construction.project.Project
+import me.slavita.construction.project.ProjectSerializer
+import me.slavita.construction.protocol.GetUserPackage
+import me.slavita.construction.protocol.SaveUserPackage
+import me.slavita.construction.storage.BlocksStorage
+import me.slavita.construction.storage.BlocksStorageSerializer
+import me.slavita.construction.structure.*
 import me.slavita.construction.structure.instance.Structures
-import me.slavita.construction.ui.*
+import me.slavita.construction.ui.CityGlows
+import me.slavita.construction.ui.Formatter.applyBoosters
+import me.slavita.construction.ui.ItemsManager
+import me.slavita.construction.ui.Leaderboards
 import me.slavita.construction.utils.*
 import me.slavita.construction.utils.language.EnumLang
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.ItemProperties
+import me.slavita.construction.world.SlotItem
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.WHITE
@@ -49,7 +53,6 @@ import ru.cristalix.core.keyboard.KeyService
 import ru.cristalix.core.multichat.ChatMessage
 import ru.cristalix.core.multichat.IMultiChatService
 import ru.cristalix.core.multichat.MultiChatService
-import ru.cristalix.core.network.ISocketClient
 import ru.cristalix.core.party.IPartyService
 import ru.cristalix.core.party.PartyService
 import ru.cristalix.core.realm.IRealmService
@@ -59,7 +62,8 @@ import ru.cristalix.core.scoreboard.ScoreboardService
 import ru.cristalix.core.transfer.ITransferService
 import ru.cristalix.core.transfer.TransferService
 import java.util.*
-import kotlin.collections.forEach
+import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeoutException
 
 lateinit var app: App
 
@@ -67,10 +71,6 @@ class App : JavaPlugin() {
 
     lateinit var structureMap: WorldMeta
     lateinit var mainWorld: GameWorld
-    val bot = bot {
-        token = System.getenv("TG_TOKEN")
-        dispatch {}
-    }
     val chatId = -1001654696542L
     val users = hashMapOf<UUID, User>()
     val allBlocks = hashSetOf<ItemProperties>()
@@ -108,6 +108,7 @@ class App : JavaPlugin() {
             registerService(ITransferService::class.java, TransferService(socket))
             registerService(IPartyService::class.java, PartyService(socket))
             registerService(IScoreboardService::class.java, ScoreboardService())
+            registerService(IInvoiceService::class.java, InvoiceService(socket))
             registerService(IMultiChatService::class.java, MultiChatService(socket))
             registerService(IKeyService::class.java, KeyService(app))
         }
@@ -154,6 +155,7 @@ class App : JavaPlugin() {
         Stronghold.namespace("construction")
 
         Config.load {
+            println("config")
             NpcManager
             CityGlows
         }
@@ -167,9 +169,6 @@ class App : JavaPlugin() {
         PlayerEvents
 
         EnumLang.init()
-
-        bot.startPolling()
-        logTg("Realm Initialized")
 
         scheduler.run {
             runTimerAsync(0, 120) {
@@ -202,7 +201,7 @@ class App : JavaPlugin() {
             }
 
             coroutineForAll(5 * 60 * 20) {
-                data.showcases.forEach { showcase ->
+                showcases.forEach { showcase ->
                     showcase.updatePrices()
                 }
                 showcaseMenu?.updateButtons()
@@ -249,8 +248,8 @@ class App : JavaPlugin() {
             socket.writeAndAwaitResponse<SaveUserPackage>(pckg)[5, TimeUnit.SECONDS]
             println("user saved")
             failedSave.remove(pckg)
-            unloadUser(UUID.fromString(pckg.uuid))
-        } catch(e: TimeoutException) {
+            unloadUser(pckg.uuid.toUUID())
+        } catch (e: TimeoutException) {
             println("user save timeout")
             failedSave.add(pckg)
         }

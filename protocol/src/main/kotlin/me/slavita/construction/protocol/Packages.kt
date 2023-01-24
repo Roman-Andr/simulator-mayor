@@ -1,8 +1,6 @@
 package me.slavita.construction.protocol
 
 import ru.cristalix.core.network.CorePackage
-import java.util.*
-import kotlin.collections.HashMap
 
 data class GetUserPackage(
     val uuid: String,

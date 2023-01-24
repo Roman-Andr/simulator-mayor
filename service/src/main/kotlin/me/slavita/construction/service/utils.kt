@@ -8,6 +8,6 @@ import kotlin.reflect.KClass
 fun ISocketClient.capabilities(vararg classes: KClass<out CorePackage>) = registerCapabilities(*classes.map {
     Capability.builder()
         .className(it.java.name)
-        .notification(true)
+        .notification(false)
         .build()
 }.toTypedArray())

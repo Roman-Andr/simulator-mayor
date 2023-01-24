@@ -1,5 +1,6 @@
 package me.slavita.construction.storage
 
+import com.google.gson.*
 import me.func.mod.Anime
 import me.func.world.Box
 import me.slavita.construction.action.command.menu.city.StorageMenu
@@ -8,6 +9,7 @@ import me.slavita.construction.utils.accept
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.ChatColor.GOLD
 import org.bukkit.inventory.ItemStack
+import java.lang.reflect.Type
 
 class BlocksStorage(val owner: User) {
     val blocks = hashMapOf<ItemProperties, Int>()
@@ -23,7 +25,7 @@ class BlocksStorage(val owner: User) {
     val nextLimit: Int
         get() = limit + 100 * (level + 1)
     val itemsCount: Int
-        get() = blocks.values.sumOf { it.getAmount() }
+        get() = blocks.values.sumOf { it }
     val upgradePrice: Long
         get() = level * 1000L
 
@@ -58,7 +60,8 @@ class BlocksStorage(val owner: User) {
 
         val itemProperties = ItemProperties(itemStack)
         blocks.getOrPut(itemProperties) { 0 }
-        blocks[itemProperties] = blocks[itemProperties]!!.plus(amount)
+        blocks[itemProperties] = blocks[itemProperties]!!.plus(amountToAdd)
+        return returnedAmount
     }
 
     fun hasSpace(amount: Int): Boolean {
@@ -93,13 +96,14 @@ class BlocksStorageSerializer : JsonSerializer<BlocksStorage> {
 }
 
 class BlocksStorageDeserializer(val owner: User) : JsonDeserializer<BlocksStorage> {
-    override fun deserialize(json: JsonElement, type: Type, context: JsonDeserializationContext) = json.asJsonArray.run {
-        val storage = BlocksStorage(owner)
-        forEach {
-            it.asJsonObject.run {
-                storage.blocks[context.deserialize(get("item"), ItemProperties::class.java)] = get("amount").asInt
+    override fun deserialize(json: JsonElement, type: Type, context: JsonDeserializationContext) =
+        json.asJsonArray.run {
+            val storage = BlocksStorage(owner)
+            forEach {
+                it.asJsonObject.run {
+                    storage.blocks[context.deserialize(get("item"), ItemProperties::class.java)] = get("amount").asInt
+                }
             }
+            storage
         }
-        storage
-    }
 }

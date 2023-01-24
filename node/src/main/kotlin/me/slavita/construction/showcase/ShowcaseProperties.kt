@@ -1,7 +1,7 @@
 package me.slavita.construction.showcase
 
 import me.slavita.construction.common.utils.TimeFormatter
-import me.slavita.construction.world.ItemProperties
+import kotlin.random.Random
 
 class ShowcaseProperties(val id: Int, val name: String, var elements: HashSet<ShowcaseProduct>) {
     val updateTime

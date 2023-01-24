@@ -3,11 +3,8 @@ package me.slavita.construction.listener
 import me.slavita.construction.ui.HumanizableValues.BLOCK
 import me.slavita.construction.utils.*
 import me.slavita.construction.utils.language.LanguageHelper
-import me.slavita.construction.utils.listener
-import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.GOLD
 import org.bukkit.Material
-import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerMoveEvent
 import java.util.*
@@ -28,12 +25,12 @@ object OnActions {
                 return@listener
             }
 
-            if (!user.blocksStorage.inBox()) {
+            if (!user.data.blocksStorage.inBox()) {
                 isCancelled = true
                 return@listener
             }
 
-            val toAdd = user.blocksStorage.addItem(drop.itemStack)
+            val toAdd = user.data.blocksStorage.addItem(drop.itemStack)
             val depositBlocks = drop.itemStack.getAmount() - toAdd
             if (depositBlocks > 0) {
                 player.accept(
@@ -54,9 +51,10 @@ object OnActions {
             drop.remove()
         }
 
-        listener<PlayerMoveEvent> {isCancelled = true
+        listener<PlayerMoveEvent> {
             if (player.userOrNull == null) isCancelled = true
-            else if (player.user.currentFreelance != null && !player.user.freelanceCell.box.contains(to)) isCancelled = true
+            else if (player.user.currentFreelance != null && !player.user.freelanceCell.box.contains(to)) isCancelled =
+                true
             else player.user.updatePosition()
         }
     }

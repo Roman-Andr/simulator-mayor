@@ -7,7 +7,7 @@ object DailyRewardsPrepare : IPrepare {
     private const val DAY = 24 * 60 * 60 * 1000
 
     override fun prepare(user: User) {
-        user.data.statistics.apply {
+        user.data.apply {
             val now = System.currentTimeMillis()
             if (nextTakeDailyReward > now) return
             if (nextDay == 7) nextDay = 0

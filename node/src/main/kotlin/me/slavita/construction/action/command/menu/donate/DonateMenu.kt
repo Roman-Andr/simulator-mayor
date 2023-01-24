@@ -8,6 +8,7 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.DONATE_INFO
+import me.slavita.construction.utils.click
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 

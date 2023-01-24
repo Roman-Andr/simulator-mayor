@@ -13,9 +13,9 @@ object Icons {
         material: Material = Material.CLAY_BALL,
     ): ItemStack {
         return ItemBuilder(material)
-                    .nbt(key, value)
-                    .apply {
-                        if (enchanted) enchant(Enchantment.LUCK, 1)
+            .nbt(key, value)
+            .apply {
+                if (enchanted) enchant(Enchantment.LUCK, 1)
             }
             .build()
     }

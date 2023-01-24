@@ -3,20 +3,20 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":protocol"))
+
     compileOnly("ru.cristalix.core:microservice:1.0.12-3")
     compileOnly("me.func:service-api:2.0.0-SNAPSHOT")
 
-    implementation(project(":protocol"))
+    implementation("org.mongodb:mongodb-driver-async:3.12.11")
+    implementation("org.mongodb:mongodb-driver:3.12.11")
 
-    implementation('org.mongodb:mongodb-driver-async:3.12.11')
-    implementation('org.mongodb:mongodb-driver:3.12.11')
-
-    implementation('org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.4')
-    implementation('io.netty:netty-all:4.1.86.Final')
-    implementation('com.google.code.gson:gson:2.10.1')
+    implementation("io.netty:netty-all:4.1.86.Final")
+    implementation("com.google.code.gson:gson:2.10.1")
     implementation("it.unimi.dsi:fastutil:8.5.11")
-    implementation('com.google.guava:guava:23.0')
+    implementation("com.google.guava:guava:23.0")
 
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.4")
 }
 
 remotes {
@@ -48,6 +48,10 @@ task upload {
         ssh.run {
             session(remotes.webServer) {
                 put from: project(":service").tasks.shadowJar.getArchiveFile().get().asFile.path, into: "/home/" + System.getenv("CRI_HOST_USERNAME") + "/construction/service/"
+                execute('ps -eo pid | while read line; do pwdx \$line 2> /dev/null; done | grep "' +
+                        'home/' + System.getenv("CRI_HOST_USERNAME") + '/construction/service"' +
+                        ' | cut -d\':\' -f1 | while read line; do kill \$line; done;')
+                execute("cd construction/service;./start.sh")
             }
         }
     }

@@ -1,9 +1,9 @@
 package me.slavita.construction.listener
 
-import me.func.mod.util.after
 import me.slavita.construction.app
-import me.slavita.construction.prepare.*
-import me.slavita.construction.utils.*
+import me.slavita.construction.utils.coroutine
+import me.slavita.construction.utils.listener
+import me.slavita.construction.utils.nextTick
 import org.bukkit.event.EventPriority
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent
 import org.bukkit.event.player.PlayerJoinEvent

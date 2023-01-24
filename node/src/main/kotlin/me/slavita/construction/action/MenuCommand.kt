@@ -22,19 +22,4 @@ abstract class MenuCommand(override val user: User, cooldown: Long = 1) : Cooldo
         this.close = false
         return this
     }
-
-    fun getBaseSelection(info: MenuInfo): Selection =
-        selection {
-            title = info.title
-            vault = info.type.vault
-            rows = info.rows
-            columns = info.columns
-            money = "Ваш ${info.type.title} ${
-                when (info.type) {
-                    StatsType.MONEY  -> player.user.data.money.toMoney()
-                    StatsType.LEVEL  -> player.user.data.level
-                    StatsType.CREDIT -> Bank.playersData[player.uniqueId]!!.sumOf { it.creditValue }.toMoney()
-                }
-            }"
-        }
 }

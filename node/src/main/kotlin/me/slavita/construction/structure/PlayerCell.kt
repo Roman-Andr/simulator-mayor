@@ -39,7 +39,8 @@ class PlayerCellSerializer : JsonSerializer<PlayerCell> {
 }
 
 class PlayerCellDeserializer(val city: City) : JsonDeserializer<PlayerCell> {
-    override fun deserialize(json: JsonElement, type: Type, context: JsonDeserializationContext) = json.asJsonObject.run {
-        PlayerCell(city, app.mainWorld.cells[get("cellId").asInt], get("busy").asBoolean)
-    }
+    override fun deserialize(json: JsonElement, type: Type, context: JsonDeserializationContext) =
+        json.asJsonObject.run {
+            PlayerCell(city, app.mainWorld.cells[get("cellId").asInt], get("busy").asBoolean)
+        }
 }

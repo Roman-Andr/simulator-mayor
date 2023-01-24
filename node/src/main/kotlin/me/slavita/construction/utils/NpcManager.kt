@@ -4,16 +4,15 @@ import me.func.atlas.Atlas
 import me.func.mod.world.Npc
 import me.func.mod.world.Npc.location
 import me.func.mod.world.Npc.onClick
-import me.slavita.construction.utils.*
 import me.func.mod.world.Npc.skin
 import me.func.protocol.world.npc.NpcBehaviour
 import me.slavita.construction.action.command.menu.bank.BankMainMenu
 import me.slavita.construction.action.command.menu.city.LocationsMenu
+import me.slavita.construction.action.command.menu.city.StorageMenu
 import me.slavita.construction.action.command.menu.general.ControlPanelMenu
 import me.slavita.construction.action.command.menu.general.DailyMenu
 import me.slavita.construction.action.command.menu.general.GuideDialog
 import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
-import me.slavita.construction.action.command.menu.city.StorageMenu
 import me.slavita.construction.action.command.menu.worker.WorkerMenu
 import me.slavita.construction.ui.menu.Icons
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack
@@ -25,6 +24,7 @@ object NpcManager {
 
     init {
         Atlas.find("npc").getMapList("npc").forEach { values ->
+            println("loaded npc")
             val labelTag = values["labelTag"] as String
             val skinType = values["skinType"] as String
             val skin = values["skin"] as String

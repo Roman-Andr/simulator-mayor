@@ -3,12 +3,15 @@ package me.slavita.construction.world
 import me.func.MetaWorld
 import me.func.builder.MetaSubscriber
 import me.func.mod.reactive.ReactivePlace
-import me.func.mod.util.after
 import me.func.unit.Building
 import me.func.world.WorldMeta
 import me.slavita.construction.app
 import me.slavita.construction.common.utils.V2i
+import me.slavita.construction.showcase.Showcases
 import me.slavita.construction.structure.Cell
+import me.slavita.construction.ui.Leaderboards
+import me.slavita.construction.ui.SpeedPlaces
+import me.slavita.construction.utils.label
 import me.slavita.construction.utils.labels
 import org.bukkit.Location
 import org.bukkit.entity.Player
@@ -17,7 +20,7 @@ import java.util.*
 class GameWorld(val map: WorldMeta) {
     val glows = hashSetOf<ReactivePlace>()
     val cells = arrayListOf<Cell>()
-    lateinit var freelanceCell: Cell
+    var freelanceCell: Cell
     val emptyBlock = StructureBlock(map.world.getBlockAt(0, 0, 0))
     private val blocks = hashMapOf<UUID, HashMap<V2i, HashSet<StructureBlock>>>()
 

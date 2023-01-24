@@ -10,7 +10,6 @@ import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.ui.HumanizableValues.LOOTBOX
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.*
-import me.slavita.construction.utils.PlayerExtensions.deny
 import me.slavita.construction.worker.WorkerGenerator
 import me.slavita.construction.worker.WorkerRarity
 import org.bukkit.ChatColor.AQUA

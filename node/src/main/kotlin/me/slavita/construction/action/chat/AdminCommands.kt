@@ -10,7 +10,6 @@ import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.command.menu.general.DailyMenu
 import me.slavita.construction.bank.Bank
 import me.slavita.construction.player.Data
-import me.slavita.construction.player.Statistics
 import me.slavita.construction.player.Tags
 import me.slavita.construction.prepare.GuidePrepare
 import me.slavita.construction.prepare.TagsPrepare
@@ -131,7 +130,7 @@ object AdminCommands {
                 .send(player)
         }
 
-        opCommand("achievement") { player, _ ->
+        opCommand("achievement") { _, _ ->
             repeat(49) {
                 println(AchievementType.PROJECTS.formula(it + 1))
             }

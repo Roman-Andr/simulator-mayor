@@ -41,7 +41,7 @@ object CityGlows {
         color: RGB,
         onEnter: (player: Player) -> Unit,
         onLeave: (player: Player) -> Unit = {},
-        radius: Double = 2.0
+        radius: Double = 2.0,
     ) {
         labels(labelName).forEach { label ->
             Atlas.find("city").getMapList(labelName).forEach { banner ->

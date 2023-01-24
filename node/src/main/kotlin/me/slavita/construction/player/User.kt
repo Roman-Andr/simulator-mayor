@@ -1,25 +1,27 @@
 package me.slavita.construction.player
 
+import com.google.gson.GsonBuilder
 import me.func.mod.conversation.ModTransfer
 import me.slavita.construction.action.command.menu.city.BuyCityConfirm
 import me.slavita.construction.action.command.menu.city.ShowcaseMenu
 import me.slavita.construction.action.command.menu.project.ChoiceProject
 import me.slavita.construction.action.command.menu.project.ChoiceStructureGroup
-import me.slavita.construction.app
-import me.slavita.construction.booster.BoosterType
 import me.slavita.construction.dontate.Abilities
 import me.slavita.construction.listener.OnActions
 import me.slavita.construction.prepare.StoragePrepare
+import me.slavita.construction.project.FreelanceProject
 import me.slavita.construction.project.Project
+import me.slavita.construction.showcase.Showcase
+import me.slavita.construction.showcase.Showcases
 import me.slavita.construction.storage.BlocksStorage
+import me.slavita.construction.storage.BlocksStorageDeserializer
+import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.structure.tools.StructureState
-import me.slavita.construction.ui.Formatter.applyBoosters
-import me.slavita.construction.utils.PlayerExtensions.deny
-import me.slavita.construction.utils.runAsync
-import me.slavita.construction.utils.scheduler
-import me.slavita.construction.utils.user
-import org.bukkit.entity.Player
+import me.slavita.construction.utils.*
+import org.bukkit.Bukkit
+import org.bukkit.ChatColor.GOLD
+import org.bukkit.Location
 import ru.cristalix.core.invoice.IInvoiceService
 import java.util.*
 
@@ -30,6 +32,7 @@ class User(val uuid: UUID) {
     val showcases: HashSet<Showcase> = Showcases.showcases.map { Showcase(it) }.toHashSet()
     private var criBalanceLastUpdate = 0L
     var inTrashZone = false
+    var showcaseMenu: ShowcaseMenu? = null
 
     lateinit var data: Data
     lateinit var currentCity: City
@@ -40,6 +43,8 @@ class User(val uuid: UUID) {
             data.hasFreelance = value != null
             field = value
         }
+    var showcaseMenuTaskId = 0
+    private var lastApprovedPosition: Location? = null
 
     var criBalance: Int = 0
         get() {
@@ -73,7 +78,7 @@ class User(val uuid: UUID) {
                 this@User.income -= income
                 data.hall.level++
                 this@User.income += income
-                player.accept("Вы успешно улучшили ${ChatColor.GOLD}Мэрию")
+                player.accept("Вы успешно улучшили ${GOLD}Мэрию")
             }
         }
     }
@@ -145,7 +150,7 @@ class User(val uuid: UUID) {
         }
 
         currentCity.cityStructures.forEach {
-            if (it.playerCell.box.contains(player.location) && it.state == CityStructureState.BROKEN) {
+            if (it.cell.box.contains(player.location) && it.state == CityStructureState.BROKEN) {
                 it.repair()
             }
         }
@@ -178,7 +183,7 @@ class User(val uuid: UUID) {
             currentCity.playerCells.forEach { cell ->
                 if (cell.busy || !cell.box.contains(player.location)) return@forEach
 
-                if (OnActions.inZone[player] == false) ChoiceStructureGroup(player) { structure ->
+                if (OnActions.inZone[player.uniqueId] == false) ChoiceStructureGroup(player) { structure ->
                     ChoiceProject(player, structure, cell).keepHistory().tryExecute()
                 }.tryExecute()
                 OnActions.inZone[player.uniqueId] = true
@@ -205,7 +210,7 @@ class User(val uuid: UUID) {
 
     fun updateDaily() {
         val time = System.currentTimeMillis()
-        data.statistics.nextDay++
-        data.statistics.nextTakeDailyReward = time + 24 * 60 * 60 * 1000
+        data.nextDay++
+        data.nextTakeDailyReward = time + 24 * 60 * 60 * 1000
     }
 }

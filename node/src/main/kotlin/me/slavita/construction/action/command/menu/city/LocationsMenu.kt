@@ -12,7 +12,7 @@ import me.slavita.construction.dontate.Donates
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.ui.HumanizableValues.SECOND
 import me.slavita.construction.ui.Texture
-import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.*
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD
@@ -26,7 +26,7 @@ class LocationsMenu(player: Player) : MenuCommand(player) {
                 title = "${AQUA}${BOLD}Телепортация"
                 description = "Перемещение между локациями"
                 info = LOCATIONS_INFO
-                storage = this@uses.data.cities.sortedBy { it.price }.mapM { city ->
+                storage = this@user.data.cities.sortedBy { it.price }.mapM { city ->
                     button {
                         title = city.title
                         if (city.unlocked) {

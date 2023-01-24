@@ -1,6 +1,5 @@
 package me.slavita.construction.project
 
-import me.slavita.construction.app
 import me.slavita.construction.player.User
 import me.slavita.construction.reward.ExperienceReward
 import me.slavita.construction.reward.MoneyReward
@@ -44,11 +43,9 @@ object ProjectGenerator {
     fun generateFreelance(owner: User, structure: Structure): FreelanceProject {
         return FreelanceProject(
             owner.currentCity,
-            owner.data.statistics.totalProjects,
+            owner.data.totalProjects,
             ClientStructure(
-                app.mainWorld,
                 structure,
-                owner,
                 owner.freelanceCell
             ),
             listOf(
@@ -56,6 +53,11 @@ object ProjectGenerator {
                 ExperienceReward(100),
                 ReputationReward(100),
             )
-        )
+        ).apply {
+            this.structure = ClientStructure(
+                structure,
+                owner.freelanceCell
+            )
+        }
     }
 }

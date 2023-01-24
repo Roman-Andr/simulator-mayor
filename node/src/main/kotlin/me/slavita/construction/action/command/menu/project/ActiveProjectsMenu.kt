@@ -6,9 +6,10 @@ import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.ui.menu.Icons
-import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
-import me.slavita.construction.utils.*
+import me.slavita.construction.utils.PROJECTS_INFO
+import me.slavita.construction.utils.getBaseSelection
+import me.slavita.construction.utils.mapM
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.entity.Player
@@ -16,10 +17,7 @@ import org.bukkit.entity.Player
 class ActiveProjectsMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         user.run {
-            return getBaseSelection(
-                MenuInfo("${AQUA}${BOLD}Ваши активные проекты", StatsType.MONEY, 4, 5),
-                user
-            ).apply {
+            return getBaseSelection(user, "${AQUA}${BOLD}Ваши активные проекты", StatsType.MONEY, 4, 5).apply {
                 hint = ""
                 info = PROJECTS_INFO
                 storage = this@run.data.cities.flatMap { it.projects }.mapM {
@@ -34,7 +32,8 @@ class ActiveProjectsMenu(player: Player) : MenuCommand(player) {
                         button {
                             item = Icons.get("alpha", "home1")
                             title = "Здание ${it.structure.name}"
-                            backgroundColor = if (it.state == CityStructureState.BROKEN) GlowColor.RED else GlowColor.BLUE
+                            backgroundColor =
+                                if (it.state == CityStructureState.BROKEN) GlowColor.RED else GlowColor.BLUE
                             hover = it.toString()
                             hint = " "
                         }

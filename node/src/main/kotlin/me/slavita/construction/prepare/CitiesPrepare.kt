@@ -1,8 +1,8 @@
 package me.slavita.construction.prepare
 
-import me.func.atlas.Atlas
-import me.slavita.construction.player.City
+import me.slavita.construction.app
 import me.slavita.construction.player.User
+import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.utils.runAsync
 
 object CitiesPrepare : IPrepare {

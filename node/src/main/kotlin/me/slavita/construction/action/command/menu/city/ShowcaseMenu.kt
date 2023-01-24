@@ -41,12 +41,12 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player)
     }
 
     private fun getMoney() = """
-        ${GREEN}Обновление цен через: ${GOLD}${showcase.updateTime}     Ваш Баланс ${user.data.statistics.money.toMoney()}
+        ${GREEN}Обновление цен через: ${GOLD}${showcase.updateTime}     Ваш Баланс ${user.data.money.toMoney()}
     """.trimIndent()
 
     private fun buyBlocks(user: User, amount: Int, entry: ShowcaseProduct, selection: Selection) {
         val hasSpace = user.player.inventory.firstEmpty() != -1
-        if (!hasSpace && !user.blocksStorage.hasSpace(amount)) {
+        if (!hasSpace && !user.data.blocksStorage.hasSpace(amount)) {
             user.player.deny("Нехватает места на складе!")
             Anime.close(user.player)
             return
@@ -54,7 +54,7 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player)
         user.tryPurchase(entry.price * amount) {
             user.player.accept("Вы успешно купили блоки")
             if (hasSpace) user.player.inventory.addItem(entry.item.createItemStack(amount))
-            else user.blocksStorage.addItem(entry.item.createItemStack(1), amount)
+            else user.data.blocksStorage.addItem(entry.item.createItemStack(1), amount)
             Glow.animate(user.player, 0.3, GlowColor.GREEN)
             selection.money = getMoney()
         }
@@ -75,10 +75,10 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player)
                     ${AQUA}Купить 64 шт за ${entry.price * 64} [ПКМ]
                     
                     На складе: ${BOLD}${
-                    user.blocksStorage.blocks.getOrDefault(
+                    user.data.blocksStorage.blocks.getOrDefault(
                         entry.item,
                         entry.item.createItemStack(0)
-                    ).getAmount()
+                    )
                 }
                 """.trimIndent()
                 hint = (if (user.canPurchase(entry.price * 8)) "$WHITE" else "$RED") + " "

@@ -3,13 +3,12 @@ package me.slavita.construction.utils
 import me.func.atlas.Atlas
 
 object Config {
-    fun load(after: () -> Unit) {
+    fun load(action: () -> Unit) {
         var loaded = 0
         val configs = listOf(
             "worker",
             "npc",
             "bank",
-            "boards",
             "dialogs",
             "showcases",
             "locations",
@@ -23,7 +22,8 @@ object Config {
                 log("Loaded config ${it.fileName}")
                 loaded++
                 if (loaded == configs.size) {
-                    after()
+                    println("loaded")
+                    action()
                 }
             }
         }

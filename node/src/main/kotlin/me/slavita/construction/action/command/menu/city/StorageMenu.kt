@@ -12,10 +12,9 @@ import me.slavita.construction.utils.language.LanguageHelper
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemStack
 
 class StorageMenu(player: Player) : MenuCommand(player) {
-    private val blocksStorage = player.user.blocksStorage
+    private val blocksStorage = player.user.data.blocksStorage
     private var selection = Selection()
 
     override fun getMenu(): Openable {
@@ -34,7 +33,7 @@ class StorageMenu(player: Player) : MenuCommand(player) {
                         removeItems(64, entry, this)
                     }
                     onRightClick { _, _, _ ->
-                        removeItems(entry.value.amount, entry, this)
+                        removeItems(entry.value, entry, this)
                     }
                 }
             }
@@ -43,23 +42,23 @@ class StorageMenu(player: Player) : MenuCommand(player) {
         return selection
     }
 
-    private fun getFreeSpace() = "Свободно ${blocksStorage.itemsCount} из ${blocksStorage.limit} блоков"
+    private fun getFreeSpace() = "Занято ${blocksStorage.itemsCount} из ${blocksStorage.limit} блоков"
 
-    private fun getHover(entry: Map.Entry<ItemProperties, ItemStack>) = """
+    private fun getHover(entry: Map.Entry<ItemProperties, Int>) = """
         ${GREEN}${LanguageHelper.getItemDisplayName(entry.key.createItemStack(1), user.player)}
-        ${AQUA}На складе: ${BOLD}${entry.value.amount} шт
+        ${AQUA}На складе: ${BOLD}${entry.value} шт
         
-        ${GOLD}Взять [ЛКМ] ${BOLD}${if (entry.value.amount >= 64) 64 else entry.value.amount} шт
-        ${GOLD}Взять [ПКМ] ${BOLD}Всё - ${entry.value.amount} шт
+        ${GOLD}Взять [ЛКМ] ${BOLD}${if (entry.value >= 64) 64 else entry.value} шт
+        ${GOLD}Взять [ПКМ] ${BOLD}Всё - ${entry.value} шт
     """.trimIndent()
 
-    private fun removeItems(amount: Int, entry: Map.Entry<ItemProperties, ItemStack>, button: ReactiveButton) {
+    private fun removeItems(amount: Int, entry: Map.Entry<ItemProperties, Int>, button: ReactiveButton) {
         if (user.player.inventory.firstEmpty() == -1) {
             user.player.deny("Нет места в инвентаре")
             Anime.close(user.player)
             return
         }
-        blocksStorage.removeItem(entry.value, amount).apply {
+        blocksStorage.removeItem(entry.key, amount).apply {
             user.player.inventory.addItem(entry.key.createItemStack(this.first))
             if (this.second) StorageMenu(user.player).tryExecute() else {
                 button.hover = getHover(entry)

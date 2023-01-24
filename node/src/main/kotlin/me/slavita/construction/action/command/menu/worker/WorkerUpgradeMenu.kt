@@ -10,6 +10,7 @@ import me.slavita.construction.action.command.UpgradeWorker
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.WORKER_INFO
+import me.slavita.construction.utils.click
 import me.slavita.construction.worker.Worker
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
@@ -47,7 +48,7 @@ class WorkerUpgradeMenu(player: Player, val worker: Worker) : MenuCommand(player
                         hover = getSellHover()
                         hint = "Продать"
                         backgroundColor = GlowColor.RED
-                        onClick { _, _, button ->
+                        click { _, _, button ->
                             WorkerSellConfirm(player, worker).tryExecute()
                             button.hover = getSellHover()
                             infoButton.hover = worker.toString()

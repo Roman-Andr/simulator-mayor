@@ -7,7 +7,7 @@ dependencies {
     implementation(project(":protocol"))
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.4")
-    implementation('org.jetbrains.kotlin:kotlin-reflect:1.7.22')
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.8.0")
 
     compileOnly("ru.cristalix.core:bukkit-api:1.0.18.15-TEST")
     implementation("ru.cristalix:boards-bukkit-api:3.0.16")
@@ -32,6 +32,10 @@ dependencies {
     implementation("me.func:lock-service-protocol:1.1.0.RELEASE")
 
     implementation("com.github.kotlin-telegram-bot.kotlin-telegram-bot:telegram:6.0.7")
+    implementation("net.dv8tion:JDA:5.0.0-beta.3")
+    implementation("com.petersamokhin.vksdk:core:0.0.8")
+    implementation("com.petersamokhin.vksdk:http-client-jvm-okhttp:0.0.8")
+    implementation("org.slf4j:slf4j-log4j12:2.0.5")
 }
 
 tasks {
@@ -67,30 +71,25 @@ task config() {
     }
 }
 
-task upload() {
-    dependsOn(tasks.build)
-//    dependsOn(project(":mod").tasks.upload)
-//    dependsOn(tasks.config)
-    doLast {
-        ssh.run {
-            session(remotes.webServer) {
-                put from: project(":node").tasks.jar.getArchiveFile().get().asFile.path, into: "/home/" + System.getenv("CRI_HOST_USERNAME") + "/construction/plugins/"
-                execute("pkill -u " + System.getenv("CRI_HOST_USERNAME") + " java;cd construction;./start.sh")
-            }
-        }
-    }
-}
-
 task uploadNodeOnly() {
     dependsOn(tasks.build)
     doLast {
         ssh.run {
             session(remotes.webServer) {
-                put from: project(":node").tasks.jar.getArchiveFile().get().asFile.path, into: "/home/" + System.getenv("CRI_HOST_USERNAME") + "/construction/plugins/"
-                execute("pkill -u " + System.getenv("CRI_HOST_USERNAME") + " java;cd construction;./start.sh")
+                put from: project(":node").tasks.jar.getArchiveFile().get().asFile.path, into: "/home/" + System.getenv("CRI_HOST_USERNAME") + "/construction/server/plugins/"
+                execute('ps -eo pid | while read line; do pwdx \$line 2> /dev/null; done | grep "' +
+                        'home/' + System.getenv("CRI_HOST_USERNAME") + '/construction/server"' +
+                        ' | cut -d\':\' -f1 | while read line; do kill \$line; done;')
+                execute("cd construction/server;./start.sh")
             }
         }
     }
+}
+
+task upload() {
+    dependsOn(project(":mod").tasks.upload)
+    dependsOn(tasks.config)
+    dependsOn(tasks.uploadNodeOnly)
 }
 
 afterEvaluate {

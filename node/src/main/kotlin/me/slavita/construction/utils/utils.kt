@@ -7,14 +7,12 @@ import dev.implario.bukkit.platform.Platforms
 import io.netty.channel.ChannelDuplexHandler
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelPromise
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import me.func.mod.Anime
-import me.func.mod.reactive.ReactiveBanner
-import me.func.mod.ui.Glow
 import me.func.mod.reactive.ButtonClickHandler
+import me.func.mod.reactive.ReactiveBanner
 import me.func.mod.reactive.ReactiveButton
+import me.func.mod.ui.Glow
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection
 import me.func.mod.ui.menu.selection.Selection
@@ -32,10 +30,14 @@ import me.slavita.construction.app
 import me.slavita.construction.bank.Bank
 import me.slavita.construction.dontate.Donates
 import me.slavita.construction.player.User
+import me.slavita.construction.player.sound.MusicSound
+import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.Formatter.toMoney
-import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
+import me.slavita.construction.utils.BotsManager.ds
+import me.slavita.construction.utils.BotsManager.tg
+import me.slavita.construction.utils.BotsManager.vk
 import net.minecraft.server.v1_12_R1.*
 import org.apache.logging.log4j.util.BiConsumer
 import org.bukkit.*
@@ -58,16 +60,19 @@ import org.bukkit.util.Vector
 import ru.cristalix.core.account.IAccountService
 import ru.cristalix.core.formatting.Formatting
 import ru.cristalix.core.math.V3
+import ru.cristalix.core.network.ISocketClient
 import ru.cristalix.core.permissions.IPermissionContext
 import ru.cristalix.core.permissions.IPermissionService
-import ru.cristalix.core.network.ISocketClient
 import ru.cristalix.core.realm.IRealmService
 import java.util.*
 import kotlin.reflect.KClass
 
-val socket = ISocketClient.get()
+val socket: ISocketClient
+    get() = ISocketClient.get()
 
 val STORAGE_URL = "https://storage.c7x.dev/${System.getenv("STORAGE_USER")}/construction"
+
+val SOUND_URL = "${STORAGE_URL}/sound/"
 
 val Player.user
     get() = app.getUser(this)
@@ -115,6 +120,10 @@ fun Player.accept(text: String) {
     killboard(Formatting.fine(text))
     playSound(MusicSound.LEVEL_UP)
     Glow.animate(this, 0.4, GlowColor.GREEN)
+}
+
+fun Player.playSound(sound: MusicSound) {
+    sound.playSound(this)
 }
 
 fun Player.sendPacket(packet: Packet<*>) {
@@ -233,7 +242,16 @@ fun logFormat(message: String) = "[${IRealmService.get().currentRealmInfo.realmI
 
 fun log(message: String) = println(logFormat(message))
 
-fun logTg(message: String) = app.bot.sendMessage(ChatId.fromId(app.chatId), logFormat(message))
+fun logTg(text: String) = tg.sendMessage(ChatId.fromId(app.chatId), logFormat(text))
+
+fun logVk(text: String) = runBlocking {
+    vk.sendMessage {
+        peerId = 461119507
+        message = logFormat(text)
+    }.execute()
+}
+
+fun logDs(text: String) = ds.getTextChannelById("1067160732669595850")!!.sendMessage(logFormat(text)).queue()
 
 val routine: EventContext = EventContext { true }.fork()
 
@@ -245,6 +263,9 @@ fun runTimer(start: Long, every: Long, runnable: Runnable): Int =
 
 fun runAsync(after: Long, runnable: Runnable): BukkitTask =
     scheduler.runTaskLaterAsynchronously(app, runnable, after)
+
+fun runAsync(runnable: Runnable): BukkitTask =
+    scheduler.runTaskLaterAsynchronously(app, runnable, 0)
 
 fun donateButton(donate: Donates, player: Player) = button {
     item = donate.displayItem
@@ -301,16 +322,22 @@ fun Banners.hide(player: Player, pair: Pair<Banner, Banner>) {
 
 fun String.toUUID(): UUID = UUID.fromString(this)
 
-fun getBaseSelection(info: MenuInfo, user: User): Selection =
+fun getBaseSelection(
+    user: User,
+    title: String,
+    type: StatsType,
+    rows: Int,
+    columns: Int,
+): Selection =
     selection {
-        title = info.title
-        vault = info.type.vault
-        rows = info.rows
-        columns = info.columns
-        money = "Ваш ${info.type.title} ${
-            when (info.type) {
-                StatsType.MONEY  -> user.data.statistics.money.toMoney()
-                StatsType.LEVEL  -> user.data.statistics.level
+        this.title = title
+        vault = type.vault
+        this.rows = rows
+        this.columns = columns
+        money = "Ваш ${type.title} ${
+            when (type) {
+                StatsType.MONEY  -> user.data.money.toMoney()
+                StatsType.LEVEL  -> user.data.level
                 StatsType.CREDIT -> Bank.playersData[user.player.uniqueId]!!.sumOf { it.creditValue }.toMoney()
             }
         }"

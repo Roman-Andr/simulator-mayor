@@ -1,16 +1,16 @@
 package me.slavita.construction.project
 
+import com.google.gson.*
 import me.slavita.construction.player.City
-import me.slavita.construction.player.sound.Music.playSound
 import me.slavita.construction.player.sound.MusicSound
 import me.slavita.construction.reward.Reward
 import me.slavita.construction.structure.BuildingStructure
+import me.slavita.construction.structure.BuildingStructureDeserializer
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.structure.tools.StructureState
-import org.bukkit.ChatColor.*
-import me.slavita.construction.ui.Formatter.toLevel
-import me.slavita.construction.ui.HumanizableValues
-import org.bukkit.ChatColor
+import me.slavita.construction.utils.playSound
+import org.bukkit.ChatColor.AQUA
+import java.lang.reflect.Type
 
 open class Project(
     val city: City,
@@ -88,15 +88,16 @@ class ProjectSerializer : JsonSerializer<Project> {
 }
 
 class ProjectDeserializer(val city: City) : JsonDeserializer<Project> {
-    override fun deserialize(json: JsonElement, type: Type, context: JsonDeserializationContext) = json.asJsonObject.run {
-        val project = Project(city, get("id").asInt, context.deserialize(get("rewards"), List::class.java))
+    override fun deserialize(json: JsonElement, type: Type, context: JsonDeserializationContext) =
+        json.asJsonObject.run {
+            val project = Project(city, get("id").asInt, context.deserialize(get("rewards"), List::class.java))
 
-        val gson = GsonBuilder()
-            .registerTypeAdapter(BuildingStructure::class.java, BuildingStructureDeserializer(project))
-            .create()
+            val gson = GsonBuilder()
+                .registerTypeAdapter(BuildingStructure::class.java, BuildingStructureDeserializer(project))
+                .create()
 
-        project.structure = gson.fromJson(get("structure"), BuildingStructure::class.java)
+            project.structure = gson.fromJson(get("structure"), BuildingStructure::class.java)
 
-        project
-    }
+            project
+        }
 }

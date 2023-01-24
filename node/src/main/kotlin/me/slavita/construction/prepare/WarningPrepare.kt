@@ -8,7 +8,7 @@ object WarningPrepare : IPrepare {
         user.data.run {
             if (hasFreelance) {
                 hasFreelance = false
-                if (statistics.reputation >= 100) statistics.reputation -= 100 else statistics.reputation = 0.0
+                if (reputation >= 100) reputation -= 100 else reputation = 0L
                 user.player.deny("Вы вышли во время фриланс заказа. Штраф: 100 репутации")
             }
         }
