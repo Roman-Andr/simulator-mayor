@@ -1,0 +1,1100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="1548.0" y="1815.0">me.slavita.construction.structure.tools.StructureVisual</node>
+    <node x="1811.0" y="55.0">me.slavita.construction.booster.format.ReputationFormatter</node>
+    <node x="133.0" y="1546.0">me.slavita.construction.world.StructureBlock</node>
+    <node x="658.0" y="55.0">me.slavita.construction.prepare.TabPrepare</node>
+    <node x="287.0" y="432.0">me.slavita.construction.action.command.menu.project.ChoiceStructureGroup</node>
+    <node x="1437.0" y="1276.0">me.slavita.construction.mod.storage.StorageData</node>
+    <node x="1588.0" y="413.0">me.slavita.construction.mod.bank.CreditTaking</node>
+    <node x="1346.0" y="1815.0">me.slavita.construction.utils.language.ItemEntry</node>
+    <node x="172.0" y="1475.0">me.slavita.construction.world.ItemProperties</node>
+    <node x="370.0" y="1047.0">me.slavita.construction.action.command.UpgradeWorker</node>
+    <node x="-107.0" y="208.0">me.slavita.construction.action.command.ChangeCity</node>
+    <node x="581.0" y="1317.0">me.slavita.construction.dontate.MoneyDonate</node>
+    <node x="1112.0" y="1967.0">me.slavita.construction.mod.Resources</node>
+    <node x="524.0" y="2043.0">me.slavita.construction.dontate.Donates</node>
+    <node x="1710.0" y="1276.0">me.slavita.construction.structure.ClientStructure</node>
+    <node x="1114.0" y="1663.0">me.slavita.construction.mod.utils.extensions.InventoryExtensions</node>
+    <node x="1115.0" y="178.0">me.slavita.construction.listener.OnJoin</node>
+    <node x="676.0" y="2043.0">me.slavita.construction.dontate.Abilities</node>
+    <node x="101.0" y="1815.0">me.slavita.construction.project.ProjectGenerator</node>
+    <node x="144.0" y="1663.0">anime.modbundler.ModBundlerExtension</node>
+    <node x="544.0" y="1235.0">me.slavita.construction.dontate.BoosterPackDonate</node>
+    <node x="1656.0" y="1739.0">me.slavita.construction.worker.WorkerGenerator</node>
+    <node x="1922.0" y="-16.0">me.slavita.construction.booster.format.IFormatter</node>
+    <node x="1546.0" y="1164.0">me.slavita.construction.mod.templates.BoxData</node>
+    <node x="76.0" y="771.0">me.slavita.construction.action.command.menu.donate.DonateMenu</node>
+    <node x="306.0" y="637.0">me.slavita.construction.action.command.menu.bank.RepayCreditConfim</node>
+    <node x="981.0" y="1475.0">anime.modbundler.GenerateModPropertiesTask</node>
+    <node x="1274.0" y="1164.0">me.slavita.construction.reward.Reward</node>
+    <node x="1749.0" y="1815.0">me.slavita.construction.listener.LoadUserEvent</node>
+    <node x="72.0" y="648.0">me.slavita.construction.action.command.menu.city.StorageMenu</node>
+    <node x="870.0" y="1317.0">me.slavita.construction.protocol.GetUserPackage</node>
+    <node x="293.0" y="514.0">me.slavita.construction.action.command.menu.project.BuildingControlMenu</node>
+    <node x="1270.0" y="178.0">me.slavita.construction.ui.ItemsManager</node>
+    <node x="1329.0" y="-16.0">me.slavita.construction.prepare.IRegistrable</node>
+    <node x="-90.0" y="1276.0">me.slavita.construction.city.storage.BlocksStorageDeserializer</node>
+    <node x="1422.0" y="1235.0">me.slavita.construction.mod.showcase.ShowcaseData</node>
+    <node x="1124.0" y="2043.0">me.slavita.construction.worker.Worker</node>
+    <node x="71.0" y="566.0">me.slavita.construction.action.command.menu.project.ChoiceProject</node>
+    <node x="634.0" y="2119.0">me.slavita.construction.world.Box</node>
+    <node x="1529.0" y="167.0">me.slavita.construction.mod.templates.InformationBox</node>
+    <node x="1038.0" y="1891.0">anime.modbundler.GradlePlugin</node>
+    <node x="1224.0" y="1891.0">me.slavita.construction.structure.CityStructure</node>
+    <node x="1843.0" y="301.0">me.slavita.construction.booster.format.EmptyFormatter</node>
+    <node x="754.0" y="2119.0">me.slavita.construction.common.utils.V3i</node>
+    <node x="246.0" y="268.0">me.slavita.construction.action.command.menu.project.WorkersBuildingMenu</node>
+    <node x="53.0" y="197.0">me.slavita.construction.action.command.menu.bank.CreditsListMenu</node>
+    <node x="1417.0" y="2043.0">me.slavita.construction.utils.Config</node>
+    <node x="-40.0" y="1358.0">me.slavita.construction.project.ProjectDeserializer</node>
+    <node x="72.0" y="689.0">me.slavita.construction.action.command.menu.city.CityHallMenu</node>
+    <node x="-113.0" y="1546.0">me.slavita.construction.player.sound.MinecraftSound</node>
+    <node x="1278.0" y="1967.0">me.slavita.construction.utils.language.EnumItem</node>
+    <node x="1300.0" y="506.0">me.slavita.construction.city.CityGlows</node>
+    <node x="1826.0" y="2043.0">me.slavita.construction.city.bank.Bank</node>
+    <node x="320.0" y="842.0">me.slavita.construction.action.command.menu.worker.BuyLootboxMenu</node>
+    <node x="363.0" y="1006.0">me.slavita.construction.action.command.menu.ButtonCommand</node>
+    <node x="1544.0" y="290.0">me.slavita.construction.mod.templates.InputElement</node>
+    <node x="1733.0" y="1164.0">me.slavita.construction.structure.BuildingStructure</node>
+    <node x="276.0" y="1317.0">me.slavita.construction.structure.PlayerCellSerializer</node>
+    <node x="636.0" y="1663.0">me.slavita.construction.structure.tools.StructureProgressBar</node>
+    <node x="112.0" y="1739.0">me.slavita.construction.mod.utils.extensions.PositionExtensions</node>
+    <node x="1506.0" y="126.0">me.slavita.construction.mod.templates.DropdownElement</node>
+    <node x="248.0" y="1967.0">me.slavita.construction.world.GameWorld</node>
+    <node x="1593.0" y="1891.0">me.slavita.construction.mod.SpecialColor</node>
+    <node x="55.0" y="238.0">me.slavita.construction.action.command.menu.project.ChoiceStructure</node>
+    <node x="559.0" y="1739.0">me.slavita.construction.common.utils.NumberFormatter</node>
+    <node x="1836.0" y="219.0">me.slavita.construction.booster.format.IncomeFormatter</node>
+    <node x="325.0" y="1164.0">com.google.gson.JsonSerializer</node>
+    <node x="-113.0" y="1235.0">me.slavita.construction.structure.BuildingStructureDeserializer</node>
+    <node x="1574.0" y="372.0">me.slavita.construction.mod.templates.SwitchElement</node>
+    <node x="513.0" y="2119.0">me.slavita.construction.structure.Cell</node>
+    <node x="305.0" y="596.0">me.slavita.construction.action.command.menu.project.ActiveProjectsMenu</node>
+    <node x="312.0" y="719.0">me.slavita.construction.action.command.menu.worker.WorkerTeamMenu</node>
+    <node x="875.0" y="506.0">me.slavita.construction.prepare.CitiesPrepare</node>
+    <node x="1559.0" y="55.0">ru.cristalix.uiengine.element.CarvedRectangle</node>
+    <node x="395.0" y="1546.0">me.slavita.construction.project.Project</node>
+    <node x="814.0" y="1235.0">me.slavita.construction.protocol.GetLeaderboardPackage</node>
+    <node x="224.0" y="1235.0">me.slavita.construction.structure.BuildingStructureSerializer</node>
+    <node x="268.0" y="2119.0">me.slavita.construction.mod.App</node>
+    <node x="-113.0" y="2043.0">me.slavita.construction.ui.menu.StatsType</node>
+    <node x="834.0" y="260.0">me.slavita.construction.prepare.ConnectionPrepare</node>
+    <node x="781.0" y="1739.0">me.slavita.construction.structure.tools.CityStructureState</node>
+    <node x="601.0" y="1967.0">me.slavita.construction.mod.showcase.Showcases</node>
+    <node x="1271.0" y="2043.0">me.slavita.construction.ui.Texture</node>
+    <node x="290.0" y="473.0">me.slavita.construction.action.command.menu.worker.WorkerUpgradeMenu</node>
+    <node x="1103.0" y="55.0">me.slavita.construction.listener.OnLeave</node>
+    <node x="-113.0" y="1891.0">me.slavita.construction.common.utils.TimeFormatter</node>
+    <node x="869.0" y="424.0">me.slavita.construction.prepare.AbilityPrepare</node>
+    <node x="488.0" y="-16.0">me.slavita.construction.action.Command</node>
+    <node x="85.0" y="1891.0">me.slavita.construction.structure.tools.StructureState</node>
+    <node x="68.0" y="1967.0">me.slavita.construction.mod.utils.ColorPalette</node>
+    <node x="305.0" y="555.0">me.slavita.construction.action.command.menu.achievements.AchievementsMenu</node>
+    <node x="1813.0" y="96.0">me.slavita.construction.booster.format.ExperienceFormatter</node>
+    <node x="176.0" y="1587.0">me.slavita.construction.world.SlotItem</node>
+    <node x="1283.0" y="342.0">me.slavita.construction.listener.OnUserLoad</node>
+    <node x="1948.0" y="1815.0">me.slavita.construction.ui.ActionableItem</node>
+    <node x="787.0" y="1475.0">me.slavita.construction.utils.EmptyListener</node>
+    <node x="1158.0" y="1235.0">me.slavita.construction.reward.ReputationReward</node>
+    <node x="817.0" y="55.0">me.slavita.construction.prepare.ItemCallbacksPrepare</node>
+    <node x="70.0" y="525.0">me.slavita.construction.action.command.menu.general.SettingsMenu</node>
+    <node x="1808.0" y="1663.0">me.slavita.construction.utils.language.EnumEnchantment</node>
+    <node x="1610.0" y="1967.0">me.slavita.construction.ui.Formatter</node>
+    <node x="-61.0" y="1317.0">me.slavita.construction.structure.PlayerCellDeserializer</node>
+    <node x="49.0" y="2043.0">me.slavita.construction.mod.utils.Renderer</node>
+    <node x="1273.0" y="219.0">me.slavita.construction.utils.ModCallbacks</node>
+    <node x="1002.0" y="1739.0">me.slavita.construction.ui.achievements.AchievementType</node>
+    <node x="1957.0" y="1891.0">me.slavita.construction.player.sound.MusicSound</node>
+    <node x="1284.0" y="383.0">me.slavita.construction.city.SpeedPlaces</node>
+    <node x="1160.0" y="1276.0">me.slavita.construction.reward.ExperienceReward</node>
+    <node x="823.0" y="137.0">me.slavita.construction.prepare.BankAccountPrepare</node>
+    <node x="853.0" y="342.0">me.slavita.construction.prepare.WarningPrepare</node>
+    <node x="1580.0" y="1663.0">me.slavita.construction.structure.tools.CityStructureVisual</node>
+    <node x="391.0" y="2119.0">me.slavita.construction.city.City</node>
+    <node x="1774.0" y="1967.0">me.slavita.construction.structure.PlayerCell</node>
+    <node x="664.0" y="1475.0">me.slavita.construction.App</node>
+    <node x="71.0" y="607.0">me.slavita.construction.action.command.menu.donate.AbilitiesMenu</node>
+    <node x="-102.0" y="1587.0">me.slavita.construction.player.sound.ExternalSound</node>
+    <node x="1273.0" y="1475.0">me.slavita.construction.city.showcase.ShowcaseClientData</node>
+    <node x="1280.0" y="301.0">me.slavita.construction.utils.NpcManager</node>
+    <node x="-113.0" y="126.0">me.slavita.construction.action.command.menu.general.GuideDialog</node>
+    <node x="818.0" y="96.0">me.slavita.construction.prepare.DailyRewardsPrepare</node>
+    <node x="1186.0" y="1317.0">me.slavita.construction.reward.MoneyReward</node>
+    <node x="-19.0" y="1399.0">me.slavita.construction.city.CityDeserializer</node>
+    <node x="872.0" y="465.0">me.slavita.construction.prepare.GuidePrepare</node>
+    <node x="-113.0" y="2119.0">me.slavita.construction.player.Data</node>
+    <node x="314.0" y="1815.0">me.slavita.construction.utils.language.LanguageHelper</node>
+    <node x="1834.0" y="178.0">me.slavita.construction.booster.format.BoosterFormatter</node>
+    <node x="369.0" y="1475.0">me.slavita.construction.project.FreelanceProject</node>
+    <node x="1143.0" y="1815.0">me.slavita.construction.structure.instance.StructureGroup</node>
+    <node x="1540.0" y="249.0">me.slavita.construction.mod.templates.SliderElement</node>
+    <node x="283.0" y="391.0">me.slavita.construction.action.command.menu.worker.ChoiceLootboxAmount</node>
+    <node x="859.0" y="383.0">me.slavita.construction.prepare.StoragePrepare</node>
+    <node x="1811.0" y="1475.0">me.slavita.construction.city.storage.StorageClientData</node>
+    <node x="604.0" y="1399.0">me.slavita.construction.dontate.TagDonate</node>
+    <node x="1832.0" y="137.0">me.slavita.construction.ui.format.ProjectsFormatter</node>
+    <node x="1533.0" y="208.0">me.slavita.construction.mod.templates.ToggleElement</node>
+    <node x="826.0" y="2043.0">me.slavita.construction.mod.storage.Storage</node>
+    <node x="1695.0" y="2043.0">me.slavita.construction.ui.menu.Icons</node>
+    <node x="-113.0" y="1739.0">anime.modbundler.ModBundlerPlugin</node>
+    <node x="328.0" y="883.0">me.slavita.construction.action.command.menu.donate.MoneyBuyMenu</node>
+    <node x="851.0" y="1891.0">me.slavita.construction.utils.BotsManager</node>
+    <node x="94.0" y="853.0">me.slavita.construction.action.command.menu.general.TagsMenu</node>
+    <node x="578.0" y="1546.0">org.bukkit.plugin.java.JavaPlugin</node>
+    <node x="312.0" y="760.0">me.slavita.construction.action.command.menu.general.ControlPanelMenu</node>
+    <node x="663.0" y="1891.0">me.slavita.construction.worker.WorkerRarity</node>
+    <node x="1698.0" y="1235.0">me.slavita.construction.structure.WorkerStructure</node>
+    <node x="14.0" y="2119.0">me.slavita.construction.player.User</node>
+    <node x="57.0" y="361.0">me.slavita.construction.action.command.menu.bank.BankMainMenu</node>
+    <node x="-113.0" y="1967.0">me.slavita.construction.booster.BoosterType</node>
+    <node x="731.0" y="1815.0">me.slavita.construction.mod.utils.extensions.ColorExtensions</node>
+    <node x="297.0" y="1358.0">me.slavita.construction.project.ProjectSerializer</node>
+    <node x="392.0" y="1088.0">me.slavita.construction.action.command.menu.worker.OpenWorker</node>
+    <node x="335.0" y="965.0">me.slavita.construction.action.command.menu.project.StartFreelanceProject</node>
+    <node x="336.0" y="1739.0">me.slavita.construction.player.SettingsData</node>
+    <node x="-113.0" y="1663.0">me.slavita.construction.ui.achievements.AchievementData</node>
+    <node x="1549.0" y="1475.0">me.slavita.construction.utils.language.EnumEnchantmentLevel</node>
+    <node x="-108.0" y="167.0">me.slavita.construction.action.command.menu.project.StartProject</node>
+    <node x="258.0" y="350.0">me.slavita.construction.action.command.menu.achievements.AchievementsChoiceMenu</node>
+    <node x="1298.0" y="465.0">me.slavita.construction.listener.OnActions</node>
+    <node x="-12.0" y="1164.0">com.google.gson.JsonDeserializer</node>
+    <node x="-53.0" y="1475.0">me.slavita.construction.player.sound.SoundSource</node>
+    <node x="668.0" y="96.0">me.slavita.construction.prepare.UIPrepare</node>
+    <node x="1275.0" y="260.0">me.slavita.construction.ui.Leaderboards</node>
+    <node x="1873.0" y="1739.0">me.slavita.construction.mod.StructureBuilding</node>
+    <node x="1348.0" y="1663.0">me.slavita.construction.ui.HumanizableValues</node>
+    <node x="881.0" y="547.0">me.slavita.construction.prepare.TagsPrepare</node>
+    <node x="308.0" y="678.0">me.slavita.construction.action.command.menu.worker.WorkerSellConfirm</node>
+    <node x="1220.0" y="1739.0">me.slavita.construction.utils.language.EnumPotionEffect</node>
+    <node x="943.0" y="1967.0">me.slavita.construction.utils.language.EnumLang</node>
+    <node x="208.0" y="2043.0">me.slavita.construction.structure.instance.Structure</node>
+    <node x="827.0" y="178.0">me.slavita.construction.prepare.PlayerWorldPrepare</node>
+    <node x="1410.0" y="1891.0">me.slavita.construction.ui.Leaderboard</node>
+    <node x="879.0" y="1663.0">me.slavita.construction.city.showcase.ShowcaseProperties</node>
+    <node x="1258.0" y="96.0">me.slavita.construction.action.chat.UserCommands</node>
+    <node x="303.0" y="309.0">me.slavita.construction.action.command.menu.worker.WorkerChoice</node>
+    <node x="1111.0" y="137.0">me.slavita.construction.listener.OnChat</node>
+    <node x="1558.0" y="2043.0">me.slavita.construction.city.bank.Credit</node>
+    <node x="1839.0" y="260.0">me.slavita.construction.ui.format.MoneyFormatter</node>
+    <node x="1574.0" y="331.0">me.slavita.construction.mod.templates.ButtonElement</node>
+    <node x="829.0" y="219.0">me.slavita.construction.prepare.PermissionsPrepare</node>
+    <node x="472.0" y="1891.0">anime.modbundler.ProguardTask</node>
+    <node x="1444.0" y="1967.0">me.slavita.construction.structure.instance.Structures</node>
+    <node x="56.0" y="279.0">me.slavita.construction.action.command.menu.city.BuyCityConfirm</node>
+    <node x="844.0" y="301.0">me.slavita.construction.prepare.ShowcasePrepare</node>
+    <node x="391.0" y="1663.0">me.slavita.construction.ui.ScoreboardGenerator</node>
+    <node x="58.0" y="402.0">me.slavita.construction.action.command.menu.project.BlocksListMenu</node>
+    <node x="369.0" y="126.0">me.slavita.construction.action.MenuCommand</node>
+    <node x="60.0" y="443.0">me.slavita.construction.action.command.menu.city.LocationsMenu</node>
+    <node x="872.0" y="2119.0">me.slavita.construction.common.utils.V2i</node>
+    <node x="279.0" y="1891.0">me.slavita.construction.city.storage.BlocksStorage</node>
+    <node x="576.0" y="1276.0">me.slavita.construction.dontate.BoosterDonate</node>
+    <node x="975.0" y="2043.0">me.slavita.construction.city.CityHall</node>
+    <node x="317.0" y="801.0">me.slavita.construction.action.command.menu.donate.BoosterPackMenu</node>
+    <node x="1938.0" y="1967.0">me.slavita.construction.city.showcase.Showcase</node>
+    <node x="1244.0" y="55.0">me.slavita.construction.action.chat.AdminCommands</node>
+    <node x="937.0" y="1815.0">me.slavita.construction.worker.WorkerRapacity</node>
+    <node x="331.0" y="197.0">me.slavita.construction.action.WorkerExecutor</node>
+    <node x="1438.0" y="1739.0">me.slavita.construction.city.showcase.ShowcaseProduct</node>
+    <node x="1955.0" y="2043.0">me.slavita.construction.utils.Alert</node>
+    <node x="973.0" y="1164.0">ru.cristalix.core.network.CorePackage</node>
+    <node x="367.0" y="2043.0">me.slavita.construction.mod.templates.InfoZone</node>
+    <node x="1104.0" y="96.0">me.slavita.construction.booster.Boosters</node>
+    <node x="793.0" y="1546.0">org.bukkit.event.Listener</node>
+    <node x="1775.0" y="1891.0">me.slavita.construction.worker.WorkerState</node>
+    <node x="427.0" y="1967.0">me.slavita.construction.utils.language.EnumEntity</node>
+    <node x="247.0" y="1276.0">me.slavita.construction.city.storage.BlocksStorageSerializer</node>
+    <node x="66.0" y="484.0">me.slavita.construction.action.command.menu.donate.BoostersMenu</node>
+    <node x="669.0" y="1164.0">me.slavita.construction.dontate.Donate</node>
+    <node x="141.0" y="2119.0">me.slavita.construction.player.Tags</node>
+    <node x="-113.0" y="1815.0">me.slavita.construction.protocol.LeaderboardItem</node>
+    <node x="318.0" y="1399.0">me.slavita.construction.city.CitySerializer</node>
+    <node x="378.0" y="55.0">me.slavita.construction.action.CooldownCommand</node>
+    <node x="948.0" y="-16.0">me.slavita.construction.prepare.IPrepare</node>
+    <node x="74.0" y="730.0">me.slavita.construction.action.command.menu.worker.WorkerMenu</node>
+    <node x="328.0" y="924.0">me.slavita.construction.action.command.menu.city.StorageUpgrade</node>
+    <node x="1592.0" y="-16.0">ru.cristalix.uiengine.element.RectangleElement</node>
+    <node x="861.0" y="1276.0">me.slavita.construction.protocol.SaveUserPackage</node>
+    <node x="57.0" y="320.0">me.slavita.construction.action.command.menu.city.ShowcaseMenu</node>
+    <node x="585.0" y="1358.0">me.slavita.construction.dontate.AbilityDonate</node>
+    <node x="523.0" y="1815.0">me.slavita.construction.structure.tools.StructureSender</node>
+    <node x="1294.0" y="424.0">me.slavita.construction.city.showcase.Showcases</node>
+    <node x="772.0" y="1967.0">me.slavita.construction.utils.BannerInfo</node>
+    <node x="91.0" y="812.0">me.slavita.construction.action.command.menu.general.DailyMenu</node>
+    <node x="1262.0" y="137.0">me.slavita.construction.listener.PhysicsDisabler</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="me.slavita.construction.prepare.PlayerWorldPrepare" target="me.slavita.construction.prepare.IPrepare" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1037.0" y="193.5" />
+      <point x="1037.0" y="35.0" />
+      <point x="1052.0" y="35.0" />
+      <point x="49.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.worker.WorkerSellConfirm" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="512.0" y="693.5" />
+      <point x="512.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.worker.WorkerUpgradeMenu" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="512.0" y="488.5" />
+      <point x="512.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.mod.templates.ToggleElement" target="ru.cristalix.uiengine.element.CarvedRectangle" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1706.0" y="223.5" />
+      <point x="1706.0" y="106.0" />
+      <point x="1721.0" y="106.0" />
+      <point x="78.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.bank.BankMainMenu" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="236.0" y="376.5" />
+      <point x="236.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.ui.format.ProjectsFormatter" target="me.slavita.construction.booster.format.IFormatter" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="2026.0" y="152.5" />
+      <point x="2026.0" y="35.0" />
+      <point x="2041.0" y="35.0" />
+      <point x="57.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.city.showcase.Showcases" target="me.slavita.construction.prepare.IRegistrable" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1440.0" y="439.5" />
+      <point x="1440.0" y="35.0" />
+      <point x="1455.0" y="35.0" />
+      <point x="60.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.CooldownCommand" target="me.slavita.construction.action.Command" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="592.0" y="70.5" />
+      <point x="592.0" y="35.0" />
+      <point x="607.0" y="35.0" />
+      <point x="57.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.mod.storage.StorageData" target="me.slavita.construction.mod.templates.BoxData" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1633.0" y="1291.5" />
+      <point x="1633.0" y="1215.0" />
+      <point x="1648.0" y="1215.0" />
+      <point x="48.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.project.BuildingControlMenu" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="512.0" y="529.5" />
+      <point x="512.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.prepare.ItemCallbacksPrepare" target="me.slavita.construction.prepare.IPrepare" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1037.0" y="70.5" />
+      <point x="1037.0" y="35.0" />
+      <point x="1052.0" y="35.0" />
+      <point x="49.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.protocol.GetUserPackage" target="ru.cristalix.core.network.CorePackage" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1093.0" y="1332.5" />
+      <point x="1093.0" y="1215.0" />
+      <point x="1108.0" y="1215.0" />
+      <point x="65.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.structure.PlayerCellSerializer" target="com.google.gson.JsonSerializer" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="479.0" y="1332.5" />
+      <point x="479.0" y="1215.0" />
+      <point x="494.0" y="1215.0" />
+      <point x="82.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.listener.OnChat" target="me.slavita.construction.prepare.IRegistrable" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1234.0" y="152.5" />
+      <point x="1234.0" y="35.0" />
+      <point x="1455.0" y="35.0" />
+      <point x="60.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.chat.AdminCommands" target="me.slavita.construction.prepare.IRegistrable" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1440.0" y="70.5" />
+      <point x="1440.0" y="35.0" />
+      <point x="1455.0" y="35.0" />
+      <point x="60.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.city.CityGlows" target="me.slavita.construction.prepare.IRegistrable" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1440.0" y="521.5" />
+      <point x="1440.0" y="35.0" />
+      <point x="1455.0" y="35.0" />
+      <point x="60.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.city.CitySerializer" target="com.google.gson.JsonSerializer" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="479.0" y="1414.5" />
+      <point x="479.0" y="1215.0" />
+      <point x="494.0" y="1215.0" />
+      <point x="82.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.booster.format.ReputationFormatter" target="me.slavita.construction.booster.format.IFormatter" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="2026.0" y="70.5" />
+      <point x="2026.0" y="35.0" />
+      <point x="2041.0" y="35.0" />
+      <point x="57.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.achievements.AchievementsChoiceMenu" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="512.0" y="365.5" />
+      <point x="512.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.prepare.CitiesPrepare" target="me.slavita.construction.prepare.IPrepare" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1037.0" y="521.5" />
+      <point x="1037.0" y="35.0" />
+      <point x="1052.0" y="35.0" />
+      <point x="49.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.project.FreelanceProject" target="me.slavita.construction.project.Project" relationship="GENERALIZATION">
+      <point x="77.0" y="0.0" />
+      <point x="528.0" y="1526.0" />
+      <point x="513.0" y="1526.0" />
+      <point x="513.0" y="1561.5" />
+      <point x="-0.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.mod.showcase.ShowcaseData" target="me.slavita.construction.mod.templates.BoxData" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1633.0" y="1250.5" />
+      <point x="1633.0" y="1215.0" />
+      <point x="1648.0" y="1215.0" />
+      <point x="48.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.prepare.UIPrepare" target="me.slavita.construction.prepare.IPrepare" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="807.0" y="111.5" />
+      <point x="807.0" y="35.0" />
+      <point x="1052.0" y="35.0" />
+      <point x="49.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.general.SettingsMenu" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="236.0" y="540.5" />
+      <point x="236.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.city.storage.BlocksStorageDeserializer" target="com.google.gson.JsonDeserializer" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="159.0" y="1291.5" />
+      <point x="159.0" y="1215.0" />
+      <point x="174.0" y="1215.0" />
+      <point x="90.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.city.LocationsMenu" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="236.0" y="458.5" />
+      <point x="236.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.city.ShowcaseMenu" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="236.0" y="335.5" />
+      <point x="236.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.reward.ExperienceReward" target="me.slavita.construction.reward.Reward" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1357.0" y="1291.5" />
+      <point x="1357.0" y="1215.0" />
+      <point x="1372.0" y="1215.0" />
+      <point x="46.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.prepare.BankAccountPrepare" target="me.slavita.construction.prepare.IPrepare" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1037.0" y="152.5" />
+      <point x="1037.0" y="35.0" />
+      <point x="1052.0" y="35.0" />
+      <point x="49.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.dontate.BoosterPackDonate" target="me.slavita.construction.dontate.Donate" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="749.0" y="1250.5" />
+      <point x="749.0" y="1215.0" />
+      <point x="764.0" y="1215.0" />
+      <point x="45.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.prepare.ConnectionPrepare" target="me.slavita.construction.prepare.IPrepare" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1037.0" y="275.5" />
+      <point x="1037.0" y="35.0" />
+      <point x="1052.0" y="35.0" />
+      <point x="49.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.protocol.SaveUserPackage" target="ru.cristalix.core.network.CorePackage" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1093.0" y="1291.5" />
+      <point x="1093.0" y="1215.0" />
+      <point x="1108.0" y="1215.0" />
+      <point x="65.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.donate.DonateMenu" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="236.0" y="786.5" />
+      <point x="236.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.worker.WorkerMenu" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="236.0" y="745.5" />
+      <point x="236.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.prepare.DailyRewardsPrepare" target="me.slavita.construction.prepare.IPrepare" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1037.0" y="111.5" />
+      <point x="1037.0" y="35.0" />
+      <point x="1052.0" y="35.0" />
+      <point x="49.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.donate.BoosterPackMenu" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="512.0" y="816.5" />
+      <point x="512.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.listener.OnJoin" target="me.slavita.construction.prepare.IRegistrable" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1234.0" y="193.5" />
+      <point x="1234.0" y="35.0" />
+      <point x="1455.0" y="35.0" />
+      <point x="60.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.reward.MoneyReward" target="me.slavita.construction.reward.Reward" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1357.0" y="1332.5" />
+      <point x="1357.0" y="1215.0" />
+      <point x="1372.0" y="1215.0" />
+      <point x="46.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.dontate.AbilityDonate" target="me.slavita.construction.dontate.Donate" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="749.0" y="1373.5" />
+      <point x="749.0" y="1215.0" />
+      <point x="764.0" y="1215.0" />
+      <point x="45.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.prepare.GuidePrepare" target="me.slavita.construction.prepare.IPrepare" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1037.0" y="480.5" />
+      <point x="1037.0" y="35.0" />
+      <point x="1052.0" y="35.0" />
+      <point x="49.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.dontate.TagDonate" target="me.slavita.construction.dontate.Donate" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="749.0" y="1414.5" />
+      <point x="749.0" y="1215.0" />
+      <point x="764.0" y="1215.0" />
+      <point x="45.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.project.StartProject" target="me.slavita.construction.action.CooldownCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="43.0" y="182.5" />
+      <point x="43.0" y="106.0" />
+      <point x="567.0" y="106.0" />
+      <point x="92.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.structure.PlayerCellDeserializer" target="com.google.gson.JsonDeserializer" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="159.0" y="1332.5" />
+      <point x="159.0" y="1215.0" />
+      <point x="174.0" y="1215.0" />
+      <point x="90.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.project.StartFreelanceProject" target="me.slavita.construction.action.CooldownCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="552.0" y="980.5" />
+      <point x="552.0" y="106.0" />
+      <point x="567.0" y="106.0" />
+      <point x="92.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.donate.MoneyBuyMenu" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="512.0" y="898.5" />
+      <point x="512.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.App" target="org.bukkit.plugin.java.JavaPlugin" relationship="GENERALIZATION">
+      <point x="34.0" y="0.0" />
+      <point x="737.0" y="1526.0" />
+      <point x="722.0" y="1526.0" />
+      <point x="722.0" y="1561.5" />
+      <point x="-0.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.prepare.TagsPrepare" target="me.slavita.construction.prepare.IPrepare" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1037.0" y="562.5" />
+      <point x="1037.0" y="35.0" />
+      <point x="1052.0" y="35.0" />
+      <point x="49.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.mod.templates.SwitchElement" target="ru.cristalix.uiengine.element.RectangleElement" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1746.0" y="387.5" />
+      <point x="1746.0" y="35.0" />
+      <point x="1761.0" y="35.0" />
+      <point x="82.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.structure.ClientStructure" target="me.slavita.construction.structure.BuildingStructure" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1884.0" y="1291.5" />
+      <point x="1884.0" y="1215.0" />
+      <point x="1899.0" y="1215.0" />
+      <point x="80.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.prepare.StoragePrepare" target="me.slavita.construction.prepare.IPrepare" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1037.0" y="398.5" />
+      <point x="1037.0" y="35.0" />
+      <point x="1052.0" y="35.0" />
+      <point x="49.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.booster.format.BoosterFormatter" target="me.slavita.construction.booster.format.IFormatter" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="2026.0" y="193.5" />
+      <point x="2026.0" y="35.0" />
+      <point x="2041.0" y="35.0" />
+      <point x="57.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.general.GuideDialog" target="me.slavita.construction.action.CooldownCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="43.0" y="141.5" />
+      <point x="43.0" y="106.0" />
+      <point x="567.0" y="106.0" />
+      <point x="92.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.MenuCommand" target="me.slavita.construction.action.CooldownCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="552.0" y="141.5" />
+      <point x="552.0" y="106.0" />
+      <point x="567.0" y="106.0" />
+      <point x="92.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.booster.Boosters" target="me.slavita.construction.prepare.IRegistrable" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1234.0" y="111.5" />
+      <point x="1234.0" y="35.0" />
+      <point x="1455.0" y="35.0" />
+      <point x="60.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.ChangeCity" target="me.slavita.construction.action.CooldownCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="43.0" y="223.5" />
+      <point x="43.0" y="106.0" />
+      <point x="567.0" y="106.0" />
+      <point x="92.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.city.StorageMenu" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="236.0" y="663.5" />
+      <point x="236.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.general.DailyMenu" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="236.0" y="827.5" />
+      <point x="236.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.ui.ItemsManager" target="me.slavita.construction.prepare.IRegistrable" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1440.0" y="193.5" />
+      <point x="1440.0" y="35.0" />
+      <point x="1455.0" y="35.0" />
+      <point x="60.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.listener.OnLeave" target="me.slavita.construction.prepare.IRegistrable" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1234.0" y="70.5" />
+      <point x="1234.0" y="35.0" />
+      <point x="1455.0" y="35.0" />
+      <point x="60.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.reward.ReputationReward" target="me.slavita.construction.reward.Reward" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1357.0" y="1250.5" />
+      <point x="1357.0" y="1215.0" />
+      <point x="1372.0" y="1215.0" />
+      <point x="46.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.utils.ModCallbacks" target="me.slavita.construction.prepare.IRegistrable" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1440.0" y="234.5" />
+      <point x="1440.0" y="35.0" />
+      <point x="1455.0" y="35.0" />
+      <point x="60.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.worker.WorkerTeamMenu" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="512.0" y="734.5" />
+      <point x="512.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.city.SpeedPlaces" target="me.slavita.construction.prepare.IRegistrable" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1440.0" y="398.5" />
+      <point x="1440.0" y="35.0" />
+      <point x="1455.0" y="35.0" />
+      <point x="60.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.city.StorageUpgrade" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="512.0" y="939.5" />
+      <point x="512.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.project.ChoiceStructureGroup" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="512.0" y="447.5" />
+      <point x="512.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.city.CityHallMenu" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="236.0" y="704.5" />
+      <point x="236.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.chat.UserCommands" target="me.slavita.construction.prepare.IRegistrable" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1440.0" y="111.5" />
+      <point x="1440.0" y="35.0" />
+      <point x="1455.0" y="35.0" />
+      <point x="60.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.ui.Leaderboards" target="me.slavita.construction.prepare.IRegistrable" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1440.0" y="275.5" />
+      <point x="1440.0" y="35.0" />
+      <point x="1455.0" y="35.0" />
+      <point x="60.5" y="0.0" />
+    </edge>
+    <edge source="ru.cristalix.uiengine.element.CarvedRectangle" target="ru.cristalix.uiengine.element.RectangleElement" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1746.0" y="70.5" />
+      <point x="1746.0" y="35.0" />
+      <point x="1761.0" y="35.0" />
+      <point x="82.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.general.ControlPanelMenu" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="512.0" y="775.5" />
+      <point x="512.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.prepare.WarningPrepare" target="me.slavita.construction.prepare.IPrepare" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1037.0" y="357.5" />
+      <point x="1037.0" y="35.0" />
+      <point x="1052.0" y="35.0" />
+      <point x="49.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.project.ActiveProjectsMenu" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="512.0" y="611.5" />
+      <point x="512.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.project.ChoiceProject" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="236.0" y="581.5" />
+      <point x="236.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.structure.BuildingStructureDeserializer" target="com.google.gson.JsonDeserializer" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="159.0" y="1250.5" />
+      <point x="159.0" y="1215.0" />
+      <point x="174.0" y="1215.0" />
+      <point x="90.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.prepare.PermissionsPrepare" target="me.slavita.construction.prepare.IPrepare" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1037.0" y="234.5" />
+      <point x="1037.0" y="35.0" />
+      <point x="1052.0" y="35.0" />
+      <point x="49.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.listener.OnActions" target="me.slavita.construction.prepare.IRegistrable" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1440.0" y="480.5" />
+      <point x="1440.0" y="35.0" />
+      <point x="1455.0" y="35.0" />
+      <point x="60.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.achievements.AchievementsMenu" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="512.0" y="570.5" />
+      <point x="512.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.world.StructureBlock" target="me.slavita.construction.world.ItemProperties" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="304.0" y="1561.5" />
+      <point x="304.0" y="1526.0" />
+      <point x="319.0" y="1526.0" />
+      <point x="71.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.structure.BuildingStructureSerializer" target="com.google.gson.JsonSerializer" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="479.0" y="1250.5" />
+      <point x="479.0" y="1215.0" />
+      <point x="494.0" y="1215.0" />
+      <point x="82.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.project.ProjectDeserializer" target="com.google.gson.JsonDeserializer" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="159.0" y="1373.5" />
+      <point x="159.0" y="1215.0" />
+      <point x="174.0" y="1215.0" />
+      <point x="90.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.booster.format.ExperienceFormatter" target="me.slavita.construction.booster.format.IFormatter" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="2026.0" y="111.5" />
+      <point x="2026.0" y="35.0" />
+      <point x="2041.0" y="35.0" />
+      <point x="57.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.listener.OnUserLoad" target="me.slavita.construction.prepare.IRegistrable" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1440.0" y="357.5" />
+      <point x="1440.0" y="35.0" />
+      <point x="1455.0" y="35.0" />
+      <point x="60.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.player.sound.ExternalSound" target="me.slavita.construction.player.sound.SoundSource" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="68.0" y="1602.5" />
+      <point x="68.0" y="1526.0" />
+      <point x="83.0" y="1526.0" />
+      <point x="65.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.mod.bank.CreditTaking" target="ru.cristalix.uiengine.element.RectangleElement" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1746.0" y="428.5" />
+      <point x="1746.0" y="35.0" />
+      <point x="1761.0" y="35.0" />
+      <point x="82.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.prepare.AbilityPrepare" target="me.slavita.construction.prepare.IPrepare" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1037.0" y="439.5" />
+      <point x="1037.0" y="35.0" />
+      <point x="1052.0" y="35.0" />
+      <point x="49.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.mod.templates.InformationBox" target="ru.cristalix.uiengine.element.CarvedRectangle" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1706.0" y="182.5" />
+      <point x="1706.0" y="106.0" />
+      <point x="1721.0" y="106.0" />
+      <point x="78.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.city.storage.BlocksStorageSerializer" target="com.google.gson.JsonSerializer" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="479.0" y="1291.5" />
+      <point x="479.0" y="1215.0" />
+      <point x="494.0" y="1215.0" />
+      <point x="82.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.worker.BuyLootboxMenu" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="512.0" y="857.5" />
+      <point x="512.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.booster.format.IncomeFormatter" target="me.slavita.construction.booster.format.IFormatter" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="2026.0" y="234.5" />
+      <point x="2026.0" y="35.0" />
+      <point x="2041.0" y="35.0" />
+      <point x="57.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.worker.ChoiceLootboxAmount" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="512.0" y="406.5" />
+      <point x="512.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.donate.BoostersMenu" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="236.0" y="499.5" />
+      <point x="236.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.bank.RepayCreditConfim" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="512.0" y="652.5" />
+      <point x="512.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.prepare.TabPrepare" target="me.slavita.construction.prepare.IPrepare" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="807.0" y="70.5" />
+      <point x="807.0" y="35.0" />
+      <point x="1052.0" y="35.0" />
+      <point x="49.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.structure.WorkerStructure" target="me.slavita.construction.structure.BuildingStructure" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1884.0" y="1250.5" />
+      <point x="1884.0" y="1215.0" />
+      <point x="1899.0" y="1215.0" />
+      <point x="80.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.dontate.BoosterDonate" target="me.slavita.construction.dontate.Donate" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="749.0" y="1291.5" />
+      <point x="749.0" y="1215.0" />
+      <point x="764.0" y="1215.0" />
+      <point x="45.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.mod.templates.DropdownElement" target="ru.cristalix.uiengine.element.CarvedRectangle" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1706.0" y="141.5" />
+      <point x="1706.0" y="106.0" />
+      <point x="1721.0" y="106.0" />
+      <point x="78.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.donate.AbilitiesMenu" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="236.0" y="622.5" />
+      <point x="236.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.protocol.GetLeaderboardPackage" target="ru.cristalix.core.network.CorePackage" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1093.0" y="1250.5" />
+      <point x="1093.0" y="1215.0" />
+      <point x="1108.0" y="1215.0" />
+      <point x="65.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.project.ChoiceStructure" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="236.0" y="253.5" />
+      <point x="236.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.mod.templates.ButtonElement" target="ru.cristalix.uiengine.element.RectangleElement" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1746.0" y="346.5" />
+      <point x="1746.0" y="35.0" />
+      <point x="1761.0" y="35.0" />
+      <point x="82.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.booster.format.EmptyFormatter" target="me.slavita.construction.booster.format.IFormatter" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="2026.0" y="316.5" />
+      <point x="2026.0" y="35.0" />
+      <point x="2041.0" y="35.0" />
+      <point x="57.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.prepare.ShowcasePrepare" target="me.slavita.construction.prepare.IPrepare" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1037.0" y="316.5" />
+      <point x="1037.0" y="35.0" />
+      <point x="1052.0" y="35.0" />
+      <point x="49.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.bank.CreditsListMenu" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="236.0" y="212.5" />
+      <point x="236.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.world.SlotItem" target="me.slavita.construction.world.ItemProperties" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="304.0" y="1602.5" />
+      <point x="304.0" y="1526.0" />
+      <point x="319.0" y="1526.0" />
+      <point x="71.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.project.WorkersBuildingMenu" target="me.slavita.construction.action.WorkerExecutor" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="472.0" y="283.5" />
+      <point x="472.0" y="248.0" />
+      <point x="487.0" y="248.0" />
+      <point x="75.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.utils.EmptyListener" target="org.bukkit.event.Listener" relationship="REALIZATION">
+      <point x="69.5" y="0.0" />
+      <point x="931.0" y="1526.0" />
+      <point x="916.0" y="1526.0" />
+      <point x="916.0" y="1561.5" />
+      <point x="-0.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.listener.PhysicsDisabler" target="me.slavita.construction.prepare.IRegistrable" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1440.0" y="152.5" />
+      <point x="1440.0" y="35.0" />
+      <point x="1455.0" y="35.0" />
+      <point x="60.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.city.BuyCityConfirm" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="236.0" y="294.5" />
+      <point x="236.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.project.BlocksListMenu" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="236.0" y="417.5" />
+      <point x="236.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.mod.templates.InputElement" target="ru.cristalix.uiengine.element.CarvedRectangle" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1706.0" y="305.5" />
+      <point x="1706.0" y="106.0" />
+      <point x="1721.0" y="106.0" />
+      <point x="78.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.ButtonCommand" target="me.slavita.construction.action.CooldownCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="552.0" y="1021.5" />
+      <point x="552.0" y="106.0" />
+      <point x="567.0" y="106.0" />
+      <point x="92.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.worker.WorkerChoice" target="me.slavita.construction.action.WorkerExecutor" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="472.0" y="324.5" />
+      <point x="472.0" y="248.0" />
+      <point x="487.0" y="248.0" />
+      <point x="75.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.dontate.MoneyDonate" target="me.slavita.construction.dontate.Donate" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="749.0" y="1332.5" />
+      <point x="749.0" y="1215.0" />
+      <point x="764.0" y="1215.0" />
+      <point x="45.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.mod.templates.SliderElement" target="ru.cristalix.uiengine.element.CarvedRectangle" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1706.0" y="264.5" />
+      <point x="1706.0" y="106.0" />
+      <point x="1721.0" y="106.0" />
+      <point x="78.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.worker.OpenWorker" target="me.slavita.construction.action.CooldownCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="552.0" y="1103.5" />
+      <point x="552.0" y="106.0" />
+      <point x="567.0" y="106.0" />
+      <point x="92.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.menu.general.TagsMenu" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="236.0" y="868.5" />
+      <point x="236.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.player.sound.MinecraftSound" target="me.slavita.construction.player.sound.SoundSource" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="68.0" y="1561.5" />
+      <point x="68.0" y="1526.0" />
+      <point x="83.0" y="1526.0" />
+      <point x="65.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.ui.format.MoneyFormatter" target="me.slavita.construction.booster.format.IFormatter" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="2026.0" y="275.5" />
+      <point x="2026.0" y="35.0" />
+      <point x="2041.0" y="35.0" />
+      <point x="57.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.utils.NpcManager" target="me.slavita.construction.prepare.IRegistrable" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="1440.0" y="316.5" />
+      <point x="1440.0" y="35.0" />
+      <point x="1455.0" y="35.0" />
+      <point x="60.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.WorkerExecutor" target="me.slavita.construction.action.MenuCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="512.0" y="212.5" />
+      <point x="512.0" y="177.0" />
+      <point x="527.0" y="177.0" />
+      <point x="76.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.action.command.UpgradeWorker" target="me.slavita.construction.action.CooldownCommand" relationship="GENERALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="552.0" y="1062.5" />
+      <point x="552.0" y="106.0" />
+      <point x="567.0" y="106.0" />
+      <point x="92.0" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.city.CityDeserializer" target="com.google.gson.JsonDeserializer" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="159.0" y="1414.5" />
+      <point x="159.0" y="1215.0" />
+      <point x="174.0" y="1215.0" />
+      <point x="90.5" y="0.0" />
+    </edge>
+    <edge source="me.slavita.construction.project.ProjectSerializer" target="com.google.gson.JsonSerializer" relationship="REALIZATION">
+      <point x="-0.0" y="0.0" />
+      <point x="479.0" y="1373.5" />
+      <point x="479.0" y="1215.0" />
+      <point x="494.0" y="1215.0" />
+      <point x="82.0" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Compact" zoom="0.6082742451967065" showDependencies="false" x="766.9817240893049" y="1881.6267844888357" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
