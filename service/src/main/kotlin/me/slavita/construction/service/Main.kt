@@ -8,13 +8,14 @@ import me.slavita.construction.protocol.*
 import org.bson.Document
 import ru.cristalix.core.microservice.MicroServicePlatform
 import ru.cristalix.core.microservice.MicroserviceBootstrap
+import ru.cristalix.core.network.CorePackage
 import ru.cristalix.core.network.ISocketClient
+import ru.cristalix.core.realm.RealmId
 import java.util.logging.Level
 import java.util.logging.Logger
+import kotlin.reflect.KClass
 
 fun main() {
-    Logger.getLogger("JULLogger").level = Level.OFF
-
     MicroserviceBootstrap.bootstrap(MicroServicePlatform(2))
     val socketClient = ISocketClient.get()
 
@@ -24,13 +25,12 @@ fun main() {
         System.getenv("MONGO_COLLECTION")
     )
 
-
     fun getTop(field: String, after: ArrayList<LeaderboardItem>.() -> Unit) {
         val response = arrayListOf<LeaderboardItem>()
         db.collection
             .find()
             .projection(include(field))
-            .sort(Document().append(field, 1))
+            .sort(Document().append(field, -1))
             .limit(10)
             .forEach({
                 response.add(LeaderboardItem(it.getString("_id"), it.getLong(field)))
@@ -40,56 +40,40 @@ fun main() {
     }
 
     socketClient.apply {
-        capabilities(
-            GetUserPackage::class,
-            SaveUserPackage::class,
-            GetLeaderboardPackage::class,
-        )
-
-        runListener<GetUserPackage> { realm, packet ->
-            println("GetUserPackage: ${realm.realmName}")
-            packet.run {
-                db.collection.find(Document().append("_id", uuid)).forEach({
-                    data = it.getString("data")
-                }) { _, _ ->
-                    println("got user")
-                    forward(realm, this)
-                }
+        listener(GetUserPackage::class) {realm ->
+            db.collection.find(Document().append("_id", uuid)).forEach({
+                data = it.getString("data")
+            }) { _, _ ->
+                println("got user")
+                forward(realm, this)
             }
         }
 
-        runListener<GetLeaderboardPackage> { realm, packet ->
-            println("GetLeaderboardPackage: ${realm.realmName}")
-            packet.run {
-                var responses = 0
-                getTop("experience") {
-                    experience = this
-                    if (++responses == 2) forward(realm, packet)
-                }
-                getTop("projects") {
-                    projects = this
-                    if (++responses == 2) forward(realm, packet)
-                }
+        listener(GetLeaderboardPackage::class) { realm ->
+            getTop(field) {
+                top = this
+                forward(realm, this@listener)
             }
         }
 
-        runListener<SaveUserPackage> { realm, packet ->
-            println("SaveUserPackage: ${realm.realmName}")
-            packet.run {
-                db.collection.updateOne(
-                    Document().append("_id", uuid),
-                    Document().append(
-                        "\$set",
-                        Document()
-                            .append("data", data)
-                            .append("experience", experience)
-                            .append("projects", projects)
-                    ),
-                    UpdateOptions().upsert(true)
-                ) { _, _ ->
-                    println("user saved")
-                    forward(realm, SaveUserPackage(uuid))
-                }
+        listener(SaveUserPackage::class) { realm, ->
+            db.collection.updateOne(
+                Document().append("_id", uuid),
+                Document().append(
+                    "\$set",
+                    Document()
+                        .append("data", data)
+                        .append("experience", experience)
+                        .append("projects", projects)
+                        .append("totalBoosters", totalBoosters)
+                        .append("lastIncome", lastIncome)
+                        .append("money", money)
+                        .append("reputation", reputation)
+                ),
+                UpdateOptions().upsert(true)
+            ) { _, _ ->
+                println("user saved")
+                forward(realm, SaveUserPackage(uuid))
             }
         }
     }

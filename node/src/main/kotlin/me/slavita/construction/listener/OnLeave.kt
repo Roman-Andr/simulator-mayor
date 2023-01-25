@@ -12,9 +12,6 @@ import java.util.concurrent.TimeUnit
 object OnLeave : IRegistrable {
     override fun register() {
         listener<PlayerQuitEvent> {
-            if (player.user.currentFreelance != null) player.inventory.storageContents =
-                player.user.currentFreelance!!.playerInventory
-
             Bukkit.getOnlinePlayers().forEach { current ->
                 current.hidePlayer(app, player)
                 current.sendPacket(

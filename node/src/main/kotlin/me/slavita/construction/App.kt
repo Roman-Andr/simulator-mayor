@@ -226,7 +226,10 @@ class App : JavaPlugin() {
     fun trySaveUser(player: Player) = runAsync {
         trySaveUser(player.user.run {
             data.inventory.clear()
-            player.inventory.storageContents.forEachIndexed { index, item ->
+
+            val inventory = if (data.hasFreelance) currentFreelance!!.playerInventory else player.inventory.storageContents
+
+            inventory.forEachIndexed { index, item ->
                 if (item != null) data.inventory.add(SlotItem(item, index, item.getAmount()))
             }
             player.inventory.clear()
@@ -235,13 +238,18 @@ class App : JavaPlugin() {
                 uuid.toString(),
                 gsonSerializer.toJson(data),
                 data.experience,
-                data.totalProjects.toLong()
+                data.totalProjects.toLong(),
+                data.totalBoosters,
+                data.lastIncome,
+                data.money,
+                data.reputation,
             )
         })
     }
 
     private fun trySaveUser(pckg: SaveUserPackage) = runAsync {
         try {
+            log("try save user")
             socket.writeAndAwaitResponse<SaveUserPackage>(pckg)[5, TimeUnit.SECONDS]
             log("user saved")
             failedSave.remove(pckg)

@@ -7,4 +7,8 @@ data class SaveUserPackage(
     var data: String? = null,
     val experience: Long? = null,
     val projects: Long? = null,
+    val totalBoosters: Long? = null,
+    val lastIncome: Long? = null,
+    val money: Long? = null,
+    val reputation: Long? = null,
 ) : CorePackage()
