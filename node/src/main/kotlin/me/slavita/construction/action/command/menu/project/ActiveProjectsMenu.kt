@@ -17,7 +17,7 @@ import org.bukkit.entity.Player
 class ActiveProjectsMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         user.run {
-            return getBaseSelection(user, "${AQUA}${BOLD}Ваши активные проекты", StatsType.MONEY, 4, 5).apply {
+            return getBaseSelection(user, "${AQUA}${BOLD}Ваши активные проекты", StatsType.MONEY, 4, 4).apply {
                 hint = ""
                 info = PROJECTS_INFO
                 storage = this@run.data.cities.flatMap { it.projects }.mapM {

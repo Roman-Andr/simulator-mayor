@@ -58,7 +58,6 @@ object CityGlows : IRegistrable {
                         onEnter(player)
                     }
                     .onLeave { player ->
-                        if (player.location.distance(label) > 3) return@onLeave
                         onLeave(player)
                     }
                     .build().apply {

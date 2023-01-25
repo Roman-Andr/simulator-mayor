@@ -37,6 +37,12 @@ object UserCommands : IRegistrable {
 
         /* Быстрый доступ */
 
+        command("spawn") { player, _ ->
+            player.user.run {
+                tryChangeCity(currentCity)
+            }
+        }
+
         listen("projects", Key.K) { player ->
             ActiveProjectsMenu(player).tryExecute()
         }

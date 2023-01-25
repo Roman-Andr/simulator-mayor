@@ -1075,6 +1075,7 @@ enum class EnumItem(val material: Material, val metadata: Int, val unlocalizedNa
         //                return item;
         //        return null;
         //    }
+        @Suppress("DEPRECATION")
         fun getPlayerSkullName(skull: ItemStack, locale: String?): String {
             val meta = skull.itemMeta as SkullMeta
             return if (meta.hasOwner()) {

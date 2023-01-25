@@ -34,17 +34,14 @@ class ChoiceLootboxAmount(player: Player, val rarity: WorkerRarity) : MenuComman
                         description = (rarity.price * it.first).toMoneyIcon()
                         hint = "Купить"
                         click { _, _, _ ->
-                            if (!player.user.canPurchase(rarity.price * it.first)) {
-                                Anime.close(player)
-                                player.deny("Недостаточно средств!")
-                                return@click
+                            player.user.tryPurchase(rarity.price * it.first) {
+                                val workers = WorkerGenerator.generate(rarity, it.first)
+                                val lootDrop = mutableListOf<LootDrop>()
+                                workers.forEach {
+                                    lootDrop.add(LootDrop(rarity.getIcon(), it.name, rarity.dropRare))
+                                }
+                                OpenWorker(this@user, *workers.toTypedArray()).tryExecute()
                             }
-                            val workers = WorkerGenerator.generate(rarity, it.first)
-                            val lootDrop = mutableListOf<LootDrop>()
-                            workers.forEach {
-                                lootDrop.add(LootDrop(rarity.getIcon(), it.name, rarity.dropRare))
-                            }
-                            OpenWorker(this@user, *workers.toTypedArray()).tryExecute()
                         }
                     }
                 }

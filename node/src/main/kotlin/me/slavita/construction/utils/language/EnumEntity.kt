@@ -147,6 +147,7 @@ enum class EnumEntity(val type: EntityType, val unlocalizedName: String) {
             )
         }
 
+        @Suppress("DEPRECATION")
         fun getEntityType(egg: ItemStack?): EntityType {
             val nmsStack = Class.forName(
                 "org.bukkit.craftbukkit." + Bukkit.getServer().javaClass.getPackage().name.replace(

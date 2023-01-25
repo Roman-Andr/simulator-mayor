@@ -1,7 +1,9 @@
 package me.slavita.construction.player
 
 import com.google.gson.GsonBuilder
+import me.func.mod.Anime
 import me.func.mod.conversation.ModTransfer
+import me.slavita.construction.action.command.ChangeCity
 import me.slavita.construction.action.command.menu.city.BuyCityConfirm
 import me.slavita.construction.action.command.menu.city.ShowcaseMenu
 import me.slavita.construction.action.command.menu.project.ChoiceProject
@@ -17,20 +19,28 @@ import me.slavita.construction.city.showcase.Showcase
 import me.slavita.construction.city.showcase.Showcases
 import me.slavita.construction.city.storage.BlocksStorage
 import me.slavita.construction.city.storage.BlocksStorageDeserializer
+import me.slavita.construction.dontate.AbilityDonate
+import me.slavita.construction.dontate.Donates
 import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.structure.tools.StructureState
+import me.slavita.construction.ui.HumanizableValues
 import me.slavita.construction.utils.*
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor.GOLD
 import org.bukkit.Location
 import ru.cristalix.core.invoice.IInvoiceService
 import java.util.*
+import kotlin.math.abs
 
 class User(val uuid: UUID) {
     val player = Bukkit.getPlayer(uuid)!!
     var watchableProject: Project? = null
     var income = 0L
+        set(value) {
+            data.lastIncome = value
+            field = value
+        }
     val showcases: HashSet<Showcase> = Showcases.showcases.map { Showcase(it) }.toHashSet()
     private var criBalanceLastUpdate = 0L
     var inTrashZone = false
@@ -71,7 +81,7 @@ class User(val uuid: UUID) {
 
         currentCity = this.data.cities.first()
 
-        income += income
+        income += this.data.hall.income
     }
 
     fun upgradeHall() {
@@ -93,6 +103,7 @@ class User(val uuid: UUID) {
             data.money -= cost
             acceptAction()
         } else {
+            Anime.close(player)
             player.deny("Недостаточно денег!")
         }
     }
@@ -107,6 +118,15 @@ class User(val uuid: UUID) {
     }
 
     fun canPurchase(cost: Long) = data.money >= cost
+
+    fun tryChangeCity(city: City) {
+        val ignore = data.abilities.contains((Donates.NO_LIMIT_TELEPORT_DONATE.donate as AbilityDonate).ability)
+        ChangeCity(this, city).tryExecute(ignore).run {
+            if (!ignore && this < 0) player.deny(
+                "Подождите ещё ${HumanizableValues.SECOND.get((abs(this) / 20).toInt())}"
+            )
+        }
+    }
 
     fun changeCity(city: City) {
         currentCity.projects.forEach { it.structure.deleteVisual() }
@@ -149,12 +169,6 @@ class User(val uuid: UUID) {
         if (watchableProject != null && !watchableProject!!.structure.box.contains(player.location)) {
             watchableProject!!.onLeave()
             watchableProject = null
-        }
-
-        currentCity.cityStructures.forEach {
-            if (it.cell.box.contains(player.location) && it.state == CityStructureState.BROKEN) {
-                it.repair()
-            }
         }
 
         if (player.user.data.blocksStorage.inBox() && !OnActions.storageEntered[player.uniqueId]!!) {

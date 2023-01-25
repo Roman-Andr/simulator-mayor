@@ -27,7 +27,7 @@ class ChoiceStructure(
                 info = STRUCTURES_INFO
                 rows = 5
                 columns = 4
-                storage = structureGroup.structures.mapM { structure ->
+                storage = structureGroup.structures.sortedBy { it.id }.mapM { structure ->
                     button {
                         title = structure.name
                         hint = "Выбрать"

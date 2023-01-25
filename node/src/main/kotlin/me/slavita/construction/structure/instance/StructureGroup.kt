@@ -24,7 +24,7 @@ class StructureGroup(val name: String, labelId: String, count: Int) {
             val maxLocation = Location(app.structureMap.world, startX - 1, startY - 1, startZ - 1)
 
             val id = Structures.structures.size
-            val structure = Structure(id, name, Box(minLocation, maxLocation))
+            val structure = Structure(id, "Дом ${id + 1}", Box(minLocation, maxLocation))
             structures.add(structure)
             Structures.structures.add(structure)
 

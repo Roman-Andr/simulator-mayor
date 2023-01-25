@@ -26,7 +26,7 @@ class LocationsMenu(player: Player) : MenuCommand(player) {
                 title = "${AQUA}${BOLD}Телепортация"
                 description = "Перемещение между локациями"
                 info = LOCATIONS_INFO
-                storage = this@user.data.cities.sortedBy { it.price }.mapM { city ->
+                storage = user.data.cities.sortedBy { it.price }.mapM { city ->
                     button {
                         title = city.title
                         if (city.unlocked) {
@@ -41,22 +41,11 @@ class LocationsMenu(player: Player) : MenuCommand(player) {
                         }
                         click { _, _, _ ->
                             if (city.unlocked) {
-                                val ignore =
-                                    player.user.data.abilities.contains((Donates.NO_LIMIT_TELEPORT_DONATE.donate as AbilityDonate).ability)
-                                ChangeCity(
-                                    user,
-                                    city
-                                ).tryExecute(ignore)
-                                    .run {
-                                        if (!ignore && this < 0) player.deny(
-                                            "Подождите ещё ${SECOND.get((abs(this) / 20).toInt())}"
-                                        )
-                                    }
+                                tryChangeCity(city)
                                 Anime.close(player)
                             } else {
                                 BuyCityConfirm(player, city).tryExecute()
                             }
-
                         }
                     }
                 }

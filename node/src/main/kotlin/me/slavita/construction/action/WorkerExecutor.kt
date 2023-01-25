@@ -26,19 +26,7 @@ abstract class WorkerExecutor(player: Player, val structure: WorkerStructure) : 
                     button.hint = getWorkerState(targetWorker).title
                 }
 
-                WorkerState.BUSY     -> {
-                    currentCity.projects.find {
-                        if (it.structure is WorkerStructure) (it.structure as WorkerStructure).workers.contains(
-                            targetWorker
-                        ) else false
-                    }!!
-                        .apply target@{
-                            (this@target.structure as WorkerStructure).workers.remove(targetWorker)
-                            (structure as WorkerStructure).workers.add(targetWorker)
-                            button.backgroundColor = GlowColor.ORANGE
-                            button.hint = getWorkerState(targetWorker).title
-                        }
-                }
+                WorkerState.BUSY     -> {}
             }
         }
     }

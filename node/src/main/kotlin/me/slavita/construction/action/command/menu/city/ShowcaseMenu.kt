@@ -71,15 +71,10 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player)
                 item = emptyItem.validate()
                 hover = """
                     ${GREEN}${LanguageHelper.getItemDisplayName(emptyItem, user.player)}
-                    ${AQUA}Купить 8 шт за ${entry.price * 8} [ЛКМ]
-                    ${AQUA}Купить 64 шт за ${entry.price * 64} [ПКМ]
+                    ${AQUA}Купить 8 шт за ${entry.price * 8} ${DARK_GRAY}[${GOLD}ЛКМ${DARK_GRAY}]
+                    ${AQUA}Купить 64 шт за ${entry.price * 64} ${DARK_GRAY}[${GOLD}ПКМ${DARK_GRAY}]
                     
-                    На складе: ${BOLD}${
-                    user.data.blocksStorage.blocks.getOrDefault(
-                        entry.item,
-                        entry.item.createItemStack(0)
-                    )
-                }
+                    На складе: ${BOLD}${user.data.blocksStorage.blocks.getOrDefault(entry.item, 0)}
                 """.trimIndent()
                 hint = (if (user.canPurchase(entry.price * 8)) "$WHITE" else "$RED") + " "
                 onLeftClick { _, _, _ ->

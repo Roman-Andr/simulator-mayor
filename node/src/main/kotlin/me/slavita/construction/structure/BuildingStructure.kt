@@ -160,7 +160,7 @@ class BuildingStructureDeserializer(val project: Project) : JsonDeserializer<Bui
             val blocksPlaced = get("blocksPlaced").asInt
 
             when (get("type").asString) {
-                "Structure" -> {
+                "worker" -> {
                     WorkerStructure(structure, playerCell).apply {
                         nextTick {
                             get("workers").asJsonArray.forEach { id ->

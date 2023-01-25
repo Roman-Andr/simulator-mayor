@@ -34,6 +34,7 @@ import me.slavita.construction.ui.ItemsManager
 import me.slavita.construction.ui.Leaderboards
 import me.slavita.construction.utils.*
 import me.slavita.construction.utils.language.EnumLang
+import me.slavita.construction.utils.language.LanguageHelper
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.ItemProperties
 import me.slavita.construction.world.SlotItem
@@ -158,6 +159,8 @@ class App : JavaPlugin() {
             AdminCommands,
             ModCallbacks,
             ItemsManager,
+            Structures,
+            LanguageHelper,
             PhysicsDisabler,
             OnJoin,
             OnLeave,
@@ -165,10 +168,6 @@ class App : JavaPlugin() {
             OnActions,
             OnUserLoad,
         )
-
-        Structures
-
-        EnumLang.init()
 
         scheduler.run {
             runTimerAsync(0, 120) {

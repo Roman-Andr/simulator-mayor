@@ -1,5 +1,6 @@
 package me.slavita.construction.utils.language
 
+import me.slavita.construction.prepare.IRegistrable
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Entity
@@ -8,7 +9,12 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import java.util.*
 
-object LanguageHelper {
+object LanguageHelper : IRegistrable {
+
+    override fun register() {
+        EnumLang.init()
+    }
+
     fun getItemDisplayName(item: ItemStack, locale: String): String {
         return if (item.hasItemMeta() && item.itemMeta.hasDisplayName()) item.itemMeta.displayName else getItemName(
             item,
