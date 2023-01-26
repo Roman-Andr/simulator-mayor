@@ -6,18 +6,15 @@ import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.choicer
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
-import me.slavita.construction.action.command.ChangeCity
-import me.slavita.construction.dontate.AbilityDonate
-import me.slavita.construction.dontate.Donates
 import me.slavita.construction.ui.Formatter.toMoneyIcon
-import me.slavita.construction.ui.HumanizableValues.SECOND
 import me.slavita.construction.ui.Texture
 import me.slavita.construction.ui.menu.Icons
-import me.slavita.construction.utils.*
+import me.slavita.construction.utils.LOCATIONS_INFO
+import me.slavita.construction.utils.click
+import me.slavita.construction.utils.mapM
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.entity.Player
-import kotlin.math.abs
 
 class LocationsMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {

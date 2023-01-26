@@ -171,8 +171,8 @@ class BuildingStructureDeserializer(val project: Project) : JsonDeserializer<Bui
                     }
                 }
 
-                "client"    -> ClientStructure(structure, playerCell)
-                else        -> throw JsonParseException("Unknown structure type!")
+                "client" -> ClientStructure(structure, playerCell)
+                else     -> throw JsonParseException("Unknown structure type!")
             }.apply {
                 this@apply.currentProject = project
                 this@apply.blocksPlaced = blocksPlaced

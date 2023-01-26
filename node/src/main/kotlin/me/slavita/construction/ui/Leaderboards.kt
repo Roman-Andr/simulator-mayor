@@ -38,7 +38,7 @@ object Leaderboards : IRegistrable {
                 leaderboard.update(top)
                 log("$field leaderboard loaded")
             }
-        } catch(e: TimeoutException) {
+        } catch (e: TimeoutException) {
             log("$field leaderboard load timeout")
         }
     }

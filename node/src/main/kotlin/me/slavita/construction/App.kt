@@ -19,14 +19,14 @@ import me.slavita.construction.booster.BoosterType
 import me.slavita.construction.booster.Boosters
 import me.slavita.construction.city.City
 import me.slavita.construction.city.CitySerializer
+import me.slavita.construction.city.storage.BlocksStorage
+import me.slavita.construction.city.storage.BlocksStorageSerializer
+import me.slavita.construction.listener.*
 import me.slavita.construction.player.User
 import me.slavita.construction.project.Project
 import me.slavita.construction.project.ProjectSerializer
 import me.slavita.construction.protocol.GetUserPackage
 import me.slavita.construction.protocol.SaveUserPackage
-import me.slavita.construction.city.storage.BlocksStorage
-import me.slavita.construction.city.storage.BlocksStorageSerializer
-import me.slavita.construction.listener.*
 import me.slavita.construction.structure.*
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.Formatter.applyBoosters
@@ -70,7 +70,7 @@ class App : JavaPlugin() {
 
     lateinit var structureMap: WorldMeta
     lateinit var mainWorld: GameWorld
-    val chatId = -1001654696542L
+    val chatId = System.getenv("TG_CHAT_ID").toLong()
     val users = hashMapOf<UUID, User>()
     val allBlocks = hashSetOf<ItemProperties>()
 
@@ -227,7 +227,8 @@ class App : JavaPlugin() {
         trySaveUser(player.user.run {
             data.inventory.clear()
 
-            val inventory = if (data.hasFreelance) currentFreelance!!.playerInventory else player.inventory.storageContents
+            val inventory =
+                if (data.hasFreelance) currentFreelance!!.playerInventory else player.inventory.storageContents
 
             inventory.forEachIndexed { index, item ->
                 if (item != null) data.inventory.add(SlotItem(item, index, item.getAmount()))

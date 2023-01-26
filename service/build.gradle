@@ -17,6 +17,8 @@ dependencies {
     implementation("com.google.guava:guava:23.0")
 
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.4")
+
+    implementation("com.github.kotlin-telegram-bot.kotlin-telegram-bot:telegram:6.0.7")
 }
 
 remotes {
@@ -53,19 +55,6 @@ task upload {
                         ' | cut -d\':\' -f1 | while read line; do kill \$line; done;')
                 execute("cd construction/service;./start.sh")
             }
-        }
-    }
-}
-
-repositories {
-    mavenCentral()
-    maven {
-        url = uri("https://repo.c7x.dev/repository/maven-public/")
-        credentials {
-            username = System.getenv("CRI_REPO_LOGIN") ?: System.getenv("CRI_ARC_REPO_LOGIN")
-                    ?: System.getenv("CRISTALIX_REPO_USERNAME")
-            password = System.getenv("CRI_REPO_PASSWORD") ?: System.getenv("CRI_ARC_REPO_PASSWORD")
-                    ?: System.getenv("CRISTALIX_REPO_PASSWORD")
         }
     }
 }

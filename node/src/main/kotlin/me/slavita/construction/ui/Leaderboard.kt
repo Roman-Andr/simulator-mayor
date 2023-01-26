@@ -5,7 +5,6 @@ import me.slavita.construction.protocol.LeaderboardItem
 import me.slavita.construction.utils.*
 import org.bukkit.block.BlockFace
 import ru.cristalix.boards.bukkitapi.Boards
-import java.util.*
 
 class Leaderboard(
     labelTag: String,

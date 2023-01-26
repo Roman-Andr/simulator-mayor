@@ -14,7 +14,7 @@ object OnActions : IRegistrable {
     val inZone = hashMapOf<UUID, Boolean>()
     var storageEntered = hashMapOf<UUID, Boolean>()
 
-        override fun register() {
+    override fun register() {
         listener<PlayerDropItemEvent> {
             val user = player.user
             if (itemDrop.itemStack.getType() == Material.CLAY_BALL) {

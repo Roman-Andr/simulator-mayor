@@ -3,19 +3,15 @@ package me.slavita.construction.service
 import com.mongodb.client.model.Projections.include
 import com.mongodb.client.model.UpdateOptions
 import me.func.serviceapi.mongo.MongoAdapter
-import me.func.serviceapi.runListener
 import me.slavita.construction.protocol.*
 import org.bson.Document
 import ru.cristalix.core.microservice.MicroServicePlatform
 import ru.cristalix.core.microservice.MicroserviceBootstrap
-import ru.cristalix.core.network.CorePackage
 import ru.cristalix.core.network.ISocketClient
-import ru.cristalix.core.realm.RealmId
-import java.util.logging.Level
-import java.util.logging.Logger
-import kotlin.reflect.KClass
 
 fun main() {
+    LoggerBot
+
     MicroserviceBootstrap.bootstrap(MicroServicePlatform(2))
     val socketClient = ISocketClient.get()
 
@@ -40,23 +36,23 @@ fun main() {
     }
 
     socketClient.apply {
-        listener(GetUserPackage::class) {realm ->
+        listener<GetUserPackage> { realm ->
             db.collection.find(Document().append("_id", uuid)).forEach({
                 data = it.getString("data")
             }) { _, _ ->
-                println("got user")
+                log("got user")
                 forward(realm, this)
             }
         }
 
-        listener(GetLeaderboardPackage::class) { realm ->
+        listener<GetLeaderboardPackage> { realm ->
             getTop(field) {
                 top = this
                 forward(realm, this@listener)
             }
         }
 
-        listener(SaveUserPackage::class) { realm, ->
+        listener<SaveUserPackage> { realm ->
             db.collection.updateOne(
                 Document().append("_id", uuid),
                 Document().append(

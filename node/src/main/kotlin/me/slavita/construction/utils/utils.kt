@@ -241,7 +241,7 @@ fun safe(action: () -> Unit) = after(1, action)
 
 fun logFormat(message: String) = "[${IRealmService.get().currentRealmInfo.realmId.realmName}] $message"
 
-fun<T> log(message: T) = println(logFormat(message.toString()))
+fun <T> log(message: T) = println(logFormat(message.toString()))
 
 fun logTg(text: String) = tg.sendMessage(ChatId.fromId(app.chatId), logFormat(text))
 
