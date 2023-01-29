@@ -36,6 +36,8 @@ fun main() {
     }
 
     socketClient.apply {
+        capabilities(UserSavedPackage::class.java)
+
         listener<GetUserPackage> { realm ->
             db.collection.find(Document().append("_id", uuid)).forEach({
                 data = it.getString("data")
@@ -69,7 +71,7 @@ fun main() {
                 UpdateOptions().upsert(true)
             ) { _, _ ->
                 println("user saved")
-                forward(realm, SaveUserPackage(uuid))
+                forward(realm, UserSavedPackage())
             }
         }
     }

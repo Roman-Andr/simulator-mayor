@@ -228,4 +228,14 @@ class User(val uuid: UUID) {
         data.nextDay++
         data.nextTakeDailyReward = time + 24 * 60 * 60 * 1000
     }
+
+    fun leaveFreelance() {
+        data.apply {
+            currentFreelance?.restore()
+
+            hasFreelance = false
+            if (reputation >= 100) reputation -= 100 else reputation = 0L
+            player.deny("Вы вышли во время фриланс заказа. Штраф: 100 репутации")
+        }
+    }
 }

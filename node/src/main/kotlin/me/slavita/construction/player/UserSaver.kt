@@ -10,6 +10,7 @@ import me.slavita.construction.prepare.IRegistrable
 import me.slavita.construction.project.Project
 import me.slavita.construction.project.ProjectSerializer
 import me.slavita.construction.protocol.SaveUserPackage
+import me.slavita.construction.protocol.UserSavedPackage
 import me.slavita.construction.structure.*
 import me.slavita.construction.utils.*
 import me.slavita.construction.world.SlotItem
@@ -28,6 +29,7 @@ object UserSaver : IRegistrable {
         .registerTypeAdapter(Project::class.java, ProjectSerializer())
         .registerTypeAdapter(BlocksStorage::class.java, BlocksStorageSerializer())
         .registerTypeAdapter(City::class.java, CitySerializer())
+        .registerTypeAdapter(CityStructure::class.java, CityStructureSerializer())
         .create()
 
     override fun register() {
@@ -67,7 +69,7 @@ object UserSaver : IRegistrable {
     private fun trySaveUser(pckg: SaveUserPackage) = runAsync {
         try {
             log("try save user")
-            socket.writeAndAwaitResponse<SaveUserPackage>(pckg)[app.waitResponseTime, TimeUnit.SECONDS].uuid
+            socket.writeAndAwaitResponse<SaveUserPackage>(pckg)[app.waitResponseTime, TimeUnit.SECONDS]
             log("user saved")
             failedSave.remove(pckg)
             unloadUser(pckg.uuid.toUUID())

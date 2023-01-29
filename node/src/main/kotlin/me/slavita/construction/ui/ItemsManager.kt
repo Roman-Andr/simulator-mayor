@@ -6,6 +6,7 @@ import me.slavita.construction.action.command.menu.general.ControlPanelMenu
 import me.slavita.construction.prepare.IRegistrable
 import me.slavita.construction.utils.killboard
 import me.slavita.construction.utils.listener
+import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.*
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -37,14 +38,14 @@ object ItemsManager : IRegistrable {
             DonateMenu(it).tryExecute()
         }
     )
-    val freelanceCancel = ActionableItem(
-        8, ItemBuilder(Material.CLAY_BALL)
+
+    val freelanceCancel = ActionableItem(8,
+        ItemBuilder(Material.CLAY_BALL)
             .text("${GOLD}${BOLD}Выйти")
             .nbt("other", "cancel")
             .build()
-    )
-    { player ->
-        player.killboard("Выходим...")
+    ) { player ->
+        player.user.leaveFreelance()
     }
 
     override fun register() {

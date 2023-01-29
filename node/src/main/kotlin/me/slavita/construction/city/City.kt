@@ -6,9 +6,7 @@ import me.slavita.construction.app
 import me.slavita.construction.player.User
 import me.slavita.construction.project.Project
 import me.slavita.construction.project.ProjectDeserializer
-import me.slavita.construction.structure.CityStructure
-import me.slavita.construction.structure.PlayerCell
-import me.slavita.construction.structure.PlayerCellDeserializer
+import me.slavita.construction.structure.*
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.utils.Alert
 import me.slavita.construction.utils.Alert.button
@@ -87,7 +85,7 @@ class CitySerializer : JsonSerializer<City> {
             json.addProperty("price", price)
             json.addProperty("unlocked", unlocked)
             json.add("projects", context.serialize(projects))
-            //json.add("cityStructures", context.serialize(cityStructures))
+            json.add("cityStructures", context.serialize(cityStructures))
             json.add("playerCells", context.serialize(playerCells))
         }
         return json
@@ -108,6 +106,7 @@ class CityDeserializer(val owner: User) : JsonDeserializer<City> {
                 val gson = GsonBuilder()
                     .registerTypeAdapter(PlayerCell::class.java, PlayerCellDeserializer(this))
                     .registerTypeAdapter(Project::class.java, ProjectDeserializer(this))
+                    .registerTypeAdapter(CityStructure::class.java, CityStructureDeserializer(this))
                     .create()
 
                 playerCells.clear()
@@ -117,6 +116,10 @@ class CityDeserializer(val owner: User) : JsonDeserializer<City> {
 
                 get("projects").asJsonArray.forEach {
                     projects.add(gson.fromJson(it, Project::class.java))
+                }
+
+                get("cityStructures").asJsonArray.forEach {
+                    cityStructures.add(gson.fromJson(it, CityStructure::class.java))
                 }
             }
         }

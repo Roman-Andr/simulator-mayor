@@ -23,8 +23,24 @@ class WorkerStructure(
     val blocksStorage = hashMapOf<ItemProperties, Int>()
     val remainingBlocks = HashMap(structure.blocks)
 
-    private var claimGlow: ReactivePlace? = null
-    private var claimBanner: Banner? = null
+    private val center = getFaceCenter(cell)
+
+    private var claimGlow = ReactivePlace.builder()
+        .rgb(GlowColor.GREEN_LIGHT)
+        .radius(2.0)
+        .location(center.clone().apply { y -= 2.5 })
+        .onEntire { player ->
+            if (blocksDepositBuild(player, remainingBlocks, blocksStorage)) build()
+        }
+        .build().apply {
+            isConstant = true
+        }
+
+    private var claimBanner = loadBannerFromConfig(
+        Atlas.find("city").getMapList("claim-banner").first(),
+        center,
+        opacity = 0.0
+    )
 
     var lastModified = app.pass
     val delayTime: Long
@@ -34,26 +50,9 @@ class WorkerStructure(
         }
 
     override fun enterBuilding() {
-        val center = getFaceCenter(cell)
-        claimGlow = ReactivePlace.builder()
-            .rgb(GlowColor.GREEN_LIGHT)
-            .radius(2.0)
-            .location(center.clone().apply { y -= 2.5 })
-            .onEntire { player ->
-                if (blocksDepositBuild(player, remainingBlocks, blocksStorage)) build()
-            }
-            .build().apply {
-                isConstant = true
-            }
-        claimBanner = loadBannerFromConfig(
-            Atlas.find("city").getMapList("claim-banner").first(),
-            center,
-            opacity = 0.0
-        )
-        Banners.show(owner.player, claimBanner!!)
-        claimGlow!!.send(owner.player)
+        Banners.show(owner.player, claimBanner)
+        claimGlow.send(owner.player)
         continueBuilding()
-        build()
     }
 
     override fun continueBuilding() {
@@ -87,8 +86,8 @@ class WorkerStructure(
     }
 
     private fun hideClaim() {
-        Banners.hide(owner.player, claimBanner!!)
-        claimGlow!!.delete(setOf(owner.player))
+        Banners.hide(owner.player, claimBanner)
+        claimGlow.delete(setOf(owner.player))
     }
 
     fun build() {
@@ -115,6 +114,7 @@ class WorkerStructure(
             if (item == null) return@forEachIndexed
             val props = ItemProperties(item)
             val value = target.getOrDefault(props, 0) - storage.getOrDefault(props, 0)
+            if (value <= 0) return@forEachIndexed
             if (target.filter { it.value - storage.getOrDefault(it.key, 0) > 0 }.containsKey(props)) {
                 if (item.getAmount() > value) {
                     storage[props] = storage.getOrDefault(props, 0) + item.getAmount() - value

@@ -12,7 +12,7 @@ class Showcase(val properties: ShowcaseProperties) {
     val box
         get() = app.mainWorld.map.getBox("showcase", properties.id.toString())
     val updateTime
-        get() = ((System.currentTimeMillis() - lastUpdateTime) - 5 * 60 * 1000).toTime()
+        get() = (5 * 60 * 1000 - (System.currentTimeMillis() - lastUpdateTime)).toTime()
     private var lastUpdateTime = 0L
 
     fun init() {

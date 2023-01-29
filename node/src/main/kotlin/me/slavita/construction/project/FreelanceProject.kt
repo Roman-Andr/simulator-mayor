@@ -35,26 +35,37 @@ class FreelanceProject(
             StructureState.BUILDING -> structure.showVisual()
 
             StructureState.FINISHED -> {
-                owner.currentFreelance = null
-
-                structure.structure.box.forEachBukkit {
-                    if (it.type == Material.AIR) return@forEachBukkit
-
-                    val emptyBlock = app.mainWorld.emptyBlock
-                        .withOffset(structure.allocation)
-                        .withOffset(it.location)
-                        .withOffset(-structure.structure.box.min)
-
-                    app.mainWorld.placeFakeBlock(owner.player, emptyBlock, false)
-                }
-                owner.watchableProject = null
-                owner.player.inventory.clear()
-                owner.player.inventory.storageContents = playerInventory
-
+                restore()
                 finish()
             }
 
             else                    -> {}
+        }
+    }
+
+    fun restore() {
+        owner.currentFreelance = null
+
+        structure.hideVisual()
+        structure.deleteVisual()
+
+        structure.structure.box.forEachBukkit {
+            if (it.type == Material.AIR) return@forEachBukkit
+
+            val emptyBlock = app.mainWorld.emptyBlock
+                .withOffset(structure.allocation)
+                .withOffset(it.location)
+                .withOffset(-structure.structure.box.min)
+
+            app.mainWorld.placeFakeBlock(owner.player, emptyBlock, false)
+        }
+
+        owner.apply {
+            watchableProject = null
+            player.inventory.apply {
+                clear()
+                storageContents = playerInventory
+            }
         }
     }
 }

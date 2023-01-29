@@ -181,7 +181,7 @@ class BuildingStructureDeserializer(val project: Project) : JsonDeserializer<Bui
                 "client" -> ClientStructure(structure, playerCell)
                 else     -> throw JsonParseException("Unknown structure type!")
             }.apply {
-                this@apply.blocksPlaced = blocksPlaced
+                this.blocksPlaced = blocksPlaced
                 currentProject = project
 
                 when (StructureState.valueOf(get("state").asString)) {
@@ -191,7 +191,10 @@ class BuildingStructureDeserializer(val project: Project) : JsonDeserializer<Bui
                             visual.hide()
                         }
                     }
-                    StructureState.FINISHED -> nextTick { finishBuilding() }
+                    StructureState.FINISHED -> runAsync(100) {
+                        visual.start()
+                        finishBuilding()
+                    }
                     else                    -> this@apply.state = state
                 }
             }
