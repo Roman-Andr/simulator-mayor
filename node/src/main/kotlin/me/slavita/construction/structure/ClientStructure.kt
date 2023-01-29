@@ -16,7 +16,9 @@ class ClientStructure(
 ) : BuildingStructure(structure, cell) {
     private val sender = StructureSender(owner.player)
 
-    override fun enterBuilding() {}
+    override fun enterBuilding() {
+        continueBuilding()
+    }
 
     override fun onFinish() {}
 

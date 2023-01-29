@@ -14,7 +14,7 @@ object ProjectGenerator {
         return Project(
             owner.currentCity,
             owner.data.totalProjects,
-            listOf(
+            hashSetOf(
                 MoneyReward(100),
                 ExperienceReward(100),
                 ReputationReward(100),
@@ -29,7 +29,7 @@ object ProjectGenerator {
         return Project(
             owner.currentCity,
             owner.data.totalProjects,
-            listOf(
+            hashSetOf(
                 MoneyReward(300),
                 ExperienceReward(200),
                 ReputationReward(100),
@@ -48,7 +48,7 @@ object ProjectGenerator {
                 structure,
                 owner.freelanceCell
             ),
-            listOf(
+            hashSetOf(
                 MoneyReward(100),
                 ExperienceReward(100),
                 ReputationReward(100),

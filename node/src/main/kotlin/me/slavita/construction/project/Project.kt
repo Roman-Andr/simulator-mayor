@@ -3,7 +3,7 @@ package me.slavita.construction.project
 import com.google.gson.*
 import me.slavita.construction.city.City
 import me.slavita.construction.player.sound.MusicSound
-import me.slavita.construction.reward.Reward
+import me.slavita.construction.reward.*
 import me.slavita.construction.structure.BuildingStructure
 import me.slavita.construction.structure.BuildingStructureDeserializer
 import me.slavita.construction.structure.tools.CityStructureState
@@ -15,7 +15,7 @@ import java.lang.reflect.Type
 open class Project(
     val city: City,
     var id: Int,
-    val rewards: List<Reward>,
+    val rewards: HashSet<Reward>,
 ) {
     lateinit var structure: BuildingStructure
     val owner = city.owner
@@ -66,11 +66,11 @@ open class Project(
     }
 
     override fun toString() = """
-Информация про проект:
-  ${AQUA}ID: $id
-  ${AQUA}Награды:
-  ${rewards.joinToString("\n  ") { it.toString() }}
-""".trimIndent()
+        Информация про проект:
+          ${AQUA}ID: $id
+          ${AQUA}Награды:
+          ${rewards.joinToString("\n  ") { it.toString() }}
+        """.trimIndent()
 }
 
 class ProjectSerializer : JsonSerializer<Project> {
@@ -90,7 +90,18 @@ class ProjectSerializer : JsonSerializer<Project> {
 class ProjectDeserializer(val city: City) : JsonDeserializer<Project> {
     override fun deserialize(json: JsonElement, type: Type, context: JsonDeserializationContext) =
         json.asJsonObject.run {
-            val project = Project(city, get("id").asInt, context.deserialize(get("rewards"), List::class.java))
+            val rewards = hashSetOf<Reward>()
+            get("rewards").asJsonArray.forEach {
+                it.asJsonObject.run {
+                    when {
+                        has("experience") -> ExperienceReward(get("experience").asLong)
+                        has("reputation") -> ReputationReward(get("reputation").asLong)
+                        has("money") -> MoneyReward(get("money").asLong)
+                    }
+                }
+            }
+
+            val project = Project(city, get("id").asInt, rewards)
 
             val gson = GsonBuilder()
                 .registerTypeAdapter(BuildingStructure::class.java, BuildingStructureDeserializer(project))

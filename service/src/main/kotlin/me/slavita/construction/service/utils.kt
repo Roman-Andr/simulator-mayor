@@ -30,7 +30,9 @@ inline fun <reified T : CorePackage> ISocketClient.listener(crossinline handler:
     }
 }
 
-fun logFormat(text: String) = "[${System.getenv("REALM_TYPE")}-${System.getenv("REALM_ID")}] $text"
+val prefix = "[${System.getenv("REALM_TYPE")}-${System.getenv("REALM_ID")}]"
+
+fun logFormat(text: String) = "$prefix $text"
 
 fun log(text: String) = println(logFormat(text))
 

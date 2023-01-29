@@ -19,6 +19,21 @@ import org.bukkit.entity.Player
 
 class WorkerChoice(player: Player, val project: Project, val startProject: Boolean = true) :
     WorkerExecutor(player, project.structure as WorkerStructure) {
+
+    var applyButton = button {
+        item = Icons.get("other", "access")
+        title = "${GREEN}Подтвердить"
+        backgroundColor = getApplyColor()
+        hint = "Готово"
+        click { _, _, _ ->
+            if ((project.structure as WorkerStructure).workers.isNotEmpty()) {
+                Anime.close(user.player)
+                if (!startProject) return@click
+                StartProject(user, project, structure).tryExecute()
+            }
+        }
+    }
+
     override fun getMenu(): Openable {
         user.run user@{
             return selection {
@@ -28,17 +43,7 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
                 columns = 4
                 storage = mutableListOf(
                     getEmptyButton(),
-                    button {
-                        item = Icons.get("other", "access")
-                        title = "${GREEN}Подтвердить"
-                        backgroundColor = GlowColor.GREEN
-                        hint = "Готово"
-                        click { _, _, _ ->
-                            Anime.close(player)
-                            if (!startProject) return@click
-                            StartProject(user, project, structure).tryExecute()
-                        }
-                    },
+                    applyButton,
                     button {
                         item = Icons.get("other", "reload")
                         title = """
@@ -78,8 +83,11 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
                             }
                         )
                     }
+                    applyButton.backgroundColor = getApplyColor()
                 }
             }
         }
     }
+
+    fun getApplyColor() = if ((project.structure as WorkerStructure).workers.isEmpty()) GlowColor.NEUTRAL else GlowColor.GREEN
 }

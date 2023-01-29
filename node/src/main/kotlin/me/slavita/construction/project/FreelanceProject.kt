@@ -13,7 +13,7 @@ class FreelanceProject(
     city: City,
     id: Int,
     structure: BuildingStructure,
-    rewards: List<Reward>,
+    rewards: HashSet<Reward>,
 ) : Project(city, id, rewards) {
 
     val playerInventory = owner.player.inventory.storageContents.clone()

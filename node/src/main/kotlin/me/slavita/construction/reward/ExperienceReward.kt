@@ -16,7 +16,5 @@ class ExperienceReward(private val experience: Long) : Reward {
         user.player.cursor("+${value.toExp()}")
     }
 
-    override fun toString(): String {
-        return experience.applyBoosters(BoosterType.EXP_BOOSTER).toExp()
-    }
+    override fun toString() = experience.applyBoosters(BoosterType.EXP_BOOSTER).toExp()
 }

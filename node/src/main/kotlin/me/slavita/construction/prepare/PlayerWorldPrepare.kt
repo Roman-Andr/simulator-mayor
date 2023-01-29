@@ -13,8 +13,6 @@ object PlayerWorldPrepare : IPrepare {
             user.data.inventory.forEach {
                 player.inventory.setItem(it.slot, it.createItemStack(it.amount))
             }
-            OnActions.inZone[user.player.uniqueId] = false
-            OnActions.storageEntered[user.player.uniqueId] = false
 
             app.mainWorld.glows.forEach { it.send(player) }
 

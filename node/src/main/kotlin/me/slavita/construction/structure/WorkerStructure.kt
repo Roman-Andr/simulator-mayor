@@ -5,6 +5,7 @@ import me.func.mod.reactive.ReactivePlace
 import me.func.mod.world.Banners
 import me.func.protocol.data.color.GlowColor
 import me.func.protocol.data.element.Banner
+import me.slavita.construction.app
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.utils.*
@@ -19,19 +20,20 @@ class WorkerStructure(
     val workers: HashSet<Worker> = hashSetOf(),
 ) : BuildingStructure(structure, cell) {
 
-    private var remainingBlocks = hashMapOf<ItemProperties, Int>()
-    private val blocksStorage = hashMapOf<ItemProperties, Int>()
+    val blocksStorage = hashMapOf<ItemProperties, Int>()
+    val remainingBlocks = HashMap(structure.blocks)
+
     private var claimGlow: ReactivePlace? = null
     private var claimBanner: Banner? = null
 
-    private val delayTime: Long
+    var lastModified = app.pass
+    val delayTime: Long
         get() {
             if (workers.isEmpty()) return 1
             return (60 / workers.sumOf { it.blocksSpeed }).toLong()
         }
 
     override fun enterBuilding() {
-        remainingBlocks = HashMap(structure.blocks)
         val center = getFaceCenter(cell)
         claimGlow = ReactivePlace.builder()
             .rgb(GlowColor.GREEN_LIGHT)
@@ -50,7 +52,17 @@ class WorkerStructure(
         )
         Banners.show(owner.player, claimBanner!!)
         claimGlow!!.send(owner.player)
+        continueBuilding()
         build()
+    }
+
+    override fun continueBuilding() {
+        repeat(blocksPlaced) {
+            val item = ItemProperties(currentBlock!!.type, currentBlock!!.data)
+            remainingBlocks[item] = remainingBlocks[item]!! - 1
+            app.mainWorld.placeFakeBlock(owner.player, currentBlock!!.withOffset(allocation))
+            currentBlock = structure.getNextBlock(currentBlock!!.position)
+        }
     }
 
     override fun getBannerInfo(): List<Pair<String, Double>> {
@@ -79,17 +91,17 @@ class WorkerStructure(
         claimGlow!!.delete(setOf(owner.player))
     }
 
-    private fun build() {
-        if (state != StructureState.BUILDING) return
+    fun build() {
+        if (state != StructureState.BUILDING || app.pass - lastModified < delayTime) return
+        lastModified = app.pass
+
         val item = ItemProperties(currentBlock!!.type, currentBlock!!.data)
         if (blocksStorage.getOrDefault(item, 0) <= 0) return
-        runAsync(delayTime) {
-            if (workers.isNotEmpty()) {
-                remainingBlocks[item] = remainingBlocks[item]!! - 1
-                blocksStorage[item] = blocksStorage[item]!! - 1
-                placeCurrentBlock()
-            }
-            build()
+
+        if (workers.isNotEmpty()) {
+            remainingBlocks[item] = remainingBlocks[item]!! - 1
+            blocksStorage[item] = blocksStorage[item]!! - 1
+            placeCurrentBlock()
         }
     }
 

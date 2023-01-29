@@ -1,6 +1,5 @@
 package me.slavita.construction
 
-import com.google.gson.GsonBuilder
 import dev.implario.bukkit.platform.Platforms
 import dev.implario.platform.impl.darkpaper.PlatformDarkPaper
 import me.func.Lock
@@ -17,17 +16,11 @@ import me.slavita.construction.action.chat.AdminCommands
 import me.slavita.construction.action.chat.UserCommands
 import me.slavita.construction.booster.BoosterType
 import me.slavita.construction.booster.Boosters
-import me.slavita.construction.city.City
-import me.slavita.construction.city.CitySerializer
-import me.slavita.construction.city.storage.BlocksStorage
-import me.slavita.construction.city.storage.BlocksStorageSerializer
 import me.slavita.construction.listener.*
 import me.slavita.construction.player.User
-import me.slavita.construction.project.Project
-import me.slavita.construction.project.ProjectSerializer
-import me.slavita.construction.protocol.GetUserPackage
-import me.slavita.construction.protocol.SaveUserPackage
-import me.slavita.construction.structure.*
+import me.slavita.construction.player.UserLoader
+import me.slavita.construction.player.UserSaver
+import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.Formatter.applyBoosters
 import me.slavita.construction.ui.ItemsManager
@@ -37,7 +30,7 @@ import me.slavita.construction.utils.language.EnumLang
 import me.slavita.construction.utils.language.LanguageHelper
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.ItemProperties
-import me.slavita.construction.world.SlotItem
+import net.minecraft.server.v1_12_R1.MinecraftServer
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.WHITE
@@ -61,8 +54,7 @@ import ru.cristalix.core.scoreboard.ScoreboardService
 import ru.cristalix.core.transfer.ITransferService
 import ru.cristalix.core.transfer.TransferService
 import java.util.*
-import java.util.concurrent.TimeUnit
-import java.util.concurrent.TimeoutException
+
 
 lateinit var app: App
 
@@ -73,6 +65,7 @@ class App : JavaPlugin() {
     val chatId = System.getenv("TG_CHAT_ID").toLong()
     val users = hashMapOf<UUID, User>()
     val allBlocks = hashSetOf<ItemProperties>()
+    val waitResponseTime = 5L
 
     val localStaff = hashSetOf(
         "e2543a0a-5799-11e9-8374-1cb72caa35fd",
@@ -82,18 +75,6 @@ class App : JavaPlugin() {
 
     var pass = 0L
         private set
-
-    private val failedLoad = hashSetOf<Player>()
-    private val failedSave = hashSetOf<SaveUserPackage>()
-
-    private val gsonSerializer = GsonBuilder()
-        .registerTypeAdapter(PlayerCell::class.java, PlayerCellSerializer())
-        .registerTypeAdapter(WorkerStructure::class.java, BuildingStructureSerializer())
-        .registerTypeAdapter(ClientStructure::class.java, BuildingStructureSerializer())
-        .registerTypeAdapter(Project::class.java, ProjectSerializer())
-        .registerTypeAdapter(BlocksStorage::class.java, BlocksStorageSerializer())
-        .registerTypeAdapter(City::class.java, CitySerializer())
-        .create()
 
     override fun onEnable() {
         app = this
@@ -167,45 +148,45 @@ class App : JavaPlugin() {
             OnChat,
             OnActions,
             OnUserLoad,
+            UserLoader,
+            UserSaver,
+            BotsManager,
         )
 
-        scheduler.run {
-            runTimerAsync(0, 120) {
-                failedLoad.forEach {
-                    tryLoadUser(it, false)
-                }
-                failedSave.forEach {
-                    trySaveUser(it)
-                }
-            }
+        runTimerAsync(10 * 20, 2 * 60 * 20) {
+            Leaderboards.load()
+        }
 
-            runTimerAsync(10 * 20, 2 * 60 * 20) {
-                Leaderboards.load()
-            }
-
-            coroutineForAll(20) {
-                data.money += income.applyBoosters(BoosterType.MONEY_BOOSTER)
-            }
-
-            coroutineForAll(10 * 20) {
-                showcases.forEach {
-                    it.properties.updatePrices()
+        coroutineForAll(1) {
+            data.cities.forEach { city ->
+                city.projects.forEach {
+                    if (it.structure is WorkerStructure) (it.structure as WorkerStructure).build()
                 }
             }
+        }
 
-            coroutineForAll(2 * 60 * 20) {
-                data.cities.forEach {
-                    it.breakStructure()
-                }
-            }
+        coroutineForAll(20) {
+            data.money += income.applyBoosters(BoosterType.MONEY_BOOSTER)
+        }
 
-            coroutineForAll(5 * 60 * 20) {
-                showcases.forEach { showcase ->
-                    showcase.updatePrices()
-                }
-                showcaseMenu?.updateButtons()
-                player.accept("Цены обновлены!")
+        coroutineForAll(10 * 20) {
+            showcases.forEach {
+                it.properties.updatePrices()
             }
+        }
+
+        coroutineForAll(2 * 60 * 20) {
+            data.cities.forEach {
+                it.breakStructure()
+            }
+        }
+
+        coroutineForAll(5 * 60 * 20) {
+            showcases.forEach { showcase ->
+                showcase.updatePrices()
+            }
+            showcaseMenu?.updateButtons()
+            player.accept("Цены обновлены!")
         }
 
         runTimer(0, 1) { pass++ }
@@ -220,71 +201,4 @@ class App : JavaPlugin() {
     fun getUser(uuid: UUID) = users[uuid]!!
 
     fun getUser(player: Player) = getUser(player.uniqueId)
-
-    fun unloadUser(uuid: UUID) = users.remove(uuid)
-
-    fun trySaveUser(player: Player) = runAsync {
-        trySaveUser(player.user.run {
-            data.inventory.clear()
-
-            val inventory =
-                if (data.hasFreelance) currentFreelance!!.playerInventory else player.inventory.storageContents
-
-            inventory.forEachIndexed { index, item ->
-                if (item != null) data.inventory.add(SlotItem(item, index, item.getAmount()))
-            }
-            player.inventory.clear()
-
-            SaveUserPackage(
-                uuid.toString(),
-                gsonSerializer.toJson(data),
-                data.experience,
-                data.totalProjects.toLong(),
-                data.totalBoosters,
-                data.lastIncome,
-                data.money,
-                data.reputation,
-            )
-        })
-    }
-
-    private fun trySaveUser(pckg: SaveUserPackage) = runAsync {
-        try {
-            log("try save user")
-            socket.writeAndAwaitResponse<SaveUserPackage>(pckg)[5, TimeUnit.SECONDS]
-            log("user saved")
-            failedSave.remove(pckg)
-            unloadUser(pckg.uuid.toUUID())
-        } catch (e: TimeoutException) {
-            log("user save timeout")
-            failedSave.add(pckg)
-        }
-    }
-
-    fun tryLoadUser(player: Player, silent: Boolean) = runAsync {
-        if (!player.isOnline) return@runAsync
-        val uuid = player.uniqueId
-        try {
-            log("try load user")
-            LoadUserEvent(cacheUser(uuid)).callEvent()
-            failedLoad.remove(player)
-            if (!silent) player.accept("Данные успешно загружены")
-        } catch (e: TimeoutException) {
-            log("user load timeout")
-            player.deny("Не удалось загрузить ваши данные\nПовторная загрузка данных...")
-            if (!failedLoad.contains(player)) failedLoad.add(player)
-        }
-    }
-
-    private fun cacheUser(uuid: UUID): User {
-        val raw = getRawUser(uuid)
-        log("got raw data")
-        val user = User(uuid).apply { initialize(raw) }
-        log("user initialized")
-        users[uuid] = user
-        return user
-    }
-
-    private fun getRawUser(uuid: UUID) =
-        socket.writeAndAwaitResponse<GetUserPackage>(GetUserPackage(uuid.toString()))[5, TimeUnit.SECONDS].data
 }

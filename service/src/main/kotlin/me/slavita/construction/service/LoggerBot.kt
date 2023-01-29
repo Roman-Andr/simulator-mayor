@@ -11,4 +11,8 @@ object LoggerBot {
         token = System.getenv("TG_TOKEN")
         dispatch {}
     }
+
+    init {
+        tg.startPolling()
+    }
 }

@@ -36,7 +36,6 @@ object Leaderboards : IRegistrable {
         try {
             socket.writeAndAwaitResponse<GetLeaderboardPackage>(GetLeaderboardPackage(field))[5, TimeUnit.SECONDS].run {
                 leaderboard.update(top)
-                log("$field leaderboard loaded")
             }
         } catch (e: TimeoutException) {
             log("$field leaderboard load timeout")

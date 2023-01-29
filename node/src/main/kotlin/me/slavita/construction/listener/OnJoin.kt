@@ -1,6 +1,7 @@
 package me.slavita.construction.listener
 
 import me.slavita.construction.app
+import me.slavita.construction.player.UserLoader
 import me.slavita.construction.prepare.IRegistrable
 import me.slavita.construction.utils.coroutine
 import me.slavita.construction.utils.listener
@@ -12,8 +13,11 @@ import org.bukkit.event.player.PlayerJoinEvent
 object OnJoin : IRegistrable {
     override fun register() {
         listener<PlayerJoinEvent> event@{
+            OnActions.inZone[player.uniqueId] = false
+            OnActions.storageEntered[player.uniqueId] = false
+
             nextTick {
-                coroutine { app.tryLoadUser(player, true) }
+                coroutine { UserLoader.tryLoadUser(player, true) }
             }
         }
 

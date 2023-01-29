@@ -15,7 +15,5 @@ class ReputationReward(private val reputation: Long) : Reward {
         user.player.cursor("+${value.toReputation()}")
     }
 
-    override fun toString(): String {
-        return reputation.applyBoosters(BoosterType.REPUTATION_BOOSTER).toReputation()
-    }
+    override fun toString() = reputation.applyBoosters(BoosterType.REPUTATION_BOOSTER).toReputation()
 }
