@@ -1,6 +1,7 @@
 package me.slavita.construction.structure.tools
 
 import me.func.mod.Anime
+import me.func.mod.reactive.ReactivePlace
 import me.func.mod.reactive.ReactiveProgress
 import me.func.mod.world.Banners
 import me.func.protocol.data.color.GlowColor
@@ -16,7 +17,12 @@ import org.bukkit.ChatColor.WHITE
 
 class StructureVisual(val structure: BuildingStructure) {
 
-    private var floorBanner: Banner? = null
+    private val infoGlow = ReactivePlace.builder()
+        .rgb(GlowColor.BLUE)
+        .location(structure.box.bottomCenter.clone().apply { y -= 2.0 })
+        .radius(11.0)
+        .angles(120)
+        .build()
     private var infoBanners: Pair<Banner, Banner>? = null
     private var progressWorld: ReactiveProgress? = null
     private var marker: Marker? = null
@@ -27,12 +33,6 @@ class StructureVisual(val structure: BuildingStructure) {
 
     fun start() {
         val center = structure.box.center
-        floorBanner = createFloorBanner(
-            center.clone().apply {
-                y = structure.allocation.y - 22.49
-                z = structure.allocation.z
-            }, GlowColor.BLUE
-        )
 
         infoBanners = createDual(
             BannerInfo(
@@ -58,6 +58,7 @@ class StructureVisual(val structure: BuildingStructure) {
 
         marker = Marker(center.x, center.y, center.z, 80.0, MarkerSign.ARROW_DOWN)
         Banners.show(owner.player, infoBanners!!)
+        infoGlow.send(owner.player)
 
         update()
     }
@@ -75,7 +76,7 @@ class StructureVisual(val structure: BuildingStructure) {
     }
 
     fun show() {
-        Banners.hide(owner.player, floorBanner!!)
+        infoGlow.delete(setOf(owner.player))
         Anime.removeMarker(owner.player, marker!!)
         progressWorld!!.send(owner.player)
         progressBar.show()
@@ -83,14 +84,14 @@ class StructureVisual(val structure: BuildingStructure) {
     }
 
     fun hide() {
-        Banners.show(owner.player, floorBanner!!)
+        infoGlow.send(owner.player)
         Anime.marker(owner.player, marker!!)
         progressWorld!!.delete(setOf(owner.player))
         progressBar.hide()
     }
 
     fun delete() {
-        Banners.hide(owner.player, floorBanner!!)
+        infoGlow.delete(setOf(owner.player))
         Banners.hide(owner.player, infoBanners!!)
         Anime.removeMarker(owner.player, marker!!)
         progressWorld!!.delete(setOf(owner.player))
@@ -98,10 +99,12 @@ class StructureVisual(val structure: BuildingStructure) {
     }
 
     fun finishShow() {
-        Banners.show(owner.player, floorBanner!!.apply { color = GlowColor.GREEN })
+        infoGlow.rgb = GlowColor.GREEN
+        infoGlow.send(owner.player)
     }
 
     fun hideFinish() {
-        Banners.hide(owner.player, floorBanner!!)
+        infoGlow.rgb = GlowColor.GREEN
+        infoGlow.delete(setOf(owner.player))
     }
 }

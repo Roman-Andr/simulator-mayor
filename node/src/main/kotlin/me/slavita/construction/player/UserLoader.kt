@@ -1,20 +1,10 @@
 package me.slavita.construction.player
 
-import com.google.gson.GsonBuilder
 import me.slavita.construction.app
-import me.slavita.construction.city.City
-import me.slavita.construction.city.CitySerializer
-import me.slavita.construction.city.storage.BlocksStorage
-import me.slavita.construction.city.storage.BlocksStorageSerializer
 import me.slavita.construction.listener.LoadUserEvent
-import me.slavita.construction.prepare.IRegistrable
-import me.slavita.construction.project.Project
-import me.slavita.construction.project.ProjectSerializer
+import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.protocol.GetUserPackage
-import me.slavita.construction.protocol.SaveUserPackage
-import me.slavita.construction.structure.*
 import me.slavita.construction.utils.*
-import me.slavita.construction.world.SlotItem
 import org.bukkit.entity.Player
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -40,7 +30,7 @@ object UserLoader : IRegistrable {
             failedLoad.remove(player)
             if (!silent) player.accept("Данные успешно загружены")
         } catch (e: TimeoutException) {
-            log("user load timeout")
+            log("Load timeout")
             player.deny("Не удалось загрузить ваши данные\nПовторная загрузка данных...")
             if (!failedLoad.contains(player)) failedLoad.add(player)
         }
@@ -48,9 +38,8 @@ object UserLoader : IRegistrable {
 
     private fun cacheUser(uuid: UUID): User {
         val raw = getRawUser(uuid)
-        log("got raw data")
         val user = User(uuid).apply { initialize(raw) }
-        log("user initialized")
+        log("${user.player.name} initialized")
         app.users[uuid] = user
         return user
     }

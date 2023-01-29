@@ -1,6 +1,6 @@
 package me.slavita.construction.listener
 
-import me.slavita.construction.prepare.IRegistrable
+import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.utils.listener
 import me.slavita.construction.utils.log
 import me.slavita.construction.utils.user

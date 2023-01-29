@@ -13,7 +13,7 @@ import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
 import me.slavita.construction.action.command.menu.project.StartFreelanceProject
 import me.slavita.construction.action.command.menu.worker.WorkerMenu
 import me.slavita.construction.prepare.GuidePrepare
-import me.slavita.construction.prepare.IRegistrable
+import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.utils.command
 import me.slavita.construction.utils.user
 import org.bukkit.entity.Player

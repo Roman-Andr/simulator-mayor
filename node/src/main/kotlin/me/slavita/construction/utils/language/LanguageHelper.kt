@@ -1,6 +1,6 @@
 package me.slavita.construction.utils.language
 
-import me.slavita.construction.prepare.IRegistrable
+import me.slavita.construction.common.utils.IRegistrable
 import org.bukkit.Material
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.entity.Entity

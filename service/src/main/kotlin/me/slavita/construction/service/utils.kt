@@ -36,4 +36,4 @@ fun logFormat(text: String) = "$prefix $text"
 
 fun log(text: String) = println(logFormat(text))
 
-fun logTg(text: String) = LoggerBot.tg.sendMessage(ChatId.fromId(LoggerBot.chatId), text)
+fun logTg(text: String) = LoggerBot.tg.sendMessage(ChatId.fromId(LoggerBot.chatId), logFormat(text))

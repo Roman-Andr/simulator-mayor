@@ -10,7 +10,7 @@ import ru.cristalix.core.microservice.MicroserviceBootstrap
 import ru.cristalix.core.network.ISocketClient
 
 fun main() {
-    LoggerBot
+    LoggerBot.register()
 
     MicroserviceBootstrap.bootstrap(MicroServicePlatform(2))
     val socketClient = ISocketClient.get()

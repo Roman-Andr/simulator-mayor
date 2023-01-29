@@ -1,7 +1,7 @@
 package me.slavita.construction.ui
 
 import me.slavita.construction.booster.format.*
-import me.slavita.construction.prepare.IRegistrable
+import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.protocol.GetLeaderboardPackage
 import me.slavita.construction.ui.format.MoneyFormatter
 import me.slavita.construction.ui.format.ProjectsFormatter
@@ -32,7 +32,7 @@ object Leaderboards : IRegistrable {
         load("reputation", reputation)
     }
 
-    fun load(field: String, leaderboard: Leaderboard) = runAsync {
+    private fun load(field: String, leaderboard: Leaderboard) = runAsync {
         try {
             socket.writeAndAwaitResponse<GetLeaderboardPackage>(GetLeaderboardPackage(field))[5, TimeUnit.SECONDS].run {
                 leaderboard.update(top)

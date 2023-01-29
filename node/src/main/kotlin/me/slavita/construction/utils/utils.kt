@@ -31,7 +31,7 @@ import me.slavita.construction.city.bank.Bank
 import me.slavita.construction.dontate.Donates
 import me.slavita.construction.player.User
 import me.slavita.construction.player.sound.MusicSound
-import me.slavita.construction.prepare.IRegistrable
+import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.Formatter.toMoney
@@ -411,6 +411,11 @@ fun getFaceCenter(cell: PlayerCell) = cell.box.bottomCenter.clone().apply {
     }
 }
 
+fun Location.addByFace(face: BlockFace, value: Double = 2.0) = apply {
+    x += face.modX * value
+    z += face.modZ * value
+}
+
 private const val OFFSET = 0.52
 
 fun loadBanner(banner: Map<*, *>, location: Location, withPitch: Boolean = false, opacity: Double = 0.45) {
@@ -424,8 +429,9 @@ fun loadBannerFromConfig(
     location: Location,
     withPitch: Boolean = false,
     opacity: Double = 0.45,
+    xray: Double = 0.0,
 ) =
-    Banner.builder()
+    ReactiveBanner.builder()
         .weight(banner["weight"] as Int)
         .height(banner["height"] as Int)
         .content(banner["content"] as String)
@@ -434,7 +440,7 @@ fun loadBannerFromConfig(
         .x(location.toCenterLocation().x)
         .y(location.y + banner["offset"] as Double)
         .z(location.toCenterLocation().z)
-        .xray(0.0)
+        .xray(xray)
         .apply {
             if (withPitch) {
                 watchingOnPlayer(true)
@@ -532,3 +538,15 @@ private fun createBanner(info: BannerInfo): Banner {
 }
 
 fun register(vararg registers: IRegistrable) = registers.forEach { it.register() }
+
+fun nextFace(face: BlockFace) {
+    val faces = listOf(
+        BlockFace.NORTH,
+        BlockFace.EAST,
+        BlockFace.SOUTH,
+        BlockFace.WEST,
+    )
+    faces.listIterator(faces.indexOf(face)).run {
+        if (hasNext()) next() else faces.first()
+    }
+}

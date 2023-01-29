@@ -3,6 +3,7 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":common"))
     implementation(project(":protocol"))
 
     compileOnly("ru.cristalix.core:microservice:1.0.12-3")

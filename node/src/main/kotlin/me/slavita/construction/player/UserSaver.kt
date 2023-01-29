@@ -6,7 +6,7 @@ import me.slavita.construction.city.City
 import me.slavita.construction.city.CitySerializer
 import me.slavita.construction.city.storage.BlocksStorage
 import me.slavita.construction.city.storage.BlocksStorageSerializer
-import me.slavita.construction.prepare.IRegistrable
+import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.project.Project
 import me.slavita.construction.project.ProjectSerializer
 import me.slavita.construction.protocol.SaveUserPackage
@@ -74,7 +74,7 @@ object UserSaver : IRegistrable {
             failedSave.remove(pckg)
             unloadUser(pckg.uuid.toUUID())
         } catch (e: TimeoutException) {
-            log("user save timeout")
+            log("Save timeout")
             failedSave.add(pckg)
         }
     }

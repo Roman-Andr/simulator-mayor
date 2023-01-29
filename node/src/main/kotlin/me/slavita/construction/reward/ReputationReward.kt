@@ -11,7 +11,6 @@ class ReputationReward(private val reputation: Long) : Reward {
     override fun getReward(user: User) {
         val value = reputation.applyBoosters(BoosterType.REPUTATION_BOOSTER)
         user.data.reputation += value
-        user.player.accept("Вы получили ${value.toReputation() + " репутации"}")
         user.player.cursor("+${value.toReputation()}")
     }
 

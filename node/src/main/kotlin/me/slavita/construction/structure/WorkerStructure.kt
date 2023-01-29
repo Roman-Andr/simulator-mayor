@@ -23,7 +23,7 @@ class WorkerStructure(
     val blocksStorage = hashMapOf<ItemProperties, Int>()
     val remainingBlocks = HashMap(structure.blocks)
 
-    private val center = getFaceCenter(cell)
+    private val center = getFaceCenter(cell).addByFace(cell.face)
 
     private var claimGlow = ReactivePlace.builder()
         .rgb(GlowColor.GREEN_LIGHT)

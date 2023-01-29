@@ -4,7 +4,7 @@ import me.func.atlas.Atlas
 import me.func.mod.reactive.ReactiveBanner
 import me.func.mod.world.Banners
 import me.slavita.construction.app
-import me.slavita.construction.prepare.IRegistrable
+import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.utils.toYaw
 import org.bukkit.block.BlockFace
 

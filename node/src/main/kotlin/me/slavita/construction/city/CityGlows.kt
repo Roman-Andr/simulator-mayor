@@ -7,7 +7,7 @@ import me.func.protocol.data.color.RGB
 import me.slavita.construction.action.command.menu.city.CityHallMenu
 import me.slavita.construction.action.command.menu.city.StorageUpgrade
 import me.slavita.construction.app
-import me.slavita.construction.prepare.IRegistrable
+import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.utils.*
 import org.bukkit.entity.Player
 

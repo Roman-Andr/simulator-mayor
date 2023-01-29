@@ -16,24 +16,24 @@ import org.bukkit.ChatColor.GOLD
 import org.bukkit.entity.Player
 
 class CityStructureVisual(val structure: CityStructure) {
-    private var redBanner: Banner? = null
+    private val infoGlow = ReactivePlace.builder()
+        .rgb(GlowColor.RED)
+        .location(structure.cell.box.bottomCenter.clone().apply { y -= 2.0 })
+        .radius(11.0)
+        .angles(120)
+        .build()
     private var repairGlow: ReactivePlace? = null
     private var repairBanner: Banner? = null
     private var marker: Marker? = null
 
     init {
         val center = structure.cell.box.center
-        redBanner = createFloorBanner(
-            center.clone().apply {
-                y = structure.box.min.y - 22.49
-                z = structure.box.min.z
-            }, GlowColor.RED
-        )
+        val sideCenter = getFaceCenter(structure.cell).addByFace(structure.cell.face)
         marker = Marker(center.x, center.y, center.z, 80.0, MarkerSign.ARROW_DOWN)
         repairGlow = ReactivePlace.builder()
             .rgb(GlowColor.GREEN_LIGHT)
             .radius(2.0)
-            .location(getFaceCenter(structure.cell).clone().apply { y -= 2.5 })
+            .location(sideCenter.clone().apply { y -= 2.5 })
             .onEntire { player ->
                 if (blocksDepositRepair(player, structure.targetBlocks, structure.repairBlocks)) {
                     structure.repairBlocks.forEach {
@@ -48,7 +48,7 @@ class CityStructureVisual(val structure: CityStructure) {
             .build()
         repairBanner = loadBannerFromConfig(
             Atlas.find("city").getMapList("claim-banner").first(),
-            getFaceCenter(structure.cell),
+            sideCenter,
             opacity = 0.0
         )
     }
@@ -88,19 +88,19 @@ class CityStructureVisual(val structure: CityStructure) {
     fun update() {
         when (structure.state) {
             CityStructureState.NOT_READY   -> {
-                Banners.hide(structure.owner, redBanner!!)
+                infoGlow.delete(setOf(structure.owner))
                 Anime.removeMarker(structure.owner, marker!!)
             }
 
             CityStructureState.FUNCTIONING -> {
-                Banners.hide(structure.owner, redBanner!!)
+                infoGlow.delete(setOf(structure.owner))
                 Anime.removeMarker(structure.owner, marker!!)
                 repairGlow!!.delete(setOf(structure.owner))
                 Banners.hide(structure.owner, repairBanner!!)
             }
 
             CityStructureState.BROKEN      -> {
-                Banners.show(structure.owner, redBanner!!)
+                infoGlow.send(structure.owner)
                 Anime.marker(structure.owner, marker!!)
                 repairGlow!!.send(structure.owner)
                 Banners.show(structure.owner, repairBanner!!)

@@ -1,8 +1,7 @@
 package me.slavita.construction.listener
 
-import me.slavita.construction.app
 import me.slavita.construction.player.UserLoader
-import me.slavita.construction.prepare.IRegistrable
+import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.utils.coroutine
 import me.slavita.construction.utils.listener
 import me.slavita.construction.utils.nextTick

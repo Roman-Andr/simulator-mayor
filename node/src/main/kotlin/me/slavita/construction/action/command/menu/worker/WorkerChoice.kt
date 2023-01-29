@@ -20,10 +20,9 @@ import org.bukkit.entity.Player
 class WorkerChoice(player: Player, val project: Project, val startProject: Boolean = true) :
     WorkerExecutor(player, project.structure as WorkerStructure) {
 
-    var applyButton = button {
+    private var applyButton = button {
         item = Icons.get("other", "access")
         title = "${GREEN}Подтвердить"
-        backgroundColor = getApplyColor()
         hint = "Готово"
         click { _, _, _ ->
             if ((project.structure as WorkerStructure).workers.isNotEmpty()) {
@@ -41,6 +40,7 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
                 info = WORKER_INFO
                 rows = 5
                 columns = 4
+                updateColor()
                 storage = mutableListOf(
                     getEmptyButton(),
                     applyButton,
@@ -79,15 +79,17 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
                                     }
                                 click { _, _, button ->
                                     distributeWorker(worker, button)
+                                    updateColor()
                                 }
                             }
                         )
                     }
-                    applyButton.backgroundColor = getApplyColor()
                 }
             }
         }
     }
 
-    fun getApplyColor() = if ((project.structure as WorkerStructure).workers.isEmpty()) GlowColor.NEUTRAL else GlowColor.GREEN
+    private fun updateColor() {
+        applyButton.backgroundColor = if ((project.structure as WorkerStructure).workers.isEmpty()) GlowColor.NEUTRAL else GlowColor.GREEN
+    }
 }

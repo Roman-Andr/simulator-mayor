@@ -52,3 +52,12 @@ afk-zone:
     carve-size: 2.0
     lines-size:
       - 2.0
+cell-banner:
+  - banner:
+    height: 8
+    weight: 42
+    offset: 4.0
+    content: "§6Клетка"
+    carve-size: 2.0
+    lines-size:
+      - 2.0

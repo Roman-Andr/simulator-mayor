@@ -1,6 +1,6 @@
 package me.slavita.construction.listener
 
-import me.slavita.construction.prepare.IRegistrable
+import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.ui.HumanizableValues.BLOCK
 import me.slavita.construction.utils.*
 import me.slavita.construction.utils.language.LanguageHelper

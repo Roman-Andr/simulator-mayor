@@ -14,7 +14,7 @@ import me.slavita.construction.action.command.menu.general.DailyMenu
 import me.slavita.construction.action.command.menu.general.GuideDialog
 import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
 import me.slavita.construction.action.command.menu.worker.WorkerMenu
-import me.slavita.construction.prepare.IRegistrable
+import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.ui.menu.Icons
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack
 import org.bukkit.inventory.EquipmentSlot

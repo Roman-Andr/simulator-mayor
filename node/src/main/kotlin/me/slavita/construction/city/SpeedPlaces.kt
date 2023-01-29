@@ -1,14 +1,14 @@
 package me.slavita.construction.city
 
 import me.func.atlas.Atlas
+import me.func.mod.reactive.ReactiveBanner
 import me.func.mod.reactive.ReactivePlace
 import me.func.mod.ui.Glow
 import me.func.mod.util.after
 import me.func.mod.world.Banners
 import me.func.protocol.data.color.GlowColor
-import me.func.protocol.data.element.Banner
 import me.slavita.construction.app
-import me.slavita.construction.prepare.IRegistrable
+import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.ui.Texture
 import me.slavita.construction.utils.*
 import org.bukkit.block.BlockFace
@@ -31,7 +31,7 @@ object SpeedPlaces : IRegistrable {
                 loadBanner(banner, label, true, 0.0)
             }
             Banners.add(
-                Banner.builder()
+                ReactiveBanner.builder()
                     .texture(Texture.SPEED_BOOST.path())
                     .color(GlowColor.BLUE_LIGHT)
                     .weight(35)

@@ -12,10 +12,10 @@ import me.slavita.construction.city.bank.Bank
 import me.slavita.construction.player.Data
 import me.slavita.construction.player.Tags
 import me.slavita.construction.prepare.GuidePrepare
-import me.slavita.construction.prepare.IRegistrable
+import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.prepare.TagsPrepare
 import me.slavita.construction.ui.Formatter.toMoneyIcon
-import me.slavita.construction.ui.achievements.AchievementType
+import me.slavita.construction.ui.Leaderboards
 import me.slavita.construction.utils.*
 import org.bukkit.Bukkit
 import ru.cristalix.core.display.messages.RadioMessage
@@ -131,10 +131,13 @@ object AdminCommands : IRegistrable {
                 .send(player)
         }
 
-        opCommand("achievement") { _, _ ->
-            repeat(49) {
-                log(AchievementType.PROJECTS.formula(it + 1))
-            }
+        opCommand("testui") { player, _ ->
+            ModTransfer()
+                .double(player.location.x)
+                .double(player.location.y)
+                .double(player.location.z)
+                .string("testui")
+                .send("test", player)
         }
     }
 }

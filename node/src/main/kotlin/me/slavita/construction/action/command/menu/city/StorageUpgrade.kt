@@ -9,6 +9,7 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.Formatter.toLevel
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.ui.menu.Icons
+import me.slavita.construction.utils.STORAGE_INFO
 import me.slavita.construction.utils.click
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
@@ -17,6 +18,7 @@ class StorageUpgrade(val player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         return choicer {
             title = "${GREEN}${BOLD}Склад"
+            info = STORAGE_INFO
             description = "Управление складом"
             storage = mutableListOf(
                 button {

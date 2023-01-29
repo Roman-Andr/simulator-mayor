@@ -8,7 +8,7 @@ import com.petersamokhin.vksdk.http.VkOkHttpClient
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
-import me.slavita.construction.prepare.IRegistrable
+import me.slavita.construction.common.utils.IRegistrable
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.entities.Activity
 
@@ -36,9 +36,9 @@ object BotsManager : IRegistrable {
         tg.startPolling()
         runBlocking {
             delay(1000)
-            logVk("Initialized")
-            logDs("Initialized")
-            logTg("Initialized")
+            logVk("Node initialized")
+            logDs("Node initialized")
+            logTg("Node initialized")
         }
     }
 }
