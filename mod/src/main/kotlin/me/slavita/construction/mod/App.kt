@@ -22,7 +22,7 @@ class App : KotlinMod() {
         Showcases
         CreditTaking
         Storage
-        CellInfo
+        CellBorders
     }
 
     fun runRepeatingTask(delay: Double, period: Double, action: () -> Unit) {
