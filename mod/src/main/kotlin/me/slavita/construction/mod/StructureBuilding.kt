@@ -9,14 +9,8 @@ import dev.xdark.clientapi.opengl.GlStateManager
 import dev.xdark.clientapi.util.EnumHand
 import dev.xdark.clientapi.util.ParticleType
 import io.netty.buffer.Unpooled
-import me.slavita.construction.common.utils.STRUCTURE_BLOCK_CHANNEL
-import me.slavita.construction.common.utils.STRUCTURE_HIDE_CHANNEL
-import me.slavita.construction.common.utils.STRUCTURE_PLACE_CHANNEL
-import me.slavita.construction.mod.utils.Renderer
-import me.slavita.construction.mod.utils.extensions.InventoryExtensions.blocksCount
-import me.slavita.construction.mod.utils.extensions.InventoryExtensions.handItemEquals
-import me.slavita.construction.mod.utils.extensions.InventoryExtensions.hotbarEqualSlots
-import me.slavita.construction.mod.utils.isLookingAt
+import me.slavita.construction.common.utils.*
+import me.slavita.construction.mod.utils.*
 import org.lwjgl.input.Mouse
 import ru.cristalix.uiengine.UIEngine
 import ru.cristalix.uiengine.UIEngine.clientApi
@@ -28,7 +22,7 @@ import ru.cristalix.uiengine.eventloop.thenAnimate
 import ru.cristalix.uiengine.eventloop.thenWait
 import ru.cristalix.uiengine.utility.*
 
-object StructureBuilding {
+object StructureBuilding : IRegistrable {
 
     private var currentItem: ItemStack? = null
     private var currentBlockLocation: V3? = null
@@ -39,7 +33,6 @@ object StructureBuilding {
     private var lineWidth = 3.5F
 
     private val nextBlock: RectangleElement = rectangle {
-
         align = BOTTOM
         offset = V3(-105.0, -2.0)
         enabled = false
@@ -80,7 +73,7 @@ object StructureBuilding {
         offset = V3(-80.0, -24.0)
     }
 
-    init {
+    override fun register() {
         UIEngine.overlayContext.addChild(nextBlock)
         UIEngine.overlayContext.addChild(markers)
 
@@ -126,7 +119,7 @@ object StructureBuilding {
                 }
                 return@registerHandler
             }
-            clientApi.clientConnection().sendPayload(STRUCTURE_PLACE_CHANNEL, Unpooled.buffer())
+            sendPayload(STRUCTURE_PLACE_CHANNEL, Unpooled.buffer())
             player.swingArm(EnumHand.MAIN_HAND)
         }
 

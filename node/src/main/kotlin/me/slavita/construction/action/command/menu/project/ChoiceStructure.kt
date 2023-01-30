@@ -7,10 +7,8 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.instance.StructureGroup
 import me.slavita.construction.ui.menu.Icons
-import me.slavita.construction.utils.STRUCTURES_INFO
-import me.slavita.construction.utils.click
+import me.slavita.construction.utils.*
 import me.slavita.construction.utils.language.LanguageHelper
-import me.slavita.construction.utils.mapM
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 
@@ -25,8 +23,7 @@ class ChoiceStructure(
             return selection {
                 title = "${GOLD}${BOLD}Выбор здания"
                 info = STRUCTURES_INFO
-                rows = 5
-                columns = 4
+                size(5, 4)
                 storage = structureGroup.structures.sortedBy { it.id }.mapM { structure ->
                     button {
                         title = structure.name

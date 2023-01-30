@@ -21,8 +21,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
         user.run {
             return selection {
                 title = "${GREEN}${BOLD}Меню"
-                rows = 4
-                columns = 4
+                size(4, 4)
                 info = MENU_INFO
                 storage = mutableListOf(
                     button {

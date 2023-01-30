@@ -31,8 +31,7 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player)
                 title = showcase.properties.name
                 vault = Formatter.moneyIcon
                 info = SHOWCASE_INFO
-                rows = 5
-                columns = 14
+                size(5, 14)
                 money = getMoney()
                 storage = buttons
             }

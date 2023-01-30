@@ -95,6 +95,22 @@ fun ReactiveButton.click(click: ButtonClickHandler) = apply {
     }
 }
 
+fun Selection.getVault(user: User, type: StatsType) {
+    vault = type.vault
+    money = "Ваш ${type.title} ${
+        when (type) {
+            StatsType.MONEY  -> user.data.money.toMoney()
+            StatsType.LEVEL  -> user.data.level
+            StatsType.CREDIT -> Bank.playersData[user.player.uniqueId]!!.sumOf { it.creditValue }.toMoney()
+        }
+    }"
+}
+
+fun Selection.size(rows: Int, columns: Int) {
+    this.rows = rows
+    this.columns = columns
+}
+
 fun nextTick(runnable: Runnable) {
     Bukkit.getScheduler().runTask(Platforms.getPlugin(), runnable)
 }
@@ -524,15 +540,4 @@ fun nextFace(face: BlockFace) {
     faces.listIterator(faces.indexOf(face)).run {
         if (hasNext()) next() else faces.first()
     }
-}
-
-fun getMoney(user: User, selection: Selection, type: StatsType) {
-    selection.vault = type.vault
-    selection.money = "Ваш ${type.title} ${
-        when (type) {
-            StatsType.MONEY  -> user.data.money.toMoney()
-            StatsType.LEVEL  -> user.data.level
-            StatsType.CREDIT -> Bank.playersData[user.player.uniqueId]!!.sumOf { it.creditValue }.toMoney()
-        }
-    }"
 }

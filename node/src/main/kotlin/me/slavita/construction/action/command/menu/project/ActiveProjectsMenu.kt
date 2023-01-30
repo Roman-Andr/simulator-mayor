@@ -8,9 +8,8 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.ui.menu.StatsType
-import me.slavita.construction.utils.PROJECTS_INFO
-import me.slavita.construction.utils.getMoney
-import me.slavita.construction.utils.mapM
+import me.slavita.construction.utils.*
+import me.slavita.construction.utils.getVault
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.entity.Player
@@ -20,9 +19,8 @@ class ActiveProjectsMenu(player: Player) : MenuCommand(player) {
         user.run {
             return selection {
                 title = "${AQUA}${BOLD}Ваши активные проекты"
-                rows = 4
-                columns = 4
-                getMoney(user, this, StatsType.MONEY)
+                size(4, 4)
+                getVault(user, StatsType.MONEY)
                 hint = ""
                 info = PROJECTS_INFO
                 storage = this@run.data.cities.flatMap { it.projects }.mapM {

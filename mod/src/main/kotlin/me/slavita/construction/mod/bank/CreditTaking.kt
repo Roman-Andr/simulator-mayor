@@ -1,21 +1,20 @@
 package me.slavita.construction.mod.bank
 
 import io.netty.buffer.Unpooled
-import me.slavita.construction.common.utils.BANK_OPEN_CHANNEL
-import me.slavita.construction.common.utils.BANK_SUBMIT_CHANNEL
-import me.slavita.construction.common.utils.NumberFormatter
+import me.slavita.construction.common.utils.*
 import me.slavita.construction.mod.mod
 import me.slavita.construction.mod.templates.button
 import me.slavita.construction.mod.templates.slider
 import me.slavita.construction.mod.utils.ColorPalette
 import me.slavita.construction.mod.utils.doubleVec
+import me.slavita.construction.mod.utils.sendPayload
 import ru.cristalix.uiengine.UIEngine
 import ru.cristalix.uiengine.UIEngine.clientApi
 import ru.cristalix.uiengine.element.ContextGui
 import ru.cristalix.uiengine.utility.*
 import kotlin.math.pow
 
-object CreditTaking : ContextGui() {
+object CreditTaking : ContextGui(), IRegistrable {
     private val back = carved {
         align = CENTER
         origin = CENTER
@@ -81,7 +80,7 @@ object CreditTaking : ContextGui() {
             onButtonClick {
                 val buffer = Unpooled.buffer().writeInt(slider.activeId).writeInt(digit)
                 UIEngine.schedule(0.1) {
-                    clientApi.clientConnection().sendPayload(BANK_SUBMIT_CHANNEL, buffer)
+                    sendPayload(BANK_SUBMIT_CHANNEL, buffer)
                     close()
                 }
             }
@@ -98,7 +97,7 @@ object CreditTaking : ContextGui() {
 
     private var digit = 0
 
-    init {
+    override fun register() {
         this.size = UIEngine.overlayContext.size
         color = Color(0, 0, 0, 0.86)
 

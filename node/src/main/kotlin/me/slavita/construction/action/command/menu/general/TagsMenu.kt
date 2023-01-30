@@ -30,9 +30,8 @@ class TagsMenu(val player: Player) : MenuCommand(player) {
 
         selection = selection {
             title = "${AQUA}${BOLD}Меню тегов"
-            rows = 4
-            columns = 4
-            getMoney(user, this, StatsType.MONEY)
+            size(4, 4)
+            getVault(user, StatsType.MONEY)
             info = TAGS_INFO
             storage = buttons
         }

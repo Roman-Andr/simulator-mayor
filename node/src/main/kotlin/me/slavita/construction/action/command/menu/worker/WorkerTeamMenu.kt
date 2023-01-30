@@ -16,9 +16,8 @@ class WorkerTeamMenu(player: Player) : MenuCommand(player) {
         user.run user@{
             return selection {
                 title = "${GREEN}${BOLD}Ваши работники"
-                getMoney(user, this, StatsType.MONEY)
-                rows = 4
-                columns = 4
+                getVault(user, StatsType.MONEY)
+                size(4, 4)
                 info = WORKER_INFO
                 storage = this@user.data.workers.sortedByDescending { it.rarity }.mapM { worker ->
                     button {

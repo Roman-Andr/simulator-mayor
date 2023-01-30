@@ -9,6 +9,7 @@ import me.slavita.construction.ui.achievements.AchievementType
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.ACHIEVEMENTS_INFO
 import me.slavita.construction.utils.mapM
+import me.slavita.construction.utils.size
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GREEN
 import org.bukkit.entity.Player
@@ -18,8 +19,7 @@ class AchievementsMenu(player: Player, val type: AchievementType) : MenuCommand(
         return selection {
             title = type.title
             info = ACHIEVEMENTS_INFO
-            rows = 4
-            columns = 3
+            size(4, 3)
 
             val level = user.data.achievements.find { it.type == type }!!.level
             storage = (1..50).mapM { value ->

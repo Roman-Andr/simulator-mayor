@@ -5,6 +5,7 @@ import dev.xdark.clientapi.opengl.GlStateManager
 import dev.xdark.clientapi.render.DefaultVertexFormats
 import me.func.protocol.data.color.GlowColor
 import me.func.protocol.data.color.RGB
+import me.slavita.construction.common.utils.IRegistrable
 import org.lwjgl.opengl.GL11
 import ru.cristalix.uiengine.UIEngine.clientApi
 import ru.cristalix.uiengine.utility.*
@@ -20,11 +21,11 @@ class WorldRectangle(
     val radius: Double = 1.3
 )
 
-object CellBorders {
+object CellBorders : IRegistrable{
     private val places = arrayListOf<WorldRectangle>()
     private val placeCache = hashMapOf<UUID, ArrayList<Triple<Double, Double, Double>>>()
 
-    init {
+    override fun register() {
         mod.registerChannel("rectangle:new") {
             places.add(
                 WorldRectangle(

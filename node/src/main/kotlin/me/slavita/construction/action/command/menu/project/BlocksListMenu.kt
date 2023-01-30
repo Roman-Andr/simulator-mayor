@@ -7,6 +7,7 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.utils.language.LanguageHelper
 import me.slavita.construction.utils.mapM
+import me.slavita.construction.utils.size
 import me.slavita.construction.utils.validate
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
@@ -16,8 +17,7 @@ class BlocksListMenu(player: Player, val structure: Structure) : MenuCommand(pla
         user.run user@{
             return selection {
                 title = "${AQUA}${BOLD}Список материалов"
-                rows = 5
-                columns = 14
+                size(5, 14)
                 storage = structure.blocks.keys.mapM { itemProps ->
                     button {
                         item = itemProps.createItemStack(1).validate()

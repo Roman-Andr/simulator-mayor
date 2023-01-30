@@ -1,7 +1,8 @@
 package me.slavita.construction.mod.templates
 
 import me.func.protocol.data.color.GlowColor
-import me.slavita.construction.mod.utils.extensions.ColorExtensions.toColor
+import me.slavita.construction.mod.utils.toColor
+
 import ru.cristalix.uiengine.element.CarvedRectangle
 import ru.cristalix.uiengine.element.TextElement
 import ru.cristalix.uiengine.eventloop.animate

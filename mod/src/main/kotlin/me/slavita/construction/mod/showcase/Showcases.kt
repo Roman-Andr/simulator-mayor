@@ -8,17 +8,19 @@ import dev.xdark.clientapi.util.EnumFacing
 import dev.xdark.clientapi.util.EnumHand
 import dev.xdark.feder.NetUtil
 import io.netty.buffer.Unpooled
+import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.common.utils.SHOWCASE_INIT_CHANNEL
 import me.slavita.construction.mod.mod
 import me.slavita.construction.mod.player
 import me.slavita.construction.mod.templates.BoxData
 import me.slavita.construction.mod.templates.infoZone
-import me.slavita.construction.mod.utils.extensions.PositionExtensions.inBox
+import me.slavita.construction.mod.utils.inBox
+import me.slavita.construction.mod.utils.sendPayload
 import ru.cristalix.uiengine.UIEngine
 import ru.cristalix.uiengine.UIEngine.clientApi
 import ru.cristalix.uiengine.utility.*
 
-object Showcases {
+object Showcases : IRegistrable {
 
     private var showcases = arrayOf<ShowcaseData>()
 
@@ -26,7 +28,7 @@ object Showcases {
         info.description("Открыть витрину")
     }
 
-    init {
+    override fun register() {
         UIEngine.overlayContext.addChild(infoZone.info)
 
         mod.registerHandler<BlockRightClick> {
@@ -49,7 +51,7 @@ object Showcases {
             if (!position.add(facing.xOffset, facing.yOffset, facing.zOffset).inBox(data.min, data.max)) return@forEach
 
             val buffer = Unpooled.buffer().writeInt(data.id)
-            clientApi.clientConnection().sendPayload("showcase:open", buffer)
+            sendPayload("showcase:open", buffer)
 
             player.swingArm(EnumHand.MAIN_HAND)
         }

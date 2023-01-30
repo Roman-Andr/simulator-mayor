@@ -21,8 +21,7 @@ class StorageMenu(player: Player) : MenuCommand(player) {
         selection = selection {
             title = "${GREEN}${BOLD}Склад"
             info = STORAGE_INFO
-            rows = 5
-            columns = 14
+            size(5, 14)
             money = getFreeSpace()
             storage = blocksStorage.blocks.mapM { entry ->
                 button {

@@ -1,6 +1,7 @@
 package me.slavita.construction.mod
 
 import dev.xdark.clientapi.entity.EntityPlayerSP
+import me.slavita.construction.common.utils.register
 import me.slavita.construction.mod.bank.CreditTaking
 import me.slavita.construction.mod.showcase.Showcases
 import me.slavita.construction.mod.storage.Storage
@@ -18,11 +19,13 @@ class App : KotlinMod() {
         mod = this
         player = clientApi.minecraft().player
 
-        StructureBuilding
-        Showcases
-        CreditTaking
-        Storage
-        CellBorders
+        register(
+            StructureBuilding,
+            Showcases,
+            CreditTaking,
+            Storage,
+            CellBorders
+        )
     }
 
     fun runRepeatingTask(delay: Double, period: Double, action: () -> Unit) {

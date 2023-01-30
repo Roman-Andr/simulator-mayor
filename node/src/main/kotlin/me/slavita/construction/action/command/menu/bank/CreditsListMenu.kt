@@ -19,9 +19,8 @@ class CreditsListMenu(player: Player) : MenuCommand(player) {
         user.run user@{
             return selection {
                 title = "${GOLD}${BOLD}Ваши кредиты"
-                rows = 4
-                columns = 5
-                getMoney(user, this, StatsType.CREDIT)
+                size(4, 5)
+                getVault(user, StatsType.CREDIT)
                 info = CREDITS_INFO
                 storage = mutableListOf<ReactiveButton>().apply storage@{
                     Bank.playersData[player.uniqueId]!!.forEachIndexed { index, value ->
