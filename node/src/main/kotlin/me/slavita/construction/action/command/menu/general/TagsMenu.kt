@@ -3,6 +3,7 @@ package me.slavita.construction.action.command.menu.general
 import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
+import me.func.mod.ui.menu.selection
 import me.func.mod.ui.menu.selection.Selection
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
@@ -27,7 +28,11 @@ class TagsMenu(val player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         buttons.addAll(getButtons())
 
-        selection = getBaseSelection(user, "${AQUA}${BOLD}Меню тегов", StatsType.MONEY, 4, 4).apply {
+        selection = selection {
+            title = "${AQUA}${BOLD}Меню тегов"
+            rows = 4
+            columns = 4
+            getMoney(user, this, StatsType.MONEY)
             info = TAGS_INFO
             storage = buttons
         }

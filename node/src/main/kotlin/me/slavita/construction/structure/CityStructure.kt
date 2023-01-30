@@ -6,7 +6,6 @@ import me.func.unit.Building
 import me.func.world.Box
 import me.slavita.construction.app
 import me.slavita.construction.city.City
-import me.slavita.construction.player.User
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.structure.tools.CityStructureState
@@ -70,11 +69,11 @@ class CityStructureSerializer : JsonSerializer<CityStructure> {
             json.addProperty("playerCellId", cell.id)
 
             val repairBlocks = JsonArray()
-            this.repairBlocks.forEach { repairBlocks.add(context.serialize(AmountItemProperties(it.key, it.value)) ) }
+            this.repairBlocks.forEach { repairBlocks.add(context.serialize(AmountItemProperties(it.key, it.value))) }
             json.add("repairBlocks", repairBlocks)
 
             val targetBlocks = JsonArray()
-            this.targetBlocks.forEach { targetBlocks.add(context.serialize(AmountItemProperties(it.key, it.value)) ) }
+            this.targetBlocks.forEach { targetBlocks.add(context.serialize(AmountItemProperties(it.key, it.value))) }
             json.add("targetBlocks", repairBlocks)
         }
         return json
@@ -82,18 +81,23 @@ class CityStructureSerializer : JsonSerializer<CityStructure> {
 }
 
 class CityStructureDeserializer(val city: City) : JsonDeserializer<CityStructure> {
-    override fun deserialize(json: JsonElement, type: Type, context: JsonDeserializationContext) = json.asJsonObject.run {
-        CityStructure(city.owner.player, Structures.structures[get("structureId").asInt], city.playerCells[get("playerCellId").asInt]).apply {
-            get("repairBlocks").asJsonArray.forEach { //todo: duplicates in building structure deserializer
-                val item = context.deserialize<AmountItemProperties>(it, AmountItemProperties::class.java)
-                repairBlocks[item] = item.amount
-            }
+    override fun deserialize(json: JsonElement, type: Type, context: JsonDeserializationContext) =
+        json.asJsonObject.run {
+            CityStructure(
+                city.owner.player,
+                Structures.structures[get("structureId").asInt],
+                city.playerCells[get("playerCellId").asInt]
+            ).apply {
+                get("repairBlocks").asJsonArray.forEach { //todo: duplicates in building structure deserializer
+                    val item = context.deserialize<AmountItemProperties>(it, AmountItemProperties::class.java)
+                    repairBlocks[item] = item.amount
+                }
 
-            targetBlocks.clear()
-            get("targetBlocks").asJsonArray.forEach {
-                val item = context.deserialize<AmountItemProperties>(it, AmountItemProperties::class.java)
-                targetBlocks[item] = item.amount
+                targetBlocks.clear()
+                get("targetBlocks").asJsonArray.forEach {
+                    val item = context.deserialize<AmountItemProperties>(it, AmountItemProperties::class.java)
+                    targetBlocks[item] = item.amount
+                }
             }
         }
-    }
 }

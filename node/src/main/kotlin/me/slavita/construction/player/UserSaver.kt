@@ -10,7 +10,6 @@ import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.project.Project
 import me.slavita.construction.project.ProjectSerializer
 import me.slavita.construction.protocol.SaveUserPackage
-import me.slavita.construction.protocol.UserSavedPackage
 import me.slavita.construction.structure.*
 import me.slavita.construction.utils.*
 import me.slavita.construction.world.SlotItem

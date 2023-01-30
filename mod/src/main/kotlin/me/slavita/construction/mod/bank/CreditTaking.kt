@@ -1,6 +1,8 @@
 package me.slavita.construction.mod.bank
 
 import io.netty.buffer.Unpooled
+import me.slavita.construction.common.utils.BANK_OPEN_CHANNEL
+import me.slavita.construction.common.utils.BANK_SUBMIT_CHANNEL
 import me.slavita.construction.common.utils.NumberFormatter
 import me.slavita.construction.mod.mod
 import me.slavita.construction.mod.templates.button
@@ -79,7 +81,7 @@ object CreditTaking : ContextGui() {
             onButtonClick {
                 val buffer = Unpooled.buffer().writeInt(slider.activeId).writeInt(digit)
                 UIEngine.schedule(0.1) {
-                    clientApi.clientConnection().sendPayload("bank:submit", buffer)
+                    clientApi.clientConnection().sendPayload(BANK_SUBMIT_CHANNEL, buffer)
                     close()
                 }
             }
@@ -102,7 +104,7 @@ object CreditTaking : ContextGui() {
 
         +back
 
-        mod.registerChannel("bank:open") {
+        mod.registerChannel(BANK_OPEN_CHANNEL) {
             digit = readInt()
             open()
         }

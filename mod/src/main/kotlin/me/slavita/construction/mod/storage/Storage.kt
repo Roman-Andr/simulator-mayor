@@ -5,6 +5,9 @@ import dev.xdark.clientapi.event.block.BlockRightClick
 import dev.xdark.clientapi.util.EnumHand
 import dev.xdark.feder.NetUtil
 import io.netty.buffer.Unpooled
+import me.slavita.construction.common.utils.STORAGE_HIDE_CHANNEL
+import me.slavita.construction.common.utils.STORAGE_INIT_CHANNEL
+import me.slavita.construction.common.utils.STORAGE_SHOW_CHANNEL
 import me.slavita.construction.mod.mod
 import me.slavita.construction.mod.player
 import me.slavita.construction.mod.templates.BoxData
@@ -31,16 +34,16 @@ object Storage {
         UIEngine.overlayContext.addChild(infoZone.info)
         UIEngine.overlayContext.addChild(enterInfo)
 
-        mod.registerChannel("storage:initialize") {
+        mod.registerChannel(STORAGE_INIT_CHANNEL) {
             storages = Gson().fromJson(NetUtil.readUtf8(this), Array<StorageData>::class.java)
             infoZone.info.boxes = storages.map { BoxData(it.title, it.min, it.max) }.toTypedArray()
         }
 
-        mod.registerChannel("storage:show") {
+        mod.registerChannel(STORAGE_SHOW_CHANNEL) {
             enterInfo.show()
         }
 
-        mod.registerChannel("storage:hide") {
+        mod.registerChannel(STORAGE_HIDE_CHANNEL) {
             enterInfo.hide()
         }
 

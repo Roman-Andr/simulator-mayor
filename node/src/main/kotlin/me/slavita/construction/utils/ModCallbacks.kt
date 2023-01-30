@@ -3,7 +3,7 @@ package me.slavita.construction.utils
 import me.func.mod.Anime
 import me.func.protocol.math.Position
 import me.slavita.construction.city.bank.Bank
-import me.slavita.construction.common.utils.IRegistrable
+import me.slavita.construction.common.utils.*
 import me.slavita.construction.reward.MoneyReward
 import me.slavita.construction.structure.ClientStructure
 import me.slavita.construction.ui.Formatter.toMoneyIcon
@@ -20,7 +20,7 @@ object ModCallbacks : IRegistrable {
 //            }
 //        }
 
-        Anime.createReader("bank:submit") { player, buff ->
+        Anime.createReader(BANK_SUBMIT_CHANNEL) { player, buff ->
             val amount = buff.readInt()
             val digit = buff.readInt()
             val value = (amount * 10.0.pow(digit)).toLong()
@@ -28,12 +28,12 @@ object ModCallbacks : IRegistrable {
             Bank.giveCredit(player.user, value)
         }
 
-        Anime.createReader("func:reward:click") { player, _ ->
+        Anime.createReader(FUNC_REWARD_CLICK) { player, _ ->
             MoneyReward(100).getReward(player.user)
             player.user.updateDaily()
         }
 
-        Anime.createReader("structure:place") { player, _ ->
+        Anime.createReader(STRUCTURE_PLACE_CHANNEL) { player, _ ->
             Bukkit.getOnlinePlayers().forEach { owner ->
                 if (player == owner) (owner.user.watchableProject!!.structure as ClientStructure).tryPlaceBlock()
             }

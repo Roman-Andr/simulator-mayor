@@ -45,9 +45,15 @@ class ClientStructure(
     }
 
     fun tryPlaceBlock() {
-        when (Random.nextInt(100)) {
-            in 0..5  -> ReputationReward(owner.data.reputation / 100).getReward(owner)
-            in 0..20 -> MoneyReward(owner.data.money / 100).getReward(owner)
+        owner.data.run {
+            when (Random.nextInt(100)) {
+                in 0..5  ->
+                    ReputationReward(
+                        reputation / 100 +
+                        Random.nextInt(1, 10) * level).getReward(owner)
+                in 0..20 ->
+                    MoneyReward(money / 100).getReward(owner)
+            }
         }
 
         owner.player.inventory.itemInMainHand.apply {

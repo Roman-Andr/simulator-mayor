@@ -2,8 +2,8 @@ package me.slavita.construction.listener
 
 import me.func.Lock
 import me.slavita.construction.app
-import me.slavita.construction.player.UserSaver
 import me.slavita.construction.common.utils.IRegistrable
+import me.slavita.construction.player.UserSaver
 import me.slavita.construction.utils.*
 import net.minecraft.server.v1_12_R1.PacketPlayOutPlayerInfo
 import org.bukkit.Bukkit

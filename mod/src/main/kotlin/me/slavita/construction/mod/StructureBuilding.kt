@@ -9,6 +9,9 @@ import dev.xdark.clientapi.opengl.GlStateManager
 import dev.xdark.clientapi.util.EnumHand
 import dev.xdark.clientapi.util.ParticleType
 import io.netty.buffer.Unpooled
+import me.slavita.construction.common.utils.STRUCTURE_BLOCK_CHANNEL
+import me.slavita.construction.common.utils.STRUCTURE_HIDE_CHANNEL
+import me.slavita.construction.common.utils.STRUCTURE_PLACE_CHANNEL
 import me.slavita.construction.mod.utils.Renderer
 import me.slavita.construction.mod.utils.extensions.InventoryExtensions.blocksCount
 import me.slavita.construction.mod.utils.extensions.InventoryExtensions.handItemEquals
@@ -81,7 +84,7 @@ object StructureBuilding {
         UIEngine.overlayContext.addChild(nextBlock)
         UIEngine.overlayContext.addChild(markers)
 
-        mod.registerChannel("structure:currentBlock") {
+        mod.registerChannel(STRUCTURE_BLOCK_CHANNEL) {
             val position = V3(readDouble(), readDouble(), readDouble())
             currentItem = ItemTools.read(this).apply { targetText = this.displayName }
 
@@ -94,7 +97,7 @@ object StructureBuilding {
             nextBlock.enabled = true
         }
 
-        mod.registerChannel("structure:hide") {
+        mod.registerChannel(STRUCTURE_HIDE_CHANNEL) {
             nextBlock.enabled = false
             currentBlockLocation = null
             markers.children.clear()
@@ -123,7 +126,7 @@ object StructureBuilding {
                 }
                 return@registerHandler
             }
-            clientApi.clientConnection().sendPayload("structure:place", Unpooled.buffer())
+            clientApi.clientConnection().sendPayload(STRUCTURE_PLACE_CHANNEL, Unpooled.buffer())
             player.swingArm(EnumHand.MAIN_HAND)
         }
 

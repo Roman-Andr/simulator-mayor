@@ -8,6 +8,7 @@ import dev.xdark.clientapi.util.EnumFacing
 import dev.xdark.clientapi.util.EnumHand
 import dev.xdark.feder.NetUtil
 import io.netty.buffer.Unpooled
+import me.slavita.construction.common.utils.SHOWCASE_INIT_CHANNEL
 import me.slavita.construction.mod.mod
 import me.slavita.construction.mod.player
 import me.slavita.construction.mod.templates.BoxData
@@ -37,7 +38,7 @@ object Showcases {
             onClick(showcases, position, facing)
         }
 
-        mod.registerChannel("showcase:initialize") {
+        mod.registerChannel(SHOWCASE_INIT_CHANNEL) {
             showcases = Gson().fromJson(NetUtil.readUtf8(this), Array<ShowcaseData>::class.java)
             infoZone.info.boxes = showcases.map { BoxData(it.title, it.min, it.max) }.toTypedArray()
         }

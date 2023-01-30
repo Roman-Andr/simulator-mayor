@@ -14,6 +14,8 @@ import me.slavita.construction.city.showcase.Showcase
 import me.slavita.construction.city.showcase.Showcases
 import me.slavita.construction.city.storage.BlocksStorage
 import me.slavita.construction.city.storage.BlocksStorageDeserializer
+import me.slavita.construction.common.utils.STORAGE_HIDE_CHANNEL
+import me.slavita.construction.common.utils.STORAGE_SHOW_CHANNEL
 import me.slavita.construction.dontate.Abilities
 import me.slavita.construction.dontate.AbilityDonate
 import me.slavita.construction.dontate.Donates
@@ -94,10 +96,7 @@ class User(val uuid: UUID) {
         }
     }
 
-    fun tryPurchase(
-        cost: Long,
-        acceptAction: () -> Unit,
-    ) {
+    fun tryPurchase(cost: Long, acceptAction: () -> Unit) {
         if (data.money >= cost) {
             data.money -= cost
             acceptAction()
@@ -132,6 +131,7 @@ class User(val uuid: UUID) {
 
         player.teleport(city.getSpawn())
         currentCity = city
+        data.lastCityId = currentCity.id
 
         StoragePrepare.prepare(this)
 
@@ -171,12 +171,12 @@ class User(val uuid: UUID) {
         }
 
         if (player.user.data.blocksStorage.inBox() && !OnActions.storageEntered[player.uniqueId]!!) {
-            ModTransfer().send("storage:show", player)
+            ModTransfer().send(STORAGE_SHOW_CHANNEL, player)
             OnActions.storageEntered[player.uniqueId] = true
         }
 
         if (!player.user.data.blocksStorage.inBox() && OnActions.storageEntered[player.uniqueId]!!) {
-            ModTransfer().send("storage:hide", player)
+            ModTransfer().send(STORAGE_HIDE_CHANNEL, player)
             OnActions.storageEntered[player.uniqueId] = false
         }
 

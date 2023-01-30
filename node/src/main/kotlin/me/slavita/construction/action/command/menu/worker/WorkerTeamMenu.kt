@@ -2,6 +2,7 @@ package me.slavita.construction.action.command.menu.worker
 
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
+import me.func.mod.ui.menu.selection
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.ui.menu.StatsType
@@ -13,7 +14,11 @@ import org.bukkit.entity.Player
 class WorkerTeamMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         user.run user@{
-            return getBaseSelection(user, "${GREEN}${BOLD}Ваши работники", StatsType.MONEY, 4, 4).apply {
+            return selection {
+                title = "${GREEN}${BOLD}Ваши работники"
+                getMoney(user, this, StatsType.MONEY)
+                rows = 4
+                columns = 4
                 info = WORKER_INFO
                 storage = this@user.data.workers.sortedByDescending { it.rarity }.mapM { worker ->
                     button {

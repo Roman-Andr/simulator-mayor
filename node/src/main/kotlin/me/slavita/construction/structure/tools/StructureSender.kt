@@ -1,6 +1,8 @@
 package me.slavita.construction.structure.tools
 
 import me.func.mod.conversation.ModTransfer
+import me.slavita.construction.common.utils.STRUCTURE_BLOCK_CHANNEL
+import me.slavita.construction.common.utils.STRUCTURE_HIDE_CHANNEL
 import me.slavita.construction.world.StructureBlock
 import org.bukkit.Location
 import org.bukkit.entity.Player
@@ -14,14 +16,10 @@ class StructureSender(val client: Player) {
             .double(position.y.toDouble())
             .double(position.z.toDouble())
             .item(ItemStack(block.type, 1, 1, block.data))
-            .send("structure:currentBlock", client)
+            .send(STRUCTURE_BLOCK_CHANNEL, client)
     }
 
     fun sendHide() {
-        ModTransfer().send("structure:hide", client)
-    }
-
-    fun sendCooldownExpired() {
-        ModTransfer().send("structure:cooldown", client)
+        ModTransfer().send(STRUCTURE_HIDE_CHANNEL, client)
     }
 }

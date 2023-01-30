@@ -16,6 +16,7 @@ import me.slavita.construction.action.chat.AdminCommands
 import me.slavita.construction.action.chat.UserCommands
 import me.slavita.construction.booster.BoosterType
 import me.slavita.construction.booster.Boosters
+import me.slavita.construction.common.utils.register
 import me.slavita.construction.listener.*
 import me.slavita.construction.player.User
 import me.slavita.construction.player.UserLoader
@@ -30,7 +31,6 @@ import me.slavita.construction.utils.language.EnumLang
 import me.slavita.construction.utils.language.LanguageHelper
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.ItemProperties
-import net.minecraft.server.v1_12_R1.MinecraftServer
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.WHITE
@@ -121,11 +121,11 @@ class App : JavaPlugin() {
         structureMap = MapLoader.load("construction", "structures")
         val map = MapLoader.load("construction", "main")
         nextTick {
-            GameWorld(map.apply {
-                world.setGameRuleValue("randomTickSpeed", "0")
-                world.setGameRuleValue("gameLoopFunction", "false")
-                world.setGameRuleValue("disableElytraMovementCheck", "true")
-            })
+            GameWorld(map.apply { world.apply {
+                setGameRuleValue("randomTickSpeed", "0")
+                setGameRuleValue("gameLoopFunction", "false")
+                setGameRuleValue("disableElytraMovementCheck", "true")
+            }})
         }
 
         Music.block(Category.MUSIC)

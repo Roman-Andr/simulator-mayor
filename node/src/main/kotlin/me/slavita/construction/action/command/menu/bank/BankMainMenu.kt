@@ -5,6 +5,7 @@ import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.choicer
 import me.slavita.construction.action.MenuCommand
+import me.slavita.construction.common.utils.BANK_OPEN_CHANNEL
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.BANK_INFO
 import me.slavita.construction.utils.click
@@ -29,7 +30,7 @@ class BankMainMenu(player: Player) : MenuCommand(player) {
                         click { _, _, _ ->
                             ModTransfer()
                                 .integer((player.user.data.money).toString().length)
-                                .send("bank:open", player)
+                                .send(BANK_OPEN_CHANNEL, player)
                         }
                     },
                     button {

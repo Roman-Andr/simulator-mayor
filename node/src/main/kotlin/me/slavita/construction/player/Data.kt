@@ -34,6 +34,7 @@ class Data(@Transient val user: User) {
     val blocksStorage = BlocksStorage(user)
     var hasFreelance: Boolean = false
     var achievements: HashSet<AchievementData> = AchievementType.values().map { AchievementData(1, it) }.toHashSet()
+    var lastCityId: String = "1"
     val cities: HashSet<City> = Atlas.find("locations").getMapList("locations").map { values ->
         City(
             user,

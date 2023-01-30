@@ -90,6 +90,7 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
     }
 
     private fun updateColor() {
-        applyButton.backgroundColor = if ((project.structure as WorkerStructure).workers.isEmpty()) GlowColor.NEUTRAL else GlowColor.GREEN
+        applyButton.backgroundColor =
+            if ((project.structure as WorkerStructure).workers.isEmpty()) GlowColor.NEUTRAL else GlowColor.GREEN
     }
 }

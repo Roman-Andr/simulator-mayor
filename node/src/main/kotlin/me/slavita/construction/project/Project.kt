@@ -35,7 +35,7 @@ open class Project(
         owner.player.playSound(MusicSound.SUCCESS3)
     }
 
-    open fun onEnter(){
+    open fun onEnter() {
         when (structure.state) {
             StructureState.BUILDING -> structure.showVisual()
             StructureState.FINISHED -> {
@@ -96,8 +96,8 @@ class ProjectDeserializer(val city: City) : JsonDeserializer<Project> {
                     when {
                         has("experience") -> ExperienceReward(get("experience").asLong)
                         has("reputation") -> ReputationReward(get("reputation").asLong)
-                        has("money") -> MoneyReward(get("money").asLong)
-                        else -> throw JsonParseException("Unknown reward type")
+                        has("money")      -> MoneyReward(get("money").asLong)
+                        else              -> throw JsonParseException("Unknown reward type")
                     }
                 })
             }

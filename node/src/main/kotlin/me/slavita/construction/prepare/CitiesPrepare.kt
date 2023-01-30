@@ -8,8 +8,7 @@ import me.slavita.construction.utils.runAsync
 object CitiesPrepare : IPrepare {
     override fun prepare(user: User) {
         user.apply {
-            currentCity = data.cities.firstOrNull { it.box.contains(player.location) }!!
-
+            currentCity = data.cities.find { it.id == data.lastCityId }!!
             freelanceCell = PlayerCell(currentCity, app.mainWorld.freelanceCell, true)
 
             currentCity.playerCells.forEach {

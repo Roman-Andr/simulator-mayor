@@ -14,7 +14,6 @@ import me.func.mod.reactive.ReactiveBanner
 import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.Glow
 import me.func.mod.ui.menu.button
-import me.func.mod.ui.menu.selection
 import me.func.mod.ui.menu.selection.Selection
 import me.func.mod.util.after
 import me.func.mod.world.Banners
@@ -31,7 +30,6 @@ import me.slavita.construction.city.bank.Bank
 import me.slavita.construction.dontate.Donates
 import me.slavita.construction.player.User
 import me.slavita.construction.player.sound.MusicSound
-import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.Formatter.toMoney
@@ -323,27 +321,6 @@ fun Banners.hide(player: Player, pair: Pair<Banner, Banner>) {
 
 fun String.toUUID(): UUID = UUID.fromString(this)
 
-fun getBaseSelection(
-    user: User,
-    title: String,
-    type: StatsType,
-    rows: Int,
-    columns: Int,
-): Selection =
-    selection {
-        this.title = title
-        vault = type.vault
-        this.rows = rows
-        this.columns = columns
-        money = "Ваш ${type.title} ${
-            when (type) {
-                StatsType.MONEY  -> user.data.money.toMoney()
-                StatsType.LEVEL  -> user.data.level
-                StatsType.CREDIT -> Bank.playersData[user.player.uniqueId]!!.sumOf { it.creditValue }.toMoney()
-            }
-        }"
-    }
-
 private fun getDisplayNameFromContext(context: IPermissionContext, name: String): String {
     val group = context.displayGroup
     val color = if (context.color == null) "" else context.color
@@ -537,8 +514,6 @@ private fun createBanner(info: BannerInfo): Banner {
     }
 }
 
-fun register(vararg registers: IRegistrable) = registers.forEach { it.register() }
-
 fun nextFace(face: BlockFace) {
     val faces = listOf(
         BlockFace.NORTH,
@@ -549,4 +524,15 @@ fun nextFace(face: BlockFace) {
     faces.listIterator(faces.indexOf(face)).run {
         if (hasNext()) next() else faces.first()
     }
+}
+
+fun getMoney(user: User, selection: Selection, type: StatsType) {
+    selection.vault = type.vault
+    selection.money = "Ваш ${type.title} ${
+        when (type) {
+            StatsType.MONEY  -> user.data.money.toMoney()
+            StatsType.LEVEL  -> user.data.level
+            StatsType.CREDIT -> Bank.playersData[user.player.uniqueId]!!.sumOf { it.creditValue }.toMoney()
+        }
+    }"
 }

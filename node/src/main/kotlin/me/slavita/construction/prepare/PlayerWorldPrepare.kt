@@ -1,7 +1,6 @@
 package me.slavita.construction.prepare
 
 import me.slavita.construction.app
-import me.slavita.construction.listener.OnActions
 import me.slavita.construction.player.User
 import me.slavita.construction.utils.nextTick
 import org.bukkit.GameMode

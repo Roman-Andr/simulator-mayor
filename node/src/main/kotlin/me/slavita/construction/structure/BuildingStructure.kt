@@ -9,8 +9,11 @@ import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.structure.tools.StructureVisual
-import me.slavita.construction.utils.*
-import me.slavita.construction.world.*
+import me.slavita.construction.utils.playSound
+import me.slavita.construction.utils.runAsync
+import me.slavita.construction.utils.toUUID
+import me.slavita.construction.world.AmountItemProperties
+import me.slavita.construction.world.StructureBlock
 import java.lang.reflect.Type
 
 abstract class BuildingStructure(
@@ -145,7 +148,16 @@ class BuildingStructureSerializer : JsonSerializer<BuildingStructure> {
                 val storage = JsonArray()
 
                 buildingStructure.workers.forEach { workers.add(it.uuid.toString()) }
-                buildingStructure.blocksStorage.forEach { storage.add(context.serialize(AmountItemProperties(it.key, it.value)) ) }
+                buildingStructure.blocksStorage.forEach {
+                    storage.add(
+                        context.serialize(
+                            AmountItemProperties(
+                                it.key,
+                                it.value
+                            )
+                        )
+                    )
+                }
 
                 json.add("workers", workers)
                 json.add("storage", storage)
@@ -172,12 +184,14 @@ class BuildingStructureDeserializer(val project: Project) : JsonDeserializer<Bui
                                 workers.add(project.owner.data.workers.first { it.uuid == workerUuid })
                             }
                             get("storage").asJsonArray.forEach {
-                                val item = context.deserialize<AmountItemProperties>(it, AmountItemProperties::class.java)
+                                val item =
+                                    context.deserialize<AmountItemProperties>(it, AmountItemProperties::class.java)
                                 blocksStorage[item] = item.amount
                             }
                         }
                     }
                 }
+
                 "client" -> ClientStructure(structure, playerCell)
                 else     -> throw JsonParseException("Unknown structure type!")
             }.apply {
@@ -191,10 +205,12 @@ class BuildingStructureDeserializer(val project: Project) : JsonDeserializer<Bui
                             visual.hide()
                         }
                     }
+
                     StructureState.FINISHED -> runAsync(100) {
                         visual.start()
                         finishBuilding()
                     }
+
                     else                    -> this@apply.state = state
                 }
             }

@@ -4,7 +4,6 @@ import dev.implario.bukkit.item.ItemBuilder
 import me.slavita.construction.action.command.menu.donate.DonateMenu
 import me.slavita.construction.action.command.menu.general.ControlPanelMenu
 import me.slavita.construction.common.utils.IRegistrable
-import me.slavita.construction.utils.killboard
 import me.slavita.construction.utils.listener
 import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.*
@@ -39,7 +38,8 @@ object ItemsManager : IRegistrable {
         }
     )
 
-    val freelanceCancel = ActionableItem(8,
+    val freelanceCancel = ActionableItem(
+        8,
         ItemBuilder(Material.CLAY_BALL)
             .text("${GOLD}${BOLD}Выйти")
             .nbt("other", "cancel")

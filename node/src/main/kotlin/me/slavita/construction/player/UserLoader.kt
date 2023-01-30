@@ -1,8 +1,8 @@
 package me.slavita.construction.player
 
 import me.slavita.construction.app
-import me.slavita.construction.listener.LoadUserEvent
 import me.slavita.construction.common.utils.IRegistrable
+import me.slavita.construction.listener.LoadUserEvent
 import me.slavita.construction.protocol.GetUserPackage
 import me.slavita.construction.utils.*
 import org.bukkit.entity.Player
@@ -33,6 +33,8 @@ object UserLoader : IRegistrable {
             log("Load timeout")
             player.deny("Не удалось загрузить ваши данные\nПовторная загрузка данных...")
             if (!failedLoad.contains(player)) failedLoad.add(player)
+        } catch (e: Exception) {
+            println(e.message)
         }
     }
 

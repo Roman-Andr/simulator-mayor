@@ -4,7 +4,6 @@ import me.func.atlas.Atlas
 import me.func.mod.reactive.ReactivePlace
 import me.func.mod.world.Banners
 import me.func.protocol.data.color.GlowColor
-import me.func.protocol.data.element.Banner
 import me.slavita.construction.app
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureState

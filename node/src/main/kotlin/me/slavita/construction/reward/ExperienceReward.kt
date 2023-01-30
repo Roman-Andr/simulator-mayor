@@ -4,8 +4,6 @@ import me.slavita.construction.booster.BoosterType
 import me.slavita.construction.player.User
 import me.slavita.construction.ui.Formatter.applyBoosters
 import me.slavita.construction.ui.Formatter.toExp
-import me.slavita.construction.ui.Formatter.toMoney
-import me.slavita.construction.utils.accept
 import me.slavita.construction.utils.cursor
 
 class ExperienceReward(private val experience: Long) : Reward {

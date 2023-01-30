@@ -1,8 +1,8 @@
 package me.slavita.construction.service
 
-import com.mongodb.client.model.Projections.include
 import com.mongodb.client.model.UpdateOptions
 import me.func.serviceapi.mongo.MongoAdapter
+import me.slavita.construction.common.utils.register
 import me.slavita.construction.protocol.*
 import org.bson.Document
 import ru.cristalix.core.microservice.MicroServicePlatform
@@ -10,7 +10,7 @@ import ru.cristalix.core.microservice.MicroserviceBootstrap
 import ru.cristalix.core.network.ISocketClient
 
 fun main() {
-    LoggerBot.register()
+    register(LoggerBot)
 
     MicroserviceBootstrap.bootstrap(MicroServicePlatform(2))
     val socketClient = ISocketClient.get()
@@ -20,20 +20,6 @@ fun main() {
         System.getenv("MONGO_DB"),
         System.getenv("MONGO_COLLECTION")
     )
-
-    fun getTop(field: String, after: ArrayList<LeaderboardItem>.() -> Unit) {
-        val response = arrayListOf<LeaderboardItem>()
-        db.collection
-            .find()
-            .projection(include(field))
-            .sort(Document().append(field, -1))
-            .limit(10)
-            .forEach({
-                response.add(LeaderboardItem(it.getString("_id"), it.getLong(field)))
-            }) { _, _ ->
-                after(response)
-            }
-    }
 
     socketClient.apply {
         capabilities(UserSavedPackage::class.java)
@@ -48,7 +34,7 @@ fun main() {
         }
 
         listener<GetLeaderboardPackage> { realm ->
-            getTop(field) {
+            db.getTop(field) {
                 top = this
                 forward(realm, this@listener)
             }

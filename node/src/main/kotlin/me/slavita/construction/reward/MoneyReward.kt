@@ -4,7 +4,6 @@ import me.slavita.construction.booster.BoosterType
 import me.slavita.construction.player.User
 import me.slavita.construction.ui.Formatter.applyBoosters
 import me.slavita.construction.ui.Formatter.toMoneyIcon
-import me.slavita.construction.utils.accept
 import me.slavita.construction.utils.cursor
 import org.bukkit.ChatColor.GOLD
 
