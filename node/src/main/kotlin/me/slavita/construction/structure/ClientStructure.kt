@@ -12,7 +12,7 @@ import kotlin.random.Random
 
 class ClientStructure(
     structure: Structure,
-    cell: PlayerCell,
+    cell: CityCell,
 ) : BuildingStructure(structure, cell) {
     private val sender = StructureSender(owner.player)
 
@@ -50,7 +50,9 @@ class ClientStructure(
                 in 0..5  ->
                     ReputationReward(
                         reputation / 100 +
-                        Random.nextInt(1, 10) * level).getReward(owner)
+                                Random.nextInt(1, 10) * level
+                    ).getReward(owner)
+
                 in 0..20 ->
                     MoneyReward(money / 100).getReward(owner)
             }

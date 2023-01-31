@@ -8,7 +8,7 @@ import me.slavita.construction.world.Box
 import org.bukkit.block.BlockFace
 import java.util.*
 
-class Cell(val id: Int, label: Label) {
+class WorldCell(val id: Int, val label: Label) {
 
     val face: BlockFace = try {
         BlockFace.valueOf(label.tag.uppercase())
@@ -18,7 +18,8 @@ class Cell(val id: Int, label: Label) {
     }
 
     val box = Box(label.clone().add(1.0, -1.0, 1.0), label.clone().add(24.0, 47.0, 24.0))
-    val stubBox = me.func.world.Box(
+
+    private val stubBox = me.func.world.Box(
         app.mainWorld.map,
         box.min.clone().add(0.0, -60.0, 0.0),
         box.max.clone().add(0.0, -60.0, 0.0),
@@ -28,7 +29,8 @@ class Cell(val id: Int, label: Label) {
 
     val stubBuilding = Building(UUID.randomUUID(), "", "", 0.0, 0.0, 0.0, stubBox)
 
-    init {
+    fun allocate() {
+        println("ALLOCATING")
         stubBuilding.allocate(box.min.clone().add(12.0, 0.0, 12.0))
     }
 }

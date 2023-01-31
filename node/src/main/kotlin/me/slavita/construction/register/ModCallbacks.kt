@@ -1,4 +1,4 @@
-package me.slavita.construction.utils
+package me.slavita.construction.register
 
 import me.func.mod.Anime
 import me.func.protocol.math.Position
@@ -7,6 +7,9 @@ import me.slavita.construction.common.utils.*
 import me.slavita.construction.reward.MoneyReward
 import me.slavita.construction.structure.ClientStructure
 import me.slavita.construction.ui.Formatter.toMoneyIcon
+import me.slavita.construction.utils.accept
+import me.slavita.construction.utils.runTimerAsync
+import me.slavita.construction.utils.user
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor.*
 import ru.cristalix.core.realm.IRealmService

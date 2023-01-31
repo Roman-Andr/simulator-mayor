@@ -9,7 +9,6 @@ import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.ui.menu.StatsType
 import me.slavita.construction.utils.*
-import me.slavita.construction.utils.getVault
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.entity.Player

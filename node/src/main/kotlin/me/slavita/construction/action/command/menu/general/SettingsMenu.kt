@@ -26,7 +26,7 @@ class SettingsMenu(player: Player) : MenuCommand(player) {
                     hint = "Выбрать"
                     updateButton(this)
                     click { _, _, button ->
-                        user.data.settings.apply { this.tagShow = !this.tagShow }
+                        user.data.settings.run { tagShow = !tagShow }
                         updateButton(button)
                         TagsPrepare.prepare(user)
                     }

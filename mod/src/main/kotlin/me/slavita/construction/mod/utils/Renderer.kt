@@ -39,10 +39,14 @@ object Renderer {
 
             for (j1 in 0..1) {
                 for (l1 in 0..1) {
-                    pos(tx + j1.toDouble(), ty, tz + l1.toDouble()).color(color.red, color.green, color.blue, 0).endVertex()
-                    pos(tx + j1.toDouble(), ty, tz + l1.toDouble()).color(color.red, color.green, color.blue, alpha).endVertex()
-                    pos(tx + j1.toDouble(), ty + 1, tz + l1.toDouble()).color(color.red, color.green, color.blue, alpha).endVertex()
-                    pos(tx + j1.toDouble(), ty + 1, tz + l1.toDouble()).color(color.red, color.green, color.blue, 0).endVertex()
+                    pos(tx + j1.toDouble(), ty, tz + l1.toDouble()).color(color.red, color.green, color.blue, 0)
+                        .endVertex()
+                    pos(tx + j1.toDouble(), ty, tz + l1.toDouble()).color(color.red, color.green, color.blue, alpha)
+                        .endVertex()
+                    pos(tx + j1.toDouble(), ty + 1, tz + l1.toDouble()).color(color.red, color.green, color.blue, alpha)
+                        .endVertex()
+                    pos(tx + j1.toDouble(), ty + 1, tz + l1.toDouble()).color(color.red, color.green, color.blue, 0)
+                        .endVertex()
                 }
             }
         }

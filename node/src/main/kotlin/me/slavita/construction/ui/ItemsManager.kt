@@ -1,11 +1,11 @@
 package me.slavita.construction.ui
 
 import dev.implario.bukkit.item.ItemBuilder
+import me.slavita.construction.action.command.menu.city.LeaveFreelanceConfirm
 import me.slavita.construction.action.command.menu.donate.DonateMenu
 import me.slavita.construction.action.command.menu.general.ControlPanelMenu
 import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.utils.listener
-import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.*
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -45,7 +45,7 @@ object ItemsManager : IRegistrable {
             .nbt("other", "cancel")
             .build()
     ) { player ->
-        player.user.leaveFreelance()
+        LeaveFreelanceConfirm(player).tryExecute()
     }
 
     override fun register() {

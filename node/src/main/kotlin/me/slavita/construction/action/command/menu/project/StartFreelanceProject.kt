@@ -3,7 +3,7 @@ package me.slavita.construction.action.command.menu.project
 import me.func.mod.Anime
 import me.slavita.construction.action.CooldownCommand
 import me.slavita.construction.app
-import me.slavita.construction.project.ProjectGenerator
+import me.slavita.construction.city.project.ProjectGenerator
 import me.slavita.construction.utils.user
 import org.bukkit.entity.Player
 

@@ -6,7 +6,7 @@ object WarningPrepare : IPrepare {
     override fun prepare(user: User) {
         user.data.run {
             if (hasFreelance) {
-                user.leaveFreelance()
+                user.leaveFreelance(false)
             }
         }
     }

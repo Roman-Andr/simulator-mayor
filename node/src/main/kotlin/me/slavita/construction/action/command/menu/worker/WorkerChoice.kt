@@ -7,7 +7,7 @@ import me.func.mod.ui.menu.selection
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.WorkerExecutor
 import me.slavita.construction.action.command.menu.project.StartProject
-import me.slavita.construction.project.Project
+import me.slavita.construction.city.project.Project
 import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.*

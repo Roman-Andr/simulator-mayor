@@ -1,4 +1,4 @@
-package me.slavita.construction.utils
+package me.slavita.construction.register
 
 import com.github.kotlintelegrambot.bot
 import com.github.kotlintelegrambot.dispatch
@@ -9,6 +9,9 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import me.slavita.construction.common.utils.IRegistrable
+import me.slavita.construction.utils.logDs
+import me.slavita.construction.utils.logTg
+import me.slavita.construction.utils.logVk
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.entities.Activity
 

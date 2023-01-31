@@ -1,4 +1,4 @@
-package me.slavita.construction.utils
+package me.slavita.construction.register
 
 import me.func.atlas.Atlas
 import me.func.mod.world.Npc
@@ -16,6 +16,7 @@ import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
 import me.slavita.construction.action.command.menu.worker.WorkerMenu
 import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.ui.menu.Icons
+import me.slavita.construction.utils.*
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack
 import org.bukkit.inventory.EquipmentSlot
 import kotlin.reflect.full.primaryConstructor
@@ -42,7 +43,7 @@ object NpcManager : IRegistrable {
                     name = ""
                     when (skinType) {
                         "uuid" -> skin(skin.toUUID())
-                        "url"  -> skin("${STORAGE_URL}/skin/${skin}")
+                        "url"  -> skin("$STORAGE_URL/skin/${skin}")
                     }
                     behaviour = NpcBehaviour.STARE_AND_LOOK_AROUND
                     onClick {

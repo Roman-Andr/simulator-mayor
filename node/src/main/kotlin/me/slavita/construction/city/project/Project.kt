@@ -1,4 +1,4 @@
-package me.slavita.construction.project
+package me.slavita.construction.city.project
 
 import com.google.gson.*
 import me.slavita.construction.city.City
@@ -19,7 +19,7 @@ open class Project(
 ) {
     lateinit var structure: BuildingStructure
     val owner = city.owner
-    val timeLast: Int //todo: use this
+    val timeLast: Int //TODO: use this
         get() = 0
 
     fun initialize() {

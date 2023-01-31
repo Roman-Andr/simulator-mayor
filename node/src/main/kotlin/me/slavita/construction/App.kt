@@ -2,15 +2,8 @@ package me.slavita.construction
 
 import dev.implario.bukkit.platform.Platforms
 import dev.implario.platform.impl.darkpaper.PlatformDarkPaper
-import me.func.Lock
 import me.func.mod.Anime
 import me.func.mod.Kit
-import me.func.mod.conversation.ModLoader
-import me.func.mod.util.after
-import me.func.sound.Category
-import me.func.sound.Music
-import me.func.stronghold.Stronghold
-import me.func.world.MapLoader
 import me.func.world.WorldMeta
 import me.slavita.construction.action.chat.AdminCommands
 import me.slavita.construction.action.chat.UserCommands
@@ -21,6 +14,7 @@ import me.slavita.construction.listener.*
 import me.slavita.construction.player.User
 import me.slavita.construction.player.UserLoader
 import me.slavita.construction.player.UserSaver
+import me.slavita.construction.register.*
 import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.Formatter.applyBoosters
@@ -31,28 +25,9 @@ import me.slavita.construction.utils.language.EnumLang
 import me.slavita.construction.utils.language.LanguageHelper
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.ItemProperties
-import org.bukkit.Bukkit
-import org.bukkit.ChatColor.AQUA
-import org.bukkit.ChatColor.WHITE
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
-import ru.cristalix.core.CoreApi
 import ru.cristalix.core.datasync.EntityDataParameters
-import ru.cristalix.core.invoice.IInvoiceService
-import ru.cristalix.core.invoice.InvoiceService
-import ru.cristalix.core.keyboard.IKeyService
-import ru.cristalix.core.keyboard.KeyService
-import ru.cristalix.core.multichat.ChatMessage
-import ru.cristalix.core.multichat.IMultiChatService
-import ru.cristalix.core.multichat.MultiChatService
-import ru.cristalix.core.party.IPartyService
-import ru.cristalix.core.party.PartyService
-import ru.cristalix.core.realm.IRealmService
-import ru.cristalix.core.realm.RealmStatus
-import ru.cristalix.core.scoreboard.IScoreboardService
-import ru.cristalix.core.scoreboard.ScoreboardService
-import ru.cristalix.core.transfer.ITransferService
-import ru.cristalix.core.transfer.TransferService
 import java.util.*
 
 
@@ -82,59 +57,13 @@ class App : JavaPlugin() {
         EntityDataParameters.register()
         Platforms.set(PlatformDarkPaper())
 
-        Anime.include(Kit.DEBUG, Kit.STANDARD, Kit.EXPERIMENTAL, Kit.DIALOG, Kit.LOOTBOX, Kit.NPC)
-
-        CoreApi.get().run {
-            registerService(ITransferService::class.java, TransferService(socket))
-            registerService(IPartyService::class.java, PartyService(socket))
-            registerService(IScoreboardService::class.java, ScoreboardService())
-            registerService(IInvoiceService::class.java, InvoiceService(socket))
-            registerService(IMultiChatService::class.java, MultiChatService(socket))
-            registerService(IKeyService::class.java, KeyService(app))
-        }
-
-        IMultiChatService.get().run {
-            setRealmTag("slvt")
-            addSingleChatHandler("construction") { message: ChatMessage ->
-                Bukkit.getOnlinePlayers().forEach { player ->
-                    player.sendMessage(*message.components.toMutableList().toTypedArray())
-                }
-            }
-        }
-
-        IRealmService.get().currentRealmInfo.apply {
-            readableName = "Тест"
-            groupName = "Тест"
-            status = RealmStatus.WAITING_FOR_PLAYERS
-            maxPlayers = 250
-            extraSlots = 15
-
-            IScoreboardService.get().serverStatusBoard.displayName = "${WHITE}Тест #${AQUA}" + realmId.id
-            after(20 * 4) {
-                ITransferService.get().transfer(System.getenv("CONSTRUCTION_USER").toUUID(), realmId)
-            }
-        }
-
-        ModLoader.loadAll("mods")
-        ModLoader.onJoining("construction-mod.jar")
-
-        structureMap = MapLoader.load("construction", "structures")
-        val map = MapLoader.load("construction", "main")
-        nextTick {
-            GameWorld(map.apply { world.apply {
-                setGameRuleValue("randomTickSpeed", "0")
-                setGameRuleValue("gameLoopFunction", "false")
-                setGameRuleValue("disableElytraMovementCheck", "true")
-            }})
-        }
-
-        Music.block(Category.MUSIC)
-
-        Lock.realms("SLVT")
-
-        Stronghold.namespace("construction")
+        Anime.include(Kit.STANDARD, Kit.EXPERIMENTAL, Kit.DIALOG, Kit.LOOTBOX, Kit.NPC)
 
         register(
+            ServicesLoader,
+            RealmConfigurator,
+            ModLoader,
+            MapLoader,
             Boosters,
             UserCommands,
             AdminCommands,
@@ -167,12 +96,6 @@ class App : JavaPlugin() {
 
         coroutineForAll(20) {
             data.money += income.applyBoosters(BoosterType.MONEY_BOOSTER)
-        }
-
-        coroutineForAll(10 * 20) {
-            showcases.forEach {
-                it.properties.updatePrices()
-            }
         }
 
         coroutineForAll(2 * 60 * 20) {

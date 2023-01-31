@@ -2,9 +2,9 @@ package me.slavita.construction.structure
 
 import com.google.gson.*
 import me.slavita.construction.app
+import me.slavita.construction.city.project.FreelanceProject
+import me.slavita.construction.city.project.Project
 import me.slavita.construction.player.sound.MusicSound
-import me.slavita.construction.project.FreelanceProject
-import me.slavita.construction.project.Project
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.structure.tools.StructureState
@@ -18,7 +18,7 @@ import java.lang.reflect.Type
 
 abstract class BuildingStructure(
     val structure: Structure,
-    val cell: PlayerCell,
+    val cell: CityCell,
 ) {
     protected var currentBlock: StructureBlock? = null
     protected var hidden = false
@@ -137,7 +137,7 @@ class BuildingStructureSerializer : JsonSerializer<BuildingStructure> {
                 }
             )
             json.addProperty("structureId", structure.id)
-            json.addProperty("playerCellId", cell.id)
+            json.addProperty("cityCellId", cell.id)
             json.addProperty("blocksPlaced", blocksPlaced)
             json.add("state", context.serialize(state))
 
@@ -172,12 +172,12 @@ class BuildingStructureDeserializer(val project: Project) : JsonDeserializer<Bui
     override fun deserialize(json: JsonElement, type: Type, context: JsonDeserializationContext) =
         json.asJsonObject.run {
             val structure = Structures.structures[get("structureId").asInt]
-            val playerCell = project.city.playerCells[get("playerCellId").asInt]
+            val cityCell = project.city.cityCells[get("cityCellId").asInt]
             val blocksPlaced = get("blocksPlaced").asInt
 
             when (get("type").asString) {
                 "worker" -> {
-                    WorkerStructure(structure, playerCell).apply {
+                    WorkerStructure(structure, cityCell).apply {
                         runAsync(2) {
                             get("workers").asJsonArray.forEach { id ->
                                 val workerUuid = id.asString.toUUID()
@@ -192,7 +192,7 @@ class BuildingStructureDeserializer(val project: Project) : JsonDeserializer<Bui
                     }
                 }
 
-                "client" -> ClientStructure(structure, playerCell)
+                "client" -> ClientStructure(structure, cityCell)
                 else     -> throw JsonParseException("Unknown structure type!")
             }.apply {
                 this.blocksPlaced = blocksPlaced
@@ -211,7 +211,7 @@ class BuildingStructureDeserializer(val project: Project) : JsonDeserializer<Bui
                         finishBuilding()
                     }
 
-                    else                    -> this@apply.state = state
+                    else                    -> this@apply.state = StructureState.valueOf(get("state").asString)
                 }
             }
         }

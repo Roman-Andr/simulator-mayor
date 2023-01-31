@@ -11,17 +11,20 @@ import me.slavita.construction.city.SpeedPlaces
 import me.slavita.construction.city.showcase.Showcases
 import me.slavita.construction.common.utils.V2i
 import me.slavita.construction.common.utils.register
-import me.slavita.construction.structure.Cell
+import me.slavita.construction.register.NpcManager
+import me.slavita.construction.structure.WorldCell
 import me.slavita.construction.ui.Leaderboards
-import me.slavita.construction.utils.*
+import me.slavita.construction.utils.Config
+import me.slavita.construction.utils.label
+import me.slavita.construction.utils.labels
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import java.util.*
 
 class GameWorld(val map: WorldMeta) {
     val glows = hashSetOf<ReactivePlace>()
-    val cells = arrayListOf<Cell>()
-    var freelanceCell: Cell
+    val cells = arrayListOf<WorldCell>()
+    var freelanceCell: WorldCell
     val emptyBlock = StructureBlock(map.world.getBlockAt(0, 0, 0))
     private val blocks = hashMapOf<UUID, HashMap<V2i, HashSet<StructureBlock>>>()
 
@@ -54,8 +57,8 @@ class GameWorld(val map: WorldMeta) {
                                 show(user.player)
                             })
                         }
-                        city.playerCells.forEach { playerCell ->
-                            buildings.add(playerCell.cell.stubBuilding)
+                        city.cityCells.forEach { cityCell ->
+                            buildings.add(cityCell.worldCell.stubBuilding)
                         }
                     }
                     buildings
@@ -64,10 +67,10 @@ class GameWorld(val map: WorldMeta) {
 
 
         labels("place").forEachIndexed { index, label ->
-            cells.add(Cell(index, label))
+            cells.add(WorldCell(index, label).apply { allocate() })
         }
 
-        freelanceCell = Cell(0, label("freelance")!!)
+        freelanceCell = WorldCell(0, label("freelance")!!).apply { allocate() }
 
         Config.load {
             register(
@@ -78,26 +81,9 @@ class GameWorld(val map: WorldMeta) {
                 Leaderboards
             )
         }
-
-        /*map.world.handle.chunkInterceptor = ChunkInterceptor { chunk: Chunk, flags: Int, receiver: EntityPlayer? ->
-            val player = receiver ?: return@ChunkInterceptor PacketPlayOutMapChunk(chunk, flags)
-
-            player.uniqueID.user.cities.forEach { city ->
-                city.playerCells.forEach {
-                    if ((abs(it.box.min.chunk.x - chunk.locX) <= 1 && abs(it.box.min.chunk.z - chunk.locZ) <= 1) ||
-                        (abs(it.box.max.chunk.x - chunk.locX) <= 1 && abs(it.box.max.chunk.z - chunk.locZ) <= 1)) {
-
-                        runAsync(3) {
-                            it.updateStub()
-                        }
-                    }
-                }
-            }
-
-            PacketPlayOutMapChunk(chunk, flags)
-        }*/
     }
 
+    @Suppress("DEPRECATION")
     fun placeFakeBlock(player: Player, block: StructureBlock, save: Boolean = true) {
         player.sendBlockChange(
             Location(map.world, block.position.x.toDouble(), block.position.y.toDouble(), block.position.z.toDouble()),

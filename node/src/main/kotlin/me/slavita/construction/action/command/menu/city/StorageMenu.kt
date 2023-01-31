@@ -57,7 +57,7 @@ class StorageMenu(player: Player) : MenuCommand(player) {
             Anime.close(user.player)
             return
         }
-        blocksStorage.removeItem(entry.key, amount).apply {
+        blocksStorage.removeItem(entry.key, amount).run {
             user.player.inventory.addItem(entry.key.createItemStack(this.first))
             if (this.second) StorageMenu(user.player).tryExecute() else {
                 button.hover = getHover(entry)

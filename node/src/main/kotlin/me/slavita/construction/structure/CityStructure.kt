@@ -20,7 +20,7 @@ import org.bukkit.entity.Player
 import java.lang.reflect.Type
 import java.util.*
 
-class CityStructure(val owner: Player, val structure: Structure, val cell: PlayerCell) {
+class CityStructure(val owner: Player, val structure: Structure, val cell: CityCell) {
 
     val box = Box(app.structureMap, structure.box.min, structure.box.max, "", "")
     val building = Building(UUID.randomUUID(), "", "", 0.0, 0.0, 0.0, box)
@@ -66,7 +66,7 @@ class CityStructureSerializer : JsonSerializer<CityStructure> {
         val json = JsonObject()
         cityStructure.run {
             json.addProperty("structureId", structure.id)
-            json.addProperty("playerCellId", cell.id)
+            json.addProperty("cityCellId", cell.id)
             json.addProperty("state", state.name)
 
             val repairBlocks = JsonArray()
@@ -87,7 +87,7 @@ class CityStructureDeserializer(val city: City) : JsonDeserializer<CityStructure
             CityStructure(
                 city.owner.player,
                 Structures.structures[get("structureId").asInt],
-                city.playerCells[get("playerCellId").asInt]
+                city.cityCells[get("cityCellId").asInt]
             ).apply {
                 get("repairBlocks").asJsonArray.forEach { //todo: duplicates in building structure deserializer
                     val item = context.deserialize<AmountItemProperties>(it, AmountItemProperties::class.java)

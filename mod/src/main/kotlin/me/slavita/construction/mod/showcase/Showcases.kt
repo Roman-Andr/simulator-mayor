@@ -17,7 +17,6 @@ import me.slavita.construction.mod.templates.infoZone
 import me.slavita.construction.mod.utils.inBox
 import me.slavita.construction.mod.utils.sendPayload
 import ru.cristalix.uiengine.UIEngine
-import ru.cristalix.uiengine.UIEngine.clientApi
 import ru.cristalix.uiengine.utility.*
 
 object Showcases : IRegistrable {

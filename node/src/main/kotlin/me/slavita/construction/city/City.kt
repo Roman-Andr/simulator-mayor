@@ -3,9 +3,9 @@ package me.slavita.construction.city
 import com.google.gson.*
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.app
+import me.slavita.construction.city.project.Project
+import me.slavita.construction.city.project.ProjectDeserializer
 import me.slavita.construction.player.User
-import me.slavita.construction.project.Project
-import me.slavita.construction.project.ProjectDeserializer
 import me.slavita.construction.structure.*
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.utils.Alert
@@ -19,12 +19,12 @@ import java.lang.reflect.Type
 class City(val owner: User, val id: String, val title: String, val price: Long, var unlocked: Boolean) {
     val projects = hashSetOf<Project>()
     val cityStructures = hashSetOf<CityStructure>()
-    val playerCells = arrayListOf<PlayerCell>()
+    val cityCells = arrayListOf<CityCell>()
     val box = app.mainWorld.map.box("city", id)
 
     init {
         app.mainWorld.cells.forEach {
-            if (box.contains(it.box.min)) playerCells.add(PlayerCell(this, it, false))
+            if (box.contains(it.box.min)) cityCells.add(CityCell(this, it, false))
         }
     }
 
@@ -86,7 +86,7 @@ class CitySerializer : JsonSerializer<City> {
             json.addProperty("unlocked", unlocked)
             json.add("projects", context.serialize(projects))
             json.add("cityStructures", context.serialize(cityStructures))
-            json.add("playerCells", context.serialize(playerCells))
+            json.add("cityCells", context.serialize(cityCells))
         }
         return json
     }
@@ -104,14 +104,14 @@ class CityDeserializer(val owner: User) : JsonDeserializer<City> {
             ).apply {
 
                 val gson = GsonBuilder()
-                    .registerTypeAdapter(PlayerCell::class.java, PlayerCellDeserializer(this))
+                    .registerTypeAdapter(CityCell::class.java, CityCellDeserializer(this))
                     .registerTypeAdapter(Project::class.java, ProjectDeserializer(this))
                     .registerTypeAdapter(CityStructure::class.java, CityStructureDeserializer(this))
                     .create()
 
-                playerCells.clear()
-                get("playerCells").asJsonArray.forEach {
-                    playerCells.add(gson.fromJson(it, PlayerCell::class.java))
+                cityCells.clear()
+                get("cityCells").asJsonArray.forEach {
+                    cityCells.add(gson.fromJson(it, CityCell::class.java))
                 }
 
                 get("projects").asJsonArray.forEach {

@@ -15,7 +15,7 @@ import org.bukkit.entity.Player
 
 class WorkerStructure(
     structure: Structure,
-    cell: PlayerCell,
+    cell: CityCell,
     val workers: HashSet<Worker> = hashSetOf(),
 ) : BuildingStructure(structure, cell) {
 

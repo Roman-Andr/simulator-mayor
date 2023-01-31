@@ -13,7 +13,7 @@ class Showcase(val properties: ShowcaseProperties) {
         get() = app.mainWorld.map.getBox("showcase", properties.id.toString())
     val updateTime
         get() = (5 * 60 * 1000 - (System.currentTimeMillis() - lastUpdateTime)).toTime()
-    private var lastUpdateTime = 0L
+    private var lastUpdateTime = System.currentTimeMillis()
 
     fun init() {
         Anime.createReader("showcase:open") { player, buff ->

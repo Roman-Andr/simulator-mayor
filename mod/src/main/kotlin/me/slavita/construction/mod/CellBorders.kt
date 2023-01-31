@@ -2,15 +2,12 @@ package me.slavita.construction.mod
 
 import dev.xdark.clientapi.event.render.RenderPass
 import dev.xdark.clientapi.opengl.GlStateManager.*
-import dev.xdark.clientapi.render.BufferBuilder
 import dev.xdark.clientapi.render.DefaultVertexFormats
-import dev.xdark.clientapi.render.Tessellator
 import me.func.protocol.data.color.GlowColor
 import me.func.protocol.data.color.RGB
 import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.mod.utils.*
 import org.lwjgl.opengl.GL11
-import org.lwjgl.opengl.GL11.GL_LINES
 import ru.cristalix.uiengine.UIEngine.clientApi
 import ru.cristalix.uiengine.utility.*
 import java.util.*
@@ -36,10 +33,12 @@ class Border(
                     Pair(1, 0),
                     Pair(1, 1),
                 ).forEach { (xz, y) ->
-                    sideVertices.add(V3(
-                        direction * side * xz * width - offset,
-                        y * height,
-                        direction * (side xor 1) * xz * width - offset)
+                    sideVertices.add(
+                        V3(
+                            direction * side * xz * width - offset,
+                            y * height,
+                            direction * (side xor 1) * xz * width - offset
+                        )
                     )
                 }
                 vertices.add(sideVertices)
@@ -85,9 +84,6 @@ object CellBorders : IRegistrable {
 
                 border.run {
                     vertices.forEach { side ->
-                        val tessellator = clientApi.tessellator()
-                        val bufferBuilder = tessellator.bufferBuilder
-
                         bufferBuilder.begin(GL11.GL_QUAD_STRIP, DefaultVertexFormats.POSITION_COLOR)
 
                         side.forEachIndexed { index, vertex ->

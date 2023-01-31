@@ -1,16 +1,16 @@
-package me.slavita.construction.project
+package me.slavita.construction.city.project
 
 import me.slavita.construction.player.User
 import me.slavita.construction.reward.ExperienceReward
 import me.slavita.construction.reward.MoneyReward
 import me.slavita.construction.reward.ReputationReward
+import me.slavita.construction.structure.CityCell
 import me.slavita.construction.structure.ClientStructure
-import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.structure.instance.Structure
 
 object ProjectGenerator {
-    fun generateClient(owner: User, structure: Structure, playerCell: PlayerCell): Project {
+    fun generateClient(owner: User, structure: Structure, cityCell: CityCell): Project {
         return Project(
             owner.currentCity,
             owner.data.totalProjects,
@@ -20,12 +20,12 @@ object ProjectGenerator {
                 ReputationReward(100),
             )
         ).apply {
-            this.structure = ClientStructure(structure, playerCell)
+            this.structure = ClientStructure(structure, cityCell)
             initialize()
         }
     }
 
-    fun generateWorker(owner: User, structure: Structure, playerCell: PlayerCell): Project {
+    fun generateWorker(owner: User, structure: Structure, cityCell: CityCell): Project {
         return Project(
             owner.currentCity,
             owner.data.totalProjects,
@@ -35,7 +35,7 @@ object ProjectGenerator {
                 ReputationReward(100),
             )
         ).apply {
-            this.structure = WorkerStructure(structure, playerCell)
+            this.structure = WorkerStructure(structure, cityCell)
             initialize()
         }
     }

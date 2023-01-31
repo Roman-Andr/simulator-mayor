@@ -33,8 +33,6 @@ object UserLoader : IRegistrable {
             log("Load timeout")
             player.deny("Не удалось загрузить ваши данные\nПовторная загрузка данных...")
             if (!failedLoad.contains(player)) failedLoad.add(player)
-        } catch (e: Exception) {
-            println(e.message)
         }
     }
 

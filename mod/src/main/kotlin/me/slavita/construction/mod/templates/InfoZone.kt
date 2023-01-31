@@ -12,7 +12,7 @@ class InfoZone {
 
     init {
         mod.registerHandler<GameLoop> {
-            info.apply {
+            info.run {
                 clientApi.minecraft().mouseOver.pos?.run {
                     if (boxes.any { inBox(it.min, it.max) } && !turn) {
                         title(boxes.find { inBox(it.min, it.max) }!!.title)

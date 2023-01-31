@@ -29,8 +29,8 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player)
         user.run user@{
             selection = selection {
                 title = showcase.properties.name
-                vault = Formatter.moneyIcon
                 info = SHOWCASE_INFO
+                vault = Formatter.moneyIcon
                 size(5, 14)
                 money = getMoney()
                 storage = buttons
@@ -91,7 +91,7 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player)
     fun updateButtons() {
         val newButtons = getButtons()
         buttons.forEachIndexed { index, _ ->
-            buttons[index].apply {
+            buttons[index].run {
                 onClick = newButtons[index].onClick
                 hover = newButtons[index].hover
             }

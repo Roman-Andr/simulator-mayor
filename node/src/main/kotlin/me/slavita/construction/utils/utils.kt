@@ -30,13 +30,13 @@ import me.slavita.construction.city.bank.Bank
 import me.slavita.construction.dontate.Donates
 import me.slavita.construction.player.User
 import me.slavita.construction.player.sound.MusicSound
-import me.slavita.construction.structure.PlayerCell
+import me.slavita.construction.register.BotsManager.ds
+import me.slavita.construction.register.BotsManager.tg
+import me.slavita.construction.register.BotsManager.vk
+import me.slavita.construction.structure.CityCell
 import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.ui.menu.StatsType
-import me.slavita.construction.utils.BotsManager.ds
-import me.slavita.construction.utils.BotsManager.tg
-import me.slavita.construction.utils.BotsManager.vk
 import net.minecraft.server.v1_12_R1.*
 import org.apache.logging.log4j.util.BiConsumer
 import org.bukkit.*
@@ -273,6 +273,9 @@ val routine: EventContext = EventContext { true }.fork()
 fun runTimerAsync(start: Long, every: Long, runnable: Runnable): BukkitTask =
     scheduler.runTaskTimerAsynchronously(app, runnable, start, every)
 
+fun runTimerAsync(every: Long, runnable: Runnable): BukkitTask =
+    scheduler.runTaskTimerAsynchronously(app, runnable, 0L, every)
+
 fun runTimer(start: Long, every: Long, runnable: Runnable): Int =
     scheduler.scheduleSyncRepeatingTask(app, runnable, start, every)
 
@@ -374,7 +377,7 @@ fun BlockFace.toYaw(): Float = when (this) {
     else                 -> 0
 }.toFloat()
 
-fun getFaceCenter(cell: PlayerCell) = cell.box.bottomCenter.clone().apply {
+fun getFaceCenter(cell: CityCell) = cell.box.bottomCenter.clone().apply {
     when (cell.face) {
         BlockFace.EAST       -> x = cell.box.max.x
         BlockFace.NORTH      -> z = cell.box.min.z

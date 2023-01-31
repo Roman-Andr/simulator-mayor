@@ -6,8 +6,8 @@ import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.choicer
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.menu.worker.WorkerChoice
-import me.slavita.construction.project.ProjectGenerator
-import me.slavita.construction.structure.PlayerCell
+import me.slavita.construction.city.project.ProjectGenerator
+import me.slavita.construction.structure.CityCell
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.click
@@ -15,7 +15,7 @@ import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GOLD
 import org.bukkit.entity.Player
 
-class ChoiceProject(player: Player, val structure: Structure, val cell: PlayerCell) : MenuCommand(player) {
+class ChoiceProject(player: Player, val structure: Structure, val cell: CityCell) : MenuCommand(player) {
     override fun getMenu(): Openable {
         user.run user@{
             return choicer {

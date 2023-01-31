@@ -11,9 +11,9 @@ import ru.cristalix.core.network.CorePackage
 import ru.cristalix.core.network.ISocketClient
 import ru.cristalix.core.realm.RealmId
 
-fun ISocketClient.capabilities(vararg classes: Class<out CorePackage>) = registerCapabilities(*classes.map {
+fun ISocketClient.capabilities(vararg classes: Class<out CorePackage>) = registerCapabilities(*classes.map { packet ->
     Capability.builder()
-        .className(it.name)
+        .className(packet.name)
         .notification(false)
         .build()
 }.toTypedArray())

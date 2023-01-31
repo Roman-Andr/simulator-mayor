@@ -47,10 +47,10 @@ object Boosters : IRegistrable {
 
     fun activateGlobal(user: User, time: Long, unit: TimeUnit, vararg boosters: BoosterType) {
         Stronghold.activateBoosters(
-            *boosters.map {
+            *boosters.map { type ->
                 BoosterGlobal.builder()
-                    .type(it.label)
-                    .title(it.title)
+                    .type(type.label)
+                    .title(type.title)
                     .owner(user.player)
                     .owner(user.player.cristalixName)
                     .duration(time, unit)

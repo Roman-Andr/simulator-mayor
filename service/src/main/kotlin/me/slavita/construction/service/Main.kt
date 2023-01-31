@@ -21,7 +21,7 @@ fun main() {
         System.getenv("MONGO_COLLECTION")
     )
 
-    socketClient.apply {
+    socketClient.run {
         capabilities(UserSavedPackage::class.java)
 
         listener<GetUserPackage> { realm ->

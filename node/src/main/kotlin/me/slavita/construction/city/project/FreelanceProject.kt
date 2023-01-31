@@ -1,4 +1,4 @@
-package me.slavita.construction.project
+package me.slavita.construction.city.project
 
 import me.slavita.construction.app
 import me.slavita.construction.city.City

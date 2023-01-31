@@ -4,11 +4,11 @@ import com.google.gson.GsonBuilder
 import me.slavita.construction.app
 import me.slavita.construction.city.City
 import me.slavita.construction.city.CitySerializer
+import me.slavita.construction.city.project.Project
+import me.slavita.construction.city.project.ProjectSerializer
 import me.slavita.construction.city.storage.BlocksStorage
 import me.slavita.construction.city.storage.BlocksStorageSerializer
 import me.slavita.construction.common.utils.IRegistrable
-import me.slavita.construction.project.Project
-import me.slavita.construction.project.ProjectSerializer
 import me.slavita.construction.protocol.SaveUserPackage
 import me.slavita.construction.structure.*
 import me.slavita.construction.utils.*
@@ -22,7 +22,7 @@ object UserSaver : IRegistrable {
     private val failedSave = hashSetOf<SaveUserPackage>()
 
     private val gsonSerializer = GsonBuilder()
-        .registerTypeAdapter(PlayerCell::class.java, PlayerCellSerializer())
+        .registerTypeAdapter(CityCell::class.java, CityCellSerializer())
         .registerTypeAdapter(WorkerStructure::class.java, BuildingStructureSerializer())
         .registerTypeAdapter(ClientStructure::class.java, BuildingStructureSerializer())
         .registerTypeAdapter(Project::class.java, ProjectSerializer())

@@ -10,6 +10,8 @@ import me.slavita.construction.action.command.menu.project.ChoiceProject
 import me.slavita.construction.action.command.menu.project.ChoiceStructureGroup
 import me.slavita.construction.city.City
 import me.slavita.construction.city.CityDeserializer
+import me.slavita.construction.city.project.FreelanceProject
+import me.slavita.construction.city.project.Project
 import me.slavita.construction.city.showcase.Showcase
 import me.slavita.construction.city.showcase.Showcases
 import me.slavita.construction.city.storage.BlocksStorage
@@ -21,9 +23,7 @@ import me.slavita.construction.dontate.AbilityDonate
 import me.slavita.construction.dontate.Donates
 import me.slavita.construction.listener.OnActions
 import me.slavita.construction.prepare.StoragePrepare
-import me.slavita.construction.project.FreelanceProject
-import me.slavita.construction.project.Project
-import me.slavita.construction.structure.PlayerCell
+import me.slavita.construction.structure.CityCell
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.ui.HumanizableValues
 import me.slavita.construction.utils.*
@@ -49,7 +49,7 @@ class User(val uuid: UUID) {
 
     lateinit var data: Data
     lateinit var currentCity: City
-    lateinit var freelanceCell: PlayerCell
+    lateinit var freelanceCell: CityCell
 
     var currentFreelance: FreelanceProject? = null
         set(value) {
@@ -135,7 +135,7 @@ class User(val uuid: UUID) {
 
         StoragePrepare.prepare(this)
 
-        currentCity.playerCells.forEach { stub ->
+        currentCity.cityCells.forEach { stub ->
             runAsync(30) {
                 stub.updateStub()
             }
@@ -195,11 +195,11 @@ class User(val uuid: UUID) {
                 }
             }
 
-            currentCity.playerCells.forEach { cell ->
-                if (cell.busy || !cell.box.contains(player.location)) return@forEach
+            currentCity.cityCells.forEach { cityCell ->
+                if (cityCell.busy || !cityCell.box.contains(player.location)) return@forEach
 
                 if (OnActions.inZone[player.uniqueId] == false) ChoiceStructureGroup(player) { structure ->
-                    ChoiceProject(player, structure, cell).keepHistory().tryExecute()
+                    ChoiceProject(player, structure, cityCell).keepHistory().tryExecute()
                 }.tryExecute()
                 OnActions.inZone[player.uniqueId] = true
                 return false
@@ -229,9 +229,10 @@ class User(val uuid: UUID) {
         data.nextTakeDailyReward = time + 24 * 60 * 60 * 1000
     }
 
-    fun leaveFreelance() {
+    fun leaveFreelance(restore: Boolean) {
         data.apply {
-            currentFreelance?.restore()
+            if (restore) currentFreelance!!.restore()
+            else hasFreelance = false
 
             if (reputation >= 100) reputation -= 100 else reputation = 0L
             player.deny("Вы вышли во время фриланс заказа. Штраф: 100 репутации")
