@@ -2,7 +2,7 @@ package me.slavita.construction.mod.templates
 
 import dev.xdark.clientapi.event.lifecycle.GameLoop
 import me.slavita.construction.mod.mod
-import me.slavita.construction.mod.utils.extensions.PositionExtensions.inBox
+import me.slavita.construction.mod.utils.inBox
 import ru.cristalix.uiengine.UIEngine.clientApi
 
 inline fun infoZone(initializer: InfoZone.() -> Unit) = InfoZone().also(initializer)

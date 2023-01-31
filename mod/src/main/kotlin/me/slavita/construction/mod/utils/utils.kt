@@ -14,6 +14,23 @@ import ru.cristalix.uiengine.utility.V3
 import kotlin.math.cos
 import kotlin.math.sin
 
+val minecraft = clientApi.minecraft()
+
+val entity
+    get() = minecraft.renderViewEntity
+
+val ticks
+    get() = minecraft.timer.renderPartialTicks
+
+val prevX
+    get() = entity.prevX
+
+val prevY
+    get() = entity.prevY
+
+val prevZ
+    get() = entity.prevZ
+
 fun getWidth(string: String): Double = clientApi.fontRenderer().getStringWidth(string).toDouble()
 
 fun Double.doubleVec() = V3(this, this, this)

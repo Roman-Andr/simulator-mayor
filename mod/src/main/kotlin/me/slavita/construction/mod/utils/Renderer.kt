@@ -1,6 +1,5 @@
 package me.slavita.construction.mod.utils
 
-import dev.xdark.clientapi.ClientApi
 import dev.xdark.clientapi.opengl.GlStateManager.*
 import dev.xdark.clientapi.render.DefaultVertexFormats
 import ru.cristalix.uiengine.UIEngine.clientApi
@@ -10,14 +9,13 @@ import ru.cristalix.uiengine.utility.V3
 
 object Renderer {
 
-    fun renderBlockFrame(api: ClientApi, location: V3, color: Color, lineWidth: Float) {
+    fun renderBlockFrame(location: V3, color: Color, lineWidth: Float) {
         disableTexture2D()
         disableBlend()
         glLineWidth(lineWidth)
         bufferBuilder.begin(3, DefaultVertexFormats.POSITION_COLOR)
 
         val player = clientApi.minecraft().renderViewEntity
-        val ticks = clientApi.minecraft().timer.renderPartialTicks
 
         translate(
             -player.lastX - (player.x - player.lastX) * ticks,
@@ -30,24 +28,22 @@ object Renderer {
         val tz = location.z
         val alpha = color.alpha.toInt()
 
-        for (i in 0..1) {
-            bufferBuilder.pos(tx, ty + i, tz).color(color.red, color.green, color.blue, 0).endVertex()
-            bufferBuilder.pos(tx, ty + i, tz + 1.0).color(color.red, color.green, color.blue, alpha).endVertex()
-            bufferBuilder.pos(tx + 1.0, ty + i, tz + 1.0).color(color.red, color.green, color.blue, alpha).endVertex()
-            bufferBuilder.pos(tx + 1.0, ty + i, tz).color(color.red, color.green, color.blue, alpha).endVertex()
-            bufferBuilder.pos(tx, ty + i, tz).color(color.red, color.green, color.blue, alpha).endVertex()
-        }
+        bufferBuilder.apply {
+            for (i in 0..1) {
+                pos(tx, ty + i, tz).color(color.red, color.green, color.blue, 0).endVertex()
+                pos(tx, ty + i, tz + 1.0).color(color.red, color.green, color.blue, alpha).endVertex()
+                pos(tx + 1.0, ty + i, tz + 1.0).color(color.red, color.green, color.blue, alpha).endVertex()
+                pos(tx + 1.0, ty + i, tz).color(color.red, color.green, color.blue, alpha).endVertex()
+                pos(tx, ty + i, tz).color(color.red, color.green, color.blue, alpha).endVertex()
+            }
 
-        for (j1 in 0..1) {
-            for (l1 in 0..1) {
-                bufferBuilder.pos(tx + j1.toDouble(), ty, tz + l1.toDouble())
-                    .color(color.red, color.green, color.blue, 0).endVertex()
-                bufferBuilder.pos(tx + j1.toDouble(), ty, tz + l1.toDouble())
-                    .color(color.red, color.green, color.blue, alpha).endVertex()
-                bufferBuilder.pos(tx + j1.toDouble(), ty + 1, tz + l1.toDouble())
-                    .color(color.red, color.green, color.blue, alpha).endVertex()
-                bufferBuilder.pos(tx + j1.toDouble(), ty + 1, tz + l1.toDouble())
-                    .color(color.red, color.green, color.blue, 0).endVertex()
+            for (j1 in 0..1) {
+                for (l1 in 0..1) {
+                    pos(tx + j1.toDouble(), ty, tz + l1.toDouble()).color(color.red, color.green, color.blue, 0).endVertex()
+                    pos(tx + j1.toDouble(), ty, tz + l1.toDouble()).color(color.red, color.green, color.blue, alpha).endVertex()
+                    pos(tx + j1.toDouble(), ty + 1, tz + l1.toDouble()).color(color.red, color.green, color.blue, alpha).endVertex()
+                    pos(tx + j1.toDouble(), ty + 1, tz + l1.toDouble()).color(color.red, color.green, color.blue, 0).endVertex()
+                }
             }
         }
 

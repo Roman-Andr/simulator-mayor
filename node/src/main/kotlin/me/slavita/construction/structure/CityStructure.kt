@@ -67,6 +67,7 @@ class CityStructureSerializer : JsonSerializer<CityStructure> {
         cityStructure.run {
             json.addProperty("structureId", structure.id)
             json.addProperty("playerCellId", cell.id)
+            json.addProperty("state", state.name)
 
             val repairBlocks = JsonArray()
             this.repairBlocks.forEach { repairBlocks.add(context.serialize(AmountItemProperties(it.key, it.value))) }
@@ -98,6 +99,8 @@ class CityStructureDeserializer(val city: City) : JsonDeserializer<CityStructure
                     val item = context.deserialize<AmountItemProperties>(it, AmountItemProperties::class.java)
                     targetBlocks[item] = item.amount
                 }
+
+                state = CityStructureState.valueOf(get("state").asString)
             }
         }
 }

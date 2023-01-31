@@ -145,7 +145,7 @@ object StructureBuilding : IRegistrable {
 
         mod.registerHandler<RenderPass> {
             if (currentBlockLocation == null) return@registerHandler
-            Renderer.renderBlockFrame(clientApi, currentBlockLocation!!, frameColor, lineWidth)
+            Renderer.renderBlockFrame(currentBlockLocation!!, frameColor, lineWidth)
         }
 
         UIEngine.postOverlayContext.afterRender {

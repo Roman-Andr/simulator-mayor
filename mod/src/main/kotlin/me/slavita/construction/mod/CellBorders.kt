@@ -1,106 +1,112 @@
 package me.slavita.construction.mod
 
 import dev.xdark.clientapi.event.render.RenderPass
-import dev.xdark.clientapi.opengl.GlStateManager
+import dev.xdark.clientapi.opengl.GlStateManager.*
+import dev.xdark.clientapi.render.BufferBuilder
 import dev.xdark.clientapi.render.DefaultVertexFormats
+import dev.xdark.clientapi.render.Tessellator
 import me.func.protocol.data.color.GlowColor
 import me.func.protocol.data.color.RGB
 import me.slavita.construction.common.utils.IRegistrable
+import me.slavita.construction.mod.utils.*
 import org.lwjgl.opengl.GL11
+import org.lwjgl.opengl.GL11.GL_LINES
 import ru.cristalix.uiengine.UIEngine.clientApi
 import ru.cristalix.uiengine.utility.*
 import java.util.*
-import kotlin.math.cos
 import kotlin.math.pow
-import kotlin.math.sin
 
-class WorldRectangle(
-    val uuid: UUID = UUID.randomUUID(),
-    var rgb: RGB,
-    var location: V3,
-    val radius: Double = 1.3
-)
+class Border(
+    var color: RGB,
+    val width: Double,
+    val height: Double,
+    val location: V3,
+) {
+    val vertices = arrayListOf<ArrayList<V3>>()
 
-object CellBorders : IRegistrable{
-    private val places = arrayListOf<WorldRectangle>()
-    private val placeCache = hashMapOf<UUID, ArrayList<Triple<Double, Double, Double>>>()
+    init {
+        arrayOf(-1, 1).forEach { direction ->
+            val offset = direction * width / 2.0
+
+            arrayOf(0, 1).forEach { side ->
+                val sideVertices = arrayListOf<V3>()
+                arrayOf(
+                    Pair(0, 0),
+                    Pair(0, 1),
+                    Pair(1, 0),
+                    Pair(1, 1),
+                ).forEach { (xz, y) ->
+                    sideVertices.add(V3(
+                        direction * side * xz * width - offset,
+                        y * height,
+                        direction * (side xor 1) * xz * width - offset)
+                    )
+                }
+                vertices.add(sideVertices)
+            }
+        }
+    }
+}
+
+object CellBorders : IRegistrable {
+    private val borders = arrayListOf<Border>()
 
     override fun register() {
         mod.registerChannel("rectangle:new") {
-            places.add(
-                WorldRectangle(
-                    UUID.randomUUID(),
+            borders.add(
+                Border(
                     GlowColor.GREEN,
-                    V3(0.0, 0.0, 0.0),
-                    2.0
+                    25.0,
+                    50.0,
+                    V3(0.0, 0.0, 0.0)
                 )
             )
         }
 
         mod.registerHandler<RenderPass> {
-            val minecraft = clientApi.minecraft()
-            val entity = minecraft.renderViewEntity
+            disableLighting()
+            disableTexture2D()
+            disableAlpha()
+            shadeModel(GL11.GL_SMOOTH)
+            enableBlend()
+            blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE)
+            disableCull()
+            depthMask(false)
 
-            val pt = minecraft.timer.renderPartialTicks
-            val prevX = entity.prevX
-            val prevY = entity.prevY
-            val prevZ = entity.prevZ
+            borders.forEach { border ->
+                val distance = (border.location.x - entity.x).pow(2) + (border.location.z - entity.z).pow(2)
 
-            GlStateManager.disableLighting()
-            GlStateManager.disableTexture2D()
-            GlStateManager.disableAlpha()
-            GlStateManager.shadeModel(GL11.GL_SMOOTH)
-            GlStateManager.enableBlend()
-            GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE)
-            GlStateManager.disableCull()
-            GlStateManager.depthMask(false)
-
-            places.sortedByDescending { place ->
-                (place.location.x - entity.x).pow(2) + (place.location.z - entity.z).pow(2)
-            }.forEach { place ->
-                val distance = (place.location.x - entity.x).pow(2) + (place.location.z - entity.z).pow(2)
-
-                if (distance > 100 * 100) return@forEach
-
-                val isInside = distance <= place.radius * place.radius
+                val isInside = distance <= border.width.pow(2)
                 if (isInside) return@forEach
 
-                val cache = placeCache[place.uuid] ?: arrayListOf()
+                val x = border.location.x - (entity.x - prevX) * ticks - prevX
+                val y = border.location.y - (entity.y - prevY) * ticks - prevY
+                val z = border.location.z - (entity.z - prevZ) * ticks - prevZ
 
-                val tessellator = clientApi.tessellator()
-                val bufferBuilder = clientApi.tessellator().bufferBuilder
+                border.run {
+                    vertices.forEach { side ->
+                        val tessellator = clientApi.tessellator()
+                        val bufferBuilder = tessellator.bufferBuilder
 
-                bufferBuilder.begin(GL11.GL_TRIANGLE_STRIP, DefaultVertexFormats.POSITION_COLOR)//
+                        bufferBuilder.begin(GL11.GL_QUAD_STRIP, DefaultVertexFormats.POSITION_COLOR)
 
-                repeat(4 * 2 + 2) { index ->
-                    if (cache.size <= index) {
-                        cache.add(
-                            Triple(
-                                place.radius,
-                                if (index % 2 == 1) 25.0 else 0.0,
-                                place.radius
-                            )
-                        )
+                        side.forEachIndexed { index, vertex ->
+                            bufferBuilder
+                                .pos(x + vertex.x, y + vertex.y, z + vertex.z)
+                                .color(color.red, color.green, color.blue, if (index % 2 == 1) 0 else 100)
+                                .endVertex()
+                        }
+
+                        tessellator.draw()
                     }
-
-                    val v3 = cache[index]
-
-                    val x = place.location.x - (entity.x - prevX) * pt - prevX
-                    val y = place.location.y - (entity.y - prevY) * pt - prevY
-                    val z = place.location.z - (entity.z - prevZ) * pt - prevZ
-
-                    bufferBuilder
-                        .pos(x + v3.first, y + v3.second, z + v3.third)
-                        .color(place.rgb.red, place.rgb.green, place.rgb.blue, if (index % 2 == 1) 0 else 100)
-                        .endVertex()
                 }
-                tessellator.draw()
             }
-            GlStateManager.depthMask(true)
-            GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_CONSTANT_COLOR)
-            GlStateManager.shadeModel(GL11.GL_FLAT)
-            GlStateManager.enableTexture2D()
-            GlStateManager.enableAlpha()
+
+            depthMask(true)
+            blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_CONSTANT_COLOR)
+            shadeModel(GL11.GL_FLAT)
+            enableTexture2D()
+            enableAlpha()
         }
     }
 }

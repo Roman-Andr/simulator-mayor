@@ -16,6 +16,7 @@ class PlayerCell(val city: City, val cell: Cell, var busy: Boolean) {
         get() = cell.box
     val face
         get() = cell.face
+
     private val infoGlow = ReactivePlace.builder()
         .rgb(GlowColor.NEUTRAL_LIGHT)
         .location(box.bottomCenter.clone().apply { y -= 2.0 })
@@ -31,6 +32,10 @@ class PlayerCell(val city: City, val cell: Cell, var busy: Boolean) {
 
     fun setBusy() {
         busy = true
+        hideGlow()
+    }
+
+    fun hideGlow() {
         infoGlow.delete(setOf(owner.player))
         cell.stubBuilding.hide(owner.player)
     }
@@ -52,6 +57,8 @@ class PlayerCellSerializer : JsonSerializer<PlayerCell> {
 class PlayerCellDeserializer(val city: City) : JsonDeserializer<PlayerCell> {
     override fun deserialize(json: JsonElement, type: Type, context: JsonDeserializationContext) =
         json.asJsonObject.run {
-            PlayerCell(city, app.mainWorld.cells[get("cellId").asInt], get("busy").asBoolean)
+            PlayerCell(city, app.mainWorld.cells[get("cellId").asInt], get("busy").asBoolean).apply {
+                if (busy) hideGlow()
+            }
         }
 }
