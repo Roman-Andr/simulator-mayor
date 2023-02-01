@@ -13,7 +13,6 @@ import me.slavita.construction.common.utils.V2i
 import me.slavita.construction.common.utils.register
 import me.slavita.construction.register.NpcManager
 import me.slavita.construction.structure.WorldCell
-import me.slavita.construction.ui.Leaderboards
 import me.slavita.construction.utils.Config
 import me.slavita.construction.utils.label
 import me.slavita.construction.utils.labels

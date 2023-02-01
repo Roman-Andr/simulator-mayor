@@ -1,7 +1,6 @@
 package me.slavita.construction.structure.tools
 
 import me.func.mod.Anime
-import me.func.mod.reactive.ReactivePlace
 import me.func.mod.reactive.ReactiveProgress
 import me.func.mod.world.Banners
 import me.func.protocol.data.color.GlowColor
@@ -11,7 +10,6 @@ import me.func.protocol.math.Position
 import me.func.protocol.world.marker.Marker
 import me.func.protocol.world.marker.MarkerSign
 import me.slavita.construction.structure.BuildingStructure
-import me.slavita.construction.ui.Border
 import me.slavita.construction.utils.*
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.WHITE

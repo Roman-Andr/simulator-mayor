@@ -16,7 +16,7 @@ class Border(
     var alpha: Int = 100,
     var width: Double = 25.0,
     var height: Double = 50.0,
-    var location: Vector = Vector(0.0, 0.0, 0.0)
+    var location: Vector = Vector(0.0, 0.0, 0.0),
 ) {
     var uuid: UUID = UUID.randomUUID()
 

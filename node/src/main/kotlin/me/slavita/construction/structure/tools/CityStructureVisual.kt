@@ -9,14 +9,11 @@ import me.func.protocol.data.element.Banner
 import me.func.protocol.world.marker.Marker
 import me.func.protocol.world.marker.MarkerSign
 import me.slavita.construction.structure.CityStructure
-import me.slavita.construction.ui.Border
 import me.slavita.construction.ui.HumanizableValues.BLOCK
 import me.slavita.construction.utils.*
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.ChatColor.GOLD
 import org.bukkit.entity.Player
-import java.util.*
-import kotlin.collections.HashMap
 
 class CityStructureVisual(val structure: CityStructure) {
     private var repairGlow: ReactivePlace? = null

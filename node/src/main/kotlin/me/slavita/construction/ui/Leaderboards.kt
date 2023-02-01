@@ -1,7 +1,6 @@
 package me.slavita.construction.ui
 
 import me.slavita.construction.booster.format.*
-import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.protocol.GetLeaderboardPackage
 import me.slavita.construction.ui.format.MoneyFormatter
 import me.slavita.construction.ui.format.ProjectsFormatter

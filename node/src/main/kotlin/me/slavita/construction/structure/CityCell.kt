@@ -1,11 +1,9 @@
 package me.slavita.construction.structure
 
 import com.google.gson.*
-import me.func.mod.reactive.ReactivePlace
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.app
 import me.slavita.construction.city.City
-import me.slavita.construction.ui.Border
 import me.slavita.construction.utils.borderBuilder
 import java.lang.reflect.Type
 
