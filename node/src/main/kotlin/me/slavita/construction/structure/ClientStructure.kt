@@ -1,20 +1,38 @@
 package me.slavita.construction.structure
 
+import me.func.mod.conversation.ModTransfer
 import me.func.mod.ui.Glow
 import me.func.protocol.data.color.GlowColor
+import me.slavita.construction.common.utils.STRUCTURE_BLOCK_CHANNEL
+import me.slavita.construction.common.utils.STRUCTURE_HIDE_CHANNEL
 import me.slavita.construction.reward.MoneyReward
 import me.slavita.construction.reward.ReputationReward
 import me.slavita.construction.structure.instance.Structure
-import me.slavita.construction.structure.tools.StructureSender
 import me.slavita.construction.utils.deny
 import me.slavita.construction.utils.swapItems
+import me.slavita.construction.world.StructureBlock
+import org.bukkit.Location
+import org.bukkit.inventory.ItemStack
 import kotlin.random.Random
 
 class ClientStructure(
     structure: Structure,
     cell: CityCell,
 ) : BuildingStructure(structure, cell) {
-    private val sender = StructureSender(owner.player)
+    @Suppress("DEPRECATION")
+    private fun sendBlock(block: StructureBlock, offset: Location) {
+        val position = block.withOffset(offset).position
+        ModTransfer()
+            .double(position.x.toDouble())
+            .double(position.y.toDouble())
+            .double(position.z.toDouble())
+            .item(ItemStack(block.type, 1, 1, block.data))
+            .send(STRUCTURE_BLOCK_CHANNEL, owner.player)
+    }
+
+    private fun sendHide() {
+        ModTransfer().send(STRUCTURE_HIDE_CHANNEL, owner.player)
+    }
 
     override fun enterBuilding() {
         continueBuilding()
@@ -23,16 +41,16 @@ class ClientStructure(
     override fun onFinish() {}
 
     override fun onShow() {
-        sender.sendBlock(currentBlock!!, allocation)
+        sendBlock(currentBlock!!, allocation)
     }
 
     override fun onHide() {
-        sender.sendHide()
+        sendHide()
     }
 
     override fun blockPlaced() {
         if (currentBlock == null) return
-        if (!hidden) sender.sendBlock(currentBlock!!, allocation)
+        if (!hidden) sendBlock(currentBlock!!, allocation)
     }
 
     override fun getBannerInfo(): List<Pair<String, Double>> {

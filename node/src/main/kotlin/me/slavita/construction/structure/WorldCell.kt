@@ -30,7 +30,6 @@ class WorldCell(val id: Int, val label: Label) {
     val stubBuilding = Building(UUID.randomUUID(), "", "", 0.0, 0.0, 0.0, stubBox)
 
     fun allocate() {
-        println("ALLOCATING")
         stubBuilding.allocate(box.min.clone().add(12.0, 0.0, 12.0))
     }
 }

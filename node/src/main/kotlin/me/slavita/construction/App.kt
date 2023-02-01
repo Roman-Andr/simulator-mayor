@@ -82,14 +82,14 @@ class App : JavaPlugin() {
             BotsManager,
         )
 
-        runTimerAsync(10 * 20, 2 * 60 * 20) {
+        runTimerAsync(2 * 60 * 20) {
             Leaderboards.load()
         }
 
         coroutineForAll(1) {
             data.cities.forEach { city ->
-                city.projects.forEach {
-                    if (it.structure is WorkerStructure) (it.structure as WorkerStructure).build()
+                city.projects.forEach { project ->
+                    if (project.structure is WorkerStructure) (project.structure as WorkerStructure).build()
                 }
             }
         }
@@ -99,8 +99,8 @@ class App : JavaPlugin() {
         }
 
         coroutineForAll(2 * 60 * 20) {
-            data.cities.forEach {
-                it.breakStructure()
+            data.cities.forEach { city ->
+                city.breakStructure()
             }
         }
 

@@ -50,6 +50,7 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
                         backgroundColor = GlowColor.RED
                         hint = "Убрать"
                         click { _, _, _ ->
+                            if (structure.workers.isEmpty()) return@click
                             structure.workers.clear()
                             WorkerChoice(player, project).tryExecute()
                         }

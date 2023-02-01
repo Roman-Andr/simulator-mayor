@@ -9,6 +9,7 @@ import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelPromise
 import kotlinx.coroutines.*
 import me.func.mod.Anime
+import me.func.mod.conversation.ModTransfer
 import me.func.mod.reactive.ButtonClickHandler
 import me.func.mod.reactive.ReactiveBanner
 import me.func.mod.reactive.ReactiveButton
@@ -34,6 +35,7 @@ import me.slavita.construction.register.BotsManager.ds
 import me.slavita.construction.register.BotsManager.tg
 import me.slavita.construction.register.BotsManager.vk
 import me.slavita.construction.structure.CityCell
+import me.slavita.construction.ui.Border
 import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.ui.menu.StatsType
@@ -407,7 +409,7 @@ fun getFaceCenter(cell: CityCell) = cell.box.bottomCenter.clone().apply {
     }
 }
 
-fun Location.addByFace(face: BlockFace, value: Double = 2.0) = apply {
+fun Location.addByFace(face: BlockFace, value: Double = 3.0) = apply {
     x += face.modX * value
     z += face.modZ * value
 }
@@ -544,3 +546,11 @@ fun nextFace(face: BlockFace) {
         if (hasNext()) next() else faces.first()
     }
 }
+
+fun ModTransfer.uuidF(uuid: UUID) = apply { string(uuid.toString()) }
+
+fun borderBuilder(location: Location, color: RGB) = Border.builder()
+    .width(23.1)
+    .height(50.0)
+    .color(color)
+    .location(location)

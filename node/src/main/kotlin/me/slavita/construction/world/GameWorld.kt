@@ -77,8 +77,7 @@ class GameWorld(val map: WorldMeta) {
                 NpcManager,
                 CityGlows,
                 SpeedPlaces,
-                Showcases,
-                Leaderboards
+                Showcases
             )
         }
     }

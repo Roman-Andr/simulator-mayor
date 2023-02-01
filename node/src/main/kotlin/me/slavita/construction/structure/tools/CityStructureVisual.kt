@@ -9,19 +9,16 @@ import me.func.protocol.data.element.Banner
 import me.func.protocol.world.marker.Marker
 import me.func.protocol.world.marker.MarkerSign
 import me.slavita.construction.structure.CityStructure
+import me.slavita.construction.ui.Border
 import me.slavita.construction.ui.HumanizableValues.BLOCK
 import me.slavita.construction.utils.*
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.ChatColor.GOLD
 import org.bukkit.entity.Player
+import java.util.*
+import kotlin.collections.HashMap
 
 class CityStructureVisual(val structure: CityStructure) {
-    private val infoGlow = ReactivePlace.builder()
-        .rgb(GlowColor.RED)
-        .location(structure.cell.box.bottomCenter.clone().apply { y -= 2.0 })
-        .radius(11.0)
-        .angles(120)
-        .build()
     private var repairGlow: ReactivePlace? = null
     private var repairBanner: Banner? = null
     private var marker: Marker? = null
@@ -29,6 +26,8 @@ class CityStructureVisual(val structure: CityStructure) {
     init {
         val center = structure.cell.box.center
         val sideCenter = getFaceCenter(structure.cell).addByFace(structure.cell.face)
+        structure.cell.border.color = GlowColor.YELLOW
+        structure.cell.border.update(structure.owner)
         marker = Marker(center.x, center.y, center.z, 80.0, MarkerSign.ARROW_DOWN)
         repairGlow = ReactivePlace.builder()
             .rgb(GlowColor.GREEN_LIGHT)
@@ -88,19 +87,22 @@ class CityStructureVisual(val structure: CityStructure) {
     fun update() {
         when (structure.state) {
             CityStructureState.NOT_READY   -> {
-                infoGlow.delete(setOf(structure.owner))
+                structure.cell.border.delete(structure.owner)
+                structure.owner.sendMessage("DELETED NOT_READY")
                 Anime.removeMarker(structure.owner, marker!!)
             }
 
             CityStructureState.FUNCTIONING -> {
-                infoGlow.delete(setOf(structure.owner))
+                structure.cell.border.delete(structure.owner)
+                structure.owner.sendMessage("DELETED FUNCTIONING")
                 Anime.removeMarker(structure.owner, marker!!)
                 repairGlow!!.delete(setOf(structure.owner))
                 Banners.hide(structure.owner, repairBanner!!)
             }
 
             CityStructureState.BROKEN      -> {
-                infoGlow.send(structure.owner)
+                structure.cell.border.send(structure.owner)
+                structure.owner.sendMessage("SENDED BROKEN")
                 Anime.marker(structure.owner, marker!!)
                 repairGlow!!.send(structure.owner)
                 Banners.show(structure.owner, repairBanner!!)
