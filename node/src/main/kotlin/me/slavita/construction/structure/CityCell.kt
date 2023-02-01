@@ -35,6 +35,12 @@ class CityCell(val city: City, val worldCell: WorldCell, var busy: Boolean) {
         hideGlow()
     }
 
+    fun setFree() {
+        busy = false
+        infoGlow.send(owner.player)
+        worldCell.stubBuilding.show(owner.player)
+    }
+
     fun hideGlow() {
         infoGlow.delete(setOf(owner.player))
         worldCell.stubBuilding.hide(owner.player)

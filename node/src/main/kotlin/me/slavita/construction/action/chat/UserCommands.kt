@@ -32,6 +32,12 @@ object UserCommands : IRegistrable {
             player.user.currentCity.breakStructure()
         }
 
+        command("remove") { player, _ ->
+            player.user.currentCity.cityStructures.forEach {
+                if (it.cell.box.contains(player.location)) it.remove()
+            }
+        }
+
         command("ok") { _, _ -> }
 
 

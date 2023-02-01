@@ -86,26 +86,38 @@ class CityStructureVisual(val structure: CityStructure) {
     }
 
     fun update() {
-        when (structure.state) {
-            CityStructureState.NOT_READY   -> {
-                infoGlow.delete(setOf(structure.owner))
-                Anime.removeMarker(structure.owner, marker!!)
-            }
+        structure.run {
+            when (state) {
+                CityStructureState.NOT_READY   -> {
+                    infoGlow.delete(setOf(owner))
+                    Anime.removeMarker(owner, marker!!)
+                }
 
-            CityStructureState.FUNCTIONING -> {
-                infoGlow.delete(setOf(structure.owner))
-                Anime.removeMarker(structure.owner, marker!!)
-                repairGlow!!.delete(setOf(structure.owner))
-                Banners.hide(structure.owner, repairBanner!!)
-            }
+                CityStructureState.FUNCTIONING -> {
+                    infoGlow.delete(setOf(owner))
+                    Anime.removeMarker(owner, marker!!)
+                    repairGlow!!.delete(setOf(owner))
+                    Banners.hide(owner, repairBanner!!)
+                }
 
-            CityStructureState.BROKEN      -> {
-                infoGlow.send(structure.owner)
-                Anime.marker(structure.owner, marker!!)
-                repairGlow!!.send(structure.owner)
-                Banners.show(structure.owner, repairBanner!!)
-                structure.targetBlocks = HashMap(structure.structure.blocks)
+                CityStructureState.BROKEN      -> {
+                    infoGlow.send(owner)
+                    Anime.marker(owner, marker!!)
+                    repairGlow!!.send(owner)
+                    Banners.show(owner, repairBanner!!)
+                    targetBlocks = HashMap(structure.blocks)
+                }
             }
+        }
+    }
+
+    fun delete() {
+        structure.owner.run {
+            val player = setOf(this)
+            infoGlow.delete(player)
+            repairGlow!!.delete(player)
+            Banners.hide(this, repairBanner!!)
+            Banners.remove(repairBanner!!.uuid)
         }
     }
 }

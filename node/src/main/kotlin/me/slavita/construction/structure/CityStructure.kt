@@ -22,8 +22,8 @@ import java.util.*
 
 class CityStructure(val owner: Player, val structure: Structure, val cell: CityCell) {
 
-    val box = Box(app.structureMap, structure.box.min, structure.box.max, "", "")
-    val building = Building(UUID.randomUUID(), "", "", 0.0, 0.0, 0.0, box)
+    val structureBox = Box(app.structureMap, structure.box.min, structure.box.max, "", "")
+    val building = Building(UUID.randomUUID(), "", "", 0.0, 0.0, 0.0, structureBox)
     var state = CityStructureState.NOT_READY
     val visual = CityStructureVisual(this)
     var repairBlocks: HashMap<ItemProperties, Int> = hashMapOf()
@@ -33,6 +33,14 @@ class CityStructure(val owner: Player, val structure: Structure, val cell: CityC
         building.allocate(cell.box.min.clone().add(11.0, 0.0, 11.0))
         building.show(owner)
         visual.update()
+    }
+
+    fun remove() {
+        building.hide(owner)
+        building.deallocate()
+        visual.delete()
+        cell.setFree()
+        owner.user.data.cities.forEach { it.cityStructures.remove(this) }
     }
 
     fun repair() {
