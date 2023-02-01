@@ -6,7 +6,7 @@ build/
 hs_err_pid*
 replay_pid*
 
-SECRETS.env
+*.env
 
 *.zip
 *.tar.gz
