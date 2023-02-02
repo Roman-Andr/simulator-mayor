@@ -39,7 +39,7 @@ class CityCell(val city: City, val worldCell: WorldCell, var busy: Boolean) {
 
     fun setFree() {
         busy = false
-        infoGlow.send(owner.player)
+        border.send(owner.player)
         worldCell.stubBuilding.show(owner.player)
     }
 
