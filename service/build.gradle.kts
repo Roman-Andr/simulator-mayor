@@ -22,40 +22,15 @@ dependencies {
     implementation("com.github.kotlin-telegram-bot.kotlin-telegram-bot:telegram:6.0.7")
 }
 
-remotes {
-    webServer {
-        host = System.getenv("CRI_HOST")
-        user = System.getenv("CRI_HOST_USERNAME")
-        knownHosts = allowAnyHosts
-        identity = file(System.getenv("CRI_HOST_SSHKEY_PATH") ?: "key")
-        passphrase = System.getenv("CRI_HOST_PASSPHRASE")
-    }
-}
-
 tasks {
     build { dependsOn(shadowJar) }
     jar { enabled = false }
     shadowJar {
         archiveFileName.set("construction-service.jar")
-        configurations = [project.configurations.compileClasspath]
+        configurations = listOf(project.configurations.compileClasspath.get())
         manifest {
             attributes["Main-Class"] = "me.slavita.construction.service.MainKt"
             attributes["Multi-Release"] = true
-        }
-    }
-}
-
-task upload {
-    dependsOn(tasks.shadowJar)
-    doLast {
-        ssh.run {
-            session(remotes.webServer) {
-                put from: project(":service").tasks.shadowJar.getArchiveFile().get().asFile.path, into: "/home/" + System.getenv("CRI_HOST_USERNAME") + "/construction/service/"
-                execute('ps -eo pid | while read line; do pwdx \$line 2> /dev/null; done | grep "' +
-                        'home/' + System.getenv("CRI_HOST_USERNAME") + '/construction/service"' +
-                        ' | cut -d\':\' -f1 | while read line; do kill \$line; done;')
-                execute("cd construction/service;./start.sh")
-            }
         }
     }
 }
