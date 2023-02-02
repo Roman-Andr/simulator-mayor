@@ -38,25 +38,14 @@ dependencies {
     implementation("org.slf4j:slf4j-log4j12:2.0.5")
 }
 
-tasks {
-    build {
-        dependsOn(shadowJar)
-    }
-//    jar {
-//
-//        archiveBaseName.set("construction")
-//        from(configurations.compileClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
-//        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-//    }
-    jar { enabled = false }
-    shadowJar {
-        dependsOn(project(":common").tasks.jar)
-        dependsOn(project(":protocol").tasks.jar)
-        archiveFileName.set("construction.jar")
-        configurations = listOf(project.configurations.compileClasspath.get())
-        manifest {
-            attributes["Main-Class"] = "me.slavita.construction.service.MainKt"
-            attributes["Multi-Release"] = true
+afterEvaluate {
+    tasks {
+        jar {
+            dependsOn(":common:jar")
+            dependsOn(":protocol:jar")
+            archiveBaseName.set("construction.jar")
+            from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+            duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         }
     }
 }
