@@ -1,7 +1,7 @@
 package me.slavita.construction.utils.language
 
 import org.bukkit.enchantments.Enchantment
-import java.util.*
+import java.util.EnumSet
 
 enum class EnumEnchantment(val enchantment: Enchantment, val unlocalizedName: String) {
     PROTECTION_ENVIRONMENTAL(Enchantment.PROTECTION_ENVIRONMENTAL, "enchantment.protect.all"), PROTECTION_FIRE(

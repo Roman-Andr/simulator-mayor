@@ -18,7 +18,7 @@ import me.slavita.construction.world.ItemProperties
 import org.bukkit.ChatColor.*
 import org.bukkit.entity.Player
 import java.lang.reflect.Type
-import java.util.*
+import java.util.UUID
 
 class CityStructure(val owner: Player, val structure: Structure, val cell: CityCell) {
 

@@ -31,7 +31,7 @@ import org.bukkit.Bukkit
 import org.bukkit.ChatColor.GOLD
 import org.bukkit.Location
 import ru.cristalix.core.invoice.IInvoiceService
-import java.util.*
+import java.util.UUID
 import kotlin.math.abs
 
 class User(val uuid: UUID) {

@@ -14,7 +14,7 @@ import me.func.protocol.data.color.Tricolor
 import ru.cristalix.uiengine.UIEngine.clientApi
 import ru.cristalix.uiengine.utility.Color
 import ru.cristalix.uiengine.utility.V3
-import java.util.*
+import java.util.UUID
 import kotlin.math.cos
 import kotlin.math.sin
 

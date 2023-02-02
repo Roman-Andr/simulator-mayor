@@ -8,7 +8,7 @@ import org.bukkit.ChatColor.GOLD
 import org.bukkit.Material
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerMoveEvent
-import java.util.*
+import java.util.UUID
 
 object OnActions : IRegistrable {
     val inZone = hashMapOf<UUID, Boolean>()

@@ -13,7 +13,7 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
-import java.util.*
+import java.util.UUID
 
 object ItemsManager : IRegistrable {
     private val actions = hashMapOf<UUID, HashMap<ItemStack, (player: Player) -> Unit>>()

@@ -3,7 +3,7 @@ package me.slavita.construction.utils.language
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets
-import java.util.*
+import java.util.EnumSet
 
 enum class EnumLang(val locale: String, val map: MutableMap<String, String>) {
     AF_ZA("af_za", hashMapOf()), AR_SA("ar_sa", hashMapOf()), AST_ES(

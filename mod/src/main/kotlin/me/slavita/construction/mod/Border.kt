@@ -2,7 +2,7 @@ package me.slavita.construction.mod
 
 import me.func.protocol.data.color.RGB
 import ru.cristalix.uiengine.utility.V3
-import java.util.*
+import java.util.UUID
 
 class Border(
     val uuid: UUID,

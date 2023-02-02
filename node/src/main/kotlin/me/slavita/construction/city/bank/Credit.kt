@@ -1,7 +1,7 @@
 package me.slavita.construction.city.bank
 
 import me.func.atlas.Atlas
-import java.util.*
+import java.util.UUID
 
 class Credit(
     val uuid: UUID,

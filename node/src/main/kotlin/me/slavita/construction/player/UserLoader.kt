@@ -6,7 +6,7 @@ import me.slavita.construction.listener.LoadUserEvent
 import me.slavita.construction.protocol.GetUserPackage
 import me.slavita.construction.utils.*
 import org.bukkit.entity.Player
-import java.util.*
+import java.util.UUID
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 

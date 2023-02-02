@@ -14,7 +14,7 @@ import me.slavita.construction.structure.*
 import me.slavita.construction.utils.*
 import me.slavita.construction.world.SlotItem
 import org.bukkit.entity.Player
-import java.util.*
+import java.util.UUID
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 

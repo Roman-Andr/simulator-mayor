@@ -6,7 +6,7 @@ import me.slavita.construction.app
 import me.slavita.construction.utils.log
 import me.slavita.construction.world.Box
 import org.bukkit.block.BlockFace
-import java.util.*
+import java.util.UUID
 
 class WorldCell(val id: Int, val label: Label) {
 

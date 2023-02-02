@@ -9,7 +9,7 @@ import me.slavita.construction.utils.uuidF
 import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
-import java.util.*
+import java.util.UUID
 
 class Border(
     var color: RGB = GlowColor.NEUTRAL,

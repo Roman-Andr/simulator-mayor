@@ -7,7 +7,8 @@ import me.slavita.construction.mod.showcase.Showcases
 import me.slavita.construction.mod.storage.Storage
 import ru.cristalix.clientapi.KotlinMod
 import ru.cristalix.uiengine.UIEngine
-import java.util.*
+import java.util.Timer
+import java.util.TimerTask
 
 lateinit var mod: App
 lateinit var player: EntityPlayerSP

@@ -9,7 +9,7 @@ import net.minecraft.server.v1_12_R1.Material
 import net.minecraft.server.v1_12_R1.PacketPlayOutBlockChange
 import org.bukkit.Bukkit
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer
-import java.util.*
+import java.util.UUID
 
 object ConnectionPrepare : IPrepare {
     override fun prepare(user: User) {
