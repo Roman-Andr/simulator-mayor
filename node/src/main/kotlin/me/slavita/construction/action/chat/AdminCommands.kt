@@ -15,7 +15,13 @@ import me.slavita.construction.player.Tags
 import me.slavita.construction.prepare.GuidePrepare
 import me.slavita.construction.prepare.TagsPrepare
 import me.slavita.construction.ui.Formatter.toMoneyIcon
-import me.slavita.construction.utils.*
+import me.slavita.construction.utils.accept
+import me.slavita.construction.utils.deny
+import me.slavita.construction.utils.killboard
+import me.slavita.construction.utils.log
+import me.slavita.construction.utils.opCommand
+import me.slavita.construction.utils.scheduler
+import me.slavita.construction.utils.user
 import org.bukkit.Bukkit
 import ru.cristalix.core.display.messages.RadioMessage
 import ru.cristalix.core.realm.IRealmService
@@ -88,12 +94,12 @@ object AdminCommands : IRegistrable {
         }
 
         opCommand("kickAll") { _, _ ->
-            //need test
+            // need test
             val availableRealms =
                 IRealmService.get().typesAndRealms["SLVT"]!!.filter { it.realmId.id != IRealmService.get().currentRealmInfo.realmId.id }
             Bukkit.getOnlinePlayers().chunked(availableRealms.size).forEachIndexed { index, players ->
                 players.forEach { player ->
-                    //if (it.isOp) return@forEach
+                    // if (it.isOp) return@forEach
                     ITransferService.get().transfer(player.uniqueId, availableRealms[index].realmId)
                 }
             }
@@ -119,7 +125,7 @@ object AdminCommands : IRegistrable {
         }
 
         opCommand("error") { player, _ ->
-            var nu: String? = null
+            val nu: String? = null
             player.killboard(nu!!)
         }
 
@@ -128,11 +134,6 @@ object AdminCommands : IRegistrable {
                 .to(player.user.currentCity.getSpawn())
                 .build()
                 .send(player)
-        }
-
-        opCommand("rect") { player, _ ->
-            ModTransfer()
-                .send("rectangle:new", player)
         }
     }
 }

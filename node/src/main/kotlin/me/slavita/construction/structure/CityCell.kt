@@ -1,10 +1,15 @@
 package me.slavita.construction.structure
 
-import com.google.gson.*
-import me.func.mod.reactive.ReactivePlace
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.app
 import me.slavita.construction.city.City
+import me.slavita.construction.utils.borderBuilder
 import java.lang.reflect.Type
 
 class CityCell(val city: City, val worldCell: WorldCell, var busy: Boolean) {
@@ -16,23 +21,20 @@ class CityCell(val city: City, val worldCell: WorldCell, var busy: Boolean) {
     val face
         get() = worldCell.face
 
-
-    private val infoGlow = ReactivePlace.builder()
-        .rgb(GlowColor.NEUTRAL_LIGHT)
-        .location(worldCell.box.bottomCenter.clone().apply { y -= 2.0 })
-        .radius(11.0)
-        .angles(120)
-        .build()
+    val border = borderBuilder(worldCell.box.bottomCenter, GlowColor.NEUTRAL).alpha(100).build()
 
     fun updateStub() {
         if (!busy) worldCell.stubBuilding.show(owner.player)
-        infoGlow.delete(setOf(owner.player))
-        infoGlow.send(owner.player)
+        border.delete(owner.player)
+        owner.player.sendMessage("DELETED UPDATE")
+        border.send(owner.player)
+        owner.player.sendMessage("SENDED UPDATE")
     }
 
     fun setBusy() {
         busy = true
         hideGlow()
+        owner.player.sendMessage("DELETED SETBUSY")
     }
 
     fun setFree() {
@@ -42,7 +44,7 @@ class CityCell(val city: City, val worldCell: WorldCell, var busy: Boolean) {
     }
 
     fun hideGlow() {
-        infoGlow.delete(setOf(owner.player))
+        border.delete(owner.player)
         worldCell.stubBuilding.hide(owner.player)
     }
 }
@@ -64,7 +66,10 @@ class CityCellDeserializer(val city: City) : JsonDeserializer<CityCell> {
     override fun deserialize(json: JsonElement, type: Type, context: JsonDeserializationContext) =
         json.asJsonObject.run {
             CityCell(city, app.mainWorld.cells[get("cellId").asInt], get("busy").asBoolean).apply {
-                if (busy) hideGlow()
+                if (busy) {
+                    hideGlow()
+                    owner.player.sendMessage("DELETED DESEREALIZE")
+                }
             }
         }
 }

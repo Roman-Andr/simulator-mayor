@@ -3,7 +3,10 @@ package me.slavita.construction.register
 import me.func.mod.Anime
 import me.func.protocol.math.Position
 import me.slavita.construction.city.bank.Bank
-import me.slavita.construction.common.utils.*
+import me.slavita.construction.common.utils.BANK_SUBMIT_CHANNEL
+import me.slavita.construction.common.utils.FUNC_REWARD_CLICK
+import me.slavita.construction.common.utils.IRegistrable
+import me.slavita.construction.common.utils.STRUCTURE_PLACE_CHANNEL
 import me.slavita.construction.reward.MoneyReward
 import me.slavita.construction.structure.ClientStructure
 import me.slavita.construction.ui.Formatter.toMoneyIcon
@@ -11,7 +14,9 @@ import me.slavita.construction.utils.accept
 import me.slavita.construction.utils.runTimerAsync
 import me.slavita.construction.utils.user
 import org.bukkit.Bukkit
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.DARK_GRAY
+import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.WHITE
 import ru.cristalix.core.realm.IRealmService
 import kotlin.math.pow
 
@@ -47,7 +52,7 @@ object ModCallbacks : IRegistrable {
                 Anime.overlayText(
                     player,
                     Position.BOTTOM_RIGHT,
-                    "Онлайн ${DARK_GRAY}» $GOLD" + IRealmService.get()
+                    "Онлайн $DARK_GRAY» $GOLD" + IRealmService.get()
                         .getOnlineOnRealms("SLVT").toString()
                 )
             }

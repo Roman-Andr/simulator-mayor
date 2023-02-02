@@ -10,26 +10,39 @@ import me.slavita.construction.action.chat.UserCommands
 import me.slavita.construction.booster.BoosterType
 import me.slavita.construction.booster.Boosters
 import me.slavita.construction.common.utils.register
-import me.slavita.construction.listener.*
+import me.slavita.construction.listener.OnActions
+import me.slavita.construction.listener.OnChat
+import me.slavita.construction.listener.OnJoin
+import me.slavita.construction.listener.OnLeave
+import me.slavita.construction.listener.OnUserLoad
+import me.slavita.construction.listener.PhysicsDisabler
 import me.slavita.construction.player.User
 import me.slavita.construction.player.UserLoader
 import me.slavita.construction.player.UserSaver
-import me.slavita.construction.register.*
+import me.slavita.construction.register.BotsManager
+import me.slavita.construction.register.MapLoader
+import me.slavita.construction.register.ModCallbacks
+import me.slavita.construction.register.ModLoader
+import me.slavita.construction.register.RealmConfigurator
+import me.slavita.construction.register.ServicesLoader
 import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.Formatter.applyBoosters
 import me.slavita.construction.ui.ItemsManager
 import me.slavita.construction.ui.Leaderboards
-import me.slavita.construction.utils.*
+import me.slavita.construction.utils.accept
+import me.slavita.construction.utils.coroutineForAll
 import me.slavita.construction.utils.language.EnumLang
 import me.slavita.construction.utils.language.LanguageHelper
+import me.slavita.construction.utils.runTimer
+import me.slavita.construction.utils.runTimerAsync
+import me.slavita.construction.utils.toUUID
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import ru.cristalix.core.datasync.EntityDataParameters
-import java.util.*
-
+import java.util.UUID
 
 lateinit var app: App
 
@@ -82,14 +95,14 @@ class App : JavaPlugin() {
             BotsManager,
         )
 
-        runTimerAsync(10 * 20, 2 * 60 * 20) {
+        runTimerAsync(2 * 60 * 20) {
             Leaderboards.load()
         }
 
         coroutineForAll(1) {
             data.cities.forEach { city ->
-                city.projects.forEach {
-                    if (it.structure is WorkerStructure) (it.structure as WorkerStructure).build()
+                city.projects.forEach { project ->
+                    if (project.structure is WorkerStructure) (project.structure as WorkerStructure).build()
                 }
             }
         }
@@ -99,8 +112,8 @@ class App : JavaPlugin() {
         }
 
         coroutineForAll(2 * 60 * 20) {
-            data.cities.forEach {
-                it.breakStructure()
+            data.cities.forEach { city ->
+                city.breakStructure()
             }
         }
 

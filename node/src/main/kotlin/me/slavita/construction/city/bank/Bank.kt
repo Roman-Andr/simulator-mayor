@@ -1,7 +1,7 @@
 package me.slavita.construction.city.bank
 
 import me.slavita.construction.player.User
-import java.util.*
+import java.util.UUID
 
 object Bank {
     val playersData = mutableMapOf<UUID, HashSet<Credit>>()

@@ -9,8 +9,16 @@ import dev.xdark.clientapi.opengl.GlStateManager
 import dev.xdark.clientapi.util.EnumHand
 import dev.xdark.clientapi.util.ParticleType
 import io.netty.buffer.Unpooled
-import me.slavita.construction.common.utils.*
-import me.slavita.construction.mod.utils.*
+import me.slavita.construction.common.utils.IRegistrable
+import me.slavita.construction.common.utils.STRUCTURE_BLOCK_CHANNEL
+import me.slavita.construction.common.utils.STRUCTURE_HIDE_CHANNEL
+import me.slavita.construction.common.utils.STRUCTURE_PLACE_CHANNEL
+import me.slavita.construction.mod.utils.Renderer
+import me.slavita.construction.mod.utils.blocksCount
+import me.slavita.construction.mod.utils.handItemEquals
+import me.slavita.construction.mod.utils.hotbarEqualSlots
+import me.slavita.construction.mod.utils.isLookingAt
+import me.slavita.construction.mod.utils.sendPayload
 import org.lwjgl.input.Mouse
 import ru.cristalix.uiengine.UIEngine
 import ru.cristalix.uiengine.UIEngine.clientApi
@@ -20,7 +28,19 @@ import ru.cristalix.uiengine.element.TextElement
 import ru.cristalix.uiengine.eventloop.animate
 import ru.cristalix.uiengine.eventloop.thenAnimate
 import ru.cristalix.uiengine.eventloop.thenWait
-import ru.cristalix.uiengine.utility.*
+import ru.cristalix.uiengine.utility.BOTTOM
+import ru.cristalix.uiengine.utility.BOTTOM_LEFT
+import ru.cristalix.uiengine.utility.BOTTOM_RIGHT
+import ru.cristalix.uiengine.utility.CENTER
+import ru.cristalix.uiengine.utility.Color
+import ru.cristalix.uiengine.utility.Easings
+import ru.cristalix.uiengine.utility.TOP_LEFT
+import ru.cristalix.uiengine.utility.TOP_RIGHT
+import ru.cristalix.uiengine.utility.V3
+import ru.cristalix.uiengine.utility.WHITE
+import ru.cristalix.uiengine.utility.item
+import ru.cristalix.uiengine.utility.rectangle
+import ru.cristalix.uiengine.utility.text
 
 object StructureBuilding : IRegistrable {
 

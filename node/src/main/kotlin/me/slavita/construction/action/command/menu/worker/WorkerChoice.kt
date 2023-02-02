@@ -10,9 +10,14 @@ import me.slavita.construction.action.command.menu.project.StartProject
 import me.slavita.construction.city.project.Project
 import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.ui.menu.Icons
-import me.slavita.construction.utils.*
+import me.slavita.construction.utils.WORKER_INFO
+import me.slavita.construction.utils.click
+import me.slavita.construction.utils.getEmptyButton
+import me.slavita.construction.utils.size
 import me.slavita.construction.worker.WorkerState
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.BOLD
+import org.bukkit.ChatColor.GREEN
 import org.bukkit.entity.Player
 
 class WorkerChoice(player: Player, val project: Project, val startProject: Boolean = true) :
@@ -46,10 +51,11 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
                         title = """
                         ${GREEN}Убрать
                         ${GREEN}выделение
-                    """.trimIndent()
+                        """.trimIndent()
                         backgroundColor = GlowColor.RED
                         hint = "Убрать"
                         click { _, _, _ ->
+                            if (structure.workers.isEmpty()) return@click
                             structure.workers.clear()
                             WorkerChoice(player, project).tryExecute()
                         }
@@ -71,8 +77,8 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
                                 backgroundColor =
                                     when (getWorkerState(worker)) {
                                         WorkerState.SELECTED -> GlowColor.ORANGE
-                                        WorkerState.BUSY     -> GlowColor.NEUTRAL
-                                        WorkerState.FREE     -> GlowColor.BLUE
+                                        WorkerState.BUSY -> GlowColor.NEUTRAL
+                                        WorkerState.FREE -> GlowColor.BLUE
                                     }
                                 click { _, _, button ->
                                     distributeWorker(worker, button)

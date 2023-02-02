@@ -11,13 +11,15 @@ object MapLoader : IRegistrable {
         app.structureMap = MapLoader.load("construction", "structures")
         val map = MapLoader.load("construction", "main")
         nextTick {
-            GameWorld(map.apply {
-                world.apply {
-                    setGameRuleValue("randomTickSpeed", "0")
-                    setGameRuleValue("gameLoopFunction", "false")
-                    setGameRuleValue("disableElytraMovementCheck", "true")
+            GameWorld(
+                map.apply {
+                    world.apply {
+                        setGameRuleValue("randomTickSpeed", "0")
+                        setGameRuleValue("gameLoopFunction", "false")
+                        setGameRuleValue("disableElytraMovementCheck", "true")
+                    }
                 }
-            })
+            )
         }
     }
 }

@@ -1,7 +1,12 @@
 package me.slavita.construction.prepare
 
 import me.func.atlas.Atlas
-import me.func.protocol.ui.dialog.*
+import me.func.protocol.ui.dialog.Action
+import me.func.protocol.ui.dialog.Actions
+import me.func.protocol.ui.dialog.Button
+import me.func.protocol.ui.dialog.Dialog
+import me.func.protocol.ui.dialog.Entrypoint
+import me.func.protocol.ui.dialog.Screen
 import me.slavita.construction.player.User
 
 object GuidePrepare : IPrepare {
@@ -21,12 +26,12 @@ object GuidePrepare : IPrepare {
                                 Button(
                                     when (actionType) {
                                         "CONTINUE" -> "Далее"
-                                        else       -> "Хорошо"
+                                        else -> "Хорошо"
                                     }
                                 ).actions(
                                     when (actionType) {
                                         "CONTINUE" -> Action.command("/dialog ${getString("command-key")}")
-                                        else       -> Action(Actions.CLOSE)
+                                        else -> Action(Actions.CLOSE)
                                     }
                                 )
                             )

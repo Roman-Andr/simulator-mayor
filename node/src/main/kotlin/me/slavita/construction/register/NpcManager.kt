@@ -16,7 +16,10 @@ import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
 import me.slavita.construction.action.command.menu.worker.WorkerMenu
 import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.ui.menu.Icons
-import me.slavita.construction.utils.*
+import me.slavita.construction.utils.STORAGE_URL
+import me.slavita.construction.utils.labels
+import me.slavita.construction.utils.loadBanner
+import me.slavita.construction.utils.toUUID
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack
 import org.bukkit.inventory.EquipmentSlot
 import kotlin.reflect.full.primaryConstructor
@@ -37,26 +40,28 @@ object NpcManager : IRegistrable {
                 loadBanner(values["banner"] as Map<*, *>, label)
 
                 Npc.npc {
-                    location(label.toCenterLocation().apply {
-                        y = label.blockY.toDouble()
-                    })
+                    location(
+                        label.toCenterLocation().apply {
+                            y = label.blockY.toDouble()
+                        }
+                    )
                     name = ""
                     when (skinType) {
                         "uuid" -> skin(skin.toUUID())
-                        "url"  -> skin("$STORAGE_URL/skin/${skin}")
+                        "url" -> skin("$STORAGE_URL/skin/$skin")
                     }
                     behaviour = NpcBehaviour.STARE_AND_LOOK_AROUND
                     onClick {
                         when (action) {
-                            "WorkerMenu"         -> WorkerMenu::class
-                            "ControlPanelMenu"   -> ControlPanelMenu::class
-                            "BankMainMenu"       -> BankMainMenu::class
+                            "WorkerMenu" -> WorkerMenu::class
+                            "ControlPanelMenu" -> ControlPanelMenu::class
+                            "BankMainMenu" -> BankMainMenu::class
                             "ActiveProjectsMenu" -> ActiveProjectsMenu::class
-                            "DailyMenu"          -> DailyMenu::class
-                            "GuideDialog"        -> GuideDialog::class
-                            "StorageMenu"        -> StorageMenu::class
-                            "LocationsMenu"      -> LocationsMenu::class
-                            else                 -> ControlPanelMenu::class
+                            "DailyMenu" -> DailyMenu::class
+                            "GuideDialog" -> GuideDialog::class
+                            "StorageMenu" -> StorageMenu::class
+                            "LocationsMenu" -> LocationsMenu::class
+                            else -> ControlPanelMenu::class
                         }.primaryConstructor!!.call(it.player).tryExecute()
                     }
                 }.slot(EquipmentSlot.HAND, CraftItemStack.asNMSCopy(Icons.get(itemKey, itemValue)))

@@ -2,7 +2,7 @@ package me.slavita.construction.action
 
 import me.slavita.construction.app
 import me.slavita.construction.player.User
-import java.util.*
+import java.util.UUID
 import kotlin.reflect.KClass
 
 abstract class CooldownCommand(open val user: User, open val cooldown: Long) : Command {
@@ -21,4 +21,3 @@ abstract class CooldownCommand(open val user: User, open val cooldown: Long) : C
         return app.pass - lastTime - cooldown
     }
 }
-

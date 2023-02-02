@@ -7,7 +7,7 @@ import org.bukkit.entity.Entity
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
-import java.util.*
+import java.util.Locale
 
 object LanguageHelper : IRegistrable {
 
@@ -32,7 +32,7 @@ object LanguageHelper : IRegistrable {
             Material.SPLASH_POTION,
             Material.LINGERING_POTION,
             Material.TIPPED_ARROW,
-                                 -> EnumPotionEffect.getLocalizedName(
+            -> EnumPotionEffect.getLocalizedName(
                 item,
                 locale
             )
@@ -42,13 +42,13 @@ object LanguageHelper : IRegistrable {
                 locale
             )
 
-            Material.SKULL_ITEM  -> {
+            Material.SKULL_ITEM -> {
                 if (item.getDurability().toInt() == 3) {
                     EnumItem.getPlayerSkullName(item, locale)
                 } else translateToLocal(getItemUnlocalizedName(item), locale)
             }
 
-            else                 -> translateToLocal(
+            else -> translateToLocal(
                 getItemUnlocalizedName(item),
                 locale
             )

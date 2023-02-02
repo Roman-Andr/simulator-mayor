@@ -6,6 +6,7 @@ import me.slavita.construction.action.CooldownCommand
 import me.slavita.construction.player.User
 import me.slavita.construction.worker.Worker
 
+@Suppress("DEPRECATION")
 class OpenWorker(override val user: User, vararg val workers: Worker) : CooldownCommand(user, 2) {
     override fun execute() {
         Anime.openLootBox(

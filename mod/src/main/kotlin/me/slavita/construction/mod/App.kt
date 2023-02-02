@@ -7,7 +7,8 @@ import me.slavita.construction.mod.showcase.Showcases
 import me.slavita.construction.mod.storage.Storage
 import ru.cristalix.clientapi.KotlinMod
 import ru.cristalix.uiengine.UIEngine
-import java.util.*
+import java.util.Timer
+import java.util.TimerTask
 
 lateinit var mod: App
 lateinit var player: EntityPlayerSP
@@ -29,10 +30,13 @@ class App : KotlinMod() {
     }
 
     fun runRepeatingTask(delay: Double, period: Double, action: () -> Unit) {
-        Timer().schedule(object : TimerTask() {
-            override fun run() {
-                action()
-            }
-        }, (delay * 1000).toLong(), (period * 1000).toLong())
+        Timer().schedule(
+            object : TimerTask() {
+                override fun run() {
+                    action()
+                }
+            },
+            (delay * 1000).toLong(), (period * 1000).toLong()
+        )
     }
 }

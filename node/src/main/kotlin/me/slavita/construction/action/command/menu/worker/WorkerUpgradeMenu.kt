@@ -12,7 +12,10 @@ import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.WORKER_INFO
 import me.slavita.construction.utils.click
 import me.slavita.construction.worker.Worker
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.BOLD
+import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.GREEN
 import org.bukkit.entity.Player
 
 class WorkerUpgradeMenu(player: Player, val worker: Worker) : MenuCommand(player) {
@@ -60,11 +63,10 @@ class WorkerUpgradeMenu(player: Player, val worker: Worker) : MenuCommand(player
     }
 
     private fun getUpgradeHover(): String {
-        return "${AQUA}Улучшить ${GREEN}${worker.level}${AQUA}->${GREEN}${worker.level + 1} ${AQUA}за ${worker.upgradePrice.toMoneyIcon()}"
+        return "${AQUA}Улучшить ${GREEN}${worker.level}$AQUA->${GREEN}${worker.level + 1} ${AQUA}за ${worker.upgradePrice.toMoneyIcon()}"
     }
 
     private fun getSellHover(): String {
         return "${AQUA}Продать за ${GREEN}${worker.sellPrice.toMoneyIcon()}"
     }
 }
-

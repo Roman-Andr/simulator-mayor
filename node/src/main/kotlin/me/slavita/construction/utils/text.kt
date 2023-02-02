@@ -1,37 +1,46 @@
 package me.slavita.construction.utils
 
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.BOLD
+import org.bukkit.ChatColor.DARK_GRAY
+import org.bukkit.ChatColor.DARK_GREEN
+import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.GRAY
+import org.bukkit.ChatColor.GREEN
+import org.bukkit.ChatColor.RED
+import org.bukkit.ChatColor.WHITE
+import org.bukkit.ChatColor.YELLOW
 
 val WORKER_INFO = """
         ${GOLD}${BOLD}Характеристики:
-          ${YELLOW}Имя ${GRAY}»
+          ${YELLOW}Имя $GRAY»
             ${WHITE}Наименование рабочего
             ${WHITE}в вашей команде
           
-          ${DARK_GREEN}Редкость ${GRAY}»
+          ${DARK_GREEN}Редкость $GRAY»
             ${WHITE}Показывает на сколько
             ${WHITE}характеристики рабочего хороши
           
-          ${GOLD}Уровень ${GRAY}»
+          ${GOLD}Уровень $GRAY»
             ${WHITE}Показывает уровень прокачки
             ${WHITE}рабочего и влияет
             ${WHITE}на все его характеристики
           
-          ${AQUA}Скорость ${GRAY}»
+          ${AQUA}Скорость $GRAY»
             ${WHITE}Количество блоков,
             ${WHITE}которые ставит рабочий
             ${WHITE}за секунду
           
-          ${GREEN}Надёжность ${GRAY}»
+          ${GREEN}Надёжность $GRAY»
             ${WHITE}Влияет на то, как часто
             ${WHITE}будет ломаться здания,
             ${WHITE}построенные этим рабочим
           
-          ${RED}Жадность ${GRAY}»
+          ${RED}Жадность $GRAY»
             ${WHITE}Влияет на награду
             ${WHITE}за окончания постройки
             ${WHITE}здания этим рабочим
-    """.trimIndent()
+""".trimIndent()
 val SHOWCASE_INFO = """
     ${GOLD}${BOLD}Магазин:
         Обновление цен происходит

@@ -27,14 +27,14 @@ class Box(val min: Location, val max: Location) {
 
     fun contains(location: Location): Boolean {
         return min.getX() <= location.getX() && max.getX() >= location.getX() &&
-                min.getY() <= location.getY() && max.getY() >= location.getY() &&
-                min.getZ() <= location.getZ() && max.getZ() >= location.getZ()
+            min.getY() <= location.getY() && max.getY() >= location.getY() &&
+            min.getZ() <= location.getZ() && max.getZ() >= location.getZ()
     }
 
     fun contains(location: BlockPosition): Boolean {
         return min.getX() <= location.x && max.getX() >= location.x &&
-                min.getY() <= location.y && max.getY() >= location.y &&
-                min.getZ() <= location.z && max.getZ() >= location.z
+            min.getY() <= location.y && max.getY() >= location.y &&
+            min.getZ() <= location.z && max.getZ() >= location.z
     }
 
     override fun toString(): String {

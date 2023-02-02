@@ -39,7 +39,7 @@ class FreelanceProject(
                 finish()
             }
 
-            else                    -> {}
+            else -> {}
         }
     }
 

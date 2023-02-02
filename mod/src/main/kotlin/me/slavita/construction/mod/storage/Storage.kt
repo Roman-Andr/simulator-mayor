@@ -5,7 +5,10 @@ import dev.xdark.clientapi.event.block.BlockRightClick
 import dev.xdark.clientapi.util.EnumHand
 import dev.xdark.feder.NetUtil
 import io.netty.buffer.Unpooled
-import me.slavita.construction.common.utils.*
+import me.slavita.construction.common.utils.IRegistrable
+import me.slavita.construction.common.utils.STORAGE_HIDE_CHANNEL
+import me.slavita.construction.common.utils.STORAGE_INIT_CHANNEL
+import me.slavita.construction.common.utils.STORAGE_SHOW_CHANNEL
 import me.slavita.construction.mod.mod
 import me.slavita.construction.mod.player
 import me.slavita.construction.mod.templates.BoxData
@@ -49,7 +52,8 @@ object Storage : IRegistrable {
             if (hand == EnumHand.OFF_HAND) return@registerHandler
             storages.forEach { storage ->
                 if (!position.add(facing.xOffset, facing.yOffset, facing.zOffset)
-                        .inBox(storage.min, storage.max)) return@forEach
+                    .inBox(storage.min, storage.max)
+                ) return@forEach
 
                 val buffer = Unpooled.buffer()
                 sendPayload("storage:open", buffer)

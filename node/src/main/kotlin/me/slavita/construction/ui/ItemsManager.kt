@@ -6,34 +6,36 @@ import me.slavita.construction.action.command.menu.donate.DonateMenu
 import me.slavita.construction.action.command.menu.general.ControlPanelMenu
 import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.utils.listener
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.BOLD
+import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.GREEN
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.block.Action
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
-import java.util.*
+import java.util.UUID
 
 object ItemsManager : IRegistrable {
     private val actions = hashMapOf<UUID, HashMap<ItemStack, (player: Player) -> Unit>>()
     private val ITEMS = listOf(
         ActionableItem(
-            7, ItemBuilder(Material.CLAY_BALL)
+            7,
+            ItemBuilder(Material.CLAY_BALL)
                 .text("${GREEN}${BOLD}Меню")
                 .nbt("skyblock", "collections")
                 .build()
-        )
-        {
+        ) {
             ControlPanelMenu(it).tryExecute()
         },
         ActionableItem(
-            8, ItemBuilder(Material.CLAY_BALL)
+            8,
+            ItemBuilder(Material.CLAY_BALL)
                 .text("${GOLD}${BOLD}Платные возможности")
                 .nbt("other", "bank")
                 .build()
-        )
-        {
+        ) {
             DonateMenu(it).tryExecute()
         }
     )

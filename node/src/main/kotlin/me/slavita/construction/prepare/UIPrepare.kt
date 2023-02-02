@@ -15,7 +15,7 @@ object UIPrepare : IPrepare {
         Texture.values().forEach {
             Anime.loadTexture(
                 user.player,
-                "${STORAGE_URL}/images/${it.fileName}"
+                "$STORAGE_URL/images/${it.fileName}"
             )
         }
     }

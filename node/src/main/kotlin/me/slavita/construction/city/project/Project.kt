@@ -1,9 +1,19 @@
 package me.slavita.construction.city.project
 
-import com.google.gson.*
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import com.google.gson.JsonParseException
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import me.slavita.construction.city.City
 import me.slavita.construction.player.sound.MusicSound
-import me.slavita.construction.reward.*
+import me.slavita.construction.reward.ExperienceReward
+import me.slavita.construction.reward.MoneyReward
+import me.slavita.construction.reward.ReputationReward
+import me.slavita.construction.reward.Reward
 import me.slavita.construction.structure.BuildingStructure
 import me.slavita.construction.structure.BuildingStructureDeserializer
 import me.slavita.construction.structure.tools.CityStructureState
@@ -19,7 +29,7 @@ open class Project(
 ) {
     lateinit var structure: BuildingStructure
     val owner = city.owner
-    val timeLast: Int //TODO: use this
+    val timeLast: Int // TODO: use this
         get() = 0
 
     fun initialize() {
@@ -45,7 +55,7 @@ open class Project(
                 city.finishProject(this@Project)
             }
 
-            else                    -> {}
+            else -> {}
         }
     }
 
@@ -61,7 +71,7 @@ open class Project(
     fun onLeave() {
         when (structure.state) {
             StructureState.BUILDING -> structure.hideVisual()
-            else                    -> {}
+            else -> {}
         }
     }
 
@@ -70,7 +80,7 @@ open class Project(
           ${AQUA}ID: $id
           ${AQUA}Награды:
           ${rewards.joinToString("\n  ") { it.toString() }}
-        """.trimIndent()
+    """.trimIndent()
 }
 
 class ProjectSerializer : JsonSerializer<Project> {
@@ -92,14 +102,16 @@ class ProjectDeserializer(val city: City) : JsonDeserializer<Project> {
         json.asJsonObject.run {
             val rewards = hashSetOf<Reward>()
             get("rewards").asJsonArray.forEach {
-                rewards.add(it.asJsonObject.run {
-                    when {
-                        has("experience") -> ExperienceReward(get("experience").asLong)
-                        has("reputation") -> ReputationReward(get("reputation").asLong)
-                        has("money")      -> MoneyReward(get("money").asLong)
-                        else              -> throw JsonParseException("Unknown reward type")
+                rewards.add(
+                    it.asJsonObject.run {
+                        when {
+                            has("experience") -> ExperienceReward(get("experience").asLong)
+                            has("reputation") -> ReputationReward(get("reputation").asLong)
+                            has("money") -> MoneyReward(get("money").asLong)
+                            else -> throw JsonParseException("Unknown reward type")
+                        }
                     }
-                })
+                )
             }
 
             val project = Project(city, get("id").asInt, rewards)

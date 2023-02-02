@@ -7,10 +7,17 @@ import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection
 import me.func.mod.ui.menu.selection.Selection
 import me.slavita.construction.action.MenuCommand
-import me.slavita.construction.utils.*
+import me.slavita.construction.utils.STORAGE_INFO
+import me.slavita.construction.utils.deny
 import me.slavita.construction.utils.language.LanguageHelper
+import me.slavita.construction.utils.mapM
+import me.slavita.construction.utils.size
+import me.slavita.construction.utils.user
 import me.slavita.construction.world.ItemProperties
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.BOLD
+import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.GREEN
 import org.bukkit.entity.Player
 
 class StorageMenu(player: Player) : MenuCommand(player) {

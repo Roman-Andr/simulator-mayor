@@ -23,11 +23,11 @@ object OnJoin : IRegistrable {
         listener<AsyncPlayerPreLoginEvent>(EventPriority.LOWEST) {
 //            val now = System.currentTimeMillis()
 //
-////            if (now < app.started + 10000) {
-////                disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "Сервер запускается...")
-////                loginResult = AsyncPlayerPreLoginEvent.Result.KICK_OTHER
-////                return@listener
-////            }
+// //            if (now < app.started + 10000) {
+// //                disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "Сервер запускается...")
+// //                loginResult = AsyncPlayerPreLoginEvent.Result.KICK_OTHER
+// //                return@listener
+// //            }
 //
 //            val lock = Lock.getLock("construction-$uniqueId", TimeUnit.SECONDS)
 //

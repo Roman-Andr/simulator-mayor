@@ -3,7 +3,10 @@ package me.slavita.construction.service
 import com.mongodb.client.model.UpdateOptions
 import me.func.serviceapi.mongo.MongoAdapter
 import me.slavita.construction.common.utils.register
-import me.slavita.construction.protocol.*
+import me.slavita.construction.protocol.GetLeaderboardPackage
+import me.slavita.construction.protocol.GetUserPackage
+import me.slavita.construction.protocol.SaveUserPackage
+import me.slavita.construction.protocol.UserSavedPackage
 import org.bson.Document
 import ru.cristalix.core.microservice.MicroServicePlatform
 import ru.cristalix.core.microservice.MicroserviceBootstrap

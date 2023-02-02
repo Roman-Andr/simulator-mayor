@@ -10,8 +10,14 @@ import me.slavita.construction.city.bank.Bank
 import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.ui.menu.StatsType
-import me.slavita.construction.utils.*
-import org.bukkit.ChatColor.*
+import me.slavita.construction.utils.CREDITS_INFO
+import me.slavita.construction.utils.click
+import me.slavita.construction.utils.deny
+import me.slavita.construction.utils.getVault
+import me.slavita.construction.utils.size
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.BOLD
+import org.bukkit.ChatColor.GOLD
 import org.bukkit.entity.Player
 
 class CreditsListMenu(player: Player) : MenuCommand(player) {
@@ -50,4 +56,3 @@ class CreditsListMenu(player: Player) : MenuCommand(player) {
         }
     }
 }
-

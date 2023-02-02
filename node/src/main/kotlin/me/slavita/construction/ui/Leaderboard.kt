@@ -2,7 +2,10 @@ package me.slavita.construction.ui
 
 import me.slavita.construction.booster.format.IFormatter
 import me.slavita.construction.protocol.LeaderboardItem
-import me.slavita.construction.utils.*
+import me.slavita.construction.utils.cristalixName
+import me.slavita.construction.utils.label
+import me.slavita.construction.utils.toUUID
+import me.slavita.construction.utils.toYaw
 import org.bukkit.block.BlockFace
 import ru.cristalix.boards.bukkitapi.Boards
 

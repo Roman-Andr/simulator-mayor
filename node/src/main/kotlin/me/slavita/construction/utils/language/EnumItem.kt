@@ -4,7 +4,7 @@ import me.slavita.construction.utils.language.LanguageHelper.translateToLocal
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
-import java.util.*
+import java.util.EnumSet
 
 enum class EnumItem(val material: Material, val metadata: Int, val unlocalizedName: String) {
     AIR(Material.AIR, "tile.air.name"), BARRIER(Material.BARRIER, "tile.barrier.name"), STONE(
@@ -1056,10 +1056,12 @@ enum class EnumItem(val material: Material, val metadata: Int, val unlocalizedNa
 
         init {
             EnumSet.allOf(EnumItem::class.java).forEach {
-                lookup[ItemEntry(
-                    it.material,
-                    it.metadata
-                )] = it
+                lookup[
+                    ItemEntry(
+                        it.material,
+                        it.metadata
+                    )
+                ] = it
             }
         }
 

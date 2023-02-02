@@ -11,18 +11,20 @@ import ru.cristalix.core.network.CorePackage
 import ru.cristalix.core.network.ISocketClient
 import ru.cristalix.core.realm.RealmId
 
-fun ISocketClient.capabilities(vararg classes: Class<out CorePackage>) = registerCapabilities(*classes.map { packet ->
-    Capability.builder()
-        .className(packet.name)
-        .notification(false)
-        .build()
-}.toTypedArray())
+fun ISocketClient.capabilities(vararg classes: Class<out CorePackage>) = registerCapabilities(
+    *classes.map { packet ->
+        Capability.builder()
+            .className(packet.name)
+            .notification(false)
+            .build()
+    }.toTypedArray()
+)
 
 inline fun <reified T : CorePackage> ISocketClient.listener(crossinline handler: T.(RealmId) -> Unit) {
     capabilities(T::class.java)
     runListener<T> { realm, packet ->
         try {
-            //todo: log with time
+            // TODO: log with time
             log("${T::class.simpleName}: ${realm.realmName}")
             packet.run {
                 handler.invoke(packet, realm)

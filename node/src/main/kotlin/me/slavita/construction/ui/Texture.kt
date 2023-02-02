@@ -5,6 +5,6 @@ enum class Texture(val fileName: String) {
     LOCATION("tree.png");
 
     fun path(): String {
-        return "cache/animation:${fileName}"
+        return "cache/animation:$fileName"
     }
 }

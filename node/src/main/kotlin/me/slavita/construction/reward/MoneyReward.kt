@@ -11,7 +11,7 @@ class MoneyReward(private val money: Long) : Reward {
     override fun getReward(user: User) {
         val value = money.applyBoosters(BoosterType.MONEY_BOOSTER)
         user.data.money += value
-        user.player.cursor("${GOLD}+${value.toMoneyIcon()}")
+        user.player.cursor("$GOLD+${value.toMoneyIcon()}")
     }
 
     override fun toString() = money.applyBoosters(BoosterType.MONEY_BOOSTER).toMoneyIcon()

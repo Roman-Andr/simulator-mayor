@@ -16,12 +16,6 @@ import org.bukkit.ChatColor.GOLD
 import org.bukkit.entity.Player
 
 class CityStructureVisual(val structure: CityStructure) {
-    private val infoGlow = ReactivePlace.builder()
-        .rgb(GlowColor.RED)
-        .location(structure.cell.box.bottomCenter.clone().apply { y -= 2.0 })
-        .radius(11.0)
-        .angles(120)
-        .build()
     private var repairGlow: ReactivePlace? = null
     private var repairBanner: Banner? = null
     private var marker: Marker? = null
@@ -29,6 +23,8 @@ class CityStructureVisual(val structure: CityStructure) {
     init {
         val center = structure.cell.box.center
         val sideCenter = getFaceCenter(structure.cell).addByFace(structure.cell.face)
+        structure.cell.border.color = GlowColor.YELLOW
+        structure.cell.border.update(structure.owner)
         marker = Marker(center.x, center.y, center.z, 80.0, MarkerSign.ARROW_DOWN)
         repairGlow = ReactivePlace.builder()
             .rgb(GlowColor.GREEN_LIGHT)
@@ -86,27 +82,28 @@ class CityStructureVisual(val structure: CityStructure) {
     }
 
     fun update() {
-        structure.run {
-            when (state) {
-                CityStructureState.NOT_READY   -> {
-                    infoGlow.delete(setOf(owner))
-                    Anime.removeMarker(owner, marker!!)
-                }
+        when (structure.state) {
+            CityStructureState.NOT_READY -> {
+                structure.cell.border.delete(structure.owner)
+                println("DELETED NOT_READY")
+                Anime.removeMarker(structure.owner, marker!!)
+            }
 
-                CityStructureState.FUNCTIONING -> {
-                    infoGlow.delete(setOf(owner))
-                    Anime.removeMarker(owner, marker!!)
-                    repairGlow!!.delete(setOf(owner))
-                    Banners.hide(owner, repairBanner!!)
-                }
+            CityStructureState.FUNCTIONING -> {
+                structure.cell.border.delete(structure.owner)
+                println("DELETED FUNCTIONING")
+                Anime.removeMarker(structure.owner, marker!!)
+                repairGlow!!.delete(setOf(structure.owner))
+                Banners.hide(structure.owner, repairBanner!!)
+            }
 
-                CityStructureState.BROKEN      -> {
-                    infoGlow.send(owner)
-                    Anime.marker(owner, marker!!)
-                    repairGlow!!.send(owner)
-                    Banners.show(owner, repairBanner!!)
-                    targetBlocks = HashMap(structure.blocks)
-                }
+            CityStructureState.BROKEN -> {
+                structure.cell.border.send(structure.owner)
+                println("SENDED BROKEN")
+                Anime.marker(structure.owner, marker!!)
+                repairGlow!!.send(structure.owner)
+                Banners.show(structure.owner, repairBanner!!)
+                structure.targetBlocks = HashMap(structure.structure.blocks)
             }
         }
     }
@@ -114,7 +111,7 @@ class CityStructureVisual(val structure: CityStructure) {
     fun delete() {
         structure.owner.run {
             val player = setOf(this)
-            infoGlow.delete(player)
+            structure.cell.border.delete(structure.owner)
             repairGlow!!.delete(player)
             Banners.hide(this, repairBanner!!)
             Banners.remove(repairBanner!!.uuid)

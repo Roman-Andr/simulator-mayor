@@ -6,11 +6,15 @@ import dev.xdark.clientapi.item.ItemStack
 import dev.xdark.clientapi.math.BlockPos
 import dev.xdark.clientapi.render.BufferBuilder
 import dev.xdark.clientapi.render.Tessellator
+import dev.xdark.feder.NetUtil
 import io.netty.buffer.ByteBuf
 import me.func.protocol.data.color.GlowColor
+import me.func.protocol.data.color.RGB
+import me.func.protocol.data.color.Tricolor
 import ru.cristalix.uiengine.UIEngine.clientApi
 import ru.cristalix.uiengine.utility.Color
 import ru.cristalix.uiengine.utility.V3
+import java.util.UUID
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -53,12 +57,12 @@ fun ClientApi.isLookingAt(location: V3): Boolean {
             blocksPassed * yy + eyeLocation.y,
             blocksPassed * zz + eyeLocation.z
         )
-        //Renderer.drawLine(eyeLocation, currentLocation, SpecialColor.RED.toColor(), 5f)
+        // Renderer.drawLine(eyeLocation, currentLocation, SpecialColor.RED.toColor(), 5f)
 
         if (currentLocation.distanceSquared3(location.withOffset(0.5, 0.5, 0.5)) <= 0.9) return true
 
         blocksPassed += 0.1
-        //if (!minecraft().world.isAirBlock(round(location.x).toInt(), round(location.y).toInt(), round(location.z).toInt())) return false
+        // if (!minecraft().world.isAirBlock(round(location.x).toInt(), round(location.y).toInt(), round(location.z).toInt())) return false
     }
 
     return false
@@ -111,3 +115,11 @@ val bufferBuilder: BufferBuilder
     get() = tessellator.bufferBuilder
 
 fun sendPayload(channel: String, buffer: ByteBuf) = clientApi.clientConnection().sendPayload(channel, buffer)
+
+fun ByteBuf.readRgb() = Tricolor(readInt(), readInt(), readInt())
+
+fun ByteBuf.readV3() = V3(readDouble(), readDouble(), readDouble())
+
+fun BufferBuilder.color(color: RGB, alpha: Int): BufferBuilder = color(color.red, color.green, color.blue, alpha)
+
+fun ByteBuf.readUuid(): UUID = UUID.fromString(NetUtil.readUtf8(this))

@@ -5,7 +5,7 @@ import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.PotionMeta
 import org.bukkit.potion.PotionType
-import java.util.*
+import java.util.EnumSet
 
 enum class EnumPotionEffect(
     val potionType: PotionType,
@@ -190,28 +190,32 @@ enum class EnumPotionEffect(
 
         fun getLocalizedName(itemStack: ItemStack, locale: String?): String {
             return when (itemStack.getType()) {
-                Material.SPLASH_POTION    -> translateToLocal(
+                Material.SPLASH_POTION -> translateToLocal(
                     getUnlocalizedSplashName(
                         itemStack
-                    ), locale!!
+                    ),
+                    locale!!
                 )
 
                 Material.LINGERING_POTION -> translateToLocal(
                     getUnlocalizedLingeringName(
                         itemStack
-                    ), locale!!
+                    ),
+                    locale!!
                 )
 
-                Material.TIPPED_ARROW     -> translateToLocal(
+                Material.TIPPED_ARROW -> translateToLocal(
                     getUnlocalizedArrowName(
                         itemStack
-                    ), locale!!
+                    ),
+                    locale!!
                 )
 
-                else                      -> translateToLocal(
+                else -> translateToLocal(
                     getUnlocalizedName(
                         itemStack
-                    ), locale!!
+                    ),
+                    locale!!
                 )
             }
         }

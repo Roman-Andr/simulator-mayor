@@ -12,7 +12,12 @@ import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.CITY_HALL_INFO
 import me.slavita.construction.utils.click
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.BOLD
+import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.GRAY
+import org.bukkit.ChatColor.GREEN
+import org.bukkit.ChatColor.WHITE
 import org.bukkit.entity.Player
 
 class CityHallMenu(player: Player) : MenuCommand(player) {
@@ -30,8 +35,8 @@ class CityHallMenu(player: Player) : MenuCommand(player) {
                         backgroundColor = GlowColor.GREEN
                         hover = """
                             ${GREEN}При улучшении:
-                              ${AQUA}Уровень: ${GRAY}${hall.level.toLevel()} ${BOLD}-> ${GREEN}${(hall.level + 1).toLevel()}
-                              ${GOLD}Доход: ${GRAY}${hall.income.toIncomeIcon()} ${BOLD}-> ${GOLD}${hall.nextIncome.toIncomeIcon()}
+                              ${AQUA}Уровень: ${GRAY}${hall.level.toLevel()} $BOLD-> ${GREEN}${(hall.level + 1).toLevel()}
+                              ${GOLD}Доход: ${GRAY}${hall.income.toIncomeIcon()} $BOLD-> ${GOLD}${hall.nextIncome.toIncomeIcon()}
                             
                             ${BOLD}${WHITE}Стоимость: ${GREEN}${hall.upgradePrice.toMoneyIcon()}
                         """.trimIndent()
@@ -46,4 +51,3 @@ class CityHallMenu(player: Player) : MenuCommand(player) {
         }
     }
 }
-

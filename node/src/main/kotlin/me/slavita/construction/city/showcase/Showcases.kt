@@ -22,7 +22,8 @@ object Showcases : IRegistrable {
                         materials.forEach { material ->
                             add(ShowcaseProduct(material, 100))
                         }
-                    })
+                    }
+                )
             )
         }
         val banner = Atlas.find("showcases")

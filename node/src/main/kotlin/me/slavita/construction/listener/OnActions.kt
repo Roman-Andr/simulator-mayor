@@ -2,13 +2,17 @@ package me.slavita.construction.listener
 
 import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.ui.HumanizableValues.BLOCK
-import me.slavita.construction.utils.*
+import me.slavita.construction.utils.accept
+import me.slavita.construction.utils.deny
 import me.slavita.construction.utils.language.LanguageHelper
+import me.slavita.construction.utils.listener
+import me.slavita.construction.utils.user
+import me.slavita.construction.utils.userOrNull
 import org.bukkit.ChatColor.GOLD
 import org.bukkit.Material
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerMoveEvent
-import java.util.*
+import java.util.UUID
 
 object OnActions : IRegistrable {
     val inZone = hashMapOf<UUID, Boolean>()
@@ -36,10 +40,10 @@ object OnActions : IRegistrable {
             if (depositBlocks > 0) {
                 player.accept(
                     "Вы положили ${GOLD}${
-                        LanguageHelper.getItemDisplayName(
-                            drop.itemStack,
-                            player
-                        )
+                    LanguageHelper.getItemDisplayName(
+                        drop.itemStack,
+                        player
+                    )
                     }: ${BLOCK.get(depositBlocks)}"
                 )
             } else {

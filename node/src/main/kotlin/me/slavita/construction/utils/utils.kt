@@ -7,8 +7,12 @@ import dev.implario.bukkit.platform.Platforms
 import io.netty.channel.ChannelDuplexHandler
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelPromise
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import me.func.mod.Anime
+import me.func.mod.conversation.ModTransfer
 import me.func.mod.reactive.ButtonClickHandler
 import me.func.mod.reactive.ReactiveBanner
 import me.func.mod.reactive.ReactiveButton
@@ -34,13 +38,16 @@ import me.slavita.construction.register.BotsManager.ds
 import me.slavita.construction.register.BotsManager.tg
 import me.slavita.construction.register.BotsManager.vk
 import me.slavita.construction.structure.CityCell
+import me.slavita.construction.ui.Border
 import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.ui.menu.StatsType
-import net.minecraft.server.v1_12_R1.*
+import net.minecraft.server.v1_12_R1.BlockPosition
+import net.minecraft.server.v1_12_R1.EntityPlayer
+import net.minecraft.server.v1_12_R1.Packet
 import org.apache.logging.log4j.util.BiConsumer
-import org.bukkit.*
-import org.bukkit.ChatColor.*
+import org.bukkit.Bukkit
+import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.World
 import org.bukkit.block.BlockFace
@@ -63,7 +70,7 @@ import ru.cristalix.core.network.ISocketClient
 import ru.cristalix.core.permissions.IPermissionContext
 import ru.cristalix.core.permissions.IPermissionService
 import ru.cristalix.core.realm.IRealmService
-import java.util.*
+import java.util.UUID
 import kotlin.reflect.KClass
 
 val socket: ISocketClient
@@ -71,7 +78,7 @@ val socket: ISocketClient
 
 val STORAGE_URL = "https://storage.c7x.dev/${System.getenv("STORAGE_USER")}/construction"
 
-val SOUND_URL = "${STORAGE_URL}/sound/"
+val SOUND_URL = "$STORAGE_URL/sound/"
 
 val Player.user
     get() = app.getUser(this)
@@ -98,11 +105,11 @@ fun ReactiveButton.click(click: ButtonClickHandler) = apply {
 fun Selection.getVault(user: User, type: StatsType) {
     vault = type.vault
     money = "Ваш ${type.title} ${
-        when (type) {
-            StatsType.MONEY  -> user.data.money.toMoney()
-            StatsType.LEVEL  -> user.data.level
-            StatsType.CREDIT -> Bank.playersData[user.player.uniqueId]!!.sumOf { it.creditValue }.toMoney()
-        }
+    when (type) {
+        StatsType.MONEY -> user.data.money.toMoney()
+        StatsType.LEVEL -> user.data.level
+        StatsType.CREDIT -> Bank.playersData[user.player.uniqueId]!!.sumOf { it.creditValue }.toMoney()
+    }
     }"
 }
 
@@ -172,7 +179,7 @@ fun label(key: String, tag: String, map: WorldMeta = app.mainWorld.map) = map.ge
 
 fun Float.revert() = when {
     this >= 0 -> this - 180F
-    else      -> this + 180F
+    else -> this + 180F
 }
 
 object EmptyListener : Listener
@@ -210,14 +217,17 @@ fun <T : Event> listener(
 
 inline fun <reified T : Packet<*>> packetListener(player: Player, noinline handler: T.() -> Unit) {
     (player as CraftPlayer).handle.playerConnection.networkManager.channel.pipeline()
-        .addBefore("packet_handler", UUID.randomUUID().toString(), object : ChannelDuplexHandler() {
-            override fun write(ctx: ChannelHandlerContext?, msg: Any?, promise: ChannelPromise?) {
-                if (msg is T) {
-                    handler.invoke(msg)
+        .addBefore(
+            "packet_handler", UUID.randomUUID().toString(),
+            object : ChannelDuplexHandler() {
+                override fun write(ctx: ChannelHandlerContext?, msg: Any?, promise: ChannelPromise?) {
+                    if (msg is T) {
+                        handler.invoke(msg)
+                    }
+                    super.write(ctx, msg, promise)
                 }
-                super.write(ctx, msg, promise)
             }
-        })
+        )
 }
 
 fun Location.yaw(yaw: Float) = apply { setYaw(yaw) }
@@ -234,21 +244,27 @@ fun String.colored(colors: List<String>): String {
 }
 
 fun opCommand(name: String, biConsumer: BiConsumer<Player, Array<out String>>) {
-    Bukkit.getCommandMap().register("anime", object : Command(name) {
-        override fun execute(sender: CommandSender, var2: String, agrs: Array<out String>): Boolean {
-            if (sender is Player && sender.isOp) biConsumer.accept(sender, agrs)
-            return true
+    Bukkit.getCommandMap().register(
+        "anime",
+        object : Command(name) {
+            override fun execute(sender: CommandSender, var2: String, agrs: Array<out String>): Boolean {
+                if (sender is Player && sender.isOp) biConsumer.accept(sender, agrs)
+                return true
+            }
         }
-    })
+    )
 }
 
 fun command(name: String, biConsumer: BiConsumer<Player, Array<out String>>) {
-    Bukkit.getCommandMap().register("construction", object : Command(name) {
-        override fun execute(sender: CommandSender, var2: String, agrs: Array<out String>): Boolean {
-            if (sender is Player) biConsumer.accept(sender, agrs)
-            return true
+    Bukkit.getCommandMap().register(
+        "construction",
+        object : Command(name) {
+            override fun execute(sender: CommandSender, var2: String, agrs: Array<out String>): Boolean {
+                if (sender is Player) biConsumer.accept(sender, agrs)
+                return true
+            }
         }
-    })
+    )
 }
 
 fun safe(action: () -> Unit) = after(1, action)
@@ -366,23 +382,23 @@ operator fun BlockPosition.minus(additionalPosition: Location): BlockPosition = 
 )
 
 fun BlockFace.toYaw(): Float = when (this) {
-    BlockFace.EAST       -> -90
-    BlockFace.WEST       -> 90
-    BlockFace.SOUTH      -> 0
-    BlockFace.NORTH      -> 180
+    BlockFace.EAST -> -90
+    BlockFace.WEST -> 90
+    BlockFace.SOUTH -> 0
+    BlockFace.NORTH -> 180
     BlockFace.NORTH_WEST -> 135
     BlockFace.NORTH_EAST -> -135
     BlockFace.SOUTH_WEST -> 45
     BlockFace.SOUTH_EAST -> -45
-    else                 -> 0
+    else -> 0
 }.toFloat()
 
 fun getFaceCenter(cell: CityCell) = cell.box.bottomCenter.clone().apply {
     when (cell.face) {
-        BlockFace.EAST       -> x = cell.box.max.x
-        BlockFace.NORTH      -> z = cell.box.min.z
-        BlockFace.WEST       -> x = cell.box.min.x
-        BlockFace.SOUTH      -> z = cell.box.max.z
+        BlockFace.EAST -> x = cell.box.max.x
+        BlockFace.NORTH -> z = cell.box.min.z
+        BlockFace.WEST -> x = cell.box.min.x
+        BlockFace.SOUTH -> z = cell.box.max.z
         BlockFace.NORTH_EAST -> {
             x = cell.box.max.x
             z = cell.box.min.z
@@ -403,11 +419,11 @@ fun getFaceCenter(cell: CityCell) = cell.box.bottomCenter.clone().apply {
             z = cell.box.max.z
         }
 
-        else                 -> throw IllegalArgumentException("Incorrect structure face")
+        else -> throw IllegalArgumentException("Incorrect structure face")
     }
 }
 
-fun Location.addByFace(face: BlockFace, value: Double = 2.0) = apply {
+fun Location.addByFace(face: BlockFace, value: Double = 3.0) = apply {
     x += face.modX * value
     z += face.modZ * value
 }
@@ -476,7 +492,8 @@ fun createDual(info: BannerInfo): Pair<Banner, Banner> {
                         source.x + blockFace.modX,
                         source.y,
                         source.z + blockFace.modZ
-                    ), blockFace.oppositeFace, content, width, height, color, opacity, motionType, pitch
+                    ),
+                    blockFace.oppositeFace, content, width, height, color, opacity, motionType, pitch
                 )
             )
         )
@@ -544,3 +561,11 @@ fun nextFace(face: BlockFace) {
         if (hasNext()) next() else faces.first()
     }
 }
+
+fun ModTransfer.uuidF(uuid: UUID) = apply { string(uuid.toString()) }
+
+fun borderBuilder(location: Location, color: RGB) = Border.builder()
+    .width(23.1)
+    .height(50.0)
+    .color(color)
+    .location(location)

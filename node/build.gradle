@@ -39,7 +39,9 @@ dependencies {
 }
 
 tasks {
-    build { dependsOn(shadowJar) }
+    build {
+        dependsOn(shadowJar)
+    }
 }
 
 remotes {
@@ -94,6 +96,8 @@ task upload() {
 
 afterEvaluate {
     jar {
+        dependsOn(":common:jar")
+        dependsOn(":protocol:jar")
         archiveBaseName.set("construction")
         from configurations.runtimeClasspath.collect { it.directory ? it : zipTree(it) }
         duplicatesStrategy DuplicatesStrategy.EXCLUDE

@@ -1,7 +1,6 @@
 package me.slavita.construction.mod.utils
 
 import me.func.protocol.data.color.GlowColor
-
 import ru.cristalix.uiengine.utility.Color
 
 enum class ColorPalette(

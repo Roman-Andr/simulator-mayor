@@ -12,8 +12,24 @@ import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
 import me.slavita.construction.action.command.menu.project.StartFreelanceProject
 import me.slavita.construction.action.command.menu.worker.WorkerMenu
 import me.slavita.construction.ui.menu.Icons
-import me.slavita.construction.utils.*
-import org.bukkit.ChatColor.*
+import me.slavita.construction.utils.ACHIEVEMENTS_MENU
+import me.slavita.construction.utils.CITY_HALL_MENU
+import me.slavita.construction.utils.FREELANCE_MENU
+import me.slavita.construction.utils.LOCATIONS_MENU
+import me.slavita.construction.utils.MENU_INFO
+import me.slavita.construction.utils.PROJECTS_MENU
+import me.slavita.construction.utils.REWARDS_MENU
+import me.slavita.construction.utils.SETTINGS_MENU
+import me.slavita.construction.utils.STORAGE_MENU
+import me.slavita.construction.utils.TAGS_MENU
+import me.slavita.construction.utils.WORKERS_MENU
+import me.slavita.construction.utils.click
+import me.slavita.construction.utils.size
+import org.bukkit.ChatColor.BOLD
+import org.bukkit.ChatColor.DARK_GRAY
+import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.GREEN
+import org.bukkit.ChatColor.YELLOW
 import org.bukkit.entity.Player
 
 class ControlPanelMenu(player: Player) : MenuCommand(player) {
@@ -105,7 +121,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         }
                     }
                 ).onEach { button ->
-                    button.description = "${YELLOW}▶ Выбрать"
+                    button.description = "$YELLOW▶ Выбрать"
                     button.hint = "Выбрать"
                 }
             }

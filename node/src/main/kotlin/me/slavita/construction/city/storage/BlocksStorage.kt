@@ -1,6 +1,12 @@
 package me.slavita.construction.city.storage
 
-import com.google.gson.*
+import com.google.gson.JsonArray
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import me.func.mod.Anime
 import me.func.world.Box
 import me.slavita.construction.action.command.menu.city.StorageMenu
@@ -85,10 +91,12 @@ class BlocksStorageSerializer : JsonSerializer<BlocksStorage> {
         val json = JsonArray()
         blocksStorage.run {
             blocks.forEach { item, amonut ->
-                json.add(JsonObject().apply {
-                    add("item", context.serialize(item))
-                    addProperty("amount", amonut)
-                })
+                json.add(
+                    JsonObject().apply {
+                        add("item", context.serialize(item))
+                        addProperty("amount", amonut)
+                    }
+                )
             }
         }
         return json

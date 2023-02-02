@@ -8,7 +8,10 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.ui.HumanizableValues.LOOTBOX
 import me.slavita.construction.ui.menu.Icons
-import me.slavita.construction.utils.*
+import me.slavita.construction.utils.WORKER_INFO
+import me.slavita.construction.utils.click
+import me.slavita.construction.utils.mapM
+import me.slavita.construction.utils.user
 import me.slavita.construction.worker.WorkerGenerator
 import me.slavita.construction.worker.WorkerRarity
 import org.bukkit.ChatColor.AQUA
