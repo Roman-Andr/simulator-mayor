@@ -8,7 +8,10 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.dontate.AbilityDonate
 import me.slavita.construction.dontate.Donates
 import me.slavita.construction.ui.Formatter.toCriMoney
-import me.slavita.construction.utils.*
+import me.slavita.construction.utils.DONATE_INFO
+import me.slavita.construction.utils.click
+import me.slavita.construction.utils.mapM
+import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.entity.Player

@@ -5,7 +5,10 @@ import me.func.mod.ui.menu.confirmation.Confirmation
 import me.slavita.construction.player.User
 import me.slavita.construction.ui.HumanizableValues.CRI_MONEY
 import me.slavita.construction.utils.accept
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.BOLD
+import org.bukkit.ChatColor.GREEN
+import org.bukkit.ChatColor.WHITE
 
 abstract class Donate(var title: String, var description: String, val price: Int) {
     fun purchase(user: User) {

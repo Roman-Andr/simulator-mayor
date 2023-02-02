@@ -8,7 +8,9 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.WORKER_INFO
 import me.slavita.construction.utils.click
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.BOLD
+import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.GREEN
 import org.bukkit.entity.Player
 
 class WorkerMenu(player: Player) : MenuCommand(player) {
@@ -42,4 +44,3 @@ class WorkerMenu(player: Player) : MenuCommand(player) {
         }
     }
 }
-

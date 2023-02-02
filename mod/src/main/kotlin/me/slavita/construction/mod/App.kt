@@ -30,10 +30,13 @@ class App : KotlinMod() {
     }
 
     fun runRepeatingTask(delay: Double, period: Double, action: () -> Unit) {
-        Timer().schedule(object : TimerTask() {
-            override fun run() {
-                action()
-            }
-        }, (delay * 1000).toLong(), (period * 1000).toLong())
+        Timer().schedule(
+            object : TimerTask() {
+                override fun run() {
+                    action()
+                }
+            },
+            (delay * 1000).toLong(), (period * 1000).toLong()
+        )
     }
 }

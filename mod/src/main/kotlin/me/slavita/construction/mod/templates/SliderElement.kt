@@ -9,7 +9,16 @@ import ru.cristalix.uiengine.UIEngine.clientApi
 import ru.cristalix.uiengine.element.CarvedRectangle
 import ru.cristalix.uiengine.eventloop.animate
 import ru.cristalix.uiengine.onMouseDown
-import ru.cristalix.uiengine.utility.*
+import ru.cristalix.uiengine.utility.CENTER
+import ru.cristalix.uiengine.utility.Color
+import ru.cristalix.uiengine.utility.FlexDirection
+import ru.cristalix.uiengine.utility.LEFT
+import ru.cristalix.uiengine.utility.RIGHT
+import ru.cristalix.uiengine.utility.V3
+import ru.cristalix.uiengine.utility.WHITE
+import ru.cristalix.uiengine.utility.carved
+import ru.cristalix.uiengine.utility.flex
+import ru.cristalix.uiengine.utility.rectangle
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -49,9 +58,9 @@ class SliderElement : CarvedRectangle() {
         onHover {
             animate(0.08) {
                 color = when {
-                    hovered && !Mouse.isButtonDown(0)  -> Color(175, 208, 255, 1.0)
+                    hovered && !Mouse.isButtonDown(0) -> Color(175, 208, 255, 1.0)
                     !hovered && !Mouse.isButtonDown(0) -> WHITE
-                    else                               -> ColorPalette.BLUE.light.apply { alpha = 1.0 }
+                    else -> ColorPalette.BLUE.light.apply { alpha = 1.0 }
                 }
             }
         }
@@ -100,7 +109,7 @@ class SliderElement : CarvedRectangle() {
                 animate(0.05) {
                     cursor.color = when {
                         cursor.hovered -> Color(175, 208, 255, 1.0)
-                        else           -> WHITE
+                        else -> WHITE
                     }
                     if (partsCount != 0) {
                         magnetizeCursor()

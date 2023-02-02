@@ -57,12 +57,12 @@ fun ClientApi.isLookingAt(location: V3): Boolean {
             blocksPassed * yy + eyeLocation.y,
             blocksPassed * zz + eyeLocation.z
         )
-        //Renderer.drawLine(eyeLocation, currentLocation, SpecialColor.RED.toColor(), 5f)
+        // Renderer.drawLine(eyeLocation, currentLocation, SpecialColor.RED.toColor(), 5f)
 
         if (currentLocation.distanceSquared3(location.withOffset(0.5, 0.5, 0.5)) <= 0.9) return true
 
         blocksPassed += 0.1
-        //if (!minecraft().world.isAirBlock(round(location.x).toInt(), round(location.y).toInt(), round(location.z).toInt())) return false
+        // if (!minecraft().world.isAirBlock(round(location.x).toInt(), round(location.y).toInt(), round(location.z).toInt())) return false
     }
 
     return false

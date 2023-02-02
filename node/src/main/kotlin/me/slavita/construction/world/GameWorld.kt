@@ -18,7 +18,7 @@ import me.slavita.construction.utils.label
 import me.slavita.construction.utils.labels
 import org.bukkit.Location
 import org.bukkit.entity.Player
-import java.util.*
+import java.util.UUID
 
 class GameWorld(val map: WorldMeta) {
     val glows = hashSetOf<ReactivePlace>()
@@ -52,9 +52,11 @@ class GameWorld(val map: WorldMeta) {
                     val buildings = arrayListOf<Building>()
                     user.data.cities.forEach { city ->
                         city.cityStructures.forEach { structure ->
-                            buildings.add(structure.building.apply {
-                                show(user.player)
-                            })
+                            buildings.add(
+                                structure.building.apply {
+                                    show(user.player)
+                                }
+                            )
                         }
                         city.cityCells.forEach { cityCell ->
                             buildings.add(cityCell.worldCell.stubBuilding)
@@ -63,7 +65,6 @@ class GameWorld(val map: WorldMeta) {
                     buildings
                 }.build()
         )
-
 
         labels("place").forEachIndexed { index, label ->
             cells.add(WorldCell(index, label).apply { allocate() })

@@ -5,7 +5,17 @@ import me.slavita.construction.booster.BoosterType
 import me.slavita.construction.player.Tags
 import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.menu.Icons
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.BOLD
+import org.bukkit.ChatColor.DARK_GREEN
+import org.bukkit.ChatColor.DARK_RED
+import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.GRAY
+import org.bukkit.ChatColor.GREEN
+import org.bukkit.ChatColor.LIGHT_PURPLE
+import org.bukkit.ChatColor.RED
+import org.bukkit.ChatColor.STRIKETHROUGH
+import org.bukkit.ChatColor.WHITE
 import org.bukkit.inventory.ItemStack
 import java.util.concurrent.TimeUnit
 
@@ -95,7 +105,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             """
                 ${AQUA}Описание:
                   Активирует ${LIGHT_PURPLE}глобальный бустер
-                  ${GOLD}+1.25x ${WHITE}к множителю ${GOLD}удачи
+                  $GOLD+1.25x ${WHITE}к множителю ${GOLD}удачи
                   на ${GOLD}30 минут
                 
                 Нажмите чтобы купить за ${69.toCriMoney()}
@@ -114,7 +124,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             """
                 ${AQUA}Описание:
                   Активирует ${LIGHT_PURPLE}глобальный бустер
-                  ${RED}+1.25x ${WHITE}к множителю ${RED}репутации
+                  $RED+1.25x ${WHITE}к множителю ${RED}репутации
                   на ${GOLD}30 минут
                 
                 Нажмите чтобы купить за ${69.toCriMoney()}
@@ -133,7 +143,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             """
                 ${AQUA}Описание:
                   Активирует ${LIGHT_PURPLE}глобальный бустер
-                  ${GREEN}+1.25x ${WHITE}к множителю ${GREEN}прибыли
+                  $GREEN+1.25x ${WHITE}к множителю ${GREEN}прибыли
                   на ${GOLD}30 минут
                 
                 Нажмите чтобы купить за ${79.toCriMoney()}
@@ -152,7 +162,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             """
                 ${AQUA}Описание:
                   Активирует ${LIGHT_PURPLE}глобальный бустер
-                  ${GOLD}+1.25x ${WHITE}к множителю ${GOLD}монет
+                  $GOLD+1.25x ${WHITE}к множителю ${GOLD}монет
                   на ${GOLD}30 минут
                 
                 Нажмите чтобы купить за ${79.toCriMoney()}
@@ -171,7 +181,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             """
                 ${AQUA}Описание:
                   Активирует ${LIGHT_PURPLE}глобальный бустер
-                  ${AQUA}+1.25x ${WHITE}к множителю ${AQUA}скорости
+                  $AQUA+1.25x ${WHITE}к множителю ${AQUA}скорости
                   на ${GOLD}30 минут
                 
                 Нажмите чтобы купить за ${69.toCriMoney()}
@@ -190,7 +200,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             """
                 ${AQUA}Описание:
                   Активирует ${LIGHT_PURPLE}глобальный бустер
-                  ${AQUA}+1.25x ${WHITE}к множителю ${AQUA}опыта
+                  $AQUA+1.25x ${WHITE}к множителю ${AQUA}опыта
                   на ${GOLD}30 минут
                 
                 Нажмите чтобы купить за ${69.toCriMoney()}
@@ -211,7 +221,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
                   Активирует ${LIGHT_PURPLE}все глобальные бустеры
                   ${GOLD}на 1 час
                  
-                Нажмите чтобы купить за ${RED}${STRIKETHROUGH}868${WHITE} ${799.toCriMoney()}
+                Нажмите чтобы купить за ${RED}${STRIKETHROUGH}868$WHITE ${799.toCriMoney()}
             """.trimIndent(),
             799,
             1,
@@ -229,7 +239,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
                   Активирует ${LIGHT_PURPLE}все глобальные бустеры
                   ${GOLD}на 3 часа
                  
-                Нажмите чтобы купить за ${RED}${STRIKETHROUGH}2604${WHITE} ${2099.toCriMoney()}
+                Нажмите чтобы купить за ${RED}${STRIKETHROUGH}2604$WHITE ${2099.toCriMoney()}
             """.trimIndent(),
             2099,
             6,
@@ -241,10 +251,10 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
     ),
     MONEY_5_MINUTES(
         MoneyDonate(
-            "${GOLD}${BOLD}%money%",
+            "${GOLD}$BOLD%money%",
             """
                 ${GREEN}При покупке:
-                  Добавит ${GOLD}%money% ${WHITE}к вашему балансу
+                  Добавит $GOLD%money% ${WHITE}к вашему балансу
                   Оно равняется вашему доходу за ${GREEN}5 минутам
                  
                 Нажмите чтобы купить за ${19.toCriMoney()}
@@ -257,13 +267,13 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
     ),
     MONEY_10_MINUTES(
         MoneyDonate(
-            "${GOLD}${BOLD}%money%",
+            "${GOLD}$BOLD%money%",
             """
                 ${GREEN}При покупке:
-                  Добавит ${GOLD}%money% ${WHITE}к вашему балансу
+                  Добавит $GOLD%money% ${WHITE}к вашему балансу
                   Оно равняется вашему доходу за ${DARK_GREEN}10 минут
                  
-                Нажмите чтобы купить за ${RED}${STRIKETHROUGH}38${WHITE} ${29.toCriMoney()}
+                Нажмите чтобы купить за ${RED}${STRIKETHROUGH}38$WHITE ${29.toCriMoney()}
             """.trimIndent(),
             29,
             10 * 60
@@ -273,13 +283,13 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
     ),
     MONEY_30_MINUTES(
         MoneyDonate(
-            "${GOLD}${BOLD}%money%",
+            "${GOLD}$BOLD%money%",
             """
                 ${GREEN}При покупке:
-                  Добавит ${GOLD}%money% ${WHITE}к вашему балансу
+                  Добавит $GOLD%money% ${WHITE}к вашему балансу
                   Оно равняется вашему доходу за ${GOLD}30 минут
                  
-                Нажмите чтобы купить за ${RED}${STRIKETHROUGH}114${WHITE} ${99.toCriMoney()}
+                Нажмите чтобы купить за ${RED}${STRIKETHROUGH}114$WHITE ${99.toCriMoney()}
             """.trimIndent(),
             99,
             30 * 60
@@ -289,13 +299,13 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
     ),
     MONEY_1_HOURS(
         MoneyDonate(
-            "${GOLD}${BOLD}%money%",
+            "${GOLD}$BOLD%money%",
             """
                 ${GREEN}При покупке:
-                  Добавит ${GOLD}%money% ${WHITE}к вашему балансу
+                  Добавит $GOLD%money% ${WHITE}к вашему балансу
                   Оно равняется вашему доходу за ${RED}1 час
                  
-                Нажмите чтобы купить за ${RED}${STRIKETHROUGH}228${WHITE} ${199.toCriMoney()}
+                Нажмите чтобы купить за ${RED}${STRIKETHROUGH}228$WHITE ${199.toCriMoney()}
             """.trimIndent(),
             199,
             1 * 60 * 60
@@ -305,13 +315,13 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
     ),
     MONEY_2_HOURS(
         MoneyDonate(
-            "${GOLD}${BOLD}%money%",
+            "${GOLD}$BOLD%money%",
             """
                 ${GREEN}При покупке:
-                  Добавит ${GOLD}%money% ${WHITE}к вашему балансу
+                  Добавит $GOLD%money% ${WHITE}к вашему балансу
                   Оно равняется вашему доходу за ${DARK_RED}2 часа
                  
-                Нажмите чтобы купить за ${RED}${STRIKETHROUGH}456${WHITE} ${399.toCriMoney()}
+                Нажмите чтобы купить за ${RED}${STRIKETHROUGH}456$WHITE ${399.toCriMoney()}
             """.trimIndent(),
             399,
             2 * 60 * 60

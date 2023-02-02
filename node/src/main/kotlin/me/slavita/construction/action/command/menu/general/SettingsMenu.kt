@@ -47,4 +47,3 @@ class SettingsMenu(player: Player) : MenuCommand(player) {
         }
     }
 }
-

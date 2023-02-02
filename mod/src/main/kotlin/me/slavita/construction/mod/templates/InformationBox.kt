@@ -2,11 +2,14 @@ package me.slavita.construction.mod.templates
 
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.mod.utils.toColor
-
 import ru.cristalix.uiengine.element.CarvedRectangle
 import ru.cristalix.uiengine.element.TextElement
 import ru.cristalix.uiengine.eventloop.animate
-import ru.cristalix.uiengine.utility.*
+import ru.cristalix.uiengine.utility.BOTTOM
+import ru.cristalix.uiengine.utility.Color
+import ru.cristalix.uiengine.utility.TOP
+import ru.cristalix.uiengine.utility.V3
+import ru.cristalix.uiengine.utility.text
 
 inline fun info(initializer: InformationBox.() -> Unit) = InformationBox().also(initializer)
 

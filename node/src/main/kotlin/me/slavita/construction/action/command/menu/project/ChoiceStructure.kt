@@ -7,9 +7,14 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.instance.StructureGroup
 import me.slavita.construction.ui.menu.Icons
-import me.slavita.construction.utils.*
+import me.slavita.construction.utils.STRUCTURES_INFO
+import me.slavita.construction.utils.click
 import me.slavita.construction.utils.language.LanguageHelper
-import org.bukkit.ChatColor.*
+import me.slavita.construction.utils.mapM
+import me.slavita.construction.utils.size
+import org.bukkit.ChatColor.BOLD
+import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.GREEN
 import org.bukkit.entity.Player
 
 class ChoiceStructure(
@@ -32,10 +37,10 @@ class ChoiceStructure(
                         hover = ""
                         structure.blocks.toList().sortedBy { it.second }.toMap().forEach { block ->
                             hover += "${GOLD}${
-                                LanguageHelper.getItemDisplayName(
-                                    block.key.createItemStack(1),
-                                    player
-                                )
+                            LanguageHelper.getItemDisplayName(
+                                block.key.createItemStack(1),
+                                player
+                            )
                             } - ${GREEN}${block.value}шт\n"
                         }
                         click { _, _, _ ->

@@ -29,20 +29,22 @@ class BuildingControlMenu(player: Player, val project: Project) : MenuCommand(pl
                         click { _, _, _ ->
                             BlocksListMenu(player, project.structure.structure).keepHistory().tryExecute()
                         }
-                    }).apply {
+                    }
+                ).apply {
                     if (project.structure !is WorkerStructure) return@apply
-                    add(button {
-                        title = "Строители"
-                        description = "Просмотреть выбранных\nстроителей"
-                        hint = "Выбрать"
-                        item = Icons.get("other", "myfriends")
-                        click { _, _, _ ->
-                            WorkerChoice(player, project, false).tryExecute()
+                    add(
+                        button {
+                            title = "Строители"
+                            description = "Просмотреть выбранных\nстроителей"
+                            hint = "Выбрать"
+                            item = Icons.get("other", "myfriends")
+                            click { _, _, _ ->
+                                WorkerChoice(player, project, false).tryExecute()
+                            }
                         }
-                    })
+                    )
                 }
             }
         }
     }
 }
-

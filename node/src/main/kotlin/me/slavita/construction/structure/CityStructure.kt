@@ -1,6 +1,12 @@
 package me.slavita.construction.structure
 
-import com.google.gson.*
+import com.google.gson.JsonArray
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import me.func.protocol.data.color.GlowColor
 import me.func.unit.Building
 import me.func.world.Box
@@ -15,7 +21,11 @@ import me.slavita.construction.utils.Alert.button
 import me.slavita.construction.utils.user
 import me.slavita.construction.world.AmountItemProperties
 import me.slavita.construction.world.ItemProperties
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.GRAY
+import org.bukkit.ChatColor.GREEN
+import org.bukkit.ChatColor.WHITE
 import org.bukkit.entity.Player
 import java.lang.reflect.Type
 import java.util.UUID
@@ -46,7 +56,7 @@ class CityStructure(val owner: Player, val structure: Structure, val cell: CityC
                     ${GRAY}Номер: ${GRAY}${cell.id}
                     ${AQUA}Название: ${GOLD}${structure.name}
                     ${GOLD}Локация: ${GREEN}${cell.city.title}
-                """.trimIndent(),
+            """.trimIndent(),
             5000,
             GlowColor.BLUE,
             GlowColor.BLUE_MIDDLE,
@@ -89,7 +99,7 @@ class CityStructureDeserializer(val city: City) : JsonDeserializer<CityStructure
                 Structures.structures[get("structureId").asInt],
                 city.cityCells[get("cityCellId").asInt]
             ).apply {
-                get("repairBlocks").asJsonArray.forEach { //todo: duplicates in building structure deserializer
+                get("repairBlocks").asJsonArray.forEach { // TODO: duplicates in building structure deserializer
                     val item = context.deserialize<AmountItemProperties>(it, AmountItemProperties::class.java)
                     repairBlocks[item] = item.amount
                 }

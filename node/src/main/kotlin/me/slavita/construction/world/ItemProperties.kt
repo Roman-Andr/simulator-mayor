@@ -17,6 +17,7 @@ open class ItemProperties(val type: Material, val data: Byte) {
         return item != null && item.getType() == type && item.getData().data == data
     }
 
+    @Suppress("DEPRECATION")
     fun createItemStack(amount: Int): ItemStack {
         return ItemStack(type, amount, 0, data)
     }

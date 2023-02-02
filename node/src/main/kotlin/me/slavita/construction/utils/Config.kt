@@ -14,7 +14,7 @@ object Config {
             "locations",
             "city",
         ).map {
-            "${STORAGE_URL}/config/$it.yml"
+            "$STORAGE_URL/config/$it.yml"
         }
 
         Atlas.config(configs).forEach { file ->

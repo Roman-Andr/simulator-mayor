@@ -22,16 +22,18 @@ class BuyLootboxMenu(player: Player) : MenuCommand(player) {
                 info = WORKER_INFO
                 storage = mutableListOf<ReactiveButton>().apply storage@{
                     WorkerRarity.values().forEach { rarity ->
-                        this@storage.add(button {
-                            item = rarity.getIcon()
-                            title = rarity.title
-                            description = rarity.description + "\n\n${rarity.price.toMoneyIcon()}"
-                            hint = "Выбрать"
-                            backgroundColor = rarity.color
-                            click { _, _, _ ->
-                                ChoiceLootboxAmount(player, rarity).keepHistory().tryExecute()
+                        this@storage.add(
+                            button {
+                                item = rarity.getIcon()
+                                title = rarity.title
+                                description = rarity.description + "\n\n${rarity.price.toMoneyIcon()}"
+                                hint = "Выбрать"
+                                backgroundColor = rarity.color
+                                click { _, _, _ ->
+                                    ChoiceLootboxAmount(player, rarity).keepHistory().tryExecute()
+                                }
                             }
-                        })
+                        )
                     }
                 }
             }

@@ -19,7 +19,7 @@ object RealmConfigurator : IRegistrable {
             maxPlayers = 250
             extraSlots = 15
 
-            IScoreboardService.get().serverStatusBoard.displayName = "${WHITE}Тест #${AQUA}" + realmId.id
+            IScoreboardService.get().serverStatusBoard.displayName = "${WHITE}Тест #$AQUA" + realmId.id
             after(20 * 4) {
                 ITransferService.get().transfer(System.getenv("CONSTRUCTION_USER").toUUID(), realmId)
             }

@@ -26,7 +26,10 @@ import me.slavita.construction.prepare.StoragePrepare
 import me.slavita.construction.structure.CityCell
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.ui.HumanizableValues
-import me.slavita.construction.utils.*
+import me.slavita.construction.utils.accept
+import me.slavita.construction.utils.deny
+import me.slavita.construction.utils.runAsync
+import me.slavita.construction.utils.user
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor.GOLD
 import org.bukkit.Location
@@ -108,11 +111,11 @@ class User(val uuid: UUID) {
 
     fun addExp(exp: Long) {
         data.experience += exp
-//		if (exp / 10*2.0.pow(stats.level) > 0) {
-//			stats.level += (exp / 10).toInt()
-//			Anime.itemTitle(player, ItemIcons.get("other", "access"), "Новый уровень: ${stats.level}", "", 2.0)
-//			Glow.animate(player, 2.0, GlowColor.GREEN)
-//		}
+// 		if (exp / 10*2.0.pow(stats.level) > 0) {
+// 			stats.level += (exp / 10).toInt()
+// 			Anime.itemTitle(player, ItemIcons.get("other", "access"), "Новый уровень: ${stats.level}", "", 2.0)
+// 			Glow.animate(player, 2.0, GlowColor.GREEN)
+// 		}
     }
 
     fun canPurchase(cost: Long) = data.money >= cost
@@ -149,7 +152,7 @@ class User(val uuid: UUID) {
         ability.applyAction(this)
     }
 
-    fun updatePosition(): Boolean { //todo: rewrite it
+    fun updatePosition(): Boolean { // TODO: rewrite it
         data.cities.forEach { city ->
             if (city.box.contains(player.location)) {
                 if (currentCity.title != city.title && city.unlocked) {

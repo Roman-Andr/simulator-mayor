@@ -1,11 +1,15 @@
 package me.slavita.construction.mod.utils
 
-import dev.xdark.clientapi.opengl.GlStateManager.*
+import dev.xdark.clientapi.opengl.GlStateManager.disableBlend
+import dev.xdark.clientapi.opengl.GlStateManager.disableTexture2D
+import dev.xdark.clientapi.opengl.GlStateManager.enableBlend
+import dev.xdark.clientapi.opengl.GlStateManager.enableTexture2D
+import dev.xdark.clientapi.opengl.GlStateManager.glLineWidth
+import dev.xdark.clientapi.opengl.GlStateManager.translate
 import dev.xdark.clientapi.render.DefaultVertexFormats
 import ru.cristalix.uiengine.UIEngine.clientApi
 import ru.cristalix.uiengine.utility.Color
 import ru.cristalix.uiengine.utility.V3
-
 
 object Renderer {
 

@@ -11,7 +11,12 @@ import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.STORAGE_INFO
 import me.slavita.construction.utils.click
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.BOLD
+import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.GRAY
+import org.bukkit.ChatColor.GREEN
+import org.bukkit.ChatColor.WHITE
 import org.bukkit.entity.Player
 
 class StorageUpgrade(val player: Player) : MenuCommand(player) {
@@ -27,11 +32,11 @@ class StorageUpgrade(val player: Player) : MenuCommand(player) {
                     backgroundColor = GlowColor.GREEN
                     hover = """
                             ${GREEN}При улучшении:
-                              ${AQUA}Уровень: ${GRAY}${user.data.blocksStorage.level.toLevel()} ${BOLD}-> ${GREEN}${(user.data.blocksStorage.level + 1).toLevel()}
-                              ${GREEN}Вместимость: ${GRAY}${user.data.blocksStorage.limit} блоков ${BOLD}-> ${GOLD}${user.data.blocksStorage.nextLimit} блоков
+                              ${AQUA}Уровень: ${GRAY}${user.data.blocksStorage.level.toLevel()} $BOLD-> ${GREEN}${(user.data.blocksStorage.level + 1).toLevel()}
+                              ${GREEN}Вместимость: ${GRAY}${user.data.blocksStorage.limit} блоков $BOLD-> ${GOLD}${user.data.blocksStorage.nextLimit} блоков
                             
                             ${BOLD}${WHITE}Стоимость: ${GREEN}${user.data.blocksStorage.upgradePrice.toMoneyIcon()}
-                        """.trimIndent()
+                    """.trimIndent()
                     item = Icons.get("other", "anvil")
                     click { _, _, _ ->
                         user.data.blocksStorage.upgrade()

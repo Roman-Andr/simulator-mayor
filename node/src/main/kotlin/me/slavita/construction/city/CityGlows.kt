@@ -8,7 +8,10 @@ import me.slavita.construction.action.command.menu.city.CityHallMenu
 import me.slavita.construction.action.command.menu.city.StorageUpgrade
 import me.slavita.construction.app
 import me.slavita.construction.common.utils.IRegistrable
-import me.slavita.construction.utils.*
+import me.slavita.construction.utils.accept
+import me.slavita.construction.utils.labels
+import me.slavita.construction.utils.loadBanner
+import me.slavita.construction.utils.user
 import org.bukkit.entity.Player
 
 object CityGlows : IRegistrable {
@@ -29,7 +32,7 @@ object CityGlows : IRegistrable {
                 """
                 Здесь находится мусорка
                 Выкиньте блоки, чтобы удалить их
-            """.trimIndent()
+                """.trimIndent()
             )
             player.user.inTrashZone = true
         }, { player ->

@@ -21,7 +21,7 @@ enum class Tags(
         #8404fe
         #6c02fe
         #5400ff
-    """.trimIndent().split("\n")
+            """.trimIndent().split("\n")
         ),
         1000
     ),
@@ -31,7 +31,7 @@ enum class Tags(
         #0ffb7e
         #08fdc0
         #00f6ff
-    """.trimIndent().split("\n")
+            """.trimIndent().split("\n")
         ),
         2000
     ),
@@ -44,7 +44,7 @@ enum class Tags(
         #ffc210
         #ffaa08
         #ff9000
-    """.trimIndent().split("\n")
+            """.trimIndent().split("\n")
         ),
         3000
     ),
@@ -56,7 +56,7 @@ enum class Tags(
         #44ff15
         #82ff0a
         #c6ff00
-    """.trimIndent().split("\n")
+            """.trimIndent().split("\n")
         ),
         4000
     ),
@@ -72,7 +72,7 @@ enum class Tags(
         #fe9807
         #ff8503
         #ff7200
-    """.trimIndent().split("\n")
+            """.trimIndent().split("\n")
         ),
         5000
     ),
@@ -89,7 +89,7 @@ enum class Tags(
         #fef206
         #f4ff03
         #deff00
-    """.trimIndent().split("\n")
+            """.trimIndent().split("\n")
         ),
         6000
     ),
@@ -102,7 +102,7 @@ enum class Tags(
         #2a4376
         #21355f
         #182848
-    """.trimIndent().split("\n")
+            """.trimIndent().split("\n")
         ),
         6000
     ),
@@ -117,7 +117,7 @@ enum class Tags(
         #ff9715
         #ff8c0f
         #ff8008
-    """.trimIndent().split("\n")
+            """.trimIndent().split("\n")
         ),
         7000
     ),
@@ -134,7 +134,7 @@ enum class Tags(
         #f19700
         #f8ad00
         #ffc500
-    """.trimIndent().split("\n")
+            """.trimIndent().split("\n")
         ),
         8000
     ),
@@ -150,7 +150,7 @@ enum class Tags(
         #6a6a6a
         #757575
         #808080
-    """.trimIndent().split("\n")
+            """.trimIndent().split("\n")
         ),
         9000
     ),
@@ -166,7 +166,7 @@ enum class Tags(
         #2b62dc
         #2a6ed3
         #2e79c5
-    """.trimIndent().split("\n")
+            """.trimIndent().split("\n")
         ),
         10000
     ),
@@ -179,7 +179,7 @@ enum class Tags(
         #e42fc6
         #d22ad9
         #a02ec5
-    """.trimIndent().split("\n")
+            """.trimIndent().split("\n")
         ),
         11000
     ),
@@ -191,7 +191,7 @@ enum class Tags(
         #10dd0a
         #34fa28
         #6dff5e
-    """.trimIndent().split("\n")
+            """.trimIndent().split("\n")
         ),
         12000
     ),
@@ -204,7 +204,7 @@ enum class Tags(
         #12f609
         #40fb32
         #6dff5e
-    """.trimIndent().split("\n")
+            """.trimIndent().split("\n")
         ),
         13000
     ),
@@ -217,7 +217,7 @@ enum class Tags(
         #12f609
         #40fb32
         #6dff5e
-    """.trimIndent().split("\n")
+            """.trimIndent().split("\n")
         ),
         14000
     ),
@@ -230,7 +230,7 @@ enum class Tags(
         #12f609
         #40fb32
         #6dff5e
-    """.trimIndent().split("\n")
+            """.trimIndent().split("\n")
         ),
         15000
     ),
@@ -243,7 +243,7 @@ enum class Tags(
         #12f609
         #40fb32
         #6dff5e
-    """.trimIndent().split("\n")
+            """.trimIndent().split("\n")
         ),
         16000,
         true
@@ -259,7 +259,7 @@ enum class Tags(
         #5ef0a0
         #78f5ac
         #93f9b9
-    """.trimIndent().split("\n")
+            """.trimIndent().split("\n")
         ),
         17000
     ),
@@ -273,7 +273,7 @@ enum class Tags(
         #fb7871
         #fd8671
         #ff9472
-    """.trimIndent().split("\n")
+            """.trimIndent().split("\n")
         ),
         18000
     ),

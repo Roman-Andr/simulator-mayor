@@ -21,4 +21,3 @@ abstract class CooldownCommand(open val user: User, open val cooldown: Long) : C
         return app.pass - lastTime - cooldown
     }
 }
-

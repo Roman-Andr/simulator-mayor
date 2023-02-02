@@ -7,7 +7,10 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.menu.Icons
-import me.slavita.construction.utils.*
+import me.slavita.construction.utils.STRUCTURES_INFO
+import me.slavita.construction.utils.click
+import me.slavita.construction.utils.mapM
+import me.slavita.construction.utils.size
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GOLD
 import org.bukkit.entity.Player

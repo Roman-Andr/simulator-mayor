@@ -9,7 +9,11 @@ import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.DONATE_INFO
 import me.slavita.construction.utils.click
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.BOLD
+import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.GRAY
+import org.bukkit.ChatColor.GREEN
 import org.bukkit.entity.Player
 
 class DonateMenu(player: Player) : MenuCommand(player) {
@@ -65,4 +69,3 @@ class DonateMenu(player: Player) : MenuCommand(player) {
         }
     }
 }
-

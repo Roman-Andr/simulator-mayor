@@ -6,7 +6,11 @@ import me.func.mod.ui.menu.selection
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.ui.menu.StatsType
-import me.slavita.construction.utils.*
+import me.slavita.construction.utils.WORKER_INFO
+import me.slavita.construction.utils.click
+import me.slavita.construction.utils.getVault
+import me.slavita.construction.utils.mapM
+import me.slavita.construction.utils.size
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GREEN
 import org.bukkit.entity.Player
@@ -39,4 +43,3 @@ class WorkerTeamMenu(player: Player) : MenuCommand(player) {
         }
     }
 }
-

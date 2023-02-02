@@ -10,7 +10,10 @@ import me.func.protocol.world.marker.Marker
 import me.func.protocol.world.marker.MarkerSign
 import me.slavita.construction.structure.CityStructure
 import me.slavita.construction.ui.HumanizableValues.BLOCK
-import me.slavita.construction.utils.*
+import me.slavita.construction.utils.accept
+import me.slavita.construction.utils.addByFace
+import me.slavita.construction.utils.getFaceCenter
+import me.slavita.construction.utils.loadBannerFromConfig
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.ChatColor.GOLD
 import org.bukkit.entity.Player
@@ -83,7 +86,7 @@ class CityStructureVisual(val structure: CityStructure) {
 
     fun update() {
         when (structure.state) {
-            CityStructureState.NOT_READY   -> {
+            CityStructureState.NOT_READY -> {
                 structure.cell.border.delete(structure.owner)
                 structure.owner.sendMessage("DELETED NOT_READY")
                 Anime.removeMarker(structure.owner, marker!!)
@@ -97,7 +100,7 @@ class CityStructureVisual(val structure: CityStructure) {
                 Banners.hide(structure.owner, repairBanner!!)
             }
 
-            CityStructureState.BROKEN      -> {
+            CityStructureState.BROKEN -> {
                 structure.cell.border.send(structure.owner)
                 structure.owner.sendMessage("SENDED BROKEN")
                 Anime.marker(structure.owner, marker!!)

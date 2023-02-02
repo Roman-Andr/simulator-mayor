@@ -44,7 +44,6 @@ class Border(
             .send(DELETE_BORDER_CHANNEL, *player)
     }
 
-
     companion object {
         fun builder() = Builder()
     }

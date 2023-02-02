@@ -7,7 +7,10 @@ import me.slavita.construction.booster.BoosterType
 import me.slavita.construction.player.User
 import me.slavita.construction.ui.Formatter.applyBoosters
 import me.slavita.construction.ui.Formatter.toMoney
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.GREEN
+import org.bukkit.ChatColor.LIGHT_PURPLE
 
 object ScoreboardGenerator {
     fun generate(user: User) {
@@ -20,7 +23,7 @@ object ScoreboardGenerator {
                 .title("Доход")
                 .content {
                     "${Formatter.incomeIcon} ${GREEN}${
-                        user.income.applyBoosters(BoosterType.MONEY_BOOSTER).toMoney()
+                    user.income.applyBoosters(BoosterType.MONEY_BOOSTER).toMoney()
                     }/сек"
                 }
                 .build(),

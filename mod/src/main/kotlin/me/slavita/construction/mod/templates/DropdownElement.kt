@@ -5,10 +5,25 @@ import me.slavita.construction.mod.utils.doubleVec
 import me.slavita.construction.mod.utils.getWidth
 import ru.cristalix.clientapi.JavaMod
 import ru.cristalix.uiengine.UIEngine.clientApi
-import ru.cristalix.uiengine.element.*
+import ru.cristalix.uiengine.element.AbstractElement
+import ru.cristalix.uiengine.element.CarvedRectangle
+import ru.cristalix.uiengine.element.Parent
+import ru.cristalix.uiengine.element.TextElement
 import ru.cristalix.uiengine.eventloop.animate
 import ru.cristalix.uiengine.onMouseUp
-import ru.cristalix.uiengine.utility.*
+import ru.cristalix.uiengine.utility.BOTTOM
+import ru.cristalix.uiengine.utility.CENTER
+import ru.cristalix.uiengine.utility.Easings
+import ru.cristalix.uiengine.utility.FlexDirection
+import ru.cristalix.uiengine.utility.LEFT
+import ru.cristalix.uiengine.utility.RIGHT
+import ru.cristalix.uiengine.utility.TOP
+import ru.cristalix.uiengine.utility.V3
+import ru.cristalix.uiengine.utility.WHITE
+import ru.cristalix.uiengine.utility.carved
+import ru.cristalix.uiengine.utility.flex
+import ru.cristalix.uiengine.utility.rectangle
+import ru.cristalix.uiengine.utility.text
 import kotlin.math.max
 
 inline fun dropdown(initializer: DropdownElement.() -> Unit) = DropdownElement().also(initializer)
@@ -84,7 +99,6 @@ class DropdownElement : CarvedRectangle() {
             animateArrow()
         }
     }
-
 
     init {
         +topElement

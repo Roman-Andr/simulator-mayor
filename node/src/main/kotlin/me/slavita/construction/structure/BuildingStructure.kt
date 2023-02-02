@@ -1,6 +1,13 @@
 package me.slavita.construction.structure
 
-import com.google.gson.*
+import com.google.gson.JsonArray
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import com.google.gson.JsonParseException
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import me.slavita.construction.app
 import me.slavita.construction.city.project.FreelanceProject
 import me.slavita.construction.city.project.Project
@@ -130,10 +137,11 @@ class BuildingStructureSerializer : JsonSerializer<BuildingStructure> {
 
         buildingStructure.run {
             json.addProperty(
-                "type", when (buildingStructure) {
+                "type",
+                when (buildingStructure) {
                     is ClientStructure -> "client"
                     is WorkerStructure -> "worker"
-                    else               -> throw JsonParseException("Unknown structure type!")
+                    else -> throw JsonParseException("Unknown structure type!")
                 }
             )
             json.addProperty("structureId", structure.id)
@@ -193,7 +201,7 @@ class BuildingStructureDeserializer(val project: Project) : JsonDeserializer<Bui
                 }
 
                 "client" -> ClientStructure(structure, cityCell)
-                else     -> throw JsonParseException("Unknown structure type!")
+                else -> throw JsonParseException("Unknown structure type!")
             }.apply {
                 this.blocksPlaced = blocksPlaced
                 currentProject = project
@@ -211,7 +219,7 @@ class BuildingStructureDeserializer(val project: Project) : JsonDeserializer<Bui
                         finishBuilding()
                     }
 
-                    else                    -> this@apply.state = StructureState.valueOf(get("state").asString)
+                    else -> this@apply.state = StructureState.valueOf(get("state").asString)
                 }
             }
         }

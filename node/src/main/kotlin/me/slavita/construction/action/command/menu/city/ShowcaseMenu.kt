@@ -14,9 +14,22 @@ import me.slavita.construction.city.showcase.ShowcaseProduct
 import me.slavita.construction.player.User
 import me.slavita.construction.ui.Formatter
 import me.slavita.construction.ui.Formatter.toMoney
-import me.slavita.construction.utils.*
+import me.slavita.construction.utils.SHOWCASE_INFO
+import me.slavita.construction.utils.accept
+import me.slavita.construction.utils.deny
 import me.slavita.construction.utils.language.LanguageHelper
-import org.bukkit.ChatColor.*
+import me.slavita.construction.utils.mapM
+import me.slavita.construction.utils.runTimer
+import me.slavita.construction.utils.scheduler
+import me.slavita.construction.utils.size
+import me.slavita.construction.utils.validate
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.BOLD
+import org.bukkit.ChatColor.DARK_GRAY
+import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.GREEN
+import org.bukkit.ChatColor.RED
+import org.bukkit.ChatColor.WHITE
 import org.bukkit.entity.Player
 
 class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player) {
@@ -70,8 +83,8 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player)
                 item = emptyItem.validate()
                 hover = """
                     ${GREEN}${LanguageHelper.getItemDisplayName(emptyItem, user.player)}
-                    ${AQUA}Купить 8 шт за ${entry.price * 8} ${DARK_GRAY}[${GOLD}ЛКМ${DARK_GRAY}]
-                    ${AQUA}Купить 64 шт за ${entry.price * 64} ${DARK_GRAY}[${GOLD}ПКМ${DARK_GRAY}]
+                    ${AQUA}Купить 8 шт за ${entry.price * 8} $DARK_GRAY[${GOLD}ЛКМ$DARK_GRAY]
+                    ${AQUA}Купить 64 шт за ${entry.price * 64} $DARK_GRAY[${GOLD}ПКМ$DARK_GRAY]
                     
                     На складе: ${BOLD}${user.data.blocksStorage.blocks.getOrDefault(entry.item, 0)}
                 """.trimIndent()

@@ -1,7 +1,10 @@
 package me.slavita.construction.mod.bank
 
 import io.netty.buffer.Unpooled
-import me.slavita.construction.common.utils.*
+import me.slavita.construction.common.utils.BANK_OPEN_CHANNEL
+import me.slavita.construction.common.utils.BANK_SUBMIT_CHANNEL
+import me.slavita.construction.common.utils.IRegistrable
+import me.slavita.construction.common.utils.NumberFormatter
 import me.slavita.construction.mod.mod
 import me.slavita.construction.mod.templates.button
 import me.slavita.construction.mod.templates.slider
@@ -10,7 +13,18 @@ import me.slavita.construction.mod.utils.doubleVec
 import me.slavita.construction.mod.utils.sendPayload
 import ru.cristalix.uiengine.UIEngine
 import ru.cristalix.uiengine.element.ContextGui
-import ru.cristalix.uiengine.utility.*
+import ru.cristalix.uiengine.utility.BOTTOM
+import ru.cristalix.uiengine.utility.BOTTOM_LEFT
+import ru.cristalix.uiengine.utility.BOTTOM_RIGHT
+import ru.cristalix.uiengine.utility.CENTER
+import ru.cristalix.uiengine.utility.Color
+import ru.cristalix.uiengine.utility.FlexDirection
+import ru.cristalix.uiengine.utility.LEFT
+import ru.cristalix.uiengine.utility.TOP
+import ru.cristalix.uiengine.utility.V3
+import ru.cristalix.uiengine.utility.carved
+import ru.cristalix.uiengine.utility.flex
+import ru.cristalix.uiengine.utility.text
 import kotlin.math.pow
 
 object CreditTaking : ContextGui(), IRegistrable {

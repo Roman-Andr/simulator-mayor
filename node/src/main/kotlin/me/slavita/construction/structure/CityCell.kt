@@ -1,6 +1,11 @@
 package me.slavita.construction.structure
 
-import com.google.gson.*
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
+import com.google.gson.JsonObject
+import com.google.gson.JsonSerializationContext
+import com.google.gson.JsonSerializer
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.app
 import me.slavita.construction.city.City

@@ -34,7 +34,6 @@ object UserCommands : IRegistrable {
 
         command("ok") { _, _ -> }
 
-
         /* Быстрый доступ */
 
         command("spawn") { player, _ ->
