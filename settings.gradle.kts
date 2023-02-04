@@ -1,27 +1,28 @@
 @file:Suppress("UnstableApiUsage")
 
 pluginManagement {
+    fun env(property: String) = providers.gradleProperty(property).orNull
+
     repositories {
         gradlePluginPortal()
         google()
         mavenLocal()
         mavenCentral()
         maven {
+            url = uri("https://plugins.gradle.org/m2/")
+        }
+        maven {
             url = uri("https://repo.c7x.dev/repository/maven-public/")
             credentials {
-                username = System.getenv("CRI_REPO_LOGIN") ?: System.getenv("CRI_ARC_REPO_LOGIN")
-                    ?: System.getenv("CRISTALIX_REPO_USERNAME")
-                password = System.getenv("CRI_REPO_PASSWORD") ?: System.getenv("CRI_ARC_REPO_PASSWORD")
-                    ?: System.getenv("CRISTALIX_REPO_PASSWORD")
+                username = env("CRI_REPO_LOGIN") ?: env("CRI_ARC_REPO_LOGIN")
+                password = env("CRI_REPO_PASSWORD") ?: env("CRI_ARC_REPO_PASSWORD")
             }
         }
         maven {
             url = uri("https://repo.c7x.dev/repository/arcades/")
             credentials {
-                username = System.getenv("CRI_REPO_LOGIN") ?: System.getenv("CRI_ARC_REPO_LOGIN")
-                    ?: System.getenv("CRISTALIX_REPO_USERNAME")
-                password = System.getenv("CRI_REPO_PASSWORD") ?: System.getenv("CRI_ARC_REPO_PASSWORD")
-                    ?: System.getenv("CRISTALIX_REPO_PASSWORD")
+                username = env("CRI_REPO_LOGIN") ?: env("CRI_ARC_REPO_LOGIN")
+                password = env("CRI_REPO_PASSWORD") ?: env("CRI_ARC_REPO_PASSWORD")
             }
         }
         maven {
@@ -40,15 +41,15 @@ pluginManagement {
 }
 
 dependencyResolutionManagement {
+    fun env(property: String) = providers.gradleProperty(property).orNull
+
     repositories {
         mavenCentral()
         maven {
             url = uri("https://repo.c7x.dev/repository/maven-public/")
             credentials {
-                username = System.getenv("CRI_REPO_LOGIN") ?: System.getenv("CRI_ARC_REPO_LOGIN")
-                    ?: System.getenv("CRISTALIX_REPO_USERNAME")
-                password = System.getenv("CRI_REPO_PASSWORD") ?: System.getenv("CRI_ARC_REPO_PASSWORD")
-                    ?: System.getenv("CRISTALIX_REPO_PASSWORD")
+                username = env("CRI_REPO_LOGIN") ?: env("CRI_ARC_REPO_LOGIN")
+                password = env("CRI_REPO_PASSWORD") ?: env("CRI_ARC_REPO_PASSWORD")
             }
         }
         maven {
@@ -62,7 +63,10 @@ rootProject.name = "construction"
 include(
     ":common",
     ":protocol",
-    ":service",
     ":mod",
     ":node",
+    ":service",
+    ":service:user",
 )
+
+findProject(":service:user")?.name = "user"

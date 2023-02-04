@@ -1,4 +1,4 @@
-package me.slavita.construction.service
+package me.slavita.construction.service.user
 
 import com.github.kotlintelegrambot.Bot
 import com.github.kotlintelegrambot.bot

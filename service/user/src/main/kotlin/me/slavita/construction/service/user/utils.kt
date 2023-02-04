@@ -1,4 +1,4 @@
-package me.slavita.construction.service
+package me.slavita.construction.service.user
 
 import com.github.kotlintelegrambot.entities.ChatId
 import com.mongodb.client.model.Projections

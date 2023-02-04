@@ -1,0 +1,22 @@
+kotlin.code.style=official
+org.gradle.jvmargs=-Xmx4096m -Dfile.encoding=UTF-8 -XX:+UseParallelGC
+org.gradle.daemon=false
+org.gradle.parallel=true
+org.gradle.configureondemand=false
+org.gradle.workers.max=8
+org.gradle.vfs.watch=false
+org.gradle.warning.mode=fail
+
+
+CRI_HOST=
+CRI_STORAGE_HOST=
+
+CRI_HOST_SSHKEY_PATH=
+CRI_HOST_USERNAME=
+CRI_HOST_PASSPHRASE=
+
+CRI_REPO_LOGIN=
+CRI_REPO_PASSWORD=
+
+CRI_ARC_REPO_LOGIN=
+CRI_ARC_REPO_PASSWORD=

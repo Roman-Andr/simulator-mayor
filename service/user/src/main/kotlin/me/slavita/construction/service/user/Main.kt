@@ -1,4 +1,4 @@
-package me.slavita.construction.service
+package me.slavita.construction.service.user
 
 import com.mongodb.client.model.UpdateOptions
 import me.func.serviceapi.mongo.MongoAdapter
