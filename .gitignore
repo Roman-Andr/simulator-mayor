@@ -4,7 +4,7 @@ out/
 build/
 .gradle/
 
-./gradle.properties
+gradle.properties
 
 hs_err_pid*
 replay_pid*
