@@ -72,7 +72,7 @@ class App : JavaPlugin() {
         EntityDataParameters.register()
         Platforms.set(PlatformDarkPaper())
 
-        Anime.include(Kit.STANDARD, Kit.EXPERIMENTAL, Kit.DIALOG, Kit.LOOTBOX, Kit.NPC)
+        Anime.include(Kit.DEBUG, Kit.STANDARD, Kit.EXPERIMENTAL, Kit.DIALOG, Kit.LOOTBOX, Kit.NPC)
 
         register(
             ServicesLoader,
@@ -129,7 +129,7 @@ class App : JavaPlugin() {
         }
 
         coroutineForAll(5 * 60 * 20) {
-
+            updateCriBalance()
         }
 
         runTimer(0, 1) { pass++ }

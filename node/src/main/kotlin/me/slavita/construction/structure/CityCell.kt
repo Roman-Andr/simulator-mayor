@@ -24,17 +24,15 @@ class CityCell(val city: City, val worldCell: WorldCell, var busy: Boolean) {
     val border = borderBuilder(worldCell.box.bottomCenter, GlowColor.NEUTRAL).alpha(100).build()
 
     fun updateStub() {
-        if (!busy) worldCell.stubBuilding.show(owner.player)
-        border.delete(owner.player)
-        owner.player.sendMessage("DELETED UPDATE")
-        border.send(owner.player)
-        owner.player.sendMessage("SENDED UPDATE")
+        if (!busy) {
+            worldCell.stubBuilding.show(owner.player)
+            border.send(owner.player)
+        }
     }
 
     fun setBusy() {
         busy = true
         hideGlow()
-        owner.player.sendMessage("DELETED SETBUSY")
     }
 
     fun setFree() {
@@ -68,7 +66,6 @@ class CityCellDeserializer(val city: City) : JsonDeserializer<CityCell> {
             CityCell(city, app.mainWorld.cells[get("cellId").asInt], get("busy").asBoolean).apply {
                 if (busy) {
                     hideGlow()
-                    owner.player.sendMessage("DELETED DESEREALIZE")
                 }
             }
         }

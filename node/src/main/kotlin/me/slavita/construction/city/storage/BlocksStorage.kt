@@ -13,6 +13,7 @@ import me.slavita.construction.action.command.menu.city.StorageMenu
 import me.slavita.construction.player.User
 import me.slavita.construction.ui.achievements.AchievementType
 import me.slavita.construction.utils.accept
+import me.slavita.construction.utils.runAsync
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.ChatColor.GOLD
 import org.bukkit.inventory.ItemStack
@@ -112,7 +113,9 @@ class BlocksStorageDeserializer(val owner: User) : JsonDeserializer<BlocksStorag
     override fun deserialize(json: JsonElement, type: Type, context: JsonDeserializationContext) =
         json.asJsonObject.run {
             val storage = BlocksStorage(owner).apply {
-                level = get("level").asInt
+                runAsync(1) {
+                    level = get("level").asInt
+                }
             }
             get("blocks").asJsonArray.run {
                 forEach {

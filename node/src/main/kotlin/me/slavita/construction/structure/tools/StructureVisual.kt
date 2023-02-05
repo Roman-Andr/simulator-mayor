@@ -57,7 +57,6 @@ class StructureVisual(val structure: BuildingStructure) {
         marker = Marker(center.x, center.y, center.z, 80.0, MarkerSign.ARROW_DOWN)
         Banners.show(owner.player, infoBanners!!)
         border.send(owner.player)
-        owner.player.sendMessage("SENDED START")
 
         update()
     }
@@ -89,7 +88,6 @@ class StructureVisual(val structure: BuildingStructure) {
 
     fun delete() {
         border.delete(owner.player)
-        owner.player.sendMessage("DELETED STRUCTURE")
         Banners.hide(owner.player, infoBanners!!)
         Anime.removeMarker(owner.player, marker!!)
         progressWorld!!.delete(setOf(owner.player))
@@ -99,11 +97,9 @@ class StructureVisual(val structure: BuildingStructure) {
     fun finishShow() {
         border.color = GlowColor.GREEN
         border.update(owner.player)
-        owner.player.sendMessage("UPDATE FINISH")
     }
 
     fun hideFinish() {
         border.delete(owner.player)
-        owner.player.sendMessage("DELETED FINISH")
     }
 }

@@ -24,13 +24,17 @@ fun main() {
         System.getenv("MONGO_COLLECTION")
     )
 
+    val userSaved = hashMapOf<String, Boolean>()
+
     socketClient.run {
         capabilities(UserSavedPackage::class.java)
 
         listener<GetUserPackage> { realm ->
-            db.collection.find(Document().append("_id", uuid)).forEach({
+            if (!userSaved.getOrDefault(uuid, true)) return@listener
+
+            db.collection.find(Document().append("_id", uuid)).every({
                 data = it.getString("data")
-            }) { _, _ ->
+            }) {
                 log("got user")
                 forward(realm, this)
             }
@@ -44,6 +48,7 @@ fun main() {
         }
 
         listener<SaveUserPackage> { realm ->
+            userSaved[uuid] = false
             db.collection.updateOne(
                 Document().append("_id", uuid),
                 Document().append(
@@ -58,9 +63,14 @@ fun main() {
                         .append("reputation", reputation)
                 ),
                 UpdateOptions().upsert(true)
-            ) { _, _ ->
-                println("user saved")
-                forward(realm, UserSavedPackage())
+            ) { _, callback ->
+                if (callback == null) {
+                    forward(realm, UserSavedPackage())
+                    userSaved[uuid] = true
+                    log("user saved")
+                } else {
+                    logTg("service got error!\n${callback.stackTraceToString()}")
+                }
             }
         }
     }

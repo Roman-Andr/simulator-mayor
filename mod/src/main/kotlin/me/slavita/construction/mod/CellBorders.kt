@@ -30,6 +30,7 @@ import me.slavita.construction.mod.utils.tessellator
 import me.slavita.construction.mod.utils.ticks
 import org.lwjgl.opengl.GL11
 import ru.cristalix.uiengine.UIEngine.clientApi
+import kotlin.math.abs
 import kotlin.math.pow
 
 object CellBorders : IRegistrable {
@@ -37,11 +38,9 @@ object CellBorders : IRegistrable {
 
     override fun register() {
         mod.registerChannel(CREATE_BORDER_CHANNEL) {
-            val uuid = readUuid()
-            if (borders.find { it.uuid == uuid } != null) clientApi.chat().sendChatMessage("DUPLICATE!")
             borders.add(
                 Border(
-                    uuid,
+                    readUuid(),
                     readRgb(),
                     readInt(),
                     readDouble(),
@@ -52,30 +51,30 @@ object CellBorders : IRegistrable {
         }
 
         mod.registerChannel(CHANGE_BORDER_CHANNEL) {
-            borders.find { it.uuid == readUuid() }?.apply {
+            val uuid = readUuid()
+            borders.find { it.uuid == uuid }?.apply {
                 color = readRgb()
             }
         }
 
         mod.registerChannel(DELETE_BORDER_CHANNEL) {
-            borders.removeIf { it.uuid == readUuid() }
+            val uuid = readUuid()
+            borders.removeIf { it.uuid == uuid }
         }
 
         mod.registerHandler<RenderPass> {
-            disableLighting()
+            //disableLighting()
             disableTexture2D()
-            disableAlpha()
+            //disableAlpha()
             shadeModel(GL11.GL_SMOOTH)
-            enableBlend()
+            //enableBlend()
             blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE)
-            disableCull()
+            //disableCull()
             depthMask(false)
 
             borders.forEach { border ->
-                val distance = (border.location.x - entity.x).pow(2) + (border.location.z - entity.z).pow(2)
-
-                val isInside = distance <= (border.width / 2).pow(2)
-                if (isInside) return@forEach
+                if (abs(border.location.x - entity.x) <= border.width / 2.0 &&
+                    abs(border.location.z - entity.z) <= border.width / 2.0) return@forEach
 
                 val x = border.location.x - (entity.x - prevX) * ticks - prevX
                 val y = border.location.y - (entity.y - prevY) * ticks - prevY
