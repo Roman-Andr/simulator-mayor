@@ -99,6 +99,21 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
         Icons.get("alpha", "home1"),
         GlowColor.GREEN
     ),
+    NO_BRAKE(
+        AbilityDonate(
+            "${GREEN}${BOLD}Меньше поломок",
+            """
+                ${AQUA}Описание:
+                  Ваши здания будут реже ломаться
+                
+                Нажмите чтобы купить за ${399.toCriMoney()}
+            """.trimIndent(),
+            399,
+            Abilities.NO_BRAKE_STRUCTURES
+        ),
+        Icons.get("alpha", "home"),
+        GlowColor.GREEN
+    ),
     LUCK_BOOSTER(
         BoosterDonate(
             "${GOLD}${BOLD}Глобальный бустер удачи\n+1.25x\n${GRAY}30 минут",
@@ -116,7 +131,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             BoosterType.LUCK_BOOSTER
         ),
         Icons.get("other", "new_booster_2"),
-        GlowColor.ORANGE_LIGHT
+        GlowColor.CIAN
     ),
     REPUTATION_BOOSTER(
         BoosterDonate(
@@ -135,7 +150,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             BoosterType.REPUTATION_BOOSTER
         ),
         Icons.get("other", "new_booster_2", true),
-        GlowColor.PURPLE_LIGHT
+        GlowColor.CIAN
     ),
     INCOME_BOOSTER(
         BoosterDonate(
@@ -154,7 +169,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             BoosterType.INCOME_BOOSTER
         ),
         Icons.get("other", "new_booster_1"),
-        GlowColor.GREEN_LIGHT
+        GlowColor.CIAN
     ),
     MONEY_BOOSTER(
         BoosterDonate(
@@ -173,7 +188,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             BoosterType.MONEY_BOOSTER
         ),
         Icons.get("other", "new_booster_1", true),
-        GlowColor.YELLOW
+        GlowColor.CIAN
     ),
     SPEED_BOOSTER(
         BoosterDonate(
@@ -211,7 +226,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             BoosterType.EXP_BOOSTER
         ),
         Icons.get("other", "achievements_many_rare", true),
-        GlowColor.CIAN_LIGHT
+        GlowColor.CIAN
     ),
     BEGINNER_PACK(
         BoosterPackDonate(

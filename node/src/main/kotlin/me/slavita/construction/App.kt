@@ -10,6 +10,7 @@ import me.slavita.construction.action.chat.UserCommands
 import me.slavita.construction.booster.BoosterType
 import me.slavita.construction.booster.Boosters
 import me.slavita.construction.common.utils.register
+import me.slavita.construction.dontate.Abilities
 import me.slavita.construction.listener.OnActions
 import me.slavita.construction.listener.OnChat
 import me.slavita.construction.listener.OnJoin
@@ -42,6 +43,7 @@ import me.slavita.construction.world.ItemProperties
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import ru.cristalix.core.datasync.EntityDataParameters
+import ru.cristalix.core.invoice.IInvoiceService
 import java.util.UUID
 
 lateinit var app: App
@@ -113,6 +115,7 @@ class App : JavaPlugin() {
 
         coroutineForAll(2 * 60 * 20) {
             data.cities.forEach { city ->
+                if (data.abilities.contains(Abilities.NO_BRAKE_STRUCTURES)) return@coroutineForAll
                 city.breakStructure()
             }
         }
@@ -123,6 +126,10 @@ class App : JavaPlugin() {
             }
             showcaseMenu?.updateButtons()
             player.accept("Цены обновлены!")
+        }
+
+        coroutineForAll(5 * 60 * 20) {
+
         }
 
         runTimer(0, 1) { pass++ }

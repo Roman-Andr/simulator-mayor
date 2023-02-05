@@ -75,12 +75,11 @@ open class Project(
         }
     }
 
-    override fun toString() = """
-        Информация про проект:
-          ${AQUA}ID: $id
-          ${AQUA}Награды:
-          ${rewards.joinToString("\n  ") { it.toString() }}
-    """.trimIndent()
+    override fun toString() =
+        "Информация про проект:" +
+        "\n  ${AQUA}ID: $id" +
+        "\n  ${AQUA}Награды:" +
+        rewards.joinToString("\n  ", "\n  ") { it.toString() }
 }
 
 class ProjectSerializer : JsonSerializer<Project> {

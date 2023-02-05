@@ -57,7 +57,9 @@ object ItemsManager : IRegistrable {
             execute(player)
         }
         listener<InventoryClickEvent> {
-            if (ITEMS.map { it.inventoryId }.contains(slot)) isCancelled = true
+            ITEMS.find { it.inventoryId == slot }?.run {
+                isCancelled = true
+            }
         }
     }
 

@@ -4,6 +4,7 @@ import me.func.mod.Anime
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.choicer
+import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.menu.worker.WorkerChoice
 import me.slavita.construction.city.project.ProjectGenerator
@@ -29,6 +30,7 @@ class ChoiceProject(player: Player, val structure: Structure, val cell: CityCell
                         hint = "Выбрать"
                         item = Icons.get("other", "human")
                         click { _, _, _ ->
+                            if (cell.busy) return@click
                             cell.setBusy()
                             val project = ProjectGenerator.generateClient(this@user, structure, cell)
 
@@ -43,7 +45,9 @@ class ChoiceProject(player: Player, val structure: Structure, val cell: CityCell
                         description = "Проект строят\nстроители"
                         hint = "Выбрать"
                         item = Icons.get("other", "myfriends")
+                        backgroundColor = if (user.data.workers.isEmpty()) GlowColor.NEUTRAL else GlowColor.BLUE
                         click { _, _, _ ->
+                            if (user.data.workers.isEmpty() || cell.busy) return@click
                             WorkerChoice(
                                 player,
                                 ProjectGenerator.generateWorker(this@user, structure, cell)

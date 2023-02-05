@@ -48,6 +48,12 @@ object UserCommands : IRegistrable {
             }
         }
 
+        command("rebirth") { player, _ ->
+            player.user.run {
+                rebirth()
+            }
+        }
+
         listen("projects", Key.K) { player ->
             ActiveProjectsMenu(player).tryExecute()
         }

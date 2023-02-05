@@ -15,5 +15,7 @@ enum class Abilities(
     CREDIT_PERCENT({ _ ->
     }),
     CREDITS_LIMIT({ _ ->
+    }),
+    NO_BRAKE_STRUCTURES({ _ ->
     })
 }

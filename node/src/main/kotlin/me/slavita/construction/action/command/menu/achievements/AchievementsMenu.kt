@@ -8,6 +8,7 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.achievements.AchievementType
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.ACHIEVEMENTS_INFO
+import me.slavita.construction.utils.ACHIEVEMENT_LEVELS_COUNT
 import me.slavita.construction.utils.mapM
 import me.slavita.construction.utils.size
 import org.bukkit.ChatColor.BOLD
@@ -22,13 +23,13 @@ class AchievementsMenu(player: Player, val type: AchievementType) : MenuCommand(
             size(4, 3)
 
             val level = user.data.achievements.find { it.type == type }!!.level
-            storage = (1..50).mapM { value ->
+            storage = (1..ACHIEVEMENT_LEVELS_COUNT).mapM { value ->
                 button {
                     title = "${BOLD}${GREEN}${type.title} #$value"
-                    item = Icons.get(type.itemKey, type.itemValue)
+                    item = Icons.get(type.itemKey, type.itemValue, value < level)
                     backgroundColor = if (value < level) GlowColor.GREEN else GlowColor.BLUE
                     description = type.placeholder.replace("%value%", type.formula(value).toString())
-                    hint = null
+                    hint = if (value < level) "Получено" else " "
                 }
             }
         }

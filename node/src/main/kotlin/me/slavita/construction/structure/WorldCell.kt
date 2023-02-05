@@ -11,7 +11,17 @@ import java.util.UUID
 class WorldCell(val id: Int, val label: Label) {
 
     val face: BlockFace = try {
-        BlockFace.valueOf(label.tag.uppercase())
+        when(label.tag.lowercase()) {
+            "n" -> BlockFace.NORTH
+            "s" -> BlockFace.SOUTH
+            "e" -> BlockFace.EAST
+            "w" -> BlockFace.WEST
+            "ne" -> BlockFace.NORTH_EAST
+            "nw" -> BlockFace.NORTH_WEST
+            "se" -> BlockFace.SOUTH_EAST
+            "sw" -> BlockFace.SOUTH_WEST
+            else -> BlockFace.valueOf(label.tag.uppercase())
+        }
     } catch (exception: Exception) {
         log("Illegal label: $label")
         BlockFace.WEST

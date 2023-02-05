@@ -37,6 +37,7 @@ class FreelanceProject(
             StructureState.FINISHED -> {
                 restore()
                 finish()
+                owner.data.freelanceProjectsCount
             }
 
             else -> {}

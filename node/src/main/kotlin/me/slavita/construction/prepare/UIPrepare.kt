@@ -6,6 +6,7 @@ import me.slavita.construction.player.User
 import me.slavita.construction.ui.ScoreboardGenerator
 import me.slavita.construction.ui.Texture
 import me.slavita.construction.utils.STORAGE_URL
+import me.slavita.construction.utils.runAsync
 
 object UIPrepare : IPrepare {
     override fun prepare(user: User) {
@@ -18,5 +19,6 @@ object UIPrepare : IPrepare {
                 "$STORAGE_URL/images/${it.fileName}"
             )
         }
+        runAsync { user.updateCriBalance() }
     }
 }

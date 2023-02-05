@@ -3,7 +3,7 @@ trash:
     height: 8
     weight: 35
     offset: 2.5
-    content: "§cМусорка"
+    content: "§7Мусорка"
     carve-size: 2.0
     lines-size:
       - 1.0

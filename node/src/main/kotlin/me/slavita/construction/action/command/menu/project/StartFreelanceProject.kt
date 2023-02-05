@@ -11,8 +11,8 @@ class StartFreelanceProject(val player: Player) :
     CooldownCommand(player.user, 3 * 20) {
     override fun execute() {
         user.run {
-            player.teleport(app.mainWorld.freelanceCell.box.bottomCenter)
             ChoiceStructureGroup(player) { structure ->
+                player.teleport(app.mainWorld.freelanceCell.box.bottomCenter)
                 currentFreelance = ProjectGenerator.generateFreelance(
                     this,
                     structure

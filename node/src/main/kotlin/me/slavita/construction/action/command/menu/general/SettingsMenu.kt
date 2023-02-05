@@ -10,6 +10,7 @@ import me.slavita.construction.prepare.TagsPrepare
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.SETTINGS_INFO
 import me.slavita.construction.utils.click
+import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GREEN
 import org.bukkit.entity.Player
@@ -22,22 +23,45 @@ class SettingsMenu(player: Player) : MenuCommand(player) {
             info = SETTINGS_INFO
             storage = mutableListOf(
                 button {
-                    title = "Показ тега"
+                    title = "Теги"
+                    hover = """
+                        ${AQUA}Теги:
+                          Позволяет настроить отображение 
+                          вашего тега
+                    """.trimIndent()
                     hint = "Выбрать"
-                    updateButton(this)
+                    updateButton(this, user.data.settings.tagShow)
                     click { _, _, button ->
-                        user.data.settings.run { tagShow = !tagShow }
-                        updateButton(button)
+                        user.data.settings.run {
+                            tagShow = !tagShow
+                            updateButton(button, tagShow)
+                        }
                         TagsPrepare.prepare(user)
+                    }
+                },
+                button {
+                    title = "Достижения"
+                    hover = """
+                        ${AQUA}Достижения:
+                          Включает или отключает уведомления
+                          об получении достижения
+                    """.trimIndent()
+                    hint = "Выбрать"
+                    updateButton(this, user.data.settings.achievementsNotify)
+                    click { _, _, button ->
+                        user.data.settings.run {
+                            achievementsNotify = !achievementsNotify
+                            updateButton(button, achievementsNotify)
+                        }
                     }
                 }
             )
         }
     }
 
-    private fun updateButton(button: ReactiveButton) {
+    private fun updateButton(button: ReactiveButton, active: Boolean) {
         button.apply {
-            if (user.data.settings.tagShow) {
+            if (active) {
                 item = Icons.get("other", "access")
                 backgroundColor = GlowColor.GREEN
             } else {

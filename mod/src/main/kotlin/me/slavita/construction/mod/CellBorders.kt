@@ -10,6 +10,7 @@ import dev.xdark.clientapi.opengl.GlStateManager.disableTexture2D
 import dev.xdark.clientapi.opengl.GlStateManager.enableAlpha
 import dev.xdark.clientapi.opengl.GlStateManager.enableBlend
 import dev.xdark.clientapi.opengl.GlStateManager.enableTexture2D
+import dev.xdark.clientapi.opengl.GlStateManager.glLight
 import dev.xdark.clientapi.opengl.GlStateManager.shadeModel
 import dev.xdark.clientapi.render.DefaultVertexFormats
 import me.slavita.construction.common.utils.CHANGE_BORDER_CHANNEL

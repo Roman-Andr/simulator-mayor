@@ -26,6 +26,8 @@ import me.slavita.construction.prepare.StoragePrepare
 import me.slavita.construction.structure.CityCell
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.ui.HumanizableValues
+import me.slavita.construction.ui.achievements.AchievementType
+import me.slavita.construction.utils.ACHIEVEMENT_LEVELS_COUNT
 import me.slavita.construction.utils.accept
 import me.slavita.construction.utils.deny
 import me.slavita.construction.utils.runAsync
@@ -34,6 +36,8 @@ import org.bukkit.Bukkit
 import org.bukkit.ChatColor.GOLD
 import org.bukkit.Location
 import ru.cristalix.core.invoice.IInvoiceService
+import ru.cristalix.core.realm.IRealmService
+import ru.cristalix.core.transfer.ITransferService
 import java.util.UUID
 import kotlin.math.abs
 
@@ -46,7 +50,7 @@ class User(val uuid: UUID) {
             field = value
         }
     val showcases: HashSet<Showcase> = Showcases.showcases.map { Showcase(it) }.toHashSet()
-    private var criBalanceLastUpdate = 0L
+    var criBalanceLastUpdate = 0L
     var inTrashZone = false
     var showcaseMenu: ShowcaseMenu? = null
 
@@ -63,17 +67,17 @@ class User(val uuid: UUID) {
     private var lastApprovedPosition: Location? = null
 
     var criBalance: Int = 0
-        get() {
-            val now = System.currentTimeMillis()
 
-            if (now - criBalanceLastUpdate > 1000 * 60) {
-                criBalanceLastUpdate = now
-                IInvoiceService.get().getBalanceData(uuid).thenAccept { data ->
-                    field = data.crystals + data.coins
-                }
+    fun updateCriBalance() {
+        val now = System.currentTimeMillis()
+
+        if (now - criBalanceLastUpdate > 1000 * 60) {
+            criBalanceLastUpdate = now
+            IInvoiceService.get().getBalanceData(uuid).thenAccept { data ->
+                criBalance = data.crystals + data.coins
             }
-            return field
         }
+    }
 
     fun initialize(data: String?) {
         this.data = if (data == null) Data(this)
@@ -82,6 +86,7 @@ class User(val uuid: UUID) {
             .registerTypeAdapter(BlocksStorage::class.java, BlocksStorageDeserializer(this))
             .create()
             .fromJson(data, Data::class.java)
+        this.data.user = this
 
         currentCity = this.data.cities.first()
 
@@ -93,6 +98,7 @@ class User(val uuid: UUID) {
             tryPurchase(upgradePrice) {
                 this@User.income -= income
                 data.hall.level++
+                updateAchievement(AchievementType.CITY_HALL)
                 this@User.income += income
                 player.accept("Вы успешно улучшили ${GOLD}Мэрию")
             }
@@ -240,5 +246,36 @@ class User(val uuid: UUID) {
             if (reputation >= 100) reputation -= 100 else reputation = 0L
             player.deny("Вы вышли во время фриланс заказа. Штраф: 100 репутации")
         }
+    }
+
+    fun updateAchievement(type: AchievementType) {
+        getAchievement(type).run {
+            while (updateAchieveValue(type) >= type.formula(level) && level < ACHIEVEMENT_LEVELS_COUNT) {
+                level++
+                if (data.settings.achievementsNotify) player.accept("Получено достижение ${GOLD}${type.title} #${level}")
+            }
+        }
+    }
+
+    private fun getAchievement(type: AchievementType) = data.achievements.find { it.type == type }!!
+
+    private fun updateAchieveValue(type: AchievementType) = when(type) {
+            AchievementType.MONEY -> data.money
+            AchievementType.PROJECTS -> data.totalProjects
+            AchievementType.WORKERS -> data.workers.size
+            AchievementType.CITY_HALL -> data.hall.level
+            AchievementType.STORAGE -> data.blocksStorage.level
+            AchievementType.FREELANCE -> data.freelanceProjectsCount
+            AchievementType.BOUGHT_BLOCKS -> data.money
+    }.toLong()
+
+    fun rebirth() {
+        val rebirths = data.rebirths + 1
+        data = Data(this)
+        data.rebirths = rebirths
+        ITransferService.get().transfer(player.uniqueId,
+            IRealmService.get().realms.filter { it.realmId.typeName == "SLVT" }.minByOrNull { it.currentPlayers }!!.realmId
+        )
+        println(IRealmService.get().realms.filter { it.realmId.typeName == "SLVT" }.minByOrNull { it.currentPlayers }!!.realmId)
     }
 }

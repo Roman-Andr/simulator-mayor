@@ -11,6 +11,7 @@ import me.func.mod.Anime
 import me.func.world.Box
 import me.slavita.construction.action.command.menu.city.StorageMenu
 import me.slavita.construction.player.User
+import me.slavita.construction.ui.achievements.AchievementType
 import me.slavita.construction.utils.accept
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.ChatColor.GOLD
@@ -25,6 +26,7 @@ class BlocksStorage(val owner: User) {
         set(value) {
             field = value
             limit += 100 * value
+            owner.updateAchievement(AchievementType.STORAGE)
         }
     var limit: Int = 100
         private set
@@ -88,16 +90,19 @@ class BlocksStorage(val owner: User) {
 
 class BlocksStorageSerializer : JsonSerializer<BlocksStorage> {
     override fun serialize(blocksStorage: BlocksStorage, type: Type, context: JsonSerializationContext): JsonElement {
-        val json = JsonArray()
+        val json = JsonObject()
+        val blocksJson = JsonArray()
         blocksStorage.run {
-            blocks.forEach { item, amonut ->
-                json.add(
+            blocks.forEach { (item, amount) ->
+                blocksJson.add(
                     JsonObject().apply {
                         add("item", context.serialize(item))
-                        addProperty("amount", amonut)
+                        addProperty("amount", amount)
                     }
                 )
             }
+            json.addProperty("level", level)
+            json.add("blocks", blocksJson)
         }
         return json
     }
@@ -105,11 +110,15 @@ class BlocksStorageSerializer : JsonSerializer<BlocksStorage> {
 
 class BlocksStorageDeserializer(val owner: User) : JsonDeserializer<BlocksStorage> {
     override fun deserialize(json: JsonElement, type: Type, context: JsonDeserializationContext) =
-        json.asJsonArray.run {
-            val storage = BlocksStorage(owner)
-            forEach {
-                it.asJsonObject.run {
-                    storage.blocks[context.deserialize(get("item"), ItemProperties::class.java)] = get("amount").asInt
+        json.asJsonObject.run {
+            val storage = BlocksStorage(owner).apply {
+                level = get("level").asInt
+            }
+            get("blocks").asJsonArray.run {
+                forEach {
+                    it.asJsonObject.run {
+                        storage.blocks[context.deserialize(get("item"), ItemProperties::class.java)] = get("amount").asInt
+                    }
                 }
             }
             storage

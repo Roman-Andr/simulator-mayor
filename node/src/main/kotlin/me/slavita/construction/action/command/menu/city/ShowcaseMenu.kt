@@ -39,7 +39,7 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player)
     override fun getMenu(): Openable {
         buttons.addAll(getButtons())
 
-        user.run user@{
+        user.run {
             selection = selection {
                 title = showcase.properties.name
                 info = SHOWCASE_INFO
@@ -57,18 +57,21 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player)
     """.trimIndent()
 
     private fun buyBlocks(user: User, amount: Int, entry: ShowcaseProduct, selection: Selection) {
-        val hasSpace = user.player.inventory.firstEmpty() != -1
-        if (!hasSpace && !user.data.blocksStorage.hasSpace(amount)) {
-            user.player.deny("Нехватает места на складе!")
-            Anime.close(user.player)
-            return
-        }
-        user.tryPurchase(entry.price * amount) {
-            user.player.accept("Вы успешно купили блоки")
-            if (hasSpace) user.player.inventory.addItem(entry.item.createItemStack(amount))
-            else user.data.blocksStorage.addItem(entry.item.createItemStack(1), amount)
-            Glow.animate(user.player, 0.3, GlowColor.GREEN)
-            selection.money = getMoney()
+        user.run {
+            val hasSpace = player.inventory.firstEmpty() != -1
+            if (!hasSpace && !data.blocksStorage.hasSpace(amount)) {
+                player.deny("Нехватает места на складе!")
+                Anime.close(player)
+                return
+            }
+            tryPurchase(entry.price * amount) {
+                player.accept("Вы успешно купили блоки")
+                data.boughtBlocks += amount
+                if (hasSpace) player.inventory.addItem(entry.item.createItemStack(amount))
+                else data.blocksStorage.addItem(entry.item.createItemStack(1), amount)
+                Glow.animate(player, 0.3, GlowColor.GREEN)
+                selection.money = getMoney()
+            }
         }
     }
 

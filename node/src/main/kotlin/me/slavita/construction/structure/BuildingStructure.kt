@@ -16,6 +16,7 @@ import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.structure.tools.StructureVisual
+import me.slavita.construction.ui.achievements.AchievementType
 import me.slavita.construction.utils.playSound
 import me.slavita.construction.utils.runAsync
 import me.slavita.construction.utils.toUUID
@@ -119,6 +120,7 @@ abstract class BuildingStructure(
             cell.city.addStructure(CityStructure(owner.player, structure, cell))
         onFinish()
         owner.updatePosition()
+        owner.updateAchievement(AchievementType.PROJECTS)
     }
 
     fun claimed() {
