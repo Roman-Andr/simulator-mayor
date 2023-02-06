@@ -33,12 +33,8 @@ object UserCommands : IRegistrable {
         }
 
         command("remove") { player, _ ->
-            player.user.currentCity.cityStructures.forEach {
-                if (it.cell.box.contains(player.location)) it.remove()
-            }
+            player.user.currentCity.cityStructures.find { it.cell.box.contains(player.location) }?.remove()
         }
-
-        command("ok") { _, _ -> }
 
         /* Быстрый доступ */
 

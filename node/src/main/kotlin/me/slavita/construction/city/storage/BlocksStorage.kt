@@ -113,7 +113,7 @@ class BlocksStorageDeserializer(val owner: User) : JsonDeserializer<BlocksStorag
     override fun deserialize(json: JsonElement, type: Type, context: JsonDeserializationContext) =
         json.asJsonObject.run {
             val storage = BlocksStorage(owner).apply {
-                runAsync(1) {
+                runAsync(2) {
                     level = get("level").asInt
                 }
             }

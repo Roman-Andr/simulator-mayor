@@ -68,8 +68,7 @@ class CityStructure(val owner: Player, val structure: Structure, val cell: CityC
             5000,
             GlowColor.BLUE,
             GlowColor.BLUE_MIDDLE,
-            null,
-            button("Понятно", "/ok", GlowColor.GREEN),
+            null
         )
         visual.update()
     }

@@ -62,8 +62,7 @@ class City(val owner: User, val id: String, val title: String, val price: Long, 
                 5000,
                 GlowColor.RED,
                 GlowColor.RED_MIDDLE,
-                null,
-                button("Понятно", "/ok", GlowColor.GREEN),
+                null
             )
 
             it.visual.update()
