@@ -18,7 +18,6 @@ import me.slavita.construction.structure.CityStructure
 import me.slavita.construction.structure.CityStructureDeserializer
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.utils.Alert
-import me.slavita.construction.utils.Alert.button
 import me.slavita.construction.utils.toYaw
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.GOLD

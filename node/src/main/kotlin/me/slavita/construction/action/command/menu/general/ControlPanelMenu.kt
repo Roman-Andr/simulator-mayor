@@ -4,7 +4,7 @@ import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection
 import me.slavita.construction.action.MenuCommand
-import me.slavita.construction.action.command.menu.achievements.AchievementsChoiceMenu
+import me.slavita.construction.action.command.menu.achievements.AchievementsMenu
 import me.slavita.construction.action.command.menu.city.CityHallMenu
 import me.slavita.construction.action.command.menu.city.LocationsMenu
 import me.slavita.construction.action.command.menu.city.StorageUpgrade
@@ -77,7 +77,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         hover = ACHIEVEMENTS_MENU
                         item = Icons.get("other", "achievements_many")
                         click { _, _, _ ->
-                            AchievementsChoiceMenu(player).keepHistory().tryExecute()
+                            AchievementsMenu(player).keepHistory().tryExecute()
                         }
                     },
                     button {

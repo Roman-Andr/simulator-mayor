@@ -11,11 +11,11 @@ import java.util.UUID
 class WorldCell(val id: Int, val label: Label) {
 
     val face: BlockFace = try {
-        when(label.tag.lowercase()) {
-            "n" -> BlockFace.NORTH
-            "s" -> BlockFace.SOUTH
-            "e" -> BlockFace.EAST
-            "w" -> BlockFace.WEST
+        when (label.tag.lowercase()) {
+            "n"  -> BlockFace.NORTH
+            "s"  -> BlockFace.SOUTH
+            "e"  -> BlockFace.EAST
+            "w"  -> BlockFace.WEST
             "ne" -> BlockFace.NORTH_EAST
             "nw" -> BlockFace.NORTH_WEST
             "se" -> BlockFace.SOUTH_EAST

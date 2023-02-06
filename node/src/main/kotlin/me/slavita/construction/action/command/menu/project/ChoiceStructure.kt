@@ -37,10 +37,10 @@ class ChoiceStructure(
                         hover = ""
                         structure.blocks.toList().sortedBy { it.second }.toMap().forEach { block ->
                             hover += "${GOLD}${
-                            LanguageHelper.getItemDisplayName(
-                                block.key.createItemStack(1),
-                                player
-                            )
+                                LanguageHelper.getItemDisplayName(
+                                    block.key.createItemStack(1),
+                                    player
+                                )
                             } - ${GREEN}${block.value}шт\n"
                         }
                         click { _, _, _ ->

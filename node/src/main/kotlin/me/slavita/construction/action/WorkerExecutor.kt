@@ -14,7 +14,7 @@ abstract class WorkerExecutor(player: Player, val structure: WorkerStructure) : 
     protected fun distributeWorker(targetWorker: Worker, button: ReactiveButton) {
         user.run {
             when (getWorkerState(targetWorker)) {
-                WorkerState.FREE -> {
+                WorkerState.FREE     -> {
                     structure.workers.add(targetWorker)
                     button.backgroundColor = GlowColor.ORANGE
                     button.hint = getWorkerState(targetWorker).title
@@ -26,7 +26,7 @@ abstract class WorkerExecutor(player: Player, val structure: WorkerStructure) : 
                     button.hint = getWorkerState(targetWorker).title
                 }
 
-                WorkerState.BUSY -> {}
+                WorkerState.BUSY     -> {}
             }
         }
     }

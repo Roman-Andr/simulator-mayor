@@ -21,9 +21,7 @@ data class ItemEntry(var material: Material?, var metadata: Int = 0) {
         return result
     }
 
-    override fun toString(): String {
-        return material.toString() + " " + metadata
-    }
+    override fun toString() = material.toString() + " " + metadata
 
     companion object {
         private val inst = ItemEntry()

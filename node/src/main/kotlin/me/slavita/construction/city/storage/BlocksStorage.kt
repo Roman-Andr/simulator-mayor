@@ -120,7 +120,8 @@ class BlocksStorageDeserializer(val owner: User) : JsonDeserializer<BlocksStorag
             get("blocks").asJsonArray.run {
                 forEach {
                     it.asJsonObject.run {
-                        storage.blocks[context.deserialize(get("item"), ItemProperties::class.java)] = get("amount").asInt
+                        storage.blocks[context.deserialize(get("item"), ItemProperties::class.java)] =
+                            get("amount").asInt
                     }
                 }
             }

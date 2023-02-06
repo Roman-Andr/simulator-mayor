@@ -141,9 +141,9 @@ enum class EnumEntity(val type: EntityType, val unlocalizedName: String) {
             }
             val entity = Companion[type]
             return if (entity != null) (
-                translateToLocal("item.monsterPlacer.name", locale!!) + " " +
-                    translateToLocal(entity.unlocalizedName, locale)
-                ) else translateToLocal(
+                    translateToLocal("item.monsterPlacer.name", locale!!) + " " +
+                            translateToLocal(entity.unlocalizedName, locale)
+                    ) else translateToLocal(
                 "item.monsterPlacer.name",
                 locale!!
             )

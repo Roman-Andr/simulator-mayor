@@ -2,7 +2,6 @@ package me.slavita.construction.prepare
 
 import me.slavita.construction.app
 import me.slavita.construction.player.User
-import me.slavita.construction.utils.runAsync
 import ru.cristalix.core.permissions.IPermissionService
 import ru.cristalix.core.tab.ITabService
 

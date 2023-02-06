@@ -40,10 +40,10 @@ object OnActions : IRegistrable {
             if (depositBlocks > 0) {
                 player.accept(
                     "Вы положили ${GOLD}${
-                    LanguageHelper.getItemDisplayName(
-                        drop.itemStack,
-                        player
-                    )
+                        LanguageHelper.getItemDisplayName(
+                            drop.itemStack,
+                            player
+                        )
                     }: ${BLOCK.get(depositBlocks)}"
                 )
             } else {

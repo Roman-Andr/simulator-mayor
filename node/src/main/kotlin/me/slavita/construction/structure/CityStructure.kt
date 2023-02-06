@@ -7,7 +7,6 @@ import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
-import me.func.protocol.data.color.GlowColor
 import me.func.unit.Building
 import me.func.world.Box
 import me.slavita.construction.app
@@ -16,8 +15,7 @@ import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.structure.tools.CityStructureVisual
-import me.slavita.construction.utils.Alert
-import me.slavita.construction.utils.Alert.button
+import me.slavita.construction.utils.notify
 import me.slavita.construction.utils.user
 import me.slavita.construction.world.AmountItemProperties
 import me.slavita.construction.world.ItemProperties
@@ -57,18 +55,13 @@ class CityStructure(val owner: Player, val structure: Structure, val cell: CityC
         startIncome()
         state = CityStructureState.FUNCTIONING
         repairBlocks = hashMapOf()
-        Alert.send(
-            owner.player,
+        owner.player.notify(
             """
-                    ${WHITE}Отремонтировано
-                    ${GRAY}Номер: ${GRAY}${cell.id}
-                    ${AQUA}Название: ${GOLD}${structure.name}
-                    ${GOLD}Локация: ${GREEN}${cell.city.title}
-            """.trimIndent(),
-            5000,
-            GlowColor.BLUE,
-            GlowColor.BLUE_MIDDLE,
-            null
+                ${WHITE}Отремонтировано
+                ${GRAY}Номер: ${GRAY}${cell.id}
+                ${AQUA}Название: ${GOLD}${structure.name}
+                ${GOLD}Локация: ${GREEN}${cell.city.title}
+            """.trimIndent()
         )
         visual.update()
     }
@@ -76,6 +69,13 @@ class CityStructure(val owner: Player, val structure: Structure, val cell: CityC
     fun startIncome() {
         owner.user.income += structure.income
     }
+
+    override fun toString() = """
+        ${GOLD}Информация про проект:
+          ${GRAY}Номер: ${GRAY}${cell.id}
+          ${AQUA}Название: ${GOLD}${structure.name}
+          ${GOLD}Локация: ${GREEN}${cell.city.title}
+    """.trimIndent()
 }
 
 class CityStructureSerializer : JsonSerializer<CityStructure> {

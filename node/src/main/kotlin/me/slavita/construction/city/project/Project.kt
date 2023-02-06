@@ -20,6 +20,7 @@ import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.utils.playSound
 import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.GOLD
 import java.lang.reflect.Type
 
 open class Project(
@@ -75,11 +76,12 @@ open class Project(
         }
     }
 
-    override fun toString() =
-        "Информация про проект:" +
-        "\n  ${AQUA}ID: $id" +
-        "\n  ${AQUA}Награды:" +
-        rewards.joinToString("\n  ", "\n  ") { it.toString() }
+    override fun toString() = """
+        ${GOLD}Информация про проект:
+          ${AQUA}ID: $id
+          ${AQUA}Награды:
+          ${rewards.joinToString { it.toString() }}
+    """.trimIndent()
 }
 
 class ProjectSerializer : JsonSerializer<Project> {

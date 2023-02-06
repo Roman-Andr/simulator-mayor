@@ -48,20 +48,20 @@ object NpcManager : IRegistrable {
                     name = ""
                     when (skinType) {
                         "uuid" -> skin(skin.toUUID())
-                        "url" -> skin("$STORAGE_URL/skin/$skin")
+                        "url"  -> skin("$STORAGE_URL/skin/$skin")
                     }
                     behaviour = NpcBehaviour.STARE_AND_LOOK_AROUND
                     onClick {
                         when (action) {
-                            "WorkerMenu" -> WorkerMenu::class
-                            "ControlPanelMenu" -> ControlPanelMenu::class
-                            "BankMainMenu" -> BankMainMenu::class
+                            "WorkerMenu"         -> WorkerMenu::class
+                            "ControlPanelMenu"   -> ControlPanelMenu::class
+                            "BankMainMenu"       -> BankMainMenu::class
                             "ActiveProjectsMenu" -> ActiveProjectsMenu::class
-                            "DailyMenu" -> DailyMenu::class
-                            "GuideDialog" -> GuideDialog::class
-                            "StorageMenu" -> StorageMenu::class
-                            "LocationsMenu" -> LocationsMenu::class
-                            else -> ControlPanelMenu::class
+                            "DailyMenu"          -> DailyMenu::class
+                            "GuideDialog"        -> GuideDialog::class
+                            "StorageMenu"        -> StorageMenu::class
+                            "LocationsMenu"      -> LocationsMenu::class
+                            else                 -> ControlPanelMenu::class
                         }.primaryConstructor!!.call(it.player).tryExecute()
                     }
                 }.slot(EquipmentSlot.HAND, CraftItemStack.asNMSCopy(Icons.get(itemKey, itemValue)))

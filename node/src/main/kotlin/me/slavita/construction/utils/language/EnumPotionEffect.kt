@@ -190,7 +190,7 @@ enum class EnumPotionEffect(
 
         fun getLocalizedName(itemStack: ItemStack, locale: String?): String {
             return when (itemStack.getType()) {
-                Material.SPLASH_POTION -> translateToLocal(
+                Material.SPLASH_POTION    -> translateToLocal(
                     getUnlocalizedSplashName(
                         itemStack
                     ),
@@ -204,14 +204,14 @@ enum class EnumPotionEffect(
                     locale!!
                 )
 
-                Material.TIPPED_ARROW -> translateToLocal(
+                Material.TIPPED_ARROW     -> translateToLocal(
                     getUnlocalizedArrowName(
                         itemStack
                     ),
                     locale!!
                 )
 
-                else -> translateToLocal(
+                else                      -> translateToLocal(
                     getUnlocalizedName(
                         itemStack
                     ),

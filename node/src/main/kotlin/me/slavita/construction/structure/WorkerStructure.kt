@@ -12,8 +12,14 @@ import me.slavita.construction.utils.addByFace
 import me.slavita.construction.utils.getFaceCenter
 import me.slavita.construction.utils.language.LanguageHelper
 import me.slavita.construction.utils.loadBannerFromConfig
+import me.slavita.construction.utils.notify
 import me.slavita.construction.worker.Worker
 import me.slavita.construction.world.ItemProperties
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.GRAY
+import org.bukkit.ChatColor.GREEN
+import org.bukkit.ChatColor.WHITE
 import org.bukkit.entity.Player
 
 class WorkerStructure(
@@ -44,8 +50,8 @@ class WorkerStructure(
         opacity = 0.0
     )
 
-    var lastModified = app.pass
-    val delayTime: Long
+    private var lastModified = app.pass
+    private val delayTime: Long
         get() {
             if (workers.isEmpty()) return 1
             return (60 / workers.sumOf { it.blocksSpeed }).toLong()
@@ -85,6 +91,14 @@ class WorkerStructure(
 
     override fun onFinish() {
         hideClaim()
+        owner.player.notify(
+            """
+                ${WHITE}Постройка завершена!
+                ${GRAY}Номер: ${GRAY}${cell.id}
+                ${AQUA}Название: ${GOLD}${structure.name}
+                ${GOLD}Локация: ${GREEN}${cell.city.title}
+            """.trimIndent()
+        )
     }
 
     private fun hideClaim() {

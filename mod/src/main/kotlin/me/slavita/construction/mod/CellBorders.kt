@@ -3,14 +3,9 @@ package me.slavita.construction.mod
 import dev.xdark.clientapi.event.render.RenderPass
 import dev.xdark.clientapi.opengl.GlStateManager.blendFunc
 import dev.xdark.clientapi.opengl.GlStateManager.depthMask
-import dev.xdark.clientapi.opengl.GlStateManager.disableAlpha
-import dev.xdark.clientapi.opengl.GlStateManager.disableCull
-import dev.xdark.clientapi.opengl.GlStateManager.disableLighting
 import dev.xdark.clientapi.opengl.GlStateManager.disableTexture2D
 import dev.xdark.clientapi.opengl.GlStateManager.enableAlpha
-import dev.xdark.clientapi.opengl.GlStateManager.enableBlend
 import dev.xdark.clientapi.opengl.GlStateManager.enableTexture2D
-import dev.xdark.clientapi.opengl.GlStateManager.glLight
 import dev.xdark.clientapi.opengl.GlStateManager.shadeModel
 import dev.xdark.clientapi.render.DefaultVertexFormats
 import me.slavita.construction.common.utils.CHANGE_BORDER_CHANNEL
@@ -29,9 +24,7 @@ import me.slavita.construction.mod.utils.readV3
 import me.slavita.construction.mod.utils.tessellator
 import me.slavita.construction.mod.utils.ticks
 import org.lwjgl.opengl.GL11
-import ru.cristalix.uiengine.UIEngine.clientApi
 import kotlin.math.abs
-import kotlin.math.pow
 
 object CellBorders : IRegistrable {
     private val borders = hashSetOf<Border>()
@@ -63,18 +56,19 @@ object CellBorders : IRegistrable {
         }
 
         mod.registerHandler<RenderPass> {
-            //disableLighting()
+            // disableLighting()
             disableTexture2D()
-            //disableAlpha()
+            // disableAlpha()
             shadeModel(GL11.GL_SMOOTH)
-            //enableBlend()
+            // enableBlend()
             blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE)
-            //disableCull()
+            // disableCull()
             depthMask(false)
 
             borders.forEach { border ->
                 if (abs(border.location.x - entity.x) <= border.width / 2.0 &&
-                    abs(border.location.z - entity.z) <= border.width / 2.0) return@forEach
+                    abs(border.location.z - entity.z) <= border.width / 2.0
+                ) return@forEach
 
                 val x = border.location.x - (entity.x - prevX) * ticks - prevX
                 val y = border.location.y - (entity.y - prevY) * ticks - prevY

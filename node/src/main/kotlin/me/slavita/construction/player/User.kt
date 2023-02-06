@@ -250,32 +250,38 @@ class User(val uuid: UUID) {
 
     fun updateAchievement(type: AchievementType) {
         getAchievement(type).run {
-            while (updateAchieveValue(type) >= type.formula(level) && level < ACHIEVEMENT_LEVELS_COUNT) {
+            val value = updateAchieveValue(type)
+            while (value >= type.formula(level) && level < ACHIEVEMENT_LEVELS_COUNT) {
                 level++
-                if (data.settings.achievementsNotify) player.accept("Получено достижение ${GOLD}${type.title} #${level}")
+                lastValue = value
+                expectValue = type.formula(level)
+                if (data.settings.achievementsNotify) player.accept("Получено достижение ${GOLD}${type.title} #$level")
             }
         }
     }
 
-    private fun getAchievement(type: AchievementType) = data.achievements.find { it.type == type }!!
+    fun getAchievement(type: AchievementType) = data.achievements.find { it.type == type }!!
 
-    private fun updateAchieveValue(type: AchievementType) = when(type) {
-            AchievementType.MONEY -> data.money
-            AchievementType.PROJECTS -> data.totalProjects
-            AchievementType.WORKERS -> data.workers.size
-            AchievementType.CITY_HALL -> data.hall.level
-            AchievementType.STORAGE -> data.blocksStorage.level
-            AchievementType.FREELANCE -> data.freelanceProjectsCount
-            AchievementType.BOUGHT_BLOCKS -> data.money
+    private fun updateAchieveValue(type: AchievementType) = when (type) {
+        AchievementType.MONEY         -> data.money
+        AchievementType.PROJECTS      -> data.totalProjects
+        AchievementType.WORKERS       -> data.workers.size
+        AchievementType.CITY_HALL     -> data.hall.level
+        AchievementType.STORAGE       -> data.blocksStorage.level
+        AchievementType.FREELANCE     -> data.freelanceProjectsCount
+        AchievementType.BOUGHT_BLOCKS -> data.money
     }.toLong()
 
     fun rebirth() {
         val rebirths = data.rebirths + 1
         data = Data(this)
         data.rebirths = rebirths
-        ITransferService.get().transfer(player.uniqueId,
-            IRealmService.get().realms.filter { it.realmId.typeName == "SLVT" }.minByOrNull { it.currentPlayers }!!.realmId
+        ITransferService.get().transfer(
+            player.uniqueId,
+            IRealmService.get().realms.filter { it.realmId.typeName == "SLVT" }
+                .minByOrNull { it.currentPlayers }!!.realmId
         )
-        println(IRealmService.get().realms.filter { it.realmId.typeName == "SLVT" }.minByOrNull { it.currentPlayers }!!.realmId)
+        println(IRealmService.get().realms.filter { it.realmId.typeName == "SLVT" }
+            .minByOrNull { it.currentPlayers }!!.realmId)
     }
 }

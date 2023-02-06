@@ -4,7 +4,31 @@ import me.func.atlas.Atlas
 import kotlin.random.Random
 
 object WorkerGenerator {
-    private val names = Atlas.find("worker").getList("names")
+    private val names = listOf(
+        "Григорий",
+        "Андрей",
+        "Арсений",
+        "Владислав",
+        "Евгений",
+        "Ярослав",
+        "Матвей",
+        "Фёдор",
+        "Николай",
+        "Алексей",
+        "Артём",
+        "Виктор",
+        "Даниил",
+        "Денис",
+        "Егор",
+        "Игорь",
+        "Леонид",
+        "Павел",
+        "Пётр",
+        "Руслан",
+        "Сергей",
+        "Семён",
+        "Тимофей",
+    )
     val workers = Atlas.find("worker").getMapList("rapacity")
 
     fun generate(rarity: WorkerRarity, amount: Int): MutableList<Worker> {
@@ -19,7 +43,7 @@ object WorkerGenerator {
             repeat(amount) {
                 add(
                     Worker(
-                        names.shuffled()[0] as String,
+                        names.shuffled()[0],
                         rarity,
                         1,
                         1,

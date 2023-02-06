@@ -1,7 +1,7 @@
 package me.slavita.construction.action.chat
 
 import me.func.atlas.Atlas
-import me.slavita.construction.action.command.menu.achievements.AchievementsChoiceMenu
+import me.slavita.construction.action.command.menu.achievements.AchievementsMenu
 import me.slavita.construction.action.command.menu.city.CityHallMenu
 import me.slavita.construction.action.command.menu.city.LocationsMenu
 import me.slavita.construction.action.command.menu.city.StorageMenu
@@ -63,7 +63,7 @@ object UserCommands : IRegistrable {
         }
 
         listen("achievements", null) { player ->
-            AchievementsChoiceMenu(player).tryExecute()
+            AchievementsMenu(player).tryExecute()
         }
 
         listen("settings", null) { player ->

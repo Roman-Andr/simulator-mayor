@@ -55,7 +55,7 @@ class Data(@Transient var user: User) {
     val hall: CityHall = CityHall()
     val blocksStorage = BlocksStorage(user)
     var hasFreelance: Boolean = false
-    var achievements: HashSet<AchievementData> = AchievementType.values().map { AchievementData(0, it) }.toHashSet()
+    var achievements: HashSet<AchievementData> = AchievementType.values().map { AchievementData(it) }.toHashSet()
     var lastCityId: String = "1"
     val cities: HashSet<City> = Atlas.find("locations").getMapList("locations").map { values ->
         City(

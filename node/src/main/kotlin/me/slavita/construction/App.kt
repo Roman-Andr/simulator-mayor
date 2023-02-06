@@ -44,7 +44,6 @@ import me.slavita.construction.world.ItemProperties
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import ru.cristalix.core.datasync.EntityDataParameters
-import ru.cristalix.core.invoice.IInvoiceService
 import java.util.UUID
 
 lateinit var app: App

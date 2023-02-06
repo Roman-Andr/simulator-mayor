@@ -5,9 +5,8 @@ import me.func.protocol.data.color.GlowColor
 import me.func.protocol.math.Position
 import me.slavita.construction.app
 import me.slavita.construction.ui.Formatter.ticksToTime
-import me.slavita.construction.ui.Formatter.toTime
-import me.slavita.construction.utils.runAsync
-import me.slavita.construction.utils.runTimerAsync
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.GREEN
 import org.bukkit.entity.Player
 
 class AnimeTimer(val player: Player, val onFinish: () -> Unit) {
@@ -33,7 +32,7 @@ class AnimeTimer(val player: Player, val onFinish: () -> Unit) {
         bar.apply {
             update()
             send(player)
-            progress = 0.0
+            progress = 1.0
         }
     }
 
@@ -42,8 +41,8 @@ class AnimeTimer(val player: Player, val onFinish: () -> Unit) {
 
         if (delta < duration) {
             bar.apply {
-                progress = delta.toDouble() / duration.toDouble()
-                text = "Осталось: ${(duration - delta).ticksToTime()}"
+                progress = 1.0 - delta.toDouble() / duration.toDouble()
+                text = "${GREEN}Осталось: ${AQUA}${(duration - delta).ticksToTime()}"
             }
             return
         }

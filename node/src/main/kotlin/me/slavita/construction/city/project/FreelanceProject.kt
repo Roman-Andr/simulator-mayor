@@ -51,7 +51,7 @@ class FreelanceProject(
                 owner.data.freelanceProjectsCount
             }
 
-            else -> {}
+            else                    -> {}
         }
     }
 

@@ -24,10 +24,10 @@ class BlocksListMenu(player: Player, val structure: Structure) : MenuCommand(pla
                     button {
                         item = itemProps.createItemStack(1).validate()
                         hover = "${GREEN}${
-                        LanguageHelper.getItemDisplayName(
-                            itemProps.createItemStack(1),
-                            player
-                        )
+                            LanguageHelper.getItemDisplayName(
+                                itemProps.createItemStack(1),
+                                player
+                            )
                         } - ${structure.blocks[itemProps]}шт"
                         hint = " "
                     }

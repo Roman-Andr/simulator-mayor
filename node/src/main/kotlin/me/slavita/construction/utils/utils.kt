@@ -107,11 +107,11 @@ fun ReactiveButton.click(click: ButtonClickHandler) = apply {
 fun Selection.getVault(user: User, type: StatsType) {
     vault = type.vault
     money = "Ваш ${type.title} ${
-    when (type) {
-        StatsType.MONEY -> user.data.money.toMoney()
-        StatsType.LEVEL -> user.data.level
-        StatsType.CREDIT -> Bank.playersData[user.player.uniqueId]!!.sumOf { it.creditValue }.toMoney()
-    }
+        when (type) {
+            StatsType.MONEY  -> user.data.money.toMoney()
+            StatsType.LEVEL  -> user.data.level
+            StatsType.CREDIT -> Bank.playersData[user.player.uniqueId]!!.sumOf { it.creditValue }.toMoney()
+        }
     }"
 }
 
@@ -144,6 +144,17 @@ fun Player.accept(text: String) {
     killboard(Formatting.fine(text))
     playSound(MusicSound.LEVEL_UP)
     Glow.animate(this, 0.4, GlowColor.GREEN)
+}
+
+fun Player.notify(text: String) {
+    Alert.send(
+        this,
+        text,
+        5000,
+        GlowColor.BLUE,
+        GlowColor.BLUE_MIDDLE,
+        null
+    )
 }
 
 fun Player.playSound(sound: MusicSound) {
@@ -181,7 +192,7 @@ fun label(key: String, tag: String, map: WorldMeta = app.mainWorld.map) = map.ge
 
 fun Float.revert() = when {
     this >= 0 -> this - 180F
-    else -> this + 180F
+    else      -> this + 180F
 }
 
 object EmptyListener : Listener
@@ -384,23 +395,23 @@ operator fun BlockPosition.minus(additionalPosition: Location): BlockPosition = 
 )
 
 fun BlockFace.toYaw(): Float = when (this) {
-    BlockFace.EAST -> -90
-    BlockFace.WEST -> 90
-    BlockFace.SOUTH -> 0
-    BlockFace.NORTH -> 180
+    BlockFace.EAST       -> -90
+    BlockFace.WEST       -> 90
+    BlockFace.SOUTH      -> 0
+    BlockFace.NORTH      -> 180
     BlockFace.NORTH_WEST -> 135
     BlockFace.NORTH_EAST -> -135
     BlockFace.SOUTH_WEST -> 45
     BlockFace.SOUTH_EAST -> -45
-    else -> 0
+    else                 -> 0
 }.toFloat()
 
 fun getFaceCenter(cell: CityCell) = cell.box.bottomCenter.clone().apply {
     when (cell.face) {
-        BlockFace.EAST -> x = cell.box.max.x
-        BlockFace.NORTH -> z = cell.box.min.z
-        BlockFace.WEST -> x = cell.box.min.x
-        BlockFace.SOUTH -> z = cell.box.max.z
+        BlockFace.EAST       -> x = cell.box.max.x
+        BlockFace.NORTH      -> z = cell.box.min.z
+        BlockFace.WEST       -> x = cell.box.min.x
+        BlockFace.SOUTH      -> z = cell.box.max.z
         BlockFace.NORTH_EAST -> {
             x = cell.box.max.x
             z = cell.box.min.z
@@ -421,7 +432,7 @@ fun getFaceCenter(cell: CityCell) = cell.box.bottomCenter.clone().apply {
             z = cell.box.max.z
         }
 
-        else -> throw IllegalArgumentException("Incorrect structure face")
+        else                 -> throw IllegalArgumentException("Incorrect structure face")
     }
 }
 
