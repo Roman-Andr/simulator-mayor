@@ -2,10 +2,12 @@ package me.slavita.construction.city.project
 
 import me.slavita.construction.app
 import me.slavita.construction.city.City
+import me.slavita.construction.city.utils.AnimeTimer
 import me.slavita.construction.reward.Reward
 import me.slavita.construction.structure.BuildingStructure
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.ui.ItemsManager
+import me.slavita.construction.utils.deny
 import me.slavita.construction.utils.unaryMinus
 import org.bukkit.Material
 
@@ -17,9 +19,18 @@ class FreelanceProject(
 ) : Project(city, id, rewards) {
 
     val playerInventory = owner.player.inventory.storageContents.clone()
+    val timer = AnimeTimer(owner.player) {
+        restore()
+
+        owner.apply {
+            data.reputation -= 100
+            player.deny("Вы не успели выполнить фриланс заказ. Штраф: 100 репутации")
+        }
+    }
 
     init {
         this.structure = structure
+        timer.start(20 * 60)
         start()
         owner.player.inventory.run {
             clear()
@@ -47,6 +58,7 @@ class FreelanceProject(
     fun restore() {
         owner.currentFreelance = null
 
+        timer.stop()
         structure.hideVisual()
         structure.deleteVisual()
 

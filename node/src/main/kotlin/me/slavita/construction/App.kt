@@ -9,6 +9,7 @@ import me.slavita.construction.action.chat.AdminCommands
 import me.slavita.construction.action.chat.UserCommands
 import me.slavita.construction.booster.BoosterType
 import me.slavita.construction.booster.Boosters
+import me.slavita.construction.city.utils.AnimeTimer
 import me.slavita.construction.common.utils.register
 import me.slavita.construction.dontate.Abilities
 import me.slavita.construction.listener.OnActions
@@ -102,6 +103,10 @@ class App : JavaPlugin() {
         }
 
         coroutineForAll(1) {
+            AnimeTimer.timers.forEach {
+                it.update()
+            }
+
             data.cities.forEach { city ->
                 city.projects.forEach { project ->
                     if (project.structure is WorkerStructure) (project.structure as WorkerStructure).build()

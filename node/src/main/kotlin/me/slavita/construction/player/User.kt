@@ -243,7 +243,7 @@ class User(val uuid: UUID) {
             if (restore) currentFreelance!!.restore()
             else hasFreelance = false
 
-            if (reputation >= 100) reputation -= 100 else reputation = 0L
+            reputation -= 100
             player.deny("Вы вышли во время фриланс заказа. Штраф: 100 репутации")
         }
     }

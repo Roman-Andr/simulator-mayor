@@ -20,6 +20,9 @@ class Data(@Transient var user: User) {
     var level: Int = 1
     var experience: Long = 0
     var reputation: Long = 0
+        set(value) {
+            field = maxOf(0, value)
+        }
     var totalProjects: Int = 0
         set(value) {
             field = value

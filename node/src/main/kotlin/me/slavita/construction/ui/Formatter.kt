@@ -46,6 +46,10 @@ object Formatter {
         return TimeFormatter.toTimeFormat(this.toLong())
     }
 
+    fun <T : Number> T.ticksToTime(): String {
+        return TimeFormatter.toTimeFormat(this.toLong() * 50)
+    }
+
     fun <T : Number> T.applyBoosters(vararg boosters: BoosterType): Long {
         return this.withBoosters(*boosters.map { it.label }.toTypedArray()).toLong()
     }
