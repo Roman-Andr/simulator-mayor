@@ -8,6 +8,7 @@ import me.slavita.construction.structure.BuildingStructure
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.ui.ItemsManager
 import me.slavita.construction.utils.deny
+import me.slavita.construction.utils.notify
 import me.slavita.construction.utils.unaryMinus
 import org.bukkit.Material
 
@@ -44,13 +45,12 @@ class FreelanceProject(
     override fun onEnter() {
         when (structure.state) {
             StructureState.BUILDING -> structure.showVisual()
-
             StructureState.FINISHED -> {
                 restore()
                 finish()
+                owner.player.notify("Постройка завершена!")
                 owner.data.freelanceProjectsCount
             }
-
             else                    -> {}
         }
     }

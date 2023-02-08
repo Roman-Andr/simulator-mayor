@@ -10,12 +10,16 @@ import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GOLD
 import org.bukkit.ChatColor.GREEN
 import org.bukkit.Material
+import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftInventoryPlayer
 import org.bukkit.entity.Player
 import org.bukkit.event.block.Action
+import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
 import java.util.UUID
+import kotlin.reflect.typeOf
 
 object ItemsManager : IRegistrable {
     private val actions = hashMapOf<UUID, HashMap<ItemStack, (player: Player) -> Unit>>()
@@ -57,7 +61,9 @@ object ItemsManager : IRegistrable {
             execute(player)
         }
         listener<InventoryClickEvent> {
+            if (clickedInventory.type == InventoryType.CRAFTING) isCancelled = true
             ITEMS.find { it.inventoryId == slot }?.run {
+                if (cursor.getType() == Material.AIR && click != ClickType.NUMBER_KEY) action(whoClicked as Player)
                 isCancelled = true
             }
         }

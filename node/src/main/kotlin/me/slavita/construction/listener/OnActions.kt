@@ -1,5 +1,6 @@
 package me.slavita.construction.listener
 
+import me.slavita.construction.action.command.menu.city.LeaveFreelanceConfirm
 import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.ui.HumanizableValues.BLOCK
 import me.slavita.construction.utils.accept
@@ -58,8 +59,10 @@ object OnActions : IRegistrable {
 
         listener<PlayerMoveEvent> {
             if (player.userOrNull == null) isCancelled = true
-            else if (player.user.currentFreelance != null && !player.user.freelanceCell.box.contains(to)) isCancelled =
-                true
+            else if (player.user.currentFreelance != null && !player.user.freelanceCell.box.contains(to)) {
+                isCancelled = true
+                LeaveFreelanceConfirm(player).tryExecute()
+            }
             else player.user.updatePosition()
         }
     }

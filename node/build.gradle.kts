@@ -32,10 +32,6 @@ dependencies {
     implementation("me.func:lock-service-protocol:1.1.0.RELEASE")
 
     implementation("com.github.kotlin-telegram-bot.kotlin-telegram-bot:telegram:6.0.7")
-    implementation("net.dv8tion:JDA:5.0.0-beta.3")
-    implementation("com.petersamokhin.vksdk:core:0.0.8")
-    implementation("com.petersamokhin.vksdk:http-client-jvm-okhttp:0.0.8")
-    implementation("org.slf4j:slf4j-log4j12:2.0.5")
 }
 
 afterEvaluate {

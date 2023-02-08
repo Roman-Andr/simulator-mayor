@@ -10,7 +10,6 @@ import io.netty.channel.ChannelPromise
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import me.func.mod.Anime
 import me.func.mod.conversation.ModTransfer
 import me.func.mod.reactive.ButtonClickHandler
@@ -34,9 +33,7 @@ import me.slavita.construction.city.bank.Bank
 import me.slavita.construction.dontate.Donates
 import me.slavita.construction.player.User
 import me.slavita.construction.player.sound.MusicSound
-import me.slavita.construction.register.BotsManager.ds
 import me.slavita.construction.register.BotsManager.tg
-import me.slavita.construction.register.BotsManager.vk
 import me.slavita.construction.structure.CityCell
 import me.slavita.construction.ui.Border
 import me.slavita.construction.ui.Formatter.toCriMoney
@@ -287,15 +284,6 @@ fun logFormat(message: String) = "[${IRealmService.get().currentRealmInfo.realmI
 fun <T> log(message: T) = println(logFormat(message.toString()))
 
 fun logTg(text: String) = tg.sendMessage(ChatId.fromId(app.chatId), logFormat(text))
-
-fun logVk(text: String) = runBlocking {
-    vk.sendMessage {
-        peerId = 461119507
-        message = logFormat(text)
-    }.execute()
-}
-
-fun logDs(text: String) = ds.getTextChannelById("1067160732669595850")!!.sendMessage(logFormat(text)).queue()
 
 val routine: EventContext = EventContext { true }.fork()
 
