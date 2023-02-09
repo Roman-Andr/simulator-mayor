@@ -8,6 +8,7 @@ import com.google.gson.JsonObject
 import com.google.gson.JsonSerializationContext
 import com.google.gson.JsonSerializer
 import me.func.mod.Anime
+import me.func.mod.util.after
 import me.func.world.Box
 import me.slavita.construction.action.command.menu.city.StorageMenu
 import me.slavita.construction.player.User
@@ -113,7 +114,7 @@ class BlocksStorageDeserializer(val owner: User) : JsonDeserializer<BlocksStorag
     override fun deserialize(json: JsonElement, type: Type, context: JsonDeserializationContext) =
         json.asJsonObject.run {
             val storage = BlocksStorage(owner).apply {
-                runAsync(2) {
+                after(2) {
                     level = get("level").asInt
                 }
             }

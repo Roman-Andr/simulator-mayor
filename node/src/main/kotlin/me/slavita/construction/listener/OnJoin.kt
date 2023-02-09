@@ -15,8 +15,10 @@ object OnJoin : IRegistrable {
             OnActions.inZone[player.uniqueId] = false
             OnActions.storageEntered[player.uniqueId] = false
 
+            player.inventory.clear()
+
             nextTick {
-                coroutine { UserLoader.tryLoadUser(player, true) }
+                coroutine { UserLoader.tryLoadUser(player) }
             }
         }
 

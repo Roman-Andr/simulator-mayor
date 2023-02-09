@@ -102,10 +102,6 @@ class App : JavaPlugin() {
         }
 
         coroutineForAll(1) {
-            AnimeTimer.timers.forEach {
-                it.update()
-            }
-
             data.cities.forEach { city ->
                 city.projects.forEach { project ->
                     if (project.structure is WorkerStructure) (project.structure as WorkerStructure).build()
@@ -136,7 +132,13 @@ class App : JavaPlugin() {
             updateCriBalance()
         }
 
-        runTimer(0, 1) { pass++ }
+        runTimer(0, 1) {
+            pass++
+
+            AnimeTimer.timers.forEach {
+                it.update()
+            }
+        }
     }
 
     override fun onDisable() {

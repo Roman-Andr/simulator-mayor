@@ -61,6 +61,7 @@ object CityGlows : IRegistrable {
                         onEnter(player)
                     }
                     .onLeave { player ->
+                        //todo: тоже проверять высоту
                         onLeave(player)
                     }
                     .build().apply {

@@ -34,7 +34,6 @@ object OnUserLoad : IRegistrable {
                 GuidePrepare,
                 StoragePrepare,
                 AbilityPrepare,
-                DailyRewardsPrepare,
                 ShowcasePrepare,
                 WarningPrepare,
             ).forEach { it.prepare(user) }

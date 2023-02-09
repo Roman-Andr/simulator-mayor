@@ -30,6 +30,8 @@ import me.func.world.WorldMeta
 import me.slavita.construction.action.command.menu.ButtonCommand
 import me.slavita.construction.app
 import me.slavita.construction.city.bank.Bank
+import me.slavita.construction.common.utils.LOADING_STATE_CHANNEL
+import me.slavita.construction.common.utils.LoadingState
 import me.slavita.construction.dontate.Donates
 import me.slavita.construction.player.User
 import me.slavita.construction.player.sound.MusicSound
@@ -129,6 +131,10 @@ fun coroutineForAll(every: Long, task: User.() -> Unit) {
             task.invoke(user)
         }
     }
+}
+
+fun Player.sendLoadingState(state: LoadingState) {
+    ModTransfer().integer(state.ordinal).send(LOADING_STATE_CHANNEL, this)
 }
 
 fun Player.deny(text: String) {

@@ -2,15 +2,10 @@ package me.slavita.construction.player
 
 import me.slavita.construction.app
 import me.slavita.construction.common.utils.IRegistrable
+import me.slavita.construction.common.utils.LoadingState
 import me.slavita.construction.listener.LoadUserEvent
 import me.slavita.construction.protocol.GetUserPackage
-import me.slavita.construction.utils.accept
-import me.slavita.construction.utils.deny
-import me.slavita.construction.utils.log
-import me.slavita.construction.utils.runAsync
-import me.slavita.construction.utils.runTimerAsync
-import me.slavita.construction.utils.socket
-import me.slavita.construction.utils.userOrNull
+import me.slavita.construction.utils.*
 import org.bukkit.entity.Player
 import java.util.UUID
 import java.util.concurrent.TimeUnit
@@ -22,12 +17,12 @@ object UserLoader : IRegistrable {
     override fun register() {
         runTimerAsync(0, (app.waitResponseTime + 1) * 20L) {
             failedLoad.forEach {
-                tryLoadUser(it, false)
+                tryLoadUser(it)
             }
         }
     }
 
-    fun tryLoadUser(player: Player, silent: Boolean) = runAsync {
+    fun tryLoadUser(player: Player) = runAsync {
         if (!player.isOnline) return@runAsync
         if (player.userOrNull != null) {
             failedLoad.add(player)
@@ -37,12 +32,12 @@ object UserLoader : IRegistrable {
         val uuid = player.uniqueId
         try {
             log("try load user")
+            player.sendLoadingState(LoadingState.TRY_GET)
             LoadUserEvent(cacheUser(uuid)).callEvent()
             failedLoad.remove(player)
-            if (!silent) player.accept("Данные успешно загружены")
         } catch (e: TimeoutException) {
             log("Load timeout")
-            player.deny("Не удалось загрузить ваши данные\nПовторная загрузка данных...")
+            player.sendLoadingState(LoadingState.RETRY)
             if (!failedLoad.contains(player)) failedLoad.add(player)
         }
     }

@@ -1,5 +1,6 @@
 package me.slavita.construction.common.utils
 
+const val LOADING_STATE_CHANNEL = "loading:finish"
 const val STRUCTURE_BLOCK_CHANNEL = "structure:currentBlock"
 const val STRUCTURE_PLACE_CHANNEL = "structure:place"
 const val STRUCTURE_HIDE_CHANNEL = "structure:hide"
