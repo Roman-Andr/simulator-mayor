@@ -34,6 +34,7 @@ object CreditTaking : ContextGui(), IRegistrable {
         carveSize = 3.0
         size = V3(173.5, 91.5)
         color = Color(75, 75, 75, 0.28)
+        opened = false
         +carved {
             carveSize = 3.0
             align = CENTER
@@ -95,6 +96,7 @@ object CreditTaking : ContextGui(), IRegistrable {
                 UIEngine.schedule(0.1) {
                     sendPayload(BANK_SUBMIT_CHANNEL, buffer)
                     close()
+                    opened = false
                 }
             }
         }
@@ -118,7 +120,10 @@ object CreditTaking : ContextGui(), IRegistrable {
 
         mod.registerChannel(BANK_OPEN_CHANNEL) {
             digit = readInt()
-            open()
+            if (!opened) {
+                opened = true
+                open()
+            }
         }
     }
 }

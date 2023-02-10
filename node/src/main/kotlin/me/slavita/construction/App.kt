@@ -128,10 +128,6 @@ class App : JavaPlugin() {
             player.accept("Цены обновлены!")
         }
 
-        coroutineForAll(5 * 60 * 20) {
-            updateCriBalance()
-        }
-
         runTimer(0, 1) {
             pass++
 

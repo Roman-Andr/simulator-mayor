@@ -3,8 +3,12 @@ package me.slavita.construction.mod
 import dev.xdark.clientapi.event.render.RenderPass
 import dev.xdark.clientapi.opengl.GlStateManager.blendFunc
 import dev.xdark.clientapi.opengl.GlStateManager.depthMask
+import dev.xdark.clientapi.opengl.GlStateManager.disableAlpha
+import dev.xdark.clientapi.opengl.GlStateManager.disableCull
+import dev.xdark.clientapi.opengl.GlStateManager.disableLighting
 import dev.xdark.clientapi.opengl.GlStateManager.disableTexture2D
 import dev.xdark.clientapi.opengl.GlStateManager.enableAlpha
+import dev.xdark.clientapi.opengl.GlStateManager.enableBlend
 import dev.xdark.clientapi.opengl.GlStateManager.enableTexture2D
 import dev.xdark.clientapi.opengl.GlStateManager.shadeModel
 import dev.xdark.clientapi.render.DefaultVertexFormats
@@ -56,13 +60,13 @@ object CellBorders : IRegistrable {
         }
 
         mod.registerHandler<RenderPass> {
-            // disableLighting()
+            disableLighting()
             disableTexture2D()
-            // disableAlpha()
+            disableAlpha()
             shadeModel(GL11.GL_SMOOTH)
-            // enableBlend()
+            enableBlend()
             blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE)
-            // disableCull()
+            disableCull()
             depthMask(false)
 
             borders.forEach { border ->

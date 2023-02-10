@@ -19,18 +19,18 @@ class AchievementsMenu(player: Player) : MenuCommand(player) {
             title = "Достижения"
             info = ACHIEVEMENTS_INFO
             description = ""
-            storage = AchievementType.values().mapM { type ->
-                user.getAchievement(type).run {
-                    button {
-                        title = type.title
-                        item = Icons.get(type.itemKey, type.itemValue)
-                        backgroundColor = GlowColor.GREEN_LIGHT
-                        hint = ""
-                        description = (if (level != 0) "${GREEN}Уровень: ${GOLD}$level" else "") +
-                                "\n$GOLD($lastValue из $expectValue)"
-                    }
-                }
-            }
+//            storage = AchievementType.values().mapM { type ->
+//                user.getAchievement(type).run {
+//                    button {
+//                        title = type.title
+//                        item = Icons.get(type.itemKey, type.itemValue)
+//                        backgroundColor = GlowColor.GREEN_LIGHT
+//                        hint = ""
+//                        description = (if (level != 0) "${GREEN}Уровень: ${GOLD}$level" else "") +
+//                                "\n$GOLD($lastValue из $expectValue)"
+//                    }
+//                }
+//            }
         }
     }
 }

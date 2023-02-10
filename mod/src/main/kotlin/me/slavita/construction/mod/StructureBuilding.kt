@@ -9,6 +9,7 @@ import dev.xdark.clientapi.opengl.GlStateManager
 import dev.xdark.clientapi.util.EnumHand
 import dev.xdark.clientapi.util.ParticleType
 import io.netty.buffer.Unpooled
+import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.common.utils.STRUCTURE_BLOCK_CHANNEL
 import me.slavita.construction.common.utils.STRUCTURE_HIDE_CHANNEL
@@ -19,6 +20,7 @@ import me.slavita.construction.mod.utils.handItemEquals
 import me.slavita.construction.mod.utils.hotbarEqualSlots
 import me.slavita.construction.mod.utils.isLookingAt
 import me.slavita.construction.mod.utils.sendPayload
+import me.slavita.construction.mod.utils.toColor
 import org.lwjgl.input.Mouse
 import ru.cristalix.uiengine.UIEngine
 import ru.cristalix.uiengine.UIEngine.clientApi
@@ -50,7 +52,7 @@ object StructureBuilding : IRegistrable {
     private var targetText: String? = null
     private var frameColor = Color(0, 0, 0, 65.0)
     private var lastMarkersSlots = arrayOf<Int>()
-    private var lineWidth = 3.5F
+    private var lineWidth = 4.0F
 
     private val nextBlock: RectangleElement = rectangle {
         align = BOTTOM
@@ -148,8 +150,8 @@ object StructureBuilding : IRegistrable {
 
             updateInfoIcon()
 
-            val targetColor = if (!player.inventory.handItemEquals(currentItem!!)) SpecialColor.RED
-            else SpecialColor.GREEN
+            val targetColor = if (!player.inventory.handItemEquals(currentItem!!)) GlowColor.RED
+            else GlowColor.GREEN
             frameColor = targetColor.toColor()
 
             player.inventory.hotbarEqualSlots(currentItem!!).toTypedArray().run {

@@ -30,7 +30,7 @@ class ActiveProjectsMenu(player: Player) : MenuCommand(player) {
                         item = Icons.get("alpha", "home")
                         title = "Проект #${it.id}"
                         hover = it.toString()
-                        hint = " "
+                        hint = ""
                     }
                 }.apply {
                     addAll(
@@ -41,7 +41,7 @@ class ActiveProjectsMenu(player: Player) : MenuCommand(player) {
                                 backgroundColor =
                                     if (it.state == CityStructureState.BROKEN) GlowColor.RED else GlowColor.BLUE
                                 hover = it.toString()
-                                hint = " "
+                                hint = ""
                             }
                         }
                     )
@@ -51,7 +51,7 @@ class ActiveProjectsMenu(player: Player) : MenuCommand(player) {
                                 item = Icons.get("alpha", "home1")
                                 title = "Фриланс ${currentFreelance!!.structure.structure.name}"
                                 hover = currentFreelance!!.toString()
-                                hint = " "
+                                hint = ""
                             }
                         )
                     }

@@ -9,5 +9,5 @@ class Credit(
     val percent: Double,
 ) {
     val needToGive: Long
-        get() = (creditValue * (1 + percent / 100) * Atlas.find("bank").getDouble("percent")).toLong()
+        get() = (creditValue * (1 + percent / 100)).toLong()
 }

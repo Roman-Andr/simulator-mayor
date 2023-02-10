@@ -20,7 +20,7 @@ import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.WHITE
 
 class StructureVisual(val structure: BuildingStructure) {
-    private val border = borderBuilder(structure.box.bottomCenter, GlowColor.BLUE).alpha(60).build()
+    private val border = borderBuilder(structure.box.bottomCenter, GlowColor.BLUE).alpha(80).build()
     private var infoBanners: Pair<Banner, Banner>? = null
     private var progressWorld: ReactiveProgress? = null
     private var marker: Marker? = null

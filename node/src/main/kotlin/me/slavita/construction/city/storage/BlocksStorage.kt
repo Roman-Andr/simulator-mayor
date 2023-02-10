@@ -12,9 +12,7 @@ import me.func.mod.util.after
 import me.func.world.Box
 import me.slavita.construction.action.command.menu.city.StorageMenu
 import me.slavita.construction.player.User
-import me.slavita.construction.ui.achievements.AchievementType
 import me.slavita.construction.utils.accept
-import me.slavita.construction.utils.runAsync
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.ChatColor.GOLD
 import org.bukkit.inventory.ItemStack
@@ -28,7 +26,6 @@ class BlocksStorage(val owner: User) {
         set(value) {
             field = value
             limit += 100 * value
-            owner.updateAchievement(AchievementType.STORAGE)
         }
     var limit: Int = 100
         private set

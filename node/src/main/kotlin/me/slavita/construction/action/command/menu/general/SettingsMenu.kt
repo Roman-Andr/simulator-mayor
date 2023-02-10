@@ -38,22 +38,6 @@ class SettingsMenu(player: Player) : MenuCommand(player) {
                         }
                         TagsPrepare.prepare(user)
                     }
-                },
-                button {
-                    title = "Достижения"
-                    hover = """
-                        ${AQUA}Достижения:
-                          Включает или отключает уведомления
-                          об получении достижения
-                    """.trimIndent()
-                    hint = "Выбрать"
-                    updateButton(this, user.data.settings.achievementsNotify)
-                    click { _, _, button ->
-                        user.data.settings.run {
-                            achievementsNotify = !achievementsNotify
-                            updateButton(button, achievementsNotify)
-                        }
-                    }
                 }
             )
         }

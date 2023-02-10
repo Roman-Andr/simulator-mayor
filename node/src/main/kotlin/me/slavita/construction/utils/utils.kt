@@ -79,7 +79,7 @@ val STORAGE_URL = "https://storage.c7x.dev/${System.getenv("STORAGE_USER")}/cons
 
 val SOUND_URL = "$STORAGE_URL/sound/"
 
-const val ACHIEVEMENT_LEVELS_COUNT = 50
+const val DEFAULT_CREDITS_MAX_COUNT = 4
 
 val Player.user
     get() = app.getUser(this)
@@ -126,11 +126,11 @@ fun nextTick(runnable: Runnable) {
 fun coroutine(block: suspend CoroutineScope.() -> Unit) = CoroutineScope(Dispatchers.IO).launch { block() }
 
 fun coroutineForAll(every: Long, task: User.() -> Unit) {
-    runTimerAsync(every) {
+    scheduler.scheduleSyncRepeatingTask(app, {
         app.users.forEach { (_, user) ->
             task.invoke(user)
         }
-    }
+    }, 0L, every)
 }
 
 fun Player.sendLoadingState(state: LoadingState) {

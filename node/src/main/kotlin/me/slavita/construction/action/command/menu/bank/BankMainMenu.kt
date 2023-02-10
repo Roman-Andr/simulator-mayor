@@ -1,14 +1,19 @@
 package me.slavita.construction.action.command.menu.bank
 
+import me.func.mod.Anime
 import me.func.mod.conversation.ModTransfer
 import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.choicer
 import me.slavita.construction.action.MenuCommand
+import me.slavita.construction.city.bank.Bank
 import me.slavita.construction.common.utils.BANK_OPEN_CHANNEL
+import me.slavita.construction.dontate.Abilities
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.BANK_INFO
+import me.slavita.construction.utils.DEFAULT_CREDITS_MAX_COUNT
 import me.slavita.construction.utils.click
+import me.slavita.construction.utils.deny
 import me.slavita.construction.utils.user
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GOLD
@@ -28,6 +33,12 @@ class BankMainMenu(player: Player) : MenuCommand(player) {
                         hint = "Выбрать"
                         item = Icons.get("other", "add")
                         click { _, _, _ ->
+                            if (Bank.playersData[player.uniqueId]!!.size == DEFAULT_CREDITS_MAX_COUNT +
+                                if (data.abilities.contains(Abilities.CREDITS_LIMIT)) 3 else 0) {
+                                player.deny("Имеется максимальное количество кредитов!")
+                                Anime.close(player)
+                                return@click
+                            }
                             ModTransfer()
                                 .integer((player.user.data.money).toString().length)
                                 .send(BANK_OPEN_CHANNEL, player)
