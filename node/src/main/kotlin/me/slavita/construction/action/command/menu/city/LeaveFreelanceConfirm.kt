@@ -11,8 +11,7 @@ class LeaveFreelanceConfirm(player: Player) : MenuCommand(player, 10) {
         user.run user@{
             return Confirmation(
                 text = listOf(
-                    "${AQUA}Выйти из фриланс",
-                    "${AQUA}заказа",
+                    "${AQUA}Отменить заказ",
                     "${AQUA}Вы потеряете 100 репутации",
                 )
             ) {

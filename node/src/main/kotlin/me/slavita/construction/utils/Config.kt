@@ -6,7 +6,6 @@ object Config {
     fun load(action: () -> Unit) {
         var loaded = 0
         val configs = listOf(
-            "worker",
             "npc",
             "dialogs",
             "showcases",

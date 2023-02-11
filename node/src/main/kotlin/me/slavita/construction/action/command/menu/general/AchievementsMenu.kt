@@ -29,9 +29,10 @@ class AchievementsMenu(player: Player) : MenuCommand(player) {
                         title = type.title
                         item = Icons.get(type.itemKey, type.itemValue)
                         backgroundColor = GlowColor.GREEN_LIGHT
+                        hover = "${GOLD}${type.placeholder.replace(" % value % ", expectValue.toMoney())}"
                         hint = ""
                         description = (if (level != 0) "${GREEN}Уровень: ${GOLD}$level" else "") +
-                                "\n$GOLD(${lastValue.toMoney()} из ${expectValue.toMoney()})"
+                                "\n$GOLD${lastValue.toMoney()}\nиз\n${expectValue.toMoney()}"
                     }
                 }
             }

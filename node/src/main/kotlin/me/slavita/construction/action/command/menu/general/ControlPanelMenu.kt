@@ -120,7 +120,6 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         }
                     }
                 ).onEach { button ->
-                    button.description = "$YELLOW▶ Выбрать"
                     button.hint = "Выбрать"
                 }
             }

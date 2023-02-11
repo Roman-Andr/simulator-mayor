@@ -29,18 +29,11 @@ object WorkerGenerator {
         "Семён",
         "Тимофей",
     )
-    val workers = Atlas.find("worker").getMapList("rapacity")
 
     fun generate(rarity: WorkerRarity, amount: Int): MutableList<Worker> {
-        val values = workers.random().values
-        val rapacity = WorkerRapacity(
-            values.elementAt(0) as String,
-            values.elementAt(1) as Double,
-            values.elementAt(2) as Int,
-            values.elementAt(3) as Int
-        )
         return mutableListOf<Worker>().apply {
             repeat(amount) {
+                val rapacity = WorkerRapacity.values().random()
                 add(
                     Worker(
                         names.shuffled()[0],

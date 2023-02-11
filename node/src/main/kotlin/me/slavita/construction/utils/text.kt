@@ -83,20 +83,21 @@ val ACHIEVEMENTS_INFO = """
 """.trimIndent()
 val BANK_INFO = """
     ${GOLD}${BOLD}Банк:
-""".trimIndent()
-val CREDITS_INFO = """
-    ${GOLD}${BOLD}Кредиты:
+        Здесь вы можете брать кредиты под процент,
+        таким образом быстрее развиваясь
 """.trimIndent()
 val REWARDS_INFO = """
     ${GOLD}${BOLD}Ежедневные награды:
 """.trimIndent()
 val CITY_HALL_INFO = """
     ${GOLD}${BOLD}Мэрия:
+        Главное здание в городе. 
+        Оно приносит пассивный доход.
+        Ты также можешь улучшать мэрию
 """.trimIndent()
 val STRUCTURES_INFO = """
     ${GOLD}${BOLD}Здания:
 """.trimIndent()
-
 val PROJECTS_MENU = """
     ${DARK_GRAY}Быстрый доступ: /projects (K)
 """.trimIndent()

@@ -10,7 +10,7 @@ import me.slavita.construction.city.bank.Bank
 import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.ui.menu.StatsType
-import me.slavita.construction.utils.CREDITS_INFO
+import me.slavita.construction.utils.BANK_INFO
 import me.slavita.construction.utils.click
 import me.slavita.construction.utils.deny
 import me.slavita.construction.utils.getVault
@@ -27,7 +27,7 @@ class CreditsListMenu(player: Player) : MenuCommand(player) {
                 title = "${GOLD}${BOLD}Ваши кредиты"
                 size(4, 5)
                 getVault(user, StatsType.CREDIT)
-                info = CREDITS_INFO
+                info = BANK_INFO
                 storage = mutableListOf<ReactiveButton>().apply storage@{
                     Bank.playersData[player.uniqueId]!!.forEachIndexed { index, value ->
                         this@storage.add(

@@ -131,8 +131,8 @@ class App : JavaPlugin() {
         runTimer(0, 1) {
             pass++
 
-            AnimeTimer.timers.forEach {
-                it.update()
+            AnimeTimer.timers.forEach { timer ->
+                timer.update()
             }
         }
     }
