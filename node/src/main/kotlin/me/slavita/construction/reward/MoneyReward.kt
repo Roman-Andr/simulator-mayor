@@ -10,7 +10,7 @@ import org.bukkit.ChatColor.GOLD
 class MoneyReward(private val money: Long) : Reward {
     override fun getReward(user: User) {
         val value = money.applyBoosters(BoosterType.MONEY_BOOSTER)
-        user.data.money += value
+        user.data.addMoney(value)
         user.player.cursor("$GOLD+${value.toMoneyIcon()}")
     }
 

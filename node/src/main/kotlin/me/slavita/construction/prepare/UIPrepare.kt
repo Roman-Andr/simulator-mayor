@@ -7,6 +7,7 @@ import me.slavita.construction.player.User
 import me.slavita.construction.ui.ScoreboardGenerator
 import me.slavita.construction.ui.Texture
 import me.slavita.construction.utils.STORAGE_URL
+import me.slavita.construction.utils.runAsync
 import me.slavita.construction.utils.sendLoadingState
 
 object UIPrepare : IPrepare {
@@ -22,13 +23,14 @@ object UIPrepare : IPrepare {
         }
 
         user.player.sendLoadingState(LoadingState.STRUCTURES)
+        Anime.hideIndicator(user.player, Indicators.HOT_BAR)
         runAsync(140) {
             user.player.sendLoadingState(LoadingState.FINISHED)
-            runAsync(40) {
-                runAsync(20) {
+            runAsync(20) {
+                Anime.showIndicator(user.player, Indicators.HOT_BAR)
+                runAsync(10) {
                     DailyRewardsPrepare.prepare(user)
                 }
-                Anime.showIndicator(user.player, Indicators.HOT_BAR)
             }
         }
     }

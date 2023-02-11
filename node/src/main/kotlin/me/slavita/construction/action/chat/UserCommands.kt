@@ -1,7 +1,7 @@
 package me.slavita.construction.action.chat
 
 import me.func.atlas.Atlas
-import me.slavita.construction.action.command.menu.achievements.AchievementsMenu
+import me.slavita.construction.action.command.menu.general.AchievementsMenu
 import me.slavita.construction.action.command.menu.city.CityHallMenu
 import me.slavita.construction.action.command.menu.city.LocationsMenu
 import me.slavita.construction.action.command.menu.city.StorageMenu
@@ -46,7 +46,7 @@ object UserCommands : IRegistrable {
 
         command("rebirth") { player, _ ->
             player.user.run {
-                rebirth()
+
             }
         }
 

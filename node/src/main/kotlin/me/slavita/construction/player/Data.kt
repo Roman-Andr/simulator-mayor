@@ -10,21 +10,24 @@ import me.slavita.construction.ui.achievements.AchievementType
 import me.slavita.construction.worker.Worker
 import me.slavita.construction.world.SlotItem
 
-class Data(@Transient val user: User) {
+class Data(@Transient var user: User) {
 
     var money: Long = 0
+    var totalProjects: Int = 0
+    var boughtBlocks: Int = 0
+    var freelanceProjectsCount: Int = 0
+    var reputation: Long = 0
+        set(value) {
+            field = maxOf(0, value)
+        }
     var level: Int = 1
     var experience: Long = 0
-    var reputation: Long = 0
-    var totalProjects: Int = 0
     var speed: Float = 0.2F
     var trainStep: Int = 0
     var nextDay: Int = 0
     var nextTakeDailyReward: Long = 0
     var totalBoosters: Long = 0
     var lastIncome: Long = 0
-    var boughtBlocks: Long = 0
-    var freelanceProjectsCount: Long = 0
 
     val inventory: HashSet<SlotItem> = hashSetOf()
     val workers: HashSet<Worker> = hashSetOf()
@@ -46,4 +49,21 @@ class Data(@Transient val user: User) {
             values["id"] as String == "1"
         )
     }.toHashSet()
+
+    fun addMoney(value: Long) {
+        money += (value)
+        user.updateAchievement(AchievementType.MONEY)
+    }
+    fun addProjects(value: Int) {
+        totalProjects += value
+        user.updateAchievement(AchievementType.PROJECTS)
+    }
+    fun addBlocks(value: Int) {
+        boughtBlocks += value
+        user.updateAchievement(AchievementType.BOUGHT_BLOCKS)
+    }
+    fun addFreelanceProjects(value: Int) {
+        freelanceProjectsCount += value
+        user.updateAchievement(AchievementType.FREELANCE)
+    }
 }

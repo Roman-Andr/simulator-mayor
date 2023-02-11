@@ -20,7 +20,7 @@ class App : KotlinMod() {
         mod = this
         player = clientApi.minecraft().player
 
-        LoadingScreen.show()
+        LoadingScreen().show()
 
         register(
             StructureBuilding,
@@ -29,15 +29,5 @@ class App : KotlinMod() {
             Storage,
             CellBorders
         )
-    }
-
-    fun runRepeatingTask(delay: Double, period: Double, action: () -> Unit): TimerTask {
-        val task = object : TimerTask() {
-            override fun run() {
-                action()
-            }
-        }
-        Timer().schedule(task, (delay * 1000).toLong(), (period * 1000).toLong())
-        return task
     }
 }

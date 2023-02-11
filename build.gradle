@@ -73,7 +73,7 @@ tasks.register("uploadNode") {
 }
 
 tasks.register("uploadMod") {
-    dependsOn(project(":mod").tasks.build)
+    dependsOn(project(":mod").tasks.jar)
     doLast {
         ssh.run {
             session(remotes.webServer) {

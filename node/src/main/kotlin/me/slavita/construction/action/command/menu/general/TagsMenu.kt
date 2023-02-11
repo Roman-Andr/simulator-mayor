@@ -22,6 +22,7 @@ import me.slavita.construction.utils.getVault
 import me.slavita.construction.utils.mapM
 import me.slavita.construction.utils.size
 import me.slavita.construction.utils.user
+import org.bukkit.ChatColor.GREEN
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.entity.Player
@@ -79,7 +80,7 @@ class TagsMenu(val player: Player) : MenuCommand(player) {
                     click { _, _, _ ->
                         user.tryPurchase(tag.price) {
                             data.ownTags.add(tag)
-                            selection.money = "Ваш баланс ${user.data.money.toMoney()}"
+                            selection.money = "${GREEN}Ваш баланс ${user.data.money.toMoney()}"
                         }
                         updateButtons()
                     }

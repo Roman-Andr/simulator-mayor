@@ -20,7 +20,7 @@ class WorkerSellConfirm(player: Player, val worker: Worker) : MenuCommand(player
                 )
             ) { player ->
                 data.workers.remove(worker)
-                data.money += worker.sellPrice
+                data.addMoney(worker.sellPrice)
                 WorkerTeamMenu(player).tryExecute()
             }
         }

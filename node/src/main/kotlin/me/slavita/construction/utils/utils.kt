@@ -128,6 +128,7 @@ fun coroutine(block: suspend CoroutineScope.() -> Unit) = CoroutineScope(Dispatc
 fun coroutineForAll(every: Long, task: User.() -> Unit) {
     scheduler.scheduleSyncRepeatingTask(app, {
         app.users.forEach { (_, user) ->
+            if (user.data != null)
             task.invoke(user)
         }
     }, 0L, every)

@@ -25,6 +25,7 @@ import me.slavita.construction.prepare.StoragePrepare
 import me.slavita.construction.structure.CityCell
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.ui.HumanizableValues
+import me.slavita.construction.ui.achievements.AchievementType
 import me.slavita.construction.utils.accept
 import me.slavita.construction.utils.deny
 import me.slavita.construction.utils.runAsync
@@ -82,6 +83,8 @@ class User(val uuid: UUID) {
             .create()
             .fromJson(data, Data::class.java)
 
+        this.data.user = this
+
         currentCity = this.data.cities.first()
 
         income += this.data.hall.income
@@ -110,11 +113,6 @@ class User(val uuid: UUID) {
 
     fun addExp(exp: Long) {
         data.experience += exp
-// 		if (exp / 10*2.0.pow(stats.level) > 0) {
-// 			stats.level += (exp / 10).toInt()
-// 			Anime.itemTitle(player, ItemIcons.get("other", "access"), "Новый уровень: ${stats.level}", "", 2.0)
-// 			Glow.animate(player, 2.0, GlowColor.GREEN)
-// 		}
     }
 
     fun canPurchase(cost: Long) = data.money >= cost
@@ -240,4 +238,28 @@ class User(val uuid: UUID) {
             player.deny("Вы вышли во время фриланс заказа. Штраф: 100 репутации")
         }
     }
+
+    fun updateAchievement(type: AchievementType) {
+        getAchievement(type).run {
+            val value = updateAchieveValue(type)
+            lastValue = value
+            while (value >= type.formula(level) && level < 50) {
+                level++
+                expectValue = type.formula(level)
+                if (data.settings.achievementsNotify) player.accept("Получено достижение ${GOLD}${type.title} #$level")
+            }
+        }
+    }
+
+    fun getAchievement(type: AchievementType) = data.achievements.find { it.type == type }!!
+
+    private fun updateAchieveValue(type: AchievementType) = when (type) {
+        AchievementType.MONEY         -> data.money
+        AchievementType.PROJECTS      -> data.totalProjects
+        AchievementType.WORKERS       -> data.workers.size
+        AchievementType.CITY_HALL     -> data.hall.level
+        AchievementType.STORAGE       -> data.blocksStorage.level
+        AchievementType.FREELANCE     -> data.freelanceProjectsCount
+        AchievementType.BOUGHT_BLOCKS -> data.boughtBlocks
+    }.toLong()
 }

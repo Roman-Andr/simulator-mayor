@@ -14,6 +14,8 @@ import me.func.protocol.data.color.Tricolor
 import ru.cristalix.uiengine.UIEngine.clientApi
 import ru.cristalix.uiengine.utility.Color
 import ru.cristalix.uiengine.utility.V3
+import java.util.Timer
+import java.util.TimerTask
 import java.util.UUID
 import kotlin.math.cos
 import kotlin.math.sin
@@ -123,3 +125,22 @@ fun ByteBuf.readV3() = V3(readDouble(), readDouble(), readDouble())
 fun BufferBuilder.color(color: RGB, alpha: Int): BufferBuilder = color(color.red, color.green, color.blue, alpha)
 
 fun ByteBuf.readUuid(): UUID = UUID.fromString(NetUtil.readUtf8(this))
+
+fun runRepeatingTask(delay: Double, period: Double, action: () -> Unit): TimerTask {
+    val task = object : TimerTask() {
+        override fun run() {
+            action()
+        }
+    }
+    Timer().schedule(task, (delay * 1000).toLong(), (period * 1000).toLong())
+    return task
+}
+fun runTask(delay: Double, action: () -> Unit): TimerTask {
+    val task = object : TimerTask() {
+        override fun run() {
+            action()
+        }
+    }
+    Timer().schedule(task, (delay * 1000).toLong())
+    return task
+}

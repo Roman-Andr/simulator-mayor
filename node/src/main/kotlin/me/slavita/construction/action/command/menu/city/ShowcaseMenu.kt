@@ -66,7 +66,7 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player)
             }
             tryPurchase(entry.price * amount) {
                 player.accept("Вы успешно купили блоки")
-                data.boughtBlocks += amount
+                data.addBlocks(amount)
                 if (hasSpace) player.inventory.addItem(entry.item.createItemStack(amount))
                 else data.blocksStorage.addItem(entry.item.createItemStack(1), amount)
                 Glow.animate(player, 0.3, GlowColor.GREEN)

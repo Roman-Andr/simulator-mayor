@@ -8,7 +8,6 @@ object Config {
         val configs = listOf(
             "worker",
             "npc",
-            "bank",
             "dialogs",
             "showcases",
             "locations",

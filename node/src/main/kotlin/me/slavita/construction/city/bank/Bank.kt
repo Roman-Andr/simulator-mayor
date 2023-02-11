@@ -18,7 +18,7 @@ object Bank {
                 3.0
             )
         )
-        user.data.money += amount
+        user.data.addMoney(amount)
     }
 
     fun repayCredit(user: User, uuid: UUID, acceptAction: () -> Unit) {

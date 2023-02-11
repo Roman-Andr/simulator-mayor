@@ -19,6 +19,7 @@ import me.slavita.construction.mod.utils.blocksCount
 import me.slavita.construction.mod.utils.handItemEquals
 import me.slavita.construction.mod.utils.hotbarEqualSlots
 import me.slavita.construction.mod.utils.isLookingAt
+import me.slavita.construction.mod.utils.runRepeatingTask
 import me.slavita.construction.mod.utils.sendPayload
 import me.slavita.construction.mod.utils.toColor
 import org.lwjgl.input.Mouse
@@ -118,7 +119,7 @@ object StructureBuilding : IRegistrable {
             markers.children.clear()
         }
 
-        mod.runRepeatingTask(.0, .9) {
+        runRepeatingTask(.0, .9) {
             markers.children.forEach { marker ->
                 marker.animate(0.4, Easings.CUBIC_OUT) {
                     offset.y += 4
@@ -150,9 +151,9 @@ object StructureBuilding : IRegistrable {
 
             updateInfoIcon()
 
-            val targetColor = if (!player.inventory.handItemEquals(currentItem!!)) GlowColor.RED
-            else GlowColor.GREEN
-            frameColor = targetColor.toColor()
+            val targetColor = if (!player.inventory.handItemEquals(currentItem!!)) GlowColor.RED_LIGHT
+            else GlowColor.GREEN_LIGHT
+            frameColor = targetColor.toColor().apply { alpha = 65.0 }
 
             player.inventory.hotbarEqualSlots(currentItem!!).toTypedArray().run {
                 if (this contentEquals lastMarkersSlots) return@registerHandler

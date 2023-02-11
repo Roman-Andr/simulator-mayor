@@ -49,7 +49,7 @@ class FreelanceProject(
                 restore()
                 finish()
                 owner.player.notify("Постройка завершена!")
-                owner.data.freelanceProjectsCount++
+                owner.data.addFreelanceProjects(1)
             }
             else                    -> {}
         }

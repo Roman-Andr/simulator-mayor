@@ -110,7 +110,7 @@ class App : JavaPlugin() {
         }
 
         coroutineForAll(20) {
-            data.money += income.applyBoosters(BoosterType.MONEY_BOOSTER)
+            data.addMoney(income.applyBoosters(BoosterType.MONEY_BOOSTER))
         }
 
         coroutineForAll(2 * 60 * 20) {

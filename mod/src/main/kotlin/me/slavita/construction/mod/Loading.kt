@@ -2,14 +2,19 @@ package me.slavita.construction.mod
 
 import me.slavita.construction.common.utils.LOADING_STATE_CHANNEL
 import me.slavita.construction.common.utils.LoadingState
+import me.slavita.construction.mod.utils.runRepeatingTask
+import me.slavita.construction.mod.utils.runTask
 import ru.cristalix.uiengine.UIEngine
+import ru.cristalix.uiengine.element.ContextGui
 import ru.cristalix.uiengine.element.TextElement
 import ru.cristalix.uiengine.eventloop.animate
+import ru.cristalix.uiengine.eventloop.thenAnimate
 import ru.cristalix.uiengine.utility.*
-import java.util.*
+import java.util.Timer
+import java.util.TimerTask
 
-object LoadingScreen {
-    val screen = rectangle {
+class LoadingScreen : ContextGui() {
+    private val parent = rectangle {
         align = TOP_LEFT
         offset = V3(0.0, 0.0)
         size = UIEngine.overlayContext.size
@@ -34,29 +39,26 @@ object LoadingScreen {
         }
     }
 
-    var text = ""
+    private var text = ""
         set(value) {
-            (screen.children[0] as TextElement).content = value
+            (parent.children[0] as TextElement).content = value
             field = value
         }
 
-    var subText = ""
+    private var subText = ""
         set(value) {
-            (screen.children[1] as TextElement).content = value
+            (parent.children[1] as TextElement).content = value
             field = value
         }
 
     init {
-        UIEngine.overlayContext.addChild(screen)
+        UIEngine.overlayContext.addChild(parent)
+        open()
 
         var loadingAnimation = true
-        val loadingAnimationTask = mod.runRepeatingTask(1.0, 1.0) {
+        val loadingAnimationTask = runRepeatingTask(0.7, 0.7) {
             if (!loadingAnimation) return@runRepeatingTask
-            if (text.contains("...")) {
-                text.replace("...", "")
-            } else {
-                text += "."
-            }
+            text = if (text.contains("...")) "." else "$text."
         }
 
         mod.registerChannel(LOADING_STATE_CHANNEL) {
@@ -78,22 +80,25 @@ object LoadingScreen {
                 LoadingState.FINISHED -> {
                     loadingAnimationTask.cancel()
                     hide()
+                    runTask(1.4) {
+                        close()
+                    }
                 }
             }
         }
     }
 
     fun show() {
-        screen.animate(1, Easings.CUBIC_OUT) {
-            color.alpha += 1
-            screen.children.forEach { it.color.alpha += 1 }
+        parent.animate(1, Easings.CUBIC_OUT) {
+            color.alpha = 1.0
+            parent.children.forEach { it.color.alpha = 1.0 }
         }
     }
 
-    fun hide() {
-        screen.animate(1.5, Easings.CUBIC_OUT) {
-            color.alpha -= 1
-            screen.children.forEach { it.color.alpha -= 1 }
+    private fun hide() {
+        parent.animate(1.5, Easings.CUBIC_OUT) {
+            color.alpha = 0.0
+            parent.children.forEach { it.color.alpha = 0.0 }
         }
     }
 }

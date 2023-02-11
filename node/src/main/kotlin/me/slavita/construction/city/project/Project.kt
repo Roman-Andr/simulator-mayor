@@ -51,6 +51,7 @@ open class Project(
             StructureState.BUILDING -> structure.showVisual()
             StructureState.FINISHED -> {
                 finish()
+                owner.data.addProjects(1)
                 structure.cityStructure!!.state = CityStructureState.FUNCTIONING
                 structure.cityStructure!!.startIncome()
                 city.finishProject(this@Project)
