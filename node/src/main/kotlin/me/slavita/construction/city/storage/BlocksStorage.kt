@@ -110,11 +110,8 @@ class BlocksStorageSerializer : JsonSerializer<BlocksStorage> {
 class BlocksStorageDeserializer(val owner: User) : JsonDeserializer<BlocksStorage> {
     override fun deserialize(json: JsonElement, type: Type, context: JsonDeserializationContext) =
         json.asJsonObject.run {
-            val storage = BlocksStorage(owner).apply {
-                after(2) {
-                    level = get("level").asInt
-                }
-            }
+            val storage = BlocksStorage(owner)
+            storage.level = get("level").asInt
             get("blocks").asJsonArray.run {
                 forEach {
                     it.asJsonObject.run {

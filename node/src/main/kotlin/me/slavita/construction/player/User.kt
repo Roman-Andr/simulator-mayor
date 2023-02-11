@@ -95,6 +95,7 @@ class User(val uuid: UUID) {
             tryPurchase(upgradePrice) {
                 this@User.income -= income
                 data.hall.level++
+                updateAchievement(AchievementType.CITY_HALL)
                 this@User.income += income
                 player.accept("Вы успешно улучшили ${GOLD}Мэрию")
             }
