@@ -1,55 +1,66 @@
 package me.slavita.construction.player
 
+import com.google.gson.GsonBuilder
 import me.func.mod.Anime
 import me.func.mod.conversation.ModTransfer
-import me.slavita.construction.action.command.menu.city.ShowcaseMenu
+import me.slavita.construction.action.command.ChangeCity
 import me.slavita.construction.action.command.menu.city.BuyCityConfirm
+import me.slavita.construction.action.command.menu.city.ShowcaseMenu
 import me.slavita.construction.action.command.menu.project.ChoiceProject
 import me.slavita.construction.action.command.menu.project.ChoiceStructureGroup
+import me.slavita.construction.city.City
+import me.slavita.construction.city.CityDeserializer
+import me.slavita.construction.city.project.FreelanceProject
+import me.slavita.construction.city.project.Project
+import me.slavita.construction.city.showcase.Showcase
+import me.slavita.construction.city.showcase.Showcases
+import me.slavita.construction.city.storage.BlocksStorage
+import me.slavita.construction.city.storage.BlocksStorageDeserializer
+import me.slavita.construction.common.utils.*
 import me.slavita.construction.dontate.Abilities
+import me.slavita.construction.dontate.AbilityDonate
+import me.slavita.construction.dontate.Donates
 import me.slavita.construction.listener.OnActions
 import me.slavita.construction.prepare.StoragePrepare
-import me.slavita.construction.project.FreelanceProject
-import me.slavita.construction.project.Project
-import me.slavita.construction.storage.BlocksStorage
-import me.slavita.construction.structure.PlayerCell
+import me.slavita.construction.structure.CityCell
 import me.slavita.construction.structure.tools.StructureState
+import me.slavita.construction.ui.HumanizableValues
+import me.slavita.construction.ui.achievements.AchievementType
+import me.slavita.construction.utils.accept
 import me.slavita.construction.utils.deny
 import me.slavita.construction.utils.runAsync
 import me.slavita.construction.utils.user
+import org.bukkit.Bukkit
+import org.bukkit.ChatColor.GOLD
 import org.bukkit.Location
-import org.bukkit.entity.Player
 import ru.cristalix.core.invoice.IInvoiceService
-import java.util.*
+import java.util.UUID
+import kotlin.math.abs
 
 class User(val uuid: UUID) {
-    var initialized = false
-    lateinit var player: Player
-    lateinit var data: Data
-    var cities = hashSetOf<City>()
-    var currentCity: City = City(this, "1", "Незаданная", 0, true)
-    val blocksStorage = BlocksStorage(this)
+    val player = Bukkit.getPlayer(uuid)!!
     var watchableProject: Project? = null
     var income = 0L
         set(value) {
-            if (initialized) data.statistics.lastIncome = value
+            data.lastIncome = value
             field = value
         }
-    val hall = CityHall(this)
-    var taskId = 0
-    var showcaseTaskId = 0
-    var showcaseMenuTaskId = 0
-    var showcaseMenu: ShowcaseMenu? = null
-    var lastApprovedPosition: Location? = null
+    val showcases: HashSet<Showcase> = Showcases.showcases.map { Showcase(it) }.toHashSet()
     private var criBalanceLastUpdate = 0L
     var inTrashZone = false
+    var showcaseMenu: ShowcaseMenu? = null
 
-    lateinit var freelanceCell: PlayerCell
+    lateinit var data: Data
+    lateinit var currentCity: City
+    lateinit var freelanceCell: CityCell
+
     var currentFreelance: FreelanceProject? = null
         set(value) {
             data.hasFreelance = value != null
             field = value
         }
+    var showcaseMenuTaskId = 0
+    private var lastApprovedPosition: Location? = null
 
     var criBalance: Int = 0
         get() {
@@ -57,37 +68,63 @@ class User(val uuid: UUID) {
 
             if (now - criBalanceLastUpdate > 1000 * 60) {
                 criBalanceLastUpdate = now
-                IInvoiceService.get().getBalanceData(player.uniqueId).thenAccept { data ->
+                IInvoiceService.get().getBalanceData(uuid).thenAccept { data ->
                     field = data.crystals + data.coins
                 }
             }
             return field
         }
 
-    fun tryPurchase(
-        cost: Long,
-        acceptAction: () -> Unit,
-    ) {
-        if (data.statistics.money >= cost) {
-            data.statistics.money -= cost
+    fun initialize(data: String?) {
+        this.data = if (data == null) Data(this)
+        else GsonBuilder()
+            .registerTypeAdapter(City::class.java, CityDeserializer(this))
+            .registerTypeAdapter(BlocksStorage::class.java, BlocksStorageDeserializer(this))
+            .create()
+            .fromJson(data, Data::class.java)
+
+        this.data.user = this
+
+        currentCity = this.data.cities.first()
+
+        income += this.data.hall.income
+    }
+
+    fun upgradeHall() {
+        data.hall.apply {
+            tryPurchase(upgradePrice) {
+                this@User.income -= income
+                data.hall.level++
+                updateAchievement(AchievementType.CITY_HALL)
+                this@User.income += income
+                player.accept("Вы успешно улучшили ${GOLD}Мэрию")
+            }
+        }
+    }
+
+    fun tryPurchase(cost: Long, acceptAction: () -> Unit) {
+        if (data.money >= cost) {
+            data.money -= cost
             acceptAction()
         } else {
-            player.deny("Недостаточно денег!")
             Anime.close(player)
+            player.deny("Недостаточно денег!")
         }
     }
 
     fun addExp(exp: Long) {
-        data.statistics.experience += exp
-//		if (exp / 10*2.0.pow(stats.level) > 0) {
-//			stats.level += (exp / 10).toInt()
-//			Anime.itemTitle(player, ItemIcons.get("other", "access"), "Новый уровень: ${stats.level}", "", 2.0)
-//			Glow.animate(player, 2.0, GlowColor.GREEN)
-//		}
+        data.experience += exp
     }
 
-    fun canPurchase(cost: Long): Boolean {
-        return data.statistics.money >= cost
+    fun canPurchase(cost: Long) = data.money >= cost
+
+    fun tryChangeCity(city: City) {
+        val ignore = data.abilities.contains((Donates.NO_LIMIT_TELEPORT_DONATE.donate as AbilityDonate).ability)
+        ChangeCity(this, city).tryExecute(ignore).run {
+            if (!ignore && this < 0) player.deny(
+                "Подождите ещё ${HumanizableValues.SECOND.get((abs(this) / 20).toInt())}"
+            )
+        }
     }
 
     fun changeCity(city: City) {
@@ -95,10 +132,11 @@ class User(val uuid: UUID) {
 
         player.teleport(city.getSpawn())
         currentCity = city
+        data.lastCityId = currentCity.id
 
         StoragePrepare.prepare(this)
 
-        currentCity.playerCells.forEach { stub ->
+        currentCity.cityCells.forEach { stub ->
             runAsync(30) {
                 stub.updateStub()
             }
@@ -112,8 +150,8 @@ class User(val uuid: UUID) {
         ability.applyAction(this)
     }
 
-    fun updatePosition(): Boolean {
-        cities.forEach { city ->
+    fun updatePosition(): Boolean { // TODO: rewrite it
+        data.cities.forEach { city ->
             if (city.box.contains(player.location)) {
                 if (currentCity.title != city.title && city.unlocked) {
                     currentCity = city
@@ -133,16 +171,14 @@ class User(val uuid: UUID) {
             watchableProject = null
         }
 
-        if (player.user.blocksStorage.inBox() && !OnActions.storageEntered[player]!!) {
-            ModTransfer()
-                .send("storage:show", player)
-            OnActions.storageEntered[player] = true
+        if (player.user.data.blocksStorage.inBox() && !OnActions.storageEntered[player.uniqueId]!!) {
+            ModTransfer().send(STORAGE_SHOW_CHANNEL, player)
+            OnActions.storageEntered[player.uniqueId] = true
         }
 
-        if (!player.user.blocksStorage.inBox() && OnActions.storageEntered[player]!!) {
-            ModTransfer()
-                .send("storage:hide", player)
-            OnActions.storageEntered[player] = false
+        if (!player.user.data.blocksStorage.inBox() && OnActions.storageEntered[player.uniqueId]!!) {
+            ModTransfer().send(STORAGE_HIDE_CHANNEL, player)
+            OnActions.storageEntered[player.uniqueId] = false
         }
 
         if (watchableProject == null) {
@@ -160,17 +196,17 @@ class User(val uuid: UUID) {
                 }
             }
 
-            currentCity.playerCells.forEach { cell ->
-                if (cell.busy || !cell.box.contains(player.location)) return@forEach
+            currentCity.cityCells.forEach { cityCell ->
+                if (cityCell.busy || !cityCell.box.contains(player.location)) return@forEach
 
-                if (OnActions.inZone[player] == false) ChoiceStructureGroup(player, cell) { structure ->
-                    ChoiceProject(player, structure, cell).keepHistory().tryExecute()
+                if (OnActions.inZone[player.uniqueId] == false) ChoiceStructureGroup(player) { structure ->
+                    ChoiceProject(player, structure, cityCell).keepHistory().tryExecute()
                 }.tryExecute()
-                OnActions.inZone[player] = true
+                OnActions.inZone[player.uniqueId] = true
                 return false
             }
 
-            OnActions.inZone[player] = false
+            OnActions.inZone[player.uniqueId] = false
         } else {
             if (currentFreelance != null && freelanceCell.box.contains(player.location) && currentFreelance!!.structure.state == StructureState.FINISHED) {
                 watchableProject = null
@@ -190,7 +226,41 @@ class User(val uuid: UUID) {
 
     fun updateDaily() {
         val time = System.currentTimeMillis()
-        data.statistics.nextDay++
-        data.statistics.nextTakeDailyReward = time + 24 * 60 * 60 * 1000
+        data.nextDay++
+        data.nextTakeDailyReward = time + 24 * 60 * 60 * 1000
     }
+
+    fun leaveFreelance(restore: Boolean) {
+        data.apply {
+            if (restore) currentFreelance!!.restore()
+            else hasFreelance = false
+
+            if (reputation >= 100) reputation -= 100 else reputation = 0L
+            player.deny("Вы вышли во время фриланс заказа. Штраф: 100 репутации")
+        }
+    }
+
+    fun updateAchievement(type: AchievementType) {
+        getAchievement(type).run {
+            val value = updateAchieveValue(type)
+            lastValue = value
+            while (value >= type.formula(level) && level < 50) {
+                level++
+                expectValue = type.formula(level)
+                if (data.settings.achievementsNotify) player.accept("Получено достижение ${GOLD}${type.title} #$level")
+            }
+        }
+    }
+
+    fun getAchievement(type: AchievementType) = data.achievements.find { it.type == type }!!
+
+    private fun updateAchieveValue(type: AchievementType) = when (type) {
+        AchievementType.MONEY         -> data.money
+        AchievementType.PROJECTS      -> data.totalProjects
+        AchievementType.WORKERS       -> data.workers.size
+        AchievementType.CITY_HALL     -> data.hall.level
+        AchievementType.STORAGE       -> data.blocksStorage.level
+        AchievementType.FREELANCE     -> data.freelanceProjectsCount
+        AchievementType.BOUGHT_BLOCKS -> data.boughtBlocks
+    }.toLong()
 }

@@ -1,18 +1,34 @@
 package me.slavita.construction.action.command.menu.general
 
-import me.func.mod.ui.menu.*
-import me.func.protocol.data.color.GlowColor
+import me.func.mod.ui.menu.Openable
+import me.func.mod.ui.menu.button
+import me.func.mod.ui.menu.selection
 import me.slavita.construction.action.MenuCommand
-import me.slavita.construction.action.command.menu.achievements.AchievementsChoiceMenu
 import me.slavita.construction.action.command.menu.city.CityHallMenu
 import me.slavita.construction.action.command.menu.city.LocationsMenu
+import me.slavita.construction.action.command.menu.city.StorageUpgrade
 import me.slavita.construction.action.command.menu.project.ActiveProjectsMenu
 import me.slavita.construction.action.command.menu.project.StartFreelanceProject
-import me.slavita.construction.action.command.menu.storage.StorageUpgrade
 import me.slavita.construction.action.command.menu.worker.WorkerMenu
-import me.slavita.construction.ui.menu.ItemIcons
-import me.slavita.construction.utils.getMenuInfo
-import org.bukkit.ChatColor.*
+import me.slavita.construction.ui.menu.Icons
+import me.slavita.construction.utils.ACHIEVEMENTS_MENU
+import me.slavita.construction.utils.CITY_HALL_MENU
+import me.slavita.construction.utils.FREELANCE_MENU
+import me.slavita.construction.utils.LOCATIONS_MENU
+import me.slavita.construction.utils.MENU_INFO
+import me.slavita.construction.utils.PROJECTS_MENU
+import me.slavita.construction.utils.REWARDS_MENU
+import me.slavita.construction.utils.SETTINGS_MENU
+import me.slavita.construction.utils.STORAGE_MENU
+import me.slavita.construction.utils.TAGS_MENU
+import me.slavita.construction.utils.WORKERS_MENU
+import me.slavita.construction.utils.click
+import me.slavita.construction.utils.size
+import org.bukkit.ChatColor.BOLD
+import org.bukkit.ChatColor.DARK_GRAY
+import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.GREEN
+import org.bukkit.ChatColor.YELLOW
 import org.bukkit.entity.Player
 
 class ControlPanelMenu(player: Player) : MenuCommand(player) {
@@ -20,119 +36,92 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
         user.run {
             return selection {
                 title = "${GREEN}${BOLD}Меню"
-                rows = 4
-                columns = 4
-                info = getMenuInfo()
+                size(4, 4)
+                info = MENU_INFO
                 storage = mutableListOf(
                     button {
                         title = "${GREEN}${BOLD}Проекты"
-                        description = "${YELLOW}▶ Выбрать"
-                        hint = "Выбрать"
-                        hover = """
-                            ${DARK_GRAY}Быстрый доступ: /projects (K)
-                        """.trimIndent()
-                        item = ItemIcons.get("other", "book")
-                        onClick { _, _, _ ->
+                        hover = PROJECTS_MENU
+                        item = Icons.get("other", "book")
+                        click { _, _, _ ->
                             ActiveProjectsMenu(player).keepHistory().tryExecute()
                         }
                     },
                     button {
                         title = "${GREEN}${BOLD}Локации"
-                        description = "${YELLOW}▶ Выбрать"
-                        hint = "Выбрать"
-                        hover = """
-                            ${DARK_GRAY}Быстрый доступ: /locations (L)
-                        """.trimIndent()
-                        item = ItemIcons.get("alpha", "islands")
-                        onClick { _, _, _ ->
+                        hover = LOCATIONS_MENU
+                        item = Icons.get("alpha", "islands")
+                        click { _, _, _ ->
                             LocationsMenu(player).keepHistory().tryExecute()
                         }
                     },
                     button {
+                        title = "${GREEN}${BOLD}Работники"
+                        hover = WORKERS_MENU
+                        item = Icons.get("other", "guild_members")
+                        click { _, _, _ ->
+                            WorkerMenu(player).keepHistory().tryExecute()
+                        }
+                    },
+                    button {
                         title = "${GREEN}${BOLD}Теги"
-                        description = "${YELLOW}▶ Выбрать"
-                        hint = "Выбрать"
-                        hover = """
-                            ${DARK_GRAY}Быстрый доступ: /tags
-                        """.trimIndent()
-                        item = ItemIcons.get("other", "clothes")
-                        onClick { _, _, _ ->
+                        hover = TAGS_MENU
+                        item = Icons.get("other", "clothes")
+                        click { _, _, _ ->
                             TagsMenu(player).keepHistory().tryExecute()
                         }
                     },
                     button {
                         title = "${GREEN}${BOLD}Достижения"
-                        description = "${YELLOW}▶ Выбрать"
-                        hint = "Выбрать"
-                        hover = """
-                            ${DARK_GRAY}Быстрый доступ: /achievements
-                        """.trimIndent()
-                        item = ItemIcons.get("other", "achievements_many")
-                        onClick { _, _, _ ->
-                            AchievementsChoiceMenu(player).keepHistory().tryExecute()
-                        }
-                    },
-                    button {
-                        title = "$GREEN${BOLD}Настройки"
-                        description = "${YELLOW}▶ Выбрать"
-                        hint = "Выбрать"
-                        hover = """
-                            ${DARK_GRAY}Быстрый доступ: /settings
-                        """.trimIndent()
-                        item = ItemIcons.get("skyblock", "is_settings")
-                        onClick { _, _, _ ->
-                            SettingsMenu(player).keepHistory().tryExecute()
-                        }
-                    },
-                    button {
-                        title = "${GREEN}${BOLD}Работники"
-                        description = "${YELLOW}▶ Выбрать"
-                        hint = "Выбрать"
-                        hover = """
-                            ${DARK_GRAY}Быстрый доступ: /workers (M)
-                        """.trimIndent()
-                        item = ItemIcons.get("other", "guild_members")
-                        onClick { _, _, _ ->
-                            WorkerMenu(player).keepHistory().tryExecute()
+                        hover = ACHIEVEMENTS_MENU
+                        item = Icons.get("other", "achievements_many")
+                        click { _, _, _ ->
+                            AchievementsMenu(player).keepHistory().tryExecute()
                         }
                     },
                     button {
                         title = "${GREEN}${BOLD}Склад"
-                        description = "${YELLOW}▶ Выбрать"
-                        hint = "Выбрать"
-                        hover = """
-                            ${DARK_GRAY}Быстрый доступ: /storage
-                        """.trimIndent()
-                        item = ItemIcons.get("other", "stock")
-                        onClick { _, _, _ ->
+                        hover = STORAGE_MENU
+                        item = Icons.get("other", "stock")
+                        click { _, _, _ ->
                             StorageUpgrade(player).keepHistory().tryExecute()
                         }
                     },
                     button {
                         title = "${GREEN}${BOLD}Мэрия"
-                        description = "${YELLOW}▶ Выбрать"
-                        hint = "Выбрать"
-                        hover = """
-                            ${DARK_GRAY}Быстрый доступ: /cityhall
-                        """.trimIndent()
-                        item = ItemIcons.get("other", "guild_bank")
-                        onClick { _, _, _ ->
+                        hover = CITY_HALL_MENU
+                        item = Icons.get("other", "guild_bank")
+                        click { _, _, _ ->
                             CityHallMenu(player).keepHistory().tryExecute()
                         }
                     },
                     button {
                         title = "${GOLD}${BOLD}Фриланс"
-                        description = "${YELLOW}▶ Выбрать"
-                        hint = "Выбрать"
-                        hover = """
-                            ${DARK_GRAY}Быстрый доступ: /freelance
-                        """.trimIndent()
-                        item = ItemIcons.get("skyblock", "info")
-                        onClick { _, _, _ ->
+                        hover = FREELANCE_MENU
+                        item = Icons.get("other", "socmedia")
+                        click { _, _, _ ->
                             if (user.currentFreelance == null) StartFreelanceProject(player).tryExecute()
                         }
+                    },
+                    button {
+                        title = "${GOLD}${BOLD}Ежедневные\n${GOLD}${BOLD}награды"
+                        hover = REWARDS_MENU
+                        item = Icons.get("skyblock", "info")
+                        click { _, _, _ ->
+                            DailyMenu(player).tryExecute()
+                        }
+                    },
+                    button {
+                        title = "${DARK_GRAY}${BOLD}Настройки"
+                        hover = SETTINGS_MENU
+                        item = Icons.get("skyblock", "is_settings")
+                        click { _, _, _ ->
+                            SettingsMenu(player).keepHistory().tryExecute()
+                        }
                     }
-                )
+                ).onEach { button ->
+                    button.hint = "Выбрать"
+                }
             }
         }
     }

@@ -1,20 +1,21 @@
 package me.slavita.construction.listener
 
 import me.func.Lock
-import me.func.mod.util.after
 import me.slavita.construction.app
-import me.slavita.construction.utils.*
+import me.slavita.construction.common.utils.IRegistrable
+import me.slavita.construction.player.UserSaver
+import me.slavita.construction.utils.handle
+import me.slavita.construction.utils.listener
+import me.slavita.construction.utils.sendPacket
+import me.slavita.construction.utils.userOrNull
 import net.minecraft.server.v1_12_R1.PacketPlayOutPlayerInfo
 import org.bukkit.Bukkit
 import org.bukkit.event.player.PlayerQuitEvent
 import java.util.concurrent.TimeUnit
 
-object OnLeave {
-    init {
+object OnLeave : IRegistrable {
+    override fun register() {
         listener<PlayerQuitEvent> {
-            if (player.user.currentFreelance != null) player.inventory.storageContents =
-                player.user.currentFreelance!!.playerInventory
-
             Bukkit.getOnlinePlayers().forEach { current ->
                 current.hidePlayer(app, player)
                 current.sendPacket(
@@ -24,16 +25,15 @@ object OnLeave {
                     )
                 )
             }
-            Lock.lock("construction-${player.uniqueId}", 10, TimeUnit.SECONDS)
-            scheduler.cancelTask(player.user.taskId)
-            scheduler.cancelTask(player.user.showcaseTaskId)
-            player.user.cities.forEach { city ->
-                scheduler.cancelTask(city.taskId)
+
+            if (player.userOrNull != null) {
+                app.run {
+                    UserSaver.trySaveUser(player)
+                    mainWorld.clearBlocks(player.uniqueId)
+                }
             }
 
-            after(5) {
-                app.users.remove(player.uniqueId)
-            }
+            Lock.lock("construction-${player.uniqueId}", 10, TimeUnit.SECONDS)
         }
     }
 }

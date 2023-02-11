@@ -1,17 +1,16 @@
 package me.slavita.construction.prepare
 
 import me.func.mod.conversation.ModTransfer
+import me.slavita.construction.city.showcase.Showcase
+import me.slavita.construction.common.utils.SHOWCASE_INIT_CHANNEL
 import me.slavita.construction.player.User
-import me.slavita.construction.showcase.Showcase
-import me.slavita.construction.showcase.Showcases
 
 object ShowcasePrepare : IPrepare {
     override fun prepare(user: User) {
-        if (user.data.showcases.isEmpty()) user.data.showcases = Showcases.showcases.map { Showcase(it) }.toHashSet()
-        user.data.showcases.forEach { it.init() }
+        user.showcases.forEach { it.init() }
 
         ModTransfer()
-            .json(user.data.showcases.map(Showcase::getData).toTypedArray())
-            .send("showcase:initialize", user.player)
+            .json(user.showcases.map(Showcase::getData).toTypedArray())
+            .send(SHOWCASE_INIT_CHANNEL, user.player)
     }
 }

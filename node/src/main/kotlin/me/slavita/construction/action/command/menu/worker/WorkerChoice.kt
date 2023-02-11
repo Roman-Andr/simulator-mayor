@@ -7,46 +7,55 @@ import me.func.mod.ui.menu.selection
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.WorkerExecutor
 import me.slavita.construction.action.command.menu.project.StartProject
-import me.slavita.construction.project.Project
+import me.slavita.construction.city.project.Project
 import me.slavita.construction.structure.WorkerStructure
-import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.ui.menu.Icons
+import me.slavita.construction.utils.WORKER_INFO
+import me.slavita.construction.utils.click
 import me.slavita.construction.utils.getEmptyButton
-import me.slavita.construction.utils.getWorkerInfo
+import me.slavita.construction.utils.size
 import me.slavita.construction.worker.WorkerState
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.BOLD
+import org.bukkit.ChatColor.GREEN
 import org.bukkit.entity.Player
 
 class WorkerChoice(player: Player, val project: Project, val startProject: Boolean = true) :
     WorkerExecutor(player, project.structure as WorkerStructure) {
+
+    private var applyButton = button {
+        item = Icons.get("other", "access")
+        title = "${GREEN}Подтвердить"
+        hint = "Готово"
+        click { _, _, _ ->
+            if ((project.structure as WorkerStructure).workers.isNotEmpty()) {
+                Anime.close(user.player)
+                if (!startProject) return@click
+                StartProject(user, project, structure).tryExecute()
+            }
+        }
+    }
+
     override fun getMenu(): Openable {
         user.run user@{
             return selection {
                 title = "${AQUA}${BOLD}Выбор строителей"
-                info = getWorkerInfo()
-                rows = 5
-                columns = 4
+                info = WORKER_INFO
+                size(5, 4)
+                updateColor()
                 storage = mutableListOf(
                     getEmptyButton(),
+                    applyButton,
                     button {
-                        item = ItemIcons.get("other", "access")
-                        title = "${GREEN}Подтвердить"
-                        backgroundColor = GlowColor.GREEN
-                        hint = "Готово"
-                        onClick { _, _, _ ->
-                            Anime.close(player)
-                            if (!startProject) return@onClick
-                            StartProject(user, project, structure).tryExecute()
-                        }
-                    },
-                    button {
-                        item = ItemIcons.get("other", "reload")
+                        item = Icons.get("other", "reload")
                         title = """
                         ${GREEN}Убрать
                         ${GREEN}выделение
-                    """.trimIndent()
+                        """.trimIndent()
                         backgroundColor = GlowColor.RED
                         hint = "Убрать"
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
+                            if (structure.workers.isEmpty()) return@click
                             structure.workers.clear()
                             WorkerChoice(player, project).tryExecute()
                         }
@@ -56,7 +65,7 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
                     this@user.data.workers.sortedByDescending { it.rarity }.forEach { worker ->
                         this@storage.add(
                             button {
-                                item = ItemIcons.get(
+                                item = Icons.get(
                                     worker.rarity.iconKey,
                                     worker.rarity.iconValue,
                                     false,
@@ -71,8 +80,9 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
                                         WorkerState.BUSY     -> GlowColor.NEUTRAL
                                         WorkerState.FREE     -> GlowColor.BLUE
                                     }
-                                onClick { _, _, button ->
+                                click { _, _, button ->
                                     distributeWorker(worker, button)
+                                    updateColor()
                                 }
                             }
                         )
@@ -80,5 +90,10 @@ class WorkerChoice(player: Player, val project: Project, val startProject: Boole
                 }
             }
         }
+    }
+
+    private fun updateColor() {
+        applyButton.backgroundColor =
+            if ((project.structure as WorkerStructure).workers.isEmpty()) GlowColor.NEUTRAL else GlowColor.GREEN
     }
 }

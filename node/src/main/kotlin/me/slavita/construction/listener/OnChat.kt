@@ -1,8 +1,13 @@
 package me.slavita.construction.listener
 
+import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.utils.listener
+import me.slavita.construction.utils.log
 import me.slavita.construction.utils.user
-import net.md_5.bungee.api.chat.*
+import net.md_5.bungee.api.chat.BaseComponent
+import net.md_5.bungee.api.chat.ClickEvent
+import net.md_5.bungee.api.chat.ComponentBuilder
+import net.md_5.bungee.api.chat.HoverEvent
 import org.bukkit.Bukkit
 import org.bukkit.ChatColor.DARK_GRAY
 import org.bukkit.entity.Player
@@ -12,11 +17,11 @@ import ru.cristalix.core.multichat.IMultiChatService
 import ru.cristalix.core.permissions.IPermissionService
 import ru.cristalix.core.realm.IRealmService
 
-object OnChat {
-    init {
+object OnChat : IRegistrable {
+    override fun register() {
         listener<AsyncPlayerChatEvent> {
             isCancelled = true
-            println("<" + player.displayName + ">: " + message)
+            log("<" + player.displayName + ">: " + message)
 
             Bukkit.getOnlinePlayers().forEach {
                 it.sendMessage(*getComponents(player, message).toTypedArray())
@@ -48,7 +53,7 @@ object OnChat {
                     HoverEvent(HoverEvent.Action.SHOW_TEXT, ComponentBuilder("Быстрые действия с игроком").create())
             },
             ComponentBuilder(if (tag.tag.isEmpty()) "" else " " + tag.tag).create().first(),
-            ComponentBuilder(" ${DARK_GRAY}»").create().first(),
+            ComponentBuilder(" $DARK_GRAY»").create().first(),
             ComponentBuilder(coloredMessage).create().first().apply {
                 hoverEvent = HoverEvent(
                     HoverEvent.Action.SHOW_TEXT,

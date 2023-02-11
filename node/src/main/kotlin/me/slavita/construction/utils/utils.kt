@@ -7,11 +7,16 @@ import dev.implario.bukkit.platform.Platforms
 import io.netty.channel.ChannelDuplexHandler
 import io.netty.channel.ChannelHandlerContext
 import io.netty.channel.ChannelPromise
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import me.func.mod.Anime
+import me.func.mod.conversation.ModTransfer
+import me.func.mod.reactive.ButtonClickHandler
 import me.func.mod.reactive.ReactiveBanner
+import me.func.mod.reactive.ReactiveButton
 import me.func.mod.ui.Glow
 import me.func.mod.ui.menu.button
-import me.func.mod.ui.menu.selection
 import me.func.mod.ui.menu.selection.Selection
 import me.func.mod.util.after
 import me.func.mod.world.Banners
@@ -22,21 +27,26 @@ import me.func.protocol.data.color.Tricolor
 import me.func.protocol.data.element.Banner
 import me.func.protocol.data.element.MotionType
 import me.func.world.WorldMeta
+import me.slavita.construction.action.command.menu.ButtonCommand
 import me.slavita.construction.app
-import me.slavita.construction.bank.Bank
+import me.slavita.construction.city.bank.Bank
+import me.slavita.construction.common.utils.LOADING_STATE_CHANNEL
+import me.slavita.construction.common.utils.LoadingState
 import me.slavita.construction.dontate.Donates
 import me.slavita.construction.player.User
-import me.slavita.construction.player.sound.Music.playSound
 import me.slavita.construction.player.sound.MusicSound
-import me.slavita.construction.structure.PlayerCell
+import me.slavita.construction.register.BotsManager.tg
+import me.slavita.construction.structure.CityCell
+import me.slavita.construction.ui.Border
 import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.Formatter.toMoney
-import me.slavita.construction.ui.menu.MenuInfo
 import me.slavita.construction.ui.menu.StatsType
-import net.minecraft.server.v1_12_R1.*
+import net.minecraft.server.v1_12_R1.BlockPosition
+import net.minecraft.server.v1_12_R1.EntityPlayer
+import net.minecraft.server.v1_12_R1.Packet
 import org.apache.logging.log4j.util.BiConsumer
-import org.bukkit.*
-import org.bukkit.ChatColor.*
+import org.bukkit.Bukkit
+import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.World
 import org.bukkit.block.BlockFace
@@ -55,13 +65,21 @@ import org.bukkit.util.Vector
 import ru.cristalix.core.account.IAccountService
 import ru.cristalix.core.formatting.Formatting
 import ru.cristalix.core.math.V3
+import ru.cristalix.core.network.ISocketClient
 import ru.cristalix.core.permissions.IPermissionContext
 import ru.cristalix.core.permissions.IPermissionService
-import java.util.*
+import ru.cristalix.core.realm.IRealmService
+import java.util.UUID
 import kotlin.reflect.KClass
 
+val socket: ISocketClient
+    get() = ISocketClient.get()
 
 val STORAGE_URL = "https://storage.c7x.dev/${System.getenv("STORAGE_USER")}/construction"
+
+val SOUND_URL = "$STORAGE_URL/sound/"
+
+const val DEFAULT_CREDITS_MAX_COUNT = 4
 
 val Player.user
     get() = app.getUser(this)
@@ -70,10 +88,54 @@ val Player.cristalixName
     get() = getDisplayName(this.uniqueId)
 
 val Player.userOrNull
-    get() = app.getUserOrNull(this.uniqueId)
+    get() = app.getUserOrNull(uniqueId)
 
 val Player.handle: EntityPlayer
     get() = (this as CraftPlayer).handle
+
+val scheduler: BukkitScheduler = Bukkit.getScheduler()
+
+fun ReactiveButton.click(click: ButtonClickHandler) = apply {
+    onClick = ButtonClickHandler { player, index, button ->
+        ButtonCommand(player) {
+            click.handle(player, index, button)
+        }.tryExecute()
+    }
+}
+
+fun Selection.getVault(user: User, type: StatsType) {
+    vault = type.vault
+    money = "Ваш ${type.title} ${
+        when (type) {
+            StatsType.MONEY  -> user.data.money.toMoney()
+            StatsType.LEVEL  -> user.data.level
+            StatsType.CREDIT -> Bank.playersData[user.player.uniqueId]!!.sumOf { it.creditValue }.toMoney()
+        }
+    }"
+}
+
+fun Selection.size(rows: Int, columns: Int) {
+    this.rows = rows
+    this.columns = columns
+}
+
+fun nextTick(runnable: Runnable) {
+    Bukkit.getScheduler().runTask(Platforms.getPlugin(), runnable)
+}
+
+fun coroutine(block: suspend CoroutineScope.() -> Unit) = CoroutineScope(Dispatchers.IO).launch { block() }
+
+fun coroutineForAll(every: Long, task: User.() -> Unit) {
+    scheduler.scheduleSyncRepeatingTask(app, {
+        app.users.forEach { (_, user) ->
+            task.invoke(user)
+        }
+    }, 0L, every)
+}
+
+fun Player.sendLoadingState(state: LoadingState) {
+    ModTransfer().integer(state.ordinal).send(LOADING_STATE_CHANNEL, this)
+}
 
 fun Player.deny(text: String) {
     killboard(Formatting.error(text))
@@ -85,6 +147,21 @@ fun Player.accept(text: String) {
     killboard(Formatting.fine(text))
     playSound(MusicSound.LEVEL_UP)
     Glow.animate(this, 0.4, GlowColor.GREEN)
+}
+
+fun Player.notify(text: String) {
+    Alert.send(
+        this,
+        text,
+        5000,
+        GlowColor.BLUE,
+        GlowColor.BLUE_MIDDLE,
+        null
+    )
+}
+
+fun Player.playSound(sound: MusicSound) {
+    sound.playSound(this)
 }
 
 fun Player.sendPacket(packet: Packet<*>) {
@@ -113,6 +190,8 @@ private fun getDisplayName(uuid: UUID): String {
 fun labels(key: String, map: WorldMeta = app.mainWorld.map) = map.getLabels(key)
 
 fun label(key: String, map: WorldMeta = app.mainWorld.map) = map.getLabel(key)
+
+fun label(key: String, tag: String, map: WorldMeta = app.mainWorld.map) = map.getLabel(key, tag)
 
 fun Float.revert() = when {
     this >= 0 -> this - 180F
@@ -154,14 +233,17 @@ fun <T : Event> listener(
 
 inline fun <reified T : Packet<*>> packetListener(player: Player, noinline handler: T.() -> Unit) {
     (player as CraftPlayer).handle.playerConnection.networkManager.channel.pipeline()
-        .addBefore("packet_handler", UUID.randomUUID().toString(), object : ChannelDuplexHandler() {
-            override fun write(ctx: ChannelHandlerContext?, msg: Any?, promise: ChannelPromise?) {
-                if (msg is T) {
-                    handler.invoke(msg)
+        .addBefore(
+            "packet_handler", UUID.randomUUID().toString(),
+            object : ChannelDuplexHandler() {
+                override fun write(ctx: ChannelHandlerContext?, msg: Any?, promise: ChannelPromise?) {
+                    if (msg is T) {
+                        handler.invoke(msg)
+                    }
+                    super.write(ctx, msg, promise)
                 }
-                super.write(ctx, msg, promise)
             }
-        })
+        )
 }
 
 fun Location.yaw(yaw: Float) = apply { setYaw(yaw) }
@@ -178,43 +260,53 @@ fun String.colored(colors: List<String>): String {
 }
 
 fun opCommand(name: String, biConsumer: BiConsumer<Player, Array<out String>>) {
-    Bukkit.getCommandMap().register("anime", object : Command(name) {
-        override fun execute(sender: CommandSender, var2: String, agrs: Array<out String>): Boolean {
-            if (sender is Player && sender.isOp) biConsumer.accept(sender, agrs)
-            return true
+    Bukkit.getCommandMap().register(
+        "anime",
+        object : Command(name) {
+            override fun execute(sender: CommandSender, var2: String, agrs: Array<out String>): Boolean {
+                if (sender is Player && sender.isOp) biConsumer.accept(sender, agrs)
+                return true
+            }
         }
-    })
+    )
 }
 
 fun command(name: String, biConsumer: BiConsumer<Player, Array<out String>>) {
-    Bukkit.getCommandMap().register("construction", object : Command(name) {
-        override fun execute(sender: CommandSender, var2: String, agrs: Array<out String>): Boolean {
-            if (sender is Player) biConsumer.accept(sender, agrs)
-            return true
+    Bukkit.getCommandMap().register(
+        "construction",
+        object : Command(name) {
+            override fun execute(sender: CommandSender, var2: String, agrs: Array<out String>): Boolean {
+                if (sender is Player) biConsumer.accept(sender, agrs)
+                return true
+            }
         }
-    })
+    )
 }
 
 fun safe(action: () -> Unit) = after(1, action)
 
-fun logFormat(message: String) = "[CONSTRUCTION] $message"
+fun logFormat(message: String) = "[${IRealmService.get().currentRealmInfo.realmId.realmName}] $message"
 
-fun log(message: String) = println(logFormat(message))
+fun <T> log(message: T) = println(logFormat(message.toString()))
 
-fun logTg(message: String) = app.bot.sendMessage(ChatId.fromId(app.chatId), logFormat(message))
+fun logTg(text: String) = tg.sendMessage(ChatId.fromId(app.chatId), logFormat(text))
 
 val routine: EventContext = EventContext { true }.fork()
 
-val scheduler: BukkitScheduler = Bukkit.getScheduler()
-
 fun runTimerAsync(start: Long, every: Long, runnable: Runnable): BukkitTask =
     scheduler.runTaskTimerAsynchronously(app, runnable, start, every)
+
+fun runTimerAsync(every: Long, runnable: Runnable): BukkitTask =
+    scheduler.runTaskTimerAsynchronously(app, runnable, 0L, every)
 
 fun runTimer(start: Long, every: Long, runnable: Runnable): Int =
     scheduler.scheduleSyncRepeatingTask(app, runnable, start, every)
 
 fun runAsync(after: Long, runnable: Runnable): BukkitTask =
     scheduler.runTaskLaterAsynchronously(app, runnable, after)
+
+fun runAsync(runnable: Runnable): BukkitTask =
+    scheduler.runTaskLaterAsynchronously(app, runnable, 0)
 
 fun donateButton(donate: Donates, player: Player) = button {
     item = donate.displayItem
@@ -223,7 +315,7 @@ fun donateButton(donate: Donates, player: Player) = button {
     hint = "Купить"
     description = "Цена: ${donate.donate.price.toCriMoney()}"
     backgroundColor = donate.backgroudColor
-    onClick { _, _, _ ->
+    click { _, _, _ ->
         donate.donate.purchase(player.user)
     }
 }
@@ -271,21 +363,6 @@ fun Banners.hide(player: Player, pair: Pair<Banner, Banner>) {
 
 fun String.toUUID(): UUID = UUID.fromString(this)
 
-fun getBaseSelection(info: MenuInfo, user: User): Selection =
-    selection {
-        title = info.title
-        vault = info.type.vault
-        rows = info.rows
-        columns = info.columns
-        money = "Ваш ${info.type.title} ${
-            when (info.type) {
-                StatsType.MONEY  -> user.data.statistics.money.toMoney()
-                StatsType.LEVEL  -> user.data.statistics.level
-                StatsType.CREDIT -> Bank.playersData[user.player.uniqueId]!!.sumOf { it.creditValue }.toMoney()
-            }
-        }"
-    }
-
 private fun getDisplayNameFromContext(context: IPermissionContext, name: String): String {
     val group = context.displayGroup
     val color = if (context.color == null) "" else context.color
@@ -323,7 +400,7 @@ fun BlockFace.toYaw(): Float = when (this) {
     else                 -> 0
 }.toFloat()
 
-fun getFaceCenter(cell: PlayerCell) = cell.box.bottomCenter.clone().apply {
+fun getFaceCenter(cell: CityCell) = cell.box.bottomCenter.clone().apply {
     when (cell.face) {
         BlockFace.EAST       -> x = cell.box.max.x
         BlockFace.NORTH      -> z = cell.box.min.z
@@ -353,6 +430,11 @@ fun getFaceCenter(cell: PlayerCell) = cell.box.bottomCenter.clone().apply {
     }
 }
 
+fun Location.addByFace(face: BlockFace, value: Double = 3.0) = apply {
+    x += face.modX * value
+    z += face.modZ * value
+}
+
 private const val OFFSET = 0.52
 
 fun loadBanner(banner: Map<*, *>, location: Location, withPitch: Boolean = false, opacity: Double = 0.45) {
@@ -366,8 +448,9 @@ fun loadBannerFromConfig(
     location: Location,
     withPitch: Boolean = false,
     opacity: Double = 0.45,
+    xray: Double = 0.0,
 ) =
-    Banner.builder()
+    ReactiveBanner.builder()
         .weight(banner["weight"] as Int)
         .height(banner["height"] as Int)
         .content(banner["content"] as String)
@@ -376,7 +459,7 @@ fun loadBannerFromConfig(
         .x(location.toCenterLocation().x)
         .y(location.y + banner["offset"] as Double)
         .z(location.toCenterLocation().z)
-        .xray(0.0)
+        .xray(xray)
         .apply {
             if (withPitch) {
                 watchingOnPlayer(true)
@@ -416,7 +499,8 @@ fun createDual(info: BannerInfo): Pair<Banner, Banner> {
                         source.x + blockFace.modX,
                         source.y,
                         source.z + blockFace.modZ
-                    ), blockFace.oppositeFace, content, width, height, color, opacity, motionType, pitch
+                    ),
+                    blockFace.oppositeFace, content, width, height, color, opacity, motionType, pitch
                 )
             )
         )
@@ -473,102 +557,22 @@ private fun createBanner(info: BannerInfo): Banner {
     }
 }
 
-fun getWorkerInfo() = """
-        ${GOLD}${BOLD}Характеристики:
-          ${YELLOW}Имя ${GRAY}»
-            ${WHITE}Наименование рабочего
-            ${WHITE}в вашей команде
-          
-          ${DARK_GREEN}Редкость ${GRAY}»
-            ${WHITE}Показывает на сколько
-            ${WHITE}характеристики рабочего хороши
-          
-          ${GOLD}Уровень ${GRAY}»
-            ${WHITE}Показывает уровень прокачки
-            ${WHITE}рабочего и влиет
-            ${WHITE}на все его характеристики
-          
-          ${AQUA}Скорость ${GRAY}»
-            ${WHITE}Количество блоков,
-            ${WHITE}которые ставит рабочий
-            ${WHITE}за секунду
-          
-          ${GREEN}Надёжность ${GRAY}»
-            ${WHITE}Влияет на то, как часто
-            ${WHITE}будет ломаться здания,
-            ${WHITE}построенные этим рабочим
-          
-          ${RED}Жадность ${GRAY}»
-            ${WHITE}Влияет на награду
-            ${WHITE}за окончания постройки
-            ${WHITE}здания этим рабочим
-    """.trimIndent()
+fun nextFace(face: BlockFace) {
+    val faces = listOf(
+        BlockFace.NORTH,
+        BlockFace.EAST,
+        BlockFace.SOUTH,
+        BlockFace.WEST,
+    )
+    faces.listIterator(faces.indexOf(face)).run {
+        if (hasNext()) next() else faces.first()
+    }
+}
 
-fun getShowcaseInfo() = """
-    ${GOLD}${BOLD}Магазин:
-        Обновление цен происходит во всех магазинах раз в определённое время
-        Каждый раз цены меняются на случаенные в промежутке
-        Чтобы получить блоки по самой выгодной цене необходимо найти соответствующий магазин
-""".trimIndent()
+fun ModTransfer.uuidF(uuid: UUID) = apply { string(uuid.toString()) }
 
-fun getProjectsInfo() = """
-    ${GOLD}${BOLD}Проекты:
-        Каждый проект соответствует определённой стройке
-""".trimIndent()
-
-fun getStorageInfo() = """
-    ${GOLD}${BOLD}Склад:
-        Здесь хранятся ваши блоки, купленные в магазине
-        Вы также можете класть сюда другие ваши блоки
-""".trimIndent()
-
-fun getLocationsInfo() = """
-    ${GOLD}${BOLD}Локации:
-        Вы можете перемещаться между открытыми локациями
-""".trimIndent()
-
-fun getSettingInfo() = """
-    ${GOLD}${BOLD}Настройки:
-        Вы можете включить или выключить необходимые опции игры
-""".trimIndent()
-
-fun getTagsInfo() = """
-    ${GOLD}${BOLD}Теги:
-        Тег это надпись после вашего ника, которая показывается в чате и табе игры
-""".trimIndent()
-
-fun getDonateInfo() = """
-    ${GOLD}${BOLD}Платные возможности:
-        Здесь вы можете купить необходимые улучшения за кристаллики
-""".trimIndent()
-
-fun getMenuInfo() = """
-    ${GOLD}${BOLD}Главное меню:
-        Здесь вы можете выбрать необходимый раздел
-""".trimIndent()
-
-fun getAchievementsInfo() = """
-    ${GOLD}${BOLD}Достижения:
-        Здесь вы можете посмотреть все достижения,
-        а также те, которые вы получили
-""".trimIndent()
-
-fun getBankInfo() = """
-    ${GOLD}${BOLD}Банк:
-""".trimIndent()
-
-fun getCreditsInfo() = """
-    ${GOLD}${BOLD}Кредиты:
-""".trimIndent()
-
-fun getDailyInfo() = """
-    ${GOLD}${BOLD}Ежедневные награды:
-""".trimIndent()
-
-fun getCityHallInfo() = """
-    ${GOLD}${BOLD}Мэрия:
-""".trimIndent()
-
-fun getStructuresInfo() = """
-    ${GOLD}${BOLD}Здания:
-""".trimIndent()
+fun borderBuilder(location: Location, color: RGB) = Border.builder()
+    .width(23.1)
+    .height(50.0)
+    .color(color)
+    .location(location)

@@ -1,59 +1,71 @@
 package me.slavita.construction.ui
 
 import dev.implario.bukkit.item.ItemBuilder
+import me.slavita.construction.action.command.menu.city.LeaveFreelanceConfirm
 import me.slavita.construction.action.command.menu.donate.DonateMenu
 import me.slavita.construction.action.command.menu.general.ControlPanelMenu
-import me.slavita.construction.utils.killboard
+import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.utils.listener
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.BOLD
+import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.GREEN
 import org.bukkit.Material
+import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftInventoryPlayer
 import org.bukkit.entity.Player
 import org.bukkit.event.block.Action
+import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
-import java.util.*
+import java.util.UUID
+import kotlin.reflect.typeOf
 
-object ItemsManager {
+object ItemsManager : IRegistrable {
     private val actions = hashMapOf<UUID, HashMap<ItemStack, (player: Player) -> Unit>>()
     private val ITEMS = listOf(
         ActionableItem(
-            7, ItemBuilder(Material.CLAY_BALL)
+            7,
+            ItemBuilder(Material.CLAY_BALL)
                 .text("${GREEN}${BOLD}Меню")
                 .nbt("skyblock", "collections")
                 .build()
-        )
-        {
+        ) {
             ControlPanelMenu(it).tryExecute()
         },
         ActionableItem(
-            8, ItemBuilder(Material.CLAY_BALL)
+            8,
+            ItemBuilder(Material.CLAY_BALL)
                 .text("${GOLD}${BOLD}Платные возможности")
                 .nbt("other", "bank")
                 .build()
-        )
-        {
+        ) {
             DonateMenu(it).tryExecute()
         }
     )
+
     val freelanceCancel = ActionableItem(
-        8, ItemBuilder(Material.CLAY_BALL)
+        8,
+        ItemBuilder(Material.CLAY_BALL)
             .text("${GOLD}${BOLD}Выйти")
             .nbt("other", "cancel")
             .build()
-    )
-    { player ->
-        player.killboard("Выходим...")
+    ) { player ->
+        LeaveFreelanceConfirm(player).tryExecute()
     }
 
-    init {
+    override fun register() {
         listener<PlayerInteractEvent> {
             if (action == Action.PHYSICAL) return@listener
             val execute = actions[player.uniqueId]?.get(item) ?: return@listener
             execute(player)
         }
         listener<InventoryClickEvent> {
-            if (ITEMS.map { it.inventoryId }.contains(slot)) isCancelled = true
+            if (clickedInventory.type == InventoryType.CRAFTING) isCancelled = true
+            ITEMS.find { it.inventoryId == slot }?.run {
+                if (cursor.getType() == Material.AIR && click != ClickType.NUMBER_KEY) action(whoClicked as Player)
+                isCancelled = true
+            }
         }
     }
 

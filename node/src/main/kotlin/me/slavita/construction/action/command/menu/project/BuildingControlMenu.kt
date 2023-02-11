@@ -5,9 +5,11 @@ import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.action.command.menu.worker.WorkerChoice
-import me.slavita.construction.project.Project
+import me.slavita.construction.city.project.Project
 import me.slavita.construction.structure.WorkerStructure
-import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.ui.menu.Icons
+import me.slavita.construction.utils.click
+import me.slavita.construction.utils.size
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.entity.Player
@@ -17,28 +19,30 @@ class BuildingControlMenu(player: Player, val project: Project) : MenuCommand(pl
         user.run user@{
             return selection {
                 title = "${AQUA}${BOLD}Процесс постройки"
-                rows = 3
-                columns = 3
+                size(3, 3)
                 storage = mutableListOf(
                     button {
                         title = "Список материалов"
                         description = "Просмотреть список\nнеобходимых материалов"
                         hint = "Выбрать"
-                        item = ItemIcons.get("skyblock", "info")
-                        onClick { _, _, _ ->
+                        item = Icons.get("skyblock", "info")
+                        click { _, _, _ ->
                             BlocksListMenu(player, project.structure.structure).keepHistory().tryExecute()
                         }
-                    }).apply {
+                    }
+                ).apply {
                     if (project.structure !is WorkerStructure) return@apply
-                    add(button {
-                        title = "Строители"
-                        description = "Просмотреть выбранных\nстроителей"
-                        hint = "Выбрать"
-                        item = ItemIcons.get("other", "myfriends")
-                        onClick { _, _, _ ->
-                            WorkerChoice(player, project, false).tryExecute()
+                    add(
+                        button {
+                            title = "Строители"
+                            description = "Просмотреть выбранных\nстроителей"
+                            hint = "Выбрать"
+                            item = Icons.get("other", "myfriends")
+                            click { _, _, _ ->
+                                WorkerChoice(player, project, false).tryExecute()
+                            }
                         }
-                    })
+                    )
                 }
             }
         }

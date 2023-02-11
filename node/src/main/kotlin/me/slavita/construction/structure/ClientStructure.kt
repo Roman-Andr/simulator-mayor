@@ -1,42 +1,56 @@
 package me.slavita.construction.structure
 
-import me.func.mod.Anime
+import me.func.mod.conversation.ModTransfer
 import me.func.mod.ui.Glow
 import me.func.protocol.data.color.GlowColor
-import me.slavita.construction.player.User
+import me.slavita.construction.common.utils.STRUCTURE_BLOCK_CHANNEL
+import me.slavita.construction.common.utils.STRUCTURE_HIDE_CHANNEL
+import me.slavita.construction.reward.MoneyReward
+import me.slavita.construction.reward.ReputationReward
 import me.slavita.construction.structure.instance.Structure
-import me.slavita.construction.structure.tools.StructureSender
-import me.slavita.construction.ui.Formatter.toMoneyIcon
-import me.slavita.construction.ui.Formatter.toReputation
-import me.slavita.construction.utils.cursor
 import me.slavita.construction.utils.deny
 import me.slavita.construction.utils.swapItems
-import me.slavita.construction.world.GameWorld
+import me.slavita.construction.world.StructureBlock
+import org.bukkit.Location
+import org.bukkit.inventory.ItemStack
 import kotlin.random.Random
 
 class ClientStructure(
-    world: GameWorld,
     structure: Structure,
-    owner: User,
-    cell: PlayerCell,
-) : BuildingStructure(world, structure, owner, cell) {
-    private val sender = StructureSender(owner.player)
+    cell: CityCell,
+) : BuildingStructure(structure, cell) {
+    @Suppress("DEPRECATION")
+    private fun sendBlock(block: StructureBlock, offset: Location) {
+        val position = block.withOffset(offset).position
+        ModTransfer()
+            .double(position.x.toDouble())
+            .double(position.y.toDouble())
+            .double(position.z.toDouble())
+            .item(ItemStack(block.type, 1, 1, block.data))
+            .send(STRUCTURE_BLOCK_CHANNEL, owner.player)
+    }
 
-    override fun enterBuilding() {}
+    private fun sendHide() {
+        ModTransfer().send(STRUCTURE_HIDE_CHANNEL, owner.player)
+    }
+
+    override fun enterBuilding() {
+        continueBuilding()
+    }
 
     override fun onFinish() {}
 
     override fun onShow() {
-        sender.sendBlock(currentBlock!!, allocation)
+        sendBlock(currentBlock!!, allocation)
     }
 
     override fun onHide() {
-        sender.sendHide()
+        sendHide()
     }
 
     override fun blockPlaced() {
         if (currentBlock == null) return
-        if (!hidden) sender.sendBlock(currentBlock!!, allocation)
+        if (!hidden) sendBlock(currentBlock!!, allocation)
     }
 
     override fun getBannerInfo(): List<Pair<String, Double>> {
@@ -49,19 +63,19 @@ class ClientStructure(
     }
 
     fun tryPlaceBlock() {
-        when (Random.nextInt(100)) {
-            in 0..5  -> {
-                val reputation = (owner.data.statistics.reputation / 100)
-                owner.player.cursor(reputation.toReputation())
-                owner.data.statistics.reputation += reputation
-            }
+        owner.data.run {
+            when (Random.nextInt(100)) {
+                in 0..5 ->
+                    ReputationReward(
+                        reputation / 100 +
+                            Random.nextInt(1, 10) * level
+                    ).getReward(owner)
 
-            in 0..10 -> {
-                val money = owner.data.statistics.money / 100
-                owner.player.cursor(money.toMoneyIcon())
-                owner.data.statistics.money += money
+                in 0..20 ->
+                    MoneyReward(money / 100).getReward(owner)
             }
         }
+
         owner.player.inventory.itemInMainHand.apply {
             if (currentBlock == null) return
             if (!currentBlock!!.equalsItem(this)) {

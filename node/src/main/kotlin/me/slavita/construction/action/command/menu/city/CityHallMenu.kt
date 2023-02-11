@@ -9,18 +9,25 @@ import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.Formatter.toIncomeIcon
 import me.slavita.construction.ui.Formatter.toLevel
 import me.slavita.construction.ui.Formatter.toMoneyIcon
-import me.slavita.construction.ui.menu.ItemIcons
-import me.slavita.construction.utils.getCityHallInfo
-import org.bukkit.ChatColor.*
+import me.slavita.construction.ui.menu.Icons
+import me.slavita.construction.utils.CITY_HALL_INFO
+import me.slavita.construction.utils.click
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.BOLD
+import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.GRAY
+import org.bukkit.ChatColor.GREEN
+import org.bukkit.ChatColor.WHITE
 import org.bukkit.entity.Player
 
 class CityHallMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         user.run user@{
+            val hall = this@user.data.hall
             return choicer {
                 title = "${GREEN}${BOLD}Мэрия"
                 description = "Управление мэрией"
-                info = getCityHallInfo()
+                info = CITY_HALL_INFO
                 storage = mutableListOf(
                     button {
                         title = "${GOLD}${BOLD}Улучшить"
@@ -28,14 +35,14 @@ class CityHallMenu(player: Player) : MenuCommand(player) {
                         backgroundColor = GlowColor.GREEN
                         hover = """
                             ${GREEN}При улучшении:
-                              ${AQUA}Уровень: ${GRAY}${hall.level.toLevel()} ${BOLD}-> ${GREEN}${(hall.level + 1).toLevel()}
-                              ${GOLD}Доход: ${GRAY}${hall.income.toIncomeIcon()} ${BOLD}-> ${GOLD}${hall.nextIncome.toIncomeIcon()}
+                              ${AQUA}Уровень: ${GRAY}${hall.level.toLevel()} $BOLD-> ${GREEN}${(hall.level + 1).toLevel()}
+                              ${GOLD}Доход: ${GRAY}${hall.income.toIncomeIcon()} $BOLD-> ${GOLD}${hall.nextIncome.toIncomeIcon()}
                             
                             ${BOLD}${WHITE}Стоимость: ${GREEN}${hall.upgradePrice.toMoneyIcon()}
                         """.trimIndent()
-                        item = ItemIcons.get("other", "anvil")
-                        onClick { _, _, _ ->
-                            hall.upgrade()
+                        item = Icons.get("other", "anvil")
+                        click { _, _, _ ->
+                            this@user.upgradeHall()
                             Anime.close(player)
                         }
                     }

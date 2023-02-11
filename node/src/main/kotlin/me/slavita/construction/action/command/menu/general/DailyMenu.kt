@@ -5,8 +5,8 @@ import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.dailyReward
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.Formatter.toTime
-import me.slavita.construction.ui.menu.ItemIcons
-import me.slavita.construction.utils.getDailyInfo
+import me.slavita.construction.ui.menu.Icons
+import me.slavita.construction.utils.REWARDS_INFO
 import me.slavita.construction.utils.mapIndexedM
 import org.bukkit.entity.Player
 
@@ -15,14 +15,14 @@ class DailyMenu(player: Player) : MenuCommand(player) {
         user.run user@{
             return dailyReward {
                 title = "Ежедневные награды"
-                info = getDailyInfo()
-                val rewardTaken = data.statistics.nextTakeDailyReward > System.currentTimeMillis()
+                info = REWARDS_INFO
+                val rewardTaken = data.nextTakeDailyReward > System.currentTimeMillis()
                 if (rewardTaken) {
                     taken = true
-                    currentDay = data.statistics.nextDay - 1
+                    currentDay = data.nextDay - 1
                 } else {
                     taken = false
-                    currentDay = data.statistics.nextDay
+                    currentDay = data.nextDay
                 }
                 storage = mutableListOf(
                     "info",
@@ -34,11 +34,11 @@ class DailyMenu(player: Player) : MenuCommand(player) {
                     "achievements_many"
                 ).mapIndexedM { index, icon ->
                     button {
-                        item = ItemIcons.get("other", icon)
+                        item = Icons.get("other", icon)
                         title = if (!rewardTaken) {
-                            if (index == data.statistics.nextDay) "Получить ежедневную награду" else ""
+                            if (index == data.nextDay) "Получить ежедневную награду" else ""
                         } else {
-                            if (index == data.statistics.nextDay) "Награда через ${(data.statistics.nextTakeDailyReward - System.currentTimeMillis()).toTime()}" else ""
+                            if (index == data.nextDay) "Награда через ${(data.nextTakeDailyReward - System.currentTimeMillis()).toTime()}" else ""
                         }
                     }
                 }

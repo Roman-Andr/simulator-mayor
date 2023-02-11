@@ -6,18 +6,15 @@ import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.choicer
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
-import me.slavita.construction.action.command.ChangeCity
-import me.slavita.construction.dontate.AbilityDonate
-import me.slavita.construction.dontate.Donates
 import me.slavita.construction.ui.Formatter.toMoneyIcon
-import me.slavita.construction.ui.HumanizableValues.SECOND
 import me.slavita.construction.ui.Texture
-import me.slavita.construction.ui.menu.ItemIcons
-import me.slavita.construction.utils.*
+import me.slavita.construction.ui.menu.Icons
+import me.slavita.construction.utils.LOCATIONS_INFO
+import me.slavita.construction.utils.click
+import me.slavita.construction.utils.mapM
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.entity.Player
-import kotlin.math.abs
 
 class LocationsMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
@@ -25,8 +22,8 @@ class LocationsMenu(player: Player) : MenuCommand(player) {
             return choicer {
                 title = "${AQUA}${BOLD}Телепортация"
                 description = "Перемещение между локациями"
-                info = getLocationsInfo()
-                storage = this@user.cities.sortedBy { it.price }.mapM { city ->
+                info = LOCATIONS_INFO
+                storage = user.data.cities.sortedBy { it.price }.mapM { city ->
                     button {
                         title = city.title
                         if (city.unlocked) {
@@ -34,29 +31,18 @@ class LocationsMenu(player: Player) : MenuCommand(player) {
                             hint = "Выбрать"
                             backgroundColor = GlowColor.GREEN
                         } else {
-                            item = ItemIcons.get("other", "lock")
+                            item = Icons.get("other", "lock")
                             hint = "Купить"
                             description = city.price.toMoneyIcon()
                             backgroundColor = GlowColor.NEUTRAL
                         }
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             if (city.unlocked) {
-                                val ignore =
-                                    player.user.data.abilities.contains((Donates.NO_LIMIT_TELEPORT_DONATE.donate as AbilityDonate).ability)
-                                ChangeCity(
-                                    user,
-                                    city
-                                ).tryExecute(ignore)
-                                    .run {
-                                        if (!ignore && this < 0) player.deny(
-                                            "Подождите ещё ${SECOND.get((abs(this) / 20).toInt())}"
-                                        )
-                                    }
+                                tryChangeCity(city)
                                 Anime.close(player)
                             } else {
                                 BuyCityConfirm(player, city).tryExecute()
                             }
-
                         }
                     }
                 }

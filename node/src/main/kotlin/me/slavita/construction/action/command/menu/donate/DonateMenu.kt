@@ -6,9 +6,14 @@ import me.func.mod.ui.menu.choicer
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
 import me.slavita.construction.ui.Formatter.toCriMoney
-import me.slavita.construction.ui.menu.ItemIcons
-import me.slavita.construction.utils.getDonateInfo
-import org.bukkit.ChatColor.*
+import me.slavita.construction.ui.menu.Icons
+import me.slavita.construction.utils.DONATE_INFO
+import me.slavita.construction.utils.click
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.BOLD
+import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.GRAY
+import org.bukkit.ChatColor.GREEN
 import org.bukkit.entity.Player
 
 class DonateMenu(player: Player) : MenuCommand(player) {
@@ -16,46 +21,46 @@ class DonateMenu(player: Player) : MenuCommand(player) {
         user.run user@{
             return choicer {
                 title = "${GOLD}${BOLD}Платные возможности"
-                info = getDonateInfo()
+                info = DONATE_INFO
                 description = "Кристаллики: ${criBalance.toCriMoney()}"
                 storage = mutableListOf(
                     button {
-                        item = ItemIcons.get("other", "bag1")
+                        item = Icons.get("other", "bag1")
                         title = "${GREEN}${BOLD}Монеты"
                         hint = "Выбрать"
                         description = "${GRAY}Пополнение\n${GRAY}баланса"
                         backgroundColor = GlowColor.GREEN
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             MoneyBuyMenu(player).keepHistory().tryExecute()
                         }
                     },
                     button {
-                        item = ItemIcons.get("other", "cup")
+                        item = Icons.get("other", "cup")
                         title = "${AQUA}${BOLD}Улучшения"
                         hint = "Выбрать"
                         description = "${GRAY}Удобства\n${GRAY}для игры"
                         backgroundColor = GlowColor.BLUE_LIGHT
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             AbilitiesMenu(player).keepHistory().tryExecute()
                         }
                     },
                     button {
-                        item = ItemIcons.get("other", "new_booster_1")
+                        item = Icons.get("other", "new_booster_1")
                         title = "${GOLD}${BOLD}Бустеры"
                         description = "${GRAY}Бустеры\n${GRAY}статистики"
                         hint = "Выбрать"
                         backgroundColor = GlowColor.YELLOW_LIGHT
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             BoostersMenu(player).keepHistory().tryExecute()
                         }
                     },
                     button {
-                        item = ItemIcons.get("other", "human")
+                        item = Icons.get("other", "human")
                         title = "${GREEN}${BOLD}Наборы"
                         hint = "Выбрать"
                         description = "${GRAY}Паки\n${GRAY}бустеров"
                         backgroundColor = GlowColor.GREEN_LIGHT
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             BoosterPackMenu(player).keepHistory().tryExecute()
                         }
                     }

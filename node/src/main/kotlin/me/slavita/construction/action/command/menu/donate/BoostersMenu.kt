@@ -8,9 +8,13 @@ import me.slavita.construction.dontate.BoosterDonate
 import me.slavita.construction.dontate.Donates
 import me.slavita.construction.ui.Formatter
 import me.slavita.construction.ui.Formatter.toCriMoney
-import me.slavita.construction.utils.getDonateInfo
+import me.slavita.construction.utils.DONATE_INFO
+import me.slavita.construction.utils.click
 import me.slavita.construction.utils.mapM
-import org.bukkit.ChatColor.*
+import me.slavita.construction.utils.size
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.BOLD
+import org.bukkit.ChatColor.GOLD
 import org.bukkit.entity.Player
 
 class BoostersMenu(player: Player) : MenuCommand(player) {
@@ -18,11 +22,10 @@ class BoostersMenu(player: Player) : MenuCommand(player) {
         user.run user@{
             return selection {
                 title = "${GOLD}${BOLD}Бустеры"
-                info = getDonateInfo()
+                info = DONATE_INFO
                 vault = Formatter.donateIcon
-                rows = 3
-                columns = 2
-                money = "Кристаллики: ${AQUA}${criBalance}"
+                size(3, 2)
+                money = "Кристаллики: ${AQUA}$criBalance"
                 storage = Donates.values().filter { it.donate is BoosterDonate }.mapM {
                     button {
                         item = it.displayItem
@@ -31,7 +34,7 @@ class BoostersMenu(player: Player) : MenuCommand(player) {
                         description = "Цена: ${it.donate.price.toCriMoney()}"
                         hint = "Купить"
                         backgroundColor = it.backgroudColor
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             it.donate.purchase(this@user)
                         }
                     }

@@ -1,10 +1,10 @@
-package me.slavita.construction.booster.format
+package me.slavita.construction.ui.format
 
+import me.slavita.construction.booster.format.IFormatter
 import me.slavita.construction.player.Data
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 
 object MoneyFormatter : IFormatter {
-    override fun format(value: Data): String {
-        return value.statistics.money.toMoneyIcon()
-    }
+    override fun format(value: Data) = value.money.toMoneyIcon()
+    override fun format(value: Long) = value.toMoneyIcon()
 }

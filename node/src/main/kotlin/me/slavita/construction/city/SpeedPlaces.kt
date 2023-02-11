@@ -1,36 +1,42 @@
-package me.slavita.construction.ui
+package me.slavita.construction.city
 
 import me.func.atlas.Atlas
+import me.func.mod.reactive.ReactiveBanner
 import me.func.mod.reactive.ReactivePlace
 import me.func.mod.ui.Glow
 import me.func.mod.util.after
 import me.func.mod.world.Banners
 import me.func.protocol.data.color.GlowColor
-import me.func.protocol.data.element.Banner
 import me.slavita.construction.app
-import me.slavita.construction.utils.*
+import me.slavita.construction.common.utils.IRegistrable
+import me.slavita.construction.ui.Texture
+import me.slavita.construction.utils.labels
 import me.slavita.construction.utils.loadBanner
+import me.slavita.construction.utils.revert
+import me.slavita.construction.utils.toYaw
+import me.slavita.construction.utils.yaw
 import org.bukkit.block.BlockFace
 import org.bukkit.entity.Player
 
-object SpeedPlaces {
+object SpeedPlaces : IRegistrable {
 
     private val active = hashSetOf<Player>()
 
-    init {
+    override fun register() {
         labels("speed").forEach { label ->
-            val texture = Texture.SPEED_BOOST.path()
             val yaw = BlockFace.valueOf(label.tag.uppercase()).toYaw().revert()
             val loc = label.yaw(yaw).toCenterLocation().apply { y = label.y }
-            val vector = loc.direction.normalize()
-            val location = loc.clone().add(vector.multiply(-1.25)).toCenterLocation().apply { y = label.y }
+            val location = loc.clone()
+                .add(loc.direction.normalize().multiply(-1.25))
+                .toCenterLocation()
+                .apply { y = label.y }
 
             Atlas.find("city").getMapList("speed-place").forEach { banner ->
                 loadBanner(banner, label, true, 0.0)
             }
             Banners.add(
-                Banner.builder()
-                    .texture(texture)
+                ReactiveBanner.builder()
+                    .texture(Texture.SPEED_BOOST.path())
                     .color(GlowColor.BLUE_LIGHT)
                     .weight(35)
                     .height(35)

@@ -9,11 +9,19 @@ import dev.xdark.clientapi.opengl.GlStateManager
 import dev.xdark.clientapi.util.EnumHand
 import dev.xdark.clientapi.util.ParticleType
 import io.netty.buffer.Unpooled
+import me.func.protocol.data.color.GlowColor
+import me.slavita.construction.common.utils.IRegistrable
+import me.slavita.construction.common.utils.STRUCTURE_BLOCK_CHANNEL
+import me.slavita.construction.common.utils.STRUCTURE_HIDE_CHANNEL
+import me.slavita.construction.common.utils.STRUCTURE_PLACE_CHANNEL
 import me.slavita.construction.mod.utils.Renderer
-import me.slavita.construction.mod.utils.extensions.InventoryExtensions.blocksCount
-import me.slavita.construction.mod.utils.extensions.InventoryExtensions.handItemEquals
-import me.slavita.construction.mod.utils.extensions.InventoryExtensions.hotbarEqualSlots
+import me.slavita.construction.mod.utils.blocksCount
+import me.slavita.construction.mod.utils.handItemEquals
+import me.slavita.construction.mod.utils.hotbarEqualSlots
 import me.slavita.construction.mod.utils.isLookingAt
+import me.slavita.construction.mod.utils.runRepeatingTask
+import me.slavita.construction.mod.utils.sendPayload
+import me.slavita.construction.mod.utils.toColor
 import org.lwjgl.input.Mouse
 import ru.cristalix.uiengine.UIEngine
 import ru.cristalix.uiengine.UIEngine.clientApi
@@ -23,9 +31,21 @@ import ru.cristalix.uiengine.element.TextElement
 import ru.cristalix.uiengine.eventloop.animate
 import ru.cristalix.uiengine.eventloop.thenAnimate
 import ru.cristalix.uiengine.eventloop.thenWait
-import ru.cristalix.uiengine.utility.*
+import ru.cristalix.uiengine.utility.BOTTOM
+import ru.cristalix.uiengine.utility.BOTTOM_LEFT
+import ru.cristalix.uiengine.utility.BOTTOM_RIGHT
+import ru.cristalix.uiengine.utility.CENTER
+import ru.cristalix.uiengine.utility.Color
+import ru.cristalix.uiengine.utility.Easings
+import ru.cristalix.uiengine.utility.TOP_LEFT
+import ru.cristalix.uiengine.utility.TOP_RIGHT
+import ru.cristalix.uiengine.utility.V3
+import ru.cristalix.uiengine.utility.WHITE
+import ru.cristalix.uiengine.utility.item
+import ru.cristalix.uiengine.utility.rectangle
+import ru.cristalix.uiengine.utility.text
 
-object StructureBuilding {
+object StructureBuilding : IRegistrable {
 
     private var currentItem: ItemStack? = null
     private var currentBlockLocation: V3? = null
@@ -33,10 +53,9 @@ object StructureBuilding {
     private var targetText: String? = null
     private var frameColor = Color(0, 0, 0, 65.0)
     private var lastMarkersSlots = arrayOf<Int>()
-    private var lineWidth = 3.5F
+    private var lineWidth = 4.0F
 
     private val nextBlock: RectangleElement = rectangle {
-
         align = BOTTOM
         offset = V3(-105.0, -2.0)
         enabled = false
@@ -77,11 +96,11 @@ object StructureBuilding {
         offset = V3(-80.0, -24.0)
     }
 
-    init {
+    override fun register() {
         UIEngine.overlayContext.addChild(nextBlock)
         UIEngine.overlayContext.addChild(markers)
 
-        mod.registerChannel("structure:currentBlock") {
+        mod.registerChannel(STRUCTURE_BLOCK_CHANNEL) {
             val position = V3(readDouble(), readDouble(), readDouble())
             currentItem = ItemTools.read(this).apply { targetText = this.displayName }
 
@@ -94,13 +113,13 @@ object StructureBuilding {
             nextBlock.enabled = true
         }
 
-        mod.registerChannel("structure:hide") {
+        mod.registerChannel(STRUCTURE_HIDE_CHANNEL) {
             nextBlock.enabled = false
             currentBlockLocation = null
             markers.children.clear()
         }
 
-        mod.runRepeatingTask(.0, .9) {
+        runRepeatingTask(.0, .9) {
             markers.children.forEach { marker ->
                 marker.animate(0.4, Easings.CUBIC_OUT) {
                     offset.y += 4
@@ -123,7 +142,7 @@ object StructureBuilding {
                 }
                 return@registerHandler
             }
-            clientApi.clientConnection().sendPayload("structure:place", Unpooled.buffer())
+            sendPayload(STRUCTURE_PLACE_CHANNEL, Unpooled.buffer())
             player.swingArm(EnumHand.MAIN_HAND)
         }
 
@@ -132,9 +151,9 @@ object StructureBuilding {
 
             updateInfoIcon()
 
-            val targetColor = if (!player.inventory.handItemEquals(currentItem!!)) SpecialColor.RED
-            else SpecialColor.GREEN
-            frameColor = targetColor.toColor()
+            val targetColor = if (!player.inventory.handItemEquals(currentItem!!)) GlowColor.RED_LIGHT
+            else GlowColor.GREEN_LIGHT
+            frameColor = targetColor.toColor().apply { alpha = 65.0 }
 
             player.inventory.hotbarEqualSlots(currentItem!!).toTypedArray().run {
                 if (this contentEquals lastMarkersSlots) return@registerHandler
@@ -149,7 +168,7 @@ object StructureBuilding {
 
         mod.registerHandler<RenderPass> {
             if (currentBlockLocation == null) return@registerHandler
-            Renderer.renderBlockFrame(clientApi, currentBlockLocation!!, frameColor, lineWidth)
+            Renderer.renderBlockFrame(currentBlockLocation!!, frameColor, lineWidth)
         }
 
         UIEngine.postOverlayContext.afterRender {

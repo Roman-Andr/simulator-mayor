@@ -15,6 +15,6 @@ open class BoosterDonate(
 ) : Donate(title, description, price) {
     override fun purchaseSuccess(user: User) {
         Boosters.activateGlobal(user, time, unit, booster)
-        user.data.statistics.totalBoosters++
+        user.data.totalBoosters++
     }
 }

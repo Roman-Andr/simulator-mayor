@@ -4,20 +4,22 @@ import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection
 import me.slavita.construction.action.MenuCommand
-import me.slavita.construction.structure.PlayerCell
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.instance.StructureGroup
-import me.slavita.construction.ui.menu.ItemIcons
-import me.slavita.construction.utils.getStructuresInfo
+import me.slavita.construction.ui.menu.Icons
+import me.slavita.construction.utils.STRUCTURES_INFO
+import me.slavita.construction.utils.click
 import me.slavita.construction.utils.language.LanguageHelper
 import me.slavita.construction.utils.mapM
-import org.bukkit.ChatColor.*
+import me.slavita.construction.utils.size
+import org.bukkit.ChatColor.BOLD
+import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.GREEN
 import org.bukkit.entity.Player
 
 class ChoiceStructure(
     player: Player,
     val structureGroup: StructureGroup,
-    cell: PlayerCell,
     val action: (structure: Structure) -> Unit,
 ) :
     MenuCommand(player) {
@@ -25,14 +27,13 @@ class ChoiceStructure(
         user.run user@{
             return selection {
                 title = "${GOLD}${BOLD}Выбор здания"
-                info = getStructuresInfo()
-                rows = 5
-                columns = 4
-                storage = structureGroup.structures.mapM { structure ->
+                info = STRUCTURES_INFO
+                size(5, 4)
+                storage = structureGroup.structures.sortedBy { it.id }.mapM { structure ->
                     button {
                         title = structure.name
                         hint = "Выбрать"
-                        item = ItemIcons.get("skyblock", "spawn")
+                        item = Icons.get("skyblock", "spawn")
                         hover = ""
                         structure.blocks.toList().sortedBy { it.second }.toMap().forEach { block ->
                             hover += "${GOLD}${
@@ -42,7 +43,7 @@ class ChoiceStructure(
                                 )
                             } - ${GREEN}${block.value}шт\n"
                         }
-                        onClick { _, _, _ ->
+                        click { _, _, _ ->
                             action(structure)
                         }
                     }

@@ -1,32 +1,42 @@
 package me.slavita.construction.listener
 
-import me.slavita.construction.ui.HumanizableValues.*
-import me.slavita.construction.utils.*
+import me.slavita.construction.action.command.menu.city.LeaveFreelanceConfirm
+import me.slavita.construction.common.utils.IRegistrable
+import me.slavita.construction.ui.HumanizableValues.BLOCK
+import me.slavita.construction.utils.accept
+import me.slavita.construction.utils.deny
 import me.slavita.construction.utils.language.LanguageHelper
+import me.slavita.construction.utils.listener
+import me.slavita.construction.utils.user
+import me.slavita.construction.utils.userOrNull
 import org.bukkit.ChatColor.GOLD
 import org.bukkit.Material
-import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerMoveEvent
+import java.util.UUID
 
-object OnActions {
-    val inZone = hashMapOf<Player, Boolean>()
-    var storageEntered = hashMapOf<Player, Boolean>()
+object OnActions : IRegistrable {
+    val inZone = hashMapOf<UUID, Boolean>()
+    var storageEntered = hashMapOf<UUID, Boolean>()
 
-    init {
+    override fun register() {
         listener<PlayerDropItemEvent> {
             val user = player.user
+            if (itemDrop.itemStack.getType() == Material.CLAY_BALL) {
+                isCancelled = true
+                return@listener
+            }
             if (user.inTrashZone) {
                 drop.remove()
                 return@listener
             }
 
-            if (!user.blocksStorage.inBox() || itemDrop.itemStack.getType() == Material.CLAY_BALL) {
+            if (!user.data.blocksStorage.inBox()) {
                 isCancelled = true
                 return@listener
             }
 
-            val toAdd = user.blocksStorage.addItem(drop.itemStack)
+            val toAdd = user.data.blocksStorage.addItem(drop.itemStack)
             val depositBlocks = drop.itemStack.getAmount() - toAdd
             if (depositBlocks > 0) {
                 player.accept(
@@ -48,8 +58,12 @@ object OnActions {
         }
 
         listener<PlayerMoveEvent> {
-            player.user.updatePosition()
-            if (player.user.currentFreelance != null && !player.user.freelanceCell.box.contains(to)) isCancelled = true
+            if (player.userOrNull == null) isCancelled = true
+            else if (player.user.currentFreelance != null && !player.user.freelanceCell.box.contains(to)) {
+                isCancelled = true
+                LeaveFreelanceConfirm(player).tryExecute()
+            }
+            else player.user.updatePosition()
         }
     }
 }

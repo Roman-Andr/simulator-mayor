@@ -9,50 +9,49 @@ import me.func.protocol.data.element.Banner
 import me.func.protocol.world.marker.Marker
 import me.func.protocol.world.marker.MarkerSign
 import me.slavita.construction.structure.CityStructure
-import me.slavita.construction.ui.HumanizableValues.*
-import me.slavita.construction.utils.*
+import me.slavita.construction.ui.HumanizableValues.BLOCK
 import me.slavita.construction.utils.accept
+import me.slavita.construction.utils.addByFace
 import me.slavita.construction.utils.getFaceCenter
+import me.slavita.construction.utils.loadBannerFromConfig
+import me.slavita.construction.utils.runAsync
 import me.slavita.construction.world.ItemProperties
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.GOLD
 import org.bukkit.entity.Player
 
 class CityStructureVisual(val structure: CityStructure) {
-    private var redBanner: Banner? = null
     private var repairGlow: ReactivePlace? = null
     private var repairBanner: Banner? = null
     private var marker: Marker? = null
 
     init {
         val center = structure.cell.box.center
-        redBanner = createFloorBanner(
-            center.clone().apply {
-                y = structure.box.min.y - 22.49
-                z = structure.box.min.z
-            }, GlowColor.RED
-        )
+        val sideCenter = getFaceCenter(structure.cell).addByFace(structure.cell.face)
         marker = Marker(center.x, center.y, center.z, 80.0, MarkerSign.ARROW_DOWN)
-        repairGlow = ReactivePlace.builder()
-            .rgb(GlowColor.GREEN_LIGHT)
-            .radius(2.0)
-            .location(getFaceCenter(structure.cell).clone().apply { y -= 2.5 })
-            .onEntire { player ->
-                if (blocksDepositRepair(player, structure.targetBlocks, structure.repairBlocks)) {
-                    structure.repairBlocks.forEach {
-                        if (structure.targetBlocks[it.key]!! <= 0) structure.targetBlocks.remove(it.key)
-                    }
+        runAsync(1) {
+            repairGlow = ReactivePlace.builder()
+                .rgb(GlowColor.GREEN_LIGHT)
+                .radius(2.0)
+                .location(sideCenter.clone().apply { y -= 2.5 })
+                .onEntire { player ->
+                    if (blocksDepositRepair(player, structure.targetBlocks, structure.repairBlocks)) {
+                        structure.repairBlocks.forEach {
+                            if (structure.targetBlocks[it.key]!! <= 0) structure.targetBlocks.remove(it.key)
+                        }
 
-                    if (structure.targetBlocks.isEmpty()) {
-                        structure.repair()
+                        if (structure.targetBlocks.isEmpty()) {
+                            structure.repair()
+                        }
                     }
                 }
-            }
-            .build()
-        repairBanner = loadBannerFromConfig(
-            Atlas.find("city").getMapList("claim-banner").first(),
-            getFaceCenter(structure.cell),
-            opacity = 0.0
-        )
+                .build()
+            repairBanner = loadBannerFromConfig(
+                Atlas.find("city").getMapList("claim-banner").first(),
+                sideCenter,
+                opacity = 0.0
+            )
+            update()
+        }
     }
 
     private fun blocksDepositRepair(
@@ -88,26 +87,39 @@ class CityStructureVisual(val structure: CityStructure) {
     }
 
     fun update() {
-        when (structure.state) {
-            CityStructureState.NOT_READY   -> {
-                Banners.hide(structure.owner, redBanner!!)
-                Anime.removeMarker(structure.owner, marker!!)
-            }
+        structure.apply {
+            when (state) {
+                CityStructureState.NOT_READY   -> {
+                    cell.border.delete(owner)
+                    Anime.removeMarker(owner, marker!!)
+                }
 
-            CityStructureState.FUNCTIONING -> {
-                Banners.hide(structure.owner, redBanner!!)
-                Anime.removeMarker(structure.owner, marker!!)
-                repairGlow!!.delete(setOf(structure.owner))
-                Banners.hide(structure.owner, repairBanner!!)
-            }
+                CityStructureState.FUNCTIONING -> {
+                    cell.border.delete(owner)
+                    Anime.removeMarker(owner, marker!!)
+                    repairGlow!!.delete(setOf(owner))
+                    Banners.hide(owner, repairBanner!!)
+                }
 
-            CityStructureState.BROKEN      -> {
-                Banners.show(structure.owner, redBanner!!)
-                Anime.marker(structure.owner, marker!!)
-                repairGlow!!.send(structure.owner)
-                Banners.show(structure.owner, repairBanner!!)
-                structure.targetBlocks = HashMap(structure.structure.blocks)
+                CityStructureState.BROKEN      -> {
+                    cell.border.color = GlowColor.RED_LIGHT
+                    cell.border.send(owner)
+                    Anime.marker(owner, marker!!)
+                    repairGlow!!.send(owner)
+                    Banners.show(owner, repairBanner!!)
+                    targetBlocks = HashMap(structure.blocks)
+                }
             }
+        }
+    }
+
+    fun delete() {
+        structure.owner.run {
+            val player = setOf(this)
+            structure.cell.border.delete(structure.owner)
+            repairGlow!!.delete(player)
+            Banners.hide(this, repairBanner!!)
+            Banners.remove(repairBanner!!.uuid)
         }
     }
 }

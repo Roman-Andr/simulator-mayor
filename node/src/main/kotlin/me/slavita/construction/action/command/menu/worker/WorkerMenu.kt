@@ -5,9 +5,12 @@ import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.choicer
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.MenuCommand
-import me.slavita.construction.ui.menu.ItemIcons
-import me.slavita.construction.utils.getWorkerInfo
-import org.bukkit.ChatColor.*
+import me.slavita.construction.ui.menu.Icons
+import me.slavita.construction.utils.WORKER_INFO
+import me.slavita.construction.utils.click
+import org.bukkit.ChatColor.BOLD
+import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.GREEN
 import org.bukkit.entity.Player
 
 class WorkerMenu(player: Player) : MenuCommand(player) {
@@ -16,14 +19,14 @@ class WorkerMenu(player: Player) : MenuCommand(player) {
             return choicer {
                 title = "${GREEN}${BOLD}Рабочие"
                 description = "Выбери нужный раздел"
-                info = getWorkerInfo()
+                info = WORKER_INFO
                 storage = mutableListOf(
                     button {
                         title = "${GOLD}${BOLD}Покупка\n${GOLD}${BOLD}работников"
                         hint = "Выбрать"
                         backgroundColor = GlowColor.BLUE_LIGHT
-                        item = ItemIcons.get("other", "guild_members_add")
-                        onClick { _, _, _ ->
+                        item = Icons.get("other", "guild_members_add")
+                        click { _, _, _ ->
                             BuyLootboxMenu(player).keepHistory().tryExecute()
                         }
                     },
@@ -31,8 +34,8 @@ class WorkerMenu(player: Player) : MenuCommand(player) {
                         title = "${GOLD}${BOLD}Список\n${GOLD}${BOLD}работников"
                         hint = "Выбрать"
                         backgroundColor = GlowColor.BLUE
-                        item = ItemIcons.get("other", "guild_members")
-                        onClick { _, _, _ ->
+                        item = Icons.get("other", "guild_members")
+                        click { _, _, _ ->
                             WorkerTeamMenu(player).keepHistory().tryExecute()
                         }
                     }

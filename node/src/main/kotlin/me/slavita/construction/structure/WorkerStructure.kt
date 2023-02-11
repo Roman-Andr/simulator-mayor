@@ -4,31 +4,53 @@ import me.func.atlas.Atlas
 import me.func.mod.reactive.ReactivePlace
 import me.func.mod.world.Banners
 import me.func.protocol.data.color.GlowColor
-import me.func.protocol.data.element.Banner
-import me.slavita.construction.player.User
+import me.slavita.construction.app
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureState
-import me.slavita.construction.utils.*
-import me.slavita.construction.utils.loadBannerFromConfig
+import me.slavita.construction.utils.accept
+import me.slavita.construction.utils.addByFace
+import me.slavita.construction.utils.getFaceCenter
 import me.slavita.construction.utils.language.LanguageHelper
+import me.slavita.construction.utils.loadBannerFromConfig
+import me.slavita.construction.utils.notify
 import me.slavita.construction.worker.Worker
-import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.ItemProperties
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.GRAY
+import org.bukkit.ChatColor.GREEN
+import org.bukkit.ChatColor.WHITE
 import org.bukkit.entity.Player
 
 class WorkerStructure(
-    world: GameWorld,
     structure: Structure,
-    owner: User,
-    cell: PlayerCell,
+    cell: CityCell,
     val workers: HashSet<Worker> = hashSetOf(),
-) : BuildingStructure(world, structure, owner, cell) {
+) : BuildingStructure(structure, cell) {
 
-    private var remainingBlocks = hashMapOf<ItemProperties, Int>()
-    private val blocksStorage = hashMapOf<ItemProperties, Int>()
-    private var claimGlow: ReactivePlace? = null
-    private var claimBanner: Banner? = null
+    val blocksStorage = hashMapOf<ItemProperties, Int>()
+    val remainingBlocks = HashMap(structure.blocks)
 
+    private val center = getFaceCenter(cell).addByFace(cell.face)
+
+    private var claimGlow = ReactivePlace.builder()
+        .rgb(GlowColor.GREEN_LIGHT)
+        .radius(2.0)
+        .location(center.clone().apply { y -= 2.5 })
+        .onEntire { player ->
+            if (blocksDepositBuild(player, remainingBlocks, blocksStorage)) build()
+        }
+        .build().apply {
+            isConstant = true
+        }
+
+    private var claimBanner = loadBannerFromConfig(
+        Atlas.find("city").getMapList("claim-banner").first(),
+        center,
+        opacity = 0.0
+    )
+
+    private var lastModified = app.pass
     private val delayTime: Long
         get() {
             if (workers.isEmpty()) return 1
@@ -36,26 +58,18 @@ class WorkerStructure(
         }
 
     override fun enterBuilding() {
-        remainingBlocks = HashMap(structure.blocks)
-        val center = getFaceCenter(cell)
-        claimGlow = ReactivePlace.builder()
-            .rgb(GlowColor.GREEN_LIGHT)
-            .radius(2.0)
-            .location(center.clone().apply { y -= 2.5 })
-            .onEntire { player ->
-                if (blocksDepositBuild(player, remainingBlocks, blocksStorage)) build()
-            }
-            .build().apply {
-                isConstant = true
-            }
-        claimBanner = loadBannerFromConfig(
-            Atlas.find("city").getMapList("claim-banner").first(),
-            center,
-            opacity = 0.0
-        )
-        Banners.show(owner.player, claimBanner!!)
-        claimGlow!!.send(owner.player)
-        build()
+        Banners.show(owner.player, claimBanner)
+        claimGlow.send(owner.player)
+        continueBuilding()
+    }
+
+    override fun continueBuilding() {
+        repeat(blocksPlaced) {
+            val item = ItemProperties(currentBlock!!.type, currentBlock!!.data)
+            remainingBlocks[item] = remainingBlocks[item]!! - 1
+            app.mainWorld.placeFakeBlock(owner.player, currentBlock!!.withOffset(allocation))
+            currentBlock = structure.getNextBlock(currentBlock!!.position)
+        }
     }
 
     override fun getBannerInfo(): List<Pair<String, Double>> {
@@ -77,24 +91,32 @@ class WorkerStructure(
 
     override fun onFinish() {
         hideClaim()
+        owner.player.notify(
+            """
+                ${WHITE}Постройка завершена!
+                ${GRAY}Номер: ${GRAY}${cell.id}
+                ${AQUA}Название: ${GOLD}${structure.name}
+                ${GOLD}Локация: ${GREEN}${cell.city.title}
+            """.trimIndent()
+        )
     }
 
     private fun hideClaim() {
-        Banners.hide(owner.player, claimBanner!!)
-        claimGlow!!.delete(setOf(owner.player))
+        Banners.hide(owner.player, claimBanner)
+        claimGlow.delete(setOf(owner.player))
     }
 
-    private fun build() {
-        if (state != StructureState.BUILDING) return
+    fun build() {
+        if (state != StructureState.BUILDING || app.pass - lastModified < delayTime) return
+        lastModified = app.pass
+
         val item = ItemProperties(currentBlock!!.type, currentBlock!!.data)
         if (blocksStorage.getOrDefault(item, 0) <= 0) return
-        runAsync(delayTime) {
-            if (workers.isNotEmpty()) {
-                remainingBlocks[item] = remainingBlocks[item]!! - 1
-                blocksStorage[item] = blocksStorage[item]!! - 1
-                placeCurrentBlock()
-            }
-            build()
+
+        if (workers.isNotEmpty()) {
+            remainingBlocks[item] = remainingBlocks[item]!! - 1
+            blocksStorage[item] = blocksStorage[item]!! - 1
+            placeCurrentBlock()
         }
     }
 
@@ -108,6 +130,7 @@ class WorkerStructure(
             if (item == null) return@forEachIndexed
             val props = ItemProperties(item)
             val value = target.getOrDefault(props, 0) - storage.getOrDefault(props, 0)
+            if (value <= 0) return@forEachIndexed
             if (target.filter { it.value - storage.getOrDefault(it.key, 0) > 0 }.containsKey(props)) {
                 if (item.getAmount() > value) {
                     storage[props] = storage.getOrDefault(props, 0) + item.getAmount() - value

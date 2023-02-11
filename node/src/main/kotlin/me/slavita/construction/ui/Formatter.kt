@@ -5,7 +5,9 @@ import me.func.stronghold.util.withBoosters
 import me.slavita.construction.booster.BoosterType
 import me.slavita.construction.common.utils.NumberFormatter
 import me.slavita.construction.common.utils.TimeFormatter
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.WHITE
 
 object Formatter {
     const val moneyIcon = Emoji.COIN
@@ -17,11 +19,11 @@ object Formatter {
     }
 
     fun <T : Number> T.toMoneyIcon(): String {
-        return "$GOLD${toMoney()} $WHITE${moneyIcon}"
+        return "$GOLD${toMoney()} $WHITE$moneyIcon"
     }
 
     fun <T : Number> T.toIncomeIcon(): String {
-        return "${toMoney()} $WHITE${incomeIcon}"
+        return "${toMoney()} $WHITE$incomeIcon"
     }
 
     fun <T : Number> T.toLevel(): String {
@@ -42,6 +44,10 @@ object Formatter {
 
     fun <T : Number> T.toTime(): String {
         return TimeFormatter.toTimeFormat(this.toLong())
+    }
+
+    fun <T : Number> T.ticksToTime(): String {
+        return TimeFormatter.toTimeFormat(this.toLong() * 50)
     }
 
     fun <T : Number> T.applyBoosters(vararg boosters: BoosterType): Long {

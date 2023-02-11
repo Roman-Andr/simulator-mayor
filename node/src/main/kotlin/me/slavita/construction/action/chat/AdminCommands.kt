@@ -8,26 +8,29 @@ import me.func.mod.reactive.ReactiveLine
 import me.func.mod.reactive.ReactivePanel
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.command.menu.general.DailyMenu
-import me.slavita.construction.action.command.menu.project.ChoiceStructureGroup
-import me.slavita.construction.app
-import me.slavita.construction.bank.Bank
-import me.slavita.construction.player.Statistics
+import me.slavita.construction.city.bank.Bank
+import me.slavita.construction.common.utils.IRegistrable
+import me.slavita.construction.player.Data
 import me.slavita.construction.player.Tags
 import me.slavita.construction.prepare.GuidePrepare
 import me.slavita.construction.prepare.TagsPrepare
-import me.slavita.construction.project.ProjectGenerator
 import me.slavita.construction.ui.Formatter.toMoneyIcon
-import me.slavita.construction.ui.achievements.AchievementType
-import me.slavita.construction.utils.*
+import me.slavita.construction.utils.accept
+import me.slavita.construction.utils.deny
+import me.slavita.construction.utils.killboard
+import me.slavita.construction.utils.log
+import me.slavita.construction.utils.opCommand
+import me.slavita.construction.utils.scheduler
+import me.slavita.construction.utils.user
 import org.bukkit.Bukkit
 import ru.cristalix.core.display.messages.RadioMessage
 import ru.cristalix.core.realm.IRealmService
 import ru.cristalix.core.transfer.ITransferService
 
-object AdminCommands {
-    init {
+object AdminCommands : IRegistrable {
+    override fun register() {
         opCommand("setmoney") { player, args ->
-            player.user.data.statistics.money = args[0].toLong()
+            player.user.data.money = args[0].toLong()
         }
 
         opCommand("exp") { player, args ->
@@ -41,18 +44,18 @@ object AdminCommands {
             ModTransfer()
                 .byteArray(*RadioMessage.serialize(RadioMessage(true, args[0])))
                 .send("ilyafx:radio", player)
-            println(args[0])
+            log(args[0])
         }
 
         opCommand("panel") { player, _ ->
             listOf(
                 ReactivePanel.builder()
-                    .text("Монет ${player.user.data.statistics.money.toMoneyIcon()}")
+                    .text("Монет ${player.user.data.money.toMoneyIcon()}")
                     .color(GlowColor.ORANGE)
                     .progress(1.0)
                     .build(),
                 ReactivePanel.builder()
-                    .text("Опыт ${player.user.data.statistics.experience}")
+                    .text("Опыт ${player.user.data.experience}")
                     .color(GlowColor.BLUE)
                     .progress(1.0)
                     .build(),
@@ -91,12 +94,12 @@ object AdminCommands {
         }
 
         opCommand("kickAll") { _, _ ->
-            //need test
+            // need test
             val availableRealms =
                 IRealmService.get().typesAndRealms["SLVT"]!!.filter { it.realmId.id != IRealmService.get().currentRealmInfo.realmId.id }
             Bukkit.getOnlinePlayers().chunked(availableRealms.size).forEachIndexed { index, players ->
                 players.forEach { player ->
-                    //if (it.isOp) return@forEach
+                    // if (it.isOp) return@forEach
                     ITransferService.get().transfer(player.uniqueId, availableRealms[index].realmId)
                 }
             }
@@ -118,7 +121,12 @@ object AdminCommands {
         }
 
         opCommand("statclear") { player, _ ->
-            player.user.data.statistics = Statistics()
+            player.user.data = Data(player.user)
+        }
+
+        opCommand("error") { player, _ ->
+            val nu: String? = null
+            player.killboard(nu!!)
         }
 
         opCommand("line") { player, _ ->
@@ -126,12 +134,6 @@ object AdminCommands {
                 .to(player.user.currentCity.getSpawn())
                 .build()
                 .send(player)
-        }
-
-        opCommand("achievement") { player, _ ->
-            repeat(49) {
-                println(AchievementType.PROJECTS.formula(it + 1))
-            }
         }
     }
 }
