@@ -1,0 +1,99 @@
+plugins {
+    id("org.jetbrains.kotlin.jvm")
+    id("org.hidetake.ssh")
+//    id("org.jlleitschuh.gradle.ktlint")
+}
+
+allprojects {
+    group = "me.slavita.construction"
+    version = "1.0"
+}
+
+def env(property) { return providers.gradleProperty(property).get() }
+
+def envOrNull(property) { return providers.gradleProperty(property).orNull }
+
+subprojects {
+    apply plugin: "java"
+    apply plugin: "java-library"
+    apply plugin: "org.jetbrains.kotlin.jvm"
+//    apply plugin: "org.jlleitschuh.gradle.ktlint"
+}
+
+remotes {
+    webServer {
+        host = env("CRI_HOST")
+        user = env("CRI_HOST_USERNAME")
+        knownHosts = allowAnyHosts
+        identity = file(env("CRI_HOST_SSHKEY_PATH") ?: "key")
+        passphrase = env("CRI_HOST_PASSPHRASE")
+    }
+    webStorage {
+        host = env("CRI_STORAGE_HOST")
+        user = env("CRI_HOST_USERNAME")
+        knownHosts = allowAnyHosts
+        identity = file(envOrNull("CRI_HOST_SSHKEY_PATH") ?: "key")
+        passphrase = env("CRI_HOST_PASSPHRASE")
+    }
+}
+
+tasks.register("uploadConfig") {
+    dependsOn(project(":node").tasks.jar)
+    doLast {
+        ssh.run {
+            session(remotes.webStorage) {
+                remove "/home/" + env("CRI_HOST_USERNAME") + "/storage/construction"
+                put from: rootDir.path + "/storage/construction", into: "/home/" + envOrNull("CRI_HOST_USERNAME") + "/storage"
+            }
+        }
+    }
+}
+
+tasks.register("uploadNodeOnly") {
+    dependsOn(project(":node").tasks.jar)
+    doLast {
+        ssh.run {
+            session(remotes.webServer) {
+                put from: project(":node").tasks.jar.getArchiveFile().get().asFile.path, into: "/home/" + env("CRI_HOST_USERNAME") + "/construction/server/plugins/"
+                execute('ps -eo pid | while read line; do pwdx \$line 2> /dev/null; done | grep "' +
+                        'home/' +
+                        env("CRI_HOST_USERNAME") +
+                        '/construction/server"' +
+                        ' | cut -d\':\' -f1 | while read line; do kill \$line; done;')
+                execute("cd construction/server;./start.sh")
+            }
+        }
+    }
+}
+
+tasks.register("uploadNode") {
+    dependsOn(tasks.uploadMod)
+    dependsOn(tasks.uploadConfig)
+    dependsOn(tasks.uploadNodeOnly)
+}
+
+tasks.register("uploadMod") {
+    dependsOn(project(":mod").tasks.jar)
+    doLast {
+        ssh.run {
+            session(remotes.webServer) {
+                put from: project(":mod").layout.buildDirectory.file("libs/construction-mod.jar").get().asFile, into: "/home/" + env("CRI_HOST_USERNAME") + "/construction/server/mods/"
+            }
+        }
+    }
+}
+
+tasks.register("uploadUserService") {
+    dependsOn(project(":service:user").tasks.shadowJar)
+    doLast {
+        ssh.run {
+            session(remotes.webServer) {
+                put from: project(":service:user").tasks.shadowJar.getArchiveFile().get().asFile.path, into: "/home/" + env("CRI_HOST_USERNAME") + "/construction/service/user/"
+                execute('ps -eo pid | while read line; do pwdx \$line 2> /dev/null; done | grep "' +
+                        'home/' + env("CRI_HOST_USERNAME") + '/construction/service/user"' +
+                        ' | cut -d\':\' -f1 | while read line; do kill \$line; done;')
+                execute("cd construction/service/user;./start.sh")
+            }
+        }
+    }
+}

@@ -2,7 +2,7 @@ package me.slavita.construction.mod.templates
 
 import dev.xdark.clientapi.event.lifecycle.GameLoop
 import me.slavita.construction.mod.mod
-import me.slavita.construction.mod.utils.extensions.PositionExtensions.inBox
+import me.slavita.construction.mod.utils.inBox
 import ru.cristalix.uiengine.UIEngine.clientApi
 
 inline fun infoZone(initializer: InfoZone.() -> Unit) = InfoZone().also(initializer)
@@ -12,7 +12,7 @@ class InfoZone {
 
     init {
         mod.registerHandler<GameLoop> {
-            info.apply {
+            info.run {
                 clientApi.minecraft().mouseOver.pos?.run {
                     if (boxes.any { inBox(it.min, it.max) } && !turn) {
                         title(boxes.find { inBox(it.min, it.max) }!!.title)

@@ -8,16 +8,14 @@ enum class Abilities(
     FLY({ user ->
         user.player.allowFlight = true
     }),
-    NO_LIMIT_TELEPORT({ user ->
-
+    NO_LIMIT_TELEPORT({ _ ->
     }),
-    SHOP_TIPS({ user ->
-
+    SHOP_TIPS({ _ ->
     }),
-    CREDIT_PERCENT({ user ->
-
+    CREDIT_PERCENT({ _ ->
     }),
-    CREDITS_LIMIT({ user ->
-
+    CREDITS_LIMIT({ _ ->
+    }),
+    NO_BRAKE_STRUCTURES({ _ ->
     })
 }

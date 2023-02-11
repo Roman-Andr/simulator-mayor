@@ -1,7 +1,8 @@
 package me.slavita.construction.common.utils
 
 import java.math.BigInteger
-import java.util.*
+import java.util.NavigableMap
+import java.util.TreeMap
 
 object NumberFormatter {
     private val NAMES = arrayOf(

@@ -4,7 +4,7 @@ import me.slavita.construction.utils.language.LanguageHelper.translateToLocal
 import org.bukkit.Bukkit
 import org.bukkit.entity.EntityType
 import org.bukkit.inventory.ItemStack
-import java.util.*
+import java.util.EnumSet
 
 enum class EnumEntity(val type: EntityType, val unlocalizedName: String) {
     ITEM(EntityType.DROPPED_ITEM, "entity.Item.name"), EXPERIENCE_ORB(
@@ -140,20 +140,24 @@ enum class EnumEntity(val type: EntityType, val unlocalizedName: String) {
                 e.printStackTrace()
             }
             val entity = Companion[type]
-            return if (entity != null) (translateToLocal("item.monsterPlacer.name", locale!!) + " "
-                    + translateToLocal(entity.unlocalizedName, locale)) else translateToLocal(
+            return if (entity != null) (
+                    translateToLocal("item.monsterPlacer.name", locale!!) + " " +
+                            translateToLocal(entity.unlocalizedName, locale)
+                    ) else translateToLocal(
                 "item.monsterPlacer.name",
                 locale!!
             )
         }
 
+        @Suppress("DEPRECATION")
         fun getEntityType(egg: ItemStack?): EntityType {
             val nmsStack = Class.forName(
                 "org.bukkit.craftbukkit." + Bukkit.getServer().javaClass.getPackage().name.replace(
                     ".",
                     ","
                 ).split(",".toRegex()).dropLastWhile { it.isEmpty() }
-                    .toTypedArray()[3] + "." + "inventory.CraftItemStack").getMethod("asNMSCopy", ItemStack::class.java)
+                    .toTypedArray()[3] + "." + "inventory.CraftItemStack"
+            ).getMethod("asNMSCopy", ItemStack::class.java)
                 .invoke(null, egg)
             val tag = nmsStack.javaClass.getMethod("getTag").invoke(nmsStack)
             val entityTag = tag.javaClass.getMethod("getCompound", String::class.java).invoke(tag, "EntityTag")

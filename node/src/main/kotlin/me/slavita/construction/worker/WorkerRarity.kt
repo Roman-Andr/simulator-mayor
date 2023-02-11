@@ -3,7 +3,7 @@ package me.slavita.construction.worker
 import me.func.protocol.data.color.GlowColor
 import me.func.protocol.data.color.RGB
 import me.func.protocol.data.rare.DropRare
-import me.slavita.construction.ui.menu.ItemIcons
+import me.slavita.construction.ui.menu.Icons
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.Material
@@ -66,6 +66,6 @@ enum class WorkerRarity(
     );
 
     fun getIcon(): ItemStack {
-        return ItemIcons.get(iconKey, iconValue, false, iconMaterial)
+        return Icons.get(iconKey, iconValue, false, iconMaterial)
     }
 }

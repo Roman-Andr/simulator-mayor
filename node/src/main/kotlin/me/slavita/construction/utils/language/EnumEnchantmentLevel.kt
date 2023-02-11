@@ -1,6 +1,6 @@
 package me.slavita.construction.utils.language
 
-import java.util.*
+import java.util.EnumSet
 
 enum class EnumEnchantmentLevel(
     val level: Int,

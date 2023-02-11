@@ -5,7 +5,10 @@ import me.slavita.construction.mod.utils.doubleVec
 import org.lwjgl.input.Mouse
 import ru.cristalix.uiengine.element.RectangleElement
 import ru.cristalix.uiengine.eventloop.animate
-import ru.cristalix.uiengine.utility.*
+import ru.cristalix.uiengine.utility.CENTER
+import ru.cristalix.uiengine.utility.Easings
+import ru.cristalix.uiengine.utility.carved
+import ru.cristalix.uiengine.utility.text
 
 inline fun button(initializer: ButtonElement.() -> Unit) = ButtonElement().also(initializer)
 
@@ -52,7 +55,7 @@ class ButtonElement : RectangleElement() {
             if (disable) return@onHover
             animate(0.08, Easings.QUINT_OUT) {
                 color = (if (hovered && !Mouse.isButtonDown(0)) palette.light else palette.none).apply { alpha = 1.0 }
-                //if (scaling) scale = (if (hovered && !Mouse.isButtonDown(0)) 1.1 else 1.0).doubleVec()
+                // if (scaling) scale = (if (hovered && !Mouse.isButtonDown(0)) 1.1 else 1.0).doubleVec()
             }
         }
         onMouseStateChange {

@@ -22,7 +22,11 @@ class StructureGroup(val name: String, labelId: String, count: Int) {
                 startZ - dimensions.z + 2
             )
             val maxLocation = Location(app.structureMap.world, startX - 1, startY - 1, startZ - 1)
-            structures.add(Structure(name, Box(minLocation, maxLocation)))
+
+            val id = Structures.structures.size
+            val structure = Structure(id, "Дом ${id + 1}", Box(minLocation, maxLocation))
+            structures.add(structure)
+            Structures.structures.add(structure)
 
             startX -= dimensions.x + 1
         }

@@ -1,7 +1,12 @@
 package me.slavita.construction.prepare
 
 import me.func.atlas.Atlas
-import me.func.protocol.ui.dialog.*
+import me.func.protocol.ui.dialog.Action
+import me.func.protocol.ui.dialog.Actions
+import me.func.protocol.ui.dialog.Button
+import me.func.protocol.ui.dialog.Dialog
+import me.func.protocol.ui.dialog.Entrypoint
+import me.func.protocol.ui.dialog.Screen
 import me.slavita.construction.player.User
 
 object GuidePrepare : IPrepare {
@@ -40,10 +45,10 @@ object GuidePrepare : IPrepare {
         val entryPoint: String = if (
             false
         ) {
-            "${user.data.statistics.trainStep}-not_complete"
+            "${user.data.trainStep}-not_complete"
         } else {
-            user.data.statistics.trainStep++
-            user.data.statistics.trainStep.toString()
+            user.data.trainStep++
+            user.data.trainStep.toString()
         }
 
         dialog?.run {

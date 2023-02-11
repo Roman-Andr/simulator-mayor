@@ -1,10 +1,15 @@
-.idea/*
+.idea/
+.run
 out/
 build/
 .gradle/
 
+gradle.properties
+
 hs_err_pid*
 replay_pid*
+
+*.env
 
 *.zip
 *.tar.gz

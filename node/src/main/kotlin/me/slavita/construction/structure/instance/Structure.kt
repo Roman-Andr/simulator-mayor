@@ -11,7 +11,7 @@ import net.minecraft.server.v1_12_R1.BlockPosition
 import org.bukkit.Material
 import org.bukkit.World
 
-class Structure(val name: String, val box: Box) {
+class Structure(val id: Int, val name: String, val box: Box) {
     val world: World = box.min.world
     var blocksCount = 0
         private set

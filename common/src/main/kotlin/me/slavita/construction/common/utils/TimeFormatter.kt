@@ -2,7 +2,7 @@ package me.slavita.construction.common.utils
 
 object TimeFormatter {
     fun toTimeFormat(duration: Long): String {
-        val millis: Long = duration % 1000
+//        val millis: Long = duration % 1000
         val second: Long = duration / 1000 % 60
         val minute: Long = duration / (1000 * 60) % 60
         val hour: Long = duration / (1000 * 60 * 60) % 24

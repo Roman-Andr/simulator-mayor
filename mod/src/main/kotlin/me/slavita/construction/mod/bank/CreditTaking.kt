@@ -1,25 +1,40 @@
 package me.slavita.construction.mod.bank
 
 import io.netty.buffer.Unpooled
+import me.slavita.construction.common.utils.BANK_OPEN_CHANNEL
+import me.slavita.construction.common.utils.BANK_SUBMIT_CHANNEL
+import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.common.utils.NumberFormatter
 import me.slavita.construction.mod.mod
 import me.slavita.construction.mod.templates.button
 import me.slavita.construction.mod.templates.slider
 import me.slavita.construction.mod.utils.ColorPalette
 import me.slavita.construction.mod.utils.doubleVec
+import me.slavita.construction.mod.utils.sendPayload
 import ru.cristalix.uiengine.UIEngine
-import ru.cristalix.uiengine.UIEngine.clientApi
 import ru.cristalix.uiengine.element.ContextGui
-import ru.cristalix.uiengine.utility.*
+import ru.cristalix.uiengine.utility.BOTTOM
+import ru.cristalix.uiengine.utility.BOTTOM_LEFT
+import ru.cristalix.uiengine.utility.BOTTOM_RIGHT
+import ru.cristalix.uiengine.utility.CENTER
+import ru.cristalix.uiengine.utility.Color
+import ru.cristalix.uiengine.utility.FlexDirection
+import ru.cristalix.uiengine.utility.LEFT
+import ru.cristalix.uiengine.utility.TOP
+import ru.cristalix.uiengine.utility.V3
+import ru.cristalix.uiengine.utility.carved
+import ru.cristalix.uiengine.utility.flex
+import ru.cristalix.uiengine.utility.text
 import kotlin.math.pow
 
-object CreditTaking : ContextGui() {
+object CreditTaking : ContextGui(), IRegistrable {
     private val back = carved {
         align = CENTER
         origin = CENTER
         carveSize = 3.0
         size = V3(173.5, 91.5)
         color = Color(75, 75, 75, 0.28)
+        opened = false
         +carved {
             carveSize = 3.0
             align = CENTER
@@ -79,8 +94,9 @@ object CreditTaking : ContextGui() {
             onButtonClick {
                 val buffer = Unpooled.buffer().writeInt(slider.activeId).writeInt(digit)
                 UIEngine.schedule(0.1) {
-                    clientApi.clientConnection().sendPayload("bank:submit", buffer)
+                    sendPayload(BANK_SUBMIT_CHANNEL, buffer)
                     close()
+                    opened = false
                 }
             }
         }
@@ -96,15 +112,18 @@ object CreditTaking : ContextGui() {
 
     private var digit = 0
 
-    init {
+    override fun register() {
         this.size = UIEngine.overlayContext.size
         color = Color(0, 0, 0, 0.86)
 
         +back
 
-        mod.registerChannel("bank:open") {
+        mod.registerChannel(BANK_OPEN_CHANNEL) {
             digit = readInt()
-            open()
+            if (!opened) {
+                opened = true
+                open()
+            }
         }
     }
 }

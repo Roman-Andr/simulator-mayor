@@ -8,7 +8,12 @@ import ru.cristalix.uiengine.element.CarvedRectangle
 import ru.cristalix.uiengine.element.ContextGui
 import ru.cristalix.uiengine.eventloop.animate
 import ru.cristalix.uiengine.onMouseUp
-import ru.cristalix.uiengine.utility.*
+import ru.cristalix.uiengine.utility.CENTER
+import ru.cristalix.uiengine.utility.Color
+import ru.cristalix.uiengine.utility.LEFT
+import ru.cristalix.uiengine.utility.V3
+import ru.cristalix.uiengine.utility.carved
+import ru.cristalix.uiengine.utility.text
 import kotlin.math.max
 
 inline fun input(initializer: InputElement.() -> Unit) = InputElement().also(initializer)
@@ -50,7 +55,7 @@ class InputElement : CarvedRectangle() {
             text.content = when {
                 !focused && value.isEmpty()             -> placeholder
                 !focused                                -> value
-                System.currentTimeMillis() % 1000 > 500 -> "${value}|"
+                System.currentTimeMillis() % 1000 > 500 -> "$value|"
                 else                                    -> "$value "
             }
             if (Mouse.isButtonDown(0) && !hovered) focused = false

@@ -17,13 +17,13 @@ open class ItemProperties(val type: Material, val data: Byte) {
         return item != null && item.getType() == type && item.getData().data == data
     }
 
+    @Suppress("DEPRECATION")
     fun createItemStack(amount: Int): ItemStack {
         return ItemStack(type, amount, 0, data)
     }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (javaClass != other?.javaClass) return false
 
         other as ItemProperties
 

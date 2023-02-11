@@ -37,7 +37,5 @@ class Box(val min: Location, val max: Location) {
                 min.getZ() <= location.z && max.getZ() >= location.z
     }
 
-    override fun toString(): String {
-        return "Box(min: $min, max: $max)"
-    }
+    override fun toString() = "Box(min: $min, max: $max)"
 }

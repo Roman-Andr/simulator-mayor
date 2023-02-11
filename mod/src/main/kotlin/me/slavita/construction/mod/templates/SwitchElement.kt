@@ -6,7 +6,15 @@ import ru.cristalix.uiengine.element.RectangleElement
 import ru.cristalix.uiengine.element.TextElement
 import ru.cristalix.uiengine.eventloop.animate
 import ru.cristalix.uiengine.onMouseUp
-import ru.cristalix.uiengine.utility.*
+import ru.cristalix.uiengine.utility.CENTER
+import ru.cristalix.uiengine.utility.Easings
+import ru.cristalix.uiengine.utility.FlexDirection
+import ru.cristalix.uiengine.utility.LEFT
+import ru.cristalix.uiengine.utility.V3
+import ru.cristalix.uiengine.utility.carved
+import ru.cristalix.uiengine.utility.flex
+import ru.cristalix.uiengine.utility.rectangle
+import ru.cristalix.uiengine.utility.text
 
 inline fun switch(initializer: SwitchElement.() -> Unit) = SwitchElement().also(initializer)
 
