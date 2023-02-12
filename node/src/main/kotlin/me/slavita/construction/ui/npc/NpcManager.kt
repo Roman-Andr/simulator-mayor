@@ -1,6 +1,5 @@
-package me.slavita.construction.register
+package me.slavita.construction.ui.npc
 
-import me.func.atlas.Atlas
 import me.func.mod.world.Npc
 import me.func.mod.world.Npc.location
 import me.func.mod.world.Npc.onClick
@@ -17,7 +16,7 @@ import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.STORAGE_URL
 import me.slavita.construction.utils.labels
-import me.slavita.construction.utils.loadBanner
+import me.slavita.construction.utils.newBanner
 import me.slavita.construction.utils.toUUID
 import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack
 import org.bukkit.inventory.EquipmentSlot
@@ -27,16 +26,9 @@ object NpcManager : IRegistrable {
     private val labels = labels("npc")
 
     override fun register() {
-        Atlas.find("npc").getMapList("npc").forEach { values ->
-            val labelTag = values["labelTag"] as String
-            val skinType = values["skinType"] as String
-            val skin = values["skin"] as String
-            val itemKey = values["itemKey"] as String
-            val itemValue = values["itemValue"] as String
-            val action = values["action"] as String
-
-            labels.filter { it.tag == labelTag }.forEach { label ->
-                loadBanner(values["banner"] as Map<*, *>, label)
+        NpcSamples.values().forEach { npc ->
+            labels.filter { it.tag == npc.label }.forEach { label ->
+                newBanner(npc.banner, label)
 
                 Npc.npc {
                     location(
@@ -45,13 +37,13 @@ object NpcManager : IRegistrable {
                         }
                     )
                     name = ""
-                    when (skinType) {
-                        "uuid" -> skin(skin.toUUID())
-                        "url" -> skin("$STORAGE_URL/skin/$skin")
+                    when (npc.skinType) {
+                        SkinType.UUID -> skin(npc.skin.toUUID())
+                        SkinType.URL  -> skin("$STORAGE_URL/skin/${npc.skin}")
                     }
                     behaviour = NpcBehaviour.STARE_AND_LOOK_AROUND
                     onClick {
-                        when (action) {
+                        when (npc.action) {
                             "WorkerMenu" -> WorkerMenu::class
                             "ControlPanelMenu" -> ControlPanelMenu::class
                             "BankMainMenu" -> me.slavita.construction.action.menu.bank.BankMainMenu::class
@@ -63,7 +55,7 @@ object NpcManager : IRegistrable {
                             else -> ControlPanelMenu::class
                         }.primaryConstructor!!.call(it.player).tryExecute()
                     }
-                }.slot(EquipmentSlot.HAND, CraftItemStack.asNMSCopy(Icons.get(itemKey, itemValue)))
+                }.slot(EquipmentSlot.HAND, CraftItemStack.asNMSCopy(Icons.get(npc.itemKey, npc.itemValue)))
             }
         }
     }

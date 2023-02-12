@@ -6,10 +6,7 @@ object Config {
     fun load(action: () -> Unit) {
         var loaded = 0
         val configs = listOf(
-            "npc",
             "dialogs",
-            "showcases",
-            "city",
         ).map {
             "$STORAGE_URL/config/$it.yml"
         }

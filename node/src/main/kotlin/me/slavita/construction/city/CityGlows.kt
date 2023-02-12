@@ -1,6 +1,5 @@
 package me.slavita.construction.city
 
-import me.func.atlas.Atlas
 import me.func.mod.reactive.ReactivePlace
 import me.func.protocol.data.color.GlowColor
 import me.func.protocol.data.color.RGB
@@ -8,26 +7,27 @@ import me.slavita.construction.action.menu.city.CityHallMenu
 import me.slavita.construction.action.menu.city.StorageUpgrade
 import me.slavita.construction.app
 import me.slavita.construction.common.utils.IRegistrable
+import me.slavita.construction.ui.BannerSamples
 import me.slavita.construction.utils.accept
 import me.slavita.construction.utils.labels
-import me.slavita.construction.utils.loadBanner
+import me.slavita.construction.utils.newBanner
 import me.slavita.construction.utils.user
 import org.bukkit.entity.Player
 
 object CityGlows : IRegistrable {
     override fun register() {
-        loadGlow("city-hall", GlowColor.GREEN, { player ->
+        loadGlow(BannerSamples.CITY_HALL, GlowColor.GREEN, { player ->
             CityHallMenu(player).tryExecute()
         })
-        loadGlow("afk-zone", GlowColor.RED_LIGHT, { player ->
+        loadGlow(BannerSamples.AFK_ZONE, GlowColor.RED_LIGHT, { player ->
             player.accept("Вы вошли в зону афк")
         }, { player ->
             player.accept("Вы вышли из зоны афк")
         })
-        loadGlow("storage-upgrade", GlowColor.GREEN_LIGHT, { player ->
+        loadGlow(BannerSamples.STORAGE_UPGRADE, GlowColor.GREEN_LIGHT, { player ->
             StorageUpgrade(player).tryExecute()
         })
-        loadGlow("trash", GlowColor.NEUTRAL_LIGHT, { player ->
+        loadGlow(BannerSamples.TRASH, GlowColor.NEUTRAL_LIGHT, { player ->
             player.accept(
                 """
                 Здесь находится мусорка
@@ -41,16 +41,14 @@ object CityGlows : IRegistrable {
     }
 
     private fun loadGlow(
-        labelName: String,
+        banner: BannerSamples,
         color: RGB,
         onEnter: (player: Player) -> Unit,
         onLeave: (player: Player) -> Unit = {},
         radius: Double = 2.0,
     ) {
-        labels(labelName).forEach { label ->
-            Atlas.find("city").getMapList(labelName).forEach { banner ->
-                loadBanner(banner, label, true, 0.0)
-            }
+        labels(banner.label).forEach { label ->
+            newBanner(banner, label, true, 0.0)
             app.mainWorld.glows.add(
                 ReactivePlace.builder()
                     .rgb(color)
@@ -61,7 +59,6 @@ object CityGlows : IRegistrable {
                         onEnter(player)
                     }
                     .onLeave { player ->
-                        // todo: тоже проверять высоту
                         onLeave(player)
                     }
                     .build().apply {

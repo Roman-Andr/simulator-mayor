@@ -23,9 +23,7 @@ import me.func.mod.world.Banners
 import me.func.mod.world.Banners.location
 import me.func.protocol.data.color.GlowColor
 import me.func.protocol.data.color.RGB
-import me.func.protocol.data.color.Tricolor
 import me.func.protocol.data.element.Banner
-import me.func.protocol.data.element.MotionType
 import me.func.world.WorldMeta
 import me.slavita.construction.action.command.ButtonCommand
 import me.slavita.construction.app
@@ -490,6 +488,8 @@ fun loadBanner(
     withPitch: Boolean = false,
     opacity: Double = 0.45,
     xray: Double = 0.0,
+    yaw: Float = 0.0F,
+    withOutWatch: Boolean = false,
 ): ReactiveBanner {
     banner.run {
         return ReactiveBanner.builder()
@@ -502,33 +502,32 @@ fun loadBanner(
             .y(location.y + offset)
             .z(location.toCenterLocation().z)
             .xray(xray)
+            .yaw(yaw)
             .apply {
-                if (withPitch) {
-                    watchingOnPlayer(true)
-                } else {
-                    watchingOnPlayerWithoutPitch(true)
+                if (!withOutWatch) {
+                    if (withPitch) {
+                        watchingOnPlayer(true)
+                    } else {
+                        watchingOnPlayerWithoutPitch(true)
+                    }
                 }
                 lineSizes.forEachIndexed { index, value ->
-                    this.resizeLine(index, value as Double)
+                    this.resizeLine(index, value)
                 }
             }
             .build()
     }
 }
 
-fun createFloorBanner(location: Location, color: RGB): Banner {
-    return createBanner(
-        BannerInfo(
-            location,
-            BlockFace.UP,
-            listOf(),
-            16 * 23,
-            16 * 23,
-            color,
-            0.24,
-            MotionType.CONSTANT,
-            -90.0F
-        )
+fun newBanner(
+    banner: BannerSamples,
+    location: Location,
+    withPitch: Boolean = false,
+    opacity: Double = 0.45,
+    xray: Double = 0.0,
+) {
+    Banners.new(
+        loadBanner(banner, location, withPitch, opacity, xray)
     )
 }
 
@@ -549,26 +548,6 @@ fun createDual(info: BannerInfo): Pair<Banner, Banner> {
             )
         )
     }
-}
-
-fun createRectangle(center: Location, radius: Double, color: Tricolor, width: Int, height: Int): HashSet<Banner> {
-    val banners = hashSetOf<Banner>()
-    listOf(BlockFace.NORTH, BlockFace.WEST, BlockFace.SOUTH, BlockFace.EAST).forEach {
-        banners.addAll(
-            createDual(
-                BannerInfo(
-                    center.clone().add(it.modX * radius, 0.0, it.modZ * radius),
-                    it,
-                    listOf(),
-                    width * 16,
-                    height * 16,
-                    color,
-                    0.25
-                )
-            ).toList()
-        )
-    }
-    return banners
 }
 
 private fun createBanner(info: BannerInfo): Banner {

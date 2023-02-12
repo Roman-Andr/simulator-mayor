@@ -1,17 +1,17 @@
 package me.slavita.construction.structure
 
-import me.func.atlas.Atlas
 import me.func.mod.reactive.ReactivePlace
 import me.func.mod.world.Banners
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.app
 import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.tools.StructureState
+import me.slavita.construction.ui.BannerSamples
 import me.slavita.construction.utils.accept
 import me.slavita.construction.utils.addByFace
 import me.slavita.construction.utils.getFaceCenter
 import me.slavita.construction.utils.language.LanguageHelper
-import me.slavita.construction.utils.loadBannerFromConfig
+import me.slavita.construction.utils.loadBanner
 import me.slavita.construction.utils.notify
 import me.slavita.construction.worker.Worker
 import me.slavita.construction.world.ItemProperties
@@ -44,8 +44,8 @@ class WorkerStructure(
             isConstant = true
         }
 
-    private var claimBanner = loadBannerFromConfig(
-        Atlas.find("city").getMapList("claim-banner").first(),
+    private var claimBanner = loadBanner(
+        BannerSamples.CLAIM_BANNER,
         center,
         opacity = 0.0
     )

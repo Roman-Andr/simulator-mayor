@@ -1,6 +1,5 @@
 package me.slavita.construction.city
 
-import me.func.atlas.Atlas
 import me.func.mod.reactive.ReactiveBanner
 import me.func.mod.reactive.ReactivePlace
 import me.func.mod.ui.Glow
@@ -9,9 +8,10 @@ import me.func.mod.world.Banners
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.app
 import me.slavita.construction.common.utils.IRegistrable
+import me.slavita.construction.ui.BannerSamples
 import me.slavita.construction.ui.Texture
 import me.slavita.construction.utils.labels
-import me.slavita.construction.utils.loadBanner
+import me.slavita.construction.utils.newBanner
 import me.slavita.construction.utils.revert
 import me.slavita.construction.utils.toYaw
 import me.slavita.construction.utils.yaw
@@ -31,9 +31,7 @@ object SpeedPlaces : IRegistrable {
                 .toCenterLocation()
                 .apply { y = label.y }
 
-            Atlas.find("city").getMapList("speed-place").forEach { banner ->
-                loadBanner(banner, label, true, 0.0)
-            }
+            newBanner(BannerSamples.SPEED_PLACE, label, true, 0.0)
             Banners.add(
                 ReactiveBanner.builder()
                     .texture(Texture.SPEED_BOOST.path())

@@ -1,6 +1,5 @@
 package me.slavita.construction.structure.tools
 
-import me.func.atlas.Atlas
 import me.func.mod.Anime
 import me.func.mod.reactive.ReactivePlace
 import me.func.mod.world.Banners
@@ -9,11 +8,12 @@ import me.func.protocol.data.element.Banner
 import me.func.protocol.world.marker.Marker
 import me.func.protocol.world.marker.MarkerSign
 import me.slavita.construction.structure.CityStructure
+import me.slavita.construction.ui.BannerSamples
 import me.slavita.construction.ui.HumanizableValues.BLOCK
 import me.slavita.construction.utils.accept
 import me.slavita.construction.utils.addByFace
 import me.slavita.construction.utils.getFaceCenter
-import me.slavita.construction.utils.loadBannerFromConfig
+import me.slavita.construction.utils.loadBanner
 import me.slavita.construction.utils.runAsync
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.ChatColor.GOLD
@@ -45,8 +45,8 @@ class CityStructureVisual(val structure: CityStructure) {
                     }
                 }
                 .build()
-            repairBanner = loadBannerFromConfig(
-                Atlas.find("city").getMapList("claim-banner").first(),
+            repairBanner = loadBanner(
+                BannerSamples.CLAIM_BANNER,
                 sideCenter,
                 opacity = 0.0
             )

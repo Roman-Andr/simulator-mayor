@@ -1,7 +1,0 @@
-banner:
-  weight: 80
-  height: 40
-  content: "\n§bВитрина §8[§6ПКМ§8]"
-  lines-size:
-    - 0.9
-    - 0.9

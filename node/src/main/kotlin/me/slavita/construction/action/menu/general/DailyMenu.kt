@@ -30,7 +30,7 @@ class DailyMenu(player: Player) : MenuCommand(player) {
                 storage = getDailyReward(user).mapIndexedM { index, entry ->
                     button {
                         item = Icons.get("other", entry.first)
-                        var displayTitle = ""
+                        val displayTitle: String
                         val reward = entry.second.random()
                         if (!rewardTaken && index == data.nextDay) {
                             displayTitle = "${GOLD}Получить ежедневную награду"
