@@ -81,7 +81,7 @@ open class Project(
         ${GOLD}Информация про проект:
           ${AQUA}ID: $id
           ${AQUA}Награды:
-          ${rewards.joinToString { it.toString() }}
+          ${rewards.sortedBy { it::class.java.name }.joinToString { it.toString() }}
     """.trimIndent()
 }
 

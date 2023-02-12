@@ -58,9 +58,9 @@ class SliderElement : CarvedRectangle() {
         onHover {
             animate(0.08) {
                 color = when {
-                    hovered && !Mouse.isButtonDown(0)  -> Color(175, 208, 255, 1.0)
+                    hovered && !Mouse.isButtonDown(0) -> Color(175, 208, 255, 1.0)
                     !hovered && !Mouse.isButtonDown(0) -> WHITE
-                    else                               -> ColorPalette.BLUE.light.apply { alpha = 1.0 }
+                    else -> ColorPalette.BLUE.light.apply { alpha = 1.0 }
                 }
             }
         }
@@ -109,7 +109,7 @@ class SliderElement : CarvedRectangle() {
                 animate(0.05) {
                     cursor.color = when {
                         cursor.hovered -> Color(175, 208, 255, 1.0)
-                        else           -> WHITE
+                        else -> WHITE
                     }
                     if (partsCount != 0) {
                         magnetizeCursor()

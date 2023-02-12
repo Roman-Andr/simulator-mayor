@@ -1,6 +1,5 @@
 package me.slavita.construction.action.command
 
-import me.slavita.construction.action.CooldownCommand
 import me.slavita.construction.player.User
 import me.slavita.construction.utils.accept
 import me.slavita.construction.worker.Worker

@@ -9,7 +9,6 @@ object Config {
             "npc",
             "dialogs",
             "showcases",
-            "locations",
             "city",
         ).map {
             "$STORAGE_URL/config/$it.yml"

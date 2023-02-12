@@ -53,10 +53,10 @@ class InputElement : CarvedRectangle() {
         color = updateColor()
         beforeTransform {
             text.content = when {
-                !focused && value.isEmpty()             -> placeholder
-                !focused                                -> value
+                !focused && value.isEmpty() -> placeholder
+                !focused -> value
                 System.currentTimeMillis() % 1000 > 500 -> "$value|"
-                else                                    -> "$value "
+                else -> "$value "
             }
             if (Mouse.isButtonDown(0) && !hovered) focused = false
         }

@@ -1,6 +1,5 @@
 package me.slavita.construction.worker
 
-import me.func.atlas.Atlas
 import kotlin.random.Random
 
 object WorkerGenerator {
@@ -47,4 +46,6 @@ object WorkerGenerator {
             }
         }
     }
+
+    fun generate(rarity: WorkerRarity) = WorkerGenerator.generate(rarity, 1).first()
 }

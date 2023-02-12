@@ -1,6 +1,6 @@
 package me.slavita.construction.listener
 
-import me.slavita.construction.action.command.menu.city.LeaveFreelanceConfirm
+import me.slavita.construction.action.menu.city.LeaveFreelanceConfirm
 import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.ui.HumanizableValues.BLOCK
 import me.slavita.construction.utils.accept
@@ -41,10 +41,10 @@ object OnActions : IRegistrable {
             if (depositBlocks > 0) {
                 player.accept(
                     "Вы положили ${GOLD}${
-                        LanguageHelper.getItemDisplayName(
-                            drop.itemStack,
-                            player
-                        )
+                    LanguageHelper.getItemDisplayName(
+                        drop.itemStack,
+                        player
+                    )
                     }: ${BLOCK.get(depositBlocks)}"
                 )
             } else {
@@ -62,8 +62,7 @@ object OnActions : IRegistrable {
             else if (player.user.currentFreelance != null && !player.user.freelanceCell.box.contains(to)) {
                 isCancelled = true
                 LeaveFreelanceConfirm(player).tryExecute()
-            }
-            else player.user.updatePosition()
+            } else player.user.updatePosition()
         }
     }
 }

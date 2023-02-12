@@ -1,12 +1,13 @@
 package me.slavita.construction.player
 
-import me.func.atlas.Atlas
 import me.slavita.construction.city.City
 import me.slavita.construction.city.CityHall
+import me.slavita.construction.city.CitySamples
 import me.slavita.construction.city.storage.BlocksStorage
 import me.slavita.construction.dontate.Abilities
 import me.slavita.construction.ui.achievements.AchievementData
 import me.slavita.construction.ui.achievements.AchievementType
+import me.slavita.construction.utils.mapS
 import me.slavita.construction.worker.Worker
 import me.slavita.construction.world.SlotItem
 
@@ -40,28 +41,31 @@ class Data(@Transient var user: User) {
     var hasFreelance: Boolean = false
     var achievements: HashSet<AchievementData> = AchievementType.values().map { AchievementData(it) }.toHashSet()
     var lastCityId: String = "1"
-    val cities: HashSet<City> = Atlas.find("locations").getMapList("locations").map { values ->
+    val cities: HashSet<City> = CitySamples.values().mapS { sample ->
         City(
             user,
-            values["id"] as String,
-            values["title"] as String,
-            (values["price"] as Int).toLong(),
-            values["id"] as String == "1"
+            sample.id.toString(),
+            sample.title,
+            sample.price,
+            sample.id == 1
         )
-    }.toHashSet()
+    }
 
     fun addMoney(value: Long) {
         money += (value)
         user.updateAchievement(AchievementType.MONEY)
     }
+
     fun addProjects(value: Int) {
         totalProjects += value
         user.updateAchievement(AchievementType.PROJECTS)
     }
+
     fun addBlocks(value: Int) {
         boughtBlocks += value
         user.updateAchievement(AchievementType.BOUGHT_BLOCKS)
     }
+
     fun addFreelanceProjects(value: Int) {
         freelanceProjectsCount += value
         user.updateAchievement(AchievementType.FREELANCE)

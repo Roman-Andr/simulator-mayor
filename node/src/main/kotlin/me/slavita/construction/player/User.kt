@@ -4,10 +4,10 @@ import com.google.gson.GsonBuilder
 import me.func.mod.Anime
 import me.func.mod.conversation.ModTransfer
 import me.slavita.construction.action.command.ChangeCity
-import me.slavita.construction.action.command.menu.city.BuyCityConfirm
-import me.slavita.construction.action.command.menu.city.ShowcaseMenu
-import me.slavita.construction.action.command.menu.project.ChoiceProject
-import me.slavita.construction.action.command.menu.project.ChoiceStructureGroup
+import me.slavita.construction.action.menu.city.BuyCityConfirm
+import me.slavita.construction.action.menu.city.ShowcaseMenu
+import me.slavita.construction.action.menu.project.ChoiceProject
+import me.slavita.construction.action.menu.project.ChoiceStructureGroup
 import me.slavita.construction.city.City
 import me.slavita.construction.city.CityDeserializer
 import me.slavita.construction.city.project.FreelanceProject
@@ -16,12 +16,14 @@ import me.slavita.construction.city.showcase.Showcase
 import me.slavita.construction.city.showcase.Showcases
 import me.slavita.construction.city.storage.BlocksStorage
 import me.slavita.construction.city.storage.BlocksStorageDeserializer
-import me.slavita.construction.common.utils.*
+import me.slavita.construction.common.utils.STORAGE_HIDE_CHANNEL
+import me.slavita.construction.common.utils.STORAGE_SHOW_CHANNEL
 import me.slavita.construction.dontate.Abilities
 import me.slavita.construction.dontate.AbilityDonate
 import me.slavita.construction.dontate.Donates
 import me.slavita.construction.listener.OnActions
 import me.slavita.construction.prepare.StoragePrepare
+import me.slavita.construction.reward.Reward
 import me.slavita.construction.structure.CityCell
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.ui.HumanizableValues
@@ -54,6 +56,7 @@ class User(val uuid: UUID) {
     lateinit var currentCity: City
     lateinit var freelanceCell: CityCell
 
+    var waitingReward: Reward? = null
     var currentFreelance: FreelanceProject? = null
         set(value) {
             data.hasFreelance = value != null
@@ -255,12 +258,12 @@ class User(val uuid: UUID) {
     fun getAchievement(type: AchievementType) = data.achievements.find { it.type == type }!!
 
     private fun updateAchieveValue(type: AchievementType) = when (type) {
-        AchievementType.MONEY         -> data.money
-        AchievementType.PROJECTS      -> data.totalProjects
-        AchievementType.WORKERS       -> data.workers.size
-        AchievementType.CITY_HALL     -> data.hall.level
-        AchievementType.STORAGE       -> data.blocksStorage.level
-        AchievementType.FREELANCE     -> data.freelanceProjectsCount
+        AchievementType.MONEY -> data.money
+        AchievementType.PROJECTS -> data.totalProjects
+        AchievementType.WORKERS -> data.workers.size
+        AchievementType.CITY_HALL -> data.hall.level
+        AchievementType.STORAGE -> data.blocksStorage.level
+        AchievementType.FREELANCE -> data.freelanceProjectsCount
         AchievementType.BOUGHT_BLOCKS -> data.boughtBlocks
     }.toLong()
 }

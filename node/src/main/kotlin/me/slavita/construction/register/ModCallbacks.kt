@@ -7,7 +7,6 @@ import me.slavita.construction.common.utils.BANK_SUBMIT_CHANNEL
 import me.slavita.construction.common.utils.FUNC_REWARD_CLICK
 import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.common.utils.STRUCTURE_PLACE_CHANNEL
-import me.slavita.construction.reward.MoneyReward
 import me.slavita.construction.structure.ClientStructure
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.accept
@@ -22,12 +21,6 @@ import kotlin.math.pow
 
 object ModCallbacks : IRegistrable {
     override fun register() {
-//        Anime.createReader("menu:open") { player, _ ->
-//            if (player.user.watchableProject != null) {
-//                BuildingControlMenu(player, player.user.watchableProject!!).tryExecute()
-//            }
-//        }
-
         Anime.createReader(BANK_SUBMIT_CHANNEL) { player, buff ->
             val amount = buff.readInt()
             val digit = buff.readInt()
@@ -37,8 +30,11 @@ object ModCallbacks : IRegistrable {
         }
 
         Anime.createReader(FUNC_REWARD_CLICK) { player, _ ->
-            MoneyReward(100).getReward(player.user)
-            player.user.updateDaily()
+            player.user.run {
+                if (waitingReward == null) println("reward is null")
+                waitingReward?.getReward(player.user)
+                updateDaily()
+            }
         }
 
         Anime.createReader(STRUCTURE_PLACE_CHANNEL) { player, _ ->

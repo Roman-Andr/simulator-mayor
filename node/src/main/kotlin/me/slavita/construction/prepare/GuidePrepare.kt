@@ -26,12 +26,12 @@ object GuidePrepare : IPrepare {
                                 Button(
                                     when (actionType) {
                                         "CONTINUE" -> "Далее"
-                                        else       -> "Хорошо"
+                                        else -> "Хорошо"
                                     }
                                 ).actions(
                                     when (actionType) {
                                         "CONTINUE" -> Action.command("/dialog ${getString("command-key")}")
-                                        else       -> Action(Actions.CLOSE)
+                                        else -> Action(Actions.CLOSE)
                                     }
                                 )
                             )

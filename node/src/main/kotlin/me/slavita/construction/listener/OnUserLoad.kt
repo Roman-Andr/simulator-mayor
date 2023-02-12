@@ -5,7 +5,6 @@ import me.slavita.construction.prepare.AbilityPrepare
 import me.slavita.construction.prepare.BankAccountPrepare
 import me.slavita.construction.prepare.CitiesPrepare
 import me.slavita.construction.prepare.ConnectionPrepare
-import me.slavita.construction.prepare.DailyRewardsPrepare
 import me.slavita.construction.prepare.GuidePrepare
 import me.slavita.construction.prepare.ItemCallbacksPrepare
 import me.slavita.construction.prepare.PermissionsPrepare

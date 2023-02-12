@@ -9,7 +9,6 @@ import me.slavita.construction.action.chat.AdminCommands
 import me.slavita.construction.action.chat.UserCommands
 import me.slavita.construction.booster.BoosterType
 import me.slavita.construction.booster.Boosters
-import me.slavita.construction.city.utils.AnimeTimer
 import me.slavita.construction.common.utils.register
 import me.slavita.construction.dontate.Abilities
 import me.slavita.construction.listener.OnActions
@@ -32,6 +31,7 @@ import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.Formatter.applyBoosters
 import me.slavita.construction.ui.ItemsManager
 import me.slavita.construction.ui.Leaderboards
+import me.slavita.construction.utils.AnimeTimer
 import me.slavita.construction.utils.accept
 import me.slavita.construction.utils.coroutineForAll
 import me.slavita.construction.utils.language.EnumLang

@@ -52,7 +52,7 @@ object Storage : IRegistrable {
             if (hand == EnumHand.OFF_HAND) return@registerHandler
             storages.forEach { storage ->
                 if (!position.add(facing.xOffset, facing.yOffset, facing.zOffset)
-                        .inBox(storage.min, storage.max)
+                    .inBox(storage.min, storage.max)
                 ) return@forEach
 
                 val buffer = Unpooled.buffer()

@@ -7,7 +7,7 @@ import me.func.mod.conversation.ModTransfer
 import me.func.mod.reactive.ReactiveLine
 import me.func.mod.reactive.ReactivePanel
 import me.func.protocol.data.color.GlowColor
-import me.slavita.construction.action.command.menu.general.DailyMenu
+import me.slavita.construction.action.menu.general.DailyMenu
 import me.slavita.construction.city.bank.Bank
 import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.player.Data

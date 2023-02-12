@@ -4,8 +4,8 @@ import me.func.atlas.Atlas
 import me.func.mod.reactive.ReactivePlace
 import me.func.protocol.data.color.GlowColor
 import me.func.protocol.data.color.RGB
-import me.slavita.construction.action.command.menu.city.CityHallMenu
-import me.slavita.construction.action.command.menu.city.StorageUpgrade
+import me.slavita.construction.action.menu.city.CityHallMenu
+import me.slavita.construction.action.menu.city.StorageUpgrade
 import me.slavita.construction.app
 import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.utils.accept
@@ -61,7 +61,7 @@ object CityGlows : IRegistrable {
                         onEnter(player)
                     }
                     .onLeave { player ->
-                        //todo: тоже проверять высоту
+                        // todo: тоже проверять высоту
                         onLeave(player)
                     }
                     .build().apply {

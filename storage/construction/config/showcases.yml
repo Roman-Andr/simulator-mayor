@@ -5,16 +5,3 @@ banner:
   lines-size:
     - 0.9
     - 0.9
-showcases:
-  - id: 1
-    title: '§a§lМагазин "Напильник"'
-  - id: 2
-    title: '§a§lМагазин "МастерОК"'
-  - id: 3
-    title: '§a§lМагазин "Стружка"'
-  - id: 4
-    title: '§a§lМагазин "Кран"'
-  - id: 5
-    title: '§a§lМагазин "Пила"'
-  - id: 6
-    title: '§a§lМагазин "Грузовой"'

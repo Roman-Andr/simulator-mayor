@@ -2,11 +2,11 @@ package me.slavita.construction.city.project
 
 import me.slavita.construction.app
 import me.slavita.construction.city.City
-import me.slavita.construction.city.utils.AnimeTimer
 import me.slavita.construction.reward.Reward
 import me.slavita.construction.structure.BuildingStructure
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.ui.ItemsManager
+import me.slavita.construction.utils.AnimeTimer
 import me.slavita.construction.utils.deny
 import me.slavita.construction.utils.notify
 import me.slavita.construction.utils.unaryMinus
@@ -51,7 +51,8 @@ class FreelanceProject(
                 owner.player.notify("Постройка завершена!")
                 owner.data.addFreelanceProjects(1)
             }
-            else                    -> {}
+
+            else -> {}
         }
     }
 

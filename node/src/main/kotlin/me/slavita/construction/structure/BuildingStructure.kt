@@ -141,7 +141,7 @@ class BuildingStructureSerializer : JsonSerializer<BuildingStructure> {
                 when (buildingStructure) {
                     is ClientStructure -> "client"
                     is WorkerStructure -> "worker"
-                    else               -> throw JsonParseException("Unknown structure type!")
+                    else -> throw JsonParseException("Unknown structure type!")
                 }
             )
             json.addProperty("structureId", structure.id)
@@ -201,7 +201,7 @@ class BuildingStructureDeserializer(val project: Project) : JsonDeserializer<Bui
                 }
 
                 "client" -> ClientStructure(structure, cityCell)
-                else     -> throw JsonParseException("Unknown structure type!")
+                else -> throw JsonParseException("Unknown structure type!")
             }.apply {
                 this.blocksPlaced = blocksPlaced
                 currentProject = project
@@ -219,7 +219,7 @@ class BuildingStructureDeserializer(val project: Project) : JsonDeserializer<Bui
                         finishBuilding()
                     }
 
-                    else                    -> this@apply.state = StructureState.valueOf(get("state").asString)
+                    else -> this@apply.state = StructureState.valueOf(get("state").asString)
                 }
             }
         }

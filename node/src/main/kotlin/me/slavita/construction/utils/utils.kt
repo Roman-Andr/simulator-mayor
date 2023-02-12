@@ -27,7 +27,7 @@ import me.func.protocol.data.color.Tricolor
 import me.func.protocol.data.element.Banner
 import me.func.protocol.data.element.MotionType
 import me.func.world.WorldMeta
-import me.slavita.construction.action.command.menu.ButtonCommand
+import me.slavita.construction.action.command.ButtonCommand
 import me.slavita.construction.app
 import me.slavita.construction.city.bank.Bank
 import me.slavita.construction.common.utils.LOADING_STATE_CHANNEL
@@ -36,11 +36,17 @@ import me.slavita.construction.dontate.Donates
 import me.slavita.construction.player.User
 import me.slavita.construction.player.sound.MusicSound
 import me.slavita.construction.register.BotsManager.tg
+import me.slavita.construction.reward.ExperienceReward
+import me.slavita.construction.reward.MoneyReward
+import me.slavita.construction.reward.ReputationReward
+import me.slavita.construction.reward.WorkerReward
 import me.slavita.construction.structure.CityCell
+import me.slavita.construction.ui.BannerSamples
 import me.slavita.construction.ui.Border
 import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.ui.menu.StatsType
+import me.slavita.construction.worker.WorkerRarity
 import net.minecraft.server.v1_12_R1.BlockPosition
 import net.minecraft.server.v1_12_R1.EntityPlayer
 import net.minecraft.server.v1_12_R1.Packet
@@ -81,6 +87,8 @@ val SOUND_URL = "$STORAGE_URL/sound/"
 
 const val DEFAULT_CREDITS_MAX_COUNT = 4
 
+const val MAX_BUILDING_WORKERS = 6
+
 val Player.user
     get() = app.getUser(this)
 
@@ -106,11 +114,11 @@ fun ReactiveButton.click(click: ButtonClickHandler) = apply {
 fun Selection.getVault(user: User, type: StatsType) {
     vault = type.vault
     money = "Ваш ${type.title} ${
-        when (type) {
-            StatsType.MONEY  -> user.data.money.toMoney()
-            StatsType.LEVEL  -> user.data.level
-            StatsType.CREDIT -> Bank.playersData[user.player.uniqueId]!!.sumOf { it.creditValue }.toMoney()
-        }
+    when (type) {
+        StatsType.MONEY -> user.data.money.toMoney()
+        StatsType.LEVEL -> user.data.level
+        StatsType.CREDIT -> Bank.playersData[user.player.uniqueId]!!.sumOf { it.creditValue }.toMoney()
+    }
     }"
 }
 
@@ -195,7 +203,7 @@ fun label(key: String, tag: String, map: WorldMeta = app.mainWorld.map) = map.ge
 
 fun Float.revert() = when {
     this >= 0 -> this - 180F
-    else      -> this + 180F
+    else -> this + 180F
 }
 
 object EmptyListener : Listener
@@ -341,6 +349,10 @@ inline fun <K, V, R> Map<out K, V>.mapM(transform: (Map.Entry<K, V>) -> R): Muta
     return map(transform).toMutableList()
 }
 
+inline fun <T, R> Array<out T>.mapS(transform: (T) -> R): HashSet<R> {
+    return map(transform).toHashSet()
+}
+
 inline fun <T, R> Iterable<T>.mapIndexedM(transform: (index: Int, T) -> R): MutableList<R> {
     return mapIndexed(transform).toMutableList()
 }
@@ -389,23 +401,23 @@ operator fun BlockPosition.minus(additionalPosition: Location): BlockPosition = 
 )
 
 fun BlockFace.toYaw(): Float = when (this) {
-    BlockFace.EAST       -> -90
-    BlockFace.WEST       -> 90
-    BlockFace.SOUTH      -> 0
-    BlockFace.NORTH      -> 180
+    BlockFace.EAST -> -90
+    BlockFace.WEST -> 90
+    BlockFace.SOUTH -> 0
+    BlockFace.NORTH -> 180
     BlockFace.NORTH_WEST -> 135
     BlockFace.NORTH_EAST -> -135
     BlockFace.SOUTH_WEST -> 45
     BlockFace.SOUTH_EAST -> -45
-    else                 -> 0
+    else -> 0
 }.toFloat()
 
 fun getFaceCenter(cell: CityCell) = cell.box.bottomCenter.clone().apply {
     when (cell.face) {
-        BlockFace.EAST       -> x = cell.box.max.x
-        BlockFace.NORTH      -> z = cell.box.min.z
-        BlockFace.WEST       -> x = cell.box.min.x
-        BlockFace.SOUTH      -> z = cell.box.max.z
+        BlockFace.EAST -> x = cell.box.max.x
+        BlockFace.NORTH -> z = cell.box.min.z
+        BlockFace.WEST -> x = cell.box.min.x
+        BlockFace.SOUTH -> z = cell.box.max.z
         BlockFace.NORTH_EAST -> {
             x = cell.box.max.x
             z = cell.box.min.z
@@ -426,7 +438,7 @@ fun getFaceCenter(cell: CityCell) = cell.box.bottomCenter.clone().apply {
             z = cell.box.max.z
         }
 
-        else                 -> throw IllegalArgumentException("Incorrect structure face")
+        else -> throw IllegalArgumentException("Incorrect structure face")
     }
 }
 
@@ -471,6 +483,38 @@ fun loadBannerFromConfig(
             }
         }
         .build()
+
+fun loadBanner(
+    banner: BannerSamples,
+    location: Location,
+    withPitch: Boolean = false,
+    opacity: Double = 0.45,
+    xray: Double = 0.0,
+): ReactiveBanner {
+    banner.run {
+        return ReactiveBanner.builder()
+            .weight(weight)
+            .height(height)
+            .content(content)
+            .carveSize(carvedSize)
+            .opacity(opacity)
+            .x(location.toCenterLocation().x)
+            .y(location.y + offset)
+            .z(location.toCenterLocation().z)
+            .xray(xray)
+            .apply {
+                if (withPitch) {
+                    watchingOnPlayer(true)
+                } else {
+                    watchingOnPlayerWithoutPitch(true)
+                }
+                lineSizes.forEachIndexed { index, value ->
+                    this.resizeLine(index, value as Double)
+                }
+            }
+            .build()
+    }
+}
 
 fun createFloorBanner(location: Location, color: RGB): Banner {
     return createBanner(
@@ -576,3 +620,24 @@ fun borderBuilder(location: Location, color: RGB) = Border.builder()
     .height(50.0)
     .color(color)
     .location(location)
+
+fun getDailyReward(user: User) =
+    mutableListOf(
+        Triple("info", WorkerRarity.COMMON, 0.1),
+        Triple("quest_day", WorkerRarity.RARE, 0.2),
+        Triple("quest_day_booster", WorkerRarity.RARE, 0.4),
+        Triple("quest_month", WorkerRarity.RARE, 0.7),
+        Triple("quest_week", WorkerRarity.EPIC, 0.9),
+        Triple("achievements", WorkerRarity.EPIC, 1.3),
+        Triple("achievements_many", WorkerRarity.LEGENDARY, 2.0)
+    ).map {
+        Pair(
+            it.first,
+            mutableListOf(
+                WorkerReward(it.second),
+                MoneyReward((user.data.money / 10 * it.third).toLong()),
+                ReputationReward((user.data.reputation / 10 * it.third).toLong()),
+                ExperienceReward((user.data.experience / 10 * it.third).toLong())
+            )
+        )
+    }
