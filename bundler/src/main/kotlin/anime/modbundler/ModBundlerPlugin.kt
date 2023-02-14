@@ -33,7 +33,7 @@ class ModBundlerPlugin : Plugin<Project> {
                 from(configurations.getByName("runtimeClasspath")
                     .map { if (it.isDirectory) it else zipTree(it) })
 
-                duplicatesStrategy = DuplicatesStrategy.INCLUDE
+                duplicatesStrategy = DuplicatesStrategy.EXCLUDE
                 include("**/*.class", "*.class", "mod.properties", "*.png")
             }
         }

@@ -36,7 +36,7 @@ pluginManagement {
     plugins {
         kotlin("jvm") version "1.8.0"
         id("com.github.johnrengelman.shadow") version "7.1.2"
-        id("org.jlleitschuh.gradle.ktlint") version "11.1.0"
+//        id("org.jlleitschuh.gradle.ktlint") version "11.1.0"
         id("org.hidetake.ssh") version "2.10.1"
     }
 }
@@ -67,9 +67,11 @@ include(
     ":common",
     ":protocol",
     ":mod",
-    ":node",
+    ":mod:uimod",
     ":service",
     ":service:user",
+    ":node",
 )
 
 findProject(":service:user")?.name = "user"
+findProject(":mod:uimod")?.name = "uimod"

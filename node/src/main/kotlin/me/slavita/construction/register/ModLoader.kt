@@ -6,6 +6,9 @@ import me.slavita.construction.common.utils.IRegistrable
 object ModLoader : IRegistrable {
     override fun register() {
         ModLoader.loadAll("mods")
-        ModLoader.onJoining("construction-mod.jar")
+        ModLoader.onJoining(
+            "construction-uimod-bundle.jar",
+            "construction-visualmod-bundle.jar"
+        )
     }
 }
