@@ -25,7 +25,8 @@ class App : KotlinMod() {
             Showcases,
             CreditTaking,
             Storage,
-            CellBorders
+            CellBorders,
+            WorldButton
         )
     }
 }

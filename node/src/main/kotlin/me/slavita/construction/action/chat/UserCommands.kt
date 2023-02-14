@@ -23,7 +23,7 @@ import ru.cristalix.core.keyboard.Key
 object UserCommands : IRegistrable {
     override fun register() {
         command("dialog") { player, args ->
-            if (args[0] != Atlas.find("dialogs").getString("command-key")) return@command
+            if (args[0] != GuidePrepare.COMMAND_KEY) return@command
 
             GuidePrepare.tryNext(player.user)
         }

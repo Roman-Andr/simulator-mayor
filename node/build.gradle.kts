@@ -25,7 +25,6 @@ dependencies {
     implementation("me.func:world-api:1.0.15")
     implementation("me.func:metaworld-api:1.0.7")
     implementation("me.func:sound-api:1.0.5")
-    implementation("me.func:atlas-api:1.0.11")
     implementation("me.func:stronghold:1.1.1.RELEASE")
     implementation("me.func:stronghold-protocol:1.1.1.RELEASE")
     implementation("me.func:lock-service:1.1.0.RELEASE")

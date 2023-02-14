@@ -13,7 +13,6 @@ import me.slavita.construction.common.utils.V2i
 import me.slavita.construction.common.utils.register
 import me.slavita.construction.ui.npc.NpcManager
 import me.slavita.construction.structure.WorldCell
-import me.slavita.construction.utils.Config
 import me.slavita.construction.utils.label
 import me.slavita.construction.utils.labels
 import org.bukkit.Location
@@ -72,14 +71,12 @@ class GameWorld(val map: WorldMeta) {
 
         freelanceCell = WorldCell(0, label("freelance")!!).apply { allocate() }
 
-        Config.load {
-            register(
-                NpcManager,
-                CityGlows,
-                SpeedPlaces,
-                Showcases
-            )
-        }
+        register(
+            NpcManager,
+            CityGlows,
+            SpeedPlaces,
+            Showcases
+        )
     }
 
     @Suppress("DEPRECATION")
