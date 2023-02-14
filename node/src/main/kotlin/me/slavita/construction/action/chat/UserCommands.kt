@@ -1,6 +1,5 @@
 package me.slavita.construction.action.chat
 
-
 import me.slavita.construction.action.menu.city.CityHallMenu
 import me.slavita.construction.action.menu.city.LocationsMenu
 import me.slavita.construction.action.menu.city.StorageMenu

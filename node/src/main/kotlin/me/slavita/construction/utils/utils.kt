@@ -40,11 +40,11 @@ import me.slavita.construction.reward.ReputationReward
 import me.slavita.construction.reward.WorkerReward
 import me.slavita.construction.structure.CityCell
 import me.slavita.construction.ui.BannerSamples
-import me.slavita.construction.world.Border
 import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.ui.menu.StatsType
 import me.slavita.construction.worker.WorkerRarity
+import me.slavita.construction.world.Border
 import net.minecraft.server.v1_12_R1.BlockPosition
 import net.minecraft.server.v1_12_R1.EntityPlayer
 import net.minecraft.server.v1_12_R1.Packet

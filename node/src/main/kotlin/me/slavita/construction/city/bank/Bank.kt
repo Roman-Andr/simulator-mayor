@@ -19,7 +19,7 @@ object Bank {
                 3.0
             )
         )
-        MoneyReward(amount).getReward(user)
+        MoneyReward(amount, false).getReward(user)
     }
 
     fun repayCredit(user: User, uuid: UUID, acceptAction: () -> Unit) {

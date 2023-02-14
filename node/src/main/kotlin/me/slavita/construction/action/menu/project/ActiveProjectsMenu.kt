@@ -20,7 +20,7 @@ class ActiveProjectsMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         user.run {
             return selection {
-                title = "${AQUA}${BOLD}Ваши активные проекты"
+                title = "${AQUA}${BOLD}Ваши здания"
                 size(4, 4)
                 getVault(user, StatsType.MONEY)
                 hint = ""

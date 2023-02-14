@@ -30,7 +30,6 @@ import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.Formatter.applyBoosters
 import me.slavita.construction.ui.ItemsManager
-import me.slavita.construction.world.Leaderboards
 import me.slavita.construction.utils.AnimeTimer
 import me.slavita.construction.utils.accept
 import me.slavita.construction.utils.coroutineForAll
@@ -41,6 +40,7 @@ import me.slavita.construction.utils.runTimerAsync
 import me.slavita.construction.utils.toUUID
 import me.slavita.construction.world.GameWorld
 import me.slavita.construction.world.ItemProperties
+import me.slavita.construction.world.Leaderboards
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 import ru.cristalix.core.datasync.EntityDataParameters

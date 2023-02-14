@@ -27,6 +27,7 @@ pluginManagement {
         }
         maven {
             url = uri("https://jitpack.io")
+            content { includeGroup("com.github.kotlin-telegram-bot.kotlin-telegram-bot") }
         }
     }
 
@@ -54,8 +55,10 @@ dependencyResolutionManagement {
         }
         maven {
             url = uri("https://jitpack.io")
+            content { includeGroup("com.github.kotlin-telegram-bot.kotlin-telegram-bot") }
         }
     }
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
 }
 
 rootProject.name = "construction"

@@ -107,13 +107,13 @@ class User(val uuid: UUID) {
 
     fun updateIncome() {
         income = data.hall.income +
-                data.cities.sumOf { city ->
-                    city.cityStructures.filter { structure ->
-                        structure.state == CityStructureState.FUNCTIONING
-                    }.sumOf { structure ->
-                        structure.structure.income
-                    }
+            data.cities.sumOf { city ->
+                city.cityStructures.filter { structure ->
+                    structure.state == CityStructureState.FUNCTIONING
+                }.sumOf { structure ->
+                    structure.structure.income
                 }
+            }
     }
 
     fun tryPurchase(cost: Long, acceptAction: () -> Unit) {

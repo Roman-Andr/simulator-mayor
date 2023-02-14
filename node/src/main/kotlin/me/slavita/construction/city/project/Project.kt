@@ -21,6 +21,8 @@ import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.utils.playSound
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.GRAY
+import org.bukkit.ChatColor.GREEN
 import java.lang.reflect.Type
 
 open class Project(
@@ -79,7 +81,9 @@ open class Project(
 
     override fun toString() = """
         ${GOLD}Информация про проект:
-          ${AQUA}ID: $id
+          ${GRAY}Номер: ${GRAY}${structure.cell.id}
+          ${AQUA}Название: ${GOLD}${structure.structure.name}
+          ${GOLD}Локация: ${GREEN}${structure.cell.city.title}
           ${AQUA}Награды:
           ${rewards.sortedBy { it::class.java.name }.joinToString { it.toString() }}
     """.trimIndent()

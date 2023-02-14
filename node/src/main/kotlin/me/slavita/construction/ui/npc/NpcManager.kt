@@ -39,7 +39,7 @@ object NpcManager : IRegistrable {
                     name = ""
                     when (npc.skinType) {
                         SkinType.UUID -> skin(npc.skin.toUUID())
-                        SkinType.URL  -> skin("$STORAGE_URL/skin/${npc.skin}")
+                        SkinType.URL -> skin("$STORAGE_URL/skin/${npc.skin}")
                     }
                     behaviour = NpcBehaviour.STARE_AND_LOOK_AROUND
                     onClick {

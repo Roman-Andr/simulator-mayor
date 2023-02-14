@@ -11,8 +11,8 @@ import me.slavita.construction.city.SpeedPlaces
 import me.slavita.construction.city.showcase.Showcases
 import me.slavita.construction.common.utils.V2i
 import me.slavita.construction.common.utils.register
-import me.slavita.construction.ui.npc.NpcManager
 import me.slavita.construction.structure.WorldCell
+import me.slavita.construction.ui.npc.NpcManager
 import me.slavita.construction.utils.label
 import me.slavita.construction.utils.labels
 import org.bukkit.Location

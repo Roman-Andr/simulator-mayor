@@ -1,6 +1,5 @@
 package me.slavita.construction.action.chat
 
-
 import me.func.mod.Anime
 import me.func.mod.Kit
 import me.func.mod.conversation.ModTransfer
@@ -16,7 +15,6 @@ import me.slavita.construction.prepare.GuidePrepare
 import me.slavita.construction.prepare.TagsPrepare
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.accept
-import me.slavita.construction.utils.deny
 import me.slavita.construction.utils.killboard
 import me.slavita.construction.utils.log
 import me.slavita.construction.utils.opCommand

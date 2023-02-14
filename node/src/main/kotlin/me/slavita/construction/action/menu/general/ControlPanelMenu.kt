@@ -39,7 +39,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                 info = MENU_INFO
                 storage = mutableListOf(
                     button {
-                        title = "${GREEN}${BOLD}Проекты"
+                        title = "${GREEN}${BOLD}Здания"
                         hover = PROJECTS_MENU
                         item = Icons.get("other", "book")
                         click { _, _, _ ->
