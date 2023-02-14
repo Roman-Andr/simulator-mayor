@@ -30,7 +30,7 @@ import me.slavita.construction.structure.WorkerStructure
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.Formatter.applyBoosters
 import me.slavita.construction.ui.ItemsManager
-import me.slavita.construction.ui.Leaderboards
+import me.slavita.construction.world.Leaderboards
 import me.slavita.construction.utils.AnimeTimer
 import me.slavita.construction.utils.accept
 import me.slavita.construction.utils.coroutineForAll
@@ -110,7 +110,7 @@ class App : JavaPlugin() {
         }
 
         coroutineForAll(20) {
-            data.addMoney(income.applyBoosters(BoosterType.MONEY_BOOSTER))
+            data.addMoney(income.applyBoosters(BoosterType.INCOME_BOOSTER))
         }
 
         coroutineForAll(2 * 60 * 20) {

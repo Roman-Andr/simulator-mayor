@@ -25,6 +25,7 @@ import me.slavita.construction.listener.OnActions
 import me.slavita.construction.prepare.StoragePrepare
 import me.slavita.construction.reward.Reward
 import me.slavita.construction.structure.CityCell
+import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.ui.HumanizableValues
 import me.slavita.construction.ui.achievements.AchievementType
@@ -90,19 +91,29 @@ class User(val uuid: UUID) {
 
         currentCity = this.data.cities.first()
 
-        income += this.data.hall.income
+        updateIncome()
     }
 
     fun upgradeHall() {
         data.hall.apply {
             tryPurchase(upgradePrice) {
-                this@User.income -= income
                 data.hall.level++
+                updateIncome()
                 updateAchievement(AchievementType.CITY_HALL)
-                this@User.income += income
                 player.accept("Вы успешно улучшили ${GOLD}Мэрию")
             }
         }
+    }
+
+    fun updateIncome() {
+        income = data.hall.income +
+                data.cities.sumOf { city ->
+                    city.cityStructures.filter { structure ->
+                        structure.state == CityStructureState.FUNCTIONING
+                    }.sumOf { structure ->
+                        structure.structure.income
+                    }
+                }
     }
 
     fun tryPurchase(cost: Long, acceptAction: () -> Unit) {
@@ -113,10 +124,6 @@ class User(val uuid: UUID) {
             Anime.close(player)
             player.deny("Недостаточно денег!")
         }
-    }
-
-    fun addExp(exp: Long) {
-        data.experience += exp
     }
 
     fun canPurchase(cost: Long) = data.money >= cost

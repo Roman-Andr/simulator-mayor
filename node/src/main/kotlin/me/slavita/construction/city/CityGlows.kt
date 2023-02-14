@@ -19,11 +19,6 @@ object CityGlows : IRegistrable {
         loadGlow(BannerSamples.CITY_HALL, GlowColor.GREEN, { player ->
             CityHallMenu(player).tryExecute()
         })
-        loadGlow(BannerSamples.AFK_ZONE, GlowColor.RED_LIGHT, { player ->
-            player.accept("Вы вошли в зону афк")
-        }, { player ->
-            player.accept("Вы вышли из зоны афк")
-        })
         loadGlow(BannerSamples.STORAGE_UPGRADE, GlowColor.GREEN_LIGHT, { player ->
             StorageUpgrade(player).tryExecute()
         })

@@ -47,8 +47,8 @@ class City(val owner: User, val id: String, val title: String, val price: Long, 
             cityStructures.filter { it.state != CityStructureState.BROKEN && it.state != CityStructureState.NOT_READY }
         if (targetStructures.isEmpty()) return
         targetStructures.shuffled()[0].let {
-            owner.income -= it.structure.income
             it.state = CityStructureState.BROKEN
+            owner.updateIncome()
 
             Alert.send(
                 owner.player,

@@ -1,4 +1,4 @@
-package me.slavita.construction.ui
+package me.slavita.construction.world
 
 import me.func.mod.conversation.ModTransfer
 import me.func.protocol.data.color.GlowColor

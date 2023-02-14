@@ -9,7 +9,7 @@ import me.slavita.construction.utils.cursor
 class ExperienceReward(private val experience: Long) : Reward {
     override fun getReward(user: User) {
         val value = experience.applyBoosters(BoosterType.EXP_BOOSTER)
-        user.addExp(value)
+        user.data.addExp(value)
         user.player.cursor("+${value.toExp()}")
     }
 

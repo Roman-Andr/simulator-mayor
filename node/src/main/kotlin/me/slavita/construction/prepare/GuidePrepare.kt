@@ -1,6 +1,6 @@
 package me.slavita.construction.prepare
 
-import me.func.atlas.Atlas
+
 import me.func.protocol.ui.dialog.Action
 import me.func.protocol.ui.dialog.Actions
 import me.func.protocol.ui.dialog.Button
@@ -8,7 +8,7 @@ import me.func.protocol.ui.dialog.Dialog
 import me.func.protocol.ui.dialog.Entrypoint
 import me.func.protocol.ui.dialog.Screen
 import me.slavita.construction.player.User
-import me.slavita.construction.ui.GuideEntry
+import me.slavita.construction.world.GuideEntry
 
 object GuidePrepare : IPrepare {
     const val COMMAND_KEY = "e7c73529bb9e2ced61424b792f10019f"

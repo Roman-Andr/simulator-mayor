@@ -1,6 +1,6 @@
 package me.slavita.construction.action.chat
 
-import me.func.atlas.Atlas
+
 import me.func.mod.Anime
 import me.func.mod.Kit
 import me.func.mod.conversation.ModTransfer
@@ -34,7 +34,7 @@ object AdminCommands : IRegistrable {
         }
 
         opCommand("exp") { player, args ->
-            player.user.addExp(args[0].toLong())
+            player.user.data.addExp(args[0].toLong())
         }
 
         opCommand("sound") { player, args ->
@@ -68,20 +68,6 @@ object AdminCommands : IRegistrable {
 
         opCommand("credit") { player, args ->
             Bank.giveCredit(player.user, args[0].toLong())
-        }
-
-        opCommand("config") { player, args ->
-            if (Atlas.find(args[0]).get(args[1]) != null)
-                player.accept(Atlas.find(args[0]).get(args[1]).toString())
-            else {
-                player.deny("Конфиг или значение не найдены")
-            }
-        }
-
-        opCommand("refresh") { player, _ ->
-            Atlas.update {
-                player.accept("Конфигурация обновлена")
-            }
         }
 
         opCommand("dialog") { player, _ ->

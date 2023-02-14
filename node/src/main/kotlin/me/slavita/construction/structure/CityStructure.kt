@@ -15,6 +15,7 @@ import me.slavita.construction.structure.instance.Structure
 import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.structure.tools.CityStructureVisual
+import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.notify
 import me.slavita.construction.utils.user
 import me.slavita.construction.world.AmountItemProperties
@@ -52,8 +53,8 @@ class CityStructure(val owner: Player, val structure: Structure, val cell: CityC
     }
 
     fun repair() {
-        startIncome()
         state = CityStructureState.FUNCTIONING
+        owner.user.updateIncome()
         repairBlocks = hashMapOf()
         owner.player.notify(
             """
@@ -66,14 +67,11 @@ class CityStructure(val owner: Player, val structure: Structure, val cell: CityC
         visual.update()
     }
 
-    fun startIncome() {
-        owner.user.income += structure.income
-    }
-
     override fun toString() = """
         ${GOLD}Информация про проект:
           ${GRAY}Номер: ${GRAY}${cell.id}
           ${AQUA}Название: ${GOLD}${structure.name}
+          ${GREEN}Доход: ${(if (state == CityStructureState.FUNCTIONING) structure.income else 0.toMoneyIcon())}
           ${GOLD}Локация: ${GREEN}${cell.city.title}
     """.trimIndent()
 }

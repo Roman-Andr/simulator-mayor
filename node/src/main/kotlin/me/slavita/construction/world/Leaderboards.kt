@@ -1,4 +1,4 @@
-package me.slavita.construction.ui
+package me.slavita.construction.world
 
 import me.slavita.construction.booster.format.BoosterFormatter
 import me.slavita.construction.booster.format.ExperienceFormatter

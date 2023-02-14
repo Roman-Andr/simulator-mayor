@@ -1,6 +1,7 @@
 package me.slavita.construction.city.bank
 
 import me.slavita.construction.player.User
+import me.slavita.construction.reward.MoneyReward
 import java.util.UUID
 
 object Bank {
@@ -18,7 +19,7 @@ object Bank {
                 3.0
             )
         )
-        user.data.addMoney(amount)
+        MoneyReward(amount).getReward(user)
     }
 
     fun repayCredit(user: User, uuid: UUID, acceptAction: () -> Unit) {

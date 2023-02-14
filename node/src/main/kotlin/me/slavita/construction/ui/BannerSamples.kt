@@ -54,15 +54,6 @@ enum class BannerSamples(
         2.0,
         listOf(0.4)
     ),
-    AFK_ZONE(
-        "§cАФК-Зона",
-        "afk-zone",
-        8,
-        42,
-        4.0,
-        2.0,
-        listOf(2.0)
-    ),
     CELL_BANNER(
         "§6Клетка",
         "",

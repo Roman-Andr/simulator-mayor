@@ -1,4 +1,4 @@
-package me.slavita.construction.ui
+package me.slavita.construction.world
 
 class GuideEntry(
     val id: String,

@@ -40,7 +40,7 @@ import me.slavita.construction.reward.ReputationReward
 import me.slavita.construction.reward.WorkerReward
 import me.slavita.construction.structure.CityCell
 import me.slavita.construction.ui.BannerSamples
-import me.slavita.construction.ui.Border
+import me.slavita.construction.world.Border
 import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.Formatter.toMoney
 import me.slavita.construction.ui.menu.StatsType

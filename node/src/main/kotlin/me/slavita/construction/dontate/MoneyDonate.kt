@@ -1,6 +1,7 @@
 package me.slavita.construction.dontate
 
 import me.slavita.construction.player.User
+import me.slavita.construction.reward.MoneyReward
 
 open class MoneyDonate(
     title: String,
@@ -11,6 +12,6 @@ open class MoneyDonate(
     var incomeOnBuy: Long = 0
 
     override fun purchaseSuccess(user: User) {
-        user.data.addMoney(incomeOnBuy * skipTime)
+        MoneyReward(incomeOnBuy * skipTime, false).getReward(user)
     }
 }

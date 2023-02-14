@@ -30,7 +30,7 @@ class Data(@Transient var user: User) {
     var totalBoosters: Long = 0
     var lastIncome: Long = 0
 
-    val inventory: HashSet<SlotItem> = hashSetOf()
+    val inventory: MutableList<SlotItem> = mutableListOf()
     val workers: HashSet<Worker> = hashSetOf()
     val settings: SettingsData = SettingsData()
     var tag: Tags = Tags.NONE
@@ -54,6 +54,10 @@ class Data(@Transient var user: User) {
     fun addMoney(value: Long) {
         money += (value)
         user.updateAchievement(AchievementType.MONEY)
+    }
+
+    fun addExp(exp: Long) {
+        experience += exp
     }
 
     fun addProjects(value: Int) {

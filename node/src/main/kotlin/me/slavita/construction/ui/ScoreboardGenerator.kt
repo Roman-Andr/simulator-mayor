@@ -23,7 +23,7 @@ object ScoreboardGenerator {
                 .title("Доход")
                 .content {
                     "${Formatter.incomeIcon} ${GREEN}${
-                    user.income.applyBoosters(BoosterType.MONEY_BOOSTER).toMoney()
+                    user.income.applyBoosters(BoosterType.INCOME_BOOSTER).toMoney()
                     }/сек"
                 }
                 .build(),
