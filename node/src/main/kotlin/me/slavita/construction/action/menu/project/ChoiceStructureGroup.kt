@@ -11,6 +11,7 @@ import me.slavita.construction.utils.STRUCTURES_INFO
 import me.slavita.construction.utils.click
 import me.slavita.construction.utils.mapM
 import me.slavita.construction.utils.size
+import org.bukkit.ChatColor
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GOLD
 import org.bukkit.entity.Player
@@ -22,7 +23,7 @@ class ChoiceStructureGroup(
     override fun getMenu(): Openable {
         user.run user@{
             return selection {
-                title = "${GOLD}${BOLD}Выбор здания"
+                title = "${ChatColor.GREEN}${BOLD}Выбор здания"
                 info = STRUCTURES_INFO
                 size(5, 4)
                 storage = Structures.structureGroups.mapM { group ->

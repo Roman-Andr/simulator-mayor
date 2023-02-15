@@ -15,6 +15,7 @@ import me.slavita.construction.utils.DEFAULT_CREDITS_MAX_COUNT
 import me.slavita.construction.utils.click
 import me.slavita.construction.utils.deny
 import me.slavita.construction.utils.user
+import org.bukkit.ChatColor
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GOLD
 import org.bukkit.entity.Player
@@ -28,7 +29,7 @@ class BankMainMenu(player: Player) : MenuCommand(player) {
                 info = BANK_INFO
                 storage = mutableListOf(
                     button {
-                        title = "Взять кредит"
+                        title = "${ChatColor.GREEN}Взять кредит"
                         description = "Нажмите для\nвзятия кредита"
                         hint = "Выбрать"
                         item = Icons.get("other", "add")
@@ -46,7 +47,7 @@ class BankMainMenu(player: Player) : MenuCommand(player) {
                         }
                     },
                     button {
-                        title = "Мои кредиты"
+                        title = "${ChatColor.GREEN}Мои кредиты"
                         description = "Нажмите для\nпросмотра ваших\nкредитов"
                         hint = "Выбрать"
                         item = Icons.get("other", "quest_month")

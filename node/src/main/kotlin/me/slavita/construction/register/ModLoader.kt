@@ -7,8 +7,7 @@ object ModLoader : IRegistrable {
     override fun register() {
         ModLoader.loadAll("mods")
         ModLoader.onJoining(
-            "construction-uimod-bundle.jar",
-            "construction-visualmod-bundle.jar"
+            "construction-uimod-bundle.jar"
         )
     }
 }

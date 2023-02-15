@@ -349,7 +349,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
             "${GOLD}${BOLD}Тег ${Tags.BRICK.tag}",
             """
                 ${GREEN}При покупке:
-                  Добавит к вашим ${GOLD}тегам ${WHITE}тег ${Tags.BRICK.tag}
+                  Добавит к вашим ${GOLD}тегам ${WHITE} ${Tags.BRICK.tag}
                  
                 Нажмите чтобы купить за ${19.toCriMoney()}
             """.trimIndent(),

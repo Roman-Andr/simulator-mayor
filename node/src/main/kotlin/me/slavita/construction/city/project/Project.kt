@@ -81,10 +81,10 @@ open class Project(
 
     override fun toString() = """
         ${GOLD}Информация про проект:
-          ${GRAY}Номер: ${GRAY}${structure.cell.id}
-          ${AQUA}Название: ${GOLD}${structure.structure.name}
-          ${GOLD}Локация: ${GREEN}${structure.cell.city.title}
-          ${AQUA}Награды:
+          Номер: ${GRAY}${structure.cell.id}
+          Название: ${GOLD}${structure.structure.name}
+          Локация: ${GREEN}${structure.cell.city.title}
+          Награды:
           ${rewards.sortedBy { it::class.java.name }.joinToString { it.toString() }}
     """.trimIndent()
 }

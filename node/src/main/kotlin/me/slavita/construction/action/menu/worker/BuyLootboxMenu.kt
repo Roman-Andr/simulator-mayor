@@ -9,6 +9,7 @@ import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.WORKER_INFO
 import me.slavita.construction.utils.click
 import me.slavita.construction.worker.WorkerRarity
+import org.bukkit.ChatColor
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.entity.Player
@@ -17,7 +18,7 @@ class BuyLootboxMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         user.run user@{
             return choicer {
-                title = "${AQUA}${BOLD}Покупка работников"
+                title = "${ChatColor.GOLD}${BOLD}Покупка работников"
                 description = "Выбери нужного строителя"
                 info = WORKER_INFO
                 storage = mutableListOf<ReactiveButton>().apply storage@{

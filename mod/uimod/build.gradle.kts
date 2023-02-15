@@ -10,7 +10,7 @@ dependencies {
 }
 
 mod {
-    name = "visualmod"
+    name = "uimod"
     main = "me.slavita.construction.mod.uimod.App"
     jarFileName = "construction-uimod-bundle.jar"
     author = "Slavita, RomanAndr"

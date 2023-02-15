@@ -10,6 +10,7 @@ import me.slavita.construction.prepare.TagsPrepare
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.SETTINGS_INFO
 import me.slavita.construction.utils.click
+import org.bukkit.ChatColor
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GREEN
@@ -23,7 +24,7 @@ class SettingsMenu(player: Player) : MenuCommand(player) {
             info = SETTINGS_INFO
             storage = mutableListOf(
                 button {
-                    title = "Теги"
+                    title = "${ChatColor.GOLD}Теги"
                     hover = """
                         ${AQUA}Теги:
                           Позволяет настроить отображение 
@@ -40,7 +41,7 @@ class SettingsMenu(player: Player) : MenuCommand(player) {
                     }
                 },
                 button {
-                    title = "Достижения"
+                    title = "${ChatColor.GOLD}Достижения"
                     hover = """
                         ${AQUA}Достижения:
                           Включает или отключает уведомления

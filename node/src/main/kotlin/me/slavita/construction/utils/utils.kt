@@ -50,6 +50,7 @@ import net.minecraft.server.v1_12_R1.EntityPlayer
 import net.minecraft.server.v1_12_R1.Packet
 import org.apache.logging.log4j.util.BiConsumer
 import org.bukkit.Bukkit
+import org.bukkit.ChatColor
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.World
@@ -73,6 +74,7 @@ import ru.cristalix.core.network.ISocketClient
 import ru.cristalix.core.permissions.IPermissionContext
 import ru.cristalix.core.permissions.IPermissionService
 import ru.cristalix.core.realm.IRealmService
+import java.awt.Color
 import java.util.UUID
 import kotlin.reflect.KClass
 
@@ -111,7 +113,7 @@ fun ReactiveButton.click(click: ButtonClickHandler) = apply {
 
 fun Selection.getVault(user: User, type: StatsType) {
     vault = type.vault
-    money = "Ваш ${type.title} ${
+    money = "${type.title} ${ChatColor.GOLD}${
     when (type) {
         StatsType.MONEY -> user.data.money.toMoney()
         StatsType.LEVEL -> user.data.level
@@ -263,6 +265,10 @@ fun String.colored(colors: List<String>): String {
     }
 
     return chars.joinToString("")
+}
+
+fun GlowColor.toHex(): String {
+    return "¨${Integer.toHexString(toRGB())}"
 }
 
 fun opCommand(name: String, biConsumer: BiConsumer<Player, Array<out String>>) {

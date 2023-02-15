@@ -5,6 +5,7 @@ import me.slavita.construction.city.CityHall
 import me.slavita.construction.city.CitySamples
 import me.slavita.construction.city.storage.BlocksStorage
 import me.slavita.construction.dontate.Abilities
+import me.slavita.construction.reward.Reward
 import me.slavita.construction.ui.achievements.AchievementData
 import me.slavita.construction.ui.achievements.AchievementType
 import me.slavita.construction.utils.mapS
@@ -27,6 +28,7 @@ class Data(@Transient var user: User) {
     var trainStep: Int = 0
     var nextDay: Int = 0
     var nextTakeDailyReward: Long = 0
+    var dailyRewards: List<Reward> = listOf()
     var totalBoosters: Long = 0
     var lastIncome: Long = 0
 

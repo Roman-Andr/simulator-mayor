@@ -58,10 +58,10 @@ class CityStructure(val owner: Player, val structure: Structure, val cell: CityC
         repairBlocks = hashMapOf()
         owner.player.notify(
             """
-                ${WHITE}Отремонтировано
+                ${GOLD}Отремонтировано
                 ${GRAY}Номер: ${GRAY}${cell.id}
                 ${AQUA}Название: ${GOLD}${structure.name}
-                ${GOLD}Локация: ${GREEN}${cell.city.title}
+                ${GREEN}Локация: ${GREEN}${cell.city.title}
             """.trimIndent()
         )
         visual.update()
@@ -69,10 +69,10 @@ class CityStructure(val owner: Player, val structure: Structure, val cell: CityC
 
     override fun toString() = """
         ${GOLD}Информация про проект:
-          ${GRAY}Номер: ${GRAY}${cell.id}
-          ${AQUA}Название: ${GOLD}${structure.name}
-          ${GREEN}Доход: ${(if (state == CityStructureState.FUNCTIONING) structure.income else 0.toMoneyIcon())}
-          ${GOLD}Локация: ${GREEN}${cell.city.title}
+          Номер: ${GRAY}${cell.id}
+          Название: ${GOLD}${structure.name}
+          Доход: ${(if (state == CityStructureState.FUNCTIONING) structure.income else 0.toMoneyIcon())}
+          Локация: ${GREEN}${cell.city.title}
     """.trimIndent()
 }
 

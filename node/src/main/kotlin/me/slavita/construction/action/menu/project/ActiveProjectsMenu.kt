@@ -12,6 +12,7 @@ import me.slavita.construction.utils.PROJECTS_INFO
 import me.slavita.construction.utils.getVault
 import me.slavita.construction.utils.mapM
 import me.slavita.construction.utils.size
+import org.bukkit.ChatColor
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.entity.Player
@@ -20,7 +21,7 @@ class ActiveProjectsMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         user.run {
             return selection {
-                title = "${AQUA}${BOLD}Ваши здания"
+                title = "${ChatColor.GREEN}${BOLD}Ваши здания"
                 size(4, 4)
                 getVault(user, StatsType.MONEY)
                 hint = ""

@@ -19,7 +19,7 @@ class WorkerTeamMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         user.run user@{
             return selection {
-                title = "${GREEN}${BOLD}Ваши работники"
+                title = "${GREEN}${BOLD}Работники"
                 getVault(user, StatsType.MONEY)
                 size(4, 4)
                 info = WORKER_INFO

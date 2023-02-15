@@ -23,6 +23,7 @@ import me.slavita.construction.utils.runTimer
 import me.slavita.construction.utils.scheduler
 import me.slavita.construction.utils.size
 import me.slavita.construction.utils.validate
+import org.bukkit.ChatColor
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.DARK_GRAY
@@ -53,7 +54,7 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player)
     }
 
     private fun getMoney() = """
-        ${GREEN}Обновление цен через: ${GOLD}${showcase.updateTime}     Ваш Баланс ${user.data.money.toMoney()}
+        Обновление цен через: ${GOLD}${showcase.updateTime}    ${WHITE}Баланс ${user.data.money.toMoney()}
     """.trimIndent()
 
     private fun buyBlocks(user: User, amount: Int, entry: ShowcaseProduct, selection: Selection) {
@@ -86,10 +87,10 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player)
                 item = emptyItem.validate()
                 hover = """
                     ${GREEN}${LanguageHelper.getItemDisplayName(emptyItem, user.player)}
-                    ${AQUA}Купить 8 шт за ${entry.price * 8} $DARK_GRAY[${GOLD}ЛКМ$DARK_GRAY]
-                    ${AQUA}Купить 64 шт за ${entry.price * 64} $DARK_GRAY[${GOLD}ПКМ$DARK_GRAY]
+                    ${WHITE}Купить 8 шт за ${GOLD}${entry.price * 8} ${ChatColor.YELLOW}[ ЛКМ ]
+                    ${WHITE}Купить 64 шт за ${GOLD}${entry.price * 64} ${ChatColor.YELLOW}[ ПКМ ]
                     
-                    На складе: ${BOLD}${user.data.blocksStorage.blocks.getOrDefault(entry.item, 0)}
+                    ${WHITE}На складе: ${BOLD}${user.data.blocksStorage.blocks.getOrDefault(entry.item, 0)} шт
                 """.trimIndent()
                 hint = (if (user.canPurchase(entry.price * 8)) "$WHITE" else "$RED") + " "
                 onLeftClick { _, _, _ ->

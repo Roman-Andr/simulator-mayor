@@ -27,13 +27,13 @@ class StorageUpgrade(val player: Player) : MenuCommand(player) {
             description = "Управление складом"
             storage = mutableListOf(
                 button {
-                    title = "${GREEN}${BOLD}Улучшить"
+                    title = "${GOLD}${BOLD}Улучшить"
                     hint = "Улучшить"
                     backgroundColor = GlowColor.GREEN
                     hover = """
                             ${GREEN}При улучшении:
-                              ${AQUA}Уровень: ${GRAY}${user.data.blocksStorage.level.toLevel()} $BOLD-> ${GREEN}${(user.data.blocksStorage.level + 1).toLevel()}
-                              ${GREEN}Вместимость: ${GRAY}${user.data.blocksStorage.limit} блоков $BOLD-> ${GOLD}${user.data.blocksStorage.nextLimit} блоков
+                              ${WHITE}Уровень: ${GRAY}${user.data.blocksStorage.level.toLevel()} $BOLD-> ${GREEN}${(user.data.blocksStorage.level + 1).toLevel()}
+                              ${WHITE}Вместимость: ${GRAY}${user.data.blocksStorage.limit} блоков $BOLD-> ${GOLD}${user.data.blocksStorage.nextLimit} блоков
                             
                             ${BOLD}${WHITE}Стоимость: ${GREEN}${user.data.blocksStorage.upgradePrice.toMoneyIcon()}
                     """.trimIndent()

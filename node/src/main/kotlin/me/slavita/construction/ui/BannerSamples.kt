@@ -1,5 +1,7 @@
 package me.slavita.construction.ui
 
+import org.bukkit.ChatColor.*
+
 enum class BannerSamples(
     val content: String,
     val label: String,
@@ -10,7 +12,7 @@ enum class BannerSamples(
     val lineSizes: List<Double>,
 ) {
     TRASH(
-        "§7Мусорка",
+        "${GRAY}Мусорка",
         "trash",
         8,
         35,
@@ -19,7 +21,7 @@ enum class BannerSamples(
         listOf(1.0)
     ),
     CITY_HALL(
-        "§aМэрия",
+        "${GREEN}Мэрия",
         "city-hall",
         8,
         35,
@@ -28,7 +30,7 @@ enum class BannerSamples(
         listOf(1.0)
     ),
     CLAIM_BANNER(
-        "§6Отдать блоки",
+        "${GOLD}Отдать блоки",
         "",
         8,
         35,
@@ -37,7 +39,7 @@ enum class BannerSamples(
         listOf(1.0)
     ),
     STORAGE_UPGRADE(
-        "§aСклад",
+        "${GREEN}Склад",
         "storage-upgrade",
         8,
         35,
@@ -46,7 +48,7 @@ enum class BannerSamples(
         listOf(1.0)
     ),
     SPEED_PLACE(
-        "§bУскоритель",
+        "${AQUA}Ускоритель",
         "speed",
         7,
         30,
@@ -55,7 +57,7 @@ enum class BannerSamples(
         listOf(0.4)
     ),
     CELL_BANNER(
-        "§6Клетка",
+        "${GOLD}Клетка",
         "",
         8,
         42,
@@ -64,7 +66,7 @@ enum class BannerSamples(
         listOf(2.0)
     ),
     SHOWCASE(
-        "\n§bВитрина §8[§6ПКМ§8]",
+        "\n${WHITE}Витрина ${YELLOW}[ ПКМ ]",
         "",
         80,
         40,
@@ -73,7 +75,7 @@ enum class BannerSamples(
         listOf(0.9, 0.9)
     ),
     WORKER(
-        "§aУправление\n§aРаботниками",
+        "${GREEN}Управление\n${GREEN}Работниками",
         "",
         42,
         16,
@@ -82,7 +84,7 @@ enum class BannerSamples(
         listOf(0.5, 0.5)
     ),
     DAILY(
-        "§aЕжедневные\n§aНаграды",
+        "${GREEN}Ежедневные\n§aНаграды",
         "",
         42,
         16,
@@ -91,7 +93,7 @@ enum class BannerSamples(
         listOf(0.5, 0.5)
     ),
     LOCATIONS(
-        "§6Локации",
+        "${GOLD}Локации",
         "",
         42,
         8,
@@ -100,7 +102,7 @@ enum class BannerSamples(
         listOf(0.5)
     ),
     PROJECTS(
-        "§6Проекты",
+        "${GOLD}Проекты",
         "",
         42,
         8,
@@ -109,7 +111,7 @@ enum class BannerSamples(
         listOf(0.5)
     ),
     BANK(
-        "§6Банк",
+        "${GOLD}Банк",
         "",
         42,
         8,
@@ -118,7 +120,7 @@ enum class BannerSamples(
         listOf(0.5)
     ),
     GUIDE(
-        "§a§lОбучение",
+        "${GREEN}${BOLD}Обучение",
         "",
         42,
         8,

@@ -18,7 +18,7 @@ class StartFreelanceProject(val player: Player) :
                     structure
                 )
                 Anime.close(player)
-            }.tryExecute()
+            }.keepHistory().tryExecute()
         }
     }
 }
