@@ -1,5 +1,7 @@
 package me.slavita.construction.worker
 
+import org.bukkit.ChatColor.GREEN
+
 enum class WorkerRapacity(
     val title: String,
     val value: Double,
@@ -7,19 +9,19 @@ enum class WorkerRapacity(
     val reliabilityMax: Int,
 ) {
     LOW(
-        "§aНизкая",
+        "${GREEN}Низкая",
         1.0,
         10,
         50
     ),
     MEDIUM(
-        "§aСредняя",
+        "${GREEN}Средняя",
         1.0,
         50,
         80,
     ),
     HIGH(
-        "§aВысокая",
+        "${GREEN}Высокая",
         1.0,
         80,
         100,

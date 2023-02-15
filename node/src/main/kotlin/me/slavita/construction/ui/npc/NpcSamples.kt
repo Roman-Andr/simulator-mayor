@@ -1,6 +1,9 @@
 package me.slavita.construction.ui.npc
 
 import me.slavita.construction.ui.BannerSamples
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.GREEN
 
 enum class NpcSamples(
     val title: String,
@@ -13,7 +16,7 @@ enum class NpcSamples(
     val banner: BannerSamples
 ) {
     WORKER(
-        "§aРаботники",
+        "${GREEN}Работники",
         "1",
         "workers.png",
         SkinType.URL,
@@ -23,7 +26,7 @@ enum class NpcSamples(
         BannerSamples.WORKER
     ),
     DAILY(
-        "§aЕжедневные награды",
+        "${GREEN}Ежедневные награды",
         "2",
         "daily.png",
         SkinType.URL,
@@ -33,7 +36,7 @@ enum class NpcSamples(
         BannerSamples.DAILY
     ),
     LOCATIONS(
-        "§aПроводник",
+        "${GREEN}Проводник",
         "3",
         "locations.png",
         SkinType.URL,
@@ -43,7 +46,7 @@ enum class NpcSamples(
         BannerSamples.LOCATIONS
     ),
     PROJECTS(
-        "§bАктивные проекты",
+        "${AQUA}Активные проекты",
         "4",
         "projects.png",
         SkinType.URL,
@@ -53,7 +56,7 @@ enum class NpcSamples(
         BannerSamples.PROJECTS
     ),
     BANK(
-        "§6Банкир",
+        "${GOLD}Банкир",
         "5",
         "banker.png",
         SkinType.URL,
@@ -63,7 +66,7 @@ enum class NpcSamples(
         BannerSamples.BANK
     ),
     GUIDE(
-        "§aСтарина Джо",
+        "${GREEN}Старина Джо",
         "guide",
         "guide.png",
         SkinType.URL,

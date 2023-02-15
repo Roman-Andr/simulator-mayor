@@ -23,14 +23,12 @@ import me.slavita.construction.utils.runTimer
 import me.slavita.construction.utils.scheduler
 import me.slavita.construction.utils.size
 import me.slavita.construction.utils.validate
-import org.bukkit.ChatColor
-import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD
-import org.bukkit.ChatColor.DARK_GRAY
 import org.bukkit.ChatColor.GOLD
 import org.bukkit.ChatColor.GREEN
 import org.bukkit.ChatColor.RED
 import org.bukkit.ChatColor.WHITE
+import org.bukkit.ChatColor.YELLOW
 import org.bukkit.entity.Player
 
 class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player) {
@@ -87,8 +85,8 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player)
                 item = emptyItem.validate()
                 hover = """
                     ${GREEN}${LanguageHelper.getItemDisplayName(emptyItem, user.player)}
-                    ${WHITE}Купить 8 шт за ${GOLD}${entry.price * 8} ${ChatColor.YELLOW}[ ЛКМ ]
-                    ${WHITE}Купить 64 шт за ${GOLD}${entry.price * 64} ${ChatColor.YELLOW}[ ПКМ ]
+                    ${WHITE}Купить 8 шт за ${GOLD}${entry.price * 8} $YELLOW[ ЛКМ ]
+                    ${WHITE}Купить 64 шт за ${GOLD}${entry.price * 64} $YELLOW[ ПКМ ]
                     
                     ${WHITE}На складе: ${BOLD}${user.data.blocksStorage.blocks.getOrDefault(entry.item, 0)} шт
                 """.trimIndent()

@@ -1,6 +1,12 @@
 package me.slavita.construction.ui
 
-import org.bukkit.ChatColor.*
+import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.BOLD
+import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.GRAY
+import org.bukkit.ChatColor.GREEN
+import org.bukkit.ChatColor.WHITE
+import org.bukkit.ChatColor.YELLOW
 
 enum class BannerSamples(
     val content: String,
@@ -66,7 +72,7 @@ enum class BannerSamples(
         listOf(2.0)
     ),
     SHOWCASE(
-        "\n${WHITE}Витрина ${YELLOW}[ ПКМ ]",
+        "\n${WHITE}Витрина $YELLOW[ ПКМ ]",
         "",
         80,
         40,
@@ -84,7 +90,7 @@ enum class BannerSamples(
         listOf(0.5, 0.5)
     ),
     DAILY(
-        "${GREEN}Ежедневные\n§aНаграды",
+        "${GREEN}Ежедневные\n${GREEN}Награды",
         "",
         42,
         16,

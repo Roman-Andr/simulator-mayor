@@ -15,17 +15,17 @@ import me.slavita.construction.utils.click
 import me.slavita.construction.utils.deny
 import me.slavita.construction.utils.getVault
 import me.slavita.construction.utils.size
-import org.bukkit.ChatColor
-import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.GREEN
+import org.bukkit.ChatColor.RED
 import org.bukkit.entity.Player
 
 class CreditsListMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         user.run user@{
             return selection {
-                title = "${ChatColor.GREEN}${BOLD}Ваши кредиты"
+                title = "${GREEN}${BOLD}Ваши кредиты"
                 size(4, 5)
                 getVault(user, StatsType.CREDIT)
                 info = BANK_INFO
@@ -39,7 +39,7 @@ class CreditsListMenu(player: Player) : MenuCommand(player) {
                                 hover = """
                                     Номер: ${index + 1}
                                     К отдаче: ${GOLD}${value.needToGive.toMoney()}
-                                    Процент: ${ChatColor.RED}${value.percent}%
+                                    Процент: ${RED}${value.percent}%
                                 """.trimIndent()
                                 click { _, _, _ ->
                                     if (this@user.data.money > value.needToGive) {

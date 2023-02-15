@@ -68,6 +68,6 @@ object PhysicsDisabler : IRegistrable {
         listener<EntityChangeBlockEvent> { if (entity is FallingBlock) isCancelled = true }
         listener<FoodLevelChangeEvent> { foodLevel = 20 }
         listener<CreatureSpawnEvent> { isCancelled = spawnReason == CreatureSpawnEvent.SpawnReason.NATURAL }
-        listener<AsyncPlayerChatEvent> { format = "%1\$s $GRAY» §7%2\$s" }
+        listener<AsyncPlayerChatEvent> { format = "%1\$s $GRAY» $GRAY%2\$s" }
     }
 }

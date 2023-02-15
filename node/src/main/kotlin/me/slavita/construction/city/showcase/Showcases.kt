@@ -6,16 +6,18 @@ import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.ui.BannerSamples
 import me.slavita.construction.utils.loadBanner
 import me.slavita.construction.utils.toYaw
+import org.bukkit.ChatColor.BOLD
+import org.bukkit.ChatColor.GREEN
 import org.bukkit.block.BlockFace
 
 object Showcases : IRegistrable {
     val showcases = arrayListOf(
-        ShowcaseProperties(1, "§a§lМагазин \"Напильник\"", hashSetOf()),
-        ShowcaseProperties(2, "§a§lМагазин \"Мастер\"", hashSetOf()),
-        ShowcaseProperties(3, "§a§lМагазин \"Стружка\"", hashSetOf()),
-        ShowcaseProperties(4, "§a§lМагазин \"Кран\"", hashSetOf()),
-        ShowcaseProperties(5, "§a§lМагазин \"Пила\"", hashSetOf()),
-        ShowcaseProperties(6, "§a§lМагазин \"Грузовой\"", hashSetOf()),
+        ShowcaseProperties(1, "${GREEN}${BOLD}Магазин \"Напильник\"", hashSetOf()),
+        ShowcaseProperties(2, "${GREEN}${BOLD}Магазин \"Мастер\"", hashSetOf()),
+        ShowcaseProperties(3, "${GREEN}${BOLD}Магазин \"Стружка\"", hashSetOf()),
+        ShowcaseProperties(4, "${GREEN}${BOLD}Магазин \"Кран\"", hashSetOf()),
+        ShowcaseProperties(5, "${GREEN}${BOLD}Магазин \"Пила\"", hashSetOf()),
+        ShowcaseProperties(6, "${GREEN}${BOLD}Магазин \"Грузовой\"", hashSetOf()),
     )
 
     override fun register() {

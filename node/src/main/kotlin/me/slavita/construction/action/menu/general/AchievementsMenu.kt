@@ -10,7 +10,7 @@ import me.slavita.construction.ui.achievements.AchievementType
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.ACHIEVEMENTS_INFO
 import me.slavita.construction.utils.mapM
-import org.bukkit.ChatColor
+import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GOLD
 import org.bukkit.ChatColor.GREEN
 import org.bukkit.ChatColor.RED
@@ -19,7 +19,7 @@ import org.bukkit.entity.Player
 class AchievementsMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         return choicer {
-            title = "${GREEN}${ChatColor.BOLD}Достижения"
+            title = "${GREEN}${BOLD}Достижения"
             info = ACHIEVEMENTS_INFO
             description = ""
             AchievementType.values().forEach {

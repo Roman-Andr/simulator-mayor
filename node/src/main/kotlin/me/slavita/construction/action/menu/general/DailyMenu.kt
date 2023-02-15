@@ -9,9 +9,9 @@ import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.REWARDS_INFO
 import me.slavita.construction.utils.getDailyReward
 import me.slavita.construction.utils.mapIndexedM
-import org.bukkit.ChatColor
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.WHITE
 import org.bukkit.entity.Player
 
 class DailyMenu(player: Player) : MenuCommand(player) {
@@ -42,7 +42,7 @@ class DailyMenu(player: Player) : MenuCommand(player) {
                             displayTitle =
                                 "Следующая награда через ${GOLD}${(data.nextTakeDailyReward - System.currentTimeMillis()).toTime()}"
                         }
-                        title = "${displayTitle}\n\n${AQUA}Награда: ${ChatColor.WHITE}$reward"
+                        title = "${displayTitle}\n\n${AQUA}Награда: ${WHITE}$reward"
                     }
                 }
             }

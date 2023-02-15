@@ -12,16 +12,15 @@ import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.LOCATIONS_INFO
 import me.slavita.construction.utils.click
 import me.slavita.construction.utils.mapM
-import org.bukkit.ChatColor
-import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD
+import org.bukkit.ChatColor.GOLD
 import org.bukkit.entity.Player
 
 class LocationsMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         user.run user@{
             return choicer {
-                title = "${ChatColor.GOLD}${BOLD}Телепортация"
+                title = "${GOLD}${BOLD}Телепортация"
                 description = "Перемещение между локациями"
                 info = LOCATIONS_INFO
                 storage = user.data.cities.sortedBy { it.price }.mapM { city ->

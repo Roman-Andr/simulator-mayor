@@ -19,7 +19,6 @@ import me.slavita.construction.structure.BuildingStructureDeserializer
 import me.slavita.construction.structure.tools.CityStructureState
 import me.slavita.construction.structure.tools.StructureState
 import me.slavita.construction.utils.playSound
-import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.GOLD
 import org.bukkit.ChatColor.GRAY
 import org.bukkit.ChatColor.GREEN

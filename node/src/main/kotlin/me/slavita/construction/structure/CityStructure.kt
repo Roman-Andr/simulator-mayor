@@ -24,7 +24,6 @@ import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.GOLD
 import org.bukkit.ChatColor.GRAY
 import org.bukkit.ChatColor.GREEN
-import org.bukkit.ChatColor.WHITE
 import org.bukkit.entity.Player
 import java.lang.reflect.Type
 import java.util.UUID
