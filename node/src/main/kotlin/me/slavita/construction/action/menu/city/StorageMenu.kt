@@ -13,11 +13,13 @@ import me.slavita.construction.utils.language.LanguageHelper
 import me.slavita.construction.utils.mapM
 import me.slavita.construction.utils.size
 import me.slavita.construction.utils.user
+import me.slavita.construction.utils.validate
 import me.slavita.construction.world.ItemProperties
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD
-import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.YELLOW
 import org.bukkit.ChatColor.GREEN
+import org.bukkit.ChatColor.WHITE
 import org.bukkit.entity.Player
 
 class StorageMenu(player: Player) : MenuCommand(player) {
@@ -32,7 +34,7 @@ class StorageMenu(player: Player) : MenuCommand(player) {
             money = getFreeSpace()
             storage = blocksStorage.blocks.mapM { entry ->
                 button {
-                    item = entry.key.createItemStack(1)
+                    item = entry.key.createItemStack(1).validate()
                     hover = getHover(entry)
                     hint = " "
                     onLeftClick { _, _, _ ->
@@ -48,14 +50,14 @@ class StorageMenu(player: Player) : MenuCommand(player) {
         return selection
     }
 
-    private fun getFreeSpace() = "Занято ${blocksStorage.itemsCount} из ${blocksStorage.limit} блоков"
+    private fun getFreeSpace() = "Занято ${AQUA}${blocksStorage.itemsCount} ${WHITE}из ${AQUA}${blocksStorage.limit} ${WHITE}блоков"
 
     private fun getHover(entry: Map.Entry<ItemProperties, Int>) = """
         ${GREEN}${LanguageHelper.getItemDisplayName(entry.key.createItemStack(1), user.player)}
-        ${AQUA}На складе: ${BOLD}${entry.value} шт
+        На складе: ${BOLD}${AQUA}${entry.value} шт
         
-        ${GOLD}Взять [ЛКМ] ${BOLD}${if (entry.value >= 64) 64 else entry.value} шт
-        ${GOLD}Взять [ПКМ] ${BOLD}Всё - ${entry.value} шт
+        Взять ${AQUA}${if (entry.value >= 64) 64 else entry.value} шт ${YELLOW}[ ЛКМ ]
+        Взять всё - ${AQUA}${entry.value} шт ${YELLOW}[ ПКМ ]
     """.trimIndent()
 
     private fun removeItems(amount: Int, entry: Map.Entry<ItemProperties, Int>, button: ReactiveButton) {

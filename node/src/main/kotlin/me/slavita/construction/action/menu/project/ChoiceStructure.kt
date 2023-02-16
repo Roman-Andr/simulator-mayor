@@ -22,7 +22,7 @@ class ChoiceStructure(
     val structureGroup: StructureGroup,
     val action: (structure: Structure) -> Unit,
 ) :
-    MenuCommand(player) {
+    MenuCommand(player, 3 * 20) {
     override fun getMenu(): Openable {
         user.run user@{
             return selection {

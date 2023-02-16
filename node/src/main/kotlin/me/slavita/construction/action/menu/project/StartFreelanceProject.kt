@@ -8,7 +8,7 @@ import me.slavita.construction.utils.user
 import org.bukkit.entity.Player
 
 class StartFreelanceProject(val player: Player) :
-    CooldownCommand(player.user, 3 * 20) {
+    CooldownCommand(player.user, 1) {
     override fun execute() {
         user.run {
             ChoiceStructureGroup(player) { structure ->

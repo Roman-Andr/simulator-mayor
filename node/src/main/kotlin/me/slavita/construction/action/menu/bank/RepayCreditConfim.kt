@@ -7,8 +7,7 @@ import me.slavita.construction.city.bank.Bank
 import me.slavita.construction.city.bank.Credit
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.accept
-import org.bukkit.ChatColor.AQUA
-import org.bukkit.ChatColor.WHITE
+import org.bukkit.ChatColor.GOLD
 import org.bukkit.entity.Player
 
 class RepayCreditConfim(player: Player, val credit: Credit) : MenuCommand(player) {
@@ -16,8 +15,8 @@ class RepayCreditConfim(player: Player, val credit: Credit) : MenuCommand(player
         user.run user@{
             return Confirmation(
                 text = listOf(
-                    "${AQUA}Погасить кредит",
-                    "${AQUA}выплатой в ${WHITE}${credit.needToGive.toMoneyIcon()}",
+                    "Погасить кредит",
+                    "выплатой в ${GOLD}${credit.needToGive.toMoneyIcon()}",
                 )
             ) {
                 Bank.repayCredit(this, credit.uuid) {

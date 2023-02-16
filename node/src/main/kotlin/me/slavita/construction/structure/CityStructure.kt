@@ -70,7 +70,7 @@ class CityStructure(val owner: Player, val structure: Structure, val cell: CityC
         ${GOLD}Информация про проект:
           Номер: ${GRAY}${cell.id}
           Название: ${GOLD}${structure.name}
-          Доход: ${(if (state == CityStructureState.FUNCTIONING) structure.income else 0.toMoneyIcon())}
+          Доход: ${(if (state == CityStructureState.FUNCTIONING) structure.income else 0).toMoneyIcon()}
           Локация: ${GREEN}${cell.city.title}
     """.trimIndent()
 }

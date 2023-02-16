@@ -7,12 +7,15 @@ import me.func.mod.ui.menu.choicer
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.command.MenuCommand
 import me.slavita.construction.action.command.UpgradeWorker
+import me.slavita.construction.ui.Formatter.toLevel
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.WORKER_INFO
 import me.slavita.construction.utils.click
 import me.slavita.construction.worker.Worker
 import org.bukkit.ChatColor.AQUA
+import org.bukkit.ChatColor.WHITE
+import org.bukkit.ChatColor.GRAY
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GOLD
 import org.bukkit.ChatColor.GREEN
@@ -63,7 +66,12 @@ class WorkerUpgradeMenu(player: Player, val worker: Worker) : MenuCommand(player
     }
 
     private fun getUpgradeHover(): String {
-        return "${AQUA}Улучшить ${GREEN}${worker.level}$AQUA->${GREEN}${worker.level + 1} ${AQUA}за ${worker.upgradePrice.toMoneyIcon()}"
+        return """
+            ${GREEN}При улучшении:
+              ${WHITE}Уровень: ${GRAY}${worker.level.toLevel()} $BOLD-> ${GREEN}${(worker.level + 1).toLevel()}
+              
+            ${BOLD}${WHITE}Стоимость: ${worker.upgradePrice.toMoneyIcon()}
+        """.trimIndent()
     }
 
     private fun getSellHover(): String {

@@ -8,6 +8,7 @@ import me.func.mod.ui.menu.selection
 import me.slavita.construction.action.command.MenuCommand
 import me.slavita.construction.city.bank.Bank
 import me.slavita.construction.ui.Formatter.toMoney
+import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.ui.menu.StatsType
 import me.slavita.construction.utils.BANK_INFO
@@ -16,7 +17,7 @@ import me.slavita.construction.utils.deny
 import me.slavita.construction.utils.getVault
 import me.slavita.construction.utils.size
 import org.bukkit.ChatColor.BOLD
-import org.bukkit.ChatColor.GOLD
+import org.bukkit.ChatColor.GRAY
 import org.bukkit.ChatColor.GREEN
 import org.bukkit.ChatColor.RED
 import org.bukkit.entity.Player
@@ -37,8 +38,8 @@ class CreditsListMenu(player: Player) : MenuCommand(player) {
                                 hint = "Закрыть"
                                 title = "Кредит #${index + 1}"
                                 hover = """
-                                    Номер: ${index + 1}
-                                    К отдаче: ${GOLD}${value.needToGive.toMoney()}
+                                    Номер: ${GRAY}${index + 1}
+                                    К отдаче: ${value.needToGive.toMoneyIcon()}
                                     Процент: ${RED}${value.percent}%
                                 """.trimIndent()
                                 click { _, _, _ ->

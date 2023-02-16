@@ -37,7 +37,7 @@ class CityHallMenu(player: Player) : MenuCommand(player) {
                               ${WHITE}Уровень: ${GRAY}${hall.level.toLevel()} $BOLD-> ${GREEN}${(hall.level + 1).toLevel()}
                               ${WHITE}Доход: ${GRAY}${hall.income.toIncomeIcon()} $BOLD-> ${GOLD}${hall.nextIncome.toIncomeIcon()}
                             
-                            ${BOLD}${WHITE}Стоимость: ${GREEN}${hall.upgradePrice.toMoneyIcon()}
+                            ${BOLD}${WHITE}Стоимость: ${hall.upgradePrice.toMoneyIcon()}
                         """.trimIndent()
                         item = Icons.get("other", "anvil")
                         click { _, _, _ ->

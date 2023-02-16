@@ -17,6 +17,8 @@ abstract class CooldownCommand(open val user: User, open val cooldown: Long) : C
         if (app.pass - lastTime >= cooldown || ignore) {
             playerCooldown[user.player.uniqueId]!![javaClass.kotlin] = app.pass
             execute()
+        } else {
+            println("cooldown ${app.pass - lastTime} - ${cooldown}")
         }
         return app.pass - lastTime - cooldown
     }

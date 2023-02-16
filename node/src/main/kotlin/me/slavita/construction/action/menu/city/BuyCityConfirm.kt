@@ -15,9 +15,9 @@ class BuyCityConfirm(player: Player, val city: City, val fromMenu: Boolean = tru
         user.run user@{
             return Confirmation(
                 text = listOf(
-                    "${AQUA}Купить локацию",
-                    city.title,
-                    "${AQUA}за ${city.price.toMoneyIcon()}",
+                    "Купить локацию",
+                    "${AQUA}${city.title}",
+                    "за ${city.price.toMoneyIcon()}",
                 )
             ) {
                 tryPurchase(city.price) {

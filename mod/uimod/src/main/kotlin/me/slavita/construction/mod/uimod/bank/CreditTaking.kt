@@ -92,6 +92,7 @@ object CreditTaking : ContextGui(), IRegistrable {
             scaling = false
 
             onButtonClick {
+                if (digit == 0) return@onButtonClick
                 val buffer = Unpooled.buffer().writeInt(slider.activeId).writeInt(digit)
                 UIEngine.schedule(0.1) {
                     sendPayload(BANK_SUBMIT_CHANNEL, buffer)

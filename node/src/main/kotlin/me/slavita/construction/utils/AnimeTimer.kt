@@ -42,7 +42,7 @@ class AnimeTimer(val player: Player, val onFinish: () -> Unit) {
         if (delta < duration) {
             bar.apply {
                 progress = 1.0 - delta.toDouble() / duration.toDouble()
-                text = "${GREEN}Осталось: ${AQUA}${(duration - delta).ticksToTime()}"
+                text = "Осталось: ${AQUA}${(duration - delta).ticksToTime()}"
             }
             return
         }
