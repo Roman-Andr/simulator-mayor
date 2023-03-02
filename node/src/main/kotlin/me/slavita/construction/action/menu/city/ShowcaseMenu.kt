@@ -54,7 +54,7 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player)
     }
 
     private fun getMoney() = """
-        Обновление цен через: ${GOLD}${showcase.updateTime}    ${WHITE}Баланс ${user.data.money.toMoney()}
+        Обновление цен через: ${GOLD}${showcase.updateTime}    ${GOLD}Баланс ${user.data.money.toMoney()}
     """.trimIndent()
 
     private fun buyBlocks(user: User, amount: Int, entry: ShowcaseProduct, selection: Selection) {

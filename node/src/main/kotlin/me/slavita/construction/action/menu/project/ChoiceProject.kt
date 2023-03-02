@@ -51,7 +51,7 @@ class ChoiceProject(player: Player, val structure: Structure, val cell: CityCell
                             WorkerChoice(
                                 player,
                                 ProjectGenerator.generateWorker(this@user, structure, cell)
-                            ).tryExecute()
+                            ).keepHistory().tryExecute()
                         }
                     }
                 )

@@ -40,7 +40,7 @@ class StructureProgressBar(val player: Player, private val blocksTotal: Int) {
         this.blocksPlaced = blocksPlaced
         bar.apply {
             progress = blocksPlaced.toDouble() / blocksTotal.toDouble()
-            text = "${WHITE}Поставлено блоков: ${WHITE}$blocksPlaced ${WHITE}из ${AQUA}$blocksTotal"
+            text = "${WHITE}Поставлено блоков: ${AQUA}$blocksPlaced ${WHITE}из ${AQUA}$blocksTotal"
         }
     }
 }

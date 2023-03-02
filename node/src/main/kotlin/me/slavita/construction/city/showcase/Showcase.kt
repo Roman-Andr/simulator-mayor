@@ -11,8 +11,12 @@ import kotlin.random.Random
 class Showcase(val properties: ShowcaseProperties) {
     val box
         get() = app.mainWorld.map.getBox("showcase", properties.id.toString())
-    val updateTime
-        get() = (5 * 60 * 1000 - (System.currentTimeMillis() - lastUpdateTime)).toTime()
+    val updateTime: String
+        get() {
+            println("System: ${System.currentTimeMillis().toTime()}")
+            println("Last: ${lastUpdateTime.toTime()}")
+            return (5 * 60 * 1000 - (System.currentTimeMillis() - lastUpdateTime)).toTime()
+        }
     private var lastUpdateTime = System.currentTimeMillis()
 
     fun init() {

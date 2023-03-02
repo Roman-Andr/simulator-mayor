@@ -6,7 +6,9 @@ import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.player.UserSaver
 import me.slavita.construction.utils.handle
 import me.slavita.construction.utils.listener
+import me.slavita.construction.utils.scheduler
 import me.slavita.construction.utils.sendPacket
+import me.slavita.construction.utils.user
 import me.slavita.construction.utils.userOrNull
 import net.minecraft.server.v1_12_R1.PacketPlayOutPlayerInfo
 import org.bukkit.Bukkit
@@ -16,6 +18,7 @@ import java.util.concurrent.TimeUnit
 object OnLeave : IRegistrable {
     override fun register() {
         listener<PlayerQuitEvent> {
+            if (player.user.showcaseMenuTaskId != 0) scheduler.cancelTask(player.user.showcaseMenuTaskId)
             Bukkit.getOnlinePlayers().forEach { current ->
                 current.hidePlayer(app, player)
                 current.sendPacket(

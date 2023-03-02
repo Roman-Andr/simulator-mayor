@@ -1,7 +1,10 @@
 package me.slavita.construction.mod.uimod
 
 import dev.xdark.clientapi.entity.EntityPlayerSP
+import dev.xdark.clientapi.event.render.RenderPass
 import me.slavita.construction.common.utils.register
+import me.slavita.construction.mod.uimod.CellBorders.renderBorders
+import me.slavita.construction.mod.uimod.StructureBuilding.renderBlockTip
 import me.slavita.construction.mod.uimod.bank.CreditTaking
 import me.slavita.construction.mod.uimod.showcase.Showcases
 import me.slavita.construction.mod.uimod.storage.Storage
@@ -28,5 +31,10 @@ class App : KotlinMod() {
             CellBorders,
             WorldButton,
         )
+
+        mod.registerHandler<RenderPass> {
+            renderBlockTip()
+            renderBorders()
+        }
     }
 }

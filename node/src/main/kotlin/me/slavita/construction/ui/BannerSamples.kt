@@ -1,5 +1,6 @@
 package me.slavita.construction.ui
 
+import me.slavita.construction.utils.YELLOW_HEX
 import org.bukkit.ChatColor.AQUA
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GOLD
@@ -72,7 +73,7 @@ enum class BannerSamples(
         listOf(2.0)
     ),
     SHOWCASE(
-        "\n${WHITE}Витрина $YELLOW[ ПКМ ]",
+        "\n${WHITE}Витрина ${YELLOW_HEX}[ ПКМ ]",
         "",
         80,
         40,

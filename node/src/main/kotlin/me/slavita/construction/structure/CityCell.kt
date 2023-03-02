@@ -37,6 +37,7 @@ class CityCell(val city: City, val worldCell: WorldCell, var busy: Boolean) {
 
     fun setFree() {
         busy = false
+        border.color = GlowColor.NEUTRAL
         border.send(owner.player)
         worldCell.stubBuilding.show(owner.player)
     }

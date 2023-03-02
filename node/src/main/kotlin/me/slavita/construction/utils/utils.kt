@@ -88,6 +88,8 @@ const val DEFAULT_CREDITS_MAX_COUNT = 4
 
 const val MAX_BUILDING_WORKERS = 6
 
+val YELLOW_HEX = GlowColor.YELLOW.toHex()
+
 val Player.user
     get() = app.getUser(this)
 

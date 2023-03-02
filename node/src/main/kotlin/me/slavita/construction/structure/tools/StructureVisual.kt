@@ -87,7 +87,8 @@ class StructureVisual(val structure: BuildingStructure) {
     }
 
     fun delete() {
-        border.delete(owner.player)
+        println("nothing")
+//        border.delete(owner.player)
         Banners.hide(owner.player, infoBanners!!)
         Anime.removeMarker(owner.player, marker!!)
         progressWorld!!.delete(setOf(owner.player))

@@ -45,6 +45,7 @@ object CellBorders : IRegistrable {
                     readV3()
                 )
             )
+            println("add")
         }
 
         mod.registerChannel(CHANGE_BORDER_CHANNEL) {
@@ -52,53 +53,55 @@ object CellBorders : IRegistrable {
             borders.find { it.uuid == uuid }?.apply {
                 color = readRgb()
             }
+            println("change")
         }
 
         mod.registerChannel(DELETE_BORDER_CHANNEL) {
             val uuid = readUuid()
             borders.removeIf { it.uuid == uuid }
+            println("removed")
         }
+    }
 
-        mod.registerHandler<RenderPass> {
-            disableLighting()
-            disableTexture2D()
-            disableAlpha()
-            shadeModel(GL11.GL_SMOOTH)
-            enableBlend()
-            blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE)
-            disableCull()
-            depthMask(false)
+    fun renderBorders() {
+        disableLighting()
+        disableTexture2D()
+        disableAlpha()
+        shadeModel(GL11.GL_SMOOTH)
+        enableBlend()
+        blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE)
+        disableCull()
+        depthMask(false)
 
-            borders.forEach { border ->
-                if (abs(border.location.x - entity.x) <= border.width / 2.0 &&
-                    abs(border.location.z - entity.z) <= border.width / 2.0
-                ) return@forEach
+        borders.forEach { border ->
+            if (abs(border.location.x - entity.x) <= border.width / 2.0 &&
+                abs(border.location.z - entity.z) <= border.width / 2.0
+            ) return@forEach
 
-                val x = border.location.x - (entity.x - prevX) * ticks - prevX
-                val y = border.location.y - (entity.y - prevY) * ticks - prevY
-                val z = border.location.z - (entity.z - prevZ) * ticks - prevZ
+            val x = border.location.x - (entity.x - prevX) * ticks - prevX
+            val y = border.location.y - (entity.y - prevY) * ticks - prevY
+            val z = border.location.z - (entity.z - prevZ) * ticks - prevZ
 
-                border.run {
-                    vertices.forEach { side ->
-                        bufferBuilder.begin(GL11.GL_QUAD_STRIP, DefaultVertexFormats.POSITION_COLOR)
+            border.run {
+                vertices.forEach { side ->
+                    bufferBuilder.begin(GL11.GL_QUAD_STRIP, DefaultVertexFormats.POSITION_COLOR)
 
-                        side.forEachIndexed { index, vertex ->
-                            bufferBuilder
-                                .pos(x + vertex.x, y + vertex.y, z + vertex.z)
-                                .color(color, if (index % 2 == 1) 0 else alpha)
-                                .endVertex()
-                        }
-
-                        tessellator.draw()
+                    side.forEachIndexed { index, vertex ->
+                        bufferBuilder
+                            .pos(x + vertex.x, y + vertex.y, z + vertex.z)
+                            .color(color, if (index % 2 == 1) 0 else alpha)
+                            .endVertex()
                     }
+
+                    tessellator.draw()
                 }
             }
-
-            depthMask(true)
-            blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_CONSTANT_COLOR)
-            shadeModel(GL11.GL_FLAT)
-            enableTexture2D()
-            enableAlpha()
         }
+
+        depthMask(true)
+        blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_CONSTANT_COLOR)
+        shadeModel(GL11.GL_FLAT)
+        enableTexture2D()
+        enableAlpha()
     }
 }

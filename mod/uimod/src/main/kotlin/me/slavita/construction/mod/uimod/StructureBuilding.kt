@@ -47,13 +47,14 @@ import ru.cristalix.uiengine.utility.text
 
 object StructureBuilding : IRegistrable {
 
-    private var currentItem: ItemStack? = null
     private var currentBlockLocation: V3? = null
+    private var frameColor = Color(0, 0, 0, 65.0)
+    private var lineWidth = 4.0F
+    private var currentItem: ItemStack? = null
     private var hoverText: String? = null
     private var targetText: String? = null
-    private var frameColor = Color(0, 0, 0, 65.0)
     private var lastMarkersSlots = arrayOf<Int>()
-    private var lineWidth = 4.0F
+    private var placed = true
 
     private val nextBlock: RectangleElement = rectangle {
         align = BOTTOM
@@ -111,6 +112,7 @@ object StructureBuilding : IRegistrable {
             lastMarkersSlots = arrayOf()
             markers.children.clear()
             nextBlock.enabled = true
+            placed = false
         }
 
         mod.registerChannel(STRUCTURE_HIDE_CHANNEL) {
@@ -142,7 +144,9 @@ object StructureBuilding : IRegistrable {
                 }
                 return@registerHandler
             }
+            if (placed) return@registerHandler
             sendPayload(STRUCTURE_PLACE_CHANNEL, Unpooled.buffer())
+            placed = true
             player.swingArm(EnumHand.MAIN_HAND)
         }
 
@@ -166,11 +170,6 @@ object StructureBuilding : IRegistrable {
             }
         }
 
-        mod.registerHandler<RenderPass> {
-            if (currentBlockLocation == null) return@registerHandler
-            Renderer.renderBlockFrame(currentBlockLocation!!, frameColor, lineWidth)
-        }
-
         UIEngine.postOverlayContext.afterRender {
             clientApi.resolution().run {
                 if (hoverText == null) return@afterRender
@@ -180,6 +179,15 @@ object StructureBuilding : IRegistrable {
                 )
             }
         }
+    }
+
+    fun RenderPass.renderBlockTip() {
+        if (currentBlockLocation == null) return
+        Renderer.renderBlockFrame(
+            currentBlockLocation!!,
+            frameColor,
+            lineWidth
+        )
     }
 
     private fun updateInfoIcon() {
