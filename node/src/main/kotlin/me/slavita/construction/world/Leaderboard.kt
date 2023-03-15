@@ -4,6 +4,8 @@ import me.slavita.construction.booster.format.IFormatter
 import me.slavita.construction.protocol.LeaderboardItem
 import me.slavita.construction.utils.cristalixName
 import me.slavita.construction.utils.label
+import me.slavita.construction.utils.labels
+import me.slavita.construction.utils.toBlockFace
 import me.slavita.construction.utils.toUUID
 import me.slavita.construction.utils.toYaw
 import org.bukkit.block.BlockFace
@@ -25,8 +27,8 @@ class Leaderboard(
             addColumn("Игрок", 140.0)
             addColumn(value, fieldSize)
             this.title = title
-            location = label("board", labelTag)!!.apply {
-                yaw = BlockFace.WEST.toYaw()
+            location = labels("board").find { it.tag.contains(labelTag) }!!.apply {
+                yaw = tag.split("-")[1].toBlockFace().toYaw()
                 y += 4
             }
             Boards.addBoard(this)

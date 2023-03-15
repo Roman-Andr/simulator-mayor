@@ -7,13 +7,14 @@ import me.slavita.construction.utils.logTg
 
 object BotsManager : IRegistrable {
 
-    val tg = bot {
-        token = System.getenv("TG_TOKEN")
-        dispatch {}
-    }
+    val tg = null
+//    bot {
+//        token = System.getenv("TG_TOKEN")
+//        dispatch {}
+//    }
 
     override fun register() {
-        tg.startPolling()
+//        tg.startPolling()
         logTg("Node initialized")
     }
 }

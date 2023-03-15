@@ -9,7 +9,7 @@ import me.slavita.construction.world.GameWorld
 object MapLoader : IRegistrable {
     override fun register() {
         app.structureMap = MapLoader.load("construction", "structures")
-        val map = MapLoader.load("construction", "main")
+        val map = MapLoader.load("construction", "test")
         nextTick {
             GameWorld(
                 map.apply {

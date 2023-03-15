@@ -33,8 +33,8 @@ class App : KotlinMod() {
         )
 
         mod.registerHandler<RenderPass> {
-            renderBlockTip()
             renderBorders()
+            renderBlockTip()
         }
     }
 }

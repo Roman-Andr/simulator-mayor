@@ -107,7 +107,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         hover = REWARDS_MENU
                         item = Icons.get("skyblock", "info")
                         click { _, _, _ ->
-                            DailyMenu(player).tryExecute()
+                            DailyMenu(player).keepHistory().tryExecute()
                         }
                     },
                     button {

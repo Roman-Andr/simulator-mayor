@@ -24,6 +24,7 @@ import me.func.mod.world.Banners.location
 import me.func.protocol.data.color.GlowColor
 import me.func.protocol.data.color.RGB
 import me.func.protocol.data.element.Banner
+import me.func.world.Label
 import me.func.world.WorldMeta
 import me.slavita.construction.action.command.ButtonCommand
 import me.slavita.construction.app
@@ -302,7 +303,7 @@ fun logFormat(message: String) = "[${IRealmService.get().currentRealmInfo.realmI
 
 fun <T> log(message: T) = println(logFormat(message.toString()))
 
-fun logTg(text: String) = tg.sendMessage(ChatId.fromId(app.chatId), logFormat(text))
+fun logTg(text: String) = { /* tg.sendMessage(ChatId.fromId(app.chatId), logFormat(text)) */ }
 
 val routine: EventContext = EventContext { true }.fork()
 
@@ -627,3 +628,20 @@ fun getDailyReward(user: User) =
             )
         )
     }
+
+fun String.toBlockFace() = try {
+    when (lowercase()) {
+        "n" -> BlockFace.NORTH
+        "s" -> BlockFace.SOUTH
+        "e" -> BlockFace.EAST
+        "w" -> BlockFace.WEST
+        "ne" -> BlockFace.NORTH_EAST
+        "nw" -> BlockFace.NORTH_WEST
+        "se" -> BlockFace.SOUTH_EAST
+        "sw" -> BlockFace.SOUTH_WEST
+        else -> BlockFace.valueOf(uppercase())
+    }
+} catch (exception: Exception) {
+    log("Illegal label: $this")
+    BlockFace.WEST
+}

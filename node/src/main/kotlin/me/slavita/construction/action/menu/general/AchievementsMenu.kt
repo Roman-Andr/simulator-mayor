@@ -13,6 +13,7 @@ import me.slavita.construction.utils.mapM
 import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GOLD
 import org.bukkit.ChatColor.GREEN
+import org.bukkit.ChatColor.WHITE
 import org.bukkit.ChatColor.RED
 import org.bukkit.entity.Player
 
@@ -31,7 +32,7 @@ class AchievementsMenu(player: Player) : MenuCommand(player) {
                         title = type.title
                         item = Icons.get(type.itemKey, type.itemValue)
                         backgroundColor = GlowColor.GREEN_LIGHT
-                        hover = "${GOLD}${type.placeholder.replace("%value%", "${expectValue.toMoney()}$GOLD")}"
+                        hover = type.placeholder.replace("%value%", "${GOLD}${expectValue.toMoney()}$WHITE")
                         hint = ""
                         description = if (level != 0) "$GREEN Уровень: ${GOLD}$level\n" else "${RED}Не начато"
                     }
