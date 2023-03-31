@@ -23,7 +23,7 @@ import org.bukkit.ChatColor.WHITE
 import org.bukkit.entity.Player
 
 class StorageMenu(player: Player) : MenuCommand(player) {
-    private val blocksStorage = player.user.data.blocksStorage
+    /*private val blocksStorage = player.user.data.blocksStorage
     private var selection = Selection()
 
     override fun getMenu(): Openable {
@@ -55,7 +55,7 @@ class StorageMenu(player: Player) : MenuCommand(player) {
     private fun getHover(entry: Map.Entry<ItemProperties, Int>) = """
         ${GREEN}${LanguageHelper.getItemDisplayName(entry.key.createItemStack(1), user.player)}
         На складе: ${BOLD}${AQUA}${entry.value} шт
-        
+
         Взять ${AQUA}${if (entry.value >= 64) 64 else entry.value} шт ${YELLOW}[ ЛКМ ]
         Взять всё - ${AQUA}${entry.value} шт ${YELLOW}[ ПКМ ]
     """.trimIndent()
@@ -73,5 +73,8 @@ class StorageMenu(player: Player) : MenuCommand(player) {
                 selection.money = getFreeSpace()
             }
         }
+    }*/
+    override fun getMenu(): Openable {
+        TODO("Not yet implemented")
     }
 }

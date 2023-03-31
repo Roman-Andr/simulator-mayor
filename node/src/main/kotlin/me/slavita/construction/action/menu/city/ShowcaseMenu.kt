@@ -9,8 +9,8 @@ import me.func.mod.ui.menu.selection
 import me.func.mod.ui.menu.selection.Selection
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.command.MenuCommand
-import me.slavita.construction.city.showcase.Showcase
-import me.slavita.construction.city.showcase.ShowcaseProduct
+import me.slavita.construction.showcase.Showcase
+import me.slavita.construction.showcase.ShowcaseProduct
 import me.slavita.construction.player.User
 import me.slavita.construction.ui.Formatter
 import me.slavita.construction.ui.Formatter.toMoney
@@ -24,7 +24,6 @@ import me.slavita.construction.utils.runTimer
 import me.slavita.construction.utils.scheduler
 import me.slavita.construction.utils.size
 import me.slavita.construction.utils.validate
-import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GOLD
 import org.bukkit.ChatColor.GREEN
 import org.bukkit.ChatColor.RED
@@ -58,7 +57,7 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player)
     """.trimIndent()
 
     private fun buyBlocks(user: User, amount: Int, entry: ShowcaseProduct, selection: Selection) {
-        user.run {
+        /*user.run {
             val hasSpace = player.inventory.firstEmpty() != -1
             if (!hasSpace && !data.blocksStorage.hasSpace(amount)) {
                 player.deny("Нехватает места на складе!")
@@ -73,7 +72,7 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player)
                 Glow.animate(player, 0.3, GlowColor.GREEN)
                 selection.money = getMoney()
             }
-        }
+        }*/
     }
 
     private fun getButtons(): MutableList<ReactiveButton> {
@@ -85,13 +84,14 @@ class ShowcaseMenu(player: Player, val showcase: Showcase) : MenuCommand(player)
             }
             button {
                 item = emptyItem.validate()
-                hover = """
+                //todo
+                /*hover = """
                     ${GREEN}${LanguageHelper.getItemDisplayName(emptyItem, user.player)}
                     ${WHITE}Купить ${AQUA}8 шт ${WHITE}за ${(entry.price * 8).toMoneyIcon()} ${YELLOW}[ ЛКМ ]
                     ${WHITE}Купить ${AQUA}64 шт ${WHITE}за ${(entry.price * 64).toMoneyIcon()} ${YELLOW}[ ПКМ ]
-                    
+
                     ${WHITE}На складе: ${AQUA}${user.data.blocksStorage.blocks.getOrDefault(entry.item, 0)} шт
-                """.trimIndent()
+                """.trimIndent()*/
                 hint = (if (user.canPurchase(entry.price * 8)) "$WHITE" else "$RED") + " "
                 onLeftClick { _, _, _ ->
                     buyBlocks(user, 8, entry, selection)

@@ -19,11 +19,12 @@ import org.bukkit.entity.Player
 class LocationsMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         user.run user@{
+            //todo
             return choicer {
                 title = "${GOLD}${BOLD}Телепортация"
                 description = "Перемещение между локациями"
                 info = LOCATIONS_INFO
-                storage = user.data.cities.sortedBy { it.price }.mapM { city ->
+                /*storage = user.data.regions.sortedBy { it. }.mapM { city ->
                     button {
                         title = city.title
                         if (city.unlocked) {
@@ -45,7 +46,7 @@ class LocationsMenu(player: Player) : MenuCommand(player) {
                             }
                         }
                     }
-                }
+                }*/
             }
         }
     }

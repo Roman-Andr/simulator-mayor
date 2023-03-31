@@ -6,7 +6,7 @@ import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.choicer
 import me.slavita.construction.action.command.MenuCommand
-import me.slavita.construction.city.bank.Bank
+import me.slavita.construction.bank.Bank
 import me.slavita.construction.common.utils.BANK_OPEN_CHANNEL
 import me.slavita.construction.dontate.Abilities
 import me.slavita.construction.ui.menu.Icons

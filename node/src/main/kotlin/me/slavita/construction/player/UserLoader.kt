@@ -48,7 +48,8 @@ object UserLoader : IRegistrable {
     }
 
     private fun cacheUser(uuid: UUID): User {
-        val raw = getRawUser(uuid)
+        //val raw = getRawUser(uuid)
+        val raw = null
         val user = User(uuid).apply { initialize(raw) }
         log("${user.player.name} initialized")
         app.users[uuid] = user

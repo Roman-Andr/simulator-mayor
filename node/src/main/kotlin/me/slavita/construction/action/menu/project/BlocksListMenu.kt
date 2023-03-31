@@ -4,7 +4,8 @@ import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection
 import me.slavita.construction.action.command.MenuCommand
-import me.slavita.construction.structure.instance.Structure
+import me.slavita.construction.region.Structure
+import me.slavita.construction.region.StructureOptions
 import me.slavita.construction.utils.language.LanguageHelper
 import me.slavita.construction.utils.mapM
 import me.slavita.construction.utils.size
@@ -14,13 +15,13 @@ import org.bukkit.ChatColor.BOLD
 import org.bukkit.ChatColor.GREEN
 import org.bukkit.entity.Player
 
-class BlocksListMenu(player: Player, val structure: Structure) : MenuCommand(player) {
+class BlocksListMenu(player: Player, val options: StructureOptions) : MenuCommand(player) {
     override fun getMenu(): Openable {
         user.run user@{
             return selection {
                 title = "${AQUA}${BOLD}Список материалов"
                 size(5, 14)
-                storage = structure.blocks.keys.mapM { itemProps ->
+                storage = options.blocks.keys.mapM { itemProps ->
                     button {
                         item = itemProps.createItemStack(1).validate()
                         hover = "${GREEN}${
@@ -28,7 +29,7 @@ class BlocksListMenu(player: Player, val structure: Structure) : MenuCommand(pla
                             itemProps.createItemStack(1),
                             player
                         )
-                        } - ${structure.blocks[itemProps]}шт"
+                        } - ${options.blocks[itemProps]}шт"
                         hint = " "
                     }
                 }

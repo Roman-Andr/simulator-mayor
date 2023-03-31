@@ -1,5 +1,8 @@
 package me.slavita.construction.world
 
+import me.func.world.Area
+import me.func.world.Box
+import me.slavita.construction.app
 import me.slavita.construction.common.utils.V3i
 import net.minecraft.server.v1_12_R1.BlockPosition
 import org.bukkit.Location
@@ -13,7 +16,11 @@ class Box(val min: Location, val max: Location) {
         (max.blockY + min.blockY) / 2.0,
         (max.blockZ + min.blockZ) / 2.0
     ).toCenterLocation()!!
+
     val bottomCenter = Location(min.world, center.x, min.y, center.z).toCenterLocation()!!
+
+    fun toFuncBox(map: Area, xOffset: Double = 0.0, yOffset: Double = 0.0, zOffset: Double = 0.0) =
+        Box(map, min.clone().add(xOffset, yOffset, zOffset), max.clone().add(xOffset, yOffset, zOffset), "", "")
 
     fun forEachBukkit(action: (Block) -> Unit) {
         (min.blockX..max.blockX).forEach { x ->

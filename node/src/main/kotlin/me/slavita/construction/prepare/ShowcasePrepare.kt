@@ -1,7 +1,7 @@
 package me.slavita.construction.prepare
 
 import me.func.mod.conversation.ModTransfer
-import me.slavita.construction.city.showcase.Showcase
+import me.slavita.construction.showcase.Showcase
 import me.slavita.construction.common.utils.SHOWCASE_INIT_CHANNEL
 import me.slavita.construction.player.User
 

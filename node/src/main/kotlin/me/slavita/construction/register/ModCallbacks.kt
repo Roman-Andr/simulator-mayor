@@ -2,12 +2,12 @@ package me.slavita.construction.register
 
 import me.func.mod.Anime
 import me.func.protocol.math.Position
-import me.slavita.construction.city.bank.Bank
+import me.slavita.construction.bank.Bank
 import me.slavita.construction.common.utils.BANK_SUBMIT_CHANNEL
 import me.slavita.construction.common.utils.FUNC_REWARD_CLICK
 import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.common.utils.STRUCTURE_PLACE_CHANNEL
-import me.slavita.construction.structure.ClientStructure
+import me.slavita.construction.region.ClientStructure
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.utils.accept
 import me.slavita.construction.utils.runTimerAsync
@@ -38,8 +38,8 @@ object ModCallbacks : IRegistrable {
         }
 
         Anime.createReader(STRUCTURE_PLACE_CHANNEL) { player, _ ->
-            Bukkit.getOnlinePlayers().forEach { owner ->
-                if (player == owner) (owner.user.watchableProject!!.structure as ClientStructure).tryPlaceBlock()
+            player.user.data.cells.find { it.box.contains(player.location) }?.child?.run {
+                if (this is ClientStructure) tryPlaceBlock()
             }
         }
 

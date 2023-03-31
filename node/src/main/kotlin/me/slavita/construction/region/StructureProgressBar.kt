@@ -1,0 +1,46 @@
+package me.slavita.construction.region
+
+import me.func.mod.reactive.ReactiveProgress
+import me.func.protocol.data.color.GlowColor
+import me.func.protocol.math.Position
+import org.bukkit.ChatColor
+import org.bukkit.entity.Player
+
+class StructureProgressBar(val player: Player, private val blocksTotal: Int) {
+    private val bar = ReactiveProgress.builder()
+        .position(Position.BOTTOM)
+        .offsetY(36.0)
+        .hideOnTab(false)
+        .color(GlowColor.BLUE)
+        .build()
+
+    var hidden = false
+    var blocksPlaced = 0
+
+    fun show() {
+        if (!hidden) return
+        hidden = false
+
+        bar.apply {
+            update(blocksPlaced)
+            send(player)
+            progress = 0.0
+        }
+    }
+
+    fun hide() {
+        if (hidden) return
+        hidden = true
+
+        bar.delete(setOf(player))
+    }
+
+    fun update(blocksPlaced: Int) {
+        this.blocksPlaced = blocksPlaced
+        bar.apply {
+            progress = blocksPlaced.toDouble() / blocksTotal.toDouble()
+            text = "${ChatColor.WHITE}Поставлено блоков: ${ChatColor.AQUA}$blocksPlaced ${ChatColor.WHITE}из ${ChatColor.AQUA}$blocksTotal"
+        }
+    }
+}
+

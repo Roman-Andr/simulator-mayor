@@ -19,7 +19,7 @@ import org.bukkit.ChatColor.WHITE
 import org.bukkit.entity.Player
 
 class StorageUpgrade(val player: Player) : MenuCommand(player) {
-    override fun getMenu(): Openable {
+    /*override fun getMenu(): Openable {
         return choicer {
             title = "${GREEN}${BOLD}Склад"
             info = STORAGE_INFO
@@ -33,7 +33,7 @@ class StorageUpgrade(val player: Player) : MenuCommand(player) {
                             ${GREEN}При улучшении:
                               ${WHITE}Уровень: ${GRAY}${user.data.blocksStorage.level.toLevel()} $BOLD-> ${GREEN}${(user.data.blocksStorage.level + 1).toLevel()}
                               ${WHITE}Вместимость: ${GRAY}${user.data.blocksStorage.limit} блоков $BOLD-> ${GOLD}${user.data.blocksStorage.nextLimit} блоков
-                            
+
                             ${BOLD}${WHITE}Стоимость: ${GREEN}${user.data.blocksStorage.upgradePrice.toMoneyIcon()}
                     """.trimIndent()
                     item = Icons.get("other", "anvil")
@@ -44,5 +44,8 @@ class StorageUpgrade(val player: Player) : MenuCommand(player) {
                 }
             )
         }
+    }*/
+    override fun getMenu(): Openable {
+        TODO("Not yet implemented")
     }
 }

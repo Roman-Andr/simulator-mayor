@@ -6,8 +6,7 @@ import me.func.mod.ui.menu.Openable
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection
 import me.slavita.construction.action.command.MenuCommand
-import me.slavita.construction.city.bank.Bank
-import me.slavita.construction.ui.Formatter.toMoney
+import me.slavita.construction.bank.Bank
 import me.slavita.construction.ui.Formatter.toMoneyIcon
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.ui.menu.StatsType

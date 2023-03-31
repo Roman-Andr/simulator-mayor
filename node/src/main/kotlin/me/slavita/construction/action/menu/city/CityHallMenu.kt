@@ -22,7 +22,8 @@ import org.bukkit.entity.Player
 class CityHallMenu(player: Player) : MenuCommand(player) {
     override fun getMenu(): Openable {
         user.run user@{
-            val hall = this@user.data.hall
+            //todo
+            //val hall = this@user.data.hall
             return choicer {
                 title = "${GREEN}${BOLD}Мэрия"
                 description = "Управление мэрией"
@@ -32,16 +33,16 @@ class CityHallMenu(player: Player) : MenuCommand(player) {
                         title = "${GOLD}${BOLD}Улучшить"
                         hint = "Улучшить"
                         backgroundColor = GlowColor.GREEN
-                        hover = """
+                        /*hover = """
                             ${GREEN}При улучшении:
                               ${WHITE}Уровень: ${GRAY}${hall.level.toLevel()} $BOLD-> ${GREEN}${(hall.level + 1).toLevel()}
                               ${WHITE}Доход: ${GRAY}${hall.income.toIncomeIcon()} $BOLD-> ${GOLD}${hall.nextIncome.toIncomeIcon()}
-                            
+
                             ${BOLD}${WHITE}Стоимость: ${hall.upgradePrice.toMoneyIcon()}
-                        """.trimIndent()
+                        """.trimIndent()*/
                         item = Icons.get("other", "anvil")
                         click { _, _, _ ->
-                            this@user.upgradeHall()
+                            //this@user.upgradeHall()
                             Anime.close(player)
                         }
                     }

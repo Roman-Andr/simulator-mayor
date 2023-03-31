@@ -6,10 +6,8 @@ import org.bukkit.craftbukkit.v1_12_R1.block.CraftBlock
 import org.bukkit.inventory.ItemStack
 
 open class ItemProperties(val type: Material, val data: Byte) {
-    companion object {
-        fun fromBlock(block: Block) =
-            ItemProperties(block.type, (block as CraftBlock).nmsBlock.getDropData(block.data0).toByte())
-    }
+
+    constructor(block: Block) : this(block.type, (block as CraftBlock).nmsBlock.getDropData(block.data0).toByte())
 
     constructor(item: ItemStack) : this(item.getData().itemType, if (item.getData() == null) 0 else item.getData().data)
 

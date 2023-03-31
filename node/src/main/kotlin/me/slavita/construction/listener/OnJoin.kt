@@ -12,9 +12,6 @@ import org.bukkit.event.player.PlayerJoinEvent
 object OnJoin : IRegistrable {
     override fun register() {
         listener<PlayerJoinEvent> event@{
-            OnActions.inZone[player.uniqueId] = false
-            OnActions.storageEntered[player.uniqueId] = false
-
             player.inventory.clear()
 
             nextTick {

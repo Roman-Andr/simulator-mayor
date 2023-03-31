@@ -7,8 +7,6 @@ import me.slavita.construction.action.command.MenuCommand
 import me.slavita.construction.action.menu.city.CityHallMenu
 import me.slavita.construction.action.menu.city.LocationsMenu
 import me.slavita.construction.action.menu.city.StorageUpgrade
-import me.slavita.construction.action.menu.project.ActiveProjectsMenu
-import me.slavita.construction.action.menu.project.StartFreelanceProject
 import me.slavita.construction.action.menu.worker.WorkerMenu
 import me.slavita.construction.ui.menu.Icons
 import me.slavita.construction.utils.ACHIEVEMENTS_MENU
@@ -43,7 +41,7 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         hover = PROJECTS_MENU
                         item = Icons.get("other", "book")
                         click { _, _, _ ->
-                            ActiveProjectsMenu(player).keepHistory().tryExecute()
+                            //ActiveProjectsMenu(player).keepHistory().tryExecute() //todo
                         }
                     },
                     button {
@@ -99,7 +97,8 @@ class ControlPanelMenu(player: Player) : MenuCommand(player) {
                         hover = FREELANCE_MENU
                         item = Icons.get("other", "socmedia")
                         click { _, _, _ ->
-                            if (user.currentFreelance == null) StartFreelanceProject(player).tryExecute()
+                            //if (user.currentFreelance == null) StartFreelanceProject(player).tryExecute()
+                            //todo
                         }
                     },
                     button {

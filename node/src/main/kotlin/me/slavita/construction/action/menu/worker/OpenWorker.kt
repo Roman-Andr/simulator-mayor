@@ -15,6 +15,7 @@ class OpenWorker(override val user: User, vararg val workers: Worker) : Cooldown
             *(workers.map { LootDrop(it.rarity.getIcon(), it.toString(), it.rarity.dropRare) }).toTypedArray()
         )
         user.data.workers.addAll(workers)
-        user.updateAchievement(AchievementType.WORKERS)
+        //user.updateAchievement(AchievementType.WORKERS)
+        //todo achievements
     }
 }

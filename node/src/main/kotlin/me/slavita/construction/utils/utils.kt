@@ -1,6 +1,5 @@
 package me.slavita.construction.utils
 
-import com.github.kotlintelegrambot.entities.ChatId
 import dev.implario.bukkit.event.EventContext
 import dev.implario.bukkit.item.ItemBuilder
 import dev.implario.bukkit.platform.Platforms
@@ -12,9 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import me.func.mod.Anime
 import me.func.mod.conversation.ModTransfer
-import me.func.mod.reactive.ButtonClickHandler
-import me.func.mod.reactive.ReactiveBanner
-import me.func.mod.reactive.ReactiveButton
+import me.func.mod.reactive.*
 import me.func.mod.ui.Glow
 import me.func.mod.ui.menu.button
 import me.func.mod.ui.menu.selection.Selection
@@ -23,23 +20,25 @@ import me.func.mod.world.Banners
 import me.func.mod.world.Banners.location
 import me.func.protocol.data.color.GlowColor
 import me.func.protocol.data.color.RGB
+import me.func.protocol.data.color.Tricolor
 import me.func.protocol.data.element.Banner
-import me.func.world.Label
+import me.func.protocol.math.Position
 import me.func.world.WorldMeta
-import me.slavita.construction.action.command.ButtonCommand
+import me.slavita.construction.action.command.ButtonClickCommand
 import me.slavita.construction.app
-import me.slavita.construction.city.bank.Bank
+import me.slavita.construction.bank.Bank
 import me.slavita.construction.common.utils.LOADING_STATE_CHANNEL
 import me.slavita.construction.common.utils.LoadingState
 import me.slavita.construction.dontate.Donates
 import me.slavita.construction.player.User
 import me.slavita.construction.player.sound.MusicSound
-import me.slavita.construction.register.BotsManager.tg
+import me.slavita.construction.region.Cell
+import me.slavita.construction.region.DualBanner
+import me.slavita.construction.region.WorldCell
 import me.slavita.construction.reward.ExperienceReward
 import me.slavita.construction.reward.MoneyReward
 import me.slavita.construction.reward.ReputationReward
 import me.slavita.construction.reward.WorkerReward
-import me.slavita.construction.structure.CityCell
 import me.slavita.construction.ui.BannerSamples
 import me.slavita.construction.ui.Formatter.toCriMoney
 import me.slavita.construction.ui.Formatter.toMoney
@@ -107,7 +106,7 @@ val scheduler: BukkitScheduler = Bukkit.getScheduler()
 
 fun ReactiveButton.click(click: ButtonClickHandler) = apply {
     onClick = ButtonClickHandler { player, index, button ->
-        ButtonCommand(player) {
+        ButtonClickCommand(player) {
             click.handle(player, index, button)
         }.tryExecute()
     }
@@ -418,31 +417,45 @@ fun BlockFace.toYaw(): Float = when (this) {
     else -> 0
 }.toFloat()
 
-fun getFaceCenter(cell: CityCell) = cell.box.bottomCenter.clone().apply {
+fun createWorldProgress(cell: Cell) =
+    cell.worldCell.faceCenter.run {
+        ReactiveProgress.builder()
+            .position(Position.BOTTOM)
+            .offsetX(x)
+            .offsetY(cell.allocation.y + 6.0)
+            .offsetZ(z)
+            .hideOnTab(false)
+            .color(GlowColor.GREEN)
+            .scale(2.5)
+            .build()
+    }
+
+fun createStructureBanner(cell: Cell) =
+    DualBanner(
+        cell.user.player,
+        BannerInfo(
+            cell.worldCell.faceCenter,
+            cell.face,
+            width = 102,
+            height = 80,
+            color = Tricolor(0, 0, 0),
+            opacity = 0.65
+        )
+    )
+
+fun getFaceCenter(cell: WorldCell) = cell.box.bottomCenter.clone().apply {
+    val min = cell.box.min
+    val max = cell.box.max
+
     when (cell.face) {
-        BlockFace.EAST -> x = cell.box.max.x
-        BlockFace.NORTH -> z = cell.box.min.z
-        BlockFace.WEST -> x = cell.box.min.x
-        BlockFace.SOUTH -> z = cell.box.max.z
-        BlockFace.NORTH_EAST -> {
-            x = cell.box.max.x
-            z = cell.box.min.z
-        }
-
-        BlockFace.NORTH_WEST -> {
-            x = cell.box.min.x
-            z = cell.box.min.z
-        }
-
-        BlockFace.SOUTH_EAST -> {
-            x = cell.box.max.x
-            z = cell.box.max.z
-        }
-
-        BlockFace.SOUTH_WEST -> {
-            x = cell.box.min.x
-            z = cell.box.max.z
-        }
+        BlockFace.EAST -> x = max.x
+        BlockFace.NORTH -> z = min.z
+        BlockFace.WEST -> x = min.x
+        BlockFace.SOUTH -> z = max.z
+        BlockFace.NORTH_EAST -> { x = max.x; z = min.z }
+        BlockFace.NORTH_WEST -> { x = min.x; z = min.z }
+        BlockFace.SOUTH_EAST -> { x = max.x; z = max.z }
+        BlockFace.SOUTH_WEST -> { x = min.x; z = max.z }
 
         else -> throw IllegalArgumentException("Incorrect structure face")
     }
@@ -539,26 +552,7 @@ fun newBanner(
     )
 }
 
-fun createDual(info: BannerInfo): Pair<Banner, Banner> {
-    info.run {
-        return Pair(
-            createBanner(BannerInfo(source, blockFace, content, width, height, color, opacity, motionType, pitch)),
-            createBanner(
-                BannerInfo(
-                    Location(
-                        source.world,
-                        source.x + blockFace.modX,
-                        source.y,
-                        source.z + blockFace.modZ
-                    ),
-                    blockFace.oppositeFace, content, width, height, color, opacity, motionType, pitch
-                )
-            )
-        )
-    }
-}
-
-private fun createBanner(info: BannerInfo): Banner {
+fun createBanner(info: BannerInfo): Banner {
     info.run {
         return ReactiveBanner.builder()
             .weight(width)

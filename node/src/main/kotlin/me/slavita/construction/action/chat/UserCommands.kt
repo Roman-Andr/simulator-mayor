@@ -1,6 +1,5 @@
 package me.slavita.construction.action.chat
 
-import me.slavita.construction.action.menu.city.CityHallMenu
 import me.slavita.construction.action.menu.city.LocationsMenu
 import me.slavita.construction.action.menu.city.StorageMenu
 import me.slavita.construction.action.menu.donate.DonateMenu
@@ -8,8 +7,6 @@ import me.slavita.construction.action.menu.general.AchievementsMenu
 import me.slavita.construction.action.menu.general.DailyMenu
 import me.slavita.construction.action.menu.general.SettingsMenu
 import me.slavita.construction.action.menu.general.TagsMenu
-import me.slavita.construction.action.menu.project.ActiveProjectsMenu
-import me.slavita.construction.action.menu.project.StartFreelanceProject
 import me.slavita.construction.action.menu.worker.WorkerMenu
 import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.prepare.GuidePrepare
@@ -28,28 +25,31 @@ object UserCommands : IRegistrable {
         }
 
         command("break") { player, _ ->
-            player.user.currentCity.breakStructure()
+            //player.user.currentCity.breakStructure()
+            //todo: do
         }
 
         command("remove") { player, _ ->
-            player.user.currentCity.cityStructures.find { it.cell.box.contains(player.location) }?.remove()
+            player.user.data.cells.find { it.box.contains(player.location) }?.changeChild(null)
         }
 
         /* Быстрый доступ */
 
         command("spawn") { player, _ ->
             player.user.run {
-                tryChangeCity(currentCity)
+                player.teleport(data.regions.find { it.options.box.contains(player.location) }!!.options.spawn)
             }
         }
 
         command("rebirth") { player, _ ->
             player.user.run {
+                //todo: later
             }
         }
 
         listen("projects", Key.K) { player ->
-            ActiveProjectsMenu(player).tryExecute()
+            //ActiveProjectsMenu(player).tryExecute()
+            //todo
         }
 
         listen("locations", Key.L) { player ->
@@ -77,15 +77,12 @@ object UserCommands : IRegistrable {
         }
 
         listen("cityhall", null) { player ->
-            CityHallMenu(player).tryExecute()
+            //CityHallMenu(player).tryExecute()
+            //todo
         }
 
         listen("donate", null) { player ->
             DonateMenu(player).tryExecute()
-        }
-
-        listen("freelance", null) { player ->
-            StartFreelanceProject(player).tryExecute()
         }
 
         listen("rewards", null) { player ->

@@ -18,7 +18,7 @@ import org.bukkit.ChatColor.RED
 import org.bukkit.entity.Player
 
 class AchievementsMenu(player: Player) : MenuCommand(player) {
-    override fun getMenu(): Openable {
+    /*override fun getMenu(): Openable {
         return choicer {
             title = "${GREEN}${BOLD}Достижения"
             info = ACHIEVEMENTS_INFO
@@ -39,5 +39,8 @@ class AchievementsMenu(player: Player) : MenuCommand(player) {
                 }
             }
         }
+    }*/
+    override fun getMenu(): Openable {
+        TODO("Not yet implemented")
     }
 }

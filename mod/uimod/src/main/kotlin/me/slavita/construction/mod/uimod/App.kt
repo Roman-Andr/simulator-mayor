@@ -29,7 +29,6 @@ class App : KotlinMod() {
             CreditTaking,
             Storage,
             CellBorders,
-            WorldButton,
         )
 
         mod.registerHandler<RenderPass> {

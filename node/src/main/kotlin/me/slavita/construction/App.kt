@@ -20,14 +20,13 @@ import me.slavita.construction.listener.PhysicsDisabler
 import me.slavita.construction.player.User
 import me.slavita.construction.player.UserLoader
 import me.slavita.construction.player.UserSaver
+import me.slavita.construction.region.WorkerStructure
 import me.slavita.construction.register.BotsManager
 import me.slavita.construction.register.MapLoader
 import me.slavita.construction.register.ModCallbacks
 import me.slavita.construction.register.ModLoader
 import me.slavita.construction.register.RealmConfigurator
 import me.slavita.construction.register.ServicesLoader
-import me.slavita.construction.structure.WorkerStructure
-import me.slavita.construction.structure.instance.Structures
 import me.slavita.construction.ui.Formatter.applyBoosters
 import me.slavita.construction.ui.ItemsManager
 import me.slavita.construction.utils.AnimeTimer
@@ -39,7 +38,6 @@ import me.slavita.construction.utils.runTimer
 import me.slavita.construction.utils.runTimerAsync
 import me.slavita.construction.utils.toUUID
 import me.slavita.construction.world.GameWorld
-import me.slavita.construction.world.ItemProperties
 import me.slavita.construction.world.Leaderboards
 import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
@@ -54,7 +52,6 @@ class App : JavaPlugin() {
     lateinit var mainWorld: GameWorld
     val chatId = System.getenv("TG_CHAT_ID").toLong()
     val users = hashMapOf<UUID, User>()
-    val allBlocks = hashSetOf<ItemProperties>()
     val waitResponseTime = 5L
 
     val localStaff = hashSetOf(
@@ -84,7 +81,6 @@ class App : JavaPlugin() {
             AdminCommands,
             ModCallbacks,
             ItemsManager,
-            Structures,
             LanguageHelper,
             PhysicsDisabler,
             OnJoin,
@@ -102,9 +98,9 @@ class App : JavaPlugin() {
         }
 
         coroutineForAll(1) {
-            data.cities.forEach { city ->
-                city.projects.forEach { project ->
-                    if (project.structure is WorkerStructure) (project.structure as WorkerStructure).build()
+            data.cells.forEach { cell ->
+                cell.child?.run {
+                    if (this is WorkerStructure) build()
                 }
             }
         }
@@ -113,14 +109,14 @@ class App : JavaPlugin() {
             data.addMoney(income.applyBoosters(BoosterType.INCOME_BOOSTER))
         }
 
-        coroutineForAll(2 * 60 * 20) {
-            data.cities.forEach { city ->
-                if (data.abilities.contains(Abilities.NO_BRAKE_STRUCTURES)) return@coroutineForAll
-                city.breakStructure()
+        coroutineForAll(2 * 60 * 20) { //todo: make as event
+            data.cells.forEach { cell ->
+                if (data.abilities.contains(Abilities.UNBREKABLE_STRUCTURES)) return@coroutineForAll
+                //todo: do
             }
         }
 
-        coroutineForAll(5 * 60 * 20) {
+        coroutineForAll(5 * 60 * 20) { //todo: make as event
             showcases.forEach { showcase ->
                 showcase.updatePrices()
             }

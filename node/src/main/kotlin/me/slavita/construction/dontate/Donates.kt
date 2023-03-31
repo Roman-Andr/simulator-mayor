@@ -109,7 +109,7 @@ enum class Donates(val donate: Donate, val displayItem: ItemStack, val backgroud
                 Нажмите чтобы купить за ${399.toCriMoney()}
             """.trimIndent(),
             399,
-            Abilities.NO_BRAKE_STRUCTURES
+            Abilities.UNBREKABLE_STRUCTURES
         ),
         Icons.get("alpha", "home"),
         GlowColor.GREEN

@@ -10,7 +10,6 @@ import me.slavita.construction.action.menu.city.StorageMenu
 import me.slavita.construction.action.menu.general.ControlPanelMenu
 import me.slavita.construction.action.menu.general.DailyMenu
 import me.slavita.construction.action.menu.general.GuideDialog
-import me.slavita.construction.action.menu.project.ActiveProjectsMenu
 import me.slavita.construction.action.menu.worker.WorkerMenu
 import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.ui.menu.Icons
@@ -47,7 +46,7 @@ object NpcManager : IRegistrable {
                             "WorkerMenu" -> WorkerMenu::class
                             "ControlPanelMenu" -> ControlPanelMenu::class
                             "BankMainMenu" -> me.slavita.construction.action.menu.bank.BankMainMenu::class
-                            "ActiveProjectsMenu" -> ActiveProjectsMenu::class
+                            //"ActiveProjectsMenu" -> ActiveProjectsMenu::class //todo
                             "DailyMenu" -> DailyMenu::class
                             "GuideDialog" -> GuideDialog::class
                             "StorageMenu" -> StorageMenu::class

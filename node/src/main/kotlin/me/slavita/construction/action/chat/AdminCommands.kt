@@ -7,7 +7,7 @@ import me.func.mod.reactive.ReactiveLine
 import me.func.mod.reactive.ReactivePanel
 import me.func.protocol.data.color.GlowColor
 import me.slavita.construction.action.menu.general.DailyMenu
-import me.slavita.construction.city.bank.Bank
+import me.slavita.construction.bank.Bank
 import me.slavita.construction.common.utils.IRegistrable
 import me.slavita.construction.player.Data
 import me.slavita.construction.player.Tags
@@ -115,7 +115,7 @@ object AdminCommands : IRegistrable {
 
         opCommand("line") { player, _ ->
             ReactiveLine.builder()
-                .to(player.user.currentCity.getSpawn())
+                .to(player.user.data.regions.first().options.spawn)
                 .build()
                 .send(player)
         }

@@ -16,6 +16,6 @@ enum class Abilities(
     }),
     CREDITS_LIMIT({ _ ->
     }),
-    NO_BRAKE_STRUCTURES({ _ ->
+    UNBREKABLE_STRUCTURES({ _ ->
     })
 }

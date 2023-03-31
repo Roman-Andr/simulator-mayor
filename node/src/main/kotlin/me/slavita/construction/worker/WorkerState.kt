@@ -1,9 +1,10 @@
 package me.slavita.construction.worker
 
-enum class WorkerState(
-    val title: String,
-) {
-    FREE("Выбрать"),
-    SELECTED("Выбран"),
-    BUSY("Занят");
+import me.func.protocol.data.color.GlowColor
+
+enum class WorkerState(val title: String, val color: GlowColor) {
+
+    FREE("Выбрать", GlowColor.BLUE),
+    SELECTED("Выбран", GlowColor.ORANGE),
+    BUSY("Занят", GlowColor.NEUTRAL);
 }

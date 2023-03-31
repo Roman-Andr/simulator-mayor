@@ -1,5 +1,6 @@
 package me.slavita.construction.worker
 
+import me.slavita.construction.region.WorkerStructure
 import me.slavita.construction.ui.Formatter.toLevel
 import me.slavita.construction.ui.HumanizableValues.BLOCK
 import org.bukkit.ChatColor.WHITE
@@ -15,15 +16,16 @@ class Worker(
     val rapacity: WorkerRapacity,
 ) {
     val uuid: UUID = UUID.randomUUID()
+    var parent: WorkerStructure? = null
 
     val sellPrice: Long
         get() {
-            return 199 /* Формула */
+            return 199 //todo: Формула
         }
 
     val upgradePrice: Long
         get() {
-            return 199 /* Формула */
+            return 199 //todo: Формула
         }
 
     fun levelUp() {

@@ -3,6 +3,7 @@ package me.slavita.construction.prepare
 import me.slavita.construction.app
 import me.slavita.construction.player.User
 import me.slavita.construction.utils.nextTick
+import me.slavita.construction.utils.user
 import org.bukkit.GameMode
 
 object PlayerWorldPrepare : IPrepare {
@@ -19,7 +20,7 @@ object PlayerWorldPrepare : IPrepare {
                 player.apply {
                     gameMode = GameMode.ADVENTURE
                     walkSpeed = data.speed
-                    teleport(currentCity.getSpawn())
+                    teleport(user.data.regions.first().options.spawn)
                 }
             }
         }

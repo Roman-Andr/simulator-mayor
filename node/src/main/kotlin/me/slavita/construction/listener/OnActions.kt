@@ -2,6 +2,7 @@ package me.slavita.construction.listener
 
 import me.slavita.construction.action.menu.city.LeaveFreelanceConfirm
 import me.slavita.construction.common.utils.IRegistrable
+import me.slavita.construction.region.FreelanceCell
 import me.slavita.construction.ui.HumanizableValues.BLOCK
 import me.slavita.construction.utils.accept
 import me.slavita.construction.utils.deny
@@ -16,22 +17,22 @@ import org.bukkit.event.player.PlayerMoveEvent
 import java.util.UUID
 
 object OnActions : IRegistrable {
-    val inZone = hashMapOf<UUID, Boolean>()
-    var storageEntered = hashMapOf<UUID, Boolean>()
 
     override fun register() {
         listener<PlayerDropItemEvent> {
             val user = player.user
+
             if (itemDrop.itemStack.getType() == Material.CLAY_BALL) {
                 isCancelled = true
                 return@listener
             }
+
             if (user.inTrashZone) {
                 drop.remove()
                 return@listener
             }
 
-            if (!user.data.blocksStorage.inBox()) {
+            /*if (!user.data.blocksStorage.inBox()) {
                 isCancelled = true
                 return@listener
             }
@@ -52,17 +53,21 @@ object OnActions : IRegistrable {
             }
             if (toAdd != 0) {
                 player.inventory.addItem(drop.itemStack.apply { setAmount(toAdd) })
-            }
+            }*/
 
             drop.remove()
         }
 
         listener<PlayerMoveEvent> {
             if (player.userOrNull == null) isCancelled = true
-            else if (player.user.currentFreelance != null && !player.user.freelanceCell.box.contains(to)) {
-                isCancelled = true
-                LeaveFreelanceConfirm(player).tryExecute()
-            } else player.user.updatePosition()
+
+            val location = player.location
+            player.user.data.cells.forEach { cell ->
+                cell.run {
+                    if (box.contains(location)) enter() else leave()
+                    if (this is FreelanceCell && child != null) isCancelled = true
+                }
+            }
         }
     }
 }

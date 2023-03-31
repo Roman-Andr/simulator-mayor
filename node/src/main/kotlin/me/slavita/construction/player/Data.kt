@@ -1,10 +1,8 @@
 package me.slavita.construction.player
 
-import me.slavita.construction.city.City
-import me.slavita.construction.city.CityHall
-import me.slavita.construction.city.CitySamples
-import me.slavita.construction.city.storage.BlocksStorage
+import me.slavita.construction.app
 import me.slavita.construction.dontate.Abilities
+import me.slavita.construction.region.*
 import me.slavita.construction.reward.Reward
 import me.slavita.construction.ui.achievements.AchievementData
 import me.slavita.construction.ui.achievements.AchievementType
@@ -38,24 +36,21 @@ class Data(@Transient var user: User) {
     var tag: Tags = Tags.NONE
     val ownTags: HashSet<Tags> = hashSetOf(Tags.NONE)
     val abilities: HashSet<Abilities> = hashSetOf()
-    val hall: CityHall = CityHall()
-    val blocksStorage = BlocksStorage(user)
+    //val hall: Hall = Hall()
     var hasFreelance: Boolean = false
     var achievements: HashSet<AchievementData> = AchievementType.values().map { AchievementData(it) }.toHashSet()
-    var lastCityId: String = "1"
-    val cities: HashSet<City> = CitySamples.values().mapS { sample ->
-        City(
-            user,
-            sample.id.toString(),
-            sample.title,
-            sample.price,
-            sample.id == 1
-        )
+    val regions: HashSet<Region> = Regions.regions.map { Region(user, it.value) }.toHashSet()
+    val cells: HashSet<Cell> = hashSetOf<Cell>().apply {
+        app.mainWorld.cells.forEach { cell ->
+            add(ClassicCell(user, cell, regions.first { it.options.box.contains(cell.label) }))
+        }
+        add(FreelanceCell(user, app.mainWorld.freelanceCell))
     }
 
+    //todo: rewrite
     fun addMoney(value: Long) {
         money += (value)
-        user.updateAchievement(AchievementType.MONEY)
+        //user.updateAchievement(AchievementType.MONEY)
     }
 
     fun addExp(exp: Long) {
@@ -64,16 +59,16 @@ class Data(@Transient var user: User) {
 
     fun addProjects(value: Int) {
         totalProjects += value
-        user.updateAchievement(AchievementType.PROJECTS)
+        //user.updateAchievement(AchievementType.PROJECTS)
     }
 
     fun addBlocks(value: Int) {
         boughtBlocks += value
-        user.updateAchievement(AchievementType.BOUGHT_BLOCKS)
+        //user.updateAchievement(AchievementType.BOUGHT_BLOCKS)
     }
 
     fun addFreelanceProjects(value: Int) {
         freelanceProjectsCount += value
-        user.updateAchievement(AchievementType.FREELANCE)
+        //user.updateAchievement(AchievementType.FREELANCE)
     }
 }
