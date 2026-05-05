@@ -1,123 +1,133 @@
-# Стройка
+# Mayor Simulator — Minecraft City Builder
 
-<hr>
+A feature-rich Minecraft minigame built for the **Cristalix** network. Players manage their own city: unlock districts, place buildings block by block, hire workers, and compete on leaderboards — all on top of a custom client mod and a standalone microservice backend.
 
-## TODO
+---
 
-- <details>
-  <summary>Основные</summary>
+## Architecture
 
-    - Обновление витрины? (прокачка времени обновления)
-    - Ребитхи - новые города, бустеры статистики
-    - Прокачка зданий
-    - Глобальный бустер - меньше блоков для починки зданий
-    - Обучение (пройтись по всем механикам, рассказать)
-    - Прокачка мэрии по внешнему миру
-    - Переделать систему кейсов - 1 кейс, из него падает обычный, редкий, легендарный, указать какие работники могу
-      выпасть
-    - Меню след блоков (инфо про постройку)
-    - Ежедневные задания
-    - Настройка экономики
-    - Мультисерверность (автоматический запуск серверов)
+The project is a multi-module Gradle build targeting the Cristalix platform (a Russian Minecraft network running a fork of Paper called DarkPaper).
 
-</details>
+```bash
+simulator-mayor/
+├── common/       — shared utilities, channels, and data types
+├── protocol/     — socket packet definitions (node ↔ user service)
+├── node/         — main Bukkit plugin (game logic, UI, events)
+├── mod/
+│   └── uimod/    — custom client-side Minecraft mod
+├── service/
+│   └── user/     — standalone microservice: MongoDB persistence, leaderboard
+└── bundler/      — custom Gradle plugin (ProGuard obfuscation, mod packaging)
+```
 
-- <details>
-  <summary>Кастомные менюшки</summary>
+The **node** and **user service** communicate over a binary socket protocol defined in the `protocol` module. Player data is stored in MongoDB and queried asynchronously; the service also exposes a leaderboard endpoint.
 
-    - Прокачка рабочего
-    - Взятие блоков со склада
-    - Прокачка склада
-    - Покупка блоков в магазине
-    - Круг следующих блоков
-    - <details>
-      <summary>Глобальная карта мира</summary>
+---
 
-      ![image](https://i.imgur.com/t3I3Brf.jpg)
-      </details>
-    - <details>
-      <summary>Информация про постройку (при наведении)</summary>
+## Features
 
-      ![image](https://i.imgur.com/GRSM5XF.png)
-      </details>
+**City management**
 
-</details>
+- Players own and unlock multiple districts, each containing a grid of buildable cells
+- Structures degrade over time and must be repaired to keep generating income
+- Passive income accumulates per game tick, scaled by owned structures and active boosters
 
-- <details>
-  <summary>Нужные карты</summary>
+**Block-by-block construction**
 
-    - Структуры
-    - Локации (перестройка в один город)
-    - Здание мэрии
-    - Фриланс здания - машины и т.д., чтобы типо транспортировать на заказ
+- Buildings are assembled one block at a time, guided by a custom visual overlay
+- Two project types: *client* (manual placement) and *worker* (automated)
+- Fake blocks rendered only for the owning player via the visual driver
 
-</details>
+**Worker system**
 
-<hr>
+- Workers have rarity tiers, individual speed and reliability stats, and can level up
+- Workers are assignable to active projects and consume blocks from a per-structure storage
 
-<details>
-  <summary>Побочные</summary>
+**Economy**
 
-- Переделать покупку локаций на ability с dependencies (зависимыми локациями)
+- In-game currency earned through completed projects, income ticks, and freelance jobs
+- Showcase marketplace with dynamically refreshing prices
+- Bank accounts and credit system
 
-</details>
+**Donate / ability system**
 
-<hr>
+- Cosmetic tags, income boosters, booster packs, and gameplay abilities (e.g. no structure degradation)
 
-<details>
-  <summary>Готово</summary>
+**Quality-of-life**
 
-- ✔Меньше цветов в донате
-- ✔Улучшить меню достижений
-- ✔Заменить локации на районы
-- ✔Убрать в главном меню "Выбрать"
-- ✔Убрать атлас
-- ✔Добавить ограничение на колво рабочих
-- ✔ваш баланс -> баланс
-- ✔921 - желтый 921м.
-- ✔лкм пкм поменять цвет
-- ✔интеракт - желтынй
-- ✔монеты - оранж
-- ✔проценты по кредиту - красный
-- ✔просто - белый
-- ❌При быстром клике может поставиться 2 блока (fix)
-- ❌Проверку поставки блоков через рандомный хеш
-- ❌Возможность удалять строящиеся здания
-- ❌Добавить авто сохранение игроков каждые N секунд (для лидерборда)
-- ❌Сделать таймер фриланса красивее
-- ❌Разобраться с единичным user save timeout
-- ✔Кастомные сервис (db)
-    - ✔Сохранение инвентаря в бд
-    - ✔Не подгружается полупостроенное здание при перезаходе (fix)
-    - ✔Не загружать игрока пока не сохранилось
-    - ❌Backup service
-    - ❌Добавить лог ошибок в тг
-    - ❌Event Service (события)
-    - ❌Booster service / Кастомный клиент для бустеров
-- ❌Docker
-    - ❌Auto restart
-    - ❌Add task server down task
-    - ❌Удобный update c градла
-- ❌Фикс ошибок в градле связанных с deprecated
-- ❌Блокнот для списка блоков
-- ❌Glow place открытия меню здания в центре стороны клетки
-- ❌Заменить стрелки над клетками на баннер с двигающейся стрелкой (разных цветов, зависит от состояния)
-- ❌Склад:
-    - ❌Механика доставки блоков со склада
-    - ❌Добавить прокачку передачи блоков рабочим
-- ❌Меню управления зданием (улучшение, удаление, информация)
-- ❌Стрелки на полу:
-    - ❌К поломанным зданиям
-    - ❌В гайде
-- ❌Ежедневные задания
-- ❌Больше новых звуков
-- ❌При нажатии на проект в списке указывать до него путь
-- ❌Доработать меню ежедневных
-- ❌просто микроакцент - синий
-- ❌наноакцент - серый
-- ❌юзать палитру вансайда
-- ❌Сохранять кредиты
+- Custom scoreboard and tab list
+- Animated UI driven by the Anime/Stronghold visual framework
+- Leaderboard refreshed every two minutes
+- Daily rewards
+- Telegram bot integration for server-side error logging
 
-</details>
+---
 
-<hr>
+## Tech Stack
+
+| Layer | Technology |
+| --- | --- |
+| Language | Kotlin 1.8 |
+| Game server | DarkPaper (Cristalix fork of Paper 1.12.2) |
+| Async | Kotlin Coroutines |
+| Persistence | MongoDB (via `MongoAdapter`) |
+| Transport | Cristalix socket protocol |
+| Client mod | Custom Minecraft mod (Anime/Func SDK) |
+| Build | Gradle (Kotlin DSL), Shadow JAR, custom bundler plugin |
+| Obfuscation | ProGuard (via bundler Gradle plugin) |
+| Logging | kotlin-telegram-bot |
+
+---
+
+## Module overview
+
+### `node`
+
+The core Bukkit plugin. Registers all game systems on `onEnable` and drives the main game loop via Bukkit schedulers and coroutines. Key packages:
+
+- `city` — `City`, `CityHall`, district cells, structure state machine
+- `structure` — abstract `BuildingStructure` with `ClientStructure` / `WorkerStructure` subtypes
+- `worker` — worker entity, rarity, level-up logic
+- `player` — `User` context, data loading/saving, income calculation
+- `ui` — scoreboard, banner samples, item managers, formatter
+- `action` — command handlers and inventory menu actions
+- `dontate` — ability and booster definitions
+
+### `service/user`
+
+A lightweight JVM microservice bootstrapped with `MicroserviceBootstrap`. Handles three packet types over the socket:
+
+- `GetUserPackage` — fetch serialised player JSON from MongoDB
+- `SaveUserPackage` — upsert player data with key stats (money, experience, reputation)
+- `GetLeaderboardPackage` — return top-N players by a given field
+
+### `bundler`
+
+A custom Gradle plugin that generates `mod.properties`, runs ProGuard over the built JAR, and packages the client mod for upload.
+
+### `protocol`
+
+Shared data classes for all inter-service packets, with no runtime dependencies beyond the JDK.
+
+---
+
+## Building
+
+Prerequisites: JDK 11+, Gradle 8, access to the private Cristalix Maven repository.
+
+```bash
+# Copy and fill in credentials
+cp gradle.properties.template gradle.properties
+
+# Build everything
+./gradlew :node:jar
+./gradlew :service:user:jar
+```
+
+Pre-configured IntelliJ run configurations are in the `run/` directory (build, upload, remote debug).
+
+---
+
+## License
+
+[MIT](LICENSE)
